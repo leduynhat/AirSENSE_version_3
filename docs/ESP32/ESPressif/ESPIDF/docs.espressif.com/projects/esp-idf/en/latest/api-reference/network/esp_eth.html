@@ -1,0 +1,2001 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/network/esp_eth.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:25 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Ethernet &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ESP-NETIF" href="esp_netif.html" />
+    <link rel="prev" title="ESP-MESH Programming Guide" href="esp_mesh.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="esp_eth.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/network/esp_eth"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Networking</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="index.html#wi-fi">Wi-Fi</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#ethernet">Ethernet</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Ethernet</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#ip-network-layer">IP Network Layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#application-layer">Application Layer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Networking APIs</a> &raquo;</li>
+        
+      <li>Ethernet</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/network/esp_eth.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="ethernet">
+<h1>Ethernet<a class="headerlink" href="#ethernet" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/api-reference/network/esp_eth.html">[中文]</a></p>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Ethernet basic example: <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/ethernet/ethernet">ethernet/ethernet</a>.</li>
+<li>Ethernet iperf example: <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/ethernet/iperf">ethernet/iperf</a>.</li>
+</ul>
+</div>
+<div class="section" id="ethernet-driver-model">
+<h2>Ethernet Driver Model<a class="headerlink" href="#ethernet-driver-model" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_eth/include/esp_eth.h">esp_eth/include/esp_eth.h</a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="ethernet-common-interface">
+<h2>Ethernet Common Interface<a class="headerlink" href="#ethernet-common-interface" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_eth/include/esp_eth_com.h">esp_eth/include/esp_eth_com.h</a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="ethernet-mac-interface">
+<h2>Ethernet MAC Interface<a class="headerlink" href="#ethernet-mac-interface" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_eth/include/esp_eth_mac.h">esp_eth/include/esp_eth_mac.h</a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="ethernet-phy-interface">
+<h2>Ethernet PHY Interface<a class="headerlink" href="#ethernet-phy-interface" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_eth/include/esp_eth_phy.h">esp_eth/include/esp_eth_phy.h</a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="ethernet-phy-common-registers">
+<h2>Ethernet PHY Common Registers<a class="headerlink" href="#ethernet-phy-common-registers" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_eth/include/eth_phy_regs_struct.h">esp_eth/include/eth_phy_regs_struct.h</a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="api-reference-driver-model">
+<h2>API Reference - Driver Model<a class="headerlink" href="#api-reference-driver-model" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_eth/include/esp_eth.h">esp_eth/include/esp_eth.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv422esp_eth_driver_installPK16esp_eth_config_tP16esp_eth_handle_t">
+<span id="_CPPv322esp_eth_driver_installPK16esp_eth_config_tP16esp_eth_handle_t"></span><span id="_CPPv222esp_eth_driver_installPK16esp_eth_config_tP16esp_eth_handle_t"></span><span id="esp_eth_driver_install__esp_eth_config_tCP.esp_eth_handle_tP"></span><span class="target" id="esp__eth_8h_1a4645464872e040a2b9b1492a70fb9c07"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_eth_driver_install</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv416esp_eth_config_t" title="esp_eth_config_t">esp_eth_config_t</a> *<em>config</em>, <a class="reference internal" href="#_CPPv416esp_eth_handle_t" title="esp_eth_handle_t">esp_eth_handle_t</a> *<em>out_hdl</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_eth_driver_installPK16esp_eth_config_tP16esp_eth_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Install Ethernet driver. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: install esp_eth driver successfully</li>
+<li>ESP_ERR_INVALID_ARG: install esp_eth driver failed because of some invalid argument</li>
+<li>ESP_ERR_NO_MEM: install esp_eth driver failed because there’s no memory for driver</li>
+<li>ESP_FAIL: install esp_eth driver failed because some other error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">config</span></code>: configuration of the Ethernet driver </li>
+<li><code class="docutils literal notranslate"><span class="pre">out_hdl</span></code>: handle of Ethernet driver</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424esp_eth_driver_uninstall16esp_eth_handle_t">
+<span id="_CPPv324esp_eth_driver_uninstall16esp_eth_handle_t"></span><span id="_CPPv224esp_eth_driver_uninstall16esp_eth_handle_t"></span><span id="esp_eth_driver_uninstall__esp_eth_handle_t"></span><span class="target" id="esp__eth_8h_1ae34f3b62231ce955ce9bdb87a9826ce0"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_eth_driver_uninstall</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416esp_eth_handle_t" title="esp_eth_handle_t">esp_eth_handle_t</a> <em>hdl</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424esp_eth_driver_uninstall16esp_eth_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Uninstall Ethernet driver. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>It’s not recommended to uninstall Ethernet driver unless it won’t get used any more in application code. To uninstall Ethernet driver, you have to make sure, all references to the driver are released. Ethernet driver can only be uninstalled successfully when reference counter equals to one.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: uninstall esp_eth driver successfully</li>
+<li>ESP_ERR_INVALID_ARG: uninstall esp_eth driver failed because of some invalid argument</li>
+<li>ESP_ERR_INVALID_STATE: uninstall esp_eth driver failed because it has more than one reference</li>
+<li>ESP_FAIL: uninstall esp_eth driver failed because some other error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">hdl</span></code>: handle of Ethernet driver</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv413esp_eth_start16esp_eth_handle_t">
+<span id="_CPPv313esp_eth_start16esp_eth_handle_t"></span><span id="_CPPv213esp_eth_start16esp_eth_handle_t"></span><span id="esp_eth_start__esp_eth_handle_t"></span><span class="target" id="esp__eth_8h_1af8b443a62477089f2b700f02dfda25c4"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_eth_start</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416esp_eth_handle_t" title="esp_eth_handle_t">esp_eth_handle_t</a> <em>hdl</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413esp_eth_start16esp_eth_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start Ethernet driver <strong>ONLY</strong> in standalone mode (i.e. without TCP/IP stack) </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API will start driver state machine and internal software timer (for checking link status).</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: start esp_eth driver successfully</li>
+<li>ESP_ERR_INVALID_ARG: start esp_eth driver failed because of some invalid argument</li>
+<li>ESP_ERR_INVALID_STATE: start esp_eth driver failed because driver has started already</li>
+<li>ESP_FAIL: start esp_eth driver failed because some other error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">hdl</span></code>: handle of Ethernet driver</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv412esp_eth_stop16esp_eth_handle_t">
+<span id="_CPPv312esp_eth_stop16esp_eth_handle_t"></span><span id="_CPPv212esp_eth_stop16esp_eth_handle_t"></span><span id="esp_eth_stop__esp_eth_handle_t"></span><span class="target" id="esp__eth_8h_1aa724ad171df55975a28f377eabeecdb6"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_eth_stop</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416esp_eth_handle_t" title="esp_eth_handle_t">esp_eth_handle_t</a> <em>hdl</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv412esp_eth_stop16esp_eth_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stop Ethernet driver. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This function does the oppsite operation of <code class="docutils literal notranslate"><span class="pre">esp_eth_start</span></code>.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: stop esp_eth driver successfully</li>
+<li>ESP_ERR_INVALID_ARG: stop esp_eth driver failed because of some invalid argument</li>
+<li>ESP_ERR_INVALID_STATE: stop esp_eth driver failed because driver has not started yet</li>
+<li>ESP_FAIL: stop esp_eth driver failed because some other error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">hdl</span></code>: handle of Ethernet driver </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425esp_eth_update_input_path16esp_eth_handle_tPF9esp_err_t16esp_eth_handle_tP7uint8_t8uint32_tPvEPv">
+<span id="_CPPv325esp_eth_update_input_path16esp_eth_handle_tPF9esp_err_t16esp_eth_handle_tP7uint8_t8uint32_tPvEPv"></span><span id="_CPPv225esp_eth_update_input_path16esp_eth_handle_tPF9esp_err_t16esp_eth_handle_tP7uint8_t8uint32_tPvEPv"></span><span class="target" id="esp__eth_8h_1ae02c4d72359e8f5d72e79711ba995b76"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_eth_update_input_path</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416esp_eth_handle_t" title="esp_eth_handle_t">esp_eth_handle_t</a> <em>hdl</em>, <a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<em>stack_input</em>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416esp_eth_handle_t" title="esp_eth_handle_t">esp_eth_handle_t</a> hdl, uint8_t *buffer, uint32_t length, void *priv<span class="sig-paren">)</span>, void *<em>priv</em>, <span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425esp_eth_update_input_path16esp_eth_handle_tPF9esp_err_t16esp_eth_handle_tP7uint8_t8uint32_tPvEPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Update Ethernet data input path (i.e. specify where to pass the input buffer) </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>After install driver, Ethernet still don’t know where to deliver the input buffer. In fact, this API registers a callback function which get invoked when Ethernet received new packets.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: update input path successfully</li>
+<li>ESP_ERR_INVALID_ARG: update input path failed because of some invalid argument</li>
+<li>ESP_FAIL: update input path failed because some other error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">hdl</span></code>: handle of Ethernet driver </li>
+<li><code class="docutils literal notranslate"><span class="pre">stack_input</span></code>: function pointer, which does the actual process on incoming packets </li>
+<li><code class="docutils literal notranslate"><span class="pre">priv</span></code>: private resource, which gets passed to <code class="docutils literal notranslate"><span class="pre">stack_input</span></code> callback without any modification </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416esp_eth_transmit16esp_eth_handle_tPv8uint32_t">
+<span id="_CPPv316esp_eth_transmit16esp_eth_handle_tPv8uint32_t"></span><span id="_CPPv216esp_eth_transmit16esp_eth_handle_tPv8uint32_t"></span><span id="esp_eth_transmit__esp_eth_handle_t.voidP.uint32_t"></span><span class="target" id="esp__eth_8h_1a0ecc5674de6a3159f0d0be374f001e96"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_eth_transmit</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416esp_eth_handle_t" title="esp_eth_handle_t">esp_eth_handle_t</a> <em>hdl</em>, void *<em>buf</em>, uint32_t <em>length</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416esp_eth_transmit16esp_eth_handle_tPv8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>General Transmit. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: transmit frame buffer successfully</li>
+<li>ESP_ERR_INVALID_ARG: transmit frame buffer failed because of some invalid argument</li>
+<li>ESP_FAIL: transmit frame buffer failed because some other error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">hdl</span></code>: handle of Ethernet driver </li>
+<li><code class="docutils literal notranslate"><span class="pre">buf</span></code>: buffer of the packet to transfer </li>
+<li><code class="docutils literal notranslate"><span class="pre">length</span></code>: length of the buffer to transfer</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415esp_eth_receive16esp_eth_handle_tP7uint8_tP8uint32_t">
+<span id="_CPPv315esp_eth_receive16esp_eth_handle_tP7uint8_tP8uint32_t"></span><span id="_CPPv215esp_eth_receive16esp_eth_handle_tP7uint8_tP8uint32_t"></span><span id="esp_eth_receive__esp_eth_handle_t.uint8_tP.uint32_tP"></span><span class="target" id="esp__eth_8h_1a23f7aba9764a55cc4a4e331cb9ee787a"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_eth_receive</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416esp_eth_handle_t" title="esp_eth_handle_t">esp_eth_handle_t</a> <em>hdl</em>, uint8_t *<em>buf</em>, uint32_t *<em>length</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415esp_eth_receive16esp_eth_handle_tP7uint8_tP8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>General Receive. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Before this function got invoked, the value of “length” should set by user, equals the size of buffer. After the function returned, the value of “length” means the real length of received data.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: receive frame buffer successfully</li>
+<li>ESP_ERR_INVALID_ARG: receive frame buffer failed because of some invalid argument</li>
+<li>ESP_ERR_INVALID_SIZE: input buffer size is not enough to hold the incoming data. in this case, value of returned “length” indicates the real size of incoming data.</li>
+<li>ESP_FAIL: receive frame buffer failed because some other error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">hdl</span></code>: handle of Ethernet driver </li>
+<li><code class="docutils literal notranslate"><span class="pre">buf</span></code>: buffer to preserve the received packet </li>
+<li><code class="docutils literal notranslate"><span class="pre">length</span></code>: length of the received packet</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv413esp_eth_ioctl16esp_eth_handle_t16esp_eth_io_cmd_tPv">
+<span id="_CPPv313esp_eth_ioctl16esp_eth_handle_t16esp_eth_io_cmd_tPv"></span><span id="_CPPv213esp_eth_ioctl16esp_eth_handle_t16esp_eth_io_cmd_tPv"></span><span id="esp_eth_ioctl__esp_eth_handle_t.esp_eth_io_cmd_t.voidP"></span><span class="target" id="esp__eth_8h_1a6b31efc39d75965fc55ced2dd808ab4f"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_eth_ioctl</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416esp_eth_handle_t" title="esp_eth_handle_t">esp_eth_handle_t</a> <em>hdl</em>, <a class="reference internal" href="#_CPPv416esp_eth_io_cmd_t" title="esp_eth_io_cmd_t">esp_eth_io_cmd_t</a> <em>cmd</em>, void *<em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413esp_eth_ioctl16esp_eth_handle_t16esp_eth_io_cmd_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Misc IO function of Etherent driver. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: process io command successfully</li>
+<li>ESP_ERR_INVALID_ARG: process io command failed because of some invalid argument</li>
+<li>ESP_FAIL: process io command failed because some other error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">hdl</span></code>: handle of Ethernet driver </li>
+<li><code class="docutils literal notranslate"><span class="pre">cmd</span></code>: IO control command </li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: specificed data for command</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426esp_eth_increase_reference16esp_eth_handle_t">
+<span id="_CPPv326esp_eth_increase_reference16esp_eth_handle_t"></span><span id="_CPPv226esp_eth_increase_reference16esp_eth_handle_t"></span><span id="esp_eth_increase_reference__esp_eth_handle_t"></span><span class="target" id="esp__eth_8h_1abfbf0c9e14ceca563205d268640aaacf"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_eth_increase_reference</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416esp_eth_handle_t" title="esp_eth_handle_t">esp_eth_handle_t</a> <em>hdl</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426esp_eth_increase_reference16esp_eth_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Increase Ethernet driver reference. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Ethernet driver handle can be obtained by os timer, netif, etc. It’s dangerous when thread A is using Ethernet but thread B uninstall the driver. Using reference counter can prevent such risk, but care should be taken, when you obtain Ethernet driver, this API must be invoked so that the driver won’t be uninstalled during your using time.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: increase reference successfully</li>
+<li>ESP_ERR_INVALID_ARG: increase reference failed because of some invalid argument </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">hdl</span></code>: handle of Ethernet driver </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426esp_eth_decrease_reference16esp_eth_handle_t">
+<span id="_CPPv326esp_eth_decrease_reference16esp_eth_handle_t"></span><span id="_CPPv226esp_eth_decrease_reference16esp_eth_handle_t"></span><span id="esp_eth_decrease_reference__esp_eth_handle_t"></span><span class="target" id="esp__eth_8h_1a28f01bfcd07c6d6690afc126eb0d32b4"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_eth_decrease_reference</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416esp_eth_handle_t" title="esp_eth_handle_t">esp_eth_handle_t</a> <em>hdl</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426esp_eth_decrease_reference16esp_eth_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Decrease Ethernet driver reference. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: increase reference successfully</li>
+<li>ESP_ERR_INVALID_ARG: increase reference failed because of some invalid argument </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">hdl</span></code>: handle of Ethernet driver </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv416esp_eth_config_t">
+<span id="_CPPv316esp_eth_config_t"></span><span id="_CPPv216esp_eth_config_t"></span><span id="esp_eth_config_t"></span><span class="target" id="structesp__eth__config__t"></span><em class="property">struct </em><code class="descname">esp_eth_config_t</code><a class="headerlink" href="#_CPPv416esp_eth_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Configuration of Ethernet driver. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N16esp_eth_config_t3macE">
+<span id="_CPPv3N16esp_eth_config_t3macE"></span><span id="_CPPv2N16esp_eth_config_t3macE"></span><span id="esp_eth_config_t::mac__esp_eth_mac_tP"></span><span class="target" id="structesp__eth__config__t_1a500ace24caa1ecd65fa41af860735fa7"></span><a class="reference internal" href="#_CPPv413esp_eth_mac_t" title="esp_eth_mac_t">esp_eth_mac_t</a> *<code class="descname">mac</code><a class="headerlink" href="#_CPPv4N16esp_eth_config_t3macE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet MAC object. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16esp_eth_config_t3phyE">
+<span id="_CPPv3N16esp_eth_config_t3phyE"></span><span id="_CPPv2N16esp_eth_config_t3phyE"></span><span id="esp_eth_config_t::phy__esp_eth_phy_tP"></span><span class="target" id="structesp__eth__config__t_1a3d1702c512346493213e088857910c5c"></span><a class="reference internal" href="#_CPPv413esp_eth_phy_t" title="esp_eth_phy_t">esp_eth_phy_t</a> *<code class="descname">phy</code><a class="headerlink" href="#_CPPv4N16esp_eth_config_t3phyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet PHY object. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16esp_eth_config_t20check_link_period_msE">
+<span id="_CPPv3N16esp_eth_config_t20check_link_period_msE"></span><span id="_CPPv2N16esp_eth_config_t20check_link_period_msE"></span><span id="esp_eth_config_t::check_link_period_ms__uint32_t"></span><span class="target" id="structesp__eth__config__t_1a6f058d19aa37d567c518692655636b72"></span>uint32_t <code class="descname">check_link_period_ms</code><a class="headerlink" href="#_CPPv4N16esp_eth_config_t20check_link_period_msE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Period time of checking Ethernet link status. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16esp_eth_config_t11stack_inputE">
+<span id="_CPPv3N16esp_eth_config_t11stack_inputE"></span><span id="_CPPv2N16esp_eth_config_t11stack_inputE"></span><span class="target" id="structesp__eth__config__t_1a021f71ba4f42f315542691ab1849459e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">stack_input</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416esp_eth_handle_t" title="esp_eth_handle_t">esp_eth_handle_t</a> eth_handle, uint8_t *buffer, uint32_t length, void *priv<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N16esp_eth_config_t11stack_inputE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Input frame buffer to user’s stack. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: input frame buffer to upper stack successfully</li>
+<li>ESP_FAIL: error occurred when inputting buffer to upper stack </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">eth_handle</span></code>: handle of Ethernet driver </li>
+<li><code class="docutils literal notranslate"><span class="pre">buffer</span></code>: frame buffer that will get input to upper stack </li>
+<li><code class="docutils literal notranslate"><span class="pre">length</span></code>: length of the frame buffer</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16esp_eth_config_t21on_lowlevel_init_doneE">
+<span id="_CPPv3N16esp_eth_config_t21on_lowlevel_init_doneE"></span><span id="_CPPv2N16esp_eth_config_t21on_lowlevel_init_doneE"></span><span class="target" id="structesp__eth__config__t_1add6f9ad65aec2a18610deaa10014484f"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">on_lowlevel_init_done</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416esp_eth_handle_t" title="esp_eth_handle_t">esp_eth_handle_t</a> eth_handle<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N16esp_eth_config_t21on_lowlevel_init_doneE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Callback function invoked when lowlevel initialization is finished. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: process extra lowlevel initialization successfully</li>
+<li>ESP_FAIL: error occurred when processing extra lowlevel initialization </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">eth_handle</span></code>: handle of Ethernet driver</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16esp_eth_config_t23on_lowlevel_deinit_doneE">
+<span id="_CPPv3N16esp_eth_config_t23on_lowlevel_deinit_doneE"></span><span id="_CPPv2N16esp_eth_config_t23on_lowlevel_deinit_doneE"></span><span class="target" id="structesp__eth__config__t_1a21d96116e4c772a2bbdf2aaf8fee095e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">on_lowlevel_deinit_done</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416esp_eth_handle_t" title="esp_eth_handle_t">esp_eth_handle_t</a> eth_handle<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N16esp_eth_config_t23on_lowlevel_deinit_doneE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Callback function invoked when lowlevel deinitialization is finished. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: process extra lowlevel deinitialization successfully</li>
+<li>ESP_FAIL: error occurred when processing extra lowlevel deinitialization </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">eth_handle</span></code>: handle of Ethernet driver</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.ETH_DEFAULT_CONFIG">
+<span class="target" id="esp__eth_8h_1ad1220c5ea3e2174e51d44c359d8145ff"></span><code class="descname">ETH_DEFAULT_CONFIG</code><span class="sig-paren">(</span>emac, ephy<span class="sig-paren">)</span><a class="headerlink" href="#c.ETH_DEFAULT_CONFIG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default configuration for Ethernet driver. </p>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv416esp_eth_handle_t">
+<span id="_CPPv316esp_eth_handle_t"></span><span id="_CPPv216esp_eth_handle_t"></span><span id="esp_eth_handle_t"></span><span class="target" id="esp__eth_8h_1a01bec5e7dfa00df89bf8499db6a5b501"></span><em class="property">typedef </em>void *<code class="descname">esp_eth_handle_t</code><a class="headerlink" href="#_CPPv416esp_eth_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Handle of Ethernet driver. </p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="api-reference-common-interface">
+<h2>API Reference - Common Interface<a class="headerlink" href="#api-reference-common-interface" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Header File<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_eth/include/esp_eth_com.h">esp_eth/include/esp_eth_com.h</a></li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>Functions<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv423esp_eth_detect_phy_addrP18esp_eth_mediator_tP8uint32_t">
+<span id="_CPPv323esp_eth_detect_phy_addrP18esp_eth_mediator_tP8uint32_t"></span><span id="_CPPv223esp_eth_detect_phy_addrP18esp_eth_mediator_tP8uint32_t"></span><span id="esp_eth_detect_phy_addr__esp_eth_mediator_tP.uint32_tP"></span><span class="target" id="esp__eth__com_8h_1a67aed413118b21c8e7e6e871b3696d3b"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_eth_detect_phy_addr</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv418esp_eth_mediator_t" title="esp_eth_mediator_t">esp_eth_mediator_t</a> *<em>eth</em>, uint32_t *<em>detected_addr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423esp_eth_detect_phy_addrP18esp_eth_mediator_tP8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Detect PHY address. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: detect phy address successfully</li>
+<li>ESP_ERR_INVALID_ARG: invalid parameter</li>
+<li>ESP_ERR_NOT_FOUND: can’t detect any PHY device</li>
+<li>ESP_FAIL: detect phy address failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">eth</span></code>: mediator of Ethernet driver </li>
+<li><code class="docutils literal notranslate"><span class="pre">detected_addr</span></code>: a valid address after detection </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id3">
+<h3>Structures<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv418esp_eth_mediator_s">
+<span id="_CPPv318esp_eth_mediator_s"></span><span id="_CPPv218esp_eth_mediator_s"></span><span id="esp_eth_mediator_s"></span><span class="target" id="structesp__eth__mediator__s"></span><em class="property">struct </em><code class="descname">esp_eth_mediator_s</code><a class="headerlink" href="#_CPPv418esp_eth_mediator_s" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet mediator. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N18esp_eth_mediator_s12phy_reg_readE">
+<span id="_CPPv3N18esp_eth_mediator_s12phy_reg_readE"></span><span id="_CPPv2N18esp_eth_mediator_s12phy_reg_readE"></span><span class="target" id="structesp__eth__mediator__s_1a78c758e86130f287d6951f06971e4bf5"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">phy_reg_read</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv418esp_eth_mediator_t" title="esp_eth_mediator_t">esp_eth_mediator_t</a> *eth, uint32_t phy_addr, uint32_t phy_reg, uint32_t *reg_value<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N18esp_eth_mediator_s12phy_reg_readE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read PHY register. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: read PHY register successfully</li>
+<li>ESP_FAIL: read PHY register failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">eth</span></code>: mediator of Ethernet driver </li>
+<li><code class="docutils literal notranslate"><span class="pre">phy_addr</span></code>: PHY Chip address (0~31) </li>
+<li><code class="docutils literal notranslate"><span class="pre">phy_reg</span></code>: PHY register index code </li>
+<li><code class="docutils literal notranslate"><span class="pre">reg_value</span></code>: PHY register value</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18esp_eth_mediator_s13phy_reg_writeE">
+<span id="_CPPv3N18esp_eth_mediator_s13phy_reg_writeE"></span><span id="_CPPv2N18esp_eth_mediator_s13phy_reg_writeE"></span><span class="target" id="structesp__eth__mediator__s_1ac69d7353182d12ce6f90e82db6cfa71c"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">phy_reg_write</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv418esp_eth_mediator_t" title="esp_eth_mediator_t">esp_eth_mediator_t</a> *eth, uint32_t phy_addr, uint32_t phy_reg, uint32_t reg_value<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N18esp_eth_mediator_s13phy_reg_writeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write PHY register. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: write PHY register successfully</li>
+<li>ESP_FAIL: write PHY register failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">eth</span></code>: mediator of Ethernet driver </li>
+<li><code class="docutils literal notranslate"><span class="pre">phy_addr</span></code>: PHY Chip address (0~31) </li>
+<li><code class="docutils literal notranslate"><span class="pre">phy_reg</span></code>: PHY register index code </li>
+<li><code class="docutils literal notranslate"><span class="pre">reg_value</span></code>: PHY register value</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18esp_eth_mediator_s11stack_inputE">
+<span id="_CPPv3N18esp_eth_mediator_s11stack_inputE"></span><span id="_CPPv2N18esp_eth_mediator_s11stack_inputE"></span><span class="target" id="structesp__eth__mediator__s_1ae37c740d60973b33344b6b508f58498b"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">stack_input</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv418esp_eth_mediator_t" title="esp_eth_mediator_t">esp_eth_mediator_t</a> *eth, uint8_t *buffer, uint32_t length<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N18esp_eth_mediator_s11stack_inputE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Deliver packet to upper stack. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: deliver packet to upper stack successfully</li>
+<li>ESP_FAIL: deliver packet failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">eth</span></code>: mediator of Ethernet driver </li>
+<li><code class="docutils literal notranslate"><span class="pre">buffer</span></code>: packet buffer </li>
+<li><code class="docutils literal notranslate"><span class="pre">length</span></code>: length of the packet</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18esp_eth_mediator_s16on_state_changedE">
+<span id="_CPPv3N18esp_eth_mediator_s16on_state_changedE"></span><span id="_CPPv2N18esp_eth_mediator_s16on_state_changedE"></span><span class="target" id="structesp__eth__mediator__s_1a8ace9fd72d64b443e60f8ccca1f67f93"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">on_state_changed</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv418esp_eth_mediator_t" title="esp_eth_mediator_t">esp_eth_mediator_t</a> *eth, <a class="reference internal" href="#_CPPv415esp_eth_state_t" title="esp_eth_state_t">esp_eth_state_t</a> state, void *args<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N18esp_eth_mediator_s16on_state_changedE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Callback on Ethernet state changed. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: process the new state successfully</li>
+<li>ESP_FAIL: process the new state failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">eth</span></code>: mediator of Ethernet driver </li>
+<li><code class="docutils literal notranslate"><span class="pre">state</span></code>: new state </li>
+<li><code class="docutils literal notranslate"><span class="pre">args</span></code>: optional argument for the new state</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="id4">
+<h3>Macros<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.ETH_MAX_PAYLOAD_LEN">
+<span class="target" id="esp__eth__com_8h_1a0854b1107be7c8a0a4c7ca9dab251903"></span><code class="descname">ETH_MAX_PAYLOAD_LEN</code><a class="headerlink" href="#c.ETH_MAX_PAYLOAD_LEN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum Ethernet payload size. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ETH_MIN_PAYLOAD_LEN">
+<span class="target" id="esp__eth__com_8h_1acce1217b6fea804d1acfb5c38ae6a2d6"></span><code class="descname">ETH_MIN_PAYLOAD_LEN</code><a class="headerlink" href="#c.ETH_MIN_PAYLOAD_LEN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum Ethernet payload size. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ETH_HEADER_LEN">
+<span class="target" id="esp__eth__com_8h_1a055d3f576495c1e6018012e1d952da1f"></span><code class="descname">ETH_HEADER_LEN</code><a class="headerlink" href="#c.ETH_HEADER_LEN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ethernet frame header size: Dest addr(6 Bytes) + Src addr(6 Bytes) + length/type(2 Bytes) </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ETH_CRC_LEN">
+<span class="target" id="esp__eth__com_8h_1a3ee6b30b155ba00b384fff0cd2680cb4"></span><code class="descname">ETH_CRC_LEN</code><a class="headerlink" href="#c.ETH_CRC_LEN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ethernet frame CRC length. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ETH_VLAN_TAG_LEN">
+<span class="target" id="esp__eth__com_8h_1a500be7db3cf3be20ad2bfaed188ef869"></span><code class="descname">ETH_VLAN_TAG_LEN</code><a class="headerlink" href="#c.ETH_VLAN_TAG_LEN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optional 802.1q VLAN Tag length. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ETH_JUMBO_FRAME_PAYLOAD_LEN">
+<span class="target" id="esp__eth__com_8h_1a0c728b77f6693e83c8636aa684faaaa3"></span><code class="descname">ETH_JUMBO_FRAME_PAYLOAD_LEN</code><a class="headerlink" href="#c.ETH_JUMBO_FRAME_PAYLOAD_LEN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Jumbo frame payload size. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ETH_MAX_PACKET_SIZE">
+<span class="target" id="esp__eth__com_8h_1a15e493eedd0128d55c89df6d7c2c6c47"></span><code class="descname">ETH_MAX_PACKET_SIZE</code><a class="headerlink" href="#c.ETH_MAX_PACKET_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum frame size (1522 Bytes) </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ETH_MIN_PACKET_SIZE">
+<span class="target" id="esp__eth__com_8h_1af5c7587a2824c8a0168c73de9f66e969"></span><code class="descname">ETH_MIN_PACKET_SIZE</code><a class="headerlink" href="#c.ETH_MIN_PACKET_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum frame size (64 Bytes) </p>
+</dd></dl>
+
+</div>
+<div class="section" id="id5">
+<h3>Type Definitions<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv418esp_eth_mediator_t">
+<span id="_CPPv318esp_eth_mediator_t"></span><span id="_CPPv218esp_eth_mediator_t"></span><span id="esp_eth_mediator_t"></span><span class="target" id="esp__eth__com_8h_1a7e737aa236d9e781cfcf2247a70b1543"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv418esp_eth_mediator_s" title="esp_eth_mediator_s">esp_eth_mediator_s</a> <code class="descname">esp_eth_mediator_t</code><a class="headerlink" href="#_CPPv418esp_eth_mediator_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet mediator. </p>
+</dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv415esp_eth_state_t">
+<span id="_CPPv315esp_eth_state_t"></span><span id="_CPPv215esp_eth_state_t"></span><span id="esp_eth_state_t"></span><span class="target" id="esp__eth__com_8h_1a0ac04c385d9632930d3a190866f4bdb2"></span><em class="property">enum </em><code class="descname">esp_eth_state_t</code><a class="headerlink" href="#_CPPv415esp_eth_state_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet driver state. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv416ETH_STATE_LLINIT">
+<span id="_CPPv316ETH_STATE_LLINIT"></span><span id="_CPPv216ETH_STATE_LLINIT"></span><span class="target" id="esp__eth__com_8h_1a0ac04c385d9632930d3a190866f4bdb2acaa6d4f91934a8a56b3de83e6dea6220"></span><code class="descname">ETH_STATE_LLINIT</code><a class="headerlink" href="#_CPPv416ETH_STATE_LLINIT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Lowlevel init done </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv416ETH_STATE_DEINIT">
+<span id="_CPPv316ETH_STATE_DEINIT"></span><span id="_CPPv216ETH_STATE_DEINIT"></span><span class="target" id="esp__eth__com_8h_1a0ac04c385d9632930d3a190866f4bdb2a3cb2aa528145df72990ddc5e77a293d1"></span><code class="descname">ETH_STATE_DEINIT</code><a class="headerlink" href="#_CPPv416ETH_STATE_DEINIT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Deinit done </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ETH_STATE_LINK">
+<span id="_CPPv314ETH_STATE_LINK"></span><span id="_CPPv214ETH_STATE_LINK"></span><span class="target" id="esp__eth__com_8h_1a0ac04c385d9632930d3a190866f4bdb2a63f346230d79326785831cc7a518778f"></span><code class="descname">ETH_STATE_LINK</code><a class="headerlink" href="#_CPPv414ETH_STATE_LINK" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Link status changed </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv415ETH_STATE_SPEED">
+<span id="_CPPv315ETH_STATE_SPEED"></span><span id="_CPPv215ETH_STATE_SPEED"></span><span class="target" id="esp__eth__com_8h_1a0ac04c385d9632930d3a190866f4bdb2ada6bf53c4fb0c11631ed0850843a7139"></span><code class="descname">ETH_STATE_SPEED</code><a class="headerlink" href="#_CPPv415ETH_STATE_SPEED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Speed updated </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv416ETH_STATE_DUPLEX">
+<span id="_CPPv316ETH_STATE_DUPLEX"></span><span id="_CPPv216ETH_STATE_DUPLEX"></span><span class="target" id="esp__eth__com_8h_1a0ac04c385d9632930d3a190866f4bdb2a5ffce51d4f85aadae0c342796fe0176d"></span><code class="descname">ETH_STATE_DUPLEX</code><a class="headerlink" href="#_CPPv416ETH_STATE_DUPLEX" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Duplex updated </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv416esp_eth_io_cmd_t">
+<span id="_CPPv316esp_eth_io_cmd_t"></span><span id="_CPPv216esp_eth_io_cmd_t"></span><span id="esp_eth_io_cmd_t"></span><span class="target" id="esp__eth__com_8h_1aea94b038ad412690519da784c6803d47"></span><em class="property">enum </em><code class="descname">esp_eth_io_cmd_t</code><a class="headerlink" href="#_CPPv416esp_eth_io_cmd_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Command list for ioctl API. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv418ETH_CMD_G_MAC_ADDR">
+<span id="_CPPv318ETH_CMD_G_MAC_ADDR"></span><span id="_CPPv218ETH_CMD_G_MAC_ADDR"></span><span class="target" id="esp__eth__com_8h_1aea94b038ad412690519da784c6803d47a5ef3b2f57b8b623453867ff0096f3376"></span><code class="descname">ETH_CMD_G_MAC_ADDR</code><a class="headerlink" href="#_CPPv418ETH_CMD_G_MAC_ADDR" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get MAC address </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv418ETH_CMD_S_MAC_ADDR">
+<span id="_CPPv318ETH_CMD_S_MAC_ADDR"></span><span id="_CPPv218ETH_CMD_S_MAC_ADDR"></span><span class="target" id="esp__eth__com_8h_1aea94b038ad412690519da784c6803d47ae55ac64ef791a3d249a61f8aa00b8b84"></span><code class="descname">ETH_CMD_S_MAC_ADDR</code><a class="headerlink" href="#_CPPv418ETH_CMD_S_MAC_ADDR" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set MAC address </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv418ETH_CMD_G_PHY_ADDR">
+<span id="_CPPv318ETH_CMD_G_PHY_ADDR"></span><span id="_CPPv218ETH_CMD_G_PHY_ADDR"></span><span class="target" id="esp__eth__com_8h_1aea94b038ad412690519da784c6803d47a296ab0431af03d2cc035457149a62a28"></span><code class="descname">ETH_CMD_G_PHY_ADDR</code><a class="headerlink" href="#_CPPv418ETH_CMD_G_PHY_ADDR" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get PHY address </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv418ETH_CMD_S_PHY_ADDR">
+<span id="_CPPv318ETH_CMD_S_PHY_ADDR"></span><span id="_CPPv218ETH_CMD_S_PHY_ADDR"></span><span class="target" id="esp__eth__com_8h_1aea94b038ad412690519da784c6803d47a0636953790b5db4f59a03a2a700fd3db"></span><code class="descname">ETH_CMD_S_PHY_ADDR</code><a class="headerlink" href="#_CPPv418ETH_CMD_S_PHY_ADDR" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set PHY address </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv415ETH_CMD_G_SPEED">
+<span id="_CPPv315ETH_CMD_G_SPEED"></span><span id="_CPPv215ETH_CMD_G_SPEED"></span><span class="target" id="esp__eth__com_8h_1aea94b038ad412690519da784c6803d47a2f60c9ae64c96e827b59f25e89eec7a8"></span><code class="descname">ETH_CMD_G_SPEED</code><a class="headerlink" href="#_CPPv415ETH_CMD_G_SPEED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get Speed </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv421ETH_CMD_S_PROMISCUOUS">
+<span id="_CPPv321ETH_CMD_S_PROMISCUOUS"></span><span id="_CPPv221ETH_CMD_S_PROMISCUOUS"></span><span class="target" id="esp__eth__com_8h_1aea94b038ad412690519da784c6803d47ac72bf2783472838cbcf7cffc6335c80f"></span><code class="descname">ETH_CMD_S_PROMISCUOUS</code><a class="headerlink" href="#_CPPv421ETH_CMD_S_PROMISCUOUS" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set promiscuous mode </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv410eth_link_t">
+<span id="_CPPv310eth_link_t"></span><span id="_CPPv210eth_link_t"></span><span id="eth_link_t"></span><span class="target" id="esp__eth__com_8h_1a8f41ee1b4f78628fe1bf72189c281bd6"></span><em class="property">enum </em><code class="descname">eth_link_t</code><a class="headerlink" href="#_CPPv410eth_link_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet link status. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv411ETH_LINK_UP">
+<span id="_CPPv311ETH_LINK_UP"></span><span id="_CPPv211ETH_LINK_UP"></span><span class="target" id="esp__eth__com_8h_1a8f41ee1b4f78628fe1bf72189c281bd6a3c69d649224febf3b9c33c1031fd64f6"></span><code class="descname">ETH_LINK_UP</code><a class="headerlink" href="#_CPPv411ETH_LINK_UP" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet link is up </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv413ETH_LINK_DOWN">
+<span id="_CPPv313ETH_LINK_DOWN"></span><span id="_CPPv213ETH_LINK_DOWN"></span><span class="target" id="esp__eth__com_8h_1a8f41ee1b4f78628fe1bf72189c281bd6af194425d2344a2483660d4cd98cc3054"></span><code class="descname">ETH_LINK_DOWN</code><a class="headerlink" href="#_CPPv413ETH_LINK_DOWN" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet link is down </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv411eth_speed_t">
+<span id="_CPPv311eth_speed_t"></span><span id="_CPPv211eth_speed_t"></span><span id="eth_speed_t"></span><span class="target" id="esp__eth__com_8h_1af0b5b12829d1ea2c696b3a95ce856227"></span><em class="property">enum </em><code class="descname">eth_speed_t</code><a class="headerlink" href="#_CPPv411eth_speed_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet speed. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv413ETH_SPEED_10M">
+<span id="_CPPv313ETH_SPEED_10M"></span><span id="_CPPv213ETH_SPEED_10M"></span><span class="target" id="esp__eth__com_8h_1af0b5b12829d1ea2c696b3a95ce856227a4bd00ea4418002b339e4cf67c3791ae7"></span><code class="descname">ETH_SPEED_10M</code><a class="headerlink" href="#_CPPv413ETH_SPEED_10M" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet speed is 10Mbps </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ETH_SPEED_100M">
+<span id="_CPPv314ETH_SPEED_100M"></span><span id="_CPPv214ETH_SPEED_100M"></span><span class="target" id="esp__eth__com_8h_1af0b5b12829d1ea2c696b3a95ce856227a4fc85c40c2f554960031f0af9fa5847e"></span><code class="descname">ETH_SPEED_100M</code><a class="headerlink" href="#_CPPv414ETH_SPEED_100M" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet speed is 100Mbps </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv412eth_duplex_t">
+<span id="_CPPv312eth_duplex_t"></span><span id="_CPPv212eth_duplex_t"></span><span id="eth_duplex_t"></span><span class="target" id="esp__eth__com_8h_1ab4461a2d21374f4362b21a14abfe4c62"></span><em class="property">enum </em><code class="descname">eth_duplex_t</code><a class="headerlink" href="#_CPPv412eth_duplex_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet duplex mode. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv415ETH_DUPLEX_HALF">
+<span id="_CPPv315ETH_DUPLEX_HALF"></span><span id="_CPPv215ETH_DUPLEX_HALF"></span><span class="target" id="esp__eth__com_8h_1ab4461a2d21374f4362b21a14abfe4c62ab39f146690c96d35a2acffe722070da2"></span><code class="descname">ETH_DUPLEX_HALF</code><a class="headerlink" href="#_CPPv415ETH_DUPLEX_HALF" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet is in half duplex </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv415ETH_DUPLEX_FULL">
+<span id="_CPPv315ETH_DUPLEX_FULL"></span><span id="_CPPv215ETH_DUPLEX_FULL"></span><span class="target" id="esp__eth__com_8h_1ab4461a2d21374f4362b21a14abfe4c62a99c56e4bb971977f66d92154a66c51bc"></span><code class="descname">ETH_DUPLEX_FULL</code><a class="headerlink" href="#_CPPv415ETH_DUPLEX_FULL" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet is in full duplex </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv411eth_event_t">
+<span id="_CPPv311eth_event_t"></span><span id="_CPPv211eth_event_t"></span><span id="eth_event_t"></span><span class="target" id="esp__eth__com_8h_1ae270a9dca574878ff5ef468f19294281"></span><em class="property">enum </em><code class="descname">eth_event_t</code><a class="headerlink" href="#_CPPv411eth_event_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet event declarations. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv420ETHERNET_EVENT_START">
+<span id="_CPPv320ETHERNET_EVENT_START"></span><span id="_CPPv220ETHERNET_EVENT_START"></span><span class="target" id="esp__eth__com_8h_1ae270a9dca574878ff5ef468f19294281a3938e50aa22b18f43ede763c66457869"></span><code class="descname">ETHERNET_EVENT_START</code><a class="headerlink" href="#_CPPv420ETHERNET_EVENT_START" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet driver start </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv419ETHERNET_EVENT_STOP">
+<span id="_CPPv319ETHERNET_EVENT_STOP"></span><span id="_CPPv219ETHERNET_EVENT_STOP"></span><span class="target" id="esp__eth__com_8h_1ae270a9dca574878ff5ef468f19294281aa701c55658bc769137bcb3a2691e68a4"></span><code class="descname">ETHERNET_EVENT_STOP</code><a class="headerlink" href="#_CPPv419ETHERNET_EVENT_STOP" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet driver stop </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv424ETHERNET_EVENT_CONNECTED">
+<span id="_CPPv324ETHERNET_EVENT_CONNECTED"></span><span id="_CPPv224ETHERNET_EVENT_CONNECTED"></span><span class="target" id="esp__eth__com_8h_1ae270a9dca574878ff5ef468f19294281adddec7bf0e4a1b389d33a34e1cd68550"></span><code class="descname">ETHERNET_EVENT_CONNECTED</code><a class="headerlink" href="#_CPPv424ETHERNET_EVENT_CONNECTED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet got a valid link </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv427ETHERNET_EVENT_DISCONNECTED">
+<span id="_CPPv327ETHERNET_EVENT_DISCONNECTED"></span><span id="_CPPv227ETHERNET_EVENT_DISCONNECTED"></span><span class="target" id="esp__eth__com_8h_1ae270a9dca574878ff5ef468f19294281a4df3bfd403bb48cb609a8b2d59b6278b"></span><code class="descname">ETHERNET_EVENT_DISCONNECTED</code><a class="headerlink" href="#_CPPv427ETHERNET_EVENT_DISCONNECTED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet lost a valid link </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="api-reference-mac-interface">
+<h2>API Reference - MAC Interface<a class="headerlink" href="#api-reference-mac-interface" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3>Header File<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_eth/include/esp_eth_mac.h">esp_eth/include/esp_eth_mac.h</a></li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h3>Structures<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv413esp_eth_mac_s">
+<span id="_CPPv313esp_eth_mac_s"></span><span id="_CPPv213esp_eth_mac_s"></span><span id="esp_eth_mac_s"></span><span class="target" id="structesp__eth__mac__s"></span><em class="property">struct </em><code class="descname">esp_eth_mac_s</code><a class="headerlink" href="#_CPPv413esp_eth_mac_s" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet MAC. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_mac_s12set_mediatorE">
+<span id="_CPPv3N13esp_eth_mac_s12set_mediatorE"></span><span id="_CPPv2N13esp_eth_mac_s12set_mediatorE"></span><span class="target" id="structesp__eth__mac__s_1a011a3f6d44c1cfba5d1366889fe622e0"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">set_mediator</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_mac_t" title="esp_eth_mac_t">esp_eth_mac_t</a> *mac, <a class="reference internal" href="#_CPPv418esp_eth_mediator_t" title="esp_eth_mediator_t">esp_eth_mediator_t</a> *eth<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_mac_s12set_mediatorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set mediator for Ethernet MAC. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: set mediator for Ethernet MAC successfully</li>
+<li>ESP_ERR_INVALID_ARG: set mediator for Ethernet MAC failed because of invalid argument </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mac</span></code>: Ethernet MAC instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">eth</span></code>: Ethernet mediator</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_mac_s4initE">
+<span id="_CPPv3N13esp_eth_mac_s4initE"></span><span id="_CPPv2N13esp_eth_mac_s4initE"></span><span class="target" id="structesp__eth__mac__s_1a29ca60312eac19317011ce1594582b79"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">init</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_mac_t" title="esp_eth_mac_t">esp_eth_mac_t</a> *mac<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_mac_s4initE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize Ethernet MAC. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: initialize Ethernet MAC successfully</li>
+<li>ESP_ERR_TIMEOUT: initialize Ethernet MAC failed because of timeout</li>
+<li>ESP_FAIL: initialize Ethernet MAC failed because some other error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mac</span></code>: Ethernet MAC instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_mac_s6deinitE">
+<span id="_CPPv3N13esp_eth_mac_s6deinitE"></span><span id="_CPPv2N13esp_eth_mac_s6deinitE"></span><span class="target" id="structesp__eth__mac__s_1a942c7a62688345b6563aa59cab22ae9e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">deinit</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_mac_t" title="esp_eth_mac_t">esp_eth_mac_t</a> *mac<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_mac_s6deinitE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Deinitialize Ethernet MAC. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: deinitialize Ethernet MAC successfully</li>
+<li>ESP_FAIL: deinitialize Ethernet MAC failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mac</span></code>: Ethernet MAC instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_mac_s8transmitE">
+<span id="_CPPv3N13esp_eth_mac_s8transmitE"></span><span id="_CPPv2N13esp_eth_mac_s8transmitE"></span><span class="target" id="structesp__eth__mac__s_1a24f1e07008d2414d037f9cb09c7bbd1b"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">transmit</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_mac_t" title="esp_eth_mac_t">esp_eth_mac_t</a> *mac, uint8_t *buf, uint32_t length<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_mac_s8transmitE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Transmit packet from Ethernet MAC. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: transmit packet successfully</li>
+<li>ESP_ERR_INVALID_ARG: transmit packet failed because of invalid argument</li>
+<li>ESP_ERR_INVALID_STATE: transmit packet failed because of wrong state of MAC</li>
+<li>ESP_FAIL: transmit packet failed because some other error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mac</span></code>: Ethernet MAC instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">buf</span></code>: packet buffer to transmit </li>
+<li><code class="docutils literal notranslate"><span class="pre">length</span></code>: length of packet</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_mac_s7receiveE">
+<span id="_CPPv3N13esp_eth_mac_s7receiveE"></span><span id="_CPPv2N13esp_eth_mac_s7receiveE"></span><span class="target" id="structesp__eth__mac__s_1a87c0c52b4c8e8caa6bc3057c0b919b5a"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">receive</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_mac_t" title="esp_eth_mac_t">esp_eth_mac_t</a> *mac, uint8_t *buf, uint32_t *length<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_mac_s7receiveE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Receive packet from Ethernet MAC. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Memory of buf is allocated in the Layer2, make sure it get free after process. </dd>
+<dt><strong>Note</strong></dt>
+<dd>Before this function got invoked, the value of “length” should set by user, equals the size of buffer. After the function returned, the value of “length” means the real length of received data.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: receive packet successfully</li>
+<li>ESP_ERR_INVALID_ARG: receive packet failed because of invalid argument</li>
+<li>ESP_ERR_INVALID_SIZE: input buffer size is not enough to hold the incoming data. in this case, value of returned “length” indicates the real size of incoming data.</li>
+<li>ESP_FAIL: receive packet failed because some other error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mac</span></code>: Ethernet MAC instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">buf</span></code>: packet buffer which will preserve the received frame </li>
+<li><code class="docutils literal notranslate"><span class="pre">length</span></code>: length of the received packet</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_mac_s12read_phy_regE">
+<span id="_CPPv3N13esp_eth_mac_s12read_phy_regE"></span><span id="_CPPv2N13esp_eth_mac_s12read_phy_regE"></span><span class="target" id="structesp__eth__mac__s_1ae3db8a4c354a5e33996e5d0fdd5b9b4b"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">read_phy_reg</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_mac_t" title="esp_eth_mac_t">esp_eth_mac_t</a> *mac, uint32_t phy_addr, uint32_t phy_reg, uint32_t *reg_value<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_mac_s12read_phy_regE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read PHY register. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: read PHY register successfully</li>
+<li>ESP_ERR_INVALID_ARG: read PHY register failed because of invalid argument</li>
+<li>ESP_ERR_INVALID_STATE: read PHY register failed because of wrong state of MAC</li>
+<li>ESP_ERR_TIMEOUT: read PHY register failed because of timeout</li>
+<li>ESP_FAIL: read PHY register failed because some other error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mac</span></code>: Ethernet MAC instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">phy_addr</span></code>: PHY chip address (0~31) </li>
+<li><code class="docutils literal notranslate"><span class="pre">phy_reg</span></code>: PHY register index code </li>
+<li><code class="docutils literal notranslate"><span class="pre">reg_value</span></code>: PHY register value</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_mac_s13write_phy_regE">
+<span id="_CPPv3N13esp_eth_mac_s13write_phy_regE"></span><span id="_CPPv2N13esp_eth_mac_s13write_phy_regE"></span><span class="target" id="structesp__eth__mac__s_1a40e34be3978338e7eb2272191a6f9e31"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">write_phy_reg</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_mac_t" title="esp_eth_mac_t">esp_eth_mac_t</a> *mac, uint32_t phy_addr, uint32_t phy_reg, uint32_t reg_value<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_mac_s13write_phy_regE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write PHY register. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: write PHY register successfully</li>
+<li>ESP_ERR_INVALID_STATE: write PHY register failed because of wrong state of MAC</li>
+<li>ESP_ERR_TIMEOUT: write PHY register failed because of timeout</li>
+<li>ESP_FAIL: write PHY register failed because some other error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mac</span></code>: Ethernet MAC instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">phy_addr</span></code>: PHY chip address (0~31) </li>
+<li><code class="docutils literal notranslate"><span class="pre">phy_reg</span></code>: PHY register index code </li>
+<li><code class="docutils literal notranslate"><span class="pre">reg_value</span></code>: PHY register value</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_mac_s8set_addrE">
+<span id="_CPPv3N13esp_eth_mac_s8set_addrE"></span><span id="_CPPv2N13esp_eth_mac_s8set_addrE"></span><span class="target" id="structesp__eth__mac__s_1a3858647e848d6b1a0a6b12139207834c"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">set_addr</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_mac_t" title="esp_eth_mac_t">esp_eth_mac_t</a> *mac, uint8_t *addr<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_mac_s8set_addrE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set MAC address. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: set MAC address successfully</li>
+<li>ESP_ERR_INVALID_ARG: set MAC address failed because of invalid argument</li>
+<li>ESP_FAIL: set MAC address failed because some other error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mac</span></code>: Ethernet MAC instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">addr</span></code>: MAC address</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_mac_s8get_addrE">
+<span id="_CPPv3N13esp_eth_mac_s8get_addrE"></span><span id="_CPPv2N13esp_eth_mac_s8get_addrE"></span><span class="target" id="structesp__eth__mac__s_1a9bfa670005e6267f8690e6358a3fa9fa"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">get_addr</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_mac_t" title="esp_eth_mac_t">esp_eth_mac_t</a> *mac, uint8_t *addr<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_mac_s8get_addrE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get MAC address. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: get MAC address successfully</li>
+<li>ESP_ERR_INVALID_ARG: get MAC address failed because of invalid argument</li>
+<li>ESP_FAIL: get MAC address failed because some other error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mac</span></code>: Ethernet MAC instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">addr</span></code>: MAC address</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_mac_s9set_speedE">
+<span id="_CPPv3N13esp_eth_mac_s9set_speedE"></span><span id="_CPPv2N13esp_eth_mac_s9set_speedE"></span><span class="target" id="structesp__eth__mac__s_1adfb1a985024f8f39571ade129e5e41e8"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">set_speed</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_mac_t" title="esp_eth_mac_t">esp_eth_mac_t</a> *mac, <a class="reference internal" href="#_CPPv411eth_speed_t" title="eth_speed_t">eth_speed_t</a> speed<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_mac_s9set_speedE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set speed of MAC. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: set MAC speed successfully</li>
+<li>ESP_ERR_INVALID_ARG: set MAC speed failed because of invalid argument</li>
+<li>ESP_FAIL: set MAC speed failed because some other error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">ma:c</span></code>: Ethernet MAC instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">speed</span></code>: MAC speed</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_mac_s10set_duplexE">
+<span id="_CPPv3N13esp_eth_mac_s10set_duplexE"></span><span id="_CPPv2N13esp_eth_mac_s10set_duplexE"></span><span class="target" id="structesp__eth__mac__s_1a3b63ff614e6ca38e0e126a9641b0d2c0"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">set_duplex</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_mac_t" title="esp_eth_mac_t">esp_eth_mac_t</a> *mac, <a class="reference internal" href="#_CPPv412eth_duplex_t" title="eth_duplex_t">eth_duplex_t</a> duplex<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_mac_s10set_duplexE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set duplex mode of MAC. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: set MAC duplex mode successfully</li>
+<li>ESP_ERR_INVALID_ARG: set MAC duplex failed because of invalid argument</li>
+<li>ESP_FAIL: set MAC duplex failed because some other error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mac</span></code>: Ethernet MAC instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">duplex</span></code>: MAC duplex</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_mac_s8set_linkE">
+<span id="_CPPv3N13esp_eth_mac_s8set_linkE"></span><span id="_CPPv2N13esp_eth_mac_s8set_linkE"></span><span class="target" id="structesp__eth__mac__s_1ae7973a8e6771885958350d3db3ecc849"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">set_link</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_mac_t" title="esp_eth_mac_t">esp_eth_mac_t</a> *mac, <a class="reference internal" href="#_CPPv410eth_link_t" title="eth_link_t">eth_link_t</a> link<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_mac_s8set_linkE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set link status of MAC. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: set link status successfully</li>
+<li>ESP_ERR_INVALID_ARG: set link status failed because of invalid argument</li>
+<li>ESP_FAIL: set link status failed because some other error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mac</span></code>: Ethernet MAC instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">link</span></code>: Link status</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_mac_s15set_promiscuousE">
+<span id="_CPPv3N13esp_eth_mac_s15set_promiscuousE"></span><span id="_CPPv2N13esp_eth_mac_s15set_promiscuousE"></span><span class="target" id="structesp__eth__mac__s_1ab198fa38af8a94a328b269a702bba496"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">set_promiscuous</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_mac_t" title="esp_eth_mac_t">esp_eth_mac_t</a> *mac, bool enable<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_mac_s15set_promiscuousE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set promiscuous of MAC. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: set promiscuous mode successfully</li>
+<li>ESP_FAIL: set promiscuous mode failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mac</span></code>: Ethernet MAC instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">enable</span></code>: set true to enable promiscuous mode; set false to disable promiscuous mode</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_mac_s3delE">
+<span id="_CPPv3N13esp_eth_mac_s3delE"></span><span id="_CPPv2N13esp_eth_mac_s3delE"></span><span class="target" id="structesp__eth__mac__s_1a40a7df4f04051b89e4435eb69637375a"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">del</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_mac_t" title="esp_eth_mac_t">esp_eth_mac_t</a> *mac<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_mac_s3delE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Free memory of Ethernet MAC. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: free Ethernet MAC instance successfully</li>
+<li>ESP_FAIL: free Ethernet MAC instance failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mac</span></code>: Ethernet MAC instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv416eth_mac_config_t">
+<span id="_CPPv316eth_mac_config_t"></span><span id="_CPPv216eth_mac_config_t"></span><span id="eth_mac_config_t"></span><span class="target" id="structeth__mac__config__t"></span><em class="property">struct </em><code class="descname">eth_mac_config_t</code><a class="headerlink" href="#_CPPv416eth_mac_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Configuration of Ethernet MAC object. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N16eth_mac_config_t19sw_reset_timeout_msE">
+<span id="_CPPv3N16eth_mac_config_t19sw_reset_timeout_msE"></span><span id="_CPPv2N16eth_mac_config_t19sw_reset_timeout_msE"></span><span id="eth_mac_config_t::sw_reset_timeout_ms__uint32_t"></span><span class="target" id="structeth__mac__config__t_1a21a05a42797341398cb21d968ab8c8eb"></span>uint32_t <code class="descname">sw_reset_timeout_ms</code><a class="headerlink" href="#_CPPv4N16eth_mac_config_t19sw_reset_timeout_msE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Software reset timeout value (Unit: ms) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16eth_mac_config_t18rx_task_stack_sizeE">
+<span id="_CPPv3N16eth_mac_config_t18rx_task_stack_sizeE"></span><span id="_CPPv2N16eth_mac_config_t18rx_task_stack_sizeE"></span><span id="eth_mac_config_t::rx_task_stack_size__uint32_t"></span><span class="target" id="structeth__mac__config__t_1a2c960dd92da83322410e7e990a0ad013"></span>uint32_t <code class="descname">rx_task_stack_size</code><a class="headerlink" href="#_CPPv4N16eth_mac_config_t18rx_task_stack_sizeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stack size of the receive task </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16eth_mac_config_t12rx_task_prioE">
+<span id="_CPPv3N16eth_mac_config_t12rx_task_prioE"></span><span id="_CPPv2N16eth_mac_config_t12rx_task_prioE"></span><span id="eth_mac_config_t::rx_task_prio__uint32_t"></span><span class="target" id="structeth__mac__config__t_1ab95466deda13c480455dd2874887c787"></span>uint32_t <code class="descname">rx_task_prio</code><a class="headerlink" href="#_CPPv4N16eth_mac_config_t12rx_task_prioE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Priority of the receive task </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16eth_mac_config_t16smi_mdc_gpio_numE">
+<span id="_CPPv3N16eth_mac_config_t16smi_mdc_gpio_numE"></span><span id="_CPPv2N16eth_mac_config_t16smi_mdc_gpio_numE"></span><span id="eth_mac_config_t::smi_mdc_gpio_num__i"></span><span class="target" id="structeth__mac__config__t_1ae9ca5753dd932580973b005e6fc2d79d"></span>int <code class="descname">smi_mdc_gpio_num</code><a class="headerlink" href="#_CPPv4N16eth_mac_config_t16smi_mdc_gpio_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SMI MDC GPIO number </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16eth_mac_config_t17smi_mdio_gpio_numE">
+<span id="_CPPv3N16eth_mac_config_t17smi_mdio_gpio_numE"></span><span id="_CPPv2N16eth_mac_config_t17smi_mdio_gpio_numE"></span><span id="eth_mac_config_t::smi_mdio_gpio_num__i"></span><span class="target" id="structeth__mac__config__t_1a547e871ae5e8e98d57fc66ec6d12c3d7"></span>int <code class="descname">smi_mdio_gpio_num</code><a class="headerlink" href="#_CPPv4N16eth_mac_config_t17smi_mdio_gpio_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SMI MDIO GPIO number </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16eth_mac_config_t5flagsE">
+<span id="_CPPv3N16eth_mac_config_t5flagsE"></span><span id="_CPPv2N16eth_mac_config_t5flagsE"></span><span id="eth_mac_config_t::flags__uint32_t"></span><span class="target" id="structeth__mac__config__t_1ab3ffef873228ae6312fe75e032c0c944"></span>uint32_t <code class="descname">flags</code><a class="headerlink" href="#_CPPv4N16eth_mac_config_t5flagsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Flags that specify extra capability for mac driver </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="id8">
+<h3>Macros<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.ETH_MAC_FLAG_WORK_WITH_CACHE_DISABLE">
+<span class="target" id="esp__eth__mac_8h_1a142606f68636564c55172179f05adc19"></span><code class="descname">ETH_MAC_FLAG_WORK_WITH_CACHE_DISABLE</code><a class="headerlink" href="#c.ETH_MAC_FLAG_WORK_WITH_CACHE_DISABLE" title="Permalink to this definition">¶</a></dt>
+<dd><p>MAC driver can work when cache is disabled </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ETH_MAC_DEFAULT_CONFIG">
+<span class="target" id="esp__eth__mac_8h_1ae41fe76a8aa82425706a4b6cb4b09459"></span><code class="descname">ETH_MAC_DEFAULT_CONFIG</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.ETH_MAC_DEFAULT_CONFIG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default configuration for Ethernet MAC object. </p>
+</dd></dl>
+
+</div>
+<div class="section" id="id9">
+<h3>Type Definitions<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv413esp_eth_mac_t">
+<span id="_CPPv313esp_eth_mac_t"></span><span id="_CPPv213esp_eth_mac_t"></span><span id="esp_eth_mac_t"></span><span class="target" id="esp__eth__mac_8h_1ad458f46afb47d403e87962b533276bb3"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv413esp_eth_mac_s" title="esp_eth_mac_s">esp_eth_mac_s</a> <code class="descname">esp_eth_mac_t</code><a class="headerlink" href="#_CPPv413esp_eth_mac_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet MAC. </p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="api-reference-phy-interface">
+<h2>API Reference - PHY Interface<a class="headerlink" href="#api-reference-phy-interface" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id10">
+<h3>Header File<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_eth/include/esp_eth_phy.h">esp_eth/include/esp_eth_phy.h</a></li>
+</ul>
+</div>
+<div class="section" id="id11">
+<h3>Functions<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv421esp_eth_phy_new_ip101PK16eth_phy_config_t">
+<span id="_CPPv321esp_eth_phy_new_ip101PK16eth_phy_config_t"></span><span id="_CPPv221esp_eth_phy_new_ip101PK16eth_phy_config_t"></span><span id="esp_eth_phy_new_ip101__eth_phy_config_tCP"></span><span class="target" id="esp__eth__phy_8h_1a6d16e32089a09be7e0f19122bb9bf875"></span><a class="reference internal" href="#_CPPv413esp_eth_phy_t" title="esp_eth_phy_t">esp_eth_phy_t</a> *<code class="descname">esp_eth_phy_new_ip101</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv416eth_phy_config_t" title="eth_phy_config_t">eth_phy_config_t</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421esp_eth_phy_new_ip101PK16eth_phy_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a PHY instance of IP101. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>instance: create PHY instance successfully</li>
+<li>NULL: create PHY instance failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">config</span></code>: configuration of PHY</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423esp_eth_phy_new_rtl8201PK16eth_phy_config_t">
+<span id="_CPPv323esp_eth_phy_new_rtl8201PK16eth_phy_config_t"></span><span id="_CPPv223esp_eth_phy_new_rtl8201PK16eth_phy_config_t"></span><span id="esp_eth_phy_new_rtl8201__eth_phy_config_tCP"></span><span class="target" id="esp__eth__phy_8h_1a65d2ffaf33a11ad174db1599936ef6fd"></span><a class="reference internal" href="#_CPPv413esp_eth_phy_t" title="esp_eth_phy_t">esp_eth_phy_t</a> *<code class="descname">esp_eth_phy_new_rtl8201</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv416eth_phy_config_t" title="eth_phy_config_t">eth_phy_config_t</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423esp_eth_phy_new_rtl8201PK16eth_phy_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a PHY instance of RTL8201. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>instance: create PHY instance successfully</li>
+<li>NULL: create PHY instance failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">config</span></code>: configuration of PHY</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423esp_eth_phy_new_lan8720PK16eth_phy_config_t">
+<span id="_CPPv323esp_eth_phy_new_lan8720PK16eth_phy_config_t"></span><span id="_CPPv223esp_eth_phy_new_lan8720PK16eth_phy_config_t"></span><span id="esp_eth_phy_new_lan8720__eth_phy_config_tCP"></span><span class="target" id="esp__eth__phy_8h_1aefaa11f44be24f734da8ab8d3e703cab"></span><a class="reference internal" href="#_CPPv413esp_eth_phy_t" title="esp_eth_phy_t">esp_eth_phy_t</a> *<code class="descname">esp_eth_phy_new_lan8720</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv416eth_phy_config_t" title="eth_phy_config_t">eth_phy_config_t</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423esp_eth_phy_new_lan8720PK16eth_phy_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a PHY instance of LAN8720. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>instance: create PHY instance successfully</li>
+<li>NULL: create PHY instance failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">config</span></code>: configuration of PHY</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423esp_eth_phy_new_dp83848PK16eth_phy_config_t">
+<span id="_CPPv323esp_eth_phy_new_dp83848PK16eth_phy_config_t"></span><span id="_CPPv223esp_eth_phy_new_dp83848PK16eth_phy_config_t"></span><span id="esp_eth_phy_new_dp83848__eth_phy_config_tCP"></span><span class="target" id="esp__eth__phy_8h_1aa8f13f31ab9b3b5c0dc8d79988f9d88e"></span><a class="reference internal" href="#_CPPv413esp_eth_phy_t" title="esp_eth_phy_t">esp_eth_phy_t</a> *<code class="descname">esp_eth_phy_new_dp83848</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv416eth_phy_config_t" title="eth_phy_config_t">eth_phy_config_t</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423esp_eth_phy_new_dp83848PK16eth_phy_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a PHY instance of DP83848. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>instance: create PHY instance successfully</li>
+<li>NULL: create PHY instance failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">config</span></code>: configuration of PHY</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id12">
+<h3>Structures<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv413esp_eth_phy_s">
+<span id="_CPPv313esp_eth_phy_s"></span><span id="_CPPv213esp_eth_phy_s"></span><span id="esp_eth_phy_s"></span><span class="target" id="structesp__eth__phy__s"></span><em class="property">struct </em><code class="descname">esp_eth_phy_s</code><a class="headerlink" href="#_CPPv413esp_eth_phy_s" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet PHY. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_phy_s12set_mediatorE">
+<span id="_CPPv3N13esp_eth_phy_s12set_mediatorE"></span><span id="_CPPv2N13esp_eth_phy_s12set_mediatorE"></span><span class="target" id="structesp__eth__phy__s_1ae8f72b7a9fd17f1f89a6e4f2c01107ab"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">set_mediator</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_phy_t" title="esp_eth_phy_t">esp_eth_phy_t</a> *phy, <a class="reference internal" href="#_CPPv418esp_eth_mediator_t" title="esp_eth_mediator_t">esp_eth_mediator_t</a> *mediator<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_phy_s12set_mediatorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set mediator for PHY. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: set mediator for Ethernet PHY instance successfully</li>
+<li>ESP_ERR_INVALID_ARG: set mediator for Ethernet PHY instance failed because of some invalid arguments </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">phy</span></code>: Ethernet PHY instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">mediator</span></code>: mediator of Ethernet driver</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_phy_s5resetE">
+<span id="_CPPv3N13esp_eth_phy_s5resetE"></span><span id="_CPPv2N13esp_eth_phy_s5resetE"></span><span class="target" id="structesp__eth__phy__s_1a6e0a5c48695eb286f5bc62f949cea3ce"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">reset</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_phy_t" title="esp_eth_phy_t">esp_eth_phy_t</a> *phy<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_phy_s5resetE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Software Reset Ethernet PHY. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: reset Ethernet PHY successfully</li>
+<li>ESP_FAIL: reset Ethernet PHY failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">phy</span></code>: Ethernet PHY instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_phy_s8reset_hwE">
+<span id="_CPPv3N13esp_eth_phy_s8reset_hwE"></span><span id="_CPPv2N13esp_eth_phy_s8reset_hwE"></span><span class="target" id="structesp__eth__phy__s_1a9b191930ac7ba4e64235edc9427baabb"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">reset_hw</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_phy_t" title="esp_eth_phy_t">esp_eth_phy_t</a> *phy<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_phy_s8reset_hwE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Hardware Reset Ethernet PHY. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Hardware reset is mostly done by pull down and up PHY’s nRST pin</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: reset Ethernet PHY successfully</li>
+<li>ESP_FAIL: reset Ethernet PHY failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">phy</span></code>: Ethernet PHY instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_phy_s4initE">
+<span id="_CPPv3N13esp_eth_phy_s4initE"></span><span id="_CPPv2N13esp_eth_phy_s4initE"></span><span class="target" id="structesp__eth__phy__s_1aeca1d1e162f90b2af27508d060f520c2"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">init</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_phy_t" title="esp_eth_phy_t">esp_eth_phy_t</a> *phy<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_phy_s4initE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize Ethernet PHY. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: initialize Ethernet PHY successfully</li>
+<li>ESP_FAIL: initialize Ethernet PHY failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">phy</span></code>: Ethernet PHY instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_phy_s6deinitE">
+<span id="_CPPv3N13esp_eth_phy_s6deinitE"></span><span id="_CPPv2N13esp_eth_phy_s6deinitE"></span><span class="target" id="structesp__eth__phy__s_1a7113cadbebbcca0189af5bcb7334f444"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">deinit</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_phy_t" title="esp_eth_phy_t">esp_eth_phy_t</a> *phy<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_phy_s6deinitE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Deinitialize Ethernet PHY. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: deinitialize Ethernet PHY successfully</li>
+<li>ESP_FAIL: deinitialize Ethernet PHY failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">phyL</span></code>: Ethernet PHY instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_phy_s9negotiateE">
+<span id="_CPPv3N13esp_eth_phy_s9negotiateE"></span><span id="_CPPv2N13esp_eth_phy_s9negotiateE"></span><span class="target" id="structesp__eth__phy__s_1af724d69149a6dfa0fcc07f8e2be98728"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">negotiate</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_phy_t" title="esp_eth_phy_t">esp_eth_phy_t</a> *phy<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_phy_s9negotiateE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start auto negotiation. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: restart auto negotiation successfully</li>
+<li>ESP_FAIL: restart auto negotiation failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">phy</span></code>: Ethernet PHY instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_phy_s8get_linkE">
+<span id="_CPPv3N13esp_eth_phy_s8get_linkE"></span><span id="_CPPv2N13esp_eth_phy_s8get_linkE"></span><span class="target" id="structesp__eth__phy__s_1a7e007b3d4a9534855afe92f450078461"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">get_link</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_phy_t" title="esp_eth_phy_t">esp_eth_phy_t</a> *phy<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_phy_s8get_linkE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get Ethernet PHY link status. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: get Ethernet PHY link status successfully</li>
+<li>ESP_FAIL: get Ethernet PHY link status failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">phy</span></code>: Ethernet PHY instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_phy_s6pwrctlE">
+<span id="_CPPv3N13esp_eth_phy_s6pwrctlE"></span><span id="_CPPv2N13esp_eth_phy_s6pwrctlE"></span><span class="target" id="structesp__eth__phy__s_1aaca71fe349826d8bad0dc2b0a3957c8b"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">pwrctl</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_phy_t" title="esp_eth_phy_t">esp_eth_phy_t</a> *phy, bool enable<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_phy_s6pwrctlE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Power control of Ethernet PHY. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: control Ethernet PHY power successfully</li>
+<li>ESP_FAIL: control Ethernet PHY power failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">phy</span></code>: Ethernet PHY instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">enable</span></code>: set true to power on Ethernet PHY; ser false to power off Ethernet PHY</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_phy_s8set_addrE">
+<span id="_CPPv3N13esp_eth_phy_s8set_addrE"></span><span id="_CPPv2N13esp_eth_phy_s8set_addrE"></span><span class="target" id="structesp__eth__phy__s_1a2f81332236d9c3ef2dc365b06815520c"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">set_addr</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_phy_t" title="esp_eth_phy_t">esp_eth_phy_t</a> *phy, uint32_t addr<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_phy_s8set_addrE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set PHY chip address. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: set Ethernet PHY address successfully</li>
+<li>ESP_FAIL: set Ethernet PHY address failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">phy</span></code>: Ethernet PHY instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">addr</span></code>: PHY chip address</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_phy_s8get_addrE">
+<span id="_CPPv3N13esp_eth_phy_s8get_addrE"></span><span id="_CPPv2N13esp_eth_phy_s8get_addrE"></span><span class="target" id="structesp__eth__phy__s_1a07b886f795906b4db652ba4ee30d25ad"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">get_addr</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_phy_t" title="esp_eth_phy_t">esp_eth_phy_t</a> *phy, uint32_t *addr<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_phy_s8get_addrE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get PHY chip address. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: get Ethernet PHY address successfully</li>
+<li>ESP_ERR_INVALID_ARG: get Ethernet PHY address failed because of invalid argument </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">phy</span></code>: Ethernet PHY instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">addr</span></code>: PHY chip address</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13esp_eth_phy_s3delE">
+<span id="_CPPv3N13esp_eth_phy_s3delE"></span><span id="_CPPv2N13esp_eth_phy_s3delE"></span><span class="target" id="structesp__eth__phy__s_1a6c31ccc6294f0f55252cb8a69d3f598a"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">del</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_eth_phy_t" title="esp_eth_phy_t">esp_eth_phy_t</a> *phy<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N13esp_eth_phy_s3delE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Free memory of Ethernet PHY instance. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: free PHY instance successfully</li>
+<li>ESP_FAIL: free PHY instance failed because some error occurred </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">phy</span></code>: Ethernet PHY instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv416eth_phy_config_t">
+<span id="_CPPv316eth_phy_config_t"></span><span id="_CPPv216eth_phy_config_t"></span><span id="eth_phy_config_t"></span><span class="target" id="structeth__phy__config__t"></span><em class="property">struct </em><code class="descname">eth_phy_config_t</code><a class="headerlink" href="#_CPPv416eth_phy_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet PHY configuration. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N16eth_phy_config_t8phy_addrE">
+<span id="_CPPv3N16eth_phy_config_t8phy_addrE"></span><span id="_CPPv2N16eth_phy_config_t8phy_addrE"></span><span id="eth_phy_config_t::phy_addr__int32_t"></span><span class="target" id="structeth__phy__config__t_1ac9418edb3d97aece0711e6f79c5990fe"></span>int32_t <code class="descname">phy_addr</code><a class="headerlink" href="#_CPPv4N16eth_phy_config_t8phy_addrE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>PHY address, set -1 to enable PHY address detection at initialization stage </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16eth_phy_config_t16reset_timeout_msE">
+<span id="_CPPv3N16eth_phy_config_t16reset_timeout_msE"></span><span id="_CPPv2N16eth_phy_config_t16reset_timeout_msE"></span><span id="eth_phy_config_t::reset_timeout_ms__uint32_t"></span><span class="target" id="structeth__phy__config__t_1adb0a9f193a6e330543664b1fa3cbabde"></span>uint32_t <code class="descname">reset_timeout_ms</code><a class="headerlink" href="#_CPPv4N16eth_phy_config_t16reset_timeout_msE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reset timeout value (Unit: ms) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16eth_phy_config_t19autonego_timeout_msE">
+<span id="_CPPv3N16eth_phy_config_t19autonego_timeout_msE"></span><span id="_CPPv2N16eth_phy_config_t19autonego_timeout_msE"></span><span id="eth_phy_config_t::autonego_timeout_ms__uint32_t"></span><span class="target" id="structeth__phy__config__t_1aa5f5028b399c861a6c8bed1701d82b3d"></span>uint32_t <code class="descname">autonego_timeout_ms</code><a class="headerlink" href="#_CPPv4N16eth_phy_config_t19autonego_timeout_msE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Auto-negotiation timeout value (Unit: ms) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16eth_phy_config_t14reset_gpio_numE">
+<span id="_CPPv3N16eth_phy_config_t14reset_gpio_numE"></span><span id="_CPPv2N16eth_phy_config_t14reset_gpio_numE"></span><span id="eth_phy_config_t::reset_gpio_num__i"></span><span class="target" id="structeth__phy__config__t_1afafb0ddf9c7c68fc7d2bd8f786dcbf10"></span>int <code class="descname">reset_gpio_num</code><a class="headerlink" href="#_CPPv4N16eth_phy_config_t14reset_gpio_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reset GPIO number, -1 means no hardware reset </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="id13">
+<h3>Macros<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.ESP_ETH_PHY_ADDR_AUTO">
+<span class="target" id="esp__eth__phy_8h_1ab533a01b73e288e0adaafcdbd4e4576a"></span><code class="descname">ESP_ETH_PHY_ADDR_AUTO</code><a class="headerlink" href="#c.ESP_ETH_PHY_ADDR_AUTO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ETH_PHY_DEFAULT_CONFIG">
+<span class="target" id="esp__eth__phy_8h_1a59c7394cf8aa2373dd80de2a9293252e"></span><code class="descname">ETH_PHY_DEFAULT_CONFIG</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.ETH_PHY_DEFAULT_CONFIG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default configuration for Ethernet PHY object. </p>
+</dd></dl>
+
+</div>
+<div class="section" id="id14">
+<h3>Type Definitions<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv413esp_eth_phy_t">
+<span id="_CPPv313esp_eth_phy_t"></span><span id="_CPPv213esp_eth_phy_t"></span><span id="esp_eth_phy_t"></span><span class="target" id="esp__eth__phy_8h_1ab00d0222fbed79ecd4bb0f0140e20732"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv413esp_eth_phy_s" title="esp_eth_phy_s">esp_eth_phy_s</a> <code class="descname">esp_eth_phy_t</code><a class="headerlink" href="#_CPPv413esp_eth_phy_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ethernet PHY. </p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="api-reference-glue-for-esp-netif">
+<h2>API Reference - Glue for esp_netif<a class="headerlink" href="#api-reference-glue-for-esp-netif" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id15">
+<h3>Header File<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_eth/include/esp_eth_netif_glue.h">esp_eth/include/esp_eth_netif_glue.h</a></li>
+</ul>
+</div>
+<div class="section" id="id16">
+<h3>Functions<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv422esp_eth_new_netif_glue16esp_eth_handle_t">
+<span id="_CPPv322esp_eth_new_netif_glue16esp_eth_handle_t"></span><span id="_CPPv222esp_eth_new_netif_glue16esp_eth_handle_t"></span><span id="esp_eth_new_netif_glue__esp_eth_handle_t"></span><span class="target" id="esp__eth__netif__glue_8h_1a99c5089ab4b38d8d6ade4350e4497fbb"></span>void *<code class="descname">esp_eth_new_netif_glue</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416esp_eth_handle_t" title="esp_eth_handle_t">esp_eth_handle_t</a> <em>eth_hdl</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_eth_new_netif_glue16esp_eth_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a netif glue for Ethernet driver. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>netif glue is used to attach io driver to TCP/IP netif</dd>
+<dt><strong>Return</strong></dt>
+<dd>glue object, which inherits esp_netif_driver_base_t </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">eth_hdl</span></code>: Ethernet driver handle </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422esp_eth_del_netif_gluePv">
+<span id="_CPPv322esp_eth_del_netif_gluePv"></span><span id="_CPPv222esp_eth_del_netif_gluePv"></span><span id="esp_eth_del_netif_glue__voidP"></span><span class="target" id="esp__eth__netif__glue_8h_1acd0be706e829a5adfdee005dc5551c32"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_eth_del_netif_glue</code><span class="sig-paren">(</span>void *<em>glue</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_eth_del_netif_gluePv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Delete netif glue of Ethernet driver. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>-ESP_OK: delete netif glue successfully </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">glue</span></code>: netif glue </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428esp_eth_set_default_handlersPv">
+<span id="_CPPv328esp_eth_set_default_handlersPv"></span><span id="_CPPv228esp_eth_set_default_handlersPv"></span><span id="esp_eth_set_default_handlers__voidP"></span><span class="target" id="esp__eth__netif__glue_8h_1a92d7427b4444703fd4c364e3c60ae910"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_eth_set_default_handlers</code><span class="sig-paren">(</span>void *<em>esp_netif</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428esp_eth_set_default_handlersPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Register default IP layer handlers for Ethernet. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>: Ethernet handle might not yet properly initialized when setting up these default handlers</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_ARG: invalid parameter (esp_netif is NULL)</li>
+<li>ESP_OK: set default IP layer handlers successfully</li>
+<li>others: other failure occurred during register esp_event handler </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: esp network interface handle created for Ethernet driver </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv430esp_eth_clear_default_handlersPv">
+<span id="_CPPv330esp_eth_clear_default_handlersPv"></span><span id="_CPPv230esp_eth_clear_default_handlersPv"></span><span id="esp_eth_clear_default_handlers__voidP"></span><span class="target" id="esp__eth__netif__glue_8h_1a00e6fc1c5a5e11ca3880f56f67686065"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_eth_clear_default_handlers</code><span class="sig-paren">(</span>void *<em>esp_netif</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv430esp_eth_clear_default_handlersPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Unregister default IP layer handlers for Ethernet. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_ARG: invalid parameter (esp_netif is NULL)</li>
+<li>ESP_OK: clear default IP layer handlers successfully</li>
+<li>others: other failure occurred during unregister esp_event handler </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: esp network interface handle created for Ethernet driver </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esp_netif.html" class="btn btn-neutral float-right" title="ESP-NETIF" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="esp_mesh.html" class="btn btn-neutral float-left" title="ESP-MESH Programming Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/network/esp_eth.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:25 GMT -->
+</html>

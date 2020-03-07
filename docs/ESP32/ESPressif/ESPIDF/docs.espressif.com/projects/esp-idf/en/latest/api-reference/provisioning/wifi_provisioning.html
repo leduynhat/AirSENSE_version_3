@@ -1,0 +1,1518 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/provisioning/wifi_provisioning.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:43 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Wi-Fi Provisioning &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Storage API" href="../storage/index.html" />
+    <link rel="prev" title="Unified Provisioning" href="provisioning.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="wifi_provisioning.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/provisioning/wifi_provisioning"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Provisioning</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="protocomm.html">Protocol Communication</a></li>
+<li class="toctree-l3"><a class="reference internal" href="provisioning.html">Unified Provisioning</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Wi-Fi Provisioning</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-examples">Application Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Provisioning API</a> &raquo;</li>
+        
+      <li>Wi-Fi Provisioning</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/provisioning/wifi_provisioning.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="wi-fi-provisioning">
+<h1>Wi-Fi Provisioning<a class="headerlink" href="#wi-fi-provisioning" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>This component provides APIs that control Wi-Fi provisioning service for receiving and configuring Wi-Fi credentials over SoftAP or BLE transport via secure <a class="reference internal" href="protocomm.html"><span class="doc">Protocol Communication (protocomm)</span></a> sessions. The set of <code class="docutils literal notranslate"><span class="pre">wifi_prov_mgr_</span></code> APIs help in quickly implementing a provisioning service having necessary features with minimal amount of code and sufficient flexibility.</p>
+<div class="section" id="initialization">
+<span id="wifi-prov-mgr-init"></span><h3>Initialization<a class="headerlink" href="#initialization" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="#_CPPv418wifi_prov_mgr_init22wifi_prov_mgr_config_t" title="wifi_prov_mgr_init"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">wifi_prov_mgr_init()</span></code></a> is called to configure and initialize the provisioning manager and thus this must be called prior to invoking any other <code class="docutils literal notranslate"><span class="pre">wifi_prov_mgr_</span></code> APIs. Note that the manager relies on other components of IDF, namely NVS, TCP/IP, Event Loop and Wi-Fi (and optionally mDNS), hence these must be initialized beforehand. The manager can be de-initialized at any moment by making a call to <a class="reference internal" href="#_CPPv420wifi_prov_mgr_deinitv" title="wifi_prov_mgr_deinit"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">wifi_prov_mgr_deinit()</span></code></a>.</p>
+<blockquote>
+<div><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">wifi_prov_mgr_config_t</span> <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">.</span><span class="n">scheme</span> <span class="o">=</span> <span class="n">wifi_prov_scheme_ble</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">scheme_event_handler</span> <span class="o">=</span> <span class="n">WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BTDM</span>
+<span class="p">};</span>
+
+<span class="n">ESP_ERR_CHECK</span><span class="p">(</span> <span class="n">wifi_prov_mgr_init</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The configuration structure <code class="docutils literal notranslate"><span class="pre">wifi_prov_mgr_config_t</span></code> has a few fields to specify the behavior desired of the manager :</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><cite>scheme</cite> : This is used to specify the provisioning scheme. Each scheme corresponds to one of the modes of transport supported by protocomm. Hence, we have three options :</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">wifi_prov_scheme_ble</span></code> : BLE transport and GATT Server for handling provisioning commands</li>
+<li><code class="docutils literal notranslate"><span class="pre">wifi_prov_scheme_softap</span></code> : Wi-Fi SoftAP transport and HTTP Server for handling provisioning commands</li>
+<li><code class="docutils literal notranslate"><span class="pre">wifi_prov_scheme_console</span></code> : Serial transport and console for handling provisioning commands</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><cite>scheme_event_handler</cite> : An event handler defined along with scheme. Choosing appropriate scheme specific event handler allows the manager to take care of certain matters automatically. Presently this is not used for either SoftAP or Console based provisioning, but is very convenient for BLE. To understand how, we must recall that Bluetooth requires quite some amount of memory to function and once provisioning is finished, the main application may want to reclaim back this memory (or part of it, if it needs to use either BLE or classic BT). Also, upon every future reboot of a provisioned device, this reclamation of memory needs to be performed again. To reduce this complication in using <code class="docutils literal notranslate"><span class="pre">wifi_prov_scheme_ble</span></code>, the scheme specific handlers have been defined, and depending upon the chosen handler, the BLE / classic BT / BTDM memory will be freed automatically when the provisioning manager is de-initialized. The available options are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BTDM</span></code> - Free both classic BT and BLE (BTDM) memory. Used when main application doesn’t require Bluetooth at all.</li>
+<li><code class="docutils literal notranslate"><span class="pre">WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BLE</span></code> - Free only BLE memory. Used when main application requires classic BT.</li>
+<li><code class="docutils literal notranslate"><span class="pre">WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BT</span></code> - Free only classic BT. Used when main application requires BLE. In this case freeing happens right when the manager is initialized.</li>
+<li><code class="docutils literal notranslate"><span class="pre">WIFI_PROV_EVENT_HANDLER_NONE</span></code> - Don’t use any scheme specific handler. Used when provisioning scheme is not BLE (i.e. SoftAP or Console), or when main application wants to handle the memory reclaiming on its own, or needs both BLE and classic BT to function.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><cite>app_event_handler</cite> (Deprecated) : It is now recommended to catch <code class="docutils literal notranslate"><span class="pre">WIFI_PROV_EVENT``s</span> <span class="pre">that</span> <span class="pre">are</span> <span class="pre">emitted</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">default</span> <span class="pre">event</span> <span class="pre">loop</span> <span class="pre">handler.</span> <span class="pre">See</span> <span class="pre">definition</span> <span class="pre">of</span> <span class="pre">``wifi_prov_cb_event_t</span></code> for the list of events that are generated by the provisioning service. Here is an excerpt showing some of the provisioning events:</p>
+</li>
+</ul>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span> <span class="nf">event_handler</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">arg</span><span class="p">,</span> <span class="n">esp_event_base_t</span> <span class="n">event_base</span><span class="p">,</span>
+                          <span class="kt">int</span> <span class="n">event_id</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">event_data</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">event_base</span> <span class="o">==</span> <span class="n">WIFI_PROV_EVENT</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">switch</span> <span class="p">(</span><span class="n">event_id</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">case</span> <span class="nl">WIFI_PROV_START</span><span class="p">:</span>
+                <span class="n">ESP_LOGI</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s">&quot;Provisioning started&quot;</span><span class="p">);</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="nl">WIFI_PROV_CRED_RECV</span><span class="p">:</span> <span class="p">{</span>
+                <span class="n">wifi_sta_config_t</span> <span class="o">*</span><span class="n">wifi_sta_cfg</span> <span class="o">=</span> <span class="p">(</span><span class="n">wifi_sta_config_t</span> <span class="o">*</span><span class="p">)</span><span class="n">event_data</span><span class="p">;</span>
+                <span class="n">ESP_LOGI</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s">&quot;Received Wi-Fi credentials&quot;</span>
+                         <span class="s">&quot;</span><span class="se">\n\t</span><span class="s">SSID     : %s</span><span class="se">\n\t</span><span class="s">Password : %s&quot;</span><span class="p">,</span>
+                         <span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="p">)</span> <span class="n">wifi_sta_cfg</span><span class="o">-&gt;</span><span class="n">ssid</span><span class="p">,</span>
+                         <span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="p">)</span> <span class="n">wifi_sta_cfg</span><span class="o">-&gt;</span><span class="n">password</span><span class="p">);</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">case</span> <span class="nl">WIFI_PROV_CRED_FAIL</span><span class="p">:</span> <span class="p">{</span>
+                <span class="n">wifi_prov_sta_fail_reason_t</span> <span class="o">*</span><span class="n">reason</span> <span class="o">=</span> <span class="p">(</span><span class="n">wifi_prov_sta_fail_reason_t</span> <span class="o">*</span><span class="p">)</span><span class="n">event_data</span><span class="p">;</span>
+                <span class="n">ESP_LOGE</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s">&quot;Provisioning failed!</span><span class="se">\n\t</span><span class="s">Reason : %s&quot;</span>
+                         <span class="s">&quot;</span><span class="se">\n\t</span><span class="s">Please reset to factory and retry provisioning&quot;</span><span class="p">,</span>
+                         <span class="p">(</span><span class="o">*</span><span class="n">reason</span> <span class="o">==</span> <span class="n">WIFI_PROV_STA_AUTH_ERROR</span><span class="p">)</span> <span class="o">?</span>
+                         <span class="s">&quot;Wi-Fi station authentication failed&quot;</span> <span class="o">:</span> <span class="s">&quot;Wi-Fi access-point not found&quot;</span><span class="p">);</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">case</span> <span class="nl">WIFI_PROV_CRED_SUCCESS</span><span class="p">:</span>
+                <span class="n">ESP_LOGI</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s">&quot;Provisioning successful&quot;</span><span class="p">);</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="nl">WIFI_PROV_END</span><span class="p">:</span>
+                <span class="cm">/* De-initialize manager once provisioning is finished */</span>
+                <span class="n">wifi_prov_mgr_deinit</span><span class="p">();</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">default</span><span class="o">:</span>
+                <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The manager can be de-initialized at any moment by making a call to <a class="reference internal" href="#_CPPv420wifi_prov_mgr_deinitv" title="wifi_prov_mgr_deinit"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">wifi_prov_mgr_deinit()</span></code></a>.</p>
+</div>
+<div class="section" id="check-provisioning-state">
+<span id="wifi-prov-check-state"></span><h3>Check Provisioning State<a class="headerlink" href="#check-provisioning-state" title="Permalink to this headline">¶</a></h3>
+<p>Whether device is provisioned or not can be checked at runtime by calling <a class="reference internal" href="#_CPPv428wifi_prov_mgr_is_provisionedPb" title="wifi_prov_mgr_is_provisioned"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">wifi_prov_mgr_is_provisioned()</span></code></a>. This internally checks if the Wi-Fi credentials are stored in NVS.</p>
+<p>Note that presently manager does not have its own NVS namespace for storage of Wi-Fi credentials, instead it relies on the <code class="docutils literal notranslate"><span class="pre">esp_wifi_</span></code> APIs to set and get the credentials stored in NVS from the default location.</p>
+<p>If provisioning state needs to be reset, any of the following approaches may be taken :</p>
+<blockquote>
+<div><ul class="simple">
+<li>the associated part of NVS partition has to be erased manually</li>
+<li>main application must implement some logic to call <code class="docutils literal notranslate"><span class="pre">esp_wifi_</span></code> APIs for erasing the credentials at runtime</li>
+<li>main application must implement some logic to force start the provisioning irrespective of the provisioning state</li>
+</ul>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">bool</span> <span class="n">provisioned</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+<span class="n">ESP_ERR_CHECK</span><span class="p">(</span> <span class="n">wifi_prov_mgr_is_provisioned</span><span class="p">(</span><span class="o">&amp;</span><span class="n">provisioned</span><span class="p">)</span> <span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="start-provisioning-service">
+<h3>Start Provisioning Service<a class="headerlink" href="#start-provisioning-service" title="Permalink to this headline">¶</a></h3>
+<p>At the time of starting provisioning we need to specify a service name and the corresponding key. These translate to :</p>
+<blockquote>
+<div><ul class="simple">
+<li>Wi-Fi SoftAP SSID and passphrase, respectively, when scheme is <code class="docutils literal notranslate"><span class="pre">wifi_prov_scheme_softap</span></code></li>
+<li>BLE Device name (service key is ignored) when scheme is <code class="docutils literal notranslate"><span class="pre">wifi_prov_scheme_ble</span></code></li>
+</ul>
+</div></blockquote>
+<p>Also, since internally the manager uses <cite>protocomm</cite>, we have the option of choosing one of the security features provided by it :</p>
+<blockquote>
+<div><ul class="simple">
+<li>Security 1 is secure communication which consists of a prior handshake involving X25519 key exchange along with authentication using a proof of possession (<cite>pop</cite>), followed by AES-CTR for encryption/decryption of subsequent messages</li>
+<li>Security 0 is simply plain text communication. In this case the <cite>pop</cite> is simply ignored</li>
+</ul>
+</div></blockquote>
+<p>See <a class="reference internal" href="provisioning.html"><span class="doc">Provisioning</span></a> for details about the security features.</p>
+<blockquote>
+<div><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">service_name</span> <span class="o">=</span> <span class="s">&quot;my_device&quot;</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">service_key</span>  <span class="o">=</span> <span class="s">&quot;password&quot;</span><span class="p">;</span>
+
+<span class="n">wifi_prov_security_t</span> <span class="n">security</span> <span class="o">=</span> <span class="n">WIFI_PROV_SECURITY_1</span><span class="p">;</span>
+<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">pop</span> <span class="o">=</span> <span class="s">&quot;abcd1234&quot;</span><span class="p">;</span>
+
+<span class="n">ESP_ERR_CHECK</span><span class="p">(</span> <span class="n">wifi_prov_mgr_start_provisioning</span><span class="p">(</span><span class="n">security</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="n">service_name</span><span class="p">,</span> <span class="n">service_key</span><span class="p">)</span> <span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The provisioning service will automatically finish only if it receives valid Wi-Fi AP credentials followed by successfully connection of device to the AP (IP obtained). Regardless of that, the provisioning service can be stopped at any moment by making a call to <a class="reference internal" href="#_CPPv431wifi_prov_mgr_stop_provisioningv" title="wifi_prov_mgr_stop_provisioning"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">wifi_prov_mgr_stop_provisioning()</span></code></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If the device fails to connect with the provided credentials, it won’t accept new credentials anymore, but the provisioning service will keep on running (only to convey failure to the client), until the device is restarted. Upon restart the provisioning state will turn out to be true this time (as credentials will be found in NVS), but device will again fail to connect with those same credentials (unless an AP with the matching credentials somehow does become available). This situation can be fixed by resetting the credentials in NVS or force starting the provisioning service. This has been explained above in <a class="reference internal" href="#wifi-prov-check-state"><span class="std std-ref">Check Provisioning State</span></a>.</p>
+</div>
+</div>
+<div class="section" id="waiting-for-completion">
+<h3>Waiting For Completion<a class="headerlink" href="#waiting-for-completion" title="Permalink to this headline">¶</a></h3>
+<p>Typically, the main application will wait for the provisioning to finish, then de-initialize the manager to free up resources and finally start executing its own logic.</p>
+<p>There are two ways for making this possible. The simpler way is to use a blocking call to <a class="reference internal" href="#_CPPv418wifi_prov_mgr_waitv" title="wifi_prov_mgr_wait"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">wifi_prov_mgr_wait()</span></code></a>.</p>
+<blockquote>
+<div><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// Start provisioning service</span>
+<span class="n">ESP_ERR_CHECK</span><span class="p">(</span> <span class="n">wifi_prov_mgr_start_provisioning</span><span class="p">(</span><span class="n">security</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="n">service_name</span><span class="p">,</span> <span class="n">service_key</span><span class="p">)</span> <span class="p">);</span>
+
+<span class="c1">// Wait for service to complete</span>
+<span class="n">wifi_prov_mgr_wait</span><span class="p">();</span>
+
+<span class="c1">// Finally de-initialize the manager</span>
+<span class="n">wifi_prov_mgr_deinit</span><span class="p">();</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>The other way is to use the default event loop handler to catch <code class="docutils literal notranslate"><span class="pre">WIFI_PROV_EVENT``s</span> <span class="pre">and</span> <span class="pre">call</span> <span class="pre">:cpp:func:`wifi_prov_mgr_deinit()`</span> <span class="pre">when</span> <span class="pre">event</span> <span class="pre">ID</span> <span class="pre">is</span> <span class="pre">``WIFI_PROV_END</span></code>:</p>
+<blockquote>
+<div><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span> <span class="nf">event_handler</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">arg</span><span class="p">,</span> <span class="n">esp_event_base_t</span> <span class="n">event_base</span><span class="p">,</span>
+                          <span class="kt">int</span> <span class="n">event_id</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">event_data</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">event_base</span> <span class="o">==</span> <span class="n">WIFI_PROV_EVENT</span> <span class="o">&amp;&amp;</span> <span class="n">event_id</span> <span class="o">==</span> <span class="n">WIFI_PROV_END</span><span class="p">)</span> <span class="p">{</span>
+        <span class="cm">/* De-initialize manager once provisioning is finished */</span>
+        <span class="n">wifi_prov_mgr_deinit</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="user-side-implementation">
+<h3>User Side Implementation<a class="headerlink" href="#user-side-implementation" title="Permalink to this headline">¶</a></h3>
+<p>When the service is started, the device to be provisioned is identified by the advertised service name which, depending upon the selected transport, is either the BLE device name or the SoftAP SSID.</p>
+<p>When using SoftAP transport, for allowing service discovery, mDNS must be initialized before starting provisioning. In this case the hostname set by the main application is used, and the service type is internally set to <cite>_esp_wifi_prov</cite>.</p>
+<p>When using BLE transport, a custom 128 bit UUID should be set using <a class="reference internal" href="#_CPPv437wifi_prov_scheme_ble_set_service_uuidP7uint8_t" title="wifi_prov_scheme_ble_set_service_uuid"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">wifi_prov_scheme_ble_set_service_uuid()</span></code></a>. This UUID will be included in the BLE advertisement and will correspond to the primary GATT service that provides provisioning endpoints as GATT characteristics. Each GATT characteristic will be formed using the primary service UUID as base, with different auto assigned 12th and 13th bytes (assume counting starts from 0th byte). Since, an endpoint characteristic UUID is auto assigned, it shouldn’t be used to identify the endpoint. Instead, client side applications should identify the endpoints by reading the User Characteristic Description (0x2901) descriptor for each characteristic, which contains the endpoint name of the characteristic. For example, if the service UUID is set to <cite>55cc035e-fb27-4f80-be02-3c60828b7451</cite>, each endpoint characteristic will be assigned a UUID like <cite>55cc____-fb27-4f80-be02-3c60828b7451</cite>, with unique values at the 12th and 13th bytes.</p>
+<p>Once connected to the device, the provisioning related protocomm endpoints can be identified as follows :</p>
+<table border="1" class="colwidths-given docutils" id="id12">
+<caption><span class="caption-text">Endpoints provided by Provisioning Service</span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="12%" />
+<col width="29%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Endpoint Name (BLE + GATT Server)</th>
+<th class="head">URI (SoftAP + HTTP Server + mDNS)</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>prov-session</td>
+<td><a class="reference external" href="http://docs.espressif.com/">http:/</a>/&lt;mdns-hostname&gt;.local/prov-session</td>
+<td>Security endpoint used for session establishment</td>
+</tr>
+<tr class="row-odd"><td>prov-scan</td>
+<td><a class="reference external" href="http://wifi-prov.local/prov-scan">http://wifi-prov.local/prov-scan</a></td>
+<td>Endpoint used for starting Wi-Fi scan and receiving scan results</td>
+</tr>
+<tr class="row-even"><td>prov-config</td>
+<td><a class="reference external" href="http://docs.espressif.com/">http:/</a>/&lt;mdns-hostname&gt;.local/prov-config</td>
+<td>Endpoint used for configuring Wi-Fi credentials on device</td>
+</tr>
+<tr class="row-odd"><td>proto-ver</td>
+<td><a class="reference external" href="http://docs.espressif.com/">http:/</a>/&lt;mdns-hostname&gt;.local/proto-ver</td>
+<td>Endpoint for retrieving version info</td>
+</tr>
+</tbody>
+</table>
+<p>Immediately after connecting, the client application may fetch the version / capabilities information from the <cite>proto-ver</cite> endpoint. All communications to this endpoint are un-encrypted, hence necessary information (that may be relevant for deciding compatibility) can be retrieved before establishing a secure session. The response is in JSON format and looks like : <code class="docutils literal notranslate"><span class="pre">prov:</span> <span class="pre">{</span> <span class="pre">ver:</span>&#160; <span class="pre">v1.1,</span> <span class="pre">cap:</span>&#160; <span class="pre">[no_pop]</span> <span class="pre">},</span> <span class="pre">my_app:</span> <span class="pre">{</span> <span class="pre">ver:</span>&#160; <span class="pre">1.345,</span> <span class="pre">cap:</span>&#160; <span class="pre">[cloud,</span> <span class="pre">local_ctrl]</span> <span class="pre">},....</span></code>. Here label <cite>prov</cite> provides provisioning service version (<cite>ver</cite>) and capabilities (<cite>cap</cite>). For now, only <cite>no_pop</cite> capability is supported, which indicates that the service doesn’t require proof of possession for authentication. Any application related version / capabilities will be given by other labels (like <cite>my_app</cite> in this example). These additional fields are set using <a class="reference internal" href="#_CPPv426wifi_prov_mgr_set_app_infoPKcPKcPPKc6size_t" title="wifi_prov_mgr_set_app_info"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">wifi_prov_mgr_set_app_info()</span></code></a>.</p>
+<p>User side applications need to implement the signature handshaking required for establishing and authenticating secure protocomm sessions as per the security scheme configured for use (this is not needed when manager is configured to use protocomm security 0).</p>
+<p>See Unified Provisioning for more details about the secure handshake and encryption used. Applications must use the <cite>.proto</cite> files found under <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/components/protocomm/proto">protocomm/proto</a>, which define the Protobuf message structures supported by <cite>prov-session</cite> endpoint.</p>
+<p>Once a session is established, Wi-Fi credentials are configured using the following set of <cite>wifi_config</cite> commands, serialized as Protobuf messages (the corresponding <cite>.proto</cite> files can be found under <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/components/wifi_provisioning/proto">wifi_provisioning/proto</a>) :</p>
+<blockquote>
+<div><ul class="simple">
+<li><cite>get_status</cite> - For querying the Wi-Fi connection status. The device will respond with a status which will be one of connecting / connected / disconnected. If status is disconnected, a disconnection reason will also be included in the status response.</li>
+<li><cite>set_config</cite> - For setting the Wi-Fi connection credentials</li>
+<li><cite>apply_config</cite> - For applying the credentials saved during <cite>set_config</cite> and start the Wi-Fi station</li>
+</ul>
+</div></blockquote>
+<p>After session establishment, client can also request Wi-Fi scan results from the device. The results returned is a list of AP SSIDs, sorted in descending order of signal strength. This allows client applications to display APs nearby to the device at the time of provisioning, and users can select one of the SSIDs and provide the password which is then sent using the <cite>wifi_config</cite> commands described above. The <cite>wifi_scan</cite> endpoint supports the following protobuf commands :</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><cite>scan_start</cite> - For starting Wi-Fi scan with various options :</p>
+<blockquote>
+<div><ul class="simple">
+<li><cite>blocking</cite> (input) - If true, the command returns only when the scanning is finished</li>
+<li><cite>passive</cite> (input) - If true scan is started in passive mode (this may be slower) instead of active mode</li>
+<li><cite>group_channels</cite> (input) - This specifies whether to scan all channels in one go (when zero) or perform scanning of channels in groups, with 120ms delay between scanning of consecutive groups, and the value of this parameter sets the number of channels in each group. This is useful when transport mode is SoftAP, where scanning all channels in one go may not give the Wi-Fi driver enough time to send out beacons, and hence may cause disconnection with any connected stations. When scanning in groups, the manager will wait for atleast 120ms after completing scan on a group of channels, and thus allow the driver to send out the beacons. For example, given that the total number of Wi-Fi channels is 14, then setting group_channels to 4, will create 5 groups, with each group having 3 channels, except the last one which will have 14 % 3 = 2 channels. So, when scan is started, the first 3 channels will be scanned, followed by a 120ms delay, and then the next 3 channels, and so on, until all the 14 channels have been scanned. One may need to adjust this parameter as having only few channels in a group may slow down the overall scan time, while having too many may again cause disconnection. Usually a value of 4 should work for most cases. Note that for any other mode of transport, e.g. BLE, this can be safely set to 0, and hence achieve the fastest overall scanning time.</li>
+<li><cite>period_ms</cite> (input) - Scan parameter specifying how long to wait on each channel</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><cite>scan_status</cite> - Gives the status of scanning process :</p>
+<blockquote>
+<div><ul class="simple">
+<li><cite>scan_finished</cite> (output) - When scan has finished this returns true</li>
+<li><cite>result_count</cite> (output) - This gives the total number of results obtained till now. If scan is yet happening this number will keep on updating</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first"><cite>scan_result</cite> - For fetching scan results. This can be called even if scan is still on going</p>
+<blockquote>
+<div><ul class="simple">
+<li><cite>start_index</cite> (input) - Starting index from where to fetch the entries from the results list</li>
+<li><cite>count</cite> (input) - Number of entries to fetch from the starting index</li>
+<li><cite>entries</cite> (output) - List of entries returned. Each entry consists of <cite>ssid</cite>, <cite>channel</cite> and <cite>rssi</cite> information</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="additional-endpoints">
+<h3>Additional Endpoints<a class="headerlink" href="#additional-endpoints" title="Permalink to this headline">¶</a></h3>
+<p>In case users want to have some additional protocomm endpoints customized to their requirements, this is done in two steps. First is creation of an endpoint with a specific name, and the second step is the registration of a handler for this endpoint. See <a class="reference internal" href="protocomm.html"><span class="doc">protocomm</span></a> for the function signature of an endpoint handler. A custom endpoint must be created after initialization and before starting the provisioning service. Whereas, the protocomm handler is registered for this endpoint only after starting the provisioning service.</p>
+<blockquote>
+<div><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">wifi_prov_mgr_init</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+<span class="n">wifi_prov_mgr_endpoint_create</span><span class="p">(</span><span class="s">&quot;custom-endpoint&quot;</span><span class="p">);</span>
+<span class="n">wifi_prov_mgr_start_provisioning</span><span class="p">(</span><span class="n">security</span><span class="p">,</span> <span class="n">pop</span><span class="p">,</span> <span class="n">service_name</span><span class="p">,</span> <span class="n">service_key</span><span class="p">);</span>
+<span class="n">wifi_prov_mgr_endpoint_register</span><span class="p">(</span><span class="s">&quot;custom-endpoint&quot;</span><span class="p">,</span> <span class="n">custom_ep_handler</span><span class="p">,</span> <span class="n">custom_ep_data</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>When the provisioning service stops, the endpoint is unregistered automatically.</p>
+<p>One can also choose to call <a class="reference internal" href="#_CPPv433wifi_prov_mgr_endpoint_unregisterPKc" title="wifi_prov_mgr_endpoint_unregister"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">wifi_prov_mgr_endpoint_unregister()</span></code></a> to manually deactivate an endpoint at runtime. This can also be used to deactivate the internal endpoints used by the provisioning service.</p>
+</div>
+<div class="section" id="when-how-to-stop-provisioning-service">
+<h3>When / How To Stop Provisioning Service?<a class="headerlink" href="#when-how-to-stop-provisioning-service" title="Permalink to this headline">¶</a></h3>
+<p>The default behavior is that once the device successfully connects using the Wi-Fi credentials set by the <cite>apply_config</cite> command, the provisioning service will be stopped (and BLE / SoftAP turned off) automatically after responding to the next <cite>get_status</cite> command. If <cite>get_status</cite> command is not received by the device, the service will be stopped after a 30s timeout.</p>
+<p>On the other hand, if device was not able to connect using the provided Wi-Fi credentials, due to incorrect SSID / passphrase, the service will keep running, and <cite>get_status</cite> will keep responding with disconnected status and reason for disconnection. Any further attempts to provide another set of Wi-Fi credentials, will be rejected. These credentials will be preserved, unless the provisioning service is force started, or NVS erased.</p>
+<p>If this default behavior is not desired, it can be disabled by calling <a class="reference internal" href="#_CPPv431wifi_prov_mgr_disable_auto_stop8uint32_t" title="wifi_prov_mgr_disable_auto_stop"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">wifi_prov_mgr_disable_auto_stop()</span></code></a>. Now the provisioning service will only be stopped after an explicit call to <a class="reference internal" href="#_CPPv431wifi_prov_mgr_stop_provisioningv" title="wifi_prov_mgr_stop_provisioning"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">wifi_prov_mgr_stop_provisioning()</span></code></a>, which returns immediately after scheduling a task for stopping the service. The service stops after a certain delay and WIFI_PROV_END event gets emitted. This delay is specified by the argument to <a class="reference internal" href="#_CPPv431wifi_prov_mgr_disable_auto_stop8uint32_t" title="wifi_prov_mgr_disable_auto_stop"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">wifi_prov_mgr_disable_auto_stop()</span></code></a>.</p>
+<p>The customized behavior is useful for applications which want the provisioning service to be stopped some time after the Wi-Fi connection is successfully established. For example, if the application requires the device to connect to some cloud service and obtain another set of credentials, and exchange this credentials over a custom protocomm endpoint, then after successfully doing so stop the provisioning service by calling <a class="reference internal" href="#_CPPv431wifi_prov_mgr_stop_provisioningv" title="wifi_prov_mgr_stop_provisioning"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">wifi_prov_mgr_stop_provisioning()</span></code></a> inside the protocomm handler itself. The right amount of delay ensures that the transport resources are freed only after the response from the protocomm handler reaches the client side application.</p>
+</div>
+</div>
+<div class="section" id="application-examples">
+<h2>Application Examples<a class="headerlink" href="#application-examples" title="Permalink to this headline">¶</a></h2>
+<p>For complete example implementation see <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/provisioning/manager">provisioning/manager</a></p>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/wifi_provisioning/include/wifi_provisioning/manager.h">wifi_provisioning/include/wifi_provisioning/manager.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv418wifi_prov_mgr_init22wifi_prov_mgr_config_t">
+<span id="_CPPv318wifi_prov_mgr_init22wifi_prov_mgr_config_t"></span><span id="_CPPv218wifi_prov_mgr_init22wifi_prov_mgr_config_t"></span><span id="wifi_prov_mgr_init__wifi_prov_mgr_config_t"></span><span class="target" id="manager_8h_1a63f473649b7fc33b20073cdbfa429a47"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">wifi_prov_mgr_init</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv422wifi_prov_mgr_config_t" title="wifi_prov_mgr_config_t">wifi_prov_mgr_config_t</a> <em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418wifi_prov_mgr_init22wifi_prov_mgr_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize provisioning manager instance. </p>
+<p>Configures the manager and allocates internal resources</p>
+<p>Configuration specifies the provisioning scheme (transport) and event handlers</p>
+<p>Event WIFI_PROV_INIT is emitted right after initialization is complete</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_FAIL : Fail </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">config</span></code>: Configuration structure</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420wifi_prov_mgr_deinitv">
+<span id="_CPPv320wifi_prov_mgr_deinitv"></span><span id="_CPPv220wifi_prov_mgr_deinitv"></span><span id="wifi_prov_mgr_deinit__void"></span><span class="target" id="manager_8h_1a751e816a6e77fdb1d4073ecab2444f1e"></span>void <code class="descname">wifi_prov_mgr_deinit</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420wifi_prov_mgr_deinitv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stop provisioning (if running) and release resource used by the manager. </p>
+<p>Event WIFI_PROV_DEINIT is emitted right after de-initialization is finished</p>
+<p>If provisioning service is still active when this API is called, it first stops the service, hence emitting WIFI_PROV_END, and then performs the de-initialization </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428wifi_prov_mgr_is_provisionedPb">
+<span id="_CPPv328wifi_prov_mgr_is_provisionedPb"></span><span id="_CPPv228wifi_prov_mgr_is_provisionedPb"></span><span id="wifi_prov_mgr_is_provisioned__bP"></span><span class="target" id="manager_8h_1aff1c08c6c636730b2bc3b28d6010b8e3"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">wifi_prov_mgr_is_provisioned</code><span class="sig-paren">(</span>bool *<em>provisioned</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428wifi_prov_mgr_is_provisionedPb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Checks if device is provisioned. </p>
+<p>This checks if Wi-Fi credentials are present on the NVS</p>
+<p>The Wi-Fi credentials are assumed to be kept in the same NVS namespace as used by esp_wifi component</p>
+<p>If one were to call esp_wifi_set_config() directly instead of going through the provisioning process, this function will still yield true (i.e. device will be found to be provisioned)</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Calling wifi_prov_mgr_start_provisioning() automatically resets the provision state, irrespective of what the state was prior to making the call.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Retrieved provision state successfully</li>
+<li>ESP_FAIL : Wi-Fi not initialized</li>
+<li>ESP_ERR_INVALID_ARG : Null argument supplied</li>
+<li>ESP_ERR_INVALID_STATE : Manager not initialized </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">provisioned</span></code>: True if provisioned, else false</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv432wifi_prov_mgr_start_provisioning20wifi_prov_security_tPKcPKcPKc">
+<span id="_CPPv332wifi_prov_mgr_start_provisioning20wifi_prov_security_tPKcPKcPKc"></span><span id="_CPPv232wifi_prov_mgr_start_provisioning20wifi_prov_security_tPKcPKcPKc"></span><span id="wifi_prov_mgr_start_provisioning__wifi_prov_security_t.cCP.cCP.cCP"></span><span class="target" id="manager_8h_1af02cabeb404389fb506bcb45dc65a3d9"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">wifi_prov_mgr_start_provisioning</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv420wifi_prov_security_t" title="wifi_prov_security_t">wifi_prov_security_t</a> <em>security</em>, <em class="property">const</em> char *<em>pop</em>, <em class="property">const</em> char *<em>service_name</em>, <em class="property">const</em> char *<em>service_key</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv432wifi_prov_mgr_start_provisioning20wifi_prov_security_tPKcPKcPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start provisioning service. </p>
+<p>This starts the provisioning service according to the scheme configured at the time of initialization. For scheme :<ul class="simple">
+<li>wifi_prov_scheme_ble : This starts protocomm_ble, which internally initializes BLE transport and starts GATT server for handling provisioning requests</li>
+<li>wifi_prov_scheme_softap : This activates SoftAP mode of Wi-Fi and starts protocomm_httpd, which internally starts an HTTP server for handling provisioning requests (If mDNS is active it also starts advertising service with type _esp_wifi_prov._tcp)</li>
+</ul>
+</p>
+<p>Event WIFI_PROV_START is emitted right after provisioning starts without failure</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API will start provisioning service even if device is found to be already provisioned, i.e. wifi_prov_mgr_is_provisioned() yields true</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Provisioning started successfully</li>
+<li>ESP_FAIL : Failed to start provisioning service</li>
+<li>ESP_ERR_INVALID_STATE : Provisioning manager not initialized or already started </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">security</span></code>: Specify which protocomm security scheme to use :<ul>
+<li>WIFI_PROV_SECURITY_0 : For no security</li>
+<li>WIFI_PROV_SECURITY_1 : x25519 secure handshake for session establishment followed by AES-CTR encryption of provisioning messages </li>
+</ul>
+</li>
+<li><code class="docutils literal notranslate"><span class="pre">pop</span></code>: Pointer to proof of possession string (NULL if not needed). This is relevant only for protocomm security 1, in which case it is used for authenticating secure session </li>
+<li><code class="docutils literal notranslate"><span class="pre">service_name</span></code>: Unique name of the service. This translates to:<ul>
+<li>Wi-Fi SSID when provisioning mode is softAP</li>
+<li>Device name when provisioning mode is BLE </li>
+</ul>
+</li>
+<li><code class="docutils literal notranslate"><span class="pre">service_key</span></code>: Key required by client to access the service (NULL if not needed). This translates to:<ul>
+<li>Wi-Fi password when provisioning mode is softAP</li>
+<li>ignored when provisioning mode is BLE</li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv431wifi_prov_mgr_stop_provisioningv">
+<span id="_CPPv331wifi_prov_mgr_stop_provisioningv"></span><span id="_CPPv231wifi_prov_mgr_stop_provisioningv"></span><span id="wifi_prov_mgr_stop_provisioning__void"></span><span class="target" id="manager_8h_1a803a3c89c1bbd4b05da46ae0f1725181"></span>void <code class="descname">wifi_prov_mgr_stop_provisioning</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv431wifi_prov_mgr_stop_provisioningv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stop provisioning service. </p>
+<p>If provisioning service is active, this API will initiate a process to stop the service and return. Once the service actually stops, the event WIFI_PROV_END will be emitted.</p>
+<p>If wifi_prov_mgr_deinit() is called without calling this API first, it will automatically stop the provisioning service and emit the WIFI_PROV_END, followed by WIFI_PROV_DEINIT, before returning.</p>
+<p>This API will generally be used along with wifi_prov_mgr_disable_auto_stop() in the scenario when the main application has registered its own endpoints, and wishes that the provisioning service is stopped only when some protocomm command from the client side application is received.</p>
+<p>Calling this API inside an endpoint handler, with sufficient cleanup_delay, will allow the response / acknowledgment to be sent successfully before the underlying protocomm service is stopped.</p>
+<p>Cleaup_delay is set when calling wifi_prov_mgr_disable_auto_stop(). If not specified, it defaults to 1000ms.</p>
+<p>For straightforward cases, using this API is usually not necessary as provisioning is stopped automatically once WIFI_PROV_CRED_SUCCESS is emitted. Stopping is delayed (maximum 30 seconds) thus allowing the client side application to query for Wi-Fi state, i.e. after receiving the first query and sending <code class="docutils literal notranslate"><span class="pre">Wi-Fi</span> <span class="pre">state</span> <span class="pre">connected</span></code> response the service is stopped immediately. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418wifi_prov_mgr_waitv">
+<span id="_CPPv318wifi_prov_mgr_waitv"></span><span id="_CPPv218wifi_prov_mgr_waitv"></span><span id="wifi_prov_mgr_wait__void"></span><span class="target" id="manager_8h_1a63cdb8fb428acffb9106d8c43e604e95"></span>void <code class="descname">wifi_prov_mgr_wait</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418wifi_prov_mgr_waitv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Wait for provisioning service to finish. </p>
+<p>Calling this API will block until provisioning service is stopped i.e. till event WIFI_PROV_END is emitted.</p>
+<p>This will not block if provisioning is not started or not initialized. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv431wifi_prov_mgr_disable_auto_stop8uint32_t">
+<span id="_CPPv331wifi_prov_mgr_disable_auto_stop8uint32_t"></span><span id="_CPPv231wifi_prov_mgr_disable_auto_stop8uint32_t"></span><span id="wifi_prov_mgr_disable_auto_stop__uint32_t"></span><span class="target" id="manager_8h_1a01e238bc3ee04713139a73cd5a4a274e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">wifi_prov_mgr_disable_auto_stop</code><span class="sig-paren">(</span>uint32_t <em>cleanup_delay</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv431wifi_prov_mgr_disable_auto_stop8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable auto stopping of provisioning service upon completion. </p>
+<p>By default, once provisioning is complete, the provisioning service is automatically stopped, and all endpoints (along with those registered by main application) are deactivated.</p>
+<p>This API is useful in the case when main application wishes to close provisioning service only after it receives some protocomm command from the client side app. For example, after connecting to Wi-Fi, the device may want to connect to the cloud, and only once that is successfully, the device is said to be fully configured. But, then it is upto the main application to explicitly call wifi_prov_mgr_stop_provisioning() later when the device is fully configured and the provisioning service is no longer required.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This must be called before executing wifi_prov_mgr_start_provisioning()</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_ERR_INVALID_STATE : Manager not initialized or provisioning service already started </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">cleanup_delay</span></code>: Sets the delay after which the actual cleanup of transport related resources is done after a call to wifi_prov_mgr_stop_provisioning() returns. Minimum allowed value is 100ms. If not specified, this will default to 1000ms.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426wifi_prov_mgr_set_app_infoPKcPKcPPKc6size_t">
+<span id="_CPPv326wifi_prov_mgr_set_app_infoPKcPKcPPKc6size_t"></span><span id="_CPPv226wifi_prov_mgr_set_app_infoPKcPKcPPKc6size_t"></span><span id="wifi_prov_mgr_set_app_info__cCP.cCP.cCPP.s"></span><span class="target" id="manager_8h_1ac6ecdda7c956ac91fb95aa1bec7940c5"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">wifi_prov_mgr_set_app_info</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>label</em>, <em class="property">const</em> char *<em>version</em>, <em class="property">const</em> char **<em>capabilities</em>, size_t <em>total_capabilities</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426wifi_prov_mgr_set_app_infoPKcPKcPPKc6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set application version and capabilities in the JSON data returned by proto-ver endpoint. </p>
+<p>This function can be called multiple times, to specify information about the various application specific services running on the device, identified by unique labels.</p>
+<p>The provisioning service itself registers an entry in the JSON data, by the label “prov”, containing only provisioning service version and capabilities. Application services should use a label other than “prov” so as not to overwrite this.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This must be called before executing wifi_prov_mgr_start_provisioning()</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_ERR_INVALID_STATE : Manager not initialized or provisioning service already started</li>
+<li>ESP_ERR_NO_MEM : Failed to allocate memory for version string</li>
+<li>ESP_ERR_INVALID_ARG : Null argument </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">label</span></code>: String indicating the application name.</li>
+<li><code class="docutils literal notranslate"><span class="pre">version</span></code>: String indicating the application version. There is no constraint on format.</li>
+<li><code class="docutils literal notranslate"><span class="pre">capabilities</span></code>: Array of strings with capabilities. These could be used by the client side app to know the application registered endpoint capabilities</li>
+<li><code class="docutils literal notranslate"><span class="pre">total_capabilities</span></code>: Size of capabilities array</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv429wifi_prov_mgr_endpoint_createPKc">
+<span id="_CPPv329wifi_prov_mgr_endpoint_createPKc"></span><span id="_CPPv229wifi_prov_mgr_endpoint_createPKc"></span><span id="wifi_prov_mgr_endpoint_create__cCP"></span><span class="target" id="manager_8h_1a8b983818bfa3d936e37a56631c20855a"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">wifi_prov_mgr_endpoint_create</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>ep_name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv429wifi_prov_mgr_endpoint_createPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create an additional endpoint and allocate internal resources for it. </p>
+<p>This API is to be called by the application if it wants to create an additional endpoint. All additional endpoints will be assigned UUIDs starting from 0xFF54 and so on in the order of execution.</p>
+<p>protocomm handler for the created endpoint is to be registered later using wifi_prov_mgr_endpoint_register() after provisioning has started.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API can only be called BEFORE provisioning is started</dd>
+<dt><strong>Note</strong></dt>
+<dd>Additional endpoints can be used for configuring client provided parameters other than Wi-Fi credentials, that are necessary for the main application and hence must be set prior to starting the application</dd>
+<dt><strong>Note</strong></dt>
+<dd>After session establishment, the additional endpoints must be targeted first by the client side application before sending Wi-Fi configuration, because once Wi-Fi configuration finishes the provisioning service is stopped and hence all endpoints are unregistered</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_FAIL : Failure </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">ep_name</span></code>: unique name of the endpoint</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv431wifi_prov_mgr_endpoint_registerPKc23protocomm_req_handler_tPv">
+<span id="_CPPv331wifi_prov_mgr_endpoint_registerPKc23protocomm_req_handler_tPv"></span><span id="_CPPv231wifi_prov_mgr_endpoint_registerPKc23protocomm_req_handler_tPv"></span><span id="wifi_prov_mgr_endpoint_register__cCP.protocomm_req_handler_t.voidP"></span><span class="target" id="manager_8h_1a5157021c75c7b27d9c8d8e88333efc9c"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">wifi_prov_mgr_endpoint_register</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>ep_name</em>, <a class="reference internal" href="protocomm.html#_CPPv423protocomm_req_handler_t" title="protocomm_req_handler_t">protocomm_req_handler_t</a> <em>handler</em>, void *<em>user_ctx</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv431wifi_prov_mgr_endpoint_registerPKc23protocomm_req_handler_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Register a handler for the previously created endpoint. </p>
+<p>This API can be called by the application to register a protocomm handler to any endpoint that was created using wifi_prov_mgr_endpoint_create().</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API can only be called AFTER provisioning has started</dd>
+<dt><strong>Note</strong></dt>
+<dd>Additional endpoints can be used for configuring client provided parameters other than Wi-Fi credentials, that are necessary for the main application and hence must be set prior to starting the application</dd>
+<dt><strong>Note</strong></dt>
+<dd>After session establishment, the additional endpoints must be targeted first by the client side application before sending Wi-Fi configuration, because once Wi-Fi configuration finishes the provisioning service is stopped and hence all endpoints are unregistered</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_FAIL : Failure </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">ep_name</span></code>: Name of the endpoint </li>
+<li><code class="docutils literal notranslate"><span class="pre">handler</span></code>: Endpoint handler function </li>
+<li><code class="docutils literal notranslate"><span class="pre">user_ctx</span></code>: User data</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv433wifi_prov_mgr_endpoint_unregisterPKc">
+<span id="_CPPv333wifi_prov_mgr_endpoint_unregisterPKc"></span><span id="_CPPv233wifi_prov_mgr_endpoint_unregisterPKc"></span><span id="wifi_prov_mgr_endpoint_unregister__cCP"></span><span class="target" id="manager_8h_1ade23ebf0658107fef950f357a1c2e2b3"></span>void <code class="descname">wifi_prov_mgr_endpoint_unregister</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>ep_name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv433wifi_prov_mgr_endpoint_unregisterPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Unregister the handler for an endpoint. </p>
+<p>This API can be called if the application wants to selectively unregister the handler of an endpoint while the provisioning is still in progress.</p>
+<p>All the endpoint handlers are unregistered automatically when the provisioning stops.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">ep_name</span></code>: Name of the endpoint </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427wifi_prov_mgr_event_handlerPvP14system_event_t">
+<span id="_CPPv327wifi_prov_mgr_event_handlerPvP14system_event_t"></span><span id="_CPPv227wifi_prov_mgr_event_handlerPvP14system_event_t"></span><span id="wifi_prov_mgr_event_handler__voidP.system_event_tP"></span><span class="target" id="manager_8h_1aa2b4c5a73833512727dc7dd94ae74966"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">wifi_prov_mgr_event_handler</code><span class="sig-paren">(</span>void *<em>ctx</em>, <a class="reference internal" href="../system/esp_event_legacy.html#_CPPv414system_event_t" title="system_event_t">system_event_t</a> *<em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427wifi_prov_mgr_event_handlerPvP14system_event_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Event handler for provisioning manager. </p>
+<p>This is called from the main event handler and controls the provisioning manager’s internal state machine depending on incoming Wi-Fi events</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>: This function is DEPRECATED, because events are now handled internally using the event loop library, esp_event. Calling this will do nothing and simply return ESP_OK.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Event handled successfully </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">ctx</span></code>: Event context data </li>
+<li><code class="docutils literal notranslate"><span class="pre">event</span></code>: Event info</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428wifi_prov_mgr_get_wifi_stateP21wifi_prov_sta_state_t">
+<span id="_CPPv328wifi_prov_mgr_get_wifi_stateP21wifi_prov_sta_state_t"></span><span id="_CPPv228wifi_prov_mgr_get_wifi_stateP21wifi_prov_sta_state_t"></span><span id="wifi_prov_mgr_get_wifi_state__wifi_prov_sta_state_tP"></span><span class="target" id="manager_8h_1a5f6b06eb09bae91514d12c16278a96db"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">wifi_prov_mgr_get_wifi_state</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv421wifi_prov_sta_state_t" title="wifi_prov_sta_state_t">wifi_prov_sta_state_t</a> *<em>state</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428wifi_prov_mgr_get_wifi_stateP21wifi_prov_sta_state_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get state of Wi-Fi Station during provisioning. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Successfully retrieved Wi-Fi state</li>
+<li>ESP_FAIL : Provisioning app not running </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">state</span></code>: Pointer to wifi_prov_sta_state_t variable to be filled</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv440wifi_prov_mgr_get_wifi_disconnect_reasonP27wifi_prov_sta_fail_reason_t">
+<span id="_CPPv340wifi_prov_mgr_get_wifi_disconnect_reasonP27wifi_prov_sta_fail_reason_t"></span><span id="_CPPv240wifi_prov_mgr_get_wifi_disconnect_reasonP27wifi_prov_sta_fail_reason_t"></span><span id="wifi_prov_mgr_get_wifi_disconnect_reason__wifi_prov_sta_fail_reason_tP"></span><span class="target" id="manager_8h_1a327f50df15ad8bf933f616d98727376d"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">wifi_prov_mgr_get_wifi_disconnect_reason</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv427wifi_prov_sta_fail_reason_t" title="wifi_prov_sta_fail_reason_t">wifi_prov_sta_fail_reason_t</a> *<em>reason</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv440wifi_prov_mgr_get_wifi_disconnect_reasonP27wifi_prov_sta_fail_reason_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get reason code in case of Wi-Fi station disconnection during provisioning. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Successfully retrieved Wi-Fi disconnect reason</li>
+<li>ESP_FAIL : Provisioning app not running </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">reason</span></code>: Pointer to wifi_prov_sta_fail_reason_t variable to be filled</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427wifi_prov_mgr_configure_staP13wifi_config_t">
+<span id="_CPPv327wifi_prov_mgr_configure_staP13wifi_config_t"></span><span id="_CPPv227wifi_prov_mgr_configure_staP13wifi_config_t"></span><span id="wifi_prov_mgr_configure_sta__wifi_config_tP"></span><span class="target" id="manager_8h_1a7429014356ad676f0cc45528322d39fc"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">wifi_prov_mgr_configure_sta</code><span class="sig-paren">(</span><a class="reference internal" href="../network/esp_wifi.html#_CPPv413wifi_config_t" title="wifi_config_t">wifi_config_t</a> *<em>wifi_cfg</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427wifi_prov_mgr_configure_staP13wifi_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Runs Wi-Fi as Station with the supplied configuration. </p>
+<p>Configures the Wi-Fi station mode to connect to the AP with SSID and password specified in config structure and sets Wi-Fi to run as station.</p>
+<p>This is automatically called by provisioning service upon receiving new credentials.</p>
+<p>If credentials are to be supplied to the manager via a different mode other than through protocomm, then this API needs to be called.</p>
+<p>Event WIFI_PROV_CRED_RECV is emitted after credentials have been applied and Wi-Fi station started</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Wi-Fi configured and started successfully</li>
+<li>ESP_FAIL : Failed to set configuration </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">wifi_cfg</span></code>: Pointer to Wi-Fi configuration structure</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv425wifi_prov_event_handler_t">
+<span id="_CPPv325wifi_prov_event_handler_t"></span><span id="_CPPv225wifi_prov_event_handler_t"></span><span id="wifi_prov_event_handler_t"></span><span class="target" id="structwifi__prov__event__handler__t"></span><em class="property">struct </em><code class="descname">wifi_prov_event_handler_t</code><a class="headerlink" href="#_CPPv425wifi_prov_event_handler_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Event handler that is used by the manager while provisioning service is active. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N25wifi_prov_event_handler_t8event_cbE">
+<span id="_CPPv3N25wifi_prov_event_handler_t8event_cbE"></span><span id="_CPPv2N25wifi_prov_event_handler_t8event_cbE"></span><span id="wifi_prov_event_handler_t::event_cb__wifi_prov_cb_func_t"></span><span class="target" id="structwifi__prov__event__handler__t_1a3602aae5402aa63f88ec56263209f1c8"></span><a class="reference internal" href="#_CPPv419wifi_prov_cb_func_t" title="wifi_prov_cb_func_t">wifi_prov_cb_func_t</a> <code class="descname">event_cb</code><a class="headerlink" href="#_CPPv4N25wifi_prov_event_handler_t8event_cbE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Callback function to be executed on provisioning events </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N25wifi_prov_event_handler_t9user_dataE">
+<span id="_CPPv3N25wifi_prov_event_handler_t9user_dataE"></span><span id="_CPPv2N25wifi_prov_event_handler_t9user_dataE"></span><span id="wifi_prov_event_handler_t::user_data__voidP"></span><span class="target" id="structwifi__prov__event__handler__t_1ae2577110244025c0bffe49babae2bdfd"></span>void *<code class="descname">user_data</code><a class="headerlink" href="#_CPPv4N25wifi_prov_event_handler_t9user_dataE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>User context data to pass as parameter to callback function </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv416wifi_prov_scheme">
+<span id="_CPPv316wifi_prov_scheme"></span><span id="_CPPv216wifi_prov_scheme"></span><span id="wifi_prov_scheme"></span><span class="target" id="structwifi__prov__scheme"></span><em class="property">struct </em><code class="descname">wifi_prov_scheme</code><a class="headerlink" href="#_CPPv416wifi_prov_scheme" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Structure for specifying the provisioning scheme to be followed by the manager. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Ready to use schemes are available:<ul class="simple">
+<li>wifi_prov_scheme_ble : for provisioning over BLE transport + GATT server</li>
+<li>wifi_prov_scheme_softap : for provisioning over SoftAP transport + HTTP server</li>
+<li>wifi_prov_scheme_console : for provisioning over Serial UART transport + Console (for debugging) </li>
+</ul>
+</dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N16wifi_prov_scheme10prov_startE">
+<span id="_CPPv3N16wifi_prov_scheme10prov_startE"></span><span id="_CPPv2N16wifi_prov_scheme10prov_startE"></span><span class="target" id="structwifi__prov__scheme_1abd17038457a4e2a3c4983ccb18be26e1"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">prov_start</code>)<span class="sig-paren">(</span><a class="reference internal" href="protocomm.html#_CPPv411protocomm_t" title="protocomm_t">protocomm_t</a> *pc, void *config<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N16wifi_prov_scheme10prov_startE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function which is to be called by the manager when it is to start the provisioning service associated with a protocomm instance and a scheme specific configuration </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16wifi_prov_scheme9prov_stopE">
+<span id="_CPPv3N16wifi_prov_scheme9prov_stopE"></span><span id="_CPPv2N16wifi_prov_scheme9prov_stopE"></span><span class="target" id="structwifi__prov__scheme_1a09efbee6dd1c130dfb8ca6d77f16c1db"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">prov_stop</code>)<span class="sig-paren">(</span><a class="reference internal" href="protocomm.html#_CPPv411protocomm_t" title="protocomm_t">protocomm_t</a> *pc<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N16wifi_prov_scheme9prov_stopE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function which is to be called by the manager to stop the provisioning service previously associated with a protocomm instance </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16wifi_prov_scheme10new_configE">
+<span id="_CPPv3N16wifi_prov_scheme10new_configE"></span><span id="_CPPv2N16wifi_prov_scheme10new_configE"></span><span class="target" id="structwifi__prov__scheme_1aee1ad4b3e7a72d2a1fbbcb4e7b3ed92d"></span>void *(*<code class="descname">new_config</code>)<span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N16wifi_prov_scheme10new_configE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function which is to be called by the manager to generate a new configuration for the provisioning service, that is to be passed to <a class="reference internal" href="#structwifi__prov__scheme_1abd17038457a4e2a3c4983ccb18be26e1"><span class="std std-ref">prov_start()</span></a> </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16wifi_prov_scheme13delete_configE">
+<span id="_CPPv3N16wifi_prov_scheme13delete_configE"></span><span id="_CPPv2N16wifi_prov_scheme13delete_configE"></span><span class="target" id="structwifi__prov__scheme_1a2ff42c23e70a92e72d3c403e84fd31fb"></span>void (*<code class="descname">delete_config</code>)<span class="sig-paren">(</span>void *config<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N16wifi_prov_scheme13delete_configE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function which is to be called by the manager to delete a configuration generated using <a class="reference internal" href="#structwifi__prov__scheme_1aee1ad4b3e7a72d2a1fbbcb4e7b3ed92d"><span class="std std-ref">new_config()</span></a> </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16wifi_prov_scheme18set_config_serviceE">
+<span id="_CPPv3N16wifi_prov_scheme18set_config_serviceE"></span><span id="_CPPv2N16wifi_prov_scheme18set_config_serviceE"></span><span class="target" id="structwifi__prov__scheme_1af78b85f385a9eef9f6b0fd7f972d86ff"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">set_config_service</code>)<span class="sig-paren">(</span>void *config, <em class="property">const</em> char *service_name, <em class="property">const</em> char *service_key<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N16wifi_prov_scheme18set_config_serviceE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function which is to be called by the manager to set the service name and key values in the configuration structure </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16wifi_prov_scheme19set_config_endpointE">
+<span id="_CPPv3N16wifi_prov_scheme19set_config_endpointE"></span><span id="_CPPv2N16wifi_prov_scheme19set_config_endpointE"></span><span class="target" id="structwifi__prov__scheme_1ae0f5a3620e5c09b6ad33450db0b36152"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">set_config_endpoint</code>)<span class="sig-paren">(</span>void *config, <em class="property">const</em> char *endpoint_name, uint16_t uuid<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N16wifi_prov_scheme19set_config_endpointE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function which is to be called by the manager to set a protocomm endpoint with an identifying name and UUID in the configuration structure </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16wifi_prov_scheme9wifi_modeE">
+<span id="_CPPv3N16wifi_prov_scheme9wifi_modeE"></span><span id="_CPPv2N16wifi_prov_scheme9wifi_modeE"></span><span id="wifi_prov_scheme::wifi_mode__wifi_mode_t"></span><span class="target" id="structwifi__prov__scheme_1a40f54d96e4fbf87630af86109e932eb7"></span><a class="reference internal" href="../network/esp_wifi.html#_CPPv411wifi_mode_t" title="wifi_mode_t">wifi_mode_t</a> <code class="descname">wifi_mode</code><a class="headerlink" href="#_CPPv4N16wifi_prov_scheme9wifi_modeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Sets mode of operation of Wi-Fi during provisioning This is set to :<ul class="simple">
+<li>WIFI_MODE_APSTA for SoftAP transport</li>
+<li>WIFI_MODE_STA for BLE transport </li>
+</ul>
+</p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv422wifi_prov_mgr_config_t">
+<span id="_CPPv322wifi_prov_mgr_config_t"></span><span id="_CPPv222wifi_prov_mgr_config_t"></span><span id="wifi_prov_mgr_config_t"></span><span class="target" id="structwifi__prov__mgr__config__t"></span><em class="property">struct </em><code class="descname">wifi_prov_mgr_config_t</code><a class="headerlink" href="#_CPPv422wifi_prov_mgr_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Structure for specifying the manager configuration. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N22wifi_prov_mgr_config_t6schemeE">
+<span id="_CPPv3N22wifi_prov_mgr_config_t6schemeE"></span><span id="_CPPv2N22wifi_prov_mgr_config_t6schemeE"></span><span id="wifi_prov_mgr_config_t::scheme__wifi_prov_scheme_t"></span><span class="target" id="structwifi__prov__mgr__config__t_1abe98e1b5fbb1ea7aefa52ffa6a499300"></span><a class="reference internal" href="#_CPPv418wifi_prov_scheme_t" title="wifi_prov_scheme_t">wifi_prov_scheme_t</a> <code class="descname">scheme</code><a class="headerlink" href="#_CPPv4N22wifi_prov_mgr_config_t6schemeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Provisioning scheme to use. Following schemes are already available:<ul class="simple">
+<li>wifi_prov_scheme_ble : for provisioning over BLE transport + GATT server</li>
+<li>wifi_prov_scheme_softap : for provisioning over SoftAP transport + HTTP server + mDNS (optional)</li>
+<li>wifi_prov_scheme_console : for provisioning over Serial UART transport + Console (for debugging) </li>
+</ul>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22wifi_prov_mgr_config_t20scheme_event_handlerE">
+<span id="_CPPv3N22wifi_prov_mgr_config_t20scheme_event_handlerE"></span><span id="_CPPv2N22wifi_prov_mgr_config_t20scheme_event_handlerE"></span><span id="wifi_prov_mgr_config_t::scheme_event_handler__wifi_prov_event_handler_t"></span><span class="target" id="structwifi__prov__mgr__config__t_1a5bcd15e19a8bb76185926d01d03607b2"></span><a class="reference internal" href="#_CPPv425wifi_prov_event_handler_t" title="wifi_prov_event_handler_t">wifi_prov_event_handler_t</a> <code class="descname">scheme_event_handler</code><a class="headerlink" href="#_CPPv4N22wifi_prov_mgr_config_t20scheme_event_handlerE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Event handler required by the scheme for incorporating scheme specific behavior while provisioning manager is running. Various options may be provided by the scheme for setting this field. Use WIFI_PROV_EVENT_HANDLER_NONE when not used. When using scheme wifi_prov_scheme_ble, the following options are available:<ul class="simple">
+<li>WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BTDM</li>
+<li>WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BLE</li>
+<li>WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BT </li>
+</ul>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22wifi_prov_mgr_config_t17app_event_handlerE">
+<span id="_CPPv3N22wifi_prov_mgr_config_t17app_event_handlerE"></span><span id="_CPPv2N22wifi_prov_mgr_config_t17app_event_handlerE"></span><span id="wifi_prov_mgr_config_t::app_event_handler__wifi_prov_event_handler_t"></span><span class="target" id="structwifi__prov__mgr__config__t_1a3ab81e351555aa61035ebe948427b743"></span><a class="reference internal" href="#_CPPv425wifi_prov_event_handler_t" title="wifi_prov_event_handler_t">wifi_prov_event_handler_t</a> <code class="descname">app_event_handler</code><a class="headerlink" href="#_CPPv4N22wifi_prov_mgr_config_t17app_event_handlerE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Event handler that can be set for the purpose of incorporating application specific behavior. Use WIFI_PROV_EVENT_HANDLER_NONE when not used. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.WIFI_PROV_EVENT_HANDLER_NONE">
+<span class="target" id="manager_8h_1ab4cbf4b7bbb7d0417e37afdc931ead9f"></span><code class="descname">WIFI_PROV_EVENT_HANDLER_NONE</code><a class="headerlink" href="#c.WIFI_PROV_EVENT_HANDLER_NONE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Event handler can be set to none if not used. </p>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv419wifi_prov_cb_func_t">
+<span id="_CPPv319wifi_prov_cb_func_t"></span><span id="_CPPv219wifi_prov_cb_func_t"></span><span id="wifi_prov_cb_func_t"></span><span class="target" id="manager_8h_1a908adb45e22aa0dd5185c3137b9e23b9"></span><em class="property">typedef </em>void (*<code class="descname">wifi_prov_cb_func_t</code>)<span class="sig-paren">(</span>void *user_data, <a class="reference internal" href="#_CPPv420wifi_prov_cb_event_t" title="wifi_prov_cb_event_t">wifi_prov_cb_event_t</a> event, void *event_data<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419wifi_prov_cb_func_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="type">
+<dt id="_CPPv418wifi_prov_scheme_t">
+<span id="_CPPv318wifi_prov_scheme_t"></span><span id="_CPPv218wifi_prov_scheme_t"></span><span id="wifi_prov_scheme_t"></span><span class="target" id="manager_8h_1ad83672d819e4aacab31e5e315c60d9ab"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv416wifi_prov_scheme" title="wifi_prov_scheme">wifi_prov_scheme</a> <code class="descname">wifi_prov_scheme_t</code><a class="headerlink" href="#_CPPv418wifi_prov_scheme_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Structure for specifying the provisioning scheme to be followed by the manager. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Ready to use schemes are available:<ul class="simple">
+<li>wifi_prov_scheme_ble : for provisioning over BLE transport + GATT server</li>
+<li>wifi_prov_scheme_softap : for provisioning over SoftAP transport + HTTP server</li>
+<li>wifi_prov_scheme_console : for provisioning over Serial UART transport + Console (for debugging) </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv420wifi_prov_security_t">
+<span id="_CPPv320wifi_prov_security_t"></span><span id="_CPPv220wifi_prov_security_t"></span><span id="wifi_prov_security_t"></span><span class="target" id="manager_8h_1adad4cfc335c2a4618275668b78eb167e"></span><em class="property">typedef </em><em class="property">enum</em> <a class="reference internal" href="#_CPPv418wifi_prov_security" title="wifi_prov_security">wifi_prov_security</a> <code class="descname">wifi_prov_security_t</code><a class="headerlink" href="#_CPPv420wifi_prov_security_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Security modes supported by the Provisioning Manager. </p>
+<p>These are same as the security modes provided by protocomm </p>
+</dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv420wifi_prov_cb_event_t">
+<span id="_CPPv320wifi_prov_cb_event_t"></span><span id="_CPPv220wifi_prov_cb_event_t"></span><span id="wifi_prov_cb_event_t"></span><span class="target" id="manager_8h_1a059b90472409847d7baccf92d779c521"></span><em class="property">enum </em><code class="descname">wifi_prov_cb_event_t</code><a class="headerlink" href="#_CPPv420wifi_prov_cb_event_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Events generated by manager. </p>
+<p>These events are generated in order of declaration and, for the stretch of time between initialization and de-initialization of the manager, each event is signaled only once </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv414WIFI_PROV_INIT">
+<span id="_CPPv314WIFI_PROV_INIT"></span><span id="_CPPv214WIFI_PROV_INIT"></span><span class="target" id="manager_8h_1a059b90472409847d7baccf92d779c521afd1769cb86c6c24ee29b69ab8f39b956"></span><code class="descname">WIFI_PROV_INIT</code><a class="headerlink" href="#_CPPv414WIFI_PROV_INIT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Emitted when the manager is initialized </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv415WIFI_PROV_START">
+<span id="_CPPv315WIFI_PROV_START"></span><span id="_CPPv215WIFI_PROV_START"></span><span class="target" id="manager_8h_1a059b90472409847d7baccf92d779c521a9d0a86a5fef1c3d9d356c6a847d3351a"></span><code class="descname">WIFI_PROV_START</code><a class="headerlink" href="#_CPPv415WIFI_PROV_START" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Indicates that provisioning has started </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv419WIFI_PROV_CRED_RECV">
+<span id="_CPPv319WIFI_PROV_CRED_RECV"></span><span id="_CPPv219WIFI_PROV_CRED_RECV"></span><span class="target" id="manager_8h_1a059b90472409847d7baccf92d779c521a56cbfb43bb76899296a085d00f1dd1e6"></span><code class="descname">WIFI_PROV_CRED_RECV</code><a class="headerlink" href="#_CPPv419WIFI_PROV_CRED_RECV" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Emitted when Wi-Fi AP credentials are received via <code class="docutils literal notranslate"><span class="pre">protocomm</span></code> endpoint <code class="docutils literal notranslate"><span class="pre">wifi_config</span></code>. The event data in this case is a pointer to the corresponding <code class="docutils literal notranslate"><a class="reference internal" href="../network/esp_wifi.html#structwifi__sta__config__t"><span class="std std-ref"><span class="pre">wifi_sta_config_t</span></span></a></code> structure </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv419WIFI_PROV_CRED_FAIL">
+<span id="_CPPv319WIFI_PROV_CRED_FAIL"></span><span id="_CPPv219WIFI_PROV_CRED_FAIL"></span><span class="target" id="manager_8h_1a059b90472409847d7baccf92d779c521a3a84219e42a60d254076aa7c0a759309"></span><code class="descname">WIFI_PROV_CRED_FAIL</code><a class="headerlink" href="#_CPPv419WIFI_PROV_CRED_FAIL" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Emitted when device fails to connect to the AP of which the credentials were received earlier on event <code class="docutils literal notranslate"><span class="pre">WIFI_PROV_CRED_RECV</span></code>. The event data in this case is a pointer to the disconnection reason code with type <code class="docutils literal notranslate"><span class="pre">wifi_prov_sta_fail_reason_t</span></code> </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv422WIFI_PROV_CRED_SUCCESS">
+<span id="_CPPv322WIFI_PROV_CRED_SUCCESS"></span><span id="_CPPv222WIFI_PROV_CRED_SUCCESS"></span><span class="target" id="manager_8h_1a059b90472409847d7baccf92d779c521ab52c818c61febd5c11fe3759722a0dc1"></span><code class="descname">WIFI_PROV_CRED_SUCCESS</code><a class="headerlink" href="#_CPPv422WIFI_PROV_CRED_SUCCESS" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Emitted when device successfully connects to the AP of which the credentials were received earlier on event <code class="docutils literal notranslate"><span class="pre">WIFI_PROV_CRED_RECV</span></code> </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv413WIFI_PROV_END">
+<span id="_CPPv313WIFI_PROV_END"></span><span id="_CPPv213WIFI_PROV_END"></span><span class="target" id="manager_8h_1a059b90472409847d7baccf92d779c521abe9fe35a48ca412b68d4f63e8a19c421"></span><code class="descname">WIFI_PROV_END</code><a class="headerlink" href="#_CPPv413WIFI_PROV_END" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Signals that provisioning service has stopped </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv416WIFI_PROV_DEINIT">
+<span id="_CPPv316WIFI_PROV_DEINIT"></span><span id="_CPPv216WIFI_PROV_DEINIT"></span><span class="target" id="manager_8h_1a059b90472409847d7baccf92d779c521ad2aed047d47fcb617b1c5650fd33ce1b"></span><code class="descname">WIFI_PROV_DEINIT</code><a class="headerlink" href="#_CPPv416WIFI_PROV_DEINIT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Signals that manager has been de-initialized </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv418wifi_prov_security">
+<span id="_CPPv318wifi_prov_security"></span><span id="_CPPv218wifi_prov_security"></span><span id="wifi_prov_security"></span><span class="target" id="manager_8h_1a51a7877c57470c50aff26ba4374742c3"></span><em class="property">enum </em><code class="descname">wifi_prov_security</code><a class="headerlink" href="#_CPPv418wifi_prov_security" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Security modes supported by the Provisioning Manager. </p>
+<p>These are same as the security modes provided by protocomm </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv420WIFI_PROV_SECURITY_0">
+<span id="_CPPv320WIFI_PROV_SECURITY_0"></span><span id="_CPPv220WIFI_PROV_SECURITY_0"></span><span class="target" id="manager_8h_1a51a7877c57470c50aff26ba4374742c3af476be414ed1949c270a448755d3b7b0"></span><code class="descname">WIFI_PROV_SECURITY_0</code> = 0<a class="headerlink" href="#_CPPv420WIFI_PROV_SECURITY_0" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>No security (plain-text communication) </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv420WIFI_PROV_SECURITY_1">
+<span id="_CPPv320WIFI_PROV_SECURITY_1"></span><span id="_CPPv220WIFI_PROV_SECURITY_1"></span><span class="target" id="manager_8h_1a51a7877c57470c50aff26ba4374742c3a6889ab87db600c0fd18e003f6c0bb942"></span><code class="descname">WIFI_PROV_SECURITY_1</code><a class="headerlink" href="#_CPPv420WIFI_PROV_SECURITY_1" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This secure communication mode consists of X25519 key exchange<ul class="simple">
+<li>proof of possession (pop) based authentication</li>
+<li>AES-CTR encryption </li>
+</ul>
+</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="id1">
+<h3>Header File<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/wifi_provisioning/include/wifi_provisioning/scheme_ble.h">wifi_provisioning/include/wifi_provisioning/scheme_ble.h</a></li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>Functions<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv439wifi_prov_scheme_ble_event_cb_free_btdmPv20wifi_prov_cb_event_tPv">
+<span id="_CPPv339wifi_prov_scheme_ble_event_cb_free_btdmPv20wifi_prov_cb_event_tPv"></span><span id="_CPPv239wifi_prov_scheme_ble_event_cb_free_btdmPv20wifi_prov_cb_event_tPv"></span><span id="wifi_prov_scheme_ble_event_cb_free_btdm__voidP.wifi_prov_cb_event_t.voidP"></span><span class="target" id="scheme__ble_8h_1a47f185ce4e89102d0f7b9b13868512ff"></span>void <code class="descname">wifi_prov_scheme_ble_event_cb_free_btdm</code><span class="sig-paren">(</span>void *<em>user_data</em>, <a class="reference internal" href="#_CPPv420wifi_prov_cb_event_t" title="wifi_prov_cb_event_t">wifi_prov_cb_event_t</a> <em>event</em>, void *<em>event_data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv439wifi_prov_scheme_ble_event_cb_free_btdmPv20wifi_prov_cb_event_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv438wifi_prov_scheme_ble_event_cb_free_blePv20wifi_prov_cb_event_tPv">
+<span id="_CPPv338wifi_prov_scheme_ble_event_cb_free_blePv20wifi_prov_cb_event_tPv"></span><span id="_CPPv238wifi_prov_scheme_ble_event_cb_free_blePv20wifi_prov_cb_event_tPv"></span><span id="wifi_prov_scheme_ble_event_cb_free_ble__voidP.wifi_prov_cb_event_t.voidP"></span><span class="target" id="scheme__ble_8h_1a0077462e77e3ae0dbe96f7756e4b347a"></span>void <code class="descname">wifi_prov_scheme_ble_event_cb_free_ble</code><span class="sig-paren">(</span>void *<em>user_data</em>, <a class="reference internal" href="#_CPPv420wifi_prov_cb_event_t" title="wifi_prov_cb_event_t">wifi_prov_cb_event_t</a> <em>event</em>, void *<em>event_data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv438wifi_prov_scheme_ble_event_cb_free_blePv20wifi_prov_cb_event_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv437wifi_prov_scheme_ble_event_cb_free_btPv20wifi_prov_cb_event_tPv">
+<span id="_CPPv337wifi_prov_scheme_ble_event_cb_free_btPv20wifi_prov_cb_event_tPv"></span><span id="_CPPv237wifi_prov_scheme_ble_event_cb_free_btPv20wifi_prov_cb_event_tPv"></span><span id="wifi_prov_scheme_ble_event_cb_free_bt__voidP.wifi_prov_cb_event_t.voidP"></span><span class="target" id="scheme__ble_8h_1a0fcfce7c934bf6919fabf030f2578921"></span>void <code class="descname">wifi_prov_scheme_ble_event_cb_free_bt</code><span class="sig-paren">(</span>void *<em>user_data</em>, <a class="reference internal" href="#_CPPv420wifi_prov_cb_event_t" title="wifi_prov_cb_event_t">wifi_prov_cb_event_t</a> <em>event</em>, void *<em>event_data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv437wifi_prov_scheme_ble_event_cb_free_btPv20wifi_prov_cb_event_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv437wifi_prov_scheme_ble_set_service_uuidP7uint8_t">
+<span id="_CPPv337wifi_prov_scheme_ble_set_service_uuidP7uint8_t"></span><span id="_CPPv237wifi_prov_scheme_ble_set_service_uuidP7uint8_t"></span><span id="wifi_prov_scheme_ble_set_service_uuid__uint8_tP"></span><span class="target" id="scheme__ble_8h_1ae5c5c8e33fb8191e52bb361747492ae3"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">wifi_prov_scheme_ble_set_service_uuid</code><span class="sig-paren">(</span>uint8_t *<em>uuid128</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv437wifi_prov_scheme_ble_set_service_uuidP7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the 128 bit GATT service UUID used for provisioning. </p>
+<p>This API is used to override the default 128 bit provisioning service UUID, which is 0000ffff-0000-1000-8000-00805f9b34fb.</p>
+<p>This must be called before starting provisioning, i.e. before making a call to wifi_prov_mgr_start_provisioning(), otherwise the default UUID will be used.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>The data being pointed to by the argument must be valid atleast till provisioning is started. Upon start, the manager will store an internal copy of this UUID, and this data can be freed or invalidated afterwords.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_ERR_INVALID_ARG : Null argument </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">uuid128</span></code>: A custom 128 bit UUID</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id3">
+<h3>Macros<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BTDM">
+<span class="target" id="scheme__ble_8h_1a7ca608842152bdf89eafe5dbc6ce8bc6"></span><code class="descname">WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BTDM</code><a class="headerlink" href="#c.WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BTDM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BLE">
+<span class="target" id="scheme__ble_8h_1af079f29f0836ecc43aabd3d3dd595bfd"></span><code class="descname">WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BLE</code><a class="headerlink" href="#c.WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BT">
+<span class="target" id="scheme__ble_8h_1a47d306f88a3ab8b8ff2c866f3c96ca84"></span><code class="descname">WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BT</code><a class="headerlink" href="#c.WIFI_PROV_SCHEME_BLE_EVENT_HANDLER_FREE_BT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="id4">
+<h3>Header File<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/wifi_provisioning/include/wifi_provisioning/scheme_softap.h">wifi_provisioning/include/wifi_provisioning/scheme_softap.h</a></li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h3>Functions<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv440wifi_prov_scheme_softap_set_httpd_handlePv">
+<span id="_CPPv340wifi_prov_scheme_softap_set_httpd_handlePv"></span><span id="_CPPv240wifi_prov_scheme_softap_set_httpd_handlePv"></span><span id="wifi_prov_scheme_softap_set_httpd_handle__voidP"></span><span class="target" id="scheme__softap_8h_1a9b2d3fb2c31628c7aded8a3cfa6cec1e"></span>void <code class="descname">wifi_prov_scheme_softap_set_httpd_handle</code><span class="sig-paren">(</span>void *<em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv440wifi_prov_scheme_softap_set_httpd_handlePv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Provide HTTPD Server handle externally. </p>
+<p>Useful in cases wherein applications need the webserver for some different operations, and do not want the wifi provisioning component to start/stop a new instance.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API should be called before wifi_prov_mgr_start_provisioning()</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Handle to HTTPD server instance </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id6">
+<h3>Header File<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/wifi_provisioning/include/wifi_provisioning/scheme_console.h">wifi_provisioning/include/wifi_provisioning/scheme_console.h</a></li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h3>Header File<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/wifi_provisioning/include/wifi_provisioning/wifi_config.h">wifi_provisioning/include/wifi_provisioning/wifi_config.h</a></li>
+</ul>
+</div>
+<div class="section" id="id8">
+<h3>Functions<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv429wifi_prov_config_data_handler8uint32_tPK7uint8_t7ssize_tPP7uint8_tP7ssize_tPv">
+<span id="_CPPv329wifi_prov_config_data_handler8uint32_tPK7uint8_t7ssize_tPP7uint8_tP7ssize_tPv"></span><span id="_CPPv229wifi_prov_config_data_handler8uint32_tPK7uint8_t7ssize_tPP7uint8_tP7ssize_tPv"></span><span id="wifi_prov_config_data_handler__uint32_t.uint8_tCP.ssize_t.uint8_tPP.ssize_tP.voidP"></span><span class="target" id="wifi__config_8h_1a8aba5450fce29d8035d5623c7afad26b"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">wifi_prov_config_data_handler</code><span class="sig-paren">(</span>uint32_t <em>session_id</em>, <em class="property">const</em> uint8_t *<em>inbuf</em>, ssize_t <em>inlen</em>, uint8_t **<em>outbuf</em>, ssize_t *<em>outlen</em>, void *<em>priv_data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv429wifi_prov_config_data_handler8uint32_tPK7uint8_t7ssize_tPP7uint8_tP7ssize_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Handler for receiving and responding to requests from master. </p>
+<p>This is to be registered as the <code class="docutils literal notranslate"><span class="pre">wifi_config</span></code> endpoint handler (protocomm <code class="docutils literal notranslate"><span class="pre">protocomm_req_handler_t</span></code>) using <code class="docutils literal notranslate"><span class="pre">protocomm_add_endpoint()</span></code> </p>
+</dd></dl>
+
+</div>
+<div class="section" id="id9">
+<h3>Structures<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv425wifi_prov_sta_conn_info_t">
+<span id="_CPPv325wifi_prov_sta_conn_info_t"></span><span id="_CPPv225wifi_prov_sta_conn_info_t"></span><span id="wifi_prov_sta_conn_info_t"></span><span class="target" id="structwifi__prov__sta__conn__info__t"></span><em class="property">struct </em><code class="descname">wifi_prov_sta_conn_info_t</code><a class="headerlink" href="#_CPPv425wifi_prov_sta_conn_info_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>WiFi STA connected status information. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N25wifi_prov_sta_conn_info_t7ip_addrE">
+<span id="_CPPv3N25wifi_prov_sta_conn_info_t7ip_addrE"></span><span id="_CPPv2N25wifi_prov_sta_conn_info_t7ip_addrE"></span><span id="wifi_prov_sta_conn_info_t::ip_addr__cA"></span><span class="target" id="structwifi__prov__sta__conn__info__t_1a734d8968964f0681e3b5542eb39ce698"></span>char <code class="descname">ip_addr</code>[<code class="descname">IP4ADDR_STRLEN_MAX</code>]<a class="headerlink" href="#_CPPv4N25wifi_prov_sta_conn_info_t7ip_addrE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>IP Address received by station </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N25wifi_prov_sta_conn_info_t5bssidE">
+<span id="_CPPv3N25wifi_prov_sta_conn_info_t5bssidE"></span><span id="_CPPv2N25wifi_prov_sta_conn_info_t5bssidE"></span><span id="wifi_prov_sta_conn_info_t::bssid__cA"></span><span class="target" id="structwifi__prov__sta__conn__info__t_1ab3f574ddb08fefe57513bd2b5e76e5e1"></span>char <code class="descname">bssid</code>[6]<a class="headerlink" href="#_CPPv4N25wifi_prov_sta_conn_info_t5bssidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BSSID of the AP to which connection was estalished </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N25wifi_prov_sta_conn_info_t4ssidE">
+<span id="_CPPv3N25wifi_prov_sta_conn_info_t4ssidE"></span><span id="_CPPv2N25wifi_prov_sta_conn_info_t4ssidE"></span><span id="wifi_prov_sta_conn_info_t::ssid__cA"></span><span class="target" id="structwifi__prov__sta__conn__info__t_1ac47bc47e6fe39c5c3aca99f15d193150"></span>char <code class="descname">ssid</code>[33]<a class="headerlink" href="#_CPPv4N25wifi_prov_sta_conn_info_t4ssidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SSID of the to which connection was estalished </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N25wifi_prov_sta_conn_info_t7channelE">
+<span id="_CPPv3N25wifi_prov_sta_conn_info_t7channelE"></span><span id="_CPPv2N25wifi_prov_sta_conn_info_t7channelE"></span><span id="wifi_prov_sta_conn_info_t::channel__uint8_t"></span><span class="target" id="structwifi__prov__sta__conn__info__t_1aef765c169c44869267e1115e33838eb3"></span>uint8_t <code class="descname">channel</code><a class="headerlink" href="#_CPPv4N25wifi_prov_sta_conn_info_t7channelE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Channel of the AP </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N25wifi_prov_sta_conn_info_t9auth_modeE">
+<span id="_CPPv3N25wifi_prov_sta_conn_info_t9auth_modeE"></span><span id="_CPPv2N25wifi_prov_sta_conn_info_t9auth_modeE"></span><span id="wifi_prov_sta_conn_info_t::auth_mode__uint8_t"></span><span class="target" id="structwifi__prov__sta__conn__info__t_1a3a872cd92a0be7fb2458e0b8c49c72cc"></span>uint8_t <code class="descname">auth_mode</code><a class="headerlink" href="#_CPPv4N25wifi_prov_sta_conn_info_t9auth_modeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Authorization mode of the AP </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv427wifi_prov_config_get_data_t">
+<span id="_CPPv327wifi_prov_config_get_data_t"></span><span id="_CPPv227wifi_prov_config_get_data_t"></span><span id="wifi_prov_config_get_data_t"></span><span class="target" id="structwifi__prov__config__get__data__t"></span><em class="property">struct </em><code class="descname">wifi_prov_config_get_data_t</code><a class="headerlink" href="#_CPPv427wifi_prov_config_get_data_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>WiFi status data to be sent in response to <code class="docutils literal notranslate"><span class="pre">get_status</span></code> request from master. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N27wifi_prov_config_get_data_t10wifi_stateE">
+<span id="_CPPv3N27wifi_prov_config_get_data_t10wifi_stateE"></span><span id="_CPPv2N27wifi_prov_config_get_data_t10wifi_stateE"></span><span id="wifi_prov_config_get_data_t::wifi_state__wifi_prov_sta_state_t"></span><span class="target" id="structwifi__prov__config__get__data__t_1a6446a33204338113b095c2bf7cd8ad91"></span><a class="reference internal" href="#_CPPv421wifi_prov_sta_state_t" title="wifi_prov_sta_state_t">wifi_prov_sta_state_t</a> <code class="descname">wifi_state</code><a class="headerlink" href="#_CPPv4N27wifi_prov_config_get_data_t10wifi_stateE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>WiFi state of the station </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N27wifi_prov_config_get_data_t11fail_reasonE">
+<span id="_CPPv3N27wifi_prov_config_get_data_t11fail_reasonE"></span><span id="_CPPv2N27wifi_prov_config_get_data_t11fail_reasonE"></span><span id="wifi_prov_config_get_data_t::fail_reason__wifi_prov_sta_fail_reason_t"></span><span class="target" id="structwifi__prov__config__get__data__t_1aa0727c01d146fd34ab2e5760de77a129"></span><a class="reference internal" href="#_CPPv427wifi_prov_sta_fail_reason_t" title="wifi_prov_sta_fail_reason_t">wifi_prov_sta_fail_reason_t</a> <code class="descname">fail_reason</code><a class="headerlink" href="#_CPPv4N27wifi_prov_config_get_data_t11fail_reasonE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reason for disconnection (valid only when <code class="docutils literal notranslate"><span class="pre">wifi_state</span></code> is <code class="docutils literal notranslate"><span class="pre">WIFI_STATION_DISCONNECTED</span></code>) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N27wifi_prov_config_get_data_t9conn_infoE">
+<span id="_CPPv3N27wifi_prov_config_get_data_t9conn_infoE"></span><span id="_CPPv2N27wifi_prov_config_get_data_t9conn_infoE"></span><span id="wifi_prov_config_get_data_t::conn_info__wifi_prov_sta_conn_info_t"></span><span class="target" id="structwifi__prov__config__get__data__t_1a691fa5914f53d2c3cdce2c30d1f9e691"></span><a class="reference internal" href="#_CPPv425wifi_prov_sta_conn_info_t" title="wifi_prov_sta_conn_info_t">wifi_prov_sta_conn_info_t</a> <code class="descname">conn_info</code><a class="headerlink" href="#_CPPv4N27wifi_prov_config_get_data_t9conn_infoE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Connection information (valid only when <code class="docutils literal notranslate"><span class="pre">wifi_state</span></code> is <code class="docutils literal notranslate"><span class="pre">WIFI_STATION_CONNECTED</span></code>) </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv427wifi_prov_config_set_data_t">
+<span id="_CPPv327wifi_prov_config_set_data_t"></span><span id="_CPPv227wifi_prov_config_set_data_t"></span><span id="wifi_prov_config_set_data_t"></span><span class="target" id="structwifi__prov__config__set__data__t"></span><em class="property">struct </em><code class="descname">wifi_prov_config_set_data_t</code><a class="headerlink" href="#_CPPv427wifi_prov_config_set_data_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>WiFi config data received by slave during <code class="docutils literal notranslate"><span class="pre">set_config</span></code> request from master. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N27wifi_prov_config_set_data_t4ssidE">
+<span id="_CPPv3N27wifi_prov_config_set_data_t4ssidE"></span><span id="_CPPv2N27wifi_prov_config_set_data_t4ssidE"></span><span id="wifi_prov_config_set_data_t::ssid__cA"></span><span class="target" id="structwifi__prov__config__set__data__t_1a26ee3662c7c3ab0342976c1678dcafa2"></span>char <code class="descname">ssid</code>[33]<a class="headerlink" href="#_CPPv4N27wifi_prov_config_set_data_t4ssidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SSID of the AP to which the slave is to be connected </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N27wifi_prov_config_set_data_t8passwordE">
+<span id="_CPPv3N27wifi_prov_config_set_data_t8passwordE"></span><span id="_CPPv2N27wifi_prov_config_set_data_t8passwordE"></span><span id="wifi_prov_config_set_data_t::password__cA"></span><span class="target" id="structwifi__prov__config__set__data__t_1a96727c31b4acca82a6e35fd827665329"></span>char <code class="descname">password</code>[64]<a class="headerlink" href="#_CPPv4N27wifi_prov_config_set_data_t8passwordE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Password of the AP </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N27wifi_prov_config_set_data_t5bssidE">
+<span id="_CPPv3N27wifi_prov_config_set_data_t5bssidE"></span><span id="_CPPv2N27wifi_prov_config_set_data_t5bssidE"></span><span id="wifi_prov_config_set_data_t::bssid__cA"></span><span class="target" id="structwifi__prov__config__set__data__t_1ac17b03532d2280db6ed9aca78f60239f"></span>char <code class="descname">bssid</code>[6]<a class="headerlink" href="#_CPPv4N27wifi_prov_config_set_data_t5bssidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BSSID of the AP </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N27wifi_prov_config_set_data_t7channelE">
+<span id="_CPPv3N27wifi_prov_config_set_data_t7channelE"></span><span id="_CPPv2N27wifi_prov_config_set_data_t7channelE"></span><span id="wifi_prov_config_set_data_t::channel__uint8_t"></span><span class="target" id="structwifi__prov__config__set__data__t_1a71826cdde352d1e5a3210c3977f4b24b"></span>uint8_t <code class="descname">channel</code><a class="headerlink" href="#_CPPv4N27wifi_prov_config_set_data_t7channelE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Channel of the AP </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv425wifi_prov_config_handlers">
+<span id="_CPPv325wifi_prov_config_handlers"></span><span id="_CPPv225wifi_prov_config_handlers"></span><span id="wifi_prov_config_handlers"></span><span class="target" id="structwifi__prov__config__handlers"></span><em class="property">struct </em><code class="descname">wifi_prov_config_handlers</code><a class="headerlink" href="#_CPPv425wifi_prov_config_handlers" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Internal handlers for receiving and responding to protocomm requests from master. </p>
+<p>This is to be passed as priv_data for protocomm request handler (refer to <code class="docutils literal notranslate"><span class="pre">wifi_prov_config_data_handler()</span></code>) when calling <code class="docutils literal notranslate"><span class="pre">protocomm_add_endpoint()</span></code>. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N25wifi_prov_config_handlers18get_status_handlerE">
+<span id="_CPPv3N25wifi_prov_config_handlers18get_status_handlerE"></span><span id="_CPPv2N25wifi_prov_config_handlers18get_status_handlerE"></span><span class="target" id="structwifi__prov__config__handlers_1a2745e9c7d36157abd64e05cf0e397c02"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">get_status_handler</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv427wifi_prov_config_get_data_t" title="wifi_prov_config_get_data_t">wifi_prov_config_get_data_t</a> *resp_data, <a class="reference internal" href="#_CPPv415wifi_prov_ctx_t" title="wifi_prov_ctx_t">wifi_prov_ctx_t</a> **ctx<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N25wifi_prov_config_handlers18get_status_handlerE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Handler function called when connection status of the slave (in WiFi station mode) is requested </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N25wifi_prov_config_handlers18set_config_handlerE">
+<span id="_CPPv3N25wifi_prov_config_handlers18set_config_handlerE"></span><span id="_CPPv2N25wifi_prov_config_handlers18set_config_handlerE"></span><span class="target" id="structwifi__prov__config__handlers_1ab2771b2929f894f19be1068804254eab"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">set_config_handler</code>)<span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv427wifi_prov_config_set_data_t" title="wifi_prov_config_set_data_t">wifi_prov_config_set_data_t</a> *req_data, <a class="reference internal" href="#_CPPv415wifi_prov_ctx_t" title="wifi_prov_ctx_t">wifi_prov_ctx_t</a> **ctx<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N25wifi_prov_config_handlers18set_config_handlerE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Handler function called when WiFi connection configuration (eg. AP SSID, password, etc.) of the slave (in WiFi station mode) is to be set to user provided values </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N25wifi_prov_config_handlers20apply_config_handlerE">
+<span id="_CPPv3N25wifi_prov_config_handlers20apply_config_handlerE"></span><span id="_CPPv2N25wifi_prov_config_handlers20apply_config_handlerE"></span><span class="target" id="structwifi__prov__config__handlers_1aa34523d1724822eaaa52b487b750b9ad"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">apply_config_handler</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415wifi_prov_ctx_t" title="wifi_prov_ctx_t">wifi_prov_ctx_t</a> **ctx<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N25wifi_prov_config_handlers20apply_config_handlerE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Handler function for applying the configuration that was set in <code class="docutils literal notranslate"><span class="pre">set_config_handler</span></code>. After applying the station may get connected to the AP or may fail to connect. The slave must be ready to convey the updated connection status information when <code class="docutils literal notranslate"><span class="pre">get_status_handler</span></code> is invoked again by the master. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N25wifi_prov_config_handlers3ctxE">
+<span id="_CPPv3N25wifi_prov_config_handlers3ctxE"></span><span id="_CPPv2N25wifi_prov_config_handlers3ctxE"></span><span id="wifi_prov_config_handlers::ctx__wifi_prov_ctx_tP"></span><span class="target" id="structwifi__prov__config__handlers_1a0f6799ec11d79e24ac6e32a80611a847"></span><a class="reference internal" href="#_CPPv415wifi_prov_ctx_t" title="wifi_prov_ctx_t">wifi_prov_ctx_t</a> *<code class="descname">ctx</code><a class="headerlink" href="#_CPPv4N25wifi_prov_config_handlers3ctxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Context pointer to be passed to above handler functions upon invocation </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="id10">
+<h3>Type Definitions<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv415wifi_prov_ctx_t">
+<span id="_CPPv315wifi_prov_ctx_t"></span><span id="_CPPv215wifi_prov_ctx_t"></span><span id="wifi_prov_ctx_t"></span><span class="target" id="wifi__config_8h_1ada31be0259553c17c6a348118c8ab794"></span><em class="property">typedef </em><em class="property">struct</em> wifi_prov_ctx <code class="descname">wifi_prov_ctx_t</code><a class="headerlink" href="#_CPPv415wifi_prov_ctx_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Type of context data passed to each get/set/apply handler function set in <code class="docutils literal notranslate"><a class="reference internal" href="#structwifi__prov__config__handlers"><span class="std std-ref"><span class="pre">wifi_prov_config_handlers</span></span></a></code> structure. </p>
+<p>This is passed as an opaque pointer, thereby allowing it be defined later in application code as per requirements. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv427wifi_prov_config_handlers_t">
+<span id="_CPPv327wifi_prov_config_handlers_t"></span><span id="_CPPv227wifi_prov_config_handlers_t"></span><span id="wifi_prov_config_handlers_t"></span><span class="target" id="wifi__config_8h_1a595499e08f99cf114fa162a38949b9c9"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv425wifi_prov_config_handlers" title="wifi_prov_config_handlers">wifi_prov_config_handlers</a> <code class="descname">wifi_prov_config_handlers_t</code><a class="headerlink" href="#_CPPv427wifi_prov_config_handlers_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Internal handlers for receiving and responding to protocomm requests from master. </p>
+<p>This is to be passed as priv_data for protocomm request handler (refer to <code class="docutils literal notranslate"><span class="pre">wifi_prov_config_data_handler()</span></code>) when calling <code class="docutils literal notranslate"><span class="pre">protocomm_add_endpoint()</span></code>. </p>
+</dd></dl>
+
+</div>
+<div class="section" id="id11">
+<h3>Enumerations<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv421wifi_prov_sta_state_t">
+<span id="_CPPv321wifi_prov_sta_state_t"></span><span id="_CPPv221wifi_prov_sta_state_t"></span><span id="wifi_prov_sta_state_t"></span><span class="target" id="wifi__config_8h_1a64cbdacbc8b09ae467a9d1701e30c5ec"></span><em class="property">enum </em><code class="descname">wifi_prov_sta_state_t</code><a class="headerlink" href="#_CPPv421wifi_prov_sta_state_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>WiFi STA status for conveying back to the provisioning master. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv424WIFI_PROV_STA_CONNECTING">
+<span id="_CPPv324WIFI_PROV_STA_CONNECTING"></span><span id="_CPPv224WIFI_PROV_STA_CONNECTING"></span><span class="target" id="wifi__config_8h_1a64cbdacbc8b09ae467a9d1701e30c5eca6eb262189575763c6a0a0f42508a1c7f"></span><code class="descname">WIFI_PROV_STA_CONNECTING</code><a class="headerlink" href="#_CPPv424WIFI_PROV_STA_CONNECTING" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423WIFI_PROV_STA_CONNECTED">
+<span id="_CPPv323WIFI_PROV_STA_CONNECTED"></span><span id="_CPPv223WIFI_PROV_STA_CONNECTED"></span><span class="target" id="wifi__config_8h_1a64cbdacbc8b09ae467a9d1701e30c5ecafbb71f34667147c3c3a70502acd3f5a3"></span><code class="descname">WIFI_PROV_STA_CONNECTED</code><a class="headerlink" href="#_CPPv423WIFI_PROV_STA_CONNECTED" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv426WIFI_PROV_STA_DISCONNECTED">
+<span id="_CPPv326WIFI_PROV_STA_DISCONNECTED"></span><span id="_CPPv226WIFI_PROV_STA_DISCONNECTED"></span><span class="target" id="wifi__config_8h_1a64cbdacbc8b09ae467a9d1701e30c5eca0241c35d80decb36fd547bbe961c0a68"></span><code class="descname">WIFI_PROV_STA_DISCONNECTED</code><a class="headerlink" href="#_CPPv426WIFI_PROV_STA_DISCONNECTED" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv427wifi_prov_sta_fail_reason_t">
+<span id="_CPPv327wifi_prov_sta_fail_reason_t"></span><span id="_CPPv227wifi_prov_sta_fail_reason_t"></span><span id="wifi_prov_sta_fail_reason_t"></span><span class="target" id="wifi__config_8h_1a12b961739b836842361f6545f4c174a6"></span><em class="property">enum </em><code class="descname">wifi_prov_sta_fail_reason_t</code><a class="headerlink" href="#_CPPv427wifi_prov_sta_fail_reason_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>WiFi STA connection fail reason. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv424WIFI_PROV_STA_AUTH_ERROR">
+<span id="_CPPv324WIFI_PROV_STA_AUTH_ERROR"></span><span id="_CPPv224WIFI_PROV_STA_AUTH_ERROR"></span><span class="target" id="wifi__config_8h_1a12b961739b836842361f6545f4c174a6a9f5b5cea7828d2a550986abaccc296d3"></span><code class="descname">WIFI_PROV_STA_AUTH_ERROR</code><a class="headerlink" href="#_CPPv424WIFI_PROV_STA_AUTH_ERROR" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv426WIFI_PROV_STA_AP_NOT_FOUND">
+<span id="_CPPv326WIFI_PROV_STA_AP_NOT_FOUND"></span><span id="_CPPv226WIFI_PROV_STA_AP_NOT_FOUND"></span><span class="target" id="wifi__config_8h_1a12b961739b836842361f6545f4c174a6ac8f1aa250047f103e26150260674895b"></span><code class="descname">WIFI_PROV_STA_AP_NOT_FOUND</code><a class="headerlink" href="#_CPPv426WIFI_PROV_STA_AP_NOT_FOUND" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../storage/index.html" class="btn btn-neutral float-right" title="Storage API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="provisioning.html" class="btn btn-neutral float-left" title="Unified Provisioning" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/provisioning/wifi_provisioning.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:43 GMT -->
+</html>

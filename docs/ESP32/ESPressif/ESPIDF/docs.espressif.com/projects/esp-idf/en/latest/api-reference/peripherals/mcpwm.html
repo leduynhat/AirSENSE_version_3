@@ -1,0 +1,2081 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/mcpwm.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:34 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>MCPWM &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Pulse Counter" href="pcnt.html" />
+    <link rel="prev" title="LED Control" href="ledc.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="mcpwm.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/peripherals/mcpwm"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Peripherals</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="adc.html">ADC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="can.html">CAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html">DAC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html">GPIO (including RTC low power I/O)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html">I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html">I2S</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ledc.html">LED Control</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">MCPWM</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#contents">Contents</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configure">Configure</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#operate">Operate</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#adjust">Adjust</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#capture">Capture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fault-handler">Fault Handler</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#carrier">Carrier</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#interrupts">Interrupts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-example">Application Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pcnt.html">Pulse Counter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rmt.html">Remote Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sd_pullup_requirements.html">SD Pull-up Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdmmc_host.html">SDMMC Host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdspi_host.html">SD SPI Host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdio_slave.html">SDIO Slave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sigmadelta.html">Sigma-delta Modulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html">SPI Master</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html">SPI Slave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="temp_sensor.html">Temp sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html">Touch Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uart.html">UART</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Peripherals API</a> &raquo;</li>
+        
+      <li>MCPWM</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/peripherals/mcpwm.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="mcpwm">
+<h1>MCPWM<a class="headerlink" href="#mcpwm" title="Permalink to this headline">¶</a></h1>
+<p>ESP32 has two MCPWM units which can be used to control different types of motors. Each unit has three pairs of PWM outputs.</p>
+<div class="align-center figure" id="id3">
+<img alt="MCPWM Overview" src="../../_images/mcpwm-overview.png" />
+<p class="caption"><span class="caption-text">MCPWM Overview</span></p>
+</div>
+<p>Further in documentation the outputs of a single unit are labeled <code class="docutils literal notranslate"><span class="pre">PWMxA</span></code> / <code class="docutils literal notranslate"><span class="pre">PWMxB</span></code>.</p>
+<p>More detailed block diagram of the MCPWM unit is shown below. Each A/B pair may be clocked by any one of the three timers Timer 0, 1 and 2. The same timer may be used to clock more than one pair of PWM outputs. Each unit is also able to collect inputs such as <code class="docutils literal notranslate"><span class="pre">SYNC</span> <span class="pre">SIGNALS</span></code>, detect <code class="docutils literal notranslate"><span class="pre">FAULT</span> <span class="pre">SIGNALS</span></code> like motor overcurrent or overvoltage, as well as obtain feedback with <code class="docutils literal notranslate"><span class="pre">CAPTURE</span> <span class="pre">SIGNALS</span></code> on e.g. a rotor position.</p>
+<div class="align-center figure" id="id4">
+<span id="mcpwm-block-diagram"></span><img alt="MCPWM Block Diagram" src="../../_images/mcpwm-block-diagram.png" />
+<p class="caption"><span class="caption-text">MCPWM Block Diagram</span></p>
+</div>
+<p>Description of this API starts with configuration of MCPWM’s <strong>Timer</strong> and <strong>Generator</strong> submodules to provide the basic motor control functionality. Then it discusses more advanced submodules and functionalities of a <strong>Fault Handler</strong>, signal <strong>Capture</strong>, <strong>Carrier</strong> and <strong>Interrupts</strong>.</p>
+<div class="section" id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="#configure">Configure</a> a basic functionality of the outputs</li>
+<li><a class="reference internal" href="#operate">Operate</a> the outputs to drive a motor</li>
+<li><a class="reference internal" href="#adjust">Adjust</a> how the motor is driven</li>
+<li><a class="reference internal" href="#capture">Capture</a> external signals to provide additional control over the outputs</li>
+<li>Use <a class="reference internal" href="#fault-handler">Fault Handler</a> to detect and manage faults</li>
+<li>Add a higher frequency <a class="reference internal" href="#carrier">Carrier</a>, if output signals are passed through an isolation transformer</li>
+<li>Configuration and handling of <a class="reference internal" href="#interrupts">Interrupts</a>.</li>
+</ul>
+</div>
+<div class="section" id="configure">
+<h2>Configure<a class="headerlink" href="#configure" title="Permalink to this headline">¶</a></h2>
+<p>The scope of configuration depends on the motor type, in particular how many outputs and inputs are required, and what will be the sequence of signals to drive the motor.</p>
+<p>In this case we will describe a simple configuration to control a brushed DC motor that is using only some of the available MCPWM’s resources. An example circuit is shown below. It includes a <a class="reference external" href="https://en.wikipedia.org/wiki/H_bridge">H-Bridge</a> to switch polarization of a voltage applied to the motor (M) and to provide sufficient current to drive it.</p>
+<div class="align-center figure" id="id5">
+<img alt="Example of Brushed DC Motor Control with MCPWM" src="../../_images/mcpwm-brushed-dc-control.png" />
+<p class="caption"><span class="caption-text">Example of Brushed DC Motor Control with MCPWM</span></p>
+</div>
+<p>Configuration covers the following steps:</p>
+<ol class="arabic simple">
+<li>Selection of a MPWn unit that will be used to drive the motor. There are two units available on-board of ESP32 and enumerated in <a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mcpwm_unit_t</span></code></a>.</li>
+<li>Initialization of two GPIOs as output signals within selected unit by calling <a class="reference internal" href="#_CPPv415mcpwm_gpio_init12mcpwm_unit_t18mcpwm_io_signals_ti" title="mcpwm_gpio_init"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_gpio_init()</span></code></a>. The two output signals are typically used to command the motor to rotate right or left. All available signal options are listed in <a class="reference internal" href="#_CPPv418mcpwm_io_signals_t" title="mcpwm_io_signals_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mcpwm_io_signals_t</span></code></a>. To set more than a single pin at a time, use function <a class="reference internal" href="#_CPPv413mcpwm_set_pin12mcpwm_unit_tPK18mcpwm_pin_config_t" title="mcpwm_set_pin"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_set_pin()</span></code></a> together with <a class="reference internal" href="#_CPPv418mcpwm_pin_config_t" title="mcpwm_pin_config_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mcpwm_pin_config_t</span></code></a>.</li>
+<li>Selection of a timer. There are three timers available within the unit. The timers are listed in <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mcpwm_timer_t</span></code></a>.</li>
+<li>Setting of the timer frequency and initial duty within <a class="reference internal" href="#_CPPv414mcpwm_config_t" title="mcpwm_config_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mcpwm_config_t</span></code></a> structure.</li>
+<li>Calling of <a class="reference internal" href="#_CPPv410mcpwm_init12mcpwm_unit_t13mcpwm_timer_tPK14mcpwm_config_t" title="mcpwm_init"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_init()</span></code></a> with the above parameters to make the configuration effective.</li>
+</ol>
+</div>
+<div class="section" id="operate">
+<h2>Operate<a class="headerlink" href="#operate" title="Permalink to this headline">¶</a></h2>
+<p>To operate a motor connected to the MCPWM unit, e.g. turn it left or right, or vary the speed, we should apply some control signals to the unit’s outputs. The outputs are organized into three pairs. Within a pair they are labeled “A” and “B” and each driven by a submodule called an “Generator”. To provide a PWM signal, the Operator itself, which contains two Generator, should be clocked by one of three available Timers. To make the API simpler, each Timer is automatically associated by the API to drive an Operator of the same index, e.g. Timer 0 is associated with Operator 0.</p>
+<p>There are the following basic ways to control the outputs:</p>
+<ul class="simple">
+<li>We can drive particular signal steady high or steady low with function <a class="reference internal" href="#_CPPv421mcpwm_set_signal_high12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t" title="mcpwm_set_signal_high"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_set_signal_high()</span></code></a> or <a class="reference internal" href="#_CPPv420mcpwm_set_signal_low12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t" title="mcpwm_set_signal_low"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_set_signal_low()</span></code></a>. This will make the motor to turn with a maximum speed or stop. Depending on selected output A or B the motor will rotate either right or left.</li>
+<li>Another option is to drive the outputs with the PWM signal by calling <a class="reference internal" href="#_CPPv411mcpwm_start12mcpwm_unit_t13mcpwm_timer_t" title="mcpwm_start"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_start()</span></code></a> or <a class="reference internal" href="#_CPPv410mcpwm_stop12mcpwm_unit_t13mcpwm_timer_t" title="mcpwm_stop"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_stop()</span></code></a>. The motor speed will be proportional to the PWM duty.</li>
+<li>To vary PWM’s duty call <a class="reference internal" href="#_CPPv414mcpwm_set_duty12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_tf" title="mcpwm_set_duty"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_set_duty()</span></code></a> and provide the duty value in %. Optionally, you may call <a class="reference internal" href="#_CPPv420mcpwm_set_duty_in_us12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t8uint32_t" title="mcpwm_set_duty_in_us"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_set_duty_in_us()</span></code></a>, if you prefer to set the duty in microseconds. Checking of currently set value is possible by calling <a class="reference internal" href="#_CPPv414mcpwm_get_duty12mcpwm_unit_t13mcpwm_timer_t16mcpwm_operator_t" title="mcpwm_get_duty"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_get_duty()</span></code></a>. Phase of the PWM signal may be altered by calling <a class="reference internal" href="#_CPPv419mcpwm_set_duty_type12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t17mcpwm_duty_type_t" title="mcpwm_set_duty_type"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_set_duty_type()</span></code></a>. The duty is set individually for each A and B output using <a class="reference internal" href="#_CPPv417mcpwm_generator_t" title="mcpwm_generator_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mcpwm_generator_t</span></code></a> in specific function calls. The duty value refers either to high or low output signal duration. This is configured when calling <a class="reference internal" href="#_CPPv410mcpwm_init12mcpwm_unit_t13mcpwm_timer_tPK14mcpwm_config_t" title="mcpwm_init"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_init()</span></code></a>, as discussed in section <a class="reference internal" href="#configure">Configure</a>, and selecting one of options from <a class="reference internal" href="#_CPPv417mcpwm_duty_type_t" title="mcpwm_duty_type_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mcpwm_duty_type_t</span></code></a>.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Call function <a class="reference internal" href="#_CPPv419mcpwm_set_duty_type12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t17mcpwm_duty_type_t" title="mcpwm_set_duty_type"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_set_duty_type()</span></code></a> every time after <a class="reference internal" href="#_CPPv421mcpwm_set_signal_high12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t" title="mcpwm_set_signal_high"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_set_signal_high()</span></code></a> or <a class="reference internal" href="#_CPPv420mcpwm_set_signal_low12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t" title="mcpwm_set_signal_low"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_set_signal_low()</span></code></a> to resume with previously set duty cycle.</p>
+</div>
+</div>
+<div class="section" id="adjust">
+<h2>Adjust<a class="headerlink" href="#adjust" title="Permalink to this headline">¶</a></h2>
+<p>There are couple of ways to adjust a signal on the outputs and changing how the motor operates.</p>
+<ul class="simple">
+<li>Set specific PWM frequency by calling <a class="reference internal" href="#_CPPv419mcpwm_set_frequency12mcpwm_unit_t13mcpwm_timer_t8uint32_t" title="mcpwm_set_frequency"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_set_frequency()</span></code></a>. This may be required to adjust to electrical or mechanical characteristics of particular motor and driver. To check what frequency is set, use function <a class="reference internal" href="#_CPPv419mcpwm_get_frequency12mcpwm_unit_t13mcpwm_timer_t" title="mcpwm_get_frequency"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_get_frequency()</span></code></a>.</li>
+<li>Introduce a dead time between outputs A and B when they are changing the state to reverse direction of the motor rotation. This is to make up for on/off switching delay of the motor driver FETs. The dead time options are defined in <a class="reference internal" href="#_CPPv421mcpwm_deadtime_type_t" title="mcpwm_deadtime_type_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mcpwm_deadtime_type_t</span></code></a> and enabled by calling <a class="reference internal" href="#_CPPv421mcpwm_deadtime_enable12mcpwm_unit_t13mcpwm_timer_t21mcpwm_deadtime_type_t8uint32_t8uint32_t" title="mcpwm_deadtime_enable"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_deadtime_enable()</span></code></a>. To disable this functionality call <a class="reference internal" href="#_CPPv422mcpwm_deadtime_disable12mcpwm_unit_t13mcpwm_timer_t" title="mcpwm_deadtime_disable"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_deadtime_disable()</span></code></a>.</li>
+<li>Synchronize outputs of operator submodules, e.g. to get raising edge of PWM0A/B and PWM1A/B to start exactly at the same time, or shift them between each other by a given phase. Synchronization is triggered by <code class="docutils literal notranslate"><span class="pre">SYNC</span> <span class="pre">SIGNALS</span></code> shown on the <a class="reference internal" href="#mcpwm-block-diagram"><span class="std std-ref">block diagram</span></a> of the MCPWM above, and defined in <a class="reference internal" href="#_CPPv419mcpwm_sync_signal_t" title="mcpwm_sync_signal_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mcpwm_sync_signal_t</span></code></a>. To attach the signal to a GPIO call <a class="reference internal" href="#_CPPv415mcpwm_gpio_init12mcpwm_unit_t18mcpwm_io_signals_ti" title="mcpwm_gpio_init"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_gpio_init()</span></code></a>. You can then enable synchronization with function <a class="reference internal" href="#_CPPv417mcpwm_sync_enable12mcpwm_unit_t13mcpwm_timer_t19mcpwm_sync_signal_t8uint32_t" title="mcpwm_sync_enable"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_sync_enable()</span></code></a>. As input parameters provide MCPWM unit, timer to synchronize, the synchronization signal and a phase to delay the timer.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Synchronization signals are referred to using two different enumerations. First one <a class="reference internal" href="#_CPPv418mcpwm_io_signals_t" title="mcpwm_io_signals_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mcpwm_io_signals_t</span></code></a> is used together with function <a class="reference internal" href="#_CPPv415mcpwm_gpio_init12mcpwm_unit_t18mcpwm_io_signals_ti" title="mcpwm_gpio_init"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_gpio_init()</span></code></a> when selecting a GPIO as the signal input source. The second one <a class="reference internal" href="#_CPPv419mcpwm_sync_signal_t" title="mcpwm_sync_signal_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mcpwm_sync_signal_t</span></code></a> is used when enabling or disabling synchronization with <a class="reference internal" href="#_CPPv417mcpwm_sync_enable12mcpwm_unit_t13mcpwm_timer_t19mcpwm_sync_signal_t8uint32_t" title="mcpwm_sync_enable"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_sync_enable()</span></code></a> or <a class="reference internal" href="#_CPPv418mcpwm_sync_disable12mcpwm_unit_t13mcpwm_timer_t" title="mcpwm_sync_disable"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_sync_disable()</span></code></a>.</p>
+</div>
+<ul class="simple">
+<li>Vary the pattern of the A/B output signals by getting MCPWM counters to count up, down and up/down (automatically changing the count direction). Respective configuration is done when calling <a class="reference internal" href="#_CPPv410mcpwm_init12mcpwm_unit_t13mcpwm_timer_tPK14mcpwm_config_t" title="mcpwm_init"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_init()</span></code></a>, as discussed in section <a class="reference internal" href="#configure">Configure</a>, and selecting one of counter types from <a class="reference internal" href="#_CPPv420mcpwm_counter_type_t" title="mcpwm_counter_type_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mcpwm_counter_type_t</span></code></a>. For explanation of how A/B PWM output signals are generated please refer to <a class="reference external" href="https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf">ESP32 Technical Reference Manual</a>.</li>
+</ul>
+</div>
+<div class="section" id="capture">
+<h2>Capture<a class="headerlink" href="#capture" title="Permalink to this headline">¶</a></h2>
+<p>One of requirements of BLDC (Brushless DC, see figure below) motor control is sensing of the rotor position. To facilitate this task each MCPWM unit provides three sensing inputs together with dedicated hardware. The hardware is able to detect the input signal’s edge and measure time between signals. As result the control software is simpler and the CPU power may be used for other tasks.</p>
+<div class="align-center figure" id="id6">
+<img alt="Example of Brushless DC Motor Control with MCPWM" src="../../_images/mcpwm-bldc-control.png" />
+<p class="caption"><span class="caption-text">Example of Brushless DC Motor Control with MCPWM</span></p>
+</div>
+<p>The capture functionality may be used for other types of motors or tasks. The functionality is enabled in two steps:</p>
+<ol class="arabic simple">
+<li>Configuration of GPIOs to act as the capture signal inputs by calling functions <a class="reference internal" href="#_CPPv415mcpwm_gpio_init12mcpwm_unit_t18mcpwm_io_signals_ti" title="mcpwm_gpio_init"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_gpio_init()</span></code></a> or <a class="reference internal" href="#_CPPv413mcpwm_set_pin12mcpwm_unit_tPK18mcpwm_pin_config_t" title="mcpwm_set_pin"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_set_pin()</span></code></a>, that were described in section <a class="reference internal" href="#configure">Configure</a>.</li>
+<li>Enabling of the functionality itself by invoking <a class="reference internal" href="#_CPPv420mcpwm_capture_enable12mcpwm_unit_t22mcpwm_capture_signal_t23mcpwm_capture_on_edge_t8uint32_t" title="mcpwm_capture_enable"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_capture_enable()</span></code></a>, selecting desired signal input from <a class="reference internal" href="#_CPPv422mcpwm_capture_signal_t" title="mcpwm_capture_signal_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mcpwm_capture_signal_t</span></code></a>, setting the signal edge with <a class="reference internal" href="#_CPPv423mcpwm_capture_on_edge_t" title="mcpwm_capture_on_edge_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mcpwm_capture_on_edge_t</span></code></a> and the signal count prescaler.</li>
+</ol>
+<p>Within the second step above a 32-bit capture timer is enabled. The timer runs continuously driven by the APB clock. The clock frequency is typically 80 MHz. On each capture event the capture timer’s value is stored in time-stamp register that may be then checked by calling <a class="reference internal" href="#_CPPv430mcpwm_capture_signal_get_value12mcpwm_unit_t22mcpwm_capture_signal_t" title="mcpwm_capture_signal_get_value"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_capture_signal_get_value()</span></code></a>. The edge of the last signal may be checked with <a class="reference internal" href="#_CPPv429mcpwm_capture_signal_get_edge12mcpwm_unit_t22mcpwm_capture_signal_t" title="mcpwm_capture_signal_get_edge"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_capture_signal_get_edge()</span></code></a>.</p>
+<p>If not required anymore, the capture functionality may be disabled with <a class="reference internal" href="#_CPPv421mcpwm_capture_disable12mcpwm_unit_t22mcpwm_capture_signal_t" title="mcpwm_capture_disable"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_capture_disable()</span></code></a>.</p>
+</div>
+<div class="section" id="fault-handler">
+<h2>Fault Handler<a class="headerlink" href="#fault-handler" title="Permalink to this headline">¶</a></h2>
+<p>Each unit of the MCPWM is able to sense external signals with information about failure of the motor, the motor driver or any other device connected to the MCPWM. There are three fault inputs per unit that may be routed to user selectable GPIOs. The MCPWM may be configured to perform one of four predefined actions on A/B outputs when a fault signal is received:</p>
+<ul class="simple">
+<li>lock current state of the output</li>
+<li>set the output low</li>
+<li>set the output high</li>
+<li>toggle the output</li>
+</ul>
+<p>The user should determine possible failure modes of the motor and what action should be performed on detection of particular fault, e.g. drive all outputs low for a brushed motor, or lock current state for a stepper motor, etc. As result of this action the motor should be put into a safe state to reduce likelihood of a damage caused by the fault.</p>
+<p>The fault handler functionality is enabled in two steps:</p>
+<ol class="arabic simple">
+<li>Configuration of GPIOs to act as fault signal inputs. This is done in analogous way as described for capture signals in section above. It includes setting the signal level to trigger the fault as defined in <a class="reference internal" href="#_CPPv425mcpwm_fault_input_level_t" title="mcpwm_fault_input_level_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mcpwm_fault_input_level_t</span></code></a>.</li>
+<li>Initialization of the fault handler by calling either <a class="reference internal" href="#_CPPv428mcpwm_fault_set_oneshot_mode12mcpwm_unit_t13mcpwm_timer_t20mcpwm_fault_signal_t21mcpwm_output_action_t21mcpwm_output_action_t" title="mcpwm_fault_set_oneshot_mode"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_fault_set_oneshot_mode()</span></code></a> or <a class="reference internal" href="#_CPPv424mcpwm_fault_set_cyc_mode12mcpwm_unit_t13mcpwm_timer_t20mcpwm_fault_signal_t21mcpwm_output_action_t21mcpwm_output_action_t" title="mcpwm_fault_set_cyc_mode"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_fault_set_cyc_mode()</span></code></a>. These functions set the mode that MCPWM should operate once fault signal becomes inactive. There are two modes possible:</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>State of MCPWM unit will be locked until reset - <a class="reference internal" href="#_CPPv428mcpwm_fault_set_oneshot_mode12mcpwm_unit_t13mcpwm_timer_t20mcpwm_fault_signal_t21mcpwm_output_action_t21mcpwm_output_action_t" title="mcpwm_fault_set_oneshot_mode"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_fault_set_oneshot_mode()</span></code></a>.</li>
+<li>The MCPWM will resume operation once fault signal becoming inactive - <a class="reference internal" href="#_CPPv424mcpwm_fault_set_cyc_mode12mcpwm_unit_t13mcpwm_timer_t20mcpwm_fault_signal_t21mcpwm_output_action_t21mcpwm_output_action_t" title="mcpwm_fault_set_cyc_mode"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_fault_set_cyc_mode()</span></code></a>.</li>
+</ul>
+<p>The function call parameters include selection of one of three fault inputs defined in <a class="reference internal" href="#_CPPv420mcpwm_fault_signal_t" title="mcpwm_fault_signal_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mcpwm_fault_signal_t</span></code></a> and specific action on outputs A and B defined in <a class="reference internal" href="#_CPPv423mcpwm_action_on_pwmxa_t" title="mcpwm_action_on_pwmxa_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mcpwm_action_on_pwmxa_t</span></code></a> and <a class="reference internal" href="#_CPPv423mcpwm_action_on_pwmxb_t" title="mcpwm_action_on_pwmxb_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mcpwm_action_on_pwmxb_t</span></code></a>.</p>
+</div></blockquote>
+<p>Particular fault signal may be disabled at the runtime by calling <a class="reference internal" href="#_CPPv418mcpwm_fault_deinit12mcpwm_unit_t20mcpwm_fault_signal_t" title="mcpwm_fault_deinit"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_fault_deinit()</span></code></a>.</p>
+</div>
+<div class="section" id="carrier">
+<h2>Carrier<a class="headerlink" href="#carrier" title="Permalink to this headline">¶</a></h2>
+<p>The MCPWM has a carrier submodule used if galvanic isolation from the motor driver is required by passing the A/B output signals through transformers. Any of A and B output signals may be at 100% duty and not changing whenever motor is required to run steady at the full load. Coupling of non alternating signals with a transformer is problematic, so the signals are modulated by the carrier submodule to create an AC waveform, to make the coupling possible.</p>
+<p>To use the carrier submodule, it should be first initialized by calling <a class="reference internal" href="#_CPPv418mcpwm_carrier_init12mcpwm_unit_t13mcpwm_timer_tPK22mcpwm_carrier_config_t" title="mcpwm_carrier_init"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_carrier_init()</span></code></a>. The carrier parameters are defined in <a class="reference internal" href="#_CPPv422mcpwm_carrier_config_t" title="mcpwm_carrier_config_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mcpwm_carrier_config_t</span></code></a> structure invoked within the function call. Then the carrier functionality may be enabled by calling <a class="reference internal" href="#_CPPv420mcpwm_carrier_enable12mcpwm_unit_t13mcpwm_timer_t" title="mcpwm_carrier_enable"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_carrier_enable()</span></code></a>.</p>
+<p>The carrier parameters may be then alerted at a runtime by calling dedicated functions to change individual fields of the <a class="reference internal" href="#_CPPv422mcpwm_carrier_config_t" title="mcpwm_carrier_config_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mcpwm_carrier_config_t</span></code></a> structure, like <a class="reference internal" href="#_CPPv424mcpwm_carrier_set_period12mcpwm_unit_t13mcpwm_timer_t7uint8_t" title="mcpwm_carrier_set_period"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_carrier_set_period()</span></code></a>, <a class="reference internal" href="#_CPPv428mcpwm_carrier_set_duty_cycle12mcpwm_unit_t13mcpwm_timer_t7uint8_t" title="mcpwm_carrier_set_duty_cycle"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_carrier_set_duty_cycle()</span></code></a>, <a class="reference internal" href="#_CPPv427mcpwm_carrier_output_invert12mcpwm_unit_t13mcpwm_timer_t23mcpwm_carrier_out_ivt_t" title="mcpwm_carrier_output_invert"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_carrier_output_invert()</span></code></a>, etc.</p>
+<p>This includes enabling and setting duration of the first pulse of the career with <a class="reference internal" href="#_CPPv433mcpwm_carrier_oneshot_mode_enable12mcpwm_unit_t13mcpwm_timer_t7uint8_t" title="mcpwm_carrier_oneshot_mode_enable"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_carrier_oneshot_mode_enable()</span></code></a>. For more details please refer to “PWM Carrier Submodule” section of the <a class="reference external" href="https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf">ESP32 Technical Reference Manual</a>.</p>
+<p>To disable carrier functionality call <a class="reference internal" href="#_CPPv421mcpwm_carrier_disable12mcpwm_unit_t13mcpwm_timer_t" title="mcpwm_carrier_disable"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_carrier_disable()</span></code></a>.</p>
+</div>
+<div class="section" id="interrupts">
+<h2>Interrupts<a class="headerlink" href="#interrupts" title="Permalink to this headline">¶</a></h2>
+<p>Registering of the MCPWM interrupt handler is possible by calling <a class="reference internal" href="#_CPPv418mcpwm_isr_register12mcpwm_unit_tPFvPvEPviP13intr_handle_t" title="mcpwm_isr_register"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mcpwm_isr_register()</span></code></a>.</p>
+</div>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<p>Examples of using MCPWM for motor control: <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/mcpwm">peripherals/mcpwm</a>:</p>
+<ul class="simple">
+<li>Demonstration how to use each submodule of the MCPWM - <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/mcpwm/mcpwm_basic_config">peripherals/mcpwm/mcpwm_basic_config</a></li>
+<li>Control of BLDC (brushless DC) motor with hall sensor feedback - <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/mcpwm/mcpwm_bldc_control">peripherals/mcpwm/mcpwm_bldc_control</a></li>
+<li>Brushed DC motor control - <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/mcpwm/mcpwm_brushed_dc_control">peripherals/mcpwm/mcpwm_brushed_dc_control</a></li>
+<li>Servo motor control - <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/mcpwm/mcpwm_servo_control">peripherals/mcpwm/mcpwm_servo_control</a></li>
+</ul>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/soc/include/hal/mcpwm_types.h">soc/include/hal/mcpwm_types.h</a></li>
+</ul>
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv412mcpwm_intr_t">
+<span id="_CPPv312mcpwm_intr_t"></span><span id="_CPPv212mcpwm_intr_t"></span><span id="mcpwm_intr_t"></span><span class="target" id="mcpwm__types_8h_1a3f3890323e2c84c1c01b4d570b6216fd"></span><em class="property">enum </em><code class="descname">mcpwm_intr_t</code><a class="headerlink" href="#_CPPv412mcpwm_intr_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Interrupts for MCPWM. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv418MCPWM_LL_INTR_CAP0">
+<span id="_CPPv318MCPWM_LL_INTR_CAP0"></span><span id="_CPPv218MCPWM_LL_INTR_CAP0"></span><span class="target" id="mcpwm__types_8h_1a3f3890323e2c84c1c01b4d570b6216fdadb6ffe1048a51c036378422ec3b0bec7"></span><code class="descname">MCPWM_LL_INTR_CAP0</code> = BIT(27)<a class="headerlink" href="#_CPPv418MCPWM_LL_INTR_CAP0" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Capture 0 happened. </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv418MCPWM_LL_INTR_CAP1">
+<span id="_CPPv318MCPWM_LL_INTR_CAP1"></span><span id="_CPPv218MCPWM_LL_INTR_CAP1"></span><span class="target" id="mcpwm__types_8h_1a3f3890323e2c84c1c01b4d570b6216fdaf88079ad5eabf117ff0d10dcd4630506"></span><code class="descname">MCPWM_LL_INTR_CAP1</code> = BIT(28)<a class="headerlink" href="#_CPPv418MCPWM_LL_INTR_CAP1" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Capture 1 happened. </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv418MCPWM_LL_INTR_CAP2">
+<span id="_CPPv318MCPWM_LL_INTR_CAP2"></span><span id="_CPPv218MCPWM_LL_INTR_CAP2"></span><span class="target" id="mcpwm__types_8h_1a3f3890323e2c84c1c01b4d570b6216fda8cf01435366545164ae73a76ce8aa5e0"></span><code class="descname">MCPWM_LL_INTR_CAP2</code> = BIT(29)<a class="headerlink" href="#_CPPv418MCPWM_LL_INTR_CAP2" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Capture 2 happened. </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv420mcpwm_counter_type_t">
+<span id="_CPPv320mcpwm_counter_type_t"></span><span id="_CPPv220mcpwm_counter_type_t"></span><span id="mcpwm_counter_type_t"></span><span class="target" id="mcpwm__types_8h_1a6ac3506625317ae340fd60d366b4a0b0"></span><em class="property">enum </em><code class="descname">mcpwm_counter_type_t</code><a class="headerlink" href="#_CPPv420mcpwm_counter_type_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Select type of MCPWM counter. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv416MCPWM_UP_COUNTER">
+<span id="_CPPv316MCPWM_UP_COUNTER"></span><span id="_CPPv216MCPWM_UP_COUNTER"></span><span class="target" id="mcpwm__types_8h_1a6ac3506625317ae340fd60d366b4a0b0a87afac4a8c1a93dcd0d3314678ed5059"></span><code class="descname">MCPWM_UP_COUNTER</code> = 1<a class="headerlink" href="#_CPPv416MCPWM_UP_COUNTER" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For asymmetric MCPWM </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv418MCPWM_DOWN_COUNTER">
+<span id="_CPPv318MCPWM_DOWN_COUNTER"></span><span id="_CPPv218MCPWM_DOWN_COUNTER"></span><span class="target" id="mcpwm__types_8h_1a6ac3506625317ae340fd60d366b4a0b0a557650099ee7b63e84dae7ce93f1d1bb"></span><code class="descname">MCPWM_DOWN_COUNTER</code><a class="headerlink" href="#_CPPv418MCPWM_DOWN_COUNTER" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For asymmetric MCPWM </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv421MCPWM_UP_DOWN_COUNTER">
+<span id="_CPPv321MCPWM_UP_DOWN_COUNTER"></span><span id="_CPPv221MCPWM_UP_DOWN_COUNTER"></span><span class="target" id="mcpwm__types_8h_1a6ac3506625317ae340fd60d366b4a0b0a0be847ce98b24bddcdfafe1fc9ad583f"></span><code class="descname">MCPWM_UP_DOWN_COUNTER</code><a class="headerlink" href="#_CPPv421MCPWM_UP_DOWN_COUNTER" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For symmetric MCPWM, frequency is half of MCPWM frequency set </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv417MCPWM_COUNTER_MAX">
+<span id="_CPPv317MCPWM_COUNTER_MAX"></span><span id="_CPPv217MCPWM_COUNTER_MAX"></span><span class="target" id="mcpwm__types_8h_1a6ac3506625317ae340fd60d366b4a0b0acd43023146a5263ca408557e841c040a"></span><code class="descname">MCPWM_COUNTER_MAX</code><a class="headerlink" href="#_CPPv417MCPWM_COUNTER_MAX" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Maximum counter mode </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv417mcpwm_duty_type_t">
+<span id="_CPPv317mcpwm_duty_type_t"></span><span id="_CPPv217mcpwm_duty_type_t"></span><span id="mcpwm_duty_type_t"></span><span class="target" id="mcpwm__types_8h_1a36c0c0c3581ef0f99db0b9529592c1bd"></span><em class="property">enum </em><code class="descname">mcpwm_duty_type_t</code><a class="headerlink" href="#_CPPv417mcpwm_duty_type_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Select type of MCPWM duty cycle mode. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv417MCPWM_DUTY_MODE_0">
+<span id="_CPPv317MCPWM_DUTY_MODE_0"></span><span id="_CPPv217MCPWM_DUTY_MODE_0"></span><span class="target" id="mcpwm__types_8h_1a36c0c0c3581ef0f99db0b9529592c1bda3d59519f866c4e158b7a87845eb8a6b5"></span><code class="descname">MCPWM_DUTY_MODE_0</code> = 0<a class="headerlink" href="#_CPPv417MCPWM_DUTY_MODE_0" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Active high duty, i.e. duty cycle proportional to high time for asymmetric MCPWM </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv417MCPWM_DUTY_MODE_1">
+<span id="_CPPv317MCPWM_DUTY_MODE_1"></span><span id="_CPPv217MCPWM_DUTY_MODE_1"></span><span class="target" id="mcpwm__types_8h_1a36c0c0c3581ef0f99db0b9529592c1bda268587e1d115a342d3cb25795c9dc4a5"></span><code class="descname">MCPWM_DUTY_MODE_1</code><a class="headerlink" href="#_CPPv417MCPWM_DUTY_MODE_1" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Active low duty, i.e. duty cycle proportional to low time for asymmetric MCPWM, out of phase(inverted) MCPWM </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv434MCPWM_HAL_GENERATOR_MODE_FORCE_LOW">
+<span id="_CPPv334MCPWM_HAL_GENERATOR_MODE_FORCE_LOW"></span><span id="_CPPv234MCPWM_HAL_GENERATOR_MODE_FORCE_LOW"></span><span class="target" id="mcpwm__types_8h_1a36c0c0c3581ef0f99db0b9529592c1bda3fdf3bf3bbeaa59dfbf23e079a83248b"></span><code class="descname">MCPWM_HAL_GENERATOR_MODE_FORCE_LOW</code><a class="headerlink" href="#_CPPv434MCPWM_HAL_GENERATOR_MODE_FORCE_LOW" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv435MCPWM_HAL_GENERATOR_MODE_FORCE_HIGH">
+<span id="_CPPv335MCPWM_HAL_GENERATOR_MODE_FORCE_HIGH"></span><span id="_CPPv235MCPWM_HAL_GENERATOR_MODE_FORCE_HIGH"></span><span class="target" id="mcpwm__types_8h_1a36c0c0c3581ef0f99db0b9529592c1bda9c99b603c2da58c43d721732b6a0ff51"></span><code class="descname">MCPWM_HAL_GENERATOR_MODE_FORCE_HIGH</code><a class="headerlink" href="#_CPPv435MCPWM_HAL_GENERATOR_MODE_FORCE_HIGH" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv419MCPWM_DUTY_MODE_MAX">
+<span id="_CPPv319MCPWM_DUTY_MODE_MAX"></span><span id="_CPPv219MCPWM_DUTY_MODE_MAX"></span><span class="target" id="mcpwm__types_8h_1a36c0c0c3581ef0f99db0b9529592c1bda86d378e2fd16b1970625a97f2c6d56c0"></span><code class="descname">MCPWM_DUTY_MODE_MAX</code><a class="headerlink" href="#_CPPv419MCPWM_DUTY_MODE_MAX" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Num of duty cycle modes </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv421mcpwm_output_action_t">
+<span id="_CPPv321mcpwm_output_action_t"></span><span id="_CPPv221mcpwm_output_action_t"></span><span id="mcpwm_output_action_t"></span><span class="target" id="mcpwm__types_8h_1a26e292f759193f65a7aa34fc49f2c485"></span><em class="property">enum </em><code class="descname">mcpwm_output_action_t</code><a class="headerlink" href="#_CPPv421mcpwm_output_action_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWM select action to be taken on the output when event happens. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv422MCPWM_ACTION_NO_CHANGE">
+<span id="_CPPv322MCPWM_ACTION_NO_CHANGE"></span><span id="_CPPv222MCPWM_ACTION_NO_CHANGE"></span><span class="target" id="mcpwm__types_8h_1a26e292f759193f65a7aa34fc49f2c485a8ba98498cabbbeaff4532d2d6027597b"></span><code class="descname">MCPWM_ACTION_NO_CHANGE</code> = 0<a class="headerlink" href="#_CPPv422MCPWM_ACTION_NO_CHANGE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>No change in the output </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv422MCPWM_ACTION_FORCE_LOW">
+<span id="_CPPv322MCPWM_ACTION_FORCE_LOW"></span><span id="_CPPv222MCPWM_ACTION_FORCE_LOW"></span><span class="target" id="mcpwm__types_8h_1a26e292f759193f65a7aa34fc49f2c485ad79a6a6a5a4d96faad894bb1ecd84724"></span><code class="descname">MCPWM_ACTION_FORCE_LOW</code><a class="headerlink" href="#_CPPv422MCPWM_ACTION_FORCE_LOW" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Make output low </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423MCPWM_ACTION_FORCE_HIGH">
+<span id="_CPPv323MCPWM_ACTION_FORCE_HIGH"></span><span id="_CPPv223MCPWM_ACTION_FORCE_HIGH"></span><span class="target" id="mcpwm__types_8h_1a26e292f759193f65a7aa34fc49f2c485ae94ebc5fa2af249919d9f98ad03205ea"></span><code class="descname">MCPWM_ACTION_FORCE_HIGH</code><a class="headerlink" href="#_CPPv423MCPWM_ACTION_FORCE_HIGH" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Make output high </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv419MCPWM_ACTION_TOGGLE">
+<span id="_CPPv319MCPWM_ACTION_TOGGLE"></span><span id="_CPPv219MCPWM_ACTION_TOGGLE"></span><span class="target" id="mcpwm__types_8h_1a26e292f759193f65a7aa34fc49f2c485ac9c3c43e87cb6f690774c05c800d90c6"></span><code class="descname">MCPWM_ACTION_TOGGLE</code><a class="headerlink" href="#_CPPv419MCPWM_ACTION_TOGGLE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Make output toggle </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv421mcpwm_deadtime_type_t">
+<span id="_CPPv321mcpwm_deadtime_type_t"></span><span id="_CPPv221mcpwm_deadtime_type_t"></span><span id="mcpwm_deadtime_type_t"></span><span class="target" id="mcpwm__types_8h_1ad226f7e23053987b51ab8b39f03ebe62"></span><em class="property">enum </em><code class="descname">mcpwm_deadtime_type_t</code><a class="headerlink" href="#_CPPv421mcpwm_deadtime_type_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWM deadtime types, used to generate deadtime, RED refers to rising edge delay and FED refers to falling edge delay. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv421MCPWM_DEADTIME_BYPASS">
+<span id="_CPPv321MCPWM_DEADTIME_BYPASS"></span><span id="_CPPv221MCPWM_DEADTIME_BYPASS"></span><span class="target" id="mcpwm__types_8h_1ad226f7e23053987b51ab8b39f03ebe62a53c9af245923546cf5b47c5dff49044d"></span><code class="descname">MCPWM_DEADTIME_BYPASS</code> = 0<a class="headerlink" href="#_CPPv421MCPWM_DEADTIME_BYPASS" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bypass the deadtime </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv416MCPWM_BYPASS_RED">
+<span id="_CPPv316MCPWM_BYPASS_RED"></span><span id="_CPPv216MCPWM_BYPASS_RED"></span><span class="target" id="mcpwm__types_8h_1ad226f7e23053987b51ab8b39f03ebe62a875b2834fd97548f83564791be0e4e71"></span><code class="descname">MCPWM_BYPASS_RED</code><a class="headerlink" href="#_CPPv416MCPWM_BYPASS_RED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWMXA = no change, MCPWMXB = falling edge delay </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv416MCPWM_BYPASS_FED">
+<span id="_CPPv316MCPWM_BYPASS_FED"></span><span id="_CPPv216MCPWM_BYPASS_FED"></span><span class="target" id="mcpwm__types_8h_1ad226f7e23053987b51ab8b39f03ebe62a205f8ab16fa02231a0fdd58f3a14c9dd"></span><code class="descname">MCPWM_BYPASS_FED</code><a class="headerlink" href="#_CPPv416MCPWM_BYPASS_FED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWMXA = rising edge delay, MCPWMXB = no change </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv422MCPWM_ACTIVE_HIGH_MODE">
+<span id="_CPPv322MCPWM_ACTIVE_HIGH_MODE"></span><span id="_CPPv222MCPWM_ACTIVE_HIGH_MODE"></span><span class="target" id="mcpwm__types_8h_1ad226f7e23053987b51ab8b39f03ebe62ac527f51a7d30ab519bc50d4a19463c14"></span><code class="descname">MCPWM_ACTIVE_HIGH_MODE</code><a class="headerlink" href="#_CPPv422MCPWM_ACTIVE_HIGH_MODE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWMXA = rising edge delay, MCPWMXB = falling edge delay </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv421MCPWM_ACTIVE_LOW_MODE">
+<span id="_CPPv321MCPWM_ACTIVE_LOW_MODE"></span><span id="_CPPv221MCPWM_ACTIVE_LOW_MODE"></span><span class="target" id="mcpwm__types_8h_1ad226f7e23053987b51ab8b39f03ebe62a00e9865cb18629a8d0b76f00b8d912c3"></span><code class="descname">MCPWM_ACTIVE_LOW_MODE</code><a class="headerlink" href="#_CPPv421MCPWM_ACTIVE_LOW_MODE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWMXA = compliment of rising edge delay, MCPWMXB = compliment of falling edge delay </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv433MCPWM_ACTIVE_HIGH_COMPLIMENT_MODE">
+<span id="_CPPv333MCPWM_ACTIVE_HIGH_COMPLIMENT_MODE"></span><span id="_CPPv233MCPWM_ACTIVE_HIGH_COMPLIMENT_MODE"></span><span class="target" id="mcpwm__types_8h_1ad226f7e23053987b51ab8b39f03ebe62acd6c443b2d0d1b2e86b3bfdcf0b905a8"></span><code class="descname">MCPWM_ACTIVE_HIGH_COMPLIMENT_MODE</code><a class="headerlink" href="#_CPPv433MCPWM_ACTIVE_HIGH_COMPLIMENT_MODE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWMXA = rising edge delay, MCPWMXB = compliment of falling edge delay </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv432MCPWM_ACTIVE_LOW_COMPLIMENT_MODE">
+<span id="_CPPv332MCPWM_ACTIVE_LOW_COMPLIMENT_MODE"></span><span id="_CPPv232MCPWM_ACTIVE_LOW_COMPLIMENT_MODE"></span><span class="target" id="mcpwm__types_8h_1ad226f7e23053987b51ab8b39f03ebe62a6320216fc40845edfc74cca7db957b12"></span><code class="descname">MCPWM_ACTIVE_LOW_COMPLIMENT_MODE</code><a class="headerlink" href="#_CPPv432MCPWM_ACTIVE_LOW_COMPLIMENT_MODE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWMXA = compliment of rising edge delay, MCPWMXB = falling edge delay </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv431MCPWM_ACTIVE_RED_FED_FROM_PWMXA">
+<span id="_CPPv331MCPWM_ACTIVE_RED_FED_FROM_PWMXA"></span><span id="_CPPv231MCPWM_ACTIVE_RED_FED_FROM_PWMXA"></span><span class="target" id="mcpwm__types_8h_1ad226f7e23053987b51ab8b39f03ebe62a8e799334769ba9d17c2db33f2c072e83"></span><code class="descname">MCPWM_ACTIVE_RED_FED_FROM_PWMXA</code><a class="headerlink" href="#_CPPv431MCPWM_ACTIVE_RED_FED_FROM_PWMXA" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWMXA = MCPWMXB = rising edge delay as well as falling edge delay, generated from MCPWMXA </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv431MCPWM_ACTIVE_RED_FED_FROM_PWMXB">
+<span id="_CPPv331MCPWM_ACTIVE_RED_FED_FROM_PWMXB"></span><span id="_CPPv231MCPWM_ACTIVE_RED_FED_FROM_PWMXB"></span><span class="target" id="mcpwm__types_8h_1ad226f7e23053987b51ab8b39f03ebe62af79bb42a93f2fe4f1fab6df3b71df241"></span><code class="descname">MCPWM_ACTIVE_RED_FED_FROM_PWMXB</code><a class="headerlink" href="#_CPPv431MCPWM_ACTIVE_RED_FED_FROM_PWMXB" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWMXA = MCPWMXB = rising edge delay as well as falling edge delay, generated from MCPWMXB </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423MCPWM_DEADTIME_TYPE_MAX">
+<span id="_CPPv323MCPWM_DEADTIME_TYPE_MAX"></span><span id="_CPPv223MCPWM_DEADTIME_TYPE_MAX"></span><span class="target" id="mcpwm__types_8h_1ad226f7e23053987b51ab8b39f03ebe62ac1c051098a485f99e81bdd066981aebf"></span><code class="descname">MCPWM_DEADTIME_TYPE_MAX</code><a class="headerlink" href="#_CPPv423MCPWM_DEADTIME_TYPE_MAX" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv419mcpwm_sync_signal_t">
+<span id="_CPPv319mcpwm_sync_signal_t"></span><span id="_CPPv219mcpwm_sync_signal_t"></span><span id="mcpwm_sync_signal_t"></span><span class="target" id="mcpwm__types_8h_1acc3758c3a3f69aa416212277a9e523c9"></span><em class="property">enum </em><code class="descname">mcpwm_sync_signal_t</code><a class="headerlink" href="#_CPPv419mcpwm_sync_signal_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWM select sync signal input. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv418MCPWM_SELECT_SYNC0">
+<span id="_CPPv318MCPWM_SELECT_SYNC0"></span><span id="_CPPv218MCPWM_SELECT_SYNC0"></span><span class="target" id="mcpwm__types_8h_1acc3758c3a3f69aa416212277a9e523c9a87b94a37782e18ce4119e4a6497562ef"></span><code class="descname">MCPWM_SELECT_SYNC0</code> = 4<a class="headerlink" href="#_CPPv418MCPWM_SELECT_SYNC0" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Select SYNC0 as input </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv418MCPWM_SELECT_SYNC1">
+<span id="_CPPv318MCPWM_SELECT_SYNC1"></span><span id="_CPPv218MCPWM_SELECT_SYNC1"></span><span class="target" id="mcpwm__types_8h_1acc3758c3a3f69aa416212277a9e523c9a46bb787c00d102cd64361d20a4ab9606"></span><code class="descname">MCPWM_SELECT_SYNC1</code><a class="headerlink" href="#_CPPv418MCPWM_SELECT_SYNC1" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Select SYNC1 as input </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv418MCPWM_SELECT_SYNC2">
+<span id="_CPPv318MCPWM_SELECT_SYNC2"></span><span id="_CPPv218MCPWM_SELECT_SYNC2"></span><span class="target" id="mcpwm__types_8h_1acc3758c3a3f69aa416212277a9e523c9a0458a16861f3da2a1299315e4e4aee05"></span><code class="descname">MCPWM_SELECT_SYNC2</code><a class="headerlink" href="#_CPPv418MCPWM_SELECT_SYNC2" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Select SYNC2 as input </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv423mcpwm_capture_on_edge_t">
+<span id="_CPPv323mcpwm_capture_on_edge_t"></span><span id="_CPPv223mcpwm_capture_on_edge_t"></span><span id="mcpwm_capture_on_edge_t"></span><span class="target" id="mcpwm__types_8h_1aed6ccd667aa705dc57fc9b2aa14b534e"></span><em class="property">enum </em><code class="descname">mcpwm_capture_on_edge_t</code><a class="headerlink" href="#_CPPv423mcpwm_capture_on_edge_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWM select capture starts from which edge. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv414MCPWM_NEG_EDGE">
+<span id="_CPPv314MCPWM_NEG_EDGE"></span><span id="_CPPv214MCPWM_NEG_EDGE"></span><span class="target" id="mcpwm__types_8h_1aed6ccd667aa705dc57fc9b2aa14b534eae23aeaeb55dee539d7f15d91a7a7544c"></span><code class="descname">MCPWM_NEG_EDGE</code> = BIT(0)<a class="headerlink" href="#_CPPv414MCPWM_NEG_EDGE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Capture the negative edge </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414MCPWM_POS_EDGE">
+<span id="_CPPv314MCPWM_POS_EDGE"></span><span id="_CPPv214MCPWM_POS_EDGE"></span><span class="target" id="mcpwm__types_8h_1aed6ccd667aa705dc57fc9b2aa14b534eae006fedfac5468db09477be480652c72"></span><code class="descname">MCPWM_POS_EDGE</code> = BIT(1)<a class="headerlink" href="#_CPPv414MCPWM_POS_EDGE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Capture the positive edge </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="id1">
+<h3>Header File<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/driver/include/driver/mcpwm.h">driver/include/driver/mcpwm.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>doxygenfunction: Unable to resolve multiple matches for function “_Static_assert” with arguments () in doxygen xml output for project “esp32-idf” from directory: xml_in/.
+Potential matches:
+</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">_Static_assert</span><span class="p">(</span><span class="n">MCPWM_UNIT_MAX</span><span class="p">,</span> <span class="s2">&quot;MCPWM unit number not equal to chip capabilities&quot;</span><span class="p">)</span>
+<span class="o">-</span> <span class="n">_Static_assert</span><span class="p">(</span><span class="n">sizeof</span><span class="p">(</span> <span class="n">ulp_insn_t</span> <span class="p">),</span> <span class="s2">&quot;ULP coprocessor instruction size should be 4 bytes&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<dl class="function">
+<dt id="_CPPv415mcpwm_gpio_init12mcpwm_unit_t18mcpwm_io_signals_ti">
+<span id="_CPPv315mcpwm_gpio_init12mcpwm_unit_t18mcpwm_io_signals_ti"></span><span id="_CPPv215mcpwm_gpio_init12mcpwm_unit_t18mcpwm_io_signals_ti"></span><span id="mcpwm_gpio_init__mcpwm_unit_t.mcpwm_io_signals_t.i"></span><span class="target" id="mcpwm_8h_1adacf7a12847d66037c24088fad46c745"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_gpio_init</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv418mcpwm_io_signals_t" title="mcpwm_io_signals_t">mcpwm_io_signals_t</a> <em>io_signal</em>, int <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415mcpwm_gpio_init12mcpwm_unit_t18mcpwm_io_signals_ti" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function initializes each gpio signal for MCPWM. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This function initializes one gpio at a time.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">io_signal</span></code>: set MCPWM signals, each MCPWM unit has 6 output(MCPWMXA, MCPWMXB) and 9 input(SYNC_X, FAULT_X, CAP_X) ‘X’ is timer_num(0-2) </li>
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: set this to configure gpio for MCPWM, if you want to use gpio16, gpio_num = 16</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv413mcpwm_set_pin12mcpwm_unit_tPK18mcpwm_pin_config_t">
+<span id="_CPPv313mcpwm_set_pin12mcpwm_unit_tPK18mcpwm_pin_config_t"></span><span id="_CPPv213mcpwm_set_pin12mcpwm_unit_tPK18mcpwm_pin_config_t"></span><span id="mcpwm_set_pin__mcpwm_unit_t.mcpwm_pin_config_tCP"></span><span class="target" id="mcpwm_8h_1a9396d75e2dd63d9e6cafba9432069ffa"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_set_pin</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv418mcpwm_pin_config_t" title="mcpwm_pin_config_t">mcpwm_pin_config_t</a> *<em>mcpwm_pin</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413mcpwm_set_pin12mcpwm_unit_tPK18mcpwm_pin_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize MCPWM gpio structure. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This function can be used to initialize more then one gpio at a time.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_pin</span></code>: MCPWM pin structure</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv410mcpwm_init12mcpwm_unit_t13mcpwm_timer_tPK14mcpwm_config_t">
+<span id="_CPPv310mcpwm_init12mcpwm_unit_t13mcpwm_timer_tPK14mcpwm_config_t"></span><span id="_CPPv210mcpwm_init12mcpwm_unit_t13mcpwm_timer_tPK14mcpwm_config_t"></span><span id="mcpwm_init__mcpwm_unit_t.mcpwm_timer_t.mcpwm_config_tCP"></span><span class="target" id="mcpwm_8h_1a0aa74c9279b839e128a49f7c84aba575"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_init</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv414mcpwm_config_t" title="mcpwm_config_t">mcpwm_config_t</a> *<em>mcpwm_conf</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv410mcpwm_init12mcpwm_unit_t13mcpwm_timer_tPK14mcpwm_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize MCPWM parameters. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers. </li>
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_conf</span></code>: configure structure <a class="reference internal" href="#structmcpwm__config__t"><span class="std std-ref">mcpwm_config_t</span></a></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419mcpwm_set_frequency12mcpwm_unit_t13mcpwm_timer_t8uint32_t">
+<span id="_CPPv319mcpwm_set_frequency12mcpwm_unit_t13mcpwm_timer_t8uint32_t"></span><span id="_CPPv219mcpwm_set_frequency12mcpwm_unit_t13mcpwm_timer_t8uint32_t"></span><span id="mcpwm_set_frequency__mcpwm_unit_t.mcpwm_timer_t.uint32_t"></span><span class="target" id="mcpwm_8h_1a7606a5e4da4551ea7fcb5dfbe7bd51bc"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_set_frequency</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em>, uint32_t <em>frequency</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419mcpwm_set_frequency12mcpwm_unit_t13mcpwm_timer_t8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set frequency(in Hz) of MCPWM timer. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers </li>
+<li><code class="docutils literal notranslate"><span class="pre">frequency</span></code>: set the frequency in Hz of each timer</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414mcpwm_set_duty12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_tf">
+<span id="_CPPv314mcpwm_set_duty12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_tf"></span><span id="_CPPv214mcpwm_set_duty12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_tf"></span><span id="mcpwm_set_duty__mcpwm_unit_t.mcpwm_timer_t.mcpwm_generator_t.float"></span><span class="target" id="mcpwm_8h_1ad834e7a3cb8ab1d41155bdce14df84e1"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_set_duty</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em>, <a class="reference internal" href="#_CPPv417mcpwm_generator_t" title="mcpwm_generator_t">mcpwm_generator_t</a> <em>gen</em>, float <em>duty</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414mcpwm_set_duty12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_tf" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set duty cycle of each operator(MCPWMXA/MCPWMXB) </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers </li>
+<li><code class="docutils literal notranslate"><span class="pre">gen</span></code>: set the generator(MCPWMXA/MCPWMXB), ‘X’ is operator number selected </li>
+<li><code class="docutils literal notranslate"><span class="pre">duty</span></code>: set duty cycle in %(i.e for 62.3% duty cycle, duty = 62.3) of each operator</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420mcpwm_set_duty_in_us12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t8uint32_t">
+<span id="_CPPv320mcpwm_set_duty_in_us12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t8uint32_t"></span><span id="_CPPv220mcpwm_set_duty_in_us12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t8uint32_t"></span><span id="mcpwm_set_duty_in_us__mcpwm_unit_t.mcpwm_timer_t.mcpwm_generator_t.uint32_t"></span><span class="target" id="mcpwm_8h_1ac46544f372c3394fc21b28b5298c260d"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_set_duty_in_us</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em>, <a class="reference internal" href="#_CPPv417mcpwm_generator_t" title="mcpwm_generator_t">mcpwm_generator_t</a> <em>gen</em>, uint32_t <em>duty_in_us</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420mcpwm_set_duty_in_us12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set duty cycle of each operator(MCPWMXA/MCPWMXB) in us. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers </li>
+<li><code class="docutils literal notranslate"><span class="pre">gen</span></code>: set the generator(MCPWMXA/MCPWMXB), ‘x’ is operator number selected </li>
+<li><code class="docutils literal notranslate"><span class="pre">duty_in_us</span></code>: set duty value in microseconds of each operator</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419mcpwm_set_duty_type12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t17mcpwm_duty_type_t">
+<span id="_CPPv319mcpwm_set_duty_type12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t17mcpwm_duty_type_t"></span><span id="_CPPv219mcpwm_set_duty_type12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t17mcpwm_duty_type_t"></span><span id="mcpwm_set_duty_type__mcpwm_unit_t.mcpwm_timer_t.mcpwm_generator_t.mcpwm_duty_type_t"></span><span class="target" id="mcpwm_8h_1a8af7ea253399d1c160a27da1d4991758"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_set_duty_type</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em>, <a class="reference internal" href="#_CPPv417mcpwm_generator_t" title="mcpwm_generator_t">mcpwm_generator_t</a> <em>gen</em>, <a class="reference internal" href="#_CPPv417mcpwm_duty_type_t" title="mcpwm_duty_type_t">mcpwm_duty_type_t</a> <em>duty_type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419mcpwm_set_duty_type12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t17mcpwm_duty_type_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set duty either active high or active low(out of phase/inverted) </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Call this function every time after mcpwm_set_signal_high or mcpwm_set_signal_low to resume with previously set duty cycle</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers </li>
+<li><code class="docutils literal notranslate"><span class="pre">gen</span></code>: set the generator(MCPWMXA/MCPWMXB), ‘x’ is operator number selected </li>
+<li><code class="docutils literal notranslate"><span class="pre">duty_type</span></code>: set active low or active high duty type</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419mcpwm_get_frequency12mcpwm_unit_t13mcpwm_timer_t">
+<span id="_CPPv319mcpwm_get_frequency12mcpwm_unit_t13mcpwm_timer_t"></span><span id="_CPPv219mcpwm_get_frequency12mcpwm_unit_t13mcpwm_timer_t"></span><span id="mcpwm_get_frequency__mcpwm_unit_t.mcpwm_timer_t"></span><span class="target" id="mcpwm_8h_1a10b9f857132b6a4a2e22a57b03037148"></span>uint32_t <code class="descname">mcpwm_get_frequency</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419mcpwm_get_frequency12mcpwm_unit_t13mcpwm_timer_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get frequency of timer. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>frequency of timer </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414mcpwm_get_duty12mcpwm_unit_t13mcpwm_timer_t16mcpwm_operator_t">
+<span id="_CPPv314mcpwm_get_duty12mcpwm_unit_t13mcpwm_timer_t16mcpwm_operator_t"></span><span id="_CPPv214mcpwm_get_duty12mcpwm_unit_t13mcpwm_timer_t16mcpwm_operator_t"></span><span id="mcpwm_get_duty__mcpwm_unit_t.mcpwm_timer_t.mcpwm_operator_t"></span><span class="target" id="mcpwm_8h_1a0a351870661f9c76cecb7faa0c0e8836"></span>float <code class="descname">mcpwm_get_duty</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em>, <a class="reference internal" href="#_CPPv416mcpwm_operator_t" title="mcpwm_operator_t">mcpwm_operator_t</a> <em>gen</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414mcpwm_get_duty12mcpwm_unit_t13mcpwm_timer_t16mcpwm_operator_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get duty cycle of each operator. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>duty cycle in % of each operator(56.7 means duty is 56.7%) </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers </li>
+<li><code class="docutils literal notranslate"><span class="pre">gen</span></code>: set the generator(MCPWMXA/MCPWMXB), ‘x’ is operator number selected</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421mcpwm_set_signal_high12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t">
+<span id="_CPPv321mcpwm_set_signal_high12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t"></span><span id="_CPPv221mcpwm_set_signal_high12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t"></span><span id="mcpwm_set_signal_high__mcpwm_unit_t.mcpwm_timer_t.mcpwm_generator_t"></span><span class="target" id="mcpwm_8h_1a72207c7da41ea7e138acc49c70a8afe6"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_set_signal_high</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em>, <a class="reference internal" href="#_CPPv417mcpwm_generator_t" title="mcpwm_generator_t">mcpwm_generator_t</a> <em>gen</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421mcpwm_set_signal_high12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Use this function to set MCPWM signal high. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers </li>
+<li><code class="docutils literal notranslate"><span class="pre">gen</span></code>: set the operator(MCPWMXA/MCPWMXB), ‘x’ is timer number selected</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420mcpwm_set_signal_low12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t">
+<span id="_CPPv320mcpwm_set_signal_low12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t"></span><span id="_CPPv220mcpwm_set_signal_low12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t"></span><span id="mcpwm_set_signal_low__mcpwm_unit_t.mcpwm_timer_t.mcpwm_generator_t"></span><span class="target" id="mcpwm_8h_1a6c84105a9d8a08d766cbe7e510165fb3"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_set_signal_low</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em>, <a class="reference internal" href="#_CPPv417mcpwm_generator_t" title="mcpwm_generator_t">mcpwm_generator_t</a> <em>gen</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420mcpwm_set_signal_low12mcpwm_unit_t13mcpwm_timer_t17mcpwm_generator_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Use this function to set MCPWM signal low. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers </li>
+<li><code class="docutils literal notranslate"><span class="pre">gen</span></code>: set the operator(MCPWMXA/MCPWMXB), ‘x’ is timer number selected</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv411mcpwm_start12mcpwm_unit_t13mcpwm_timer_t">
+<span id="_CPPv311mcpwm_start12mcpwm_unit_t13mcpwm_timer_t"></span><span id="_CPPv211mcpwm_start12mcpwm_unit_t13mcpwm_timer_t"></span><span id="mcpwm_start__mcpwm_unit_t.mcpwm_timer_t"></span><span class="target" id="mcpwm_8h_1a2a9c7f34a84d57bbc6036b2a6f1808e9"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_start</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv411mcpwm_start12mcpwm_unit_t13mcpwm_timer_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start MCPWM signal on timer ‘x’. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv410mcpwm_stop12mcpwm_unit_t13mcpwm_timer_t">
+<span id="_CPPv310mcpwm_stop12mcpwm_unit_t13mcpwm_timer_t"></span><span id="_CPPv210mcpwm_stop12mcpwm_unit_t13mcpwm_timer_t"></span><span id="mcpwm_stop__mcpwm_unit_t.mcpwm_timer_t"></span><span class="target" id="mcpwm_8h_1a910c3e5c947c0125d4677adf25e8aca3"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_stop</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv410mcpwm_stop12mcpwm_unit_t13mcpwm_timer_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start MCPWM signal on timer ‘x’. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418mcpwm_carrier_init12mcpwm_unit_t13mcpwm_timer_tPK22mcpwm_carrier_config_t">
+<span id="_CPPv318mcpwm_carrier_init12mcpwm_unit_t13mcpwm_timer_tPK22mcpwm_carrier_config_t"></span><span id="_CPPv218mcpwm_carrier_init12mcpwm_unit_t13mcpwm_timer_tPK22mcpwm_carrier_config_t"></span><span id="mcpwm_carrier_init__mcpwm_unit_t.mcpwm_timer_t.mcpwm_carrier_config_tCP"></span><span class="target" id="mcpwm_8h_1aa5de3390f79e319884ba88c477dfbee6"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_carrier_init</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv422mcpwm_carrier_config_t" title="mcpwm_carrier_config_t">mcpwm_carrier_config_t</a> *<em>carrier_conf</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418mcpwm_carrier_init12mcpwm_unit_t13mcpwm_timer_tPK22mcpwm_carrier_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize carrier configuration. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers </li>
+<li><code class="docutils literal notranslate"><span class="pre">carrier_conf</span></code>: configure structure <a class="reference internal" href="#structmcpwm__carrier__config__t"><span class="std std-ref">mcpwm_carrier_config_t</span></a></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420mcpwm_carrier_enable12mcpwm_unit_t13mcpwm_timer_t">
+<span id="_CPPv320mcpwm_carrier_enable12mcpwm_unit_t13mcpwm_timer_t"></span><span id="_CPPv220mcpwm_carrier_enable12mcpwm_unit_t13mcpwm_timer_t"></span><span id="mcpwm_carrier_enable__mcpwm_unit_t.mcpwm_timer_t"></span><span class="target" id="mcpwm_8h_1af560325638c507b8525488aa4abd201e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_carrier_enable</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420mcpwm_carrier_enable12mcpwm_unit_t13mcpwm_timer_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable MCPWM carrier submodule, for respective timer. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421mcpwm_carrier_disable12mcpwm_unit_t13mcpwm_timer_t">
+<span id="_CPPv321mcpwm_carrier_disable12mcpwm_unit_t13mcpwm_timer_t"></span><span id="_CPPv221mcpwm_carrier_disable12mcpwm_unit_t13mcpwm_timer_t"></span><span id="mcpwm_carrier_disable__mcpwm_unit_t.mcpwm_timer_t"></span><span class="target" id="mcpwm_8h_1a47e424787cc036c59edd94d209e79501"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_carrier_disable</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421mcpwm_carrier_disable12mcpwm_unit_t13mcpwm_timer_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable MCPWM carrier submodule, for respective timer. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424mcpwm_carrier_set_period12mcpwm_unit_t13mcpwm_timer_t7uint8_t">
+<span id="_CPPv324mcpwm_carrier_set_period12mcpwm_unit_t13mcpwm_timer_t7uint8_t"></span><span id="_CPPv224mcpwm_carrier_set_period12mcpwm_unit_t13mcpwm_timer_t7uint8_t"></span><span id="mcpwm_carrier_set_period__mcpwm_unit_t.mcpwm_timer_t.uint8_t"></span><span class="target" id="mcpwm_8h_1a6660924a6fc79962eb6b798e84fd31b8"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_carrier_set_period</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em>, uint8_t <em>carrier_period</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424mcpwm_carrier_set_period12mcpwm_unit_t13mcpwm_timer_t7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set period of carrier. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers </li>
+<li><code class="docutils literal notranslate"><span class="pre">carrier_period</span></code>: set the carrier period of each timer, carrier period = (carrier_period + 1)*800ns (carrier_period &lt;= 15)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428mcpwm_carrier_set_duty_cycle12mcpwm_unit_t13mcpwm_timer_t7uint8_t">
+<span id="_CPPv328mcpwm_carrier_set_duty_cycle12mcpwm_unit_t13mcpwm_timer_t7uint8_t"></span><span id="_CPPv228mcpwm_carrier_set_duty_cycle12mcpwm_unit_t13mcpwm_timer_t7uint8_t"></span><span id="mcpwm_carrier_set_duty_cycle__mcpwm_unit_t.mcpwm_timer_t.uint8_t"></span><span class="target" id="mcpwm_8h_1abf63f95a319c77a6a74b79b86eeb25f7"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_carrier_set_duty_cycle</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em>, uint8_t <em>carrier_duty</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428mcpwm_carrier_set_duty_cycle12mcpwm_unit_t13mcpwm_timer_t7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set duty_cycle of carrier. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers </li>
+<li><code class="docutils literal notranslate"><span class="pre">carrier_duty</span></code>: set duty_cycle of carrier , carrier duty cycle = carrier_duty*12.5% (chop_duty &lt;= 7)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv433mcpwm_carrier_oneshot_mode_enable12mcpwm_unit_t13mcpwm_timer_t7uint8_t">
+<span id="_CPPv333mcpwm_carrier_oneshot_mode_enable12mcpwm_unit_t13mcpwm_timer_t7uint8_t"></span><span id="_CPPv233mcpwm_carrier_oneshot_mode_enable12mcpwm_unit_t13mcpwm_timer_t7uint8_t"></span><span id="mcpwm_carrier_oneshot_mode_enable__mcpwm_unit_t.mcpwm_timer_t.uint8_t"></span><span class="target" id="mcpwm_8h_1a54107d8ece2c65b82b47d4db51b8c804"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_carrier_oneshot_mode_enable</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em>, uint8_t <em>pulse_width</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv433mcpwm_carrier_oneshot_mode_enable12mcpwm_unit_t13mcpwm_timer_t7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable and set width of first pulse in carrier oneshot mode. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers </li>
+<li><code class="docutils literal notranslate"><span class="pre">pulse_width</span></code>: set pulse width of first pulse in oneshot mode, width = (carrier period)*(pulse_width +1) (pulse_width &lt;= 15)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv434mcpwm_carrier_oneshot_mode_disable12mcpwm_unit_t13mcpwm_timer_t">
+<span id="_CPPv334mcpwm_carrier_oneshot_mode_disable12mcpwm_unit_t13mcpwm_timer_t"></span><span id="_CPPv234mcpwm_carrier_oneshot_mode_disable12mcpwm_unit_t13mcpwm_timer_t"></span><span id="mcpwm_carrier_oneshot_mode_disable__mcpwm_unit_t.mcpwm_timer_t"></span><span class="target" id="mcpwm_8h_1abd2b22aed602c75ea6525ba923ed3f40"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_carrier_oneshot_mode_disable</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv434mcpwm_carrier_oneshot_mode_disable12mcpwm_unit_t13mcpwm_timer_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable oneshot mode, width of first pulse = carrier period. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427mcpwm_carrier_output_invert12mcpwm_unit_t13mcpwm_timer_t23mcpwm_carrier_out_ivt_t">
+<span id="_CPPv327mcpwm_carrier_output_invert12mcpwm_unit_t13mcpwm_timer_t23mcpwm_carrier_out_ivt_t"></span><span id="_CPPv227mcpwm_carrier_output_invert12mcpwm_unit_t13mcpwm_timer_t23mcpwm_carrier_out_ivt_t"></span><span id="mcpwm_carrier_output_invert__mcpwm_unit_t.mcpwm_timer_t.mcpwm_carrier_out_ivt_t"></span><span class="target" id="mcpwm_8h_1a5a038649dc9d95be0c91c512efcc140e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_carrier_output_invert</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em>, <a class="reference internal" href="#_CPPv423mcpwm_carrier_out_ivt_t" title="mcpwm_carrier_out_ivt_t">mcpwm_carrier_out_ivt_t</a> <em>carrier_ivt_mode</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427mcpwm_carrier_output_invert12mcpwm_unit_t13mcpwm_timer_t23mcpwm_carrier_out_ivt_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable or disable carrier output inversion. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers </li>
+<li><code class="docutils literal notranslate"><span class="pre">carrier_ivt_mode</span></code>: enable or disable carrier output inversion</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421mcpwm_deadtime_enable12mcpwm_unit_t13mcpwm_timer_t21mcpwm_deadtime_type_t8uint32_t8uint32_t">
+<span id="_CPPv321mcpwm_deadtime_enable12mcpwm_unit_t13mcpwm_timer_t21mcpwm_deadtime_type_t8uint32_t8uint32_t"></span><span id="_CPPv221mcpwm_deadtime_enable12mcpwm_unit_t13mcpwm_timer_t21mcpwm_deadtime_type_t8uint32_t8uint32_t"></span><span id="mcpwm_deadtime_enable__mcpwm_unit_t.mcpwm_timer_t.mcpwm_deadtime_type_t.uint32_t.uint32_t"></span><span class="target" id="mcpwm_8h_1a7f826762e87e1cbb3bfbd1e0cb722d37"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_deadtime_enable</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em>, <a class="reference internal" href="#_CPPv421mcpwm_deadtime_type_t" title="mcpwm_deadtime_type_t">mcpwm_deadtime_type_t</a> <em>dt_mode</em>, uint32_t <em>red</em>, uint32_t <em>fed</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421mcpwm_deadtime_enable12mcpwm_unit_t13mcpwm_timer_t21mcpwm_deadtime_type_t8uint32_t8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable and initialize deadtime for each MCPWM timer. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers </li>
+<li><code class="docutils literal notranslate"><span class="pre">dt_mode</span></code>: set deadtime mode </li>
+<li><code class="docutils literal notranslate"><span class="pre">red</span></code>: set rising edge delay = red*100ns </li>
+<li><code class="docutils literal notranslate"><span class="pre">fed</span></code>: set rising edge delay = fed*100ns</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422mcpwm_deadtime_disable12mcpwm_unit_t13mcpwm_timer_t">
+<span id="_CPPv322mcpwm_deadtime_disable12mcpwm_unit_t13mcpwm_timer_t"></span><span id="_CPPv222mcpwm_deadtime_disable12mcpwm_unit_t13mcpwm_timer_t"></span><span id="mcpwm_deadtime_disable__mcpwm_unit_t.mcpwm_timer_t"></span><span class="target" id="mcpwm_8h_1aa89cd3ab6ae054be7ecfcad7fbb531a3"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_deadtime_disable</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422mcpwm_deadtime_disable12mcpwm_unit_t13mcpwm_timer_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable deadtime on MCPWM timer. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416mcpwm_fault_init12mcpwm_unit_t25mcpwm_fault_input_level_t20mcpwm_fault_signal_t">
+<span id="_CPPv316mcpwm_fault_init12mcpwm_unit_t25mcpwm_fault_input_level_t20mcpwm_fault_signal_t"></span><span id="_CPPv216mcpwm_fault_init12mcpwm_unit_t25mcpwm_fault_input_level_t20mcpwm_fault_signal_t"></span><span id="mcpwm_fault_init__mcpwm_unit_t.mcpwm_fault_input_level_t.mcpwm_fault_signal_t"></span><span class="target" id="mcpwm_8h_1adaf261243adc2c6106f396e903ca053c"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_fault_init</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv425mcpwm_fault_input_level_t" title="mcpwm_fault_input_level_t">mcpwm_fault_input_level_t</a> <em>intput_level</em>, <a class="reference internal" href="#_CPPv420mcpwm_fault_signal_t" title="mcpwm_fault_signal_t">mcpwm_fault_signal_t</a> <em>fault_sig</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416mcpwm_fault_init12mcpwm_unit_t25mcpwm_fault_input_level_t20mcpwm_fault_signal_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize fault submodule, currently low level triggering is not supported. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">intput_level</span></code>: set fault signal level, which will cause fault to occur </li>
+<li><code class="docutils literal notranslate"><span class="pre">fault_sig</span></code>: set the fault pin, which needs to be enabled</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428mcpwm_fault_set_oneshot_mode12mcpwm_unit_t13mcpwm_timer_t20mcpwm_fault_signal_t21mcpwm_output_action_t21mcpwm_output_action_t">
+<span id="_CPPv328mcpwm_fault_set_oneshot_mode12mcpwm_unit_t13mcpwm_timer_t20mcpwm_fault_signal_t21mcpwm_output_action_t21mcpwm_output_action_t"></span><span id="_CPPv228mcpwm_fault_set_oneshot_mode12mcpwm_unit_t13mcpwm_timer_t20mcpwm_fault_signal_t21mcpwm_output_action_t21mcpwm_output_action_t"></span><span id="mcpwm_fault_set_oneshot_mode__mcpwm_unit_t.mcpwm_timer_t.mcpwm_fault_signal_t.mcpwm_output_action_t.mcpwm_output_action_t"></span><span class="target" id="mcpwm_8h_1a2de7116553ba3fe708b4a8c66338d241"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_fault_set_oneshot_mode</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em>, <a class="reference internal" href="#_CPPv420mcpwm_fault_signal_t" title="mcpwm_fault_signal_t">mcpwm_fault_signal_t</a> <em>fault_sig</em>, <a class="reference internal" href="#_CPPv421mcpwm_output_action_t" title="mcpwm_output_action_t">mcpwm_output_action_t</a> <em>action_on_pwmxa</em>, <a class="reference internal" href="#_CPPv421mcpwm_output_action_t" title="mcpwm_output_action_t">mcpwm_output_action_t</a> <em>action_on_pwmxb</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428mcpwm_fault_set_oneshot_mode12mcpwm_unit_t13mcpwm_timer_t20mcpwm_fault_signal_t21mcpwm_output_action_t21mcpwm_output_action_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set oneshot mode on fault detection, once fault occur in oneshot mode reset is required to resume MCPWM signals. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>currently low level triggering is not supported</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers </li>
+<li><code class="docutils literal notranslate"><span class="pre">fault_sig</span></code>: set the fault pin, which needs to be enabled for oneshot mode </li>
+<li><code class="docutils literal notranslate"><span class="pre">action_on_pwmxa</span></code>: action to be taken on MCPWMXA when fault occurs, either no change or high or low or toggle </li>
+<li><code class="docutils literal notranslate"><span class="pre">action_on_pwmxb</span></code>: action to be taken on MCPWMXB when fault occurs, either no change or high or low or toggle</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424mcpwm_fault_set_cyc_mode12mcpwm_unit_t13mcpwm_timer_t20mcpwm_fault_signal_t21mcpwm_output_action_t21mcpwm_output_action_t">
+<span id="_CPPv324mcpwm_fault_set_cyc_mode12mcpwm_unit_t13mcpwm_timer_t20mcpwm_fault_signal_t21mcpwm_output_action_t21mcpwm_output_action_t"></span><span id="_CPPv224mcpwm_fault_set_cyc_mode12mcpwm_unit_t13mcpwm_timer_t20mcpwm_fault_signal_t21mcpwm_output_action_t21mcpwm_output_action_t"></span><span id="mcpwm_fault_set_cyc_mode__mcpwm_unit_t.mcpwm_timer_t.mcpwm_fault_signal_t.mcpwm_output_action_t.mcpwm_output_action_t"></span><span class="target" id="mcpwm_8h_1a169b2bc2f03ea47a76ec149df8af03c6"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_fault_set_cyc_mode</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em>, <a class="reference internal" href="#_CPPv420mcpwm_fault_signal_t" title="mcpwm_fault_signal_t">mcpwm_fault_signal_t</a> <em>fault_sig</em>, <a class="reference internal" href="#_CPPv421mcpwm_output_action_t" title="mcpwm_output_action_t">mcpwm_output_action_t</a> <em>action_on_pwmxa</em>, <a class="reference internal" href="#_CPPv421mcpwm_output_action_t" title="mcpwm_output_action_t">mcpwm_output_action_t</a> <em>action_on_pwmxb</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424mcpwm_fault_set_cyc_mode12mcpwm_unit_t13mcpwm_timer_t20mcpwm_fault_signal_t21mcpwm_output_action_t21mcpwm_output_action_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set cycle-by-cycle mode on fault detection, once fault occur in cyc mode MCPWM signal resumes as soon as fault signal becomes inactive. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>currently low level triggering is not supported</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers </li>
+<li><code class="docutils literal notranslate"><span class="pre">fault_sig</span></code>: set the fault pin, which needs to be enabled for cyc mode </li>
+<li><code class="docutils literal notranslate"><span class="pre">action_on_pwmxa</span></code>: action to be taken on MCPWMXA when fault occurs, either no change or high or low or toggle </li>
+<li><code class="docutils literal notranslate"><span class="pre">action_on_pwmxb</span></code>: action to be taken on MCPWMXB when fault occurs, either no change or high or low or toggle</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418mcpwm_fault_deinit12mcpwm_unit_t20mcpwm_fault_signal_t">
+<span id="_CPPv318mcpwm_fault_deinit12mcpwm_unit_t20mcpwm_fault_signal_t"></span><span id="_CPPv218mcpwm_fault_deinit12mcpwm_unit_t20mcpwm_fault_signal_t"></span><span id="mcpwm_fault_deinit__mcpwm_unit_t.mcpwm_fault_signal_t"></span><span class="target" id="mcpwm_8h_1a82f424b91c64e5cf1f459ab90455d588"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_fault_deinit</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv420mcpwm_fault_signal_t" title="mcpwm_fault_signal_t">mcpwm_fault_signal_t</a> <em>fault_sig</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418mcpwm_fault_deinit12mcpwm_unit_t20mcpwm_fault_signal_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable fault signal. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">fault_sig</span></code>: fault pin, which needs to be disabled</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420mcpwm_capture_enable12mcpwm_unit_t22mcpwm_capture_signal_t23mcpwm_capture_on_edge_t8uint32_t">
+<span id="_CPPv320mcpwm_capture_enable12mcpwm_unit_t22mcpwm_capture_signal_t23mcpwm_capture_on_edge_t8uint32_t"></span><span id="_CPPv220mcpwm_capture_enable12mcpwm_unit_t22mcpwm_capture_signal_t23mcpwm_capture_on_edge_t8uint32_t"></span><span id="mcpwm_capture_enable__mcpwm_unit_t.mcpwm_capture_signal_t.mcpwm_capture_on_edge_t.uint32_t"></span><span class="target" id="mcpwm_8h_1a15893fc87b7bef3b02465313ccccfe87"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_capture_enable</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv422mcpwm_capture_signal_t" title="mcpwm_capture_signal_t">mcpwm_capture_signal_t</a> <em>cap_sig</em>, <a class="reference internal" href="#_CPPv423mcpwm_capture_on_edge_t" title="mcpwm_capture_on_edge_t">mcpwm_capture_on_edge_t</a> <em>cap_edge</em>, uint32_t <em>num_of_pulse</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420mcpwm_capture_enable12mcpwm_unit_t22mcpwm_capture_signal_t23mcpwm_capture_on_edge_t8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize capture submodule. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">cap_edge</span></code>: set capture edge, BIT(0) - negative edge, BIT(1) - positive edge </li>
+<li><code class="docutils literal notranslate"><span class="pre">cap_sig</span></code>: capture pin, which needs to be enabled </li>
+<li><code class="docutils literal notranslate"><span class="pre">num_of_pulse</span></code>: count time between rising/falling edge between 2 *(pulses mentioned), counter uses APB_CLK</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421mcpwm_capture_disable12mcpwm_unit_t22mcpwm_capture_signal_t">
+<span id="_CPPv321mcpwm_capture_disable12mcpwm_unit_t22mcpwm_capture_signal_t"></span><span id="_CPPv221mcpwm_capture_disable12mcpwm_unit_t22mcpwm_capture_signal_t"></span><span id="mcpwm_capture_disable__mcpwm_unit_t.mcpwm_capture_signal_t"></span><span class="target" id="mcpwm_8h_1acee1093b016440e8bdf361dfb1b9292f"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_capture_disable</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv422mcpwm_capture_signal_t" title="mcpwm_capture_signal_t">mcpwm_capture_signal_t</a> <em>cap_sig</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421mcpwm_capture_disable12mcpwm_unit_t22mcpwm_capture_signal_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable capture signal. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">cap_sig</span></code>: capture pin, which needs to be disabled</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv430mcpwm_capture_signal_get_value12mcpwm_unit_t22mcpwm_capture_signal_t">
+<span id="_CPPv330mcpwm_capture_signal_get_value12mcpwm_unit_t22mcpwm_capture_signal_t"></span><span id="_CPPv230mcpwm_capture_signal_get_value12mcpwm_unit_t22mcpwm_capture_signal_t"></span><span id="mcpwm_capture_signal_get_value__mcpwm_unit_t.mcpwm_capture_signal_t"></span><span class="target" id="mcpwm_8h_1a51f51a6fb7d56a84145080cc9e817d96"></span>uint32_t <code class="descname">mcpwm_capture_signal_get_value</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv422mcpwm_capture_signal_t" title="mcpwm_capture_signal_t">mcpwm_capture_signal_t</a> <em>cap_sig</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv430mcpwm_capture_signal_get_value12mcpwm_unit_t22mcpwm_capture_signal_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get capture value. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>Captured value </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">cap_sig</span></code>: capture pin on which value is to be measured</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv429mcpwm_capture_signal_get_edge12mcpwm_unit_t22mcpwm_capture_signal_t">
+<span id="_CPPv329mcpwm_capture_signal_get_edge12mcpwm_unit_t22mcpwm_capture_signal_t"></span><span id="_CPPv229mcpwm_capture_signal_get_edge12mcpwm_unit_t22mcpwm_capture_signal_t"></span><span id="mcpwm_capture_signal_get_edge__mcpwm_unit_t.mcpwm_capture_signal_t"></span><span class="target" id="mcpwm_8h_1ac979ef7b778fc677b214d384a4ef83a7"></span>uint32_t <code class="descname">mcpwm_capture_signal_get_edge</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv422mcpwm_capture_signal_t" title="mcpwm_capture_signal_t">mcpwm_capture_signal_t</a> <em>cap_sig</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv429mcpwm_capture_signal_get_edge12mcpwm_unit_t22mcpwm_capture_signal_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get edge of capture signal. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>Capture signal edge: 1 - positive edge, 2 - negtive edge </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">cap_sig</span></code>: capture pin of whose edge is to be determined</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417mcpwm_sync_enable12mcpwm_unit_t13mcpwm_timer_t19mcpwm_sync_signal_t8uint32_t">
+<span id="_CPPv317mcpwm_sync_enable12mcpwm_unit_t13mcpwm_timer_t19mcpwm_sync_signal_t8uint32_t"></span><span id="_CPPv217mcpwm_sync_enable12mcpwm_unit_t13mcpwm_timer_t19mcpwm_sync_signal_t8uint32_t"></span><span id="mcpwm_sync_enable__mcpwm_unit_t.mcpwm_timer_t.mcpwm_sync_signal_t.uint32_t"></span><span class="target" id="mcpwm_8h_1a2931bcbf771e4bce21315c522ac34b7e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_sync_enable</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em>, <a class="reference internal" href="#_CPPv419mcpwm_sync_signal_t" title="mcpwm_sync_signal_t">mcpwm_sync_signal_t</a> <em>sync_sig</em>, uint32_t <em>phase_val</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417mcpwm_sync_enable12mcpwm_unit_t13mcpwm_timer_t19mcpwm_sync_signal_t8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize sync submodule. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers </li>
+<li><code class="docutils literal notranslate"><span class="pre">sync_sig</span></code>: set the synchronization pin, which needs to be enabled </li>
+<li><code class="docutils literal notranslate"><span class="pre">phase_val</span></code>: phase value in 1/1000 (for 86.7%, phase_val = 867) which timer moves to on sync signal</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418mcpwm_sync_disable12mcpwm_unit_t13mcpwm_timer_t">
+<span id="_CPPv318mcpwm_sync_disable12mcpwm_unit_t13mcpwm_timer_t"></span><span id="_CPPv218mcpwm_sync_disable12mcpwm_unit_t13mcpwm_timer_t"></span><span id="mcpwm_sync_disable__mcpwm_unit_t.mcpwm_timer_t"></span><span class="target" id="mcpwm_8h_1ac543180916512c2f119e8d32c3103d25"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_sync_disable</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, <a class="reference internal" href="#_CPPv413mcpwm_timer_t" title="mcpwm_timer_t">mcpwm_timer_t</a> <em>timer_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418mcpwm_sync_disable12mcpwm_unit_t13mcpwm_timer_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable sync submodule on given timer. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">timer_num</span></code>: set timer number(0-2) of MCPWM, each MCPWM unit has 3 timers</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418mcpwm_isr_register12mcpwm_unit_tPFvPvEPviP13intr_handle_t">
+<span id="_CPPv318mcpwm_isr_register12mcpwm_unit_tPFvPvEPviP13intr_handle_t"></span><span id="_CPPv218mcpwm_isr_register12mcpwm_unit_tPFvPvEPviP13intr_handle_t"></span><span class="target" id="mcpwm_8h_1a3ae42d0ed49facb89f6bbdcbc9d6cc92"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mcpwm_isr_register</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412mcpwm_unit_t" title="mcpwm_unit_t">mcpwm_unit_t</a> <em>mcpwm_num</em>, void (*<em>fn</em>)<span class="sig-paren">(</span>void *<span class="sig-paren">)</span>, void *<em>arg</em>, int <em>intr_alloc_flags</em>, <a class="reference internal" href="../system/intr_alloc.html#_CPPv413intr_handle_t" title="intr_handle_t">intr_handle_t</a> *<em>handle</em>, <span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418mcpwm_isr_register12mcpwm_unit_tPFvPvEPviP13intr_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Register MCPWM interrupt handler, the handler is an ISR. the handler will be attached to the same CPU core that this function is running on. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Function pointer error. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mcpwm_num</span></code>: set MCPWM unit(0-1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">fn</span></code>: interrupt handler function. </li>
+<li><code class="docutils literal notranslate"><span class="pre">arg</span></code>: user-supplied argument passed to the handler function. </li>
+<li><code class="docutils literal notranslate"><span class="pre">intr_alloc_flags</span></code>: flags used to allocate the interrupt. One or multiple (ORred) ESP_INTR_FLAG_* values. see esp_intr_alloc.h for more info. </li>
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: pointer to return handle. If non-NULL, a handle for the interrupt will be returned here.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv418mcpwm_pin_config_t">
+<span id="_CPPv318mcpwm_pin_config_t"></span><span id="_CPPv218mcpwm_pin_config_t"></span><span id="mcpwm_pin_config_t"></span><span class="target" id="structmcpwm__pin__config__t"></span><em class="property">struct </em><code class="descname">mcpwm_pin_config_t</code><a class="headerlink" href="#_CPPv418mcpwm_pin_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWM pin number for. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N18mcpwm_pin_config_t15mcpwm0a_out_numE">
+<span id="_CPPv3N18mcpwm_pin_config_t15mcpwm0a_out_numE"></span><span id="_CPPv2N18mcpwm_pin_config_t15mcpwm0a_out_numE"></span><span id="mcpwm_pin_config_t::mcpwm0a_out_num__i"></span><span class="target" id="structmcpwm__pin__config__t_1a4ef589dd51e5c5485c00b095118b4dc8"></span>int <code class="descname">mcpwm0a_out_num</code><a class="headerlink" href="#_CPPv4N18mcpwm_pin_config_t15mcpwm0a_out_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWM0A out pin </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18mcpwm_pin_config_t15mcpwm0b_out_numE">
+<span id="_CPPv3N18mcpwm_pin_config_t15mcpwm0b_out_numE"></span><span id="_CPPv2N18mcpwm_pin_config_t15mcpwm0b_out_numE"></span><span id="mcpwm_pin_config_t::mcpwm0b_out_num__i"></span><span class="target" id="structmcpwm__pin__config__t_1aab4327ebbdcfb96a8eb70f43945ae79b"></span>int <code class="descname">mcpwm0b_out_num</code><a class="headerlink" href="#_CPPv4N18mcpwm_pin_config_t15mcpwm0b_out_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWM0A out pin </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18mcpwm_pin_config_t15mcpwm1a_out_numE">
+<span id="_CPPv3N18mcpwm_pin_config_t15mcpwm1a_out_numE"></span><span id="_CPPv2N18mcpwm_pin_config_t15mcpwm1a_out_numE"></span><span id="mcpwm_pin_config_t::mcpwm1a_out_num__i"></span><span class="target" id="structmcpwm__pin__config__t_1a86bfa501b12d4b702c7413c726fc0e13"></span>int <code class="descname">mcpwm1a_out_num</code><a class="headerlink" href="#_CPPv4N18mcpwm_pin_config_t15mcpwm1a_out_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWM0A out pin </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18mcpwm_pin_config_t15mcpwm1b_out_numE">
+<span id="_CPPv3N18mcpwm_pin_config_t15mcpwm1b_out_numE"></span><span id="_CPPv2N18mcpwm_pin_config_t15mcpwm1b_out_numE"></span><span id="mcpwm_pin_config_t::mcpwm1b_out_num__i"></span><span class="target" id="structmcpwm__pin__config__t_1aa195af57c5464f70dc64d817865a945b"></span>int <code class="descname">mcpwm1b_out_num</code><a class="headerlink" href="#_CPPv4N18mcpwm_pin_config_t15mcpwm1b_out_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWM0A out pin </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18mcpwm_pin_config_t15mcpwm2a_out_numE">
+<span id="_CPPv3N18mcpwm_pin_config_t15mcpwm2a_out_numE"></span><span id="_CPPv2N18mcpwm_pin_config_t15mcpwm2a_out_numE"></span><span id="mcpwm_pin_config_t::mcpwm2a_out_num__i"></span><span class="target" id="structmcpwm__pin__config__t_1a4ab5a01db2032c24563122d3b1252ef1"></span>int <code class="descname">mcpwm2a_out_num</code><a class="headerlink" href="#_CPPv4N18mcpwm_pin_config_t15mcpwm2a_out_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWM0A out pin </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18mcpwm_pin_config_t15mcpwm2b_out_numE">
+<span id="_CPPv3N18mcpwm_pin_config_t15mcpwm2b_out_numE"></span><span id="_CPPv2N18mcpwm_pin_config_t15mcpwm2b_out_numE"></span><span id="mcpwm_pin_config_t::mcpwm2b_out_num__i"></span><span class="target" id="structmcpwm__pin__config__t_1a0a9b71fed7ea508006928c299a9b2bd3"></span>int <code class="descname">mcpwm2b_out_num</code><a class="headerlink" href="#_CPPv4N18mcpwm_pin_config_t15mcpwm2b_out_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWM0A out pin </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18mcpwm_pin_config_t18mcpwm_sync0_in_numE">
+<span id="_CPPv3N18mcpwm_pin_config_t18mcpwm_sync0_in_numE"></span><span id="_CPPv2N18mcpwm_pin_config_t18mcpwm_sync0_in_numE"></span><span id="mcpwm_pin_config_t::mcpwm_sync0_in_num__i"></span><span class="target" id="structmcpwm__pin__config__t_1ab3b73825950b9f93ed78d0373f32bfd6"></span>int <code class="descname">mcpwm_sync0_in_num</code><a class="headerlink" href="#_CPPv4N18mcpwm_pin_config_t18mcpwm_sync0_in_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SYNC0 in pin </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18mcpwm_pin_config_t18mcpwm_sync1_in_numE">
+<span id="_CPPv3N18mcpwm_pin_config_t18mcpwm_sync1_in_numE"></span><span id="_CPPv2N18mcpwm_pin_config_t18mcpwm_sync1_in_numE"></span><span id="mcpwm_pin_config_t::mcpwm_sync1_in_num__i"></span><span class="target" id="structmcpwm__pin__config__t_1aabe1f3bf46b2e344c2c399dffe8ee8ed"></span>int <code class="descname">mcpwm_sync1_in_num</code><a class="headerlink" href="#_CPPv4N18mcpwm_pin_config_t18mcpwm_sync1_in_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SYNC1 in pin </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18mcpwm_pin_config_t18mcpwm_sync2_in_numE">
+<span id="_CPPv3N18mcpwm_pin_config_t18mcpwm_sync2_in_numE"></span><span id="_CPPv2N18mcpwm_pin_config_t18mcpwm_sync2_in_numE"></span><span id="mcpwm_pin_config_t::mcpwm_sync2_in_num__i"></span><span class="target" id="structmcpwm__pin__config__t_1a9f63e5eb464621c3793a2726bde0d6ef"></span>int <code class="descname">mcpwm_sync2_in_num</code><a class="headerlink" href="#_CPPv4N18mcpwm_pin_config_t18mcpwm_sync2_in_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SYNC2 in pin </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18mcpwm_pin_config_t19mcpwm_fault0_in_numE">
+<span id="_CPPv3N18mcpwm_pin_config_t19mcpwm_fault0_in_numE"></span><span id="_CPPv2N18mcpwm_pin_config_t19mcpwm_fault0_in_numE"></span><span id="mcpwm_pin_config_t::mcpwm_fault0_in_num__i"></span><span class="target" id="structmcpwm__pin__config__t_1af06295cfb4aa89e517d1e9d35c0b0c27"></span>int <code class="descname">mcpwm_fault0_in_num</code><a class="headerlink" href="#_CPPv4N18mcpwm_pin_config_t19mcpwm_fault0_in_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>FAULT0 in pin </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18mcpwm_pin_config_t19mcpwm_fault1_in_numE">
+<span id="_CPPv3N18mcpwm_pin_config_t19mcpwm_fault1_in_numE"></span><span id="_CPPv2N18mcpwm_pin_config_t19mcpwm_fault1_in_numE"></span><span id="mcpwm_pin_config_t::mcpwm_fault1_in_num__i"></span><span class="target" id="structmcpwm__pin__config__t_1a60e87bf6ebfa2b59a07f7751fa581cb0"></span>int <code class="descname">mcpwm_fault1_in_num</code><a class="headerlink" href="#_CPPv4N18mcpwm_pin_config_t19mcpwm_fault1_in_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>FAULT1 in pin </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18mcpwm_pin_config_t19mcpwm_fault2_in_numE">
+<span id="_CPPv3N18mcpwm_pin_config_t19mcpwm_fault2_in_numE"></span><span id="_CPPv2N18mcpwm_pin_config_t19mcpwm_fault2_in_numE"></span><span id="mcpwm_pin_config_t::mcpwm_fault2_in_num__i"></span><span class="target" id="structmcpwm__pin__config__t_1a6f3f54b576f88cda3bb5ae2cb13e3e59"></span>int <code class="descname">mcpwm_fault2_in_num</code><a class="headerlink" href="#_CPPv4N18mcpwm_pin_config_t19mcpwm_fault2_in_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>FAULT2 in pin </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18mcpwm_pin_config_t17mcpwm_cap0_in_numE">
+<span id="_CPPv3N18mcpwm_pin_config_t17mcpwm_cap0_in_numE"></span><span id="_CPPv2N18mcpwm_pin_config_t17mcpwm_cap0_in_numE"></span><span id="mcpwm_pin_config_t::mcpwm_cap0_in_num__i"></span><span class="target" id="structmcpwm__pin__config__t_1af4c8129534cd256cc914454008f54493"></span>int <code class="descname">mcpwm_cap0_in_num</code><a class="headerlink" href="#_CPPv4N18mcpwm_pin_config_t17mcpwm_cap0_in_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CAP0 in pin </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18mcpwm_pin_config_t17mcpwm_cap1_in_numE">
+<span id="_CPPv3N18mcpwm_pin_config_t17mcpwm_cap1_in_numE"></span><span id="_CPPv2N18mcpwm_pin_config_t17mcpwm_cap1_in_numE"></span><span id="mcpwm_pin_config_t::mcpwm_cap1_in_num__i"></span><span class="target" id="structmcpwm__pin__config__t_1a4ab521c5c8eda1bc7a74a140f556fbb0"></span>int <code class="descname">mcpwm_cap1_in_num</code><a class="headerlink" href="#_CPPv4N18mcpwm_pin_config_t17mcpwm_cap1_in_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CAP1 in pin </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18mcpwm_pin_config_t17mcpwm_cap2_in_numE">
+<span id="_CPPv3N18mcpwm_pin_config_t17mcpwm_cap2_in_numE"></span><span id="_CPPv2N18mcpwm_pin_config_t17mcpwm_cap2_in_numE"></span><span id="mcpwm_pin_config_t::mcpwm_cap2_in_num__i"></span><span class="target" id="structmcpwm__pin__config__t_1a478727af9c6cf6b08de159521e799bac"></span>int <code class="descname">mcpwm_cap2_in_num</code><a class="headerlink" href="#_CPPv4N18mcpwm_pin_config_t17mcpwm_cap2_in_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CAP2 in pin </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv414mcpwm_config_t">
+<span id="_CPPv314mcpwm_config_t"></span><span id="_CPPv214mcpwm_config_t"></span><span id="mcpwm_config_t"></span><span class="target" id="structmcpwm__config__t"></span><em class="property">struct </em><code class="descname">mcpwm_config_t</code><a class="headerlink" href="#_CPPv414mcpwm_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWM config structure. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N14mcpwm_config_t9frequencyE">
+<span id="_CPPv3N14mcpwm_config_t9frequencyE"></span><span id="_CPPv2N14mcpwm_config_t9frequencyE"></span><span id="mcpwm_config_t::frequency__uint32_t"></span><span class="target" id="structmcpwm__config__t_1aefe815065ec55b2bd044482bf40546fb"></span>uint32_t <code class="descname">frequency</code><a class="headerlink" href="#_CPPv4N14mcpwm_config_t9frequencyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set frequency of MCPWM in Hz </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N14mcpwm_config_t6cmpr_aE">
+<span id="_CPPv3N14mcpwm_config_t6cmpr_aE"></span><span id="_CPPv2N14mcpwm_config_t6cmpr_aE"></span><span id="mcpwm_config_t::cmpr_a__float"></span><span class="target" id="structmcpwm__config__t_1ae228a5c4d6c71a64096085213e2d7def"></span>float <code class="descname">cmpr_a</code><a class="headerlink" href="#_CPPv4N14mcpwm_config_t6cmpr_aE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set % duty cycle for operator a(MCPWMXA), i.e for 62.3% duty cycle, duty_a = 62.3 </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N14mcpwm_config_t6cmpr_bE">
+<span id="_CPPv3N14mcpwm_config_t6cmpr_bE"></span><span id="_CPPv2N14mcpwm_config_t6cmpr_bE"></span><span id="mcpwm_config_t::cmpr_b__float"></span><span class="target" id="structmcpwm__config__t_1a6d7b556c1e2be8edd49cb326845d82c0"></span>float <code class="descname">cmpr_b</code><a class="headerlink" href="#_CPPv4N14mcpwm_config_t6cmpr_bE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set % duty cycle for operator b(MCPWMXB), i.e for 48% duty cycle, duty_b = 48.0 </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N14mcpwm_config_t9duty_modeE">
+<span id="_CPPv3N14mcpwm_config_t9duty_modeE"></span><span id="_CPPv2N14mcpwm_config_t9duty_modeE"></span><span id="mcpwm_config_t::duty_mode__mcpwm_duty_type_t"></span><span class="target" id="structmcpwm__config__t_1ab40ab2756cf83d1874e19170373ae6e3"></span><a class="reference internal" href="#_CPPv417mcpwm_duty_type_t" title="mcpwm_duty_type_t">mcpwm_duty_type_t</a> <code class="descname">duty_mode</code><a class="headerlink" href="#_CPPv4N14mcpwm_config_t9duty_modeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set type of duty cycle </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N14mcpwm_config_t12counter_modeE">
+<span id="_CPPv3N14mcpwm_config_t12counter_modeE"></span><span id="_CPPv2N14mcpwm_config_t12counter_modeE"></span><span id="mcpwm_config_t::counter_mode__mcpwm_counter_type_t"></span><span class="target" id="structmcpwm__config__t_1a66ee1f9c881d068a3dc63540d3466425"></span><a class="reference internal" href="#_CPPv420mcpwm_counter_type_t" title="mcpwm_counter_type_t">mcpwm_counter_type_t</a> <code class="descname">counter_mode</code><a class="headerlink" href="#_CPPv4N14mcpwm_config_t12counter_modeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set type of MCPWM counter </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv422mcpwm_carrier_config_t">
+<span id="_CPPv322mcpwm_carrier_config_t"></span><span id="_CPPv222mcpwm_carrier_config_t"></span><span id="mcpwm_carrier_config_t"></span><span class="target" id="structmcpwm__carrier__config__t"></span><em class="property">struct </em><code class="descname">mcpwm_carrier_config_t</code><a class="headerlink" href="#_CPPv422mcpwm_carrier_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWM config carrier structure. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N22mcpwm_carrier_config_t14carrier_periodE">
+<span id="_CPPv3N22mcpwm_carrier_config_t14carrier_periodE"></span><span id="_CPPv2N22mcpwm_carrier_config_t14carrier_periodE"></span><span id="mcpwm_carrier_config_t::carrier_period__uint8_t"></span><span class="target" id="structmcpwm__carrier__config__t_1a306d513650c1e426376a9f01df2b9bf7"></span>uint8_t <code class="descname">carrier_period</code><a class="headerlink" href="#_CPPv4N22mcpwm_carrier_config_t14carrier_periodE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set carrier period = (carrier_period + 1)*800ns, carrier_period should be &lt; 16 </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22mcpwm_carrier_config_t12carrier_dutyE">
+<span id="_CPPv3N22mcpwm_carrier_config_t12carrier_dutyE"></span><span id="_CPPv2N22mcpwm_carrier_config_t12carrier_dutyE"></span><span id="mcpwm_carrier_config_t::carrier_duty__uint8_t"></span><span class="target" id="structmcpwm__carrier__config__t_1a0ed9736fa9782d34e25d4e13cc63921b"></span>uint8_t <code class="descname">carrier_duty</code><a class="headerlink" href="#_CPPv4N22mcpwm_carrier_config_t12carrier_dutyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set carrier duty cycle, carrier_duty should be less than 8 (increment every 12.5%) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22mcpwm_carrier_config_t17pulse_width_in_osE">
+<span id="_CPPv3N22mcpwm_carrier_config_t17pulse_width_in_osE"></span><span id="_CPPv2N22mcpwm_carrier_config_t17pulse_width_in_osE"></span><span id="mcpwm_carrier_config_t::pulse_width_in_os__uint8_t"></span><span class="target" id="structmcpwm__carrier__config__t_1a05f8ad34647f4a9470fb83314c456edd"></span>uint8_t <code class="descname">pulse_width_in_os</code><a class="headerlink" href="#_CPPv4N22mcpwm_carrier_config_t17pulse_width_in_osE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set pulse width of first pulse in one shot mode = (carrier period)*(pulse_width_in_os + 1), should be less then 16 </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22mcpwm_carrier_config_t15carrier_os_modeE">
+<span id="_CPPv3N22mcpwm_carrier_config_t15carrier_os_modeE"></span><span id="_CPPv2N22mcpwm_carrier_config_t15carrier_os_modeE"></span><span id="mcpwm_carrier_config_t::carrier_os_mode__mcpwm_carrier_os_t"></span><span class="target" id="structmcpwm__carrier__config__t_1a3d9cb0d2f27254bd93e4d3007b0fa5c2"></span><a class="reference internal" href="#_CPPv418mcpwm_carrier_os_t" title="mcpwm_carrier_os_t">mcpwm_carrier_os_t</a> <code class="descname">carrier_os_mode</code><a class="headerlink" href="#_CPPv4N22mcpwm_carrier_config_t15carrier_os_modeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable or disable carrier oneshot mode </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22mcpwm_carrier_config_t16carrier_ivt_modeE">
+<span id="_CPPv3N22mcpwm_carrier_config_t16carrier_ivt_modeE"></span><span id="_CPPv2N22mcpwm_carrier_config_t16carrier_ivt_modeE"></span><span id="mcpwm_carrier_config_t::carrier_ivt_mode__mcpwm_carrier_out_ivt_t"></span><span class="target" id="structmcpwm__carrier__config__t_1ad56d4a206ac9c639dde977bca263205e"></span><a class="reference internal" href="#_CPPv423mcpwm_carrier_out_ivt_t" title="mcpwm_carrier_out_ivt_t">mcpwm_carrier_out_ivt_t</a> <code class="descname">carrier_ivt_mode</code><a class="headerlink" href="#_CPPv4N22mcpwm_carrier_config_t16carrier_ivt_modeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Invert output of carrier </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.MCPWM_OPR_A">
+<span class="target" id="mcpwm_8h_1a130ece2e51c89b1498de2f341adc858d"></span><code class="descname">MCPWM_OPR_A</code><a class="headerlink" href="#c.MCPWM_OPR_A" title="Permalink to this definition">¶</a></dt>
+<dd><p></p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.MCPWM_OPR_B">
+<span class="target" id="mcpwm_8h_1aa1c4afd7657ec2fee136fe320a5c272f"></span><code class="descname">MCPWM_OPR_B</code><a class="headerlink" href="#c.MCPWM_OPR_B" title="Permalink to this definition">¶</a></dt>
+<dd><p></p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.MCPWM_OPR_MAX">
+<span class="target" id="mcpwm_8h_1a02845949dd122a90193aa66ad4e07ec7"></span><code class="descname">MCPWM_OPR_MAX</code><a class="headerlink" href="#c.MCPWM_OPR_MAX" title="Permalink to this definition">¶</a></dt>
+<dd><p></p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.MCPWM_NO_CHANGE_IN_MCPWMXA">
+<span class="target" id="mcpwm_8h_1a152d3abf42fe26341ca752710eb0409b"></span><code class="descname">MCPWM_NO_CHANGE_IN_MCPWMXA</code><a class="headerlink" href="#c.MCPWM_NO_CHANGE_IN_MCPWMXA" title="Permalink to this definition">¶</a></dt>
+<dd><p></p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.MCPWM_FORCE_MCPWMXA_LOW">
+<span class="target" id="mcpwm_8h_1ad73326c64d316a0d8a7d4c259f97c44b"></span><code class="descname">MCPWM_FORCE_MCPWMXA_LOW</code><a class="headerlink" href="#c.MCPWM_FORCE_MCPWMXA_LOW" title="Permalink to this definition">¶</a></dt>
+<dd><p></p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.MCPWM_FORCE_MCPWMXA_HIGH">
+<span class="target" id="mcpwm_8h_1a99d6d949be081d093b958e425d4aed8d"></span><code class="descname">MCPWM_FORCE_MCPWMXA_HIGH</code><a class="headerlink" href="#c.MCPWM_FORCE_MCPWMXA_HIGH" title="Permalink to this definition">¶</a></dt>
+<dd><p></p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.MCPWM_TOG_MCPWMXA">
+<span class="target" id="mcpwm_8h_1a7a9dd88d9dfd286a00651c49fc4ee146"></span><code class="descname">MCPWM_TOG_MCPWMXA</code><a class="headerlink" href="#c.MCPWM_TOG_MCPWMXA" title="Permalink to this definition">¶</a></dt>
+<dd><p></p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.MCPWM_NO_CHANGE_IN_MCPWMXB">
+<span class="target" id="mcpwm_8h_1a378debf4fab67ad0bf18c3d1dac93847"></span><code class="descname">MCPWM_NO_CHANGE_IN_MCPWMXB</code><a class="headerlink" href="#c.MCPWM_NO_CHANGE_IN_MCPWMXB" title="Permalink to this definition">¶</a></dt>
+<dd><p></p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.MCPWM_FORCE_MCPWMXB_LOW">
+<span class="target" id="mcpwm_8h_1a64395279137f7a878e4c6ad8ae0dede2"></span><code class="descname">MCPWM_FORCE_MCPWMXB_LOW</code><a class="headerlink" href="#c.MCPWM_FORCE_MCPWMXB_LOW" title="Permalink to this definition">¶</a></dt>
+<dd><p></p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.MCPWM_FORCE_MCPWMXB_HIGH">
+<span class="target" id="mcpwm_8h_1a79715d1a9d5f72b306a2760205d1ffbf"></span><code class="descname">MCPWM_FORCE_MCPWMXB_HIGH</code><a class="headerlink" href="#c.MCPWM_FORCE_MCPWMXB_HIGH" title="Permalink to this definition">¶</a></dt>
+<dd><p></p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.MCPWM_TOG_MCPWMXB">
+<span class="target" id="mcpwm_8h_1ad8b22bb2a63fb989623a3f8d4aa8f2ae"></span><code class="descname">MCPWM_TOG_MCPWMXB</code><a class="headerlink" href="#c.MCPWM_TOG_MCPWMXB" title="Permalink to this definition">¶</a></dt>
+<dd><p></p>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv416mcpwm_operator_t">
+<span id="_CPPv316mcpwm_operator_t"></span><span id="_CPPv216mcpwm_operator_t"></span><span id="mcpwm_operator_t"></span><span class="target" id="mcpwm_8h_1a4e005bd76b506cd6d1bbe1b3a9d8d415"></span><em class="property">typedef </em><a class="reference internal" href="#_CPPv417mcpwm_generator_t" title="mcpwm_generator_t">mcpwm_generator_t</a> <code class="descname">mcpwm_operator_t</code><a class="headerlink" href="#_CPPv416mcpwm_operator_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p></p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv423mcpwm_action_on_pwmxa_t">
+<span id="_CPPv323mcpwm_action_on_pwmxa_t"></span><span id="_CPPv223mcpwm_action_on_pwmxa_t"></span><span id="mcpwm_action_on_pwmxa_t"></span><span class="target" id="mcpwm_8h_1a774856e729a709df0a5e4c48f2abf88e"></span><em class="property">typedef </em><a class="reference internal" href="#_CPPv421mcpwm_output_action_t" title="mcpwm_output_action_t">mcpwm_output_action_t</a> <code class="descname">mcpwm_action_on_pwmxa_t</code><a class="headerlink" href="#_CPPv423mcpwm_action_on_pwmxa_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p></p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv423mcpwm_action_on_pwmxb_t">
+<span id="_CPPv323mcpwm_action_on_pwmxb_t"></span><span id="_CPPv223mcpwm_action_on_pwmxb_t"></span><span id="mcpwm_action_on_pwmxb_t"></span><span class="target" id="mcpwm_8h_1acac5d3fa2e5b590dfbf26a1b7cb012f0"></span><em class="property">typedef </em><a class="reference internal" href="#_CPPv421mcpwm_output_action_t" title="mcpwm_output_action_t">mcpwm_output_action_t</a> <code class="descname">mcpwm_action_on_pwmxb_t</code><a class="headerlink" href="#_CPPv423mcpwm_action_on_pwmxb_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p></p>
+</dd></dl>
+
+</div>
+<div class="section" id="id2">
+<h3>Enumerations<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv418mcpwm_io_signals_t">
+<span id="_CPPv318mcpwm_io_signals_t"></span><span id="_CPPv218mcpwm_io_signals_t"></span><span id="mcpwm_io_signals_t"></span><span class="target" id="mcpwm_8h_1a763801244a37a3c2cc9e73c0488c068b"></span><em class="property">enum </em><code class="descname">mcpwm_io_signals_t</code><a class="headerlink" href="#_CPPv418mcpwm_io_signals_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>IO signals for the MCPWM. </p>
+<p><ul class="simple">
+<li>6 MCPWM output pins that generate PWM signals</li>
+<li>3 MCPWM fault input pins to detect faults like overcurrent, overvoltage, etc.</li>
+<li>3 MCPWM sync input pins to synchronize MCPWM outputs signals</li>
+<li>3 MCPWM capture input pins to gather feedback from controlled motors, using e.g. hall sensors </li>
+</ul>
+</p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv47MCPWM0A">
+<span id="_CPPv37MCPWM0A"></span><span id="_CPPv27MCPWM0A"></span><span class="target" id="mcpwm_8h_1a763801244a37a3c2cc9e73c0488c068ba2a29b8e6e1ff56a972790dcd0dd1f69e"></span><code class="descname">MCPWM0A</code> = 0<a class="headerlink" href="#_CPPv47MCPWM0A" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>PWM0A output pin </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv47MCPWM0B">
+<span id="_CPPv37MCPWM0B"></span><span id="_CPPv27MCPWM0B"></span><span class="target" id="mcpwm_8h_1a763801244a37a3c2cc9e73c0488c068bab9848dd3c75be2d68517d70625d8bb6d"></span><code class="descname">MCPWM0B</code><a class="headerlink" href="#_CPPv47MCPWM0B" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>PWM0B output pin </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv47MCPWM1A">
+<span id="_CPPv37MCPWM1A"></span><span id="_CPPv27MCPWM1A"></span><span class="target" id="mcpwm_8h_1a763801244a37a3c2cc9e73c0488c068bacf3da519561bc349c030b4bd088b28e5"></span><code class="descname">MCPWM1A</code><a class="headerlink" href="#_CPPv47MCPWM1A" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>PWM1A output pin </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv47MCPWM1B">
+<span id="_CPPv37MCPWM1B"></span><span id="_CPPv27MCPWM1B"></span><span class="target" id="mcpwm_8h_1a763801244a37a3c2cc9e73c0488c068ba2eab006bea4a650d7511c0f5e722cf72"></span><code class="descname">MCPWM1B</code><a class="headerlink" href="#_CPPv47MCPWM1B" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>PWM1B output pin </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv47MCPWM2A">
+<span id="_CPPv37MCPWM2A"></span><span id="_CPPv27MCPWM2A"></span><span class="target" id="mcpwm_8h_1a763801244a37a3c2cc9e73c0488c068babe6966182444187a1104f63fc025eda2"></span><code class="descname">MCPWM2A</code><a class="headerlink" href="#_CPPv47MCPWM2A" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>PWM2A output pin </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv47MCPWM2B">
+<span id="_CPPv37MCPWM2B"></span><span id="_CPPv27MCPWM2B"></span><span class="target" id="mcpwm_8h_1a763801244a37a3c2cc9e73c0488c068badbe762ce01930c122ee8ed3b89644258"></span><code class="descname">MCPWM2B</code><a class="headerlink" href="#_CPPv47MCPWM2B" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>PWM2B output pin </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv412MCPWM_SYNC_0">
+<span id="_CPPv312MCPWM_SYNC_0"></span><span id="_CPPv212MCPWM_SYNC_0"></span><span class="target" id="mcpwm_8h_1a763801244a37a3c2cc9e73c0488c068ba0df14847c2bab1c2f9032afe10640322"></span><code class="descname">MCPWM_SYNC_0</code><a class="headerlink" href="#_CPPv412MCPWM_SYNC_0" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SYNC0 input pin </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv412MCPWM_SYNC_1">
+<span id="_CPPv312MCPWM_SYNC_1"></span><span id="_CPPv212MCPWM_SYNC_1"></span><span class="target" id="mcpwm_8h_1a763801244a37a3c2cc9e73c0488c068ba623c0fb0238625c326bfdd6272f4d86c"></span><code class="descname">MCPWM_SYNC_1</code><a class="headerlink" href="#_CPPv412MCPWM_SYNC_1" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SYNC1 input pin </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv412MCPWM_SYNC_2">
+<span id="_CPPv312MCPWM_SYNC_2"></span><span id="_CPPv212MCPWM_SYNC_2"></span><span class="target" id="mcpwm_8h_1a763801244a37a3c2cc9e73c0488c068bae074cc706b73ba276dd3e72fc2151ca3"></span><code class="descname">MCPWM_SYNC_2</code><a class="headerlink" href="#_CPPv412MCPWM_SYNC_2" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SYNC2 input pin </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv413MCPWM_FAULT_0">
+<span id="_CPPv313MCPWM_FAULT_0"></span><span id="_CPPv213MCPWM_FAULT_0"></span><span class="target" id="mcpwm_8h_1a763801244a37a3c2cc9e73c0488c068badcd9f77e70599cf5f6bdd06ff6e09840"></span><code class="descname">MCPWM_FAULT_0</code><a class="headerlink" href="#_CPPv413MCPWM_FAULT_0" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>FAULT0 input pin </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv413MCPWM_FAULT_1">
+<span id="_CPPv313MCPWM_FAULT_1"></span><span id="_CPPv213MCPWM_FAULT_1"></span><span class="target" id="mcpwm_8h_1a763801244a37a3c2cc9e73c0488c068ba98b0d6dfa08a23f7c8d62a9dee2d72de"></span><code class="descname">MCPWM_FAULT_1</code><a class="headerlink" href="#_CPPv413MCPWM_FAULT_1" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>FAULT1 input pin </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv413MCPWM_FAULT_2">
+<span id="_CPPv313MCPWM_FAULT_2"></span><span id="_CPPv213MCPWM_FAULT_2"></span><span class="target" id="mcpwm_8h_1a763801244a37a3c2cc9e73c0488c068ba8e6c3b49da618dc08d7c58ef7566bea4"></span><code class="descname">MCPWM_FAULT_2</code><a class="headerlink" href="#_CPPv413MCPWM_FAULT_2" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>FAULT2 input pin </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv411MCPWM_CAP_0">
+<span id="_CPPv311MCPWM_CAP_0"></span><span id="_CPPv211MCPWM_CAP_0"></span><span class="target" id="mcpwm_8h_1a763801244a37a3c2cc9e73c0488c068ba2eaba586ac1a329cd06047bd6a7044fe"></span><code class="descname">MCPWM_CAP_0</code> = 84<a class="headerlink" href="#_CPPv411MCPWM_CAP_0" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CAP0 input pin </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv411MCPWM_CAP_1">
+<span id="_CPPv311MCPWM_CAP_1"></span><span id="_CPPv211MCPWM_CAP_1"></span><span class="target" id="mcpwm_8h_1a763801244a37a3c2cc9e73c0488c068bac7c6393dc13c9311918c42a37be5869b"></span><code class="descname">MCPWM_CAP_1</code><a class="headerlink" href="#_CPPv411MCPWM_CAP_1" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CAP1 input pin </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv411MCPWM_CAP_2">
+<span id="_CPPv311MCPWM_CAP_2"></span><span id="_CPPv211MCPWM_CAP_2"></span><span class="target" id="mcpwm_8h_1a763801244a37a3c2cc9e73c0488c068baf1eb539fac5c28b66cc30ce0d126f894"></span><code class="descname">MCPWM_CAP_2</code><a class="headerlink" href="#_CPPv411MCPWM_CAP_2" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CAP2 input pin </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv412mcpwm_unit_t">
+<span id="_CPPv312mcpwm_unit_t"></span><span id="_CPPv212mcpwm_unit_t"></span><span id="mcpwm_unit_t"></span><span class="target" id="mcpwm_8h_1a8b6f0999f2e2a659e82e19b59ff59296"></span><em class="property">enum </em><code class="descname">mcpwm_unit_t</code><a class="headerlink" href="#_CPPv412mcpwm_unit_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Select MCPWM unit. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv412MCPWM_UNIT_0">
+<span id="_CPPv312MCPWM_UNIT_0"></span><span id="_CPPv212MCPWM_UNIT_0"></span><span class="target" id="mcpwm_8h_1a8b6f0999f2e2a659e82e19b59ff59296afcc9a2b0a5431a50665d33c62891d1e5"></span><code class="descname">MCPWM_UNIT_0</code> = 0<a class="headerlink" href="#_CPPv412MCPWM_UNIT_0" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWM unit0 selected </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv412MCPWM_UNIT_1">
+<span id="_CPPv312MCPWM_UNIT_1"></span><span id="_CPPv212MCPWM_UNIT_1"></span><span class="target" id="mcpwm_8h_1a8b6f0999f2e2a659e82e19b59ff59296a0fc1aba23e06163f5ff8d07057534a24"></span><code class="descname">MCPWM_UNIT_1</code><a class="headerlink" href="#_CPPv412MCPWM_UNIT_1" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWM unit1 selected </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414MCPWM_UNIT_MAX">
+<span id="_CPPv314MCPWM_UNIT_MAX"></span><span id="_CPPv214MCPWM_UNIT_MAX"></span><span class="target" id="mcpwm_8h_1a8b6f0999f2e2a659e82e19b59ff59296a2078a23f4863faa2b87b43b8760addff"></span><code class="descname">MCPWM_UNIT_MAX</code><a class="headerlink" href="#_CPPv414MCPWM_UNIT_MAX" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Num of MCPWM units on ESP32 </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv413mcpwm_timer_t">
+<span id="_CPPv313mcpwm_timer_t"></span><span id="_CPPv213mcpwm_timer_t"></span><span id="mcpwm_timer_t"></span><span class="target" id="mcpwm_8h_1a94e1ded6100c13d1291d86456a91ac98"></span><em class="property">enum </em><code class="descname">mcpwm_timer_t</code><a class="headerlink" href="#_CPPv413mcpwm_timer_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Select MCPWM timer. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv413MCPWM_TIMER_0">
+<span id="_CPPv313MCPWM_TIMER_0"></span><span id="_CPPv213MCPWM_TIMER_0"></span><span class="target" id="mcpwm_8h_1a94e1ded6100c13d1291d86456a91ac98a20fa9994a4d4cdb3f857f573f8cc3587"></span><code class="descname">MCPWM_TIMER_0</code> = 0<a class="headerlink" href="#_CPPv413MCPWM_TIMER_0" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Select MCPWM timer0 </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv413MCPWM_TIMER_1">
+<span id="_CPPv313MCPWM_TIMER_1"></span><span id="_CPPv213MCPWM_TIMER_1"></span><span class="target" id="mcpwm_8h_1a94e1ded6100c13d1291d86456a91ac98a7dddbfcd38d78a89002ca4db516d9440"></span><code class="descname">MCPWM_TIMER_1</code><a class="headerlink" href="#_CPPv413MCPWM_TIMER_1" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Select MCPWM timer1 </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv413MCPWM_TIMER_2">
+<span id="_CPPv313MCPWM_TIMER_2"></span><span id="_CPPv213MCPWM_TIMER_2"></span><span class="target" id="mcpwm_8h_1a94e1ded6100c13d1291d86456a91ac98a2e395991c29f1c088424778204c5e5da"></span><code class="descname">MCPWM_TIMER_2</code><a class="headerlink" href="#_CPPv413MCPWM_TIMER_2" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Select MCPWM timer2 </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv415MCPWM_TIMER_MAX">
+<span id="_CPPv315MCPWM_TIMER_MAX"></span><span id="_CPPv215MCPWM_TIMER_MAX"></span><span class="target" id="mcpwm_8h_1a94e1ded6100c13d1291d86456a91ac98aa8f10b29c7557d6fc7c2823e4e1e71ca"></span><code class="descname">MCPWM_TIMER_MAX</code><a class="headerlink" href="#_CPPv415MCPWM_TIMER_MAX" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Num of MCPWM timers on ESP32 </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv417mcpwm_generator_t">
+<span id="_CPPv317mcpwm_generator_t"></span><span id="_CPPv217mcpwm_generator_t"></span><span id="mcpwm_generator_t"></span><span class="target" id="mcpwm_8h_1a94e71182638c5763cb58c099f88d8ced"></span><em class="property">enum </em><code class="descname">mcpwm_generator_t</code><a class="headerlink" href="#_CPPv417mcpwm_generator_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Select MCPWM operator. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv411MCPWM_GEN_A">
+<span id="_CPPv311MCPWM_GEN_A"></span><span id="_CPPv211MCPWM_GEN_A"></span><span class="target" id="mcpwm_8h_1a94e71182638c5763cb58c099f88d8ceda0d389af85543d06bc85daaaa25dace55"></span><code class="descname">MCPWM_GEN_A</code> = 0<a class="headerlink" href="#_CPPv411MCPWM_GEN_A" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Select MCPWMXA, where ‘X’ is operator number </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv411MCPWM_GEN_B">
+<span id="_CPPv311MCPWM_GEN_B"></span><span id="_CPPv211MCPWM_GEN_B"></span><span class="target" id="mcpwm_8h_1a94e71182638c5763cb58c099f88d8cedaaf5fdd196bd3147c76cd3e3dd5378415"></span><code class="descname">MCPWM_GEN_B</code><a class="headerlink" href="#_CPPv411MCPWM_GEN_B" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Select MCPWMXB, where ‘X’ is operator number </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv413MCPWM_GEN_MAX">
+<span id="_CPPv313MCPWM_GEN_MAX"></span><span id="_CPPv213MCPWM_GEN_MAX"></span><span class="target" id="mcpwm_8h_1a94e71182638c5763cb58c099f88d8ceda36638b4f3113b27ff888e40da6757c5f"></span><code class="descname">MCPWM_GEN_MAX</code><a class="headerlink" href="#_CPPv413MCPWM_GEN_MAX" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Num of generators to each operator of MCPWM </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv418mcpwm_carrier_os_t">
+<span id="_CPPv318mcpwm_carrier_os_t"></span><span id="_CPPv218mcpwm_carrier_os_t"></span><span id="mcpwm_carrier_os_t"></span><span class="target" id="mcpwm_8h_1a8537945dcb597d8eabb0960b805617a0"></span><em class="property">enum </em><code class="descname">mcpwm_carrier_os_t</code><a class="headerlink" href="#_CPPv418mcpwm_carrier_os_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWM carrier oneshot mode, in this mode the width of the first pulse of carrier can be programmed. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv422MCPWM_ONESHOT_MODE_DIS">
+<span id="_CPPv322MCPWM_ONESHOT_MODE_DIS"></span><span id="_CPPv222MCPWM_ONESHOT_MODE_DIS"></span><span class="target" id="mcpwm_8h_1a8537945dcb597d8eabb0960b805617a0a92ba4939ab9cc7cfcf9c320ad43b1230"></span><code class="descname">MCPWM_ONESHOT_MODE_DIS</code> = 0<a class="headerlink" href="#_CPPv422MCPWM_ONESHOT_MODE_DIS" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable oneshot mode </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv421MCPWM_ONESHOT_MODE_EN">
+<span id="_CPPv321MCPWM_ONESHOT_MODE_EN"></span><span id="_CPPv221MCPWM_ONESHOT_MODE_EN"></span><span class="target" id="mcpwm_8h_1a8537945dcb597d8eabb0960b805617a0a3183194cc67d48492a982ca4b891558e"></span><code class="descname">MCPWM_ONESHOT_MODE_EN</code><a class="headerlink" href="#_CPPv421MCPWM_ONESHOT_MODE_EN" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable oneshot mode </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv423mcpwm_carrier_out_ivt_t">
+<span id="_CPPv323mcpwm_carrier_out_ivt_t"></span><span id="_CPPv223mcpwm_carrier_out_ivt_t"></span><span id="mcpwm_carrier_out_ivt_t"></span><span class="target" id="mcpwm_8h_1a8a993c5b98d9c6f8b3b0b30cb8b81ec5"></span><em class="property">enum </em><code class="descname">mcpwm_carrier_out_ivt_t</code><a class="headerlink" href="#_CPPv423mcpwm_carrier_out_ivt_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWM carrier output inversion, high frequency carrier signal active with MCPWM signal is high. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv425MCPWM_CARRIER_OUT_IVT_DIS">
+<span id="_CPPv325MCPWM_CARRIER_OUT_IVT_DIS"></span><span id="_CPPv225MCPWM_CARRIER_OUT_IVT_DIS"></span><span class="target" id="mcpwm_8h_1a8a993c5b98d9c6f8b3b0b30cb8b81ec5af7a8b997e7a7f95aaf58be966ed1d1ba"></span><code class="descname">MCPWM_CARRIER_OUT_IVT_DIS</code> = 0<a class="headerlink" href="#_CPPv425MCPWM_CARRIER_OUT_IVT_DIS" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable carrier output inversion </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv424MCPWM_CARRIER_OUT_IVT_EN">
+<span id="_CPPv324MCPWM_CARRIER_OUT_IVT_EN"></span><span id="_CPPv224MCPWM_CARRIER_OUT_IVT_EN"></span><span class="target" id="mcpwm_8h_1a8a993c5b98d9c6f8b3b0b30cb8b81ec5a5374a57707683c4e080c59a97cce0926"></span><code class="descname">MCPWM_CARRIER_OUT_IVT_EN</code><a class="headerlink" href="#_CPPv424MCPWM_CARRIER_OUT_IVT_EN" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable carrier output inversion </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv420mcpwm_fault_signal_t">
+<span id="_CPPv320mcpwm_fault_signal_t"></span><span id="_CPPv220mcpwm_fault_signal_t"></span><span id="mcpwm_fault_signal_t"></span><span class="target" id="mcpwm_8h_1a895419acd0a2957be60c78e50fe48cf7"></span><em class="property">enum </em><code class="descname">mcpwm_fault_signal_t</code><a class="headerlink" href="#_CPPv420mcpwm_fault_signal_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWM select fault signal input. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv415MCPWM_SELECT_F0">
+<span id="_CPPv315MCPWM_SELECT_F0"></span><span id="_CPPv215MCPWM_SELECT_F0"></span><span class="target" id="mcpwm_8h_1a895419acd0a2957be60c78e50fe48cf7a03fa39edd6777d6a90877e97385f932e"></span><code class="descname">MCPWM_SELECT_F0</code> = 0<a class="headerlink" href="#_CPPv415MCPWM_SELECT_F0" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Select F0 as input </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv415MCPWM_SELECT_F1">
+<span id="_CPPv315MCPWM_SELECT_F1"></span><span id="_CPPv215MCPWM_SELECT_F1"></span><span class="target" id="mcpwm_8h_1a895419acd0a2957be60c78e50fe48cf7aac51233c7f749daab3a5c134cfffd9cb"></span><code class="descname">MCPWM_SELECT_F1</code><a class="headerlink" href="#_CPPv415MCPWM_SELECT_F1" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Select F1 as input </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv415MCPWM_SELECT_F2">
+<span id="_CPPv315MCPWM_SELECT_F2"></span><span id="_CPPv215MCPWM_SELECT_F2"></span><span class="target" id="mcpwm_8h_1a895419acd0a2957be60c78e50fe48cf7ab15735411f294d6698737b9e170dc7ee"></span><code class="descname">MCPWM_SELECT_F2</code><a class="headerlink" href="#_CPPv415MCPWM_SELECT_F2" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Select F2 as input </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv425mcpwm_fault_input_level_t">
+<span id="_CPPv325mcpwm_fault_input_level_t"></span><span id="_CPPv225mcpwm_fault_input_level_t"></span><span id="mcpwm_fault_input_level_t"></span><span class="target" id="mcpwm_8h_1a8cde4bed4b4f9c01dc925d9e70bb7d34"></span><em class="property">enum </em><code class="descname">mcpwm_fault_input_level_t</code><a class="headerlink" href="#_CPPv425mcpwm_fault_input_level_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWM select triggering level of fault signal. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv419MCPWM_LOW_LEVEL_TGR">
+<span id="_CPPv319MCPWM_LOW_LEVEL_TGR"></span><span id="_CPPv219MCPWM_LOW_LEVEL_TGR"></span><span class="target" id="mcpwm_8h_1a8cde4bed4b4f9c01dc925d9e70bb7d34a0b10d5b845b672f90906b20375f32dfd"></span><code class="descname">MCPWM_LOW_LEVEL_TGR</code> = 0<a class="headerlink" href="#_CPPv419MCPWM_LOW_LEVEL_TGR" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Fault condition occurs when fault input signal goes from high to low, currently not supported </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv420MCPWM_HIGH_LEVEL_TGR">
+<span id="_CPPv320MCPWM_HIGH_LEVEL_TGR"></span><span id="_CPPv220MCPWM_HIGH_LEVEL_TGR"></span><span class="target" id="mcpwm_8h_1a8cde4bed4b4f9c01dc925d9e70bb7d34adb0e2d1b35f51ab360be8aaffe5bd859"></span><code class="descname">MCPWM_HIGH_LEVEL_TGR</code><a class="headerlink" href="#_CPPv420MCPWM_HIGH_LEVEL_TGR" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Fault condition occurs when fault input signal goes low to high </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv422mcpwm_capture_signal_t">
+<span id="_CPPv322mcpwm_capture_signal_t"></span><span id="_CPPv222mcpwm_capture_signal_t"></span><span id="mcpwm_capture_signal_t"></span><span class="target" id="mcpwm_8h_1a6381e0ec59337745f5709fa0a81046c7"></span><em class="property">enum </em><code class="descname">mcpwm_capture_signal_t</code><a class="headerlink" href="#_CPPv422mcpwm_capture_signal_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MCPWM select capture signal input. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv417MCPWM_SELECT_CAP0">
+<span id="_CPPv317MCPWM_SELECT_CAP0"></span><span id="_CPPv217MCPWM_SELECT_CAP0"></span><span class="target" id="mcpwm_8h_1a6381e0ec59337745f5709fa0a81046c7a974a9ddeada4a67ac29887cb65faf7ef"></span><code class="descname">MCPWM_SELECT_CAP0</code> = 0<a class="headerlink" href="#_CPPv417MCPWM_SELECT_CAP0" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Select CAP0 as input </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv417MCPWM_SELECT_CAP1">
+<span id="_CPPv317MCPWM_SELECT_CAP1"></span><span id="_CPPv217MCPWM_SELECT_CAP1"></span><span class="target" id="mcpwm_8h_1a6381e0ec59337745f5709fa0a81046c7a3260144d213165f2f39f6622c349e775"></span><code class="descname">MCPWM_SELECT_CAP1</code><a class="headerlink" href="#_CPPv417MCPWM_SELECT_CAP1" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Select CAP1 as input </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv417MCPWM_SELECT_CAP2">
+<span id="_CPPv317MCPWM_SELECT_CAP2"></span><span id="_CPPv217MCPWM_SELECT_CAP2"></span><span class="target" id="mcpwm_8h_1a6381e0ec59337745f5709fa0a81046c7a84a2d502a3a67fad38c404c24b27ec90"></span><code class="descname">MCPWM_SELECT_CAP2</code><a class="headerlink" href="#_CPPv417MCPWM_SELECT_CAP2" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Select CAP2 as input </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="pcnt.html" class="btn btn-neutral float-right" title="Pulse Counter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ledc.html" class="btn btn-neutral float-left" title="LED Control" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/mcpwm.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:36 GMT -->
+</html>

@@ -1,0 +1,662 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/sd_pullup_requirements.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:02 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SD Pull-up Requirements &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="SDMMC Host Driver" href="sdmmc_host.html" />
+    <link rel="prev" title="RMT" href="rmt.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="sd_pullup_requirements.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/peripherals/sd_pullup_requirements"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Peripherals</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="adc.html">ADC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="can.html">CAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html">DAC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html">GPIO (including RTC low power I/O)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html">I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html">I2S</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ledc.html">LED Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcpwm.html">MCPWM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pcnt.html">Pulse Counter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rmt.html">Remote Control</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">SD Pull-up Requirements</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview-of-compatibility">Overview of Compatibility</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#solutions">Solutions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#related-information">Related Information</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="sdmmc_host.html">SDMMC Host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdspi_host.html">SD SPI Host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdio_slave.html">SDIO Slave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sigmadelta.html">Sigma-delta Modulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html">SPI Master</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html">SPI Slave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="temp_sensor.html">Temp sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html">Touch Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uart.html">UART</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Peripherals API</a> &raquo;</li>
+        
+      <li>SD Pull-up Requirements</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/peripherals/sd_pullup_requirements.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="sd-pull-up-requirements">
+<h1>SD Pull-up Requirements<a class="headerlink" href="#sd-pull-up-requirements" title="Permalink to this headline">¶</a></h1>
+<p>Espressif hardware products are designed for multiple use cases which may require different pull states on pins. For this reason, the pull state of particular pins on certain products will need to be adjusted to provide the pull-ups required in the SD bus.</p>
+<p>SD pull-up requirements apply to cases where ESP32 uses the SPI controller to communicate with SD cards. When an SD card is operating in SPI mode or 1-bit SD mode, the CMD and DATA (DAT0 - DAT3) lines of the SD bus must be pulled up by 10 kOhm resistors. Slaves should also have pull-ups on all above-mentioned lines (regardless of whether these lines are connected to the host) in order to prevent SD cards from entering a wrong state.</p>
+<p>By default, the MTDI bootstrapping pin is incompatible with the DAT2 line pull-up if the flash voltage is 3.3 V. For more information, see <a class="reference internal" href="#mtdi-strapping-pin"><span class="std std-ref">MTDI Strapping Pin</span></a> below.</p>
+<p>This document has the following structure:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#overview-of-compatibility">Overview of compatibility</a> between the default pull states on pins of Espressif’s products and the states required by the SD bus</li>
+<li><a class="reference internal" href="#solutions">Solutions</a> - ideas on how to resolve compatibility issues</li>
+<li><a class="reference internal" href="#related-information">Related information</a> - other relevant information</li>
+</ul>
+<div class="section" id="overview-of-compatibility">
+<span id="compatibility-overview-espressif-hw-sdio"></span><h2>Overview of Compatibility<a class="headerlink" href="#overview-of-compatibility" title="Permalink to this headline">¶</a></h2>
+<p>This section provides an overview of compatibility issues that might occur when using SDIO (secure digital input output). Since the SD bus needs to be connected to pull-ups, these issues should be resolved regardless of whether they are related to master (host) or slave (device). Each issue has links to its respective solution. A solution for a host and device may differ.</p>
+<div class="section" id="systems-on-a-chip-socs">
+<h3>Systems on a Chip (SoCs)<a class="headerlink" href="#systems-on-a-chip-socs" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">ESP32 (except for D2WD versions, see <a class="reference external" href="https://www.espressif.com/sites/default/files/documentation/esp32_datasheet_en.pdf">ESP32 datasheet</a>):</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#sd-pull-up-no-pull-ups"><span class="std std-ref">No Pull-ups</span></a></li>
+<li><a class="reference internal" href="#strapping-conflicts-dat2"><span class="std std-ref">Conflicts Between Bootstrap and SDIO on DAT2</span></a> for models with 3.3 V flash chip</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">ESP32-D2WD:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#sd-pull-up-no-pull-ups"><span class="std std-ref">No Pull-ups</span></a></li>
+<li><a class="reference internal" href="#no-pull-up-on-gpio12"><span class="std std-ref">No Pull-up on GPIO12</span></a></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="systems-in-packages-sip">
+<h3>Systems in Packages (SIP)<a class="headerlink" href="#systems-in-packages-sip" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">ESP32-PICO-D4:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#sd-pull-up-no-pull-ups"><span class="std std-ref">No Pull-ups</span></a></li>
+<li><a class="reference internal" href="#strapping-conflicts-dat2"><span class="std std-ref">Conflicts Between Bootstrap and SDIO on DAT2</span></a></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="modules">
+<h3>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">ESP32-WROOM-32 Series, including ESP32-WROOM-32, ESP32-WROOM-32D, ESP32-WROOM-32U, and ESP32-SOLO-1</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#sd-pull-up-no-pull-ups"><span class="std std-ref">No Pull-ups</span></a></li>
+<li><a class="reference internal" href="#strapping-conflicts-dat2"><span class="std std-ref">Conflicts Between Bootstrap and SDIO on DAT2</span></a></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">ESP32-WROVER Series, including ESP32-WROVER and ESP32-WROVER-I</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#sd-pull-up-no-pull-ups"><span class="std std-ref">No Pull-ups</span></a></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">ESP32-WROVER-B Series, including ESP32-WROVER-B and ESP32-WROVER-IB</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#sd-pull-up-no-pull-ups"><span class="std std-ref">No Pull-ups</span></a></li>
+<li><a class="reference internal" href="#strapping-conflicts-dat2"><span class="std std-ref">Conflicts Between Bootstrap and SDIO on DAT2</span></a></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="development-boards">
+<span id="sdio-dev-kits"></span><h3>Development Boards<a class="headerlink" href="#development-boards" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first">ESP32-PICO-KIT, including PICO-KIT v4.1, v4.0, and v3</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#sd-pull-up-no-pull-ups"><span class="std std-ref">No Pull-ups</span></a></li>
+<li><a class="reference internal" href="#strapping-conflicts-dat2"><span class="std std-ref">Conflicts Between Bootstrap and SDIO on DAT2</span></a></li>
+<li><a class="reference internal" href="#gpio2-strapping-pin"><span class="std std-ref">Download Mode Not Working (minor issue)</span></a></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">ESP32-DevKitC, including ESP32-DevKitC v4 and v2</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#sd-pull-up-no-pull-ups"><span class="std std-ref">No Pull-ups</span></a></li>
+<li><a class="reference internal" href="#strapping-conflicts-dat2"><span class="std std-ref">Conflicts Between Bootstrap and SDIO on DAT2</span></a></li>
+<li><a class="reference internal" href="#gpio2-strapping-pin"><span class="std std-ref">Download Mode Not Working (minor issue)</span></a></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">ESP-WROVER-KIT</p>
+<blockquote>
+<div><ul class="simple">
+<li>Required pull-ups are provided</li>
+<li><a class="reference internal" href="#pull-up-conflicts-on-gpio13"><span class="std std-ref">Pull-up Conflicts on GPIO13</span></a> (v4.1, v3, v2, and v1)</li>
+<li><a class="reference internal" href="#strapping-conflicts-dat2"><span class="std std-ref">Conflicts Between Bootstrap and SDIO on DAT2</span></a> (v4.1, v2, and v1)</li>
+<li><a class="reference internal" href="#gpio2-strapping-pin"><span class="std std-ref">Download Mode Not Working (minor issue)</span></a> (v2, v1)</li>
+</ul>
+<p>You can determine the version of your ESP23-WROVER-KIT by checking which module is mounted on it:</p>
+<ul class="simple">
+<li>ESP32-WROVER-B on v4.1</li>
+<li>ESP32-WROVER on v3</li>
+<li>ESP32-WROOM-32 on v1 and v2</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">ESP32-LyraTD-MSC</p>
+<blockquote>
+<div><ul class="simple">
+<li>Required pull-ups are provided</li>
+<li><a class="reference internal" href="#strapping-conflicts-dat2"><span class="std std-ref">Conflicts Between Bootstrap and SDIO on DAT2</span></a></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">ESP32-LyraT</p>
+<blockquote>
+<div><ul class="simple">
+<li>Required pull-ups are provided</li>
+<li><a class="reference internal" href="#pull-up-conflicts-on-gpio13"><span class="std std-ref">Pull-up Conflicts on GPIO13</span></a></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="non-espressif-hosts">
+<h3>Non-Espressif Hosts<a class="headerlink" href="#non-espressif-hosts" title="Permalink to this headline">¶</a></h3>
+<p>Please make sure that your SDIO host provides necessary pull-ups for all SD bus signals.</p>
+</div>
+</div>
+<div class="section" id="solutions">
+<h2>Solutions<a class="headerlink" href="#solutions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="no-pull-ups">
+<span id="sd-pull-up-no-pull-ups"></span><h3>No Pull-ups<a class="headerlink" href="#no-pull-ups" title="Permalink to this headline">¶</a></h3>
+<p>If you use a development board without pull-ups, you can do the following:</p>
+<ul class="simple">
+<li>If your host and slave device are on seperate boards, replace one of them with a board that has pull-ups. For the list of Espressif’s development boards with pull-ups, go to <a class="reference internal" href="#sdio-dev-kits"><span class="std std-ref">Development Boards</span></a>.</li>
+<li>Attach external pull-ups by connecting each pin which requires a pull-up to VDD via a 10 kOhm resistor.</li>
+</ul>
+</div>
+<div class="section" id="pull-up-conflicts-on-gpio13">
+<span id="id1"></span><h3>Pull-up Conflicts on GPIO13<a class="headerlink" href="#pull-up-conflicts-on-gpio13" title="Permalink to this headline">¶</a></h3>
+<p>If DAT3 of your device is not properly pulled up, you have the following options:</p>
+<ul class="simple">
+<li>Use 1-bit SD mode and tie the device’s DAT3 to VDD</li>
+<li>Use SPI mode</li>
+<li><dl class="first docutils">
+<dt>Perform one of the following actions on the GPIO13 pin:</dt>
+<dd><ul class="first last">
+<li>Remove the pull-down resistors</li>
+<li>Attach a pull-up resistor of less than 5 kOhm (2 kOhm suggested)</li>
+<li>Pull it up or drive it high either by using the host or with 3.3 V on VDD in 1-bit SD mode</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="conflicts-between-bootstrap-and-sdio-on-dat2">
+<span id="strapping-conflicts-dat2"></span><h3>Conflicts Between Bootstrap and SDIO on DAT2<a class="headerlink" href="#conflicts-between-bootstrap-and-sdio-on-dat2" title="Permalink to this headline">¶</a></h3>
+<p>There is a conflict between the boot strapping requirements of the ESP32 and the SDIO protocol. For details, see <a class="reference internal" href="#mtdi-strapping-pin"><span class="std std-ref">MTDI Strapping Pin</span></a>.</p>
+<p>To resolve the conflict, you have the following options:</p>
+<ol class="arabic">
+<li><p class="first">(Recommended) Burn the flash voltage selection eFuses. This will permanently configure the internal regulator’s output voltage to 3.3 V, and GPIO12 will not be used as a bootstrapping pin. After that, connect a pull-up resistor to GPIO12.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Burning eFuses is irreversible! The issue list above might be out of date, so please make sure that the module you are burning has a 3.3 V flash chip by checking the information on <a class="reference external" href="http://www.espressif.com/">http://www.espressif.com/</a>. If you burn the 3.3 V eFuses on a module with a 1.8 V flash chip, the module will stop functioning.</p>
+</div>
+<p>If you are sure that you need to irreversibly burn eFuses, go to your ESP-IDF directory and run the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>components/esptool_py/esptool/espefuse.py set_flash_voltage <span class="m">3</span>.3V
+</pre></div>
+</div>
+<p>This command will burn the <cite>XPD_SDIO_TIEH</cite>, <cite>XPD_SDIO_FORCE</cite>, and <cite>XPD_SDIO_REG</cite> eFuses. After all the three eFuses are burned to value 1, the internal VDD_SDIO flash voltage regulator will be permanently set to 3.3 V. You will see the following log if the burning succeeds:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>espefuse.py v2.6
+Connecting....
+
+Enable internal flash voltage regulator <span class="o">(</span>VDD_SDIO<span class="o">)</span> to <span class="m">3</span>.3 V.
+The following eFuses are burned: XPD_SDIO_FORCE, XPD_SDIO_REG, XPD_SDIO_TIEH.
+This is an irreversible operation.
+Type <span class="s1">&#39;BURN&#39;</span> <span class="o">(</span>all capitals<span class="o">)</span> to <span class="k">continue</span>.
+BURN
+VDD_SDIO setting complete.
+</pre></div>
+</div>
+<p>To check the status of the eFuses, run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``components/esptool_py/esptool/espefuse.py summary``
+</pre></div>
+</div>
+<p>If running from an automated flashing script, <code class="docutils literal notranslate"><span class="pre">espefuse.py</span></code> has an option <code class="docutils literal notranslate"><span class="pre">--do-not-confirm</span></code>.</p>
+<p>For more details, see the <a class="reference external" href="https://espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf">ESP32 Technical Reference Manual</a> (PDF).</p>
+</li>
+<li><p class="first"><strong>If using 1-bit SD mode or SPI mode</strong>, disconnect the DAT2 pin and make sure it is pulled high. For this, do one the following:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Leave the host’s DAT2 floating and directly connect the slave’s DAT2 to VDD.</li>
+<li>For a slave device, build a firmware with the option <code class="docutils literal notranslate"><span class="pre">SDIO_SLAVE_FLAG_DAT2_DISABLED</span></code> and re-flash your device. This option will help avoid slave detecting on the DAT2 line. Note that 4-bit SD mode will no longer be supported by the standard Card Common Control Register (CCCR); however, the host will not be aware of that. The use of 4-bit SD mode will have to be disabled on the host’s side.</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+</div>
+<div class="section" id="no-pull-up-on-gpio12">
+<span id="id2"></span><h3>No Pull-up on GPIO12<a class="headerlink" href="#no-pull-up-on-gpio12" title="Permalink to this headline">¶</a></h3>
+<p>Your module is compatible with the SDIO protocol. Just connect GPIO12 to VDD via a 10 kOhm resistor.</p>
+</div>
+<div class="section" id="download-mode-not-working-minor-issue">
+<span id="gpio2-strapping-pin"></span><h3>Download Mode Not Working (minor issue)<a class="headerlink" href="#download-mode-not-working-minor-issue" title="Permalink to this headline">¶</a></h3>
+<p>When the GPIO2 pin is pulled high in accordance with the SD pull-up requirements, you cannot enter Download mode because GPIO2 is a bootstrapping pin which in this case must be pulled low.</p>
+<p>There are the following solutions:</p>
+<ul>
+<li><p class="first">For boards that require shorting the GPIO0 and GPIO2 pins with a jumper, put the jumper in place, and the auto-reset circuit will pull GPIO2 low along with GPIO0 before entering Download mode.</p>
+</li>
+<li><p class="first">For boards with components attached to their GPIO2 pin (such as pull-down resistors and/or LEDs), check the schematic of your development board for anything connected to GPIO2.</p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>LEDs</strong> would not affect operation in most cases.</li>
+<li><strong>Pull-down resistors</strong> can interfere with DAT0 signals and must be removed.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>If the above solutions do not work for you, please determine if it is the host or slave device that has pull-ups affecting their GPIO2, then locate these pull-ups and remove them.</p>
+</div>
+</div>
+<div class="section" id="related-information">
+<span id="related-info-sdio"></span><h2>Related Information<a class="headerlink" href="#related-information" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="mtdi-strapping-pin">
+<span id="id3"></span><h3>MTDI Strapping Pin<a class="headerlink" href="#mtdi-strapping-pin" title="Permalink to this headline">¶</a></h3>
+<p>MTDI (GPIO12) is used as a bootstrapping pin to select the output voltage of an internal regulator (VDD_SDIO) which powers the flash chip. This pin has an internal pull-down, so, if left unconnected, it will read low at startup, which will lead to selecting the default 3.3 V operation.</p>
+<p>All ESP32-WROVER modules, excluding ESP32-WROVER-B, use 1.8 V flash and have internal pull-ups on GPIO12. Other modules that use 3.3 V flash have no pull-ups on the GPIO12 pin, and this pin is slightly pulled down internally.</p>
+<p>When adding a pull-up to this pin for SD card operation, consider the following:</p>
+<ul class="simple">
+<li>For boards that do not use the internal regulator (VDD_SDIO) to power flash, GPIO12 can be pulled high.</li>
+<li>For boards using 1.8 V flash chips, GPIO12 needs to be pulled high at reset. This is fully compatible with the SD card operation.</li>
+<li>On boards using the internal regulator and a 3.3 V flash chip, GPIO12 must be pulled low at reset. This is incompatible with the SD card operation. For reference information on compatibility of Espressif’s boards with the SD card operation, see <a class="reference internal" href="#compatibility-overview-espressif-hw-sdio"><span class="std std-ref">Overview of Compatibility</span></a>.</li>
+</ul>
+</div>
+<div class="section" id="internal-pull-ups-and-strapping-requirements">
+<h3>Internal Pull-ups and Strapping Requirements<a class="headerlink" href="#internal-pull-ups-and-strapping-requirements" title="Permalink to this headline">¶</a></h3>
+<p>Using external resistors is always preferable. However, Espressif’s products have internal weak pull-up and pull-down resistors which can be enabled and used instead of external ones. Please keep in mind that this solution cannot guarantee reliable SDIO communication.</p>
+<p>With that said, the information about these internal pull-ups and strapping requirements can still be useful. Espressif hardware products have different weak internal pull-ups / pull-downs connected to CMD and DATA pins. The table below shows the default pull-up and pull-down states of the CMD and DATA pins.</p>
+<p>The following abbreviations are used in the table:</p>
+<ul class="simple">
+<li><strong>WPU</strong>: Weak pull-up inside the SoC</li>
+<li><strong>WPD</strong>: Weak pull-down inside the SoC</li>
+<li><strong>PU</strong>: Pull-up inside Espressif modules but outside the SoC</li>
+</ul>
+<table border="1" class="colwidths-given docutils" id="id4">
+<caption><span class="caption-text">Default pull-up and pull-down states of the CMD and DATA pins</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">GPIO number</th>
+<th class="head">Pin Name</th>
+<th class="head">Startup State</th>
+<th class="head">Strapping Requirement</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>15</strong></td>
+<td>CMD</td>
+<td>WPU</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>2</strong></td>
+<td>DAT0</td>
+<td>WPD</td>
+<td>Low for Download mode</td>
+</tr>
+<tr class="row-even"><td><strong>4</strong></td>
+<td>DAT1</td>
+<td>WPD</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td><strong>12</strong></td>
+<td>DAT2</td>
+<td>PU for 1.8 V flash; WPD for 3.3 V flash</td>
+<td>High for 1.8 V flash; Low for 3.3 V flash</td>
+</tr>
+<tr class="row-even"><td><strong>13</strong></td>
+<td>DAT3</td>
+<td>WPU</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sdmmc_host.html" class="btn btn-neutral float-right" title="SDMMC Host Driver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="rmt.html" class="btn btn-neutral float-left" title="RMT" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/sd_pullup_requirements.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:02 GMT -->
+</html>

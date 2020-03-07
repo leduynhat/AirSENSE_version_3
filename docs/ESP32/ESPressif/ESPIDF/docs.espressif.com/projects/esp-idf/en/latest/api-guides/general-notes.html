@@ -1,0 +1,534 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/general-notes.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:27 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>General Notes About ESP-IDF Programming &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="High-Level Interrupts" href="hlinterrupts.html" />
+    <link rel="prev" title="ESP-IDF FreeRTOS SMP Changes" href="freertos-smp.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="general-notes.html" />
+
+<link rel="stylesheet" href="../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-guides/general-notes"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="app_trace.html">Application Level Tracing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blufi.html">BluFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootloader.html">Bootloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-system.html">Build System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-system-legacy.html">Build System (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="console.html">Console Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deep-sleep-stub.html">Deep Sleep Wake Stubs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="error-handling.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="esp-ble-mesh/ble-mesh-index.html">ESP-BLE-MESH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh.html">ESP-MESH (Wi-Fi)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core_dump.html">ESP32 Core Dump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event-handling.html">Event Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="external-ram.html">External SPI-connected RAM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fatal-errors.html">Fatal Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/flash-encryption.html">Flash Encryption</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freertos-smp.html">FreeRTOS SMP Changes</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">General Notes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#application-startup-flow">Application startup flow</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#first-stage-bootloader">First stage bootloader</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#second-stage-bootloader">Second stage bootloader</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-startup">Application startup</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#application-memory-layout">Application memory layout</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#iram-instruction-ram">IRAM (instruction RAM)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#irom-code-executed-from-flash">IROM (code executed from Flash)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rtc-fast-memory">RTC fast memory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dram-data-ram">DRAM (data RAM)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#drom-data-stored-in-flash">DROM (data stored in Flash)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rtc-slow-memory">RTC slow memory</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#dma-capable-requirement">DMA Capable Requirement</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="hlinterrupts.html">High Level Interrupts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jtag-debugging/index.html">JTAG Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker-script-generation.html">Linker Script Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lwip.html">lwIP TCP/IP Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="partition-tables.html">Partition Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RF_calibration.html">RF Calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="romconsole.html">ROM debug console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/secure-boot.html">Secure Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thread-local-storage.html">Thread Local Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ulp.html">ULP Coprocessor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ulp-legacy.html">ULP Coprocessor (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit-tests-legacy.html">Unit Testing (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit-tests.html">Unit Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wifi.html">WiFi Driver</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">API Guides</a> &raquo;</li>
+        
+      <li>General Notes About ESP-IDF Programming</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-guides/general-notes.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="general-notes-about-esp-idf-programming">
+<h1>General Notes About ESP-IDF Programming<a class="headerlink" href="#general-notes-about-esp-idf-programming" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/api-guides/general-notes.html">[中文]</a></p>
+<div class="section" id="application-startup-flow">
+<h2>Application startup flow<a class="headerlink" href="#application-startup-flow" title="Permalink to this headline">¶</a></h2>
+<p>This note explains various steps which happen before <code class="docutils literal notranslate"><span class="pre">app_main</span></code> function of an ESP-IDF application is called.</p>
+<p>The high level view of startup process is as follows:</p>
+<ol class="arabic simple">
+<li>First-stage bootloader in ROM loads second-stage bootloader image to RAM (IRAM &amp; DRAM) from flash offset 0x1000.</li>
+<li>Second-stage bootloader loads partition table and main app image from flash. Main app incorporates both RAM segments and read-only segments mapped via flash cache.</li>
+<li>Main app image executes. At this point the second CPU and RTOS scheduler can be started.</li>
+</ol>
+<p>This process is explained in detail in the following sections.</p>
+<div class="section" id="first-stage-bootloader">
+<h3>First stage bootloader<a class="headerlink" href="#first-stage-bootloader" title="Permalink to this headline">¶</a></h3>
+<p>After SoC reset, PRO CPU will start running immediately, executing reset vector code, while APP CPU will be held in reset. During startup process, PRO CPU does all the initialization. APP CPU reset is de-asserted in the <code class="docutils literal notranslate"><span class="pre">call_start_cpu0</span></code> function of application startup code. Reset vector code is located at address 0x40000400 in the mask ROM of the ESP32 chip and can not be modified.</p>
+<p>Startup code called from the reset vector determines the boot mode by checking <code class="docutils literal notranslate"><span class="pre">GPIO_STRAP_REG</span></code> register for bootstrap pin states. Depending on the reset reason, the following takes place:</p>
+<ol class="arabic simple">
+<li>Reset from deep sleep: if the value in <code class="docutils literal notranslate"><span class="pre">RTC_CNTL_STORE6_REG</span></code> is non-zero, and CRC value of RTC memory in <code class="docutils literal notranslate"><span class="pre">RTC_CNTL_STORE7_REG</span></code> is valid, use <code class="docutils literal notranslate"><span class="pre">RTC_CNTL_STORE6_REG</span></code> as an entry point address and jump immediately to it. If <code class="docutils literal notranslate"><span class="pre">RTC_CNTL_STORE6_REG</span></code> is zero, or <code class="docutils literal notranslate"><span class="pre">RTC_CNTL_STORE7_REG</span></code> contains invalid CRC, or once the code called via <code class="docutils literal notranslate"><span class="pre">RTC_CNTL_STORE6_REG</span></code> returns, proceed with boot as if it was a power-on reset. <strong>Note</strong>: to run customized code at this point, a deep sleep stub mechanism is provided. Please see <a class="reference internal" href="deep-sleep-stub.html"><span class="doc">deep sleep</span></a> documentation for this.</li>
+<li>For power-on reset, software SOC reset, and watchdog SOC reset: check the <code class="docutils literal notranslate"><span class="pre">GPIO_STRAP_REG</span></code> register if UART or SDIO download mode is requested. If this is the case, configure UART or SDIO, and wait for code to be downloaded. Otherwise, proceed with boot as if it was due to software CPU reset.</li>
+<li>For software CPU reset and watchdog CPU reset: configure SPI flash based on EFUSE values, and attempt to load the code from flash. This step is described in more detail in the next paragraphs. If loading code from flash fails, unpack BASIC interpreter into the RAM and start it. Note that RTC watchdog is still enabled when this happens, so unless any input is received by the interpreter, watchdog will reset the SOC in a few hundred milliseconds, repeating the whole process. If the interpreter receives any input from the UART, it disables the watchdog.</li>
+</ol>
+<p>Application binary image is loaded from flash starting at address 0x1000. First 4kB sector of flash is used to store secure boot IV and signature of the application image. Please check secure boot documentation for details about this.</p>
+</div>
+<div class="section" id="second-stage-bootloader">
+<h3>Second stage bootloader<a class="headerlink" href="#second-stage-bootloader" title="Permalink to this headline">¶</a></h3>
+<p>In ESP-IDF, the binary image which resides at offset 0x1000 in flash is the second stage bootloader. Second stage bootloader source code is available in components/bootloader directory of ESP-IDF. Note that this arrangement is not the only one possible with the ESP32 chip. It is possible to write a fully featured application which would work when flashed to offset 0x1000, but this is out of scope of this document. Second stage bootloader is used in ESP-IDF to add flexibility to flash layout (using partition tables), and allow for various flows associated with flash encryption, secure boot, and over-the-air updates (OTA) to take place.</p>
+<p>When the first stage bootloader is finished checking and loading the second stage bootloader, it jumps to the second stage bootloader entry point found in the binary image header.</p>
+<p>Second stage bootloader reads the partition table found at offset 0x8000. See <a class="reference internal" href="partition-tables.html"><span class="doc">partition tables</span></a> documentation for more information. The bootloader finds factory and OTA partitions, and decides which one to boot based on data found in <em>OTA info</em> partition.</p>
+<p>For the selected partition, second stage bootloader copies data and code sections which are mapped into IRAM and DRAM to their load addresses. For sections which have load addresses in DROM and IROM regions, flash MMU is configured to provide the correct mapping. Note that the second stage bootloader configures flash MMU for both PRO and APP CPUs, but it only enables flash MMU for PRO CPU. Reason for this is that second stage bootloader code is loaded into the memory region used by APP CPU cache. The duty of enabling cache for APP CPU is passed on to the application. Once code is loaded and flash MMU is set up, second stage bootloader jumps to the application entry point found in the binary image header.</p>
+<p>Currently it is not possible to add application-defined hooks to the bootloader to customize application partition selection logic. This may be required to load different application image depending on a state of a GPIO, for example. Such customization features will be added to ESP-IDF in the future. For now, bootloader can be customized by copying bootloader component into application directory and making necessary changes there. ESP-IDF build system will compile the component in application directory instead of ESP-IDF components directory in this case.</p>
+</div>
+<div class="section" id="application-startup">
+<h3>Application startup<a class="headerlink" href="#application-startup" title="Permalink to this headline">¶</a></h3>
+<p>ESP-IDF application entry point is <code class="docutils literal notranslate"><span class="pre">call_start_cpu0</span></code> function found in <code class="docutils literal notranslate"><span class="pre">components/esp32/cpu_start.c</span></code>. Two main things this function does are to enable heap allocator and to make APP CPU jump to its entry point, <code class="docutils literal notranslate"><span class="pre">call_start_cpu1</span></code>. The code on PRO CPU sets the entry point for APP CPU, de-asserts APP CPU reset, and waits for a global flag to be set by the code running on APP CPU, indicating that it has started. Once this is done, PRO CPU jumps to <code class="docutils literal notranslate"><span class="pre">start_cpu0</span></code> function, and APP CPU jumps to <code class="docutils literal notranslate"><span class="pre">start_cpu1</span></code> function.</p>
+<p>Both <code class="docutils literal notranslate"><span class="pre">start_cpu0</span></code> and <code class="docutils literal notranslate"><span class="pre">start_cpu1</span></code> are weak functions, meaning that they can be overridden in the application, if some application-specific change to initialization sequence is needed. Default implementation of <code class="docutils literal notranslate"><span class="pre">start_cpu0</span></code> enables or initializes components depending on choices made in <code class="docutils literal notranslate"><span class="pre">menuconfig</span></code>. Please see source code of this function in <code class="docutils literal notranslate"><span class="pre">components/esp32/cpu_start.c</span></code> for an up to date list of steps performed. Note that any C++ global constructors present in the application will be called at this stage. Once all essential components are initialized, <em>main task</em> is created and FreeRTOS scheduler is started.</p>
+<p>While PRO CPU does initialization in <code class="docutils literal notranslate"><span class="pre">start_cpu0</span></code> function, APP CPU spins in <code class="docutils literal notranslate"><span class="pre">start_cpu1</span></code> function, waiting for the scheduler to be started on the PRO CPU. Once the scheduler is started on the PRO CPU, code on the APP CPU starts the scheduler as well.</p>
+<p>Main task is the task which runs <code class="docutils literal notranslate"><span class="pre">app_main</span></code> function. Main task stack size and priority can be configured in <code class="docutils literal notranslate"><span class="pre">menuconfig</span></code>. Application can use this task for initial application-specific setup, for example to launch other tasks. Application can also use main task for event loops and other general purpose activities. If <code class="docutils literal notranslate"><span class="pre">app_main</span></code> function returns, main task is deleted.</p>
+</div>
+</div>
+<div class="section" id="application-memory-layout">
+<span id="memory-layout"></span><h2>Application memory layout<a class="headerlink" href="#application-memory-layout" title="Permalink to this headline">¶</a></h2>
+<p>ESP32 chip has flexible memory mapping features. This section describes how ESP-IDF uses these features by default.</p>
+<p>Application code in ESP-IDF can be placed into one of the following memory regions.</p>
+<div class="section" id="iram-instruction-ram">
+<h3>IRAM (instruction RAM)<a class="headerlink" href="#iram-instruction-ram" title="Permalink to this headline">¶</a></h3>
+<p>ESP-IDF allocates part of <cite>Internal SRAM0</cite> region (defined in the Technical Reference Manual) for instruction RAM. Except for the first 64 kB block which is used for PRO and APP CPU caches, the rest of this memory range (i.e. from <code class="docutils literal notranslate"><span class="pre">0x40080000</span></code> to <code class="docutils literal notranslate"><span class="pre">0x400A0000</span></code>) is used to store parts of application which need to run from RAM.</p>
+<p>A few components of ESP-IDF and parts of WiFi stack are placed into this region using the linker script.</p>
+<p>If some application code needs to be placed into IRAM, it can be done using <code class="docutils literal notranslate"><span class="pre">IRAM_ATTR</span></code> define:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &quot;esp_attr.h&quot;</span>
+
+<span class="n">void</span> <span class="n">IRAM_ATTR</span> <span class="n">gpio_isr_handler</span><span class="p">(</span><span class="n">void</span><span class="o">*</span> <span class="n">arg</span><span class="p">)</span>
+<span class="p">{</span>
+        <span class="o">//</span> <span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Here are the cases when parts of application may or should be placed into IRAM.</p>
+<ul class="simple">
+<li>Interrupt handlers must be placed into IRAM if <code class="docutils literal notranslate"><span class="pre">ESP_INTR_FLAG_IRAM</span></code> is used when registering the interrupt handler. In this case, ISR may only call functions placed into IRAM or functions present in ROM. <em>Note 1:</em> all FreeRTOS APIs are currently placed into IRAM, so are safe to call from interrupt handlers. If the ISR is placed into IRAM, all constant data used by the ISR and functions called from ISR (including, but not limited to, <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">char</span></code> arrays), must be placed into DRAM using <code class="docutils literal notranslate"><span class="pre">DRAM_ATTR</span></code>.</li>
+<li>Some timing critical code may be placed into IRAM to reduce the penalty associated with loading the code from flash. ESP32 reads code and data from flash via a 32 kB cache. In some cases, placing a function into IRAM may reduce delays caused by a cache miss.</li>
+</ul>
+</div>
+<div class="section" id="irom-code-executed-from-flash">
+<h3>IROM (code executed from Flash)<a class="headerlink" href="#irom-code-executed-from-flash" title="Permalink to this headline">¶</a></h3>
+<p>If a function is not explicitly placed into IRAM or RTC memory, it is placed into flash. The mechanism by which Flash MMU is used to allow code execution from flash is described in the Technical Reference Manual. ESP-IDF places the code which should be executed from flash starting from the beginning of <code class="docutils literal notranslate"><span class="pre">0x400D0000</span> <span class="pre">—</span> <span class="pre">0x40400000</span></code> region. Upon startup, second stage bootloader initializes Flash MMU to map the location in flash where code is located into the beginning of this region. Access to this region is transparently cached using two 32kB blocks in <code class="docutils literal notranslate"><span class="pre">0x40070000</span></code> — <code class="docutils literal notranslate"><span class="pre">0x40080000</span></code> range.</p>
+<p>Note that the code outside <code class="docutils literal notranslate"><span class="pre">0x40000000</span> <span class="pre">—</span> <span class="pre">0x40400000</span></code> region may not be reachable with Window ABI <code class="docutils literal notranslate"><span class="pre">CALLx</span></code> instructions, so special care is required if <code class="docutils literal notranslate"><span class="pre">0x40400000</span> <span class="pre">—</span> <span class="pre">0x40800000</span></code> or <code class="docutils literal notranslate"><span class="pre">0x40800000</span> <span class="pre">—</span> <span class="pre">0x40C00000</span></code> regions are used by the application. ESP-IDF doesn’t use these regions by default.</p>
+</div>
+<div class="section" id="rtc-fast-memory">
+<h3>RTC fast memory<a class="headerlink" href="#rtc-fast-memory" title="Permalink to this headline">¶</a></h3>
+<p>The code which has to run after wake-up from deep sleep mode has to be placed into RTC memory. Please check detailed description in <a class="reference internal" href="deep-sleep-stub.html"><span class="doc">deep sleep</span></a> documentation.</p>
+</div>
+<div class="section" id="dram-data-ram">
+<h3>DRAM (data RAM)<a class="headerlink" href="#dram-data-ram" title="Permalink to this headline">¶</a></h3>
+<p>Non-constant static data and zero-initialized data is placed by the linker into the 256 kB <code class="docutils literal notranslate"><span class="pre">0x3FFB0000</span> <span class="pre">—&nbsp;0x3FFF0000</span></code> region. Note that this region is reduced by 64kB (by shifting start address to <code class="docutils literal notranslate"><span class="pre">0x3FFC0000</span></code>) if Bluetooth stack is used. Length of this region is also reduced by 16 kB or 32kB if trace memory is used. All space which is left in this region after placing static data there is used for the runtime heap.</p>
+<p>Constant data may also be placed into DRAM, for example if it is used in an ISR (see notes in IRAM section above). To do that, <code class="docutils literal notranslate"><span class="pre">DRAM_ATTR</span></code> define can be used:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DRAM_ATTR</span> <span class="n">const</span> <span class="n">char</span><span class="p">[]</span> <span class="n">format_string</span> <span class="o">=</span> <span class="s2">&quot;%p </span><span class="si">%x</span><span class="s2">&quot;</span><span class="p">;</span>
+<span class="n">char</span> <span class="n">buffer</span><span class="p">[</span><span class="mi">64</span><span class="p">];</span>
+<span class="n">sprintf</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">format_string</span><span class="p">,</span> <span class="n">ptr</span><span class="p">,</span> <span class="n">val</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Needless to say, it is not advised to use <code class="docutils literal notranslate"><span class="pre">printf</span></code> and other output functions in ISRs. For debugging purposes, use <code class="docutils literal notranslate"><span class="pre">ESP_EARLY_LOGx</span></code> macros when logging from ISRs. Make sure that both <code class="docutils literal notranslate"><span class="pre">TAG</span></code> and format string are placed into <code class="docutils literal notranslate"><span class="pre">DRAM</span></code> in that case.</p>
+<p>The macro <code class="docutils literal notranslate"><span class="pre">__NOINIT_ATTR</span></code> can be used as attribute to place data into <code class="docutils literal notranslate"><span class="pre">.noinit</span></code> section. The values placed into this section will not be initialized at startup and keep its value after software restart.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">__NOINIT_ATTR</span> <span class="n">uint32_t</span> <span class="n">noinit_data</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="drom-data-stored-in-flash">
+<h3>DROM (data stored in Flash)<a class="headerlink" href="#drom-data-stored-in-flash" title="Permalink to this headline">¶</a></h3>
+<p>By default, constant data is placed by the linker into a 4 MB region (<code class="docutils literal notranslate"><span class="pre">0x3F400000</span> <span class="pre">—&nbsp;0x3F800000</span></code>) which is used to access external flash memory via Flash MMU and cache. Exceptions to this are literal constants which are embedded by the compiler into application code.</p>
+</div>
+<div class="section" id="rtc-slow-memory">
+<h3>RTC slow memory<a class="headerlink" href="#rtc-slow-memory" title="Permalink to this headline">¶</a></h3>
+<p>Global and static variables used by code which runs from RTC memory (i.e. deep sleep stub code) must be placed into RTC slow memory. Please check detailed description in <a class="reference internal" href="deep-sleep-stub.html"><span class="doc">deep sleep</span></a> documentation.</p>
+<p>The attribute macro named <code class="docutils literal notranslate"><span class="pre">RTC_NOINIT_ATTR</span></code> can be used to place data into this type of memory. The values placed into this section keep their value after waking from deep sleep.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">RTC_NOINIT_ATTR</span> <span class="n">uint32_t</span> <span class="n">rtc_noinit_data</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="dma-capable-requirement">
+<h2>DMA Capable Requirement<a class="headerlink" href="#dma-capable-requirement" title="Permalink to this headline">¶</a></h2>
+<p>Most DMA controllers (e.g. SPI, sdmmc, etc.) have requirements that sending/receiving buffers should be placed in DRAM
+and word-aligned. We suggest to place DMA buffers in static variables rather than in the stack. Use macro <code class="docutils literal notranslate"><span class="pre">DMA_ATTR</span></code>
+to declare global/local static variables like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DMA_ATTR</span> <span class="n">uint8_t</span> <span class="n">buffer</span><span class="p">[]</span><span class="o">=</span><span class="s2">&quot;I want to send something&quot;</span><span class="p">;</span>
+
+<span class="n">void</span> <span class="n">app_main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="o">//</span> <span class="n">initialization</span> <span class="n">code</span><span class="o">...</span>
+    <span class="n">spi_transaction_t</span> <span class="n">temp</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="o">.</span><span class="n">tx_buffer</span> <span class="o">=</span> <span class="n">buffer</span><span class="p">,</span>
+        <span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">sizeof</span><span class="p">(</span><span class="n">buffer</span><span class="p">),</span>
+    <span class="p">};</span>
+    <span class="n">spi_device_transmit</span><span class="p">(</span> <span class="n">spi</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">temp</span> <span class="p">);</span>
+    <span class="o">//</span> <span class="n">other</span> <span class="n">stuff</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Or:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">app_main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">DMA_ATTR</span> <span class="n">static</span> <span class="n">uint8_t</span> <span class="n">buffer</span><span class="p">[]</span><span class="o">=</span><span class="s2">&quot;I want to send something&quot;</span><span class="p">;</span>
+    <span class="o">//</span> <span class="n">initialization</span> <span class="n">code</span><span class="o">...</span>
+    <span class="n">spi_transaction_t</span> <span class="n">temp</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="o">.</span><span class="n">tx_buffer</span> <span class="o">=</span> <span class="n">buffer</span><span class="p">,</span>
+        <span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">sizeof</span><span class="p">(</span><span class="n">buffer</span><span class="p">),</span>
+    <span class="p">};</span>
+    <span class="n">spi_device_transmit</span><span class="p">(</span> <span class="n">spi</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">temp</span> <span class="p">);</span>
+    <span class="o">//</span> <span class="n">other</span> <span class="n">stuff</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Placing DMA buffers in the stack is still allowed, though you have to keep in mind:</p>
+<ol class="arabic">
+<li><p class="first">Never try to do this if the stack is in the pSRAM. If the stack of a task is placed in the pSRAM, several steps have
+to be taken as described in <a class="reference internal" href="external-ram.html"><span class="doc">Support for external RAM</span></a> (at least <code class="docutils literal notranslate"><span class="pre">SPIRAM_ALLOW_STACK_EXTERNAL_MEMORY</span></code> option enabled in
+the menuconfig). Make sure your task is not in the pSRAM.</p>
+</li>
+<li><p class="first">Use macro <code class="docutils literal notranslate"><span class="pre">WORD_ALIGNED_ATTR</span></code> in functions before variables to place them in proper positions like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">app_main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">uint8_t</span> <span class="n">stuff</span><span class="p">;</span>
+    <span class="n">WORD_ALIGNED_ATTR</span> <span class="n">uint8_t</span> <span class="n">buffer</span><span class="p">[]</span><span class="o">=</span><span class="s2">&quot;I want to send something&quot;</span><span class="p">;</span>   <span class="o">//</span><span class="ow">or</span> <span class="n">the</span> <span class="n">buffer</span> <span class="n">will</span> <span class="n">be</span> <span class="n">placed</span> <span class="n">right</span> <span class="n">after</span> <span class="n">stuff</span><span class="o">.</span>
+    <span class="o">//</span> <span class="n">initialization</span> <span class="n">code</span><span class="o">...</span>
+    <span class="n">spi_transaction_t</span> <span class="n">temp</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="o">.</span><span class="n">tx_buffer</span> <span class="o">=</span> <span class="n">buffer</span><span class="p">,</span>
+        <span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">sizeof</span><span class="p">(</span><span class="n">buffer</span><span class="p">),</span>
+    <span class="p">};</span>
+    <span class="n">spi_device_transmit</span><span class="p">(</span> <span class="n">spi</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">temp</span> <span class="p">);</span>
+    <span class="o">//</span> <span class="n">other</span> <span class="n">stuff</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="hlinterrupts.html" class="btn btn-neutral float-right" title="High-Level Interrupts" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="freertos-smp.html" class="btn btn-neutral float-left" title="ESP-IDF FreeRTOS SMP Changes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/general-notes.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:27 GMT -->
+</html>

@@ -1,0 +1,781 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/ulp_macros.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:21 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Programming ULP coprocessor using C macros &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="The ULP Coprocessor (Legacy GNU Make)" href="ulp-legacy.html" />
+    <link rel="prev" title="ESP32-S2 ULP coprocessor instruction set" href="ulps2_instruction_set.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="ulp_macros.html" />
+
+<link rel="stylesheet" href="../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-guides/ulp_macros"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="app_trace.html">Application Level Tracing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blufi.html">BluFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootloader.html">Bootloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-system.html">Build System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-system-legacy.html">Build System (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="console.html">Console Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deep-sleep-stub.html">Deep Sleep Wake Stubs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="error-handling.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="esp-ble-mesh/ble-mesh-index.html">ESP-BLE-MESH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh.html">ESP-MESH (Wi-Fi)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core_dump.html">ESP32 Core Dump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event-handling.html">Event Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="external-ram.html">External SPI-connected RAM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fatal-errors.html">Fatal Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/flash-encryption.html">Flash Encryption</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freertos-smp.html">FreeRTOS SMP Changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general-notes.html">General Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hlinterrupts.html">High Level Interrupts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jtag-debugging/index.html">JTAG Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker-script-generation.html">Linker Script Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lwip.html">lwIP TCP/IP Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="partition-tables.html">Partition Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RF_calibration.html">RF Calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="romconsole.html">ROM debug console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/secure-boot.html">Secure Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thread-local-storage.html">Thread Local Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ulp.html">ULP Coprocessor</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="ulp-legacy.html">ULP Coprocessor (Legacy GNU Make)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ulp_instruction_set.html">Instruction set reference</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Programming using macros (legacy)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#functions">Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#error-codes">Error codes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ulp-coprocessor-registers">ULP coprocessor registers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ulp-coprocessor-instruction-defines">ULP coprocessor instruction defines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#defines">Defines</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ulp-legacy.html#installing-the-toolchain">Installing the Toolchain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ulp-legacy.html#compiling-the-ulp-code">Compiling the ULP Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ulp-legacy.html#accessing-the-ulp-program-variables">Accessing the ULP Program Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ulp-legacy.html#starting-the-ulp-program">Starting the ULP Program</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ulp-legacy.html#ulp-program-flow">ULP Program Flow</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="unit-tests-legacy.html">Unit Testing (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit-tests.html">Unit Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wifi.html">WiFi Driver</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">API Guides</a> &raquo;</li>
+        
+          <li><a href="ulp.html">ULP Coprocessor programming</a> &raquo;</li>
+        
+      <li>Programming ULP coprocessor using C macros</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-guides/ulp_macros.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="programming-ulp-coprocessor-using-c-macros">
+<h1>Programming ULP coprocessor using C macros<a class="headerlink" href="#programming-ulp-coprocessor-using-c-macros" title="Permalink to this headline">¶</a></h1>
+<p>In addition to the existing binutils port for the ESP32 ULP coprocessor, it is possible to generate programs for the ULP by embedding assembly-like macros into an ESP32 application. Here is an example how this can be done:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">const</span> <span class="n">ulp_insn_t</span> <span class="n">program</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">I_MOVI</span><span class="p">(</span><span class="n">R3</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>         <span class="o">//</span> <span class="n">R3</span> <span class="o">&lt;-</span> <span class="mi">16</span>
+    <span class="n">I_LD</span><span class="p">(</span><span class="n">R0</span><span class="p">,</span> <span class="n">R3</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>        <span class="o">//</span> <span class="n">R0</span> <span class="o">&lt;-</span> <span class="n">RTC_SLOW_MEM</span><span class="p">[</span><span class="n">R3</span> <span class="o">+</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">I_LD</span><span class="p">(</span><span class="n">R1</span><span class="p">,</span> <span class="n">R3</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>        <span class="o">//</span> <span class="n">R1</span> <span class="o">&lt;-</span> <span class="n">RTC_SLOW_MEM</span><span class="p">[</span><span class="n">R3</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">I_ADDR</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span> <span class="n">R0</span><span class="p">,</span> <span class="n">R1</span><span class="p">),</span>     <span class="o">//</span> <span class="n">R2</span> <span class="o">&lt;-</span> <span class="n">R0</span> <span class="o">+</span> <span class="n">R1</span>
+    <span class="n">I_ST</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span> <span class="n">R3</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>        <span class="o">//</span> <span class="n">R2</span> <span class="o">-&gt;</span> <span class="n">RTC_SLOW_MEM</span><span class="p">[</span><span class="n">R2</span> <span class="o">+</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">I_HALT</span><span class="p">()</span>
+<span class="p">};</span>
+<span class="n">size_t</span> <span class="n">load_addr</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">size_t</span> <span class="n">size</span> <span class="o">=</span> <span class="n">sizeof</span><span class="p">(</span><span class="n">program</span><span class="p">)</span><span class="o">/</span><span class="n">sizeof</span><span class="p">(</span><span class="n">ulp_insn_t</span><span class="p">);</span>
+<span class="n">ulp_process_macros_and_load</span><span class="p">(</span><span class="n">load_addr</span><span class="p">,</span> <span class="n">program</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">size</span><span class="p">);</span>
+<span class="n">ulp_run</span><span class="p">(</span><span class="n">load_addr</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">program</span></code> array is an array of <code class="docutils literal notranslate"><span class="pre">ulp_insn_t</span></code>, i.e. ULP coprocessor instructions. Each <code class="docutils literal notranslate"><span class="pre">I_XXX</span></code> preprocessor define translates into a single 32-bit instruction. Arguments of these preprocessor defines can be register numbers (<code class="docutils literal notranslate"><span class="pre">R0</span> <span class="pre">—</span> <span class="pre">R3</span></code>) and literal constants. See <a class="reference internal" href="#ulp-coprocessor-instruction-defines">ULP coprocessor instruction defines</a> section for descriptions of instructions and arguments they take.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Because some of the instruction macros expand to inline function calls, defining such array in global scope will cause the compiler to produce an “initializer element is not constant” error. To fix this error, move the definition of instructions array into local scope.</p>
+</div>
+<p>Load and store instructions use addresses expressed in 32-bit words. Address 0 corresponds to the first word of <code class="docutils literal notranslate"><span class="pre">RTC_SLOW_MEM</span></code> (which is address 0x50000000 as seen by the main CPUs).</p>
+<p>To generate branch instructions, special <code class="docutils literal notranslate"><span class="pre">M_</span></code> preprocessor defines are used. <code class="docutils literal notranslate"><span class="pre">M_LABEL</span></code> define can be used to define a branch target. Label identifier is a 16-bit integer. <code class="docutils literal notranslate"><span class="pre">M_Bxxx</span></code> defines can be used to generate branch instructions with target set to a particular label.</p>
+<p>Implementation note: these <code class="docutils literal notranslate"><span class="pre">M_</span></code> preprocessor defines will be translated into two <code class="docutils literal notranslate"><span class="pre">ulp_insn_t</span></code> values: one is a token value which contains label number, and the other is the actual instruction. <code class="docutils literal notranslate"><span class="pre">ulp_process_macros_and_load</span></code> function resolves the label number to the address, modifies the branch instruction to use the correct address, and removes the the extra <code class="docutils literal notranslate"><span class="pre">ulp_insn_t</span></code> token which contains the label numer.</p>
+<p>Here is an example of using labels and branches:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">const</span> <span class="n">ulp_insn_t</span> <span class="n">program</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">I_MOVI</span><span class="p">(</span><span class="n">R0</span><span class="p">,</span> <span class="mi">34</span><span class="p">),</span>         <span class="o">//</span> <span class="n">R0</span> <span class="o">&lt;-</span> <span class="mi">34</span>
+    <span class="n">M_LABEL</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>             <span class="o">//</span> <span class="n">label_1</span>
+    <span class="n">I_MOVI</span><span class="p">(</span><span class="n">R1</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>         <span class="o">//</span> <span class="n">R1</span> <span class="o">&lt;-</span> <span class="mi">32</span>
+    <span class="n">I_LD</span><span class="p">(</span><span class="n">R1</span><span class="p">,</span> <span class="n">R1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>        <span class="o">//</span> <span class="n">R1</span> <span class="o">&lt;-</span> <span class="n">RTC_SLOW_MEM</span><span class="p">[</span><span class="n">R1</span><span class="p">]</span>
+    <span class="n">I_MOVI</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span> <span class="mi">33</span><span class="p">),</span>         <span class="o">//</span> <span class="n">R2</span> <span class="o">&lt;-</span> <span class="mi">33</span>
+    <span class="n">I_LD</span><span class="p">(</span><span class="n">R2</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>        <span class="o">//</span> <span class="n">R2</span> <span class="o">&lt;-</span> <span class="n">RTC_SLOW_MEM</span><span class="p">[</span><span class="n">R2</span><span class="p">]</span>
+    <span class="n">I_SUBR</span><span class="p">(</span><span class="n">R3</span><span class="p">,</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">),</span>     <span class="o">//</span> <span class="n">R3</span> <span class="o">&lt;-</span> <span class="n">R1</span> <span class="o">-</span> <span class="n">R2</span>
+    <span class="n">I_ST</span><span class="p">(</span><span class="n">R3</span><span class="p">,</span> <span class="n">R0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>        <span class="o">//</span> <span class="n">R3</span> <span class="o">-&gt;</span> <span class="n">RTC_SLOW_MEM</span><span class="p">[</span><span class="n">R0</span> <span class="o">+</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">I_ADDI</span><span class="p">(</span><span class="n">R0</span><span class="p">,</span> <span class="n">R0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>      <span class="o">//</span> <span class="n">R0</span><span class="o">++</span>
+    <span class="n">M_BL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span>            <span class="o">//</span> <span class="k">if</span> <span class="p">(</span><span class="n">R0</span> <span class="o">&lt;</span> <span class="mi">64</span><span class="p">)</span> <span class="n">goto</span> <span class="n">label_1</span>
+    <span class="n">I_HALT</span><span class="p">(),</span>
+<span class="p">};</span>
+<span class="n">RTC_SLOW_MEM</span><span class="p">[</span><span class="mi">32</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+<span class="n">RTC_SLOW_MEM</span><span class="p">[</span><span class="mi">33</span><span class="p">]</span> <span class="o">=</span> <span class="mi">18</span><span class="p">;</span>
+<span class="n">size_t</span> <span class="n">load_addr</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">size_t</span> <span class="n">size</span> <span class="o">=</span> <span class="n">sizeof</span><span class="p">(</span><span class="n">program</span><span class="p">)</span><span class="o">/</span><span class="n">sizeof</span><span class="p">(</span><span class="n">ulp_insn_t</span><span class="p">);</span>
+<span class="n">ulp_process_macros_and_load</span><span class="p">(</span><span class="n">load_addr</span><span class="p">,</span> <span class="n">program</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">size</span><span class="p">);</span>
+<span class="n">ulp_run</span><span class="p">(</span><span class="n">load_addr</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="_CPPv427ulp_process_macros_and_load8uint32_tPK10ulp_insn_tP6size_t">
+<span id="_CPPv327ulp_process_macros_and_load8uint32_tPK10ulp_insn_tP6size_t"></span><span id="_CPPv227ulp_process_macros_and_load8uint32_tPK10ulp_insn_tP6size_t"></span><span id="ulp_process_macros_and_load__uint32_t.ulp_insn_tCP.sP"></span><span class="target" id="ulp__common_8h_1a1172eb27ef36c3ea5cb9553126ed5feb"></span><a class="reference internal" href="../api-reference/system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">ulp_process_macros_and_load</code><span class="sig-paren">(</span>uint32_t <em>load_addr</em>, <em class="property">const</em> ulp_insn_t *<em>program</em>, size_t *<em>psize</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427ulp_process_macros_and_load8uint32_tPK10ulp_insn_tP6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Resolve all macro references in a program and load it into RTC memory. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_NO_MEM if auxiliary temporary structure can not be allocated</li>
+<li>one of ESP_ERR_ULP_xxx if program is not valid or can not be loaded </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">load_addr</span></code>: address where the program should be loaded, expressed in 32-bit words </li>
+<li><code class="docutils literal notranslate"><span class="pre">program</span></code>: ulp_insn_t array with the program </li>
+<li><code class="docutils literal notranslate"><span class="pre">psize</span></code>: size of the program, expressed in 32-bit words </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv47ulp_run8uint32_t">
+<span id="_CPPv37ulp_run8uint32_t"></span><span id="_CPPv27ulp_run8uint32_t"></span><span id="ulp_run__uint32_t"></span><span class="target" id="ulp__common_8h_1a586dfe0767743d066bccd30a1ed517d5"></span><a class="reference internal" href="../api-reference/system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">ulp_run</code><span class="sig-paren">(</span>uint32_t <em>entry_point</em><span class="sig-paren">)</span><br /></dt>
+<dd><p>Run the program loaded into RTC memory. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK on success </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">entry_point</span></code>: entry point, expressed in 32-bit words </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="error-codes">
+<h2>Error codes<a class="headerlink" href="#error-codes" title="Permalink to this headline">¶</a></h2>
+<dl class="macro">
+<dt id="c.ESP_ERR_ULP_BASE">
+<span class="target" id="ulp__common_8h_1a9fd342707859b511e21201874bcf9fc7"></span><code class="descname">ESP_ERR_ULP_BASE</code><a class="headerlink" href="#c.ESP_ERR_ULP_BASE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Offset for ULP-related error codes </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_ULP_SIZE_TOO_BIG">
+<span class="target" id="ulp__common_8h_1ad6b47fb36fbddf27964436f965d20391"></span><code class="descname">ESP_ERR_ULP_SIZE_TOO_BIG</code><a class="headerlink" href="#c.ESP_ERR_ULP_SIZE_TOO_BIG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Program doesn’t fit into RTC memory reserved for the ULP </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_ULP_INVALID_LOAD_ADDR">
+<span class="target" id="ulp__common_8h_1a8c605d5c9fd40d9a7a68824a3a707b93"></span><code class="descname">ESP_ERR_ULP_INVALID_LOAD_ADDR</code><a class="headerlink" href="#c.ESP_ERR_ULP_INVALID_LOAD_ADDR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load address is outside of RTC memory reserved for the ULP </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_ULP_DUPLICATE_LABEL">
+<span class="target" id="ulp__common_8h_1a9fdfca0fa7a107d5f8a0750c7e017bee"></span><code class="descname">ESP_ERR_ULP_DUPLICATE_LABEL</code><a class="headerlink" href="#c.ESP_ERR_ULP_DUPLICATE_LABEL" title="Permalink to this definition">¶</a></dt>
+<dd><p>More than one label with the same number was defined </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_ULP_UNDEFINED_LABEL">
+<span class="target" id="ulp__common_8h_1a85b2a62956b07b3021129c60fb5a507a"></span><code class="descname">ESP_ERR_ULP_UNDEFINED_LABEL</code><a class="headerlink" href="#c.ESP_ERR_ULP_UNDEFINED_LABEL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Branch instructions references an undefined label </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_ULP_BRANCH_OUT_OF_RANGE">
+<span class="target" id="ulp__common_8h_1a58661d53437e40d4f8319505dfbf23b7"></span><code class="descname">ESP_ERR_ULP_BRANCH_OUT_OF_RANGE</code><a class="headerlink" href="#c.ESP_ERR_ULP_BRANCH_OUT_OF_RANGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Branch target is out of range of B instruction (try replacing with BX) </p>
+</dd></dl>
+
+</div>
+<div class="section" id="ulp-coprocessor-registers">
+<h2>ULP coprocessor registers<a class="headerlink" href="#ulp-coprocessor-registers" title="Permalink to this headline">¶</a></h2>
+<p>ULP co-processor has 4 16-bit general purpose registers. All registers have same functionality, with one exception. R0 register is used by some of the compare-and-branch instructions as a source register.</p>
+<p>These definitions can be used for all instructions which require a register.</p>
+<dl class="macro">
+<dt id="c.R0">
+<span class="target" id="group__ulp__registers_1ga30ab9da60435727bc80839d416461b8f"></span><code class="descname">R0</code><a class="headerlink" href="#c.R0" title="Permalink to this definition">¶</a></dt>
+<dd><p>general purpose register 0 </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.R1">
+<span class="target" id="group__ulp__registers_1ga918f64eb53db8e8dc694f36a87646476"></span><code class="descname">R1</code><a class="headerlink" href="#c.R1" title="Permalink to this definition">¶</a></dt>
+<dd><p>general purpose register 1 </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.R2">
+<span class="target" id="group__ulp__registers_1ga7a255a2815b9453060f51c6eb22cfed8"></span><code class="descname">R2</code><a class="headerlink" href="#c.R2" title="Permalink to this definition">¶</a></dt>
+<dd><p>general purpose register 2 </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.R3">
+<span class="target" id="group__ulp__registers_1ga48c945e21828118c1d6fab15405b7fca"></span><code class="descname">R3</code><a class="headerlink" href="#c.R3" title="Permalink to this definition">¶</a></dt>
+<dd><p>general purpose register 3 </p>
+</dd></dl>
+
+</div>
+<div class="section" id="ulp-coprocessor-instruction-defines">
+<h2>ULP coprocessor instruction defines<a class="headerlink" href="#ulp-coprocessor-instruction-defines" title="Permalink to this headline">¶</a></h2>
+<dl class="macro">
+<dt id="c.I_DELAY">
+<span class="target" id="ulp_8h_1aa162292b60361413769d1cd0df4febf8"></span><code class="descname">I_DELAY</code><span class="sig-paren">(</span>cycles_<span class="sig-paren">)</span><a class="headerlink" href="#c.I_DELAY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delay (nop) for a given number of cycles </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_HALT">
+<span class="target" id="ulp_8h_1adac8b8d98a73d87cfb6baa2ab355d660"></span><code class="descname">I_HALT</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.I_HALT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Halt the coprocessor.</p>
+<p>This instruction halts the coprocessor, but keeps ULP timer active. As such, ULP program will be restarted again by timer. To stop the program and prevent the timer from restarting the program, use I_END(0) instruction. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_END">
+<span class="target" id="ulp_8h_1a95b7b7c88ad299977c1c6593b27227b4"></span><code class="descname">I_END</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.I_END" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop ULP program timer.</p>
+<p>This is a convenience macro which disables the ULP program timer. Once this instruction is used, ULP program will not be restarted anymore until ulp_run function is called.</p>
+<p>ULP program will continue running after this instruction. To stop the currently running program, use I_HALT(). </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_ST">
+<span class="target" id="ulp_8h_1a2b68dead397bfc47e8d7dd8abb0cda47"></span><code class="descname">I_ST</code><span class="sig-paren">(</span>reg_val, reg_addr, offset_<span class="sig-paren">)</span><a class="headerlink" href="#c.I_ST" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store value from register reg_val into RTC memory.</p>
+<p>The value is written to an offset calculated by adding value of reg_addr register and offset_ field (this offset is expressed in 32-bit words). 32 bits written to RTC memory are built as follows:<ul class="simple">
+<li>bits [31:21] hold the PC of current instruction, expressed in 32-bit words</li>
+<li>bits [20:16] = 5’b1</li>
+<li>bits [15:0] are assigned the contents of reg_val</li>
+</ul>
+</p>
+<p>RTC_SLOW_MEM[addr + offset_] = { 5’b0, insn_PC[10:0], val[15:0] } </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_LD">
+<span class="target" id="ulp_8h_1a396555f872b7671e4fda263350ce70cd"></span><code class="descname">I_LD</code><span class="sig-paren">(</span>reg_dest, reg_addr, offset_<span class="sig-paren">)</span><a class="headerlink" href="#c.I_LD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load value from RTC memory into reg_dest register.</p>
+<p>Loads 16 LSBs from RTC memory word given by the sum of value in reg_addr and value of offset_. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_WR_REG">
+<span class="target" id="ulp_8h_1a81c02b2e901059b6191fba103f9e9a7a"></span><code class="descname">I_WR_REG</code><span class="sig-paren">(</span>reg, low_bit, high_bit, val<span class="sig-paren">)</span><a class="headerlink" href="#c.I_WR_REG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write literal value to a peripheral register</p>
+<p>reg[high_bit : low_bit] = val This instruction can access RTC_CNTL_, RTC_IO_, SENS_, and RTC_I2C peripheral registers. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_RD_REG">
+<span class="target" id="ulp_8h_1a7dbb5d4c085a5d76bf04bf12f8a3eb18"></span><code class="descname">I_RD_REG</code><span class="sig-paren">(</span>reg, low_bit, high_bit<span class="sig-paren">)</span><a class="headerlink" href="#c.I_RD_REG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read from peripheral register into R0</p>
+<p>R0 = reg[high_bit : low_bit] This instruction can access RTC_CNTL_, RTC_IO_, SENS_, and RTC_I2C peripheral registers. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_BL">
+<span class="target" id="ulp_8h_1a51ad699d91190d2fdd9704424c4adea3"></span><code class="descname">I_BL</code><span class="sig-paren">(</span>pc_offset, imm_value<span class="sig-paren">)</span><a class="headerlink" href="#c.I_BL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Branch relative if R0 less than immediate value.</p>
+<p>pc_offset is expressed in words, and can be from -127 to 127 imm_value is a 16-bit value to compare R0 against </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_BGE">
+<span class="target" id="ulp_8h_1ac513687a1d34552e4f1bc7bdccc4a409"></span><code class="descname">I_BGE</code><span class="sig-paren">(</span>pc_offset, imm_value<span class="sig-paren">)</span><a class="headerlink" href="#c.I_BGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Branch relative if R0 greater or equal than immediate value.</p>
+<p>pc_offset is expressed in words, and can be from -127 to 127 imm_value is a 16-bit value to compare R0 against </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_BXR">
+<span class="target" id="ulp_8h_1acbef704f0a41d5b28a7c99edb260b4c8"></span><code class="descname">I_BXR</code><span class="sig-paren">(</span>reg_pc<span class="sig-paren">)</span><a class="headerlink" href="#c.I_BXR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unconditional branch to absolute PC, address in register.</p>
+<p>reg_pc is the register which contains address to jump to. Address is expressed in 32-bit words. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_BXI">
+<span class="target" id="ulp_8h_1a461da504a830c0286a8934e639213490"></span><code class="descname">I_BXI</code><span class="sig-paren">(</span>imm_pc<span class="sig-paren">)</span><a class="headerlink" href="#c.I_BXI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unconditional branch to absolute PC, immediate address.</p>
+<p>Address imm_pc is expressed in 32-bit words. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_BXZR">
+<span class="target" id="ulp_8h_1a64738378a041f75921fbf088b5d518b4"></span><code class="descname">I_BXZR</code><span class="sig-paren">(</span>reg_pc<span class="sig-paren">)</span><a class="headerlink" href="#c.I_BXZR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Branch to absolute PC if ALU result is zero, address in register.</p>
+<p>reg_pc is the register which contains address to jump to. Address is expressed in 32-bit words. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_BXZI">
+<span class="target" id="ulp_8h_1a5b32641a7d1f5b98a4a2e2e44bda0886"></span><code class="descname">I_BXZI</code><span class="sig-paren">(</span>imm_pc<span class="sig-paren">)</span><a class="headerlink" href="#c.I_BXZI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Branch to absolute PC if ALU result is zero, immediate address.</p>
+<p>Address imm_pc is expressed in 32-bit words. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_BXFR">
+<span class="target" id="ulp_8h_1a4ed5db61290baf957e1b8a2bf374fac7"></span><code class="descname">I_BXFR</code><span class="sig-paren">(</span>reg_pc<span class="sig-paren">)</span><a class="headerlink" href="#c.I_BXFR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Branch to absolute PC if ALU overflow, address in register</p>
+<p>reg_pc is the register which contains address to jump to. Address is expressed in 32-bit words. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_BXFI">
+<span class="target" id="ulp_8h_1a52c0df060739458a17ac0a86a606ef76"></span><code class="descname">I_BXFI</code><span class="sig-paren">(</span>imm_pc<span class="sig-paren">)</span><a class="headerlink" href="#c.I_BXFI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Branch to absolute PC if ALU overflow, immediate address</p>
+<p>Address imm_pc is expressed in 32-bit words. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_ADDR">
+<span class="target" id="ulp_8h_1ab2f3d9fde68bcc40115d67fe2e6b6764"></span><code class="descname">I_ADDR</code><span class="sig-paren">(</span>reg_dest, reg_src1, reg_src2<span class="sig-paren">)</span><a class="headerlink" href="#c.I_ADDR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Addition: dest = src1 + src2 </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_SUBR">
+<span class="target" id="ulp_8h_1a722af13809053a57380e47342415c0ff"></span><code class="descname">I_SUBR</code><span class="sig-paren">(</span>reg_dest, reg_src1, reg_src2<span class="sig-paren">)</span><a class="headerlink" href="#c.I_SUBR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subtraction: dest = src1 - src2 </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_ANDR">
+<span class="target" id="ulp_8h_1a129a3685c6b01e1171cca9882df6a2ee"></span><code class="descname">I_ANDR</code><span class="sig-paren">(</span>reg_dest, reg_src1, reg_src2<span class="sig-paren">)</span><a class="headerlink" href="#c.I_ANDR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logical AND: dest = src1 &amp; src2 </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_ORR">
+<span class="target" id="ulp_8h_1a456eb162ca5e5cd1024d7110ddd24d64"></span><code class="descname">I_ORR</code><span class="sig-paren">(</span>reg_dest, reg_src1, reg_src2<span class="sig-paren">)</span><a class="headerlink" href="#c.I_ORR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logical OR: dest = src1 | src2 </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_MOVR">
+<span class="target" id="ulp_8h_1a6952036268e55371354c3ad25a62670c"></span><code class="descname">I_MOVR</code><span class="sig-paren">(</span>reg_dest, reg_src<span class="sig-paren">)</span><a class="headerlink" href="#c.I_MOVR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy: dest = src </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_LSHR">
+<span class="target" id="ulp_8h_1a6efb585fef05e7a85266d807302bc742"></span><code class="descname">I_LSHR</code><span class="sig-paren">(</span>reg_dest, reg_src, reg_shift<span class="sig-paren">)</span><a class="headerlink" href="#c.I_LSHR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logical shift left: dest = src &lt;&lt; shift </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_RSHR">
+<span class="target" id="ulp_8h_1a07931aa86baf81e9a14d2e3f4456c2f2"></span><code class="descname">I_RSHR</code><span class="sig-paren">(</span>reg_dest, reg_src, reg_shift<span class="sig-paren">)</span><a class="headerlink" href="#c.I_RSHR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logical shift right: dest = src &gt;&gt; shift </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_ADDI">
+<span class="target" id="ulp_8h_1ac51e0e8461bd3725d0ea1665e9f960e1"></span><code class="descname">I_ADDI</code><span class="sig-paren">(</span>reg_dest, reg_src, imm_<span class="sig-paren">)</span><a class="headerlink" href="#c.I_ADDI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add register and an immediate value: dest = src1 + imm </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_SUBI">
+<span class="target" id="ulp_8h_1a53138e432731b067d955a7405d8248b3"></span><code class="descname">I_SUBI</code><span class="sig-paren">(</span>reg_dest, reg_src, imm_<span class="sig-paren">)</span><a class="headerlink" href="#c.I_SUBI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subtract register and an immediate value: dest = src - imm </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_ANDI">
+<span class="target" id="ulp_8h_1a9fbb0ad21a3500142702c58a08b2dd87"></span><code class="descname">I_ANDI</code><span class="sig-paren">(</span>reg_dest, reg_src, imm_<span class="sig-paren">)</span><a class="headerlink" href="#c.I_ANDI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logical AND register and an immediate value: dest = src &amp; imm </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_ORI">
+<span class="target" id="ulp_8h_1a1a6109f01106f1c644fb8130876c429d"></span><code class="descname">I_ORI</code><span class="sig-paren">(</span>reg_dest, reg_src, imm_<span class="sig-paren">)</span><a class="headerlink" href="#c.I_ORI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logical OR register and an immediate value: dest = src | imm </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_MOVI">
+<span class="target" id="ulp_8h_1a660dfa206fb0554f4d0c1cae9a818632"></span><code class="descname">I_MOVI</code><span class="sig-paren">(</span>reg_dest, imm_<span class="sig-paren">)</span><a class="headerlink" href="#c.I_MOVI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy an immediate value into register: dest = imm </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_LSHI">
+<span class="target" id="ulp_8h_1a3dc64689e341de2c7be8492724b07d44"></span><code class="descname">I_LSHI</code><span class="sig-paren">(</span>reg_dest, reg_src, imm_<span class="sig-paren">)</span><a class="headerlink" href="#c.I_LSHI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logical shift left register value by an immediate: dest = src &lt;&lt; imm </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I_RSHI">
+<span class="target" id="ulp_8h_1ac3dc915556f1d1be245bb78debc094cf"></span><code class="descname">I_RSHI</code><span class="sig-paren">(</span>reg_dest, reg_src, imm_<span class="sig-paren">)</span><a class="headerlink" href="#c.I_RSHI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logical shift right register value by an immediate: dest = val &gt;&gt; imm </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.M_LABEL">
+<span class="target" id="ulp_8h_1aecbf41f111a4360eade18b46b29d44fc"></span><code class="descname">M_LABEL</code><span class="sig-paren">(</span>label_num<span class="sig-paren">)</span><a class="headerlink" href="#c.M_LABEL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define a label with number label_num.</p>
+<p>This is a macro which doesn’t generate a real instruction. The token generated by this macro is removed by ulp_process_macros_and_load function. Label defined using this macro can be used in branch macros defined below. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.M_BL">
+<span class="target" id="ulp_8h_1aaf0152231db35e8df986078aa1d07013"></span><code class="descname">M_BL</code><span class="sig-paren">(</span>label_num, imm_value<span class="sig-paren">)</span><a class="headerlink" href="#c.M_BL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Macro: branch to label label_num if R0 is less than immediate value.</p>
+<p>This macro generates two ulp_insn_t values separated by a comma, and should be used when defining contents of ulp_insn_t arrays. First value is not a real instruction; it is a token which is removed by ulp_process_macros_and_load function. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.M_BGE">
+<span class="target" id="ulp_8h_1a4f20572115c644a36de3876165ed4125"></span><code class="descname">M_BGE</code><span class="sig-paren">(</span>label_num, imm_value<span class="sig-paren">)</span><a class="headerlink" href="#c.M_BGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Macro: branch to label label_num if R0 is greater or equal than immediate value</p>
+<p>This macro generates two ulp_insn_t values separated by a comma, and should be used when defining contents of ulp_insn_t arrays. First value is not a real instruction; it is a token which is removed by ulp_process_macros_and_load function. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.M_BX">
+<span class="target" id="ulp_8h_1ab137b64664980281b4eaec2c3d0e109e"></span><code class="descname">M_BX</code><span class="sig-paren">(</span>label_num<span class="sig-paren">)</span><a class="headerlink" href="#c.M_BX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Macro: unconditional branch to label</p>
+<p>This macro generates two ulp_insn_t values separated by a comma, and should be used when defining contents of ulp_insn_t arrays. First value is not a real instruction; it is a token which is removed by ulp_process_macros_and_load function. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.M_BXZ">
+<span class="target" id="ulp_8h_1a8316da43e0785e19f692d7f8818f8724"></span><code class="descname">M_BXZ</code><span class="sig-paren">(</span>label_num<span class="sig-paren">)</span><a class="headerlink" href="#c.M_BXZ" title="Permalink to this definition">¶</a></dt>
+<dd><p>Macro: branch to label if ALU result is zero</p>
+<p>This macro generates two ulp_insn_t values separated by a comma, and should be used when defining contents of ulp_insn_t arrays. First value is not a real instruction; it is a token which is removed by ulp_process_macros_and_load function. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.M_BXF">
+<span class="target" id="ulp_8h_1aba326de9f17c47e0391ec589dad4c57b"></span><code class="descname">M_BXF</code><span class="sig-paren">(</span>label_num<span class="sig-paren">)</span><a class="headerlink" href="#c.M_BXF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Macro: branch to label if ALU overflow</p>
+<p>This macro generates two ulp_insn_t values separated by a comma, and should be used when defining contents of ulp_insn_t arrays. First value is not a real instruction; it is a token which is removed by ulp_process_macros_and_load function. </p>
+</dd></dl>
+
+</div>
+<div class="section" id="defines">
+<h2>Defines<a class="headerlink" href="#defines" title="Permalink to this headline">¶</a></h2>
+<dl class="macro">
+<dt id="c.RTC_SLOW_MEM">
+<span class="target" id="ulp_8h_1ad3057a7ebb8bbad1657f516b85cc3279"></span><code class="descname">RTC_SLOW_MEM</code><a class="headerlink" href="#c.RTC_SLOW_MEM" title="Permalink to this definition">¶</a></dt>
+<dd><p>RTC slow memory, 8k size </p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ulp-legacy.html" class="btn btn-neutral float-right" title="The ULP Coprocessor (Legacy GNU Make)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ulps2_instruction_set.html" class="btn btn-neutral float-left" title="ESP32-S2 ULP coprocessor instruction set" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/ulp_macros.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:25 GMT -->
+</html>

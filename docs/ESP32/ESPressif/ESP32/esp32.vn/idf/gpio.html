@@ -1,0 +1,1312 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from esp32.vn/idf/gpio.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:16:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>GPIO &amp; RTC GPIO &mdash; Tài liệu ESP32 1.0</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Tìm Kiếm" href="../search.html"/>
+    <link rel="top" title="Tài liệu ESP32 1.0" href="../index-2.html"/>
+        <link rel="up" title="ESP32 IDF" href="index.html"/>
+        <link rel="next" title="Remote Control Module" href="RMT.html"/>
+        <link rel="prev" title="Giao tiếp I2C" href="i2c.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> ESP32
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://esp32.vn/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Phần cứng</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">Phần cứng</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../hardware/board.html">Board ESP32vn IoT Uno</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hardware/connection.html">Kết nối máy tính</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../hardware/connection.html#ket-noi-phan-cung">Kết nối phần cứng</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hardware/connection.html#cai-dat-usb-driver">Cài đặt USB Driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hardware/connection.html#cau-hinh-ket-noi">Cấu hình kết nối</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">ESP32 Arduino</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arduino/index.html">Arduino cơ bản</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../arduino/install.html">Cài đặt Arduino IDE</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/install.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/install.html#huong-dan">Hướng dẫn</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../arduino/library.html">Cài đặt thư viện</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../arduino/blink.html">Blink</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#gioi-thieu">Giới thiệu.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#chuan-bi">Chuẩn bị.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#ket-noi">Kết nối.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#chuong-trinh">Chương trình.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#nap-chuong-trinh">Nạp chương trình.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#ket-luan">Kết luận.</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../arduino/i2c_oled.html">I2C/OLED</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/i2c_oled.html#oled-la-gi">OLED là gì?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/i2c_oled.html#i2c">I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/i2c_oled.html#demo">Demo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">ESP32 IDF</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">ESP-IDF cơ bản</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="install.html">Cài đặt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="install.html#cai-dat-toolchain">Cài đặt Toolchain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#tai-esp-idf">Tải ESP-IDF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#add-idf-path">ADD IDF_PATH</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="hello-world.html">Hello World</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#gioi-thieu">Giới thiệu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#demo">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blink-idf.html">Blink</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#gioi-thieu">Giới thiệu.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#chuan-bi">Chuẩn bị.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#ket-noi">Kết nối.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#demo">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="button.html">Nút nhấn</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="button.html#gioi-thieu">Giới thiệu.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#chuan-bi">Chuẩn bị.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#ket-noi">Kết nối.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#demo">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="adc.html">ADC</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="adc.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adc.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adc.html#vi-du">Ví dụ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adc.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dac.html">DAC</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dac.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html#vi-du-minh-hoa">Ví dụ minh họa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="spi_master.html">SPI master</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html#application-example">Application Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html#api-reference-spi-common">API Reference - SPI Common</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html#api-reference-spi-master">API Reference - SPI Master</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="spi_slave.html">SPI slave</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html#application-example">Application Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="i2s.html">I2S</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html#tong-quan">TỔNG QUAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html#vi-du">Ví dụ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="i2c.html">I2C</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html#vi-du-minh-hoa">Ví dụ minh họa:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">GPIO &amp; RTC GPIO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tong-quan">Tổng Quan</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vi-du-minh-hoa">Ví dụ minh họa:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#application-example">Application Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api-reference-normal-gpio">API Reference - Normal GPIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api-reference-rtc-gpio">API Reference - RTC GPIO</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#luu-y">Lưu ý</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RMT.html">Remote Control</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#vi-du-minh-hoa">Ví dụ minh họa:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="touch_pad.html">Touch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#gioi-thieu">Giới thiệu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wifi.html">Wifi</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#vi-du">Ví dụ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#api-reference">API Reference</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sdcard.html">Thẻ nhớ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sdcard.html#bien-dich-du-an-mau">Biên dịch dự án mẫu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sdcard.html#code">Code</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Hướng dẫn đóng góp</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#cai-dat-cong-cu-can-thiet">Cài đặt công cụ cần thiết</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#viet-bai">Viết bài</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#mot-so-luu-y-khac">Một số lưu ý khác</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#danh-sach-cac-thanh-vien-da-dong-gop">Danh sách các thành viên đã đóng góp</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index-2.html">ESP32</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">ESP32 IDF</a> &raquo;</li>
+        
+      <li>GPIO &amp; RTC GPIO</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/idf/gpio.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="gpio-rtc-gpio">
+<h1>GPIO &amp; RTC GPIO<a class="headerlink" href="#gpio-rtc-gpio" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tong-quan">
+<h2>Tổng Quan<a class="headerlink" href="#tong-quan" title="Permalink to this headline">¶</a></h2>
+<p>Chip ESP32 có 40 pad chức năng vật lý. Một số pad không được dùng hoặc không có chân tương ứng trên chip (tham khảo datasheet). Mỗi pad có thể dùng như một chân I/O hoặc có thể kết nối với một chân tín hiệu khác của ESP32.</p>
+<ul class="simple">
+<li>Note: GPIO-11 thường dùng cho SPI flash.</li>
+<li>GPIO-34-39 chỉ có thể được set là kiểu chân input và không thể dùng phần mềm để pull-up và pull-down.</li>
+</ul>
+<p>Ngoài ra còn hỗ trợ riêng &quot;RTC GPIO&quot;, có chức năng khi các chân GPIO định tuyến đến hệ thống con &quot;RTC&quot; low-power và analog. Những pin chức năng này có thể sử dụng khi sleep, khi Ultra Low Power co-processor đang chạy, hay khi các chức năng analog như ADC, DAC, v.v đang dùng.</p>
+</div>
+</div>
+<div class="section" id="chuan-bi">
+<h1>Chuẩn bị<a class="headerlink" href="#chuan-bi" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Tên board mạch</strong></th>
+<th class="head"><strong>Link</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Board ESP32 IoT Uno</td>
+<td><a class="reference external" href="https://github.com/esp32vn/esp32-iot-uno">https://github.com/esp32vn/esp32-iot-uno</a></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="vi-du-minh-hoa">
+<h1>Ví dụ minh họa:<a class="headerlink" href="#vi-du-minh-hoa" title="Permalink to this headline">¶</a></h1>
+<p>Ví dụ này sẽ cho chúng ta biết cấu hình GPIO và sử dụng ngắt GPIO như thế nào.</p>
+<p>Gán Chân:</p>
+<blockquote>
+<div><ul class="simple">
+<li>GPIO18: output.</li>
+<li>GPIO19: output.</li>
+<li>GPIO4:  input, pulled up, ngắt từ cạnh lên và cạnh xuống.</li>
+<li>GPIO5:  input, pulled up, ngắt từ cạnh lên.</li>
+</ul>
+</div></blockquote>
+<p>Kết nối chân:</p>
+<blockquote>
+<div><ul class="simple">
+<li>GPIO18 với GPIO4.</li>
+<li>GPIO19 với GPIO5.</li>
+<li>Tạo các xung lên trên GPIO18/19, gây ra ngắt trên GPIO04/05.</li>
+</ul>
+<blockquote>
+<div></div></blockquote>
+</div></blockquote>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cm">/* GPIO Example</span>
+
+<span class="cm"> This example code is in the Public Domain (or CC0 licensed, at your option.)</span>
+
+<span class="cm"> Unless required by applicable law or agreed to in writing, this</span>
+<span class="cm"> software is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR</span>
+<span class="cm"> CONDITIONS OF ANY KIND, either express or implied.</span>
+</pre></div>
+</div>
+<p><a href="#id1"><span class="problematic" id="id2">*</span></a>/
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdlib.h&gt;
+#include &quot;freertos/FreeRTOS.h&quot;
+#include &quot;freertos/task.h&quot;
+#include &quot;freertos/queue.h&quot;
+#include &quot;driver/gpio.h&quot;</p>
+<dl class="docutils">
+<dt>/**</dt>
+<dd><ul class="first simple">
+<li>Brief:</li>
+<li>This test code shows how to configure gpio and how to use gpio interrupt.</li>
+<li></li>
+<li>GPIO status:</li>
+<li>GPIO18: output</li>
+<li>GPIO19: output</li>
+<li>GPIO4:  input, pulled up, interrupt from rising edge and falling edge</li>
+<li>GPIO5:  input, pulled up, interrupt from rising edge.</li>
+<li></li>
+<li>Test:</li>
+<li>Connect GPIO18 with GPIO4</li>
+<li>Connect GPIO19 with GPIO5</li>
+<li>Generate pulses on GPIO18/19, that triggers interrupt on GPIO4/5</li>
+<li></li>
+</ul>
+<p class="last"><a href="#id3"><span class="problematic" id="id4">*</span></a>/</p>
+</dd>
+</dl>
+<p>#define GPIO_OUTPUT_IO_0    18
+#define GPIO_OUTPUT_IO_1    19
+#define GPIO_OUTPUT_PIN_SEL  ((1&lt;&lt;GPIO_OUTPUT_IO_0) | (1&lt;&lt;GPIO_OUTPUT_IO_1))
+#define GPIO_INPUT_IO_0     4
+#define GPIO_INPUT_IO_1     5
+#define GPIO_INPUT_PIN_SEL  ((1&lt;&lt;GPIO_INPUT_IO_0) | (1&lt;&lt;GPIO_INPUT_IO_1))
+#define ESP_INTR_FLAG_DEFAULT 0</p>
+<p>static xQueueHandle gpio_evt_queue = NULL;</p>
+<p>static void IRAM_ATTR gpio_isr_handler(void* arg)
+{</p>
+<blockquote>
+<div>uint32_t gpio_num = (uint32_t) arg;
+xQueueSendFromISR(gpio_evt_queue, &amp;gpio_num, NULL);</div></blockquote>
+<p>}</p>
+<p>static void gpio_task_example(void* arg)
+{</p>
+<blockquote>
+<div><p>uint32_t io_num;
+for(;;) {</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>if(xQueueReceive(gpio_evt_queue, &amp;io_num, portMAX_DELAY)) {</dt>
+<dd>printf(&quot;GPIO[%d] intr, val: %dn&quot;, io_num, gpio_get_level(io_num));</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+<p>}</p>
+<p>void app_main()
+{</p>
+<blockquote>
+<div><p>gpio_config_t io_conf;
+//disable interrupt
+io_conf.intr_type = GPIO_PIN_INTR_DISABLE;
+//set as output mode
+io_conf.mode = GPIO_MODE_OUTPUT;
+//bit mask of the pins that you want to set,e.g.GPIO18/19
+io_conf.pin_bit_mask = GPIO_OUTPUT_PIN_SEL;
+//disable pull-down mode
+io_conf.pull_down_en = 0;
+//disable pull-up mode
+io_conf.pull_up_en = 0;
+//configure GPIO with the given settings
+gpio_config(&amp;io_conf);</p>
+<p>//interrupt of rising edge
+io_conf.intr_type = GPIO_PIN_INTR_POSEDGE;
+//bit mask of the pins, use GPIO4/5 here
+io_conf.pin_bit_mask = GPIO_INPUT_PIN_SEL;
+//set as input mode
+io_conf.mode = GPIO_MODE_INPUT;
+//enable pull-up mode
+io_conf.pull_up_en = 1;
+gpio_config(&amp;io_conf);</p>
+<p>//change gpio intrrupt type for one pin
+gpio_set_intr_type(GPIO_INPUT_IO_0, GPIO_INTR_ANYEDGE);</p>
+<p>//create a queue to handle gpio event from isr
+gpio_evt_queue = xQueueCreate(10, sizeof(uint32_t));
+//start gpio task
+xTaskCreate(gpio_task_example, &quot;gpio_task_example&quot;, 2048, NULL, 10, NULL);</p>
+<p>//install gpio isr service
+gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);
+//hook isr handler for specific gpio pin
+gpio_isr_handler_add(GPIO_INPUT_IO_0, gpio_isr_handler, (void*) GPIO_INPUT_IO_0);
+//hook isr handler for specific gpio pin
+gpio_isr_handler_add(GPIO_INPUT_IO_1, gpio_isr_handler, (void*) GPIO_INPUT_IO_1);</p>
+<p>//remove isr handler for gpio number.
+gpio_isr_handler_remove(GPIO_INPUT_IO_0);
+//hook isr handler for specific gpio pin again
+gpio_isr_handler_add(GPIO_INPUT_IO_0, gpio_isr_handler, (void*) GPIO_INPUT_IO_0);</p>
+<p>int cnt = 0;
+while(1) {</p>
+<blockquote>
+<div>printf(&quot;cnt: %dn&quot;, cnt++);
+vTaskDelay(1000 / portTICK_RATE_MS);
+gpio_set_level(GPIO_OUTPUT_IO_0, cnt % 2);
+gpio_set_level(GPIO_OUTPUT_IO_1, cnt % 2);</div></blockquote>
+<p>}</p>
+</div></blockquote>
+<p>}</p>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<p>GPIO output and input interrupt example:<cite>https://github.com/espressif/esp-idf/tree/dce7fcb/examples/peripherals/gpio</cite>.</p>
+</div>
+<div class="section" id="api-reference-normal-gpio">
+<h2>API Reference - Normal GPIO<a class="headerlink" href="#api-reference-normal-gpio" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><cite>https://github.com/espressif/esp-idf/blob/dce7fcb/components/driver/include/driver/gpio.h</cite></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="c.gpio_config">
+esp_err_t <code class="descname">gpio_config</code><span class="sig-paren">(</span>const <a class="reference internal" href="#c.gpio_config_t" title="gpio_config_t">gpio_config_t</a><em>&nbsp;*pGPIOConfig</em><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Cấu hình thông thường GPIO.</p>
+<p>Cấu hình chế độ cho GPIO, pull-up, pull-down, IntrType.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG lỗi thông số.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">pGPIOConfig</span></code>: trỏ đến GPIO struct cấu hình.</li>
+</ul>
+<dl class="function">
+<dt id="c.gpio_set_intr_type">
+esp_err_t <code class="descname">gpio_set_intr_type</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em>, <a class="reference internal" href="#c.gpio_int_type_t" title="gpio_int_type_t">gpio_int_type_t</a><em>&nbsp;intr_type</em><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_set_intr_type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Kích hoạt loại ngắt cho GPIO.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG lỗi thông số.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số của pin GPIO. Nếu bạn muốn set để kích hoạt nó, ví dụ: GPIO16, gpio_num phải là GPIO_NUM_16(16);</li>
+<li><code class="docutils literal"><span class="pre">intr_type</span></code>: kiểu ngắt, chọn từ gpio_int_type_t.</li>
+</ul>
+<dl class="function">
+<dt id="c.gpio_intr_enable">
+esp_err_t <code class="descname">gpio_intr_enable</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_intr_enable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Bật chế độ tín hiệu ngắt của GPIO.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG lỗi thông số.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>:số pin của GPIO. Nếu bạn muốn bật một ngắt cho nó, ví dụ: GPIO16, gpio_num phải là GPIO_NUM_16(16);</li>
+</ul>
+<dl class="function">
+<dt id="c.gpio_intr_disable">
+esp_err_t <code class="descname">gpio_intr_disable</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_intr_disable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Tắt chế độ tín hiệu ngắt cho GPIO.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG lỗi thông số.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số pin GPIO. Nếu bạn muốn tắt một ngắt cho nó, ví dụ: GPIO16, gpio_num phải là GPIO_NUM_16(16);</li>
+</ul>
+<dl class="function">
+<dt id="c.gpio_set_level">
+esp_err_t <code class="descname">gpio_set_level</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em>, uint32_t<em>&nbsp;level</em><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_set_level" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Set mức output cho GPIO.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG lỗi số pin GPIO.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số pin GPIO. nếu bạn muốn set mức output, ví dụ:GPIO16, gpio_num phải là GPIO_NUM_16(16);</li>
+<li><code class="docutils literal"><span class="pre">level</span></code>: mức output. 0:low, 1:high.</li>
+</ul>
+<dl class="function">
+<dt id="c.gpio_get_level">
+int <code class="descname">gpio_get_level</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_get_level" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Đặt mức đầu vào GPIO.</p>
+<p>Return</p>
+<ul class="simple">
+<li>0 thì mức GPIO input là 0.</li>
+<li>1 thì mức GPIO input là 1.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số pin GPIO. Nếu bạn muốn đặt mức logic, ví dụ: GPIO16, gpio_num phải là GPIO_NUM_16(16);</li>
+</ul>
+<dl class="function">
+<dt id="c.gpio_set_direction">
+esp_err_t <code class="descname">gpio_set_direction</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em>, <a class="reference internal" href="#c.gpio_mode_t" title="gpio_mode_t">gpio_mode_t</a><em>&nbsp;mode</em><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_set_direction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Set hướng cho GPIO.</p>
+<p>Định hướng GPIO, chẳng hạn như output_only, input_only, output_and_input.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG lỗi GPIO.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: cấu hình số pin cho các pin GPIO, nó phải là số. Nếu bạn muốn set hướng, ví dụ: GPIO16, gpio_num phải là GPIO_NUM_16(16);</li>
+<li><code class="docutils literal"><span class="pre">mode</span></code>: hướng GPIO.</li>
+</ul>
+<dl class="function">
+<dt id="c.gpio_set_pull_mode">
+esp_err_t <code class="descname">gpio_set_pull_mode</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em>, <a class="reference internal" href="#c.gpio_pull_mode_t" title="gpio_pull_mode_t">gpio_pull_mode_t</a><em>&nbsp;pull</em><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_set_pull_mode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Cấu hình điện trở kéo GPIO pull-up/pull-down.</p>
+<p>Chỉ có các pin mà hỗ trợ cả hai input và output có thể tích hợp pull-up và pull-down điện trở kéo. Không dùng các GPIO 34-39 vì nó chỉ input.</p>
+<p>return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG: lỗi thông số.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số của GPIO. Nếu bạn muốn set chế độ pull-up hay down cho GPIO, ví dụ: GPIO16, gpio_num phải là GPIO_NUM_16(16);</li>
+<li><code class="docutils literal"><span class="pre">pull</span></code>: GPIO chế độ pull-up/down.</li>
+</ul>
+<dl class="function">
+<dt id="c.gpio_wakeup_enable">
+esp_err_t <code class="descname">gpio_wakeup_enable</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em>, <a class="reference internal" href="#c.gpio_int_type_t" title="gpio_int_type_t">gpio_int_type_t</a><em>&nbsp;intr_type</em><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_wakeup_enable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Bật chức năng đánh thức(wake-up) cho GPIO.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG lỗi thông số.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số của GPIO.</li>
+<li><code class="docutils literal"><span class="pre">intr_type</span></code>: đánh thức GPIO. Chỉ có GPIO_INTR_LOW_LEVEL hoặc GPIO_INTR_HIGH_LEVEL có thể dùng.</li>
+</ul>
+<dl class="function">
+<dt id="c.gpio_wakeup_disable">
+esp_err_t <code class="descname">gpio_wakeup_disable</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_wakeup_disable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Tắt chức năng đánh thức GPIO.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG lỗi thông số.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số của GPIO.</li>
+</ul>
+<dl class="function">
+<dt id="c.gpio_isr_register">
+esp_err_t <code class="descname">gpio_isr_register</code><span class="sig-paren">(</span>void (<em>*fn</em>)(void *), void<em>&nbsp;*arg</em>, int<em>&nbsp;intr_alloc_flags</em>, <a class="reference internal" href="#c.gpio_isr_handle_t" title="gpio_isr_handle_t">gpio_isr_handle_t</a><em>&nbsp;*handle</em>, <span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_isr_register" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Đăng kí x ử lý ngắt cho GPIO, xử lí một ISR. Trình xử lí sẽ gắn vào cùng một lõi CPU mà chức năng này đang chạy.</p>
+<p>Chức năng ISR này được gọi bất cứ khi nào ngắt GPIO bị gián đoạn. Xem API thay thế gpio_install_isr_service() và gpio_isr_handler_add() để hỗ trợ trình điều khiển cho mỗi GPIO ISR.</p>
+<p>Để vô hiệu hóa hoặc loại bỏ các ISR, vượt qua các xử lí trả về chức năng phân bổ ngắt.</p>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">fn</span></code>: chức năng xử lí ngắt.</li>
+<li><code class="docutils literal"><span class="pre">intr_alloc_flags</span></code>: các cờ dùng để chỉ định ngắt. Một hoặc nhiều (ORred) ESP_INTR_FLAG_* giá trị. Xem  esp_intr_alloc.h để biết thêm thông tin.</li>
+<li><code class="docutils literal"><span class="pre">arg</span></code>: thông số cho chức năng xử lí.</li>
+<li><code class="docutils literal"><span class="pre">handle</span></code>: trỏ để xử lí trở lại. Nếu không phải NULL, một xử lí ngắt sẽ trở lại tại đây.</li>
+</ul>
+<p>return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG lỗi GPIO.</li>
+</ul>
+<dl class="function">
+<dt id="c.gpio_pullup_en">
+esp_err_t <code class="descname">gpio_pullup_en</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_pullup_en" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Bật pull-up trên GPIO.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG lỗi thông số.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số của GPIO.</li>
+</ul>
+<dl class="function">
+<dt id="c.gpio_pullup_dis">
+esp_err_t <code class="descname">gpio_pullup_dis</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_pullup_dis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Tắt pull-up trên GPIO.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG lỗi thông số.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số của GPIO.</li>
+</ul>
+<dl class="function">
+<dt id="c.gpio_pulldown_en">
+esp_err_t <code class="descname">gpio_pulldown_en</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_pulldown_en" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Bật pull-down trên GPIO.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG lỗi thông số.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số của GPIO.</li>
+</ul>
+<dl class="function">
+<dt id="c.gpio_pulldown_dis">
+esp_err_t <code class="descname">gpio_pulldown_dis</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_pulldown_dis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Tắt pull-down trên GPIO.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG lỗi thông số.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số của GPIO.</li>
+</ul>
+<dl class="function">
+<dt id="c.gpio_install_isr_service">
+esp_err_t <code class="descname">gpio_install_isr_service</code><span class="sig-paren">(</span>int<em>&nbsp;intr_alloc_flags</em><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_install_isr_service" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Cài đặt driver GPIO ISR service xử lý, cho phép xử lý ngắt trên các pin GPIO.</p>
+<p>Hàm này không tương thích với <code class="docutils literal"><span class="pre">gpio_isr_register()</span></code>-nếu hàm này được dùng thì một ISR chung duy nhất sẽ  đăng ký cho tất cả các ngắt GPIO. Nếu dùng hàm này <code class="docutils literal"><span class="pre">gpio_isr_handler_add()</span></code> thì service ISR sẽ cung cấp một GPIO ISR chung cho mỗi pin GPIO riêng lẻ.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_FAIL hoạt động thất bại.</li>
+<li>ESP_ERR_NO_MEM không có bộ nhớ để cài đặt service này.</li>
+</ul>
+<p>Parameters</p>
+<p>-<code class="docutils literal"><span class="pre">intr_alloc_flags</span></code>: các cờ flag được dùng cho ngắt. Một hoặc nhiều giá trị (ORred) ESP_INTR_FLAG_*. Xem esp_intr_alloc.h để biết thêm chi tiết.</p>
+<dl class="function">
+<dt id="c.gpio_uninstall_isr_service">
+void <code class="descname">gpio_uninstall_isr_service</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_uninstall_isr_service" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Thoát cài đặt driver GPIO ISR service, giải phóng tài nguyên liên quan.</p>
+<dl class="function">
+<dt id="c.gpio_isr_handler_add">
+esp_err_t <code class="descname">gpio_isr_handler_add</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em>, <a class="reference internal" href="#c.gpio_isr_t" title="gpio_isr_t">gpio_isr_t</a><em>&nbsp;isr_handler</em>, void<em>&nbsp;*args</em><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_isr_handler_add" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Add trình xử lý ISR cho pin GPIO tương ứng.</p>
+<p>Gọi hàm này sau khi dùng <code class="docutils literal"><span class="pre">gpio_install_isr_service()</span></code> để cài đặt trình xử lý GPIO service.</p>
+<p>Các pin xử lý cần phải được khai báo với IRAM_ATTR, trừ khi bạn thông qua cờ flag ESP_INTR_FLAG_IRAM khi cấp cho ISR trong gpio_install_isr_service().</p>
+<p>Trình xủ lý ISR này sẽ gọi từ một ISR. Vì vậy có một giới hạn kích thước stack (cấu hình &quot;ISR stack size&quot; trong menuconfig). Giới hạn này rất nhỏ so với trình xử lý ngắt chung GPIO do mức độ bổ sung gián tiếp.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_STATE sai trạng thái, ISR service không được khởi tạo.</li>
+<li>ESP_ERR_INVALID_ARG lỗi thông số.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số của GPIO.</li>
+<li><code class="docutils literal"><span class="pre">isr_handler</span></code>: hàm xử lý ISR cho số GPIO tương ứng.</li>
+<li><code class="docutils literal"><span class="pre">args</span></code>: thông số cho trình xử lý ISR.</li>
+</ul>
+<dl class="function">
+<dt id="c.gpio_isr_handler_remove">
+esp_err_t <code class="descname">gpio_isr_handler_remove</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_isr_handler_remove" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Bỏ trình xử lý ISR cho số pin GPIO tương ứng.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_STATE sai trạng thái, ISR service không được khởi tạo.</li>
+<li>ESP_ERR_INVALID_ARG lỗi thông số.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số của GPIO.</li>
+</ul>
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="c.gpio_config_t">
+struct <code class="descname">gpio_config_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_config_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Cấu hình các thông số của pad GPIO cho hàm <code class="docutils literal"><span class="pre">gpio_config</span></code>.</p>
+<p>Public Members</p>
+<p><code class="docutils literal"><span class="pre">uint64_t</span> <span class="pre">pin_bit_mask</span></code></p>
+<p>Pin GPIO: set với bit mask, mỗi bit maps đến một GPIO.</p>
+<p><code class="docutils literal"><span class="pre">gpio_mode_t</span> <span class="pre">mode</span></code></p>
+<p>Chế độ GPIO:set chế độ input/output.</p>
+<p><code class="docutils literal"><span class="pre">gpio_pullup_t</span> <span class="pre">pull_up_en</span></code></p>
+<p>GPIO pull-up.</p>
+<p><code class="docutils literal"><span class="pre">gpio_pulldown_t</span> <span class="pre">pull_down_en</span></code></p>
+<p>GPIO pull-down.</p>
+<p><code class="docutils literal"><span class="pre">gpio_int_type_t</span> <span class="pre">intr_type</span></code></p>
+<p>Loại ngắt GPIO.</p>
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="c.GPIO_SEL_0">
+<code class="descname">GPIO_SEL_0</code><span class="sig-paren">(</span>BIT(0)<span class="sig-paren">)</span><a class="headerlink" href="#c.GPIO_SEL_0" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Đã chọn pin 0.</p>
+<dl class="function">
+<dt id="c.GPIO_SEL_1">
+<code class="descname">GPIO_SEL_1</code><span class="sig-paren">(</span>BIT(1)<span class="sig-paren">)</span><a class="headerlink" href="#c.GPIO_SEL_1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Đã chọn pin 1.</p>
+<dl class="function">
+<dt id="c.GPIO_SEL_2">
+<code class="descname">GPIO_SEL_2</code><span class="sig-paren">(</span>BIT(2)<span class="sig-paren">)</span><a class="headerlink" href="#c.GPIO_SEL_2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Đã chọn pin 2.</p>
+<p>Note</p>
+<p>Số macros cứ như thế tới chân 39, không bao gồm chân 20,24 và 28..31. Chúng không được show ở đây để giảm những thông tin dư thừa cho các bạn.</p>
+<dl class="function">
+<dt id="c.(gpio_num)">
+GPIO_IS_VALID_GPIO<code class="descname">(gpio_num)</code><span class="sig-paren">(</span>(<a class="reference internal" href="RMT.html#c.gpio_num" title="gpio_num">gpio_num</a> &lt; GPIO_PIN_COUNT &amp;&amp; GPIO_PIN_MUX_REG[<a class="reference internal" href="RMT.html#c.gpio_num" title="gpio_num">gpio_num</a>] !=<em>&nbsp;0)</em><span class="sig-paren">)</span><a class="headerlink" href="#c.(gpio_num)" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Kiểm tra xem số chân GPIO hợp lệ hay chưa.</p>
+<dl class="function">
+<dt>
+GPIO_IS_VALID_OUTPUT_GPIO<code class="descname">(gpio_num)</code><span class="sig-paren">(</span>(GPIO_IS_VALID_GPIO(<a class="reference internal" href="RMT.html#c.gpio_num" title="gpio_num">gpio_num</a>)) &amp;&amp; (<a class="reference internal" href="RMT.html#c.gpio_num" title="gpio_num">gpio_num</a> &lt;<em>&nbsp;34)</em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<p>Kiểm tra xem có thể nó là các chân chỉ có chế độ output.</p>
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="c.gpio_isr_t">
+typedef void <code class="descname">(*gpio_isr_t)</code><span class="sig-paren">(</span>void<em>&nbsp;*</em><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_isr_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="c.gpio_isr_handle_t">
+typedef intr_handle_t <code class="descname">gpio_isr_handle_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_isr_handle_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="c.gpio_num_t">
+enum <code class="descname">gpio_num_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_num_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Values:</p>
+<p><code class="docutils literal"><span class="pre">GPIO_NUM_0</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+<p>GPIO0, input và output.</p>
+<p><code class="docutils literal"><span class="pre">GPIO_NUM_1</span> <span class="pre">=</span> <span class="pre">1</span></code></p>
+<p>GPIO1, input và output.</p>
+<p><code class="docutils literal"><span class="pre">GPIO_NUM_2</span> <span class="pre">=</span> <span class="pre">2</span></code></p>
+<p>GPIO2, input và output.</p>
+<p>Note</p>
+<p>Có nhiều hơn thế này nữa, có thể liệt kê lên đến GPIO39, không bao gồm GPIO20,GPIO24 và GPIO28..GPIO31. Chúng không được show ở đây để giảm những thông tin dư thừa cho các bạn.</p>
+<p>Note</p>
+<p>GPIO34..39 chỉ có chế độ input.</p>
+<dl class="function">
+<dt id="c.gpio_int_type_t">
+enum <code class="descname">gpio_int_type_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_int_type_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Values:</p>
+<p><code class="docutils literal"><span class="pre">GPIO_INTR_DISABLE</span> <span class="pre">=</span> <span class="pre">0</span></code></p>
+<p>Vô hiệu hóa GPIO ngắt.</p>
+<p><code class="docutils literal"><span class="pre">GPIO_INTR_POSEDGE</span> <span class="pre">=</span> <span class="pre">1</span></code></p>
+<p>Kiểu ngắt GPIO: cạnh lên.</p>
+<p><code class="docutils literal"><span class="pre">GPIO_INTR_NEGEDGE</span> <span class="pre">=</span> <span class="pre">2</span></code></p>
+<p>Kiểu ngắt GPIO: cạnh xuống.</p>
+<p><code class="docutils literal"><span class="pre">GPIO_INTR_ANYEDGE</span> <span class="pre">=</span> <span class="pre">3</span></code></p>
+<p>Kiểu ngắt GPIO: cả cạnh lên và xuống.</p>
+<p><code class="docutils literal"><span class="pre">GPIO_INTR_LOW_LEVEL</span> <span class="pre">=</span> <span class="pre">4</span></code></p>
+<p>Kiểu ngắt GPIO: kích hoạt input ở mức thấp.</p>
+<p><code class="docutils literal"><span class="pre">GPIO_INTR_HIGH_LEVEL</span> <span class="pre">=</span> <span class="pre">5</span></code></p>
+<p>Kiểu ngắt GPIO: kích hoạt input ở mức cao.</p>
+<p><code class="docutils literal"><span class="pre">GPIO_INTR_MAX</span></code></p>
+<dl class="function">
+<dt id="c.gpio_mode_t">
+enum <code class="descname">gpio_mode_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_mode_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Values:</p>
+<p><code class="docutils literal"><span class="pre">GPIO_MODE_INPUT</span> <span class="pre">=</span> <span class="pre">GPIO_MODE_DEF_INPUT</span></code></p>
+<p>Chế độ GPIO: chỉ input.</p>
+<p><code class="docutils literal"><span class="pre">GPIO_MODE_OUTPUT</span> <span class="pre">=</span> <span class="pre">GPIO_MODE_DEF_OUTPUT</span></code></p>
+<p>chế độ GPIO: chỉ output.</p>
+<p><code class="docutils literal"><span class="pre">GPIO_MODE_OUTPUT_OD</span> <span class="pre">=</span> <span class="pre">((GPIO_MODE_DEF_OUTPUT)|(GPIO_MODE_DEF_OD))</span></code></p>
+<p>Chế độ GPIO: chỉ output với chế độ open-drain.</p>
+<p><code class="docutils literal"><span class="pre">GPIO_MODE_INPUT_OUTPUT_OD</span> <span class="pre">=</span> <span class="pre">((GPIO_MODE_DEF_INPUT)|(GPIO_MODE_DEF_OUTPUT)|(GPIO_MODE_DEF_OD))</span></code></p>
+<p>Chế độ GPIO: output và input với chế độ open-drain.</p>
+<p><code class="docutils literal"><span class="pre">GPIO_MODE_INPUT_OUTPUT</span> <span class="pre">=</span> <span class="pre">((GPIO_MODE_DEF_INPUT)|(GPIO_MODE_DEF_OUTPUT))</span></code></p>
+<p>Chế độ GPIO: input và output.</p>
+<dl class="function">
+<dt id="c.gpio_pullup_t">
+enum <code class="descname">gpio_pullup_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_pullup_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Values:</p>
+<p><code class="docutils literal"><span class="pre">GPIO_PULLUP_DISABLE</span> <span class="pre">=</span> <span class="pre">0x0</span></code></p>
+<p>Tắt điện trở kéo lên cho GPIO.</p>
+<p><code class="docutils literal"><span class="pre">GPIO_PULLUP_ENABLE</span> <span class="pre">=</span> <span class="pre">0x1</span></code></p>
+<p>Bật điện trở kéo lên cho GPIO.</p>
+<dl class="function">
+<dt id="c.gpio_pulldown_t">
+enum <code class="descname">gpio_pulldown_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_pulldown_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Values:</p>
+<p><code class="docutils literal"><span class="pre">GPIO_PULLDOWN_DISABLE</span> <span class="pre">=</span> <span class="pre">0x0</span></code></p>
+<p>Tắt điện trở kéo xuống cho GPIO.</p>
+<p><code class="docutils literal"><span class="pre">GPIO_PULLDOWN_ENABLE</span> <span class="pre">=</span> <span class="pre">0x1</span></code></p>
+<p>Bật điện trở kéo xuống cho GPIO.</p>
+<dl class="function">
+<dt id="c.gpio_pull_mode_t">
+enum <code class="descname">gpio_pull_mode_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.gpio_pull_mode_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Values:</p>
+<p><code class="docutils literal"><span class="pre">GPIO_PULLUP_ONLY</span></code></p>
+<p>Pad pull-up.</p>
+<p><code class="docutils literal"><span class="pre">GPIO_PULLDOWN_ONLY</span></code></p>
+<p>Pad pull-down.</p>
+<p><code class="docutils literal"><span class="pre">GPIO_PULLUP_PULLDOWN</span></code></p>
+<p>Pad pull-up và pull-down.</p>
+<p><code class="docutils literal"><span class="pre">GPIO_FLOATING</span></code></p>
+<p>Pad floating</p>
+</div>
+</div>
+<div class="section" id="api-reference-rtc-gpio">
+<h2>API Reference - RTC GPIO<a class="headerlink" href="#api-reference-rtc-gpio" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h3>Header File<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><cite>https://github.com/espressif/esp-idf/blob/9314bf0/components/driver/include/driver/rtc_io.h</cite></li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h3>Functions<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="c.rtc_gpio_is_valid_gpio">
+static bool <code class="descname">rtc_gpio_is_valid_gpio</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.rtc_gpio_is_valid_gpio" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Xác định xem GPIO đã chỉ định có phải là RTC GPIO không.</p>
+<p>Return</p>
+<p>True nếu GPIO hợp lệ cho việc dùng RTC GPIO. Ngược lại là False.</p>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số của GPIO.</li>
+</ul>
+<dl class="function">
+<dt id="c.rtc_gpio_init">
+esp_err_t <code class="descname">rtc_gpio_init</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.rtc_gpio_init" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Khởi động một GPIO thành RTC GPIO.</p>
+<p>Hàm này phải được gọi khi khởi tạo một pad cho một chức năng tương tự.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG GPIO không phải là một RTC IO.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số của GPIO (ví dụ: GPIO_NUM_12).</li>
+</ul>
+<dl class="function">
+<dt id="c.rtc_gpio_deinit">
+esp_err_t <code class="descname">rtc_gpio_deinit</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.rtc_gpio_deinit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Khởi tạo một GPIO như một digital GPIO.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG GPIO không phải là một RTC IO.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số của GPIO (ví dụ: GPIO_NUM_12).</li>
+</ul>
+<dl class="function">
+<dt id="c.rtc_gpio_get_level">
+uint32_t <code class="descname">rtc_gpio_get_level</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.rtc_gpio_get_level" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Nhận mức đầu vào RTC IO.</p>
+<p>Return</p>
+<ul class="simple">
+<li>1 mức cao.</li>
+<li>0 mức thấp.</li>
+<li>ESP_ERR_INVALID_ARG GPIO không phải là một RTC IO.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số của GPIO (ví dụ: GPIO_NUM_12).</li>
+</ul>
+<dl class="function">
+<dt id="c.rtc_gpio_set_level">
+esp_err_t <code class="descname">rtc_gpio_set_level</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em>, uint32_t<em>&nbsp;level</em><span class="sig-paren">)</span><a class="headerlink" href="#c.rtc_gpio_set_level" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Set mức RTC IO output.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG GPIO không phải là một RTC IO.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số của GPIO (ví dụ: GPIO_NUM_12).</li>
+<li><code class="docutils literal"><span class="pre">level</span></code>: mức output.</li>
+</ul>
+<dl class="function">
+<dt id="c.rtc_gpio_set_direction">
+esp_err_t <code class="descname">rtc_gpio_set_direction</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em>, <a class="reference internal" href="#c.rtc_gpio_mode_t" title="rtc_gpio_mode_t">rtc_gpio_mode_t</a><em>&nbsp;mode</em><span class="sig-paren">)</span><a class="headerlink" href="#c.rtc_gpio_set_direction" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Set hướng cho GPIO.</p>
+<p>Cấu hình phương hướng cho GPIO, chẳng hạn như chỉ input, chỉ output, input và output.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG GPIO không phải là RTC IO.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số của GPIO (ví dụ: GPIO_NUM_12).</li>
+<li><code class="docutils literal"><span class="pre">mode</span></code>: hướng làm việc của GPIO.</li>
+</ul>
+<dl class="function">
+<dt id="c.rtc_gpio_pullup_en">
+esp_err_t <code class="descname">rtc_gpio_pullup_en</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.rtc_gpio_pullup_en" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Bật RTC GPIO pull-up.</p>
+<p>Hàm này chỉ làm việc cho các RTC IO. Nói chung, gọi <code class="docutils literal"><span class="pre">gpio_pulldown_en</span></code>, sẽ làm việc cho cả hai các GPIO thông thường và  RTC IO.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG GPIO không phải là một RTC IO.</li>
+</ul>
+<p>Parameters</p>
+<p>-<code class="docutils literal"><span class="pre">gpio_num</span></code>: số của GPIO (ví dụ: GPIO_NUM_12).</p>
+<dl class="function">
+<dt id="c.rtc_gpio_pullup_dis">
+esp_err_t <code class="descname">rtc_gpio_pullup_dis</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.rtc_gpio_pullup_dis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Tắt RTC GPIO pull-up.</p>
+<p>Hàm này chỉ làm việc cho các RTC IO. Nói chung, gọi <code class="docutils literal"><span class="pre">gpio_pullup_dis</span></code>, sẽ làm việc cho cả hai các GPIO thông thường và RTC IO.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG GPIO không phải là một RTC IO.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số của GPIO (ví dụ: GPIO_NUM_12).</li>
+</ul>
+<dl class="function">
+<dt id="c.rtc_gpio_pulldown_disIO.">
+esp_err_t <code class="descname">rtc_gpio_pulldown_disIO.</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.rtc_gpio_pulldown_disIO." title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Tắt RTC GPIO pull-down.</p>
+<p>Hàm này chỉ làm việc cho các RTC IO. Nói chung, gọi <code class="docutils literal"><span class="pre">gpio_pulldown_dis</span></code>, sẽ làm việc cho cả hai các GPIO thông thường và RTC IO.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG GPIO không phải là một RTC IO.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số của GPIO (ví dụ: GPIO_NUM_12).</li>
+</ul>
+<dl class="function">
+<dt id="c.rtc_gpio_hold_en">
+esp_err_t <code class="descname">rtc_gpio_hold_en</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.rtc_gpio_hold_en" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Kích hoạt chức năng giữ cho một pad RTC GPIO.</p>
+<p>Kích hoạt chức năng giữ sẽ làm cho pad chốt lại những giá trị đang hiện hành của việc kích hoạt input, kích hoạt output, giá trị output, chức năng, các giá trị nhanh chậm của drive. Hàm này rất hữu ích khi đem vào chế độ light hay deep sleep để ngăn chặn thay đổi cấu hình chân.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG GPIO không phải là một RTC IO.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số của GPIO (ví dụ: GPIO_NUM_12).</li>
+</ul>
+<dl class="function">
+<dt id="c.rtc_gpio_hold_dis">
+esp_err_t <code class="descname">rtc_gpio_hold_dis</code><span class="sig-paren">(</span><a class="reference internal" href="#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.rtc_gpio_hold_dis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Tắt chức năng force hold cho pad RTC IO.</p>
+<p>Tắt chức năng giữ sẽ cho phép pad nhận các giá trị của cho phép input, cho phép output, function, drive strength từ RTC_IO ngoại vi.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_OK thành công.</li>
+<li>ESP_ERR_INVALID_ARG GPIO không phải là một RTC IO.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">gpio_num</span></code>: số của GPIO.(ví dụ: GPIO_NUM_12).</li>
+</ul>
+<dl class="function">
+<dt id="c.rtc_gpio_force_hold_dis_all">
+void <code class="descname">rtc_gpio_force_hold_dis_all</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.rtc_gpio_force_hold_dis_all" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Tắt chức năng giữ tín hiệu cho tất cả các RTC IO.</p>
+<p>Mỗi pad RTC có tín hiệu input từ bộ điều khiển RTC. Nếu tín hiệu này được set, pad sẽ chốt các giá trị hiện tại của cho phép input, function, cho phép output, và các tín hiệu khác đến từ MUX RTC. Tín hiệu force hold được kích hoạt trước khi deep sleep cho các pin được sử dụng cho việc đánh thức EXT1.</p>
+</div>
+<div class="section" id="id7">
+<h3>Structures<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="c.rtc_gpio_desc_t">
+struct <code class="descname">rtc_gpio_desc_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.rtc_gpio_desc_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Thông tin pin chức năng cho các chức năng RTC của mỗi GPIO riêng.</p>
+<p>Đây là một chức năng bên trong của trình điều khiển, và thường không hữu ích cho việc dùng bên ngoài.</p>
+</div>
+<div class="section" id="public-members">
+<h3>Public Members<a class="headerlink" href="#public-members" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">uint32_t</span> <span class="pre">reg</span></code></p>
+<p>Bit mask để chọn pad digital hay pad RTC.</p>
+<p><code class="docutils literal"><span class="pre">uint32_t</span> <span class="pre">func</span></code></p>
+<p>Shift của vùng chức năng (FUN_SEL).</p>
+<p><code class="docutils literal"><span class="pre">uint32_t</span> <span class="pre">ie</span></code></p>
+<p>Mask của input cho phép.</p>
+<p><code class="docutils literal"><span class="pre">uint32_t</span> <span class="pre">pullup</span></code></p>
+<p>Mask của pull-up cho phép.</p>
+<p><code class="docutils literal"><span class="pre">uint32_t</span> <span class="pre">pulldown</span></code></p>
+<p>Mask của pull-down cho phép.</p>
+<p><code class="docutils literal"><span class="pre">uint32_t</span> <span class="pre">slpsel</span></code></p>
+<p>Nếu bit slpsel được set, slpie sẽ dùng như pad tín hiệu cho phép input trong chế độ ngủ.</p>
+<p><code class="docutils literal"><span class="pre">uint32_t</span> <span class="pre">slpie</span></code></p>
+<p>Mask của input cho phép trong chế độ ngủ.</p>
+<p><code class="docutils literal"><span class="pre">uint32_t</span> <span class="pre">hold</span></code></p>
+<p>Mask của cho phép hold.</p>
+<p><code class="docutils literal"><span class="pre">uint32_t</span> <span class="pre">hold_force</span></code></p>
+<p>Mask của bit hold_force cho RTC IO trong RTC_CNTL_HOLD_FORCE_REG.</p>
+<p><code class="docutils literal"><span class="pre">int</span> <span class="pre">rtc_num</span></code></p>
+<p>Số RTC IO, hay -1 nếu không phải một RTC GPIO.</p>
+</div>
+<div class="section" id="id8">
+<h3>Macros<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="c.RTC_GPIO_IS_VALID_GPIO">
+<code class="descname">RTC_GPIO_IS_VALID_GPIO</code><span class="sig-paren">(</span><a class="reference internal" href="RMT.html#c.gpio_num" title="gpio_num">gpio_num</a>)<em>&nbsp;rtc_gpio_is_valid_gpio(gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.RTC_GPIO_IS_VALID_GPIO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="id9">
+<h3>Enumerations<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="c.rtc_gpio_mode_t">
+enum <code class="descname">rtc_gpio_mode_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.rtc_gpio_mode_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Values:</p>
+<p><code class="docutils literal"><span class="pre">RTC_GPIO_MODE_INPUT_ONLY</span></code></p>
+<p>Pad output.</p>
+<p><code class="docutils literal"><span class="pre">RTC_GPIO_MODE_OUTPUT_ONLY</span></code></p>
+<p>Pad input.</p>
+<p><code class="docutils literal"><span class="pre">RTC_GPIO_MODE_INPUT_OUTUT</span></code></p>
+<p>Pad pull output + input.</p>
+<p><code class="docutils literal"><span class="pre">RTC_GPIO_MODE_DISABLED</span></code></p>
+<p>Tắt Pad (output + input).</p>
+</div>
+</div>
+</div>
+<div class="section" id="luu-y">
+<h1>Lưu ý<a class="headerlink" href="#luu-y" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li>Hướng dẫn cài đặt <a class="reference external" href="https://esp-idf.readthedocs.io/en/latest/index.html">ESP-IDF</a></li>
+<li>Nạp và Debug chương trình <a class="reference external" href="https://esp-idf.readthedocs.io/en/latest/index.html">xem tại đây</a></li>
+<li>Tài nguyên hệ thống xem <a class="reference external" href="https://github.com/espressif/esp-idf">tại đây</a></li>
+</ul>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="RMT.html" class="btn btn-neutral float-right" title="Remote Control Module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="i2c.html" class="btn btn-neutral" title="Giao tiếp I2C" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, TuanPM.
+
+    </p>
+  </div>
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            LANGUAGE:'vi',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+      <script type="text/javascript" src="../../cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+ 
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-60470603-07");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+
+</body>
+
+<!-- Mirrored from esp32.vn/idf/gpio.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:16:15 GMT -->
+</html>

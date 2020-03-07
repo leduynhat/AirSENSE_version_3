@@ -1,0 +1,517 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from esp32.vn/arduino/blink.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:15:52 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Lập trình GPIO với ESP32 bằng Arduino IDE. &mdash; Tài liệu ESP32 1.0</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Tìm Kiếm" href="../search.html"/>
+    <link rel="top" title="Tài liệu ESP32 1.0" href="../index-2.html"/>
+        <link rel="up" title="Cài đặt" href="index.html"/>
+        <link rel="next" title="Giao tiếp ESP32 với OLED qua I2C" href="i2c_oled.html"/>
+        <link rel="prev" title="Thư viện" href="library.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> ESP32
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://esp32.vn/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Phần cứng</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">Phần cứng</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../hardware/board.html">Board ESP32vn IoT Uno</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hardware/connection.html">Kết nối máy tính</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../hardware/connection.html#ket-noi-phan-cung">Kết nối phần cứng</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hardware/connection.html#cai-dat-usb-driver">Cài đặt USB Driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hardware/connection.html#cau-hinh-ket-noi">Cấu hình kết nối</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">ESP32 Arduino</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Arduino cơ bản</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="install.html">Cài đặt Arduino IDE</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="install.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#huong-dan">Hướng dẫn</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="library.html">Cài đặt thư viện</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Blink</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gioi-thieu">Giới thiệu.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#chuan-bi">Chuẩn bị.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ket-noi">Kết nối.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#chuong-trinh">Chương trình.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nap-chuong-trinh">Nạp chương trình.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ket-luan">Kết luận.</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="i2c_oled.html">I2C/OLED</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="i2c_oled.html#oled-la-gi">OLED là gì?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c_oled.html#i2c">I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c_oled.html#demo">Demo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">ESP32 IDF</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../idf/index.html">ESP-IDF cơ bản</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../idf/install.html">Cài đặt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../idf/install.html#cai-dat-toolchain">Cài đặt Toolchain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/install.html#tai-esp-idf">Tải ESP-IDF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/install.html#add-idf-path">ADD IDF_PATH</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../idf/hello-world.html">Hello World</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../idf/hello-world.html#gioi-thieu">Giới thiệu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/hello-world.html#demo">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/hello-world.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/hello-world.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/hello-world.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/hello-world.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../idf/blink-idf.html">Blink</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../idf/blink-idf.html#gioi-thieu">Giới thiệu.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/blink-idf.html#chuan-bi">Chuẩn bị.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/blink-idf.html#ket-noi">Kết nối.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/blink-idf.html#demo">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/blink-idf.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/blink-idf.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/blink-idf.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../idf/button.html">Nút nhấn</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../idf/button.html#gioi-thieu">Giới thiệu.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/button.html#chuan-bi">Chuẩn bị.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/button.html#ket-noi">Kết nối.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/button.html#demo">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/button.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/button.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/button.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../idf/adc.html">ADC</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../idf/adc.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/adc.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/adc.html#vi-du">Ví dụ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/adc.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../idf/dac.html">DAC</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../idf/dac.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/dac.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/dac.html#vi-du-minh-hoa">Ví dụ minh họa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/dac.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../idf/spi_master.html">SPI master</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../idf/spi_master.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/spi_master.html#application-example">Application Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/spi_master.html#api-reference-spi-common">API Reference - SPI Common</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/spi_master.html#api-reference-spi-master">API Reference - SPI Master</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../idf/spi_slave.html">SPI slave</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../idf/spi_slave.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/spi_slave.html#application-example">Application Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/spi_slave.html#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../idf/i2s.html">I2S</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../idf/i2s.html#tong-quan">TỔNG QUAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/i2s.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/i2s.html#vi-du">Ví dụ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/i2s.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../idf/i2c.html">I2C</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../idf/i2c.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/i2c.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/i2c.html#vi-du-minh-hoa">Ví dụ minh họa:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/i2c.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/i2c.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../idf/gpio.html">GPIO &amp; RTC GPIO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../idf/gpio.html#tong-quan">Tổng Quan</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../idf/gpio.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../idf/gpio.html#vi-du-minh-hoa">Ví dụ minh họa:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../idf/gpio.html#application-example">Application Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/gpio.html#api-reference-normal-gpio">API Reference - Normal GPIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/gpio.html#api-reference-rtc-gpio">API Reference - RTC GPIO</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../idf/gpio.html#luu-y">Lưu ý</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../idf/RMT.html">Remote Control</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../idf/RMT.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/RMT.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/RMT.html#vi-du-minh-hoa">Ví dụ minh họa:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/RMT.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/RMT.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../idf/touch_pad.html">Touch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../idf/touch_pad.html#gioi-thieu">Giới thiệu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/touch_pad.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/touch_pad.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/touch_pad.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/touch_pad.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../idf/wifi.html">Wifi</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../idf/wifi.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/wifi.html#vi-du">Ví dụ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../idf/wifi.html#api-reference">API Reference</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../idf/sdcard.html">Thẻ nhớ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../idf/sdcard.html#bien-dich-du-an-mau">Biên dịch dự án mẫu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../idf/sdcard.html#code">Code</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Hướng dẫn đóng góp</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#cai-dat-cong-cu-can-thiet">Cài đặt công cụ cần thiết</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#viet-bai">Viết bài</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#mot-so-luu-y-khac">Một số lưu ý khác</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#danh-sach-cac-thanh-vien-da-dong-gop">Danh sách các thành viên đã đóng góp</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index-2.html">ESP32</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Cài đặt</a> &raquo;</li>
+        
+      <li>Lập trình GPIO với  ESP32 bằng Arduino IDE.</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/arduino/blink.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="lap-trinh-gpio-voi-esp32-bang-arduino-ide">
+<h1>Lập trình GPIO với  ESP32 bằng Arduino IDE.<a class="headerlink" href="#lap-trinh-gpio-voi-esp32-bang-arduino-ide" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="gioi-thieu">
+<h2>Giới thiệu.<a class="headerlink" href="#gioi-thieu" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><dl class="first docutils">
+<dt>Trong ESP32 có tất cả 34 chân GPIO:</dt>
+<dd><ul class="first last">
+<li>GPIO 00 - GPIO 19</li>
+<li>GPIO 21 - GPIO 23</li>
+<li>GPIO 25 - GPIO 27</li>
+<li>GPIO 32 - GPIO 39</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Lưu ý:</dt>
+<dd><ul class="first last">
+<li><code class="docutils literal"><span class="pre">Không</span> <span class="pre">bao</span> <span class="pre">gồm</span></code> các chân <code class="docutils literal"><span class="pre">20,</span> <span class="pre">24,</span> <span class="pre">28,</span> <span class="pre">29,</span> <span class="pre">30</span> <span class="pre">và</span> <span class="pre">31</span></code>.</li>
+<li>Các chân <code class="docutils literal"><span class="pre">GPIO</span> <span class="pre">34</span> <span class="pre">-</span> <span class="pre">GPIO39</span></code> chỉ thiết lập ở chế độ <code class="docutils literal"><span class="pre">INPUT</span></code>.</li>
+<li>Các chân <code class="docutils literal"><span class="pre">GPIO</span> <span class="pre">06</span> <span class="pre">-</span> <span class="pre">GPIO</span> <span class="pre">11</span></code> thường được dùng để giao tiếp với thẻ nhớ ngoài thông qua giao thức SPI nên hạn chế sử dụng để thiết lập IO.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>Dưới đây là ví dụ đơn giản về thiết lập IO bằng Arduino để nhấp nháy LED cho ESP32 sử dụng board ESP32-Wifi-Uno.</li>
+</ul>
+</div>
+<div class="section" id="chuan-bi">
+<h2>Chuẩn bị.<a class="headerlink" href="#chuan-bi" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Phần cứng</strong></th>
+<th class="head"><strong>Link</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Board ESP32-Wifi-Uno</td>
+<td><a class="reference external" href="https://github.com/esp32vn/esp32-iot-uno">https://github.com/esp32vn/esp32-iot-uno</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="ket-noi">
+<h2>Kết nối.<a class="headerlink" href="#ket-noi" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>Trên board ESP32-Wifi-Uno có đèn D3 nối với chân số GPIO23 và nút nhấn nối với chân GPIO18.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="chuong-trinh">
+<h2>Chương trình.<a class="headerlink" href="#chuong-trinh" title="Permalink to this headline">¶</a></h2>
+<p>Chạy chương trình Arduino IDE lên và copy toàn bộ code dưới đây vào và save với lại với một tên bất kì.</p>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">LED</span> <span class="o">=</span> <span class="mi">23</span><span class="p">;</span>
+<span class="nb">int</span> <span class="n">inPin</span> <span class="o">=</span> <span class="mi">18</span><span class="p">;</span>
+<span class="nb">int</span> <span class="n">val</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="n">void</span> <span class="n">setup</span><span class="p">(){</span>
+        <span class="n">pinMode</span><span class="p">(</span><span class="n">LED</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+        <span class="n">pinMode</span><span class="p">(</span><span class="n">inPin</span><span class="p">,</span> <span class="n">INPUT_PULLUP</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">loop</span><span class="p">(){</span>
+        <span class="k">while</span><span class="p">(</span><span class="n">digitalRead</span><span class="p">(</span><span class="n">inPin</span><span class="p">)</span><span class="o">==</span><span class="n">val</span><span class="p">){</span>
+                <span class="n">delay</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+                <span class="n">digitalWrite</span><span class="p">(</span><span class="n">LED</span><span class="p">,</span> <span class="n">LOW</span><span class="p">);</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">digitalRead</span><span class="p">(</span><span class="n">inPin</span><span class="p">);</span>
+                <span class="n">delay</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+                <span class="n">digitalWrite</span><span class="p">(</span><span class="n">LED</span><span class="p">,</span> <span class="n">HIGH</span><span class="p">);</span>
+        <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><strong>Lưu ý</strong></dt>
+<dd><ul class="first last simple">
+<li>Khi chân được thiết lập <code class="docutils literal"><span class="pre">INPUT</span></code> không nối với gì thì mặc định khi trả về sẽ là mức <code class="docutils literal"><span class="pre">HIGH</span></code>.</li>
+<li>Đèn D3 trên board ESP32-Wifi-Uno sẽ sáng khi chân <code class="docutils literal"><span class="pre">OUTPUT</span></code> ở mức <code class="docutils literal"><span class="pre">LOW</span></code>.</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="nap-chuong-trinh">
+<h2>Nạp chương trình.<a class="headerlink" href="#nap-chuong-trinh" title="Permalink to this headline">¶</a></h2>
+<p>Kết nối <code class="docutils literal"><span class="pre">ESP32</span> <span class="pre">IoT</span> <span class="pre">Wifi</span> <span class="pre">Uno</span></code> với máy tính và thực hiện theo <a class="reference external" href="../hardware/connection.html#cau-hinh-ket-noi">hướng dẫn tại đây.</a></p>
+</div>
+<div class="section" id="ket-luan">
+<h2>Kết luận.<a class="headerlink" href="#ket-luan" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>Các chân GPIO trên ESP32 là khá ít và đặc biệt trên board ESP32-Wifi-Uno sẽ còn ít hơn nữa, nên khi muốn điều khiển nhiều hơn thì có thể mở rộng thêm bằng các IC như PCF8574 hoặc MCP23017...</li>
+<li>Ngoài chức năng xuất các tín hiệu vào ra ở các chân GPIO, thì vẫn còn chức năng đó là xử lý ngắt (interrupt handling). Về việc tìm hiểu chức năng thì sẽ được giới thiệu ở bài viết sau.</li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="i2c_oled.html" class="btn btn-neutral float-right" title="Giao tiếp ESP32 với OLED qua I2C" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="library.html" class="btn btn-neutral" title="Thư viện" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, TuanPM.
+
+    </p>
+  </div>
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            LANGUAGE:'vi',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+      <script type="text/javascript" src="../../cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+ 
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-60470603-07");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+
+</body>
+
+<!-- Mirrored from esp32.vn/arduino/blink.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:15:53 GMT -->
+</html>

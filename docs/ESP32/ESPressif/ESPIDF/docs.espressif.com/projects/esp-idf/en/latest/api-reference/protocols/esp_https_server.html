@@ -1,0 +1,547 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/protocols/esp_https_server.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:28 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>HTTPS server &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ICMP Echo" href="icmp_echo.html" />
+    <link rel="prev" title="HTTP Server" href="esp_http_server.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="esp_https_server.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/protocols/esp_https_server"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Protocols</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="asio.html">ASIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mqtt.html">ESP-MQTT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_tls.html">ESP-TLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_http_client.html">HTTP Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_http_server.html">HTTP Server</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">HTTPS Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#used-apis">Used APIs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#usage">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#performance">Performance</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="icmp_echo.html">ICMP Echo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_local_ctrl.html">Local Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modbus.html">Modbus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_websocket_client.html">Websocket Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_serial_slave_link.html">ESP Serial Slave Link</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#ip-network-layer">IP Network Layer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Application Protocols</a> &raquo;</li>
+        
+      <li>HTTPS server</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/protocols/esp_https_server.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="https-server">
+<h1>HTTPS server<a class="headerlink" href="#https-server" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>This component is built on top of <cite>esp_http_server</cite>. The HTTPS server takes advantage of hooks and function overrides in the regular HTTP server to provide encryption using OpenSSL.</p>
+<p>All documentation for <cite>esp_http_server</cite> applies also to a server you create this way.</p>
+</div>
+<div class="section" id="used-apis">
+<h2>Used APIs<a class="headerlink" href="#used-apis" title="Permalink to this headline">¶</a></h2>
+<p>The following API of <cite>esp_http_server</cite> should not be used with <cite>esp_https_server</cite>, as they are used internally to handle secure sessions and to maintain internal state:</p>
+<ul class="simple">
+<li>“send”, “receive” and “pending” function overrides - secure socket handling<ul>
+<li><a class="reference internal" href="esp_http_server.html#_CPPv428httpd_sess_set_send_override14httpd_handle_ti17httpd_send_func_t" title="httpd_sess_set_send_override"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">httpd_sess_set_send_override()</span></code></a></li>
+<li><a class="reference internal" href="esp_http_server.html#_CPPv428httpd_sess_set_recv_override14httpd_handle_ti17httpd_recv_func_t" title="httpd_sess_set_recv_override"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">httpd_sess_set_recv_override()</span></code></a></li>
+<li><a class="reference internal" href="esp_http_server.html#_CPPv431httpd_sess_set_pending_override14httpd_handle_ti20httpd_pending_func_t" title="httpd_sess_set_pending_override"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">httpd_sess_set_pending_override()</span></code></a></li>
+</ul>
+</li>
+<li>“transport context” - both global and session<ul>
+<li><a class="reference internal" href="esp_http_server.html#_CPPv428httpd_sess_get_transport_ctx14httpd_handle_ti" title="httpd_sess_get_transport_ctx"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">httpd_sess_get_transport_ctx()</span></code></a> - returns SSL used for the session</li>
+<li><a class="reference internal" href="esp_http_server.html#_CPPv428httpd_sess_set_transport_ctx14httpd_handle_tiPv19httpd_free_ctx_fn_t" title="httpd_sess_set_transport_ctx"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">httpd_sess_set_transport_ctx()</span></code></a></li>
+<li><a class="reference internal" href="esp_http_server.html#_CPPv430httpd_get_global_transport_ctx14httpd_handle_t" title="httpd_get_global_transport_ctx"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">httpd_get_global_transport_ctx()</span></code></a> - returns the shared SSL context</li>
+<li><code class="xref c c-member docutils literal notranslate"><span class="pre">httpd_config_t.global_transport_ctx</span></code></li>
+<li><code class="xref c c-member docutils literal notranslate"><span class="pre">httpd_config_t.global_transport_ctx_free_fn</span></code></li>
+<li><code class="xref c c-member docutils literal notranslate"><span class="pre">httpd_config_t.open_fn</span></code> - used to set up secure sockets</li>
+</ul>
+</li>
+</ul>
+<p>Everything else can be used without limitations.</p>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>Please see the example <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/https_server">protocols/https_server</a> to learn how to set up a secure server.</p>
+<p>Basically all you need is to generate a certificate, embed it in the firmware, and provide its pointers and lengths to the start function via the init struct.</p>
+<p>The server can be started with or without SSL by changing a flag in the init struct - <code class="xref c c-member docutils literal notranslate"><span class="pre">httpd_ssl_config.transport_mode</span></code>. This could be used e.g. for testing or in trusted environments where you prefer speed over security.</p>
+</div>
+<div class="section" id="performance">
+<h2>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h2>
+<p>The initial session setup can take about two seconds, or more with slower clock speeds or more verbose logging. Subsequent requests through the open secure socket are much faster (down to under
+100 ms).</p>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_https_server/include/esp_https_server.h">esp_https_server/include/esp_https_server.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv415httpd_ssl_startP14httpd_handle_tP18httpd_ssl_config_t">
+<span id="_CPPv315httpd_ssl_startP14httpd_handle_tP18httpd_ssl_config_t"></span><span id="_CPPv215httpd_ssl_startP14httpd_handle_tP18httpd_ssl_config_t"></span><span id="httpd_ssl_start__httpd_handle_tP.httpd_ssl_config_tP"></span><span class="target" id="esp__https__server_8h_1a4ec2bc959441791d6c7e02c5e6c3777d"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_ssl_start</code><span class="sig-paren">(</span><a class="reference internal" href="esp_http_server.html#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> *<em>handle</em>, <a class="reference internal" href="#_CPPv418httpd_ssl_config_t" title="httpd_ssl_config_t">httpd_ssl_config_t</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415httpd_ssl_startP14httpd_handle_tP18httpd_ssl_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a SSL capable HTTP server (secure mode may be disabled in config)</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>success </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">config</span></code>: - server config, must not be const. Does not have to stay valid after calling this function. </li>
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: - storage for the server handle, must be a valid pointer </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414httpd_ssl_stop14httpd_handle_t">
+<span id="_CPPv314httpd_ssl_stop14httpd_handle_t"></span><span id="_CPPv214httpd_ssl_stop14httpd_handle_t"></span><span id="httpd_ssl_stop__httpd_handle_t"></span><span class="target" id="esp__https__server_8h_1a9972b555aa2e1cfed79c9b1ff836c272"></span>void <code class="descname">httpd_ssl_stop</code><span class="sig-paren">(</span><a class="reference internal" href="esp_http_server.html#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> <em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414httpd_ssl_stop14httpd_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stop the server. Blocks until the server is shut down.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv416httpd_ssl_config">
+<span id="_CPPv316httpd_ssl_config"></span><span id="_CPPv216httpd_ssl_config"></span><span id="httpd_ssl_config"></span><span class="target" id="structhttpd__ssl__config"></span><em class="property">struct </em><code class="descname">httpd_ssl_config</code><a class="headerlink" href="#_CPPv416httpd_ssl_config" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTPS server config struct</p>
+<p>Please use HTTPD_SSL_CONFIG_DEFAULT() to initialize it. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N16httpd_ssl_config5httpdE">
+<span id="_CPPv3N16httpd_ssl_config5httpdE"></span><span id="_CPPv2N16httpd_ssl_config5httpdE"></span><span id="httpd_ssl_config::httpd__httpd_config_t"></span><span class="target" id="structhttpd__ssl__config_1a54c8e7e84e32685dbf5ab9a6b384348e"></span><a class="reference internal" href="esp_http_server.html#_CPPv414httpd_config_t" title="httpd_config_t">httpd_config_t</a> <code class="descname">httpd</code><a class="headerlink" href="#_CPPv4N16httpd_ssl_config5httpdE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Underlying HTTPD server config</p>
+<p>Parameters like task stack size and priority can be adjusted here. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16httpd_ssl_config10cacert_pemE">
+<span id="_CPPv3N16httpd_ssl_config10cacert_pemE"></span><span id="_CPPv2N16httpd_ssl_config10cacert_pemE"></span><span id="httpd_ssl_config::cacert_pem__uint8_tCP"></span><span class="target" id="structhttpd__ssl__config_1a8daaa9aaf0ec922a58f0038020995db1"></span><em class="property">const</em> uint8_t *<code class="descname">cacert_pem</code><a class="headerlink" href="#_CPPv4N16httpd_ssl_config10cacert_pemE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CA certificate </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16httpd_ssl_config10cacert_lenE">
+<span id="_CPPv3N16httpd_ssl_config10cacert_lenE"></span><span id="_CPPv2N16httpd_ssl_config10cacert_lenE"></span><span id="httpd_ssl_config::cacert_len__s"></span><span class="target" id="structhttpd__ssl__config_1a709f15bceab073c4de491fb853f80cd3"></span>size_t <code class="descname">cacert_len</code><a class="headerlink" href="#_CPPv4N16httpd_ssl_config10cacert_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CA certificate byte length </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16httpd_ssl_config11prvtkey_pemE">
+<span id="_CPPv3N16httpd_ssl_config11prvtkey_pemE"></span><span id="_CPPv2N16httpd_ssl_config11prvtkey_pemE"></span><span id="httpd_ssl_config::prvtkey_pem__uint8_tCP"></span><span class="target" id="structhttpd__ssl__config_1ad6fdea52af76e0c9522b2bb13393031d"></span><em class="property">const</em> uint8_t *<code class="descname">prvtkey_pem</code><a class="headerlink" href="#_CPPv4N16httpd_ssl_config11prvtkey_pemE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Private key </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16httpd_ssl_config11prvtkey_lenE">
+<span id="_CPPv3N16httpd_ssl_config11prvtkey_lenE"></span><span id="_CPPv2N16httpd_ssl_config11prvtkey_lenE"></span><span id="httpd_ssl_config::prvtkey_len__s"></span><span class="target" id="structhttpd__ssl__config_1a3f8e5c64474e1ecccd0e5ee923c55402"></span>size_t <code class="descname">prvtkey_len</code><a class="headerlink" href="#_CPPv4N16httpd_ssl_config11prvtkey_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Private key byte length </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16httpd_ssl_config14transport_modeE">
+<span id="_CPPv3N16httpd_ssl_config14transport_modeE"></span><span id="_CPPv2N16httpd_ssl_config14transport_modeE"></span><span id="httpd_ssl_config::transport_mode__httpd_ssl_transport_mode_t"></span><span class="target" id="structhttpd__ssl__config_1ae69828b7f90fb7ddf0ab3aa416ad4937"></span><a class="reference internal" href="#_CPPv426httpd_ssl_transport_mode_t" title="httpd_ssl_transport_mode_t">httpd_ssl_transport_mode_t</a> <code class="descname">transport_mode</code><a class="headerlink" href="#_CPPv4N16httpd_ssl_config14transport_modeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Transport Mode (default secure) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16httpd_ssl_config11port_secureE">
+<span id="_CPPv3N16httpd_ssl_config11port_secureE"></span><span id="_CPPv2N16httpd_ssl_config11port_secureE"></span><span id="httpd_ssl_config::port_secure__uint16_t"></span><span class="target" id="structhttpd__ssl__config_1ade1413e50ae737601ce86a7d58dd4910"></span>uint16_t <code class="descname">port_secure</code><a class="headerlink" href="#_CPPv4N16httpd_ssl_config11port_secureE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Port used when transport mode is secure (default 443) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16httpd_ssl_config13port_insecureE">
+<span id="_CPPv3N16httpd_ssl_config13port_insecureE"></span><span id="_CPPv2N16httpd_ssl_config13port_insecureE"></span><span id="httpd_ssl_config::port_insecure__uint16_t"></span><span class="target" id="structhttpd__ssl__config_1ac00719cac6bce4de56b89d5c3370344f"></span>uint16_t <code class="descname">port_insecure</code><a class="headerlink" href="#_CPPv4N16httpd_ssl_config13port_insecureE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Port used when transport mode is insecure (default 80) </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.HTTPD_SSL_CONFIG_DEFAULT">
+<span class="target" id="esp__https__server_8h_1aa2e08d61ccd15a0e357efc85980bf7f2"></span><code class="descname">HTTPD_SSL_CONFIG_DEFAULT</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.HTTPD_SSL_CONFIG_DEFAULT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default config struct init</p>
+<p>(http_server default config had to be copied for customization)</p>
+<p>Notes:<ul class="simple">
+<li>port is set when starting the server, according to ‘transport_mode’</li>
+<li>one socket uses ~ 40kB RAM with SSL, we reduce the default socket count to 4</li>
+<li>SSL sockets are usually long-lived, closing LRU prevents pool exhaustion DOS</li>
+<li>Stack size may need adjustments depending on the user application </li>
+</ul>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv418httpd_ssl_config_t">
+<span id="_CPPv318httpd_ssl_config_t"></span><span id="_CPPv218httpd_ssl_config_t"></span><span id="httpd_ssl_config_t"></span><span class="target" id="esp__https__server_8h_1adb2a362d709c6f84f92ceaf31bae8dd0"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv416httpd_ssl_config" title="httpd_ssl_config">httpd_ssl_config</a> <code class="descname">httpd_ssl_config_t</code><a class="headerlink" href="#_CPPv418httpd_ssl_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv426httpd_ssl_transport_mode_t">
+<span id="_CPPv326httpd_ssl_transport_mode_t"></span><span id="_CPPv226httpd_ssl_transport_mode_t"></span><span id="httpd_ssl_transport_mode_t"></span><span class="target" id="esp__https__server_8h_1a242d9b88649bb7ab5e2bccb0c29f7b0a"></span><em class="property">enum </em><code class="descname">httpd_ssl_transport_mode_t</code><a class="headerlink" href="#_CPPv426httpd_ssl_transport_mode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv426HTTPD_SSL_TRANSPORT_SECURE">
+<span id="_CPPv326HTTPD_SSL_TRANSPORT_SECURE"></span><span id="_CPPv226HTTPD_SSL_TRANSPORT_SECURE"></span><span class="target" id="esp__https__server_8h_1a242d9b88649bb7ab5e2bccb0c29f7b0aa259964a65412ec30f099b352d53f1851"></span><code class="descname">HTTPD_SSL_TRANSPORT_SECURE</code><a class="headerlink" href="#_CPPv426HTTPD_SSL_TRANSPORT_SECURE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv428HTTPD_SSL_TRANSPORT_INSECURE">
+<span id="_CPPv328HTTPD_SSL_TRANSPORT_INSECURE"></span><span id="_CPPv228HTTPD_SSL_TRANSPORT_INSECURE"></span><span class="target" id="esp__https__server_8h_1a242d9b88649bb7ab5e2bccb0c29f7b0aaf275918ce93e815564af0eca782a3609"></span><code class="descname">HTTPD_SSL_TRANSPORT_INSECURE</code><a class="headerlink" href="#_CPPv428HTTPD_SSL_TRANSPORT_INSECURE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="icmp_echo.html" class="btn btn-neutral float-right" title="ICMP Echo" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="esp_http_server.html" class="btn btn-neutral float-left" title="HTTP Server" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/protocols/esp_https_server.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:28 GMT -->
+</html>

@@ -1,0 +1,950 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/build-system-legacy.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:14 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Build System (Legacy GNU Make) &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Console" href="console.html" />
+    <link rel="prev" title="Build System" href="build-system.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="build-system-legacy.html" />
+
+<link rel="stylesheet" href="../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-guides/build-system-legacy"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="app_trace.html">Application Level Tracing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blufi.html">BluFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootloader.html">Bootloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-system.html">Build System</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Build System (Legacy GNU Make)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#using-the-build-system">Using the Build System</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#concepts">Concepts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-project">Example Project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#project-makefiles">Project Makefiles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#component-makefiles">Component Makefiles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#searching-for-components">Searching for Components</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#component-configuration">Component Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#preprocessor-definitions">Preprocessor Definitions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-process-internals">Build Process Internals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#running-make-non-interactively">Running Make Non-Interactively</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#advanced-make-targets">Advanced Make Targets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#debugging-the-make-process">Debugging The Make Process</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#overriding-parts-of-the-project">Overriding Parts of the Project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example-component-makefiles">Example Component Makefiles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#code-and-data-placements">Code and Data Placements</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fully-overriding-the-component-makefile">Fully Overriding The Component Makefile</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#custom-sdkconfig-defaults">Custom sdkconfig defaults</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#save-flash-arguments">Save flash arguments</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#building-the-bootloader">Building the Bootloader</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="console.html">Console Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deep-sleep-stub.html">Deep Sleep Wake Stubs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="error-handling.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="esp-ble-mesh/ble-mesh-index.html">ESP-BLE-MESH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh.html">ESP-MESH (Wi-Fi)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core_dump.html">ESP32 Core Dump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event-handling.html">Event Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="external-ram.html">External SPI-connected RAM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fatal-errors.html">Fatal Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/flash-encryption.html">Flash Encryption</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freertos-smp.html">FreeRTOS SMP Changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general-notes.html">General Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hlinterrupts.html">High Level Interrupts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jtag-debugging/index.html">JTAG Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker-script-generation.html">Linker Script Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lwip.html">lwIP TCP/IP Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="partition-tables.html">Partition Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RF_calibration.html">RF Calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="romconsole.html">ROM debug console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/secure-boot.html">Secure Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thread-local-storage.html">Thread Local Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ulp.html">ULP Coprocessor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ulp-legacy.html">ULP Coprocessor (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit-tests-legacy.html">Unit Testing (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit-tests.html">Unit Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wifi.html">WiFi Driver</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">API Guides</a> &raquo;</li>
+        
+      <li>Build System (Legacy GNU Make)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-guides/build-system-legacy.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="build-system-legacy-gnu-make">
+<h1>Build System (Legacy GNU Make)<a class="headerlink" href="#build-system-legacy-gnu-make" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/api-guides/build-system-legacy.html">[中文]</a></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Since ESP-IDF V4.0, the default build system is based on CMake. This documentation is for the legacy build system based on GNU Make. Support for this build system may be removed in future major releases.</p>
+</div>
+<p>This document explains the legacy GNU Make Espressif IoT Development Framework build system and the
+concept of “components”</p>
+<p>Read this document if you want to know how to organise an ESP-IDF project using GNU Make build system.</p>
+<p>We recommend using the <a class="reference external" href="https://github.com/espressif/esp-idf-template">esp-idf-template</a> project as a starting point for your project.</p>
+<div class="section" id="using-the-build-system">
+<h2>Using the Build System<a class="headerlink" href="#using-the-build-system" title="Permalink to this headline">¶</a></h2>
+<p>The esp-idf README file contains a description of how to use the build system to build your project.</p>
+</div>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>An ESP-IDF project can be seen as an amalgamation of a number of components.
+For example, for a webserver that shows the current humidity, there could be:</p>
+<ul class="simple">
+<li>The ESP32 base libraries (libc, rom bindings etc)</li>
+<li>The Wi-Fi drivers</li>
+<li>A TCP/IP stack</li>
+<li>The FreeRTOS operating system</li>
+<li>A webserver</li>
+<li>A driver for the humidity sensor</li>
+<li>Main code tying it all together</li>
+</ul>
+<p>ESP-IDF makes these components explicit and configurable. To do that,
+when a project is compiled, the build environment will look up all the
+components in the ESP-IDF directories, the project directories and
+(optionally) in additional custom component directories. It then
+allows the user to configure the ESP-IDF project using a a text-based
+menu system to customize each component. After the components in the
+project are configured, the build process will compile the project.</p>
+<div class="section" id="concepts">
+<h3>Concepts<a class="headerlink" href="#concepts" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>A “project” is a directory that contains all the files and configuration to build a single “app” (executable), as well as additional supporting output such as a partition table, data/filesystem partitions, and a bootloader.</li>
+<li>“Project configuration” is held in a single file called sdkconfig in the root directory of the project. This configuration file is modified via <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">menuconfig</span></code> to customise the configuration of the project. A single project contains exactly one project configuration.</li>
+<li>An “app” is an executable which is built by esp-idf. A single project will usually build two apps - a “project app” (the main executable, ie your custom firmware) and a “bootloader app” (the initial bootloader program which launches the project app).</li>
+<li>“components” are modular pieces of standalone code which are compiled into static libraries (.a files) and linked into an app. Some are provided by esp-idf itself, others may be sourced from other places.</li>
+</ul>
+<p>Some things are not part of the project:</p>
+<ul class="simple">
+<li>“ESP-IDF” is not part of the project. Instead it is standalone, and linked to the project via the <code class="docutils literal notranslate"><span class="pre">IDF_PATH</span></code> environment variable which holds the path of the <code class="docutils literal notranslate"><span class="pre">esp-idf</span></code> directory. This allows the IDF framework to be decoupled from your project.</li>
+<li>The toolchain for compilation is not part of the project. The toolchain should be installed in the system command line PATH, or the path to the toolchain can be set as part of the compiler prefix in the project configuration.</li>
+</ul>
+</div>
+<div class="section" id="example-project">
+<h3>Example Project<a class="headerlink" href="#example-project" title="Permalink to this headline">¶</a></h3>
+<p>An example project directory tree might look like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">myProject</span><span class="o">/</span>
+             <span class="o">-</span> <span class="n">Makefile</span>
+             <span class="o">-</span> <span class="n">sdkconfig</span>
+             <span class="o">-</span> <span class="n">components</span><span class="o">/</span> <span class="o">-</span> <span class="n">component1</span><span class="o">/</span> <span class="o">-</span> <span class="n">component</span><span class="o">.</span><span class="n">mk</span>
+                                         <span class="o">-</span> <span class="n">Kconfig</span>
+                                         <span class="o">-</span> <span class="n">src1</span><span class="o">.</span><span class="n">c</span>
+                           <span class="o">-</span> <span class="n">component2</span><span class="o">/</span> <span class="o">-</span> <span class="n">component</span><span class="o">.</span><span class="n">mk</span>
+                                         <span class="o">-</span> <span class="n">Kconfig</span>
+                                         <span class="o">-</span> <span class="n">src1</span><span class="o">.</span><span class="n">c</span>
+                                         <span class="o">-</span> <span class="n">include</span><span class="o">/</span> <span class="o">-</span> <span class="n">component2</span><span class="o">.</span><span class="n">h</span>
+             <span class="o">-</span> <span class="n">main</span><span class="o">/</span>       <span class="o">-</span> <span class="n">src1</span><span class="o">.</span><span class="n">c</span>
+                           <span class="o">-</span> <span class="n">src2</span><span class="o">.</span><span class="n">c</span>
+                           <span class="o">-</span> <span class="n">component</span><span class="o">.</span><span class="n">mk</span>
+
+             <span class="o">-</span> <span class="n">build</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>This example “myProject” contains the following elements:</p>
+<ul class="simple">
+<li>A top-level project Makefile. This Makefile sets the <code class="docutils literal notranslate"><span class="pre">PROJECT_NAME</span></code> variable and (optionally) defines
+other project-wide make variables. It includes the core <code class="docutils literal notranslate"><span class="pre">$(IDF_PATH)/make/project.mk</span></code> makefile which
+implements the rest of the ESP-IDF build system.</li>
+<li>“sdkconfig” project configuration file. This file is created/updated when “make menuconfig” runs, and holds configuration for all of the components in the project (including esp-idf itself). The “sdkconfig” file may or may not be added to the source control system of the project.</li>
+<li>Optional “components” directory contains components that are part of the project. A project does not have to contain custom components of this kind, but it can be useful for structuring reusable code or including third party components that aren’t part of ESP-IDF.</li>
+<li>“main” directory is a special “pseudo-component” that contains source code for the project itself. “main” is a default name, the Makefile variable <code class="docutils literal notranslate"><span class="pre">COMPONENT_DIRS</span></code> includes this component but you can modify this variable (or set <code class="docutils literal notranslate"><span class="pre">EXTRA_COMPONENT_DIRS</span></code>) to look for components in other places.</li>
+<li>“build” directory is where build output is created. After the make process is run, this directory will contain interim object files and libraries as well as final binary output files. This directory is usually not added to source control or distributed with the project source code.</li>
+</ul>
+<p>Component directories contain a component makefile - <code class="docutils literal notranslate"><span class="pre">component.mk</span></code>. This may contain variable definitions
+to control the build process of the component, and its integration into the overall project. See <a class="reference internal" href="#component-makefiles">Component Makefiles</a> for more details.</p>
+<p>Each component may also include a <code class="docutils literal notranslate"><span class="pre">Kconfig</span></code> file defining the <cite>component configuration</cite> options that can be set via the project configuration. Some components may also include <code class="docutils literal notranslate"><span class="pre">Kconfig.projbuild</span></code> and <code class="docutils literal notranslate"><span class="pre">Makefile.projbuild</span></code> files, which are special files for <cite>overriding parts of the project</cite>.</p>
+</div>
+<div class="section" id="project-makefiles">
+<h3>Project Makefiles<a class="headerlink" href="#project-makefiles" title="Permalink to this headline">¶</a></h3>
+<p>Each project has a single Makefile that contains build settings for the entire project. By default, the project Makefile can be quite minimal.</p>
+<div class="section" id="minimal-example-makefile">
+<h4>Minimal Example Makefile<a class="headerlink" href="#minimal-example-makefile" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>PROJECT_NAME := myProject
+
+include $(IDF_PATH)/make/project.mk
+</pre></div>
+</div>
+</div>
+<div class="section" id="mandatory-project-variables">
+<h4>Mandatory Project Variables<a class="headerlink" href="#mandatory-project-variables" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">PROJECT_NAME</span></code>: Name of the project. Binary output files will use this name - ie myProject.bin, myProject.elf.</li>
+</ul>
+</div>
+<div class="section" id="optional-project-variables">
+<h4>Optional Project Variables<a class="headerlink" href="#optional-project-variables" title="Permalink to this headline">¶</a></h4>
+<p>These variables all have default values that can be overridden for custom behaviour. Look in <code class="docutils literal notranslate"><span class="pre">make/project.mk</span></code> for all of the implementation details.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">PROJECT_PATH</span></code>: Top-level project directory. Defaults to the directory containing the Makefile. Many other project variables are based on this variable. The project path cannot contain spaces.</li>
+<li><code class="docutils literal notranslate"><span class="pre">BUILD_DIR_BASE</span></code>: The build directory for all objects/libraries/binaries. Defaults to <code class="docutils literal notranslate"><span class="pre">$(PROJECT_PATH)/build</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">COMPONENT_DIRS</span></code>: Directories to search for components. Defaults to <cite>$(IDF_PATH)/components</cite>, <cite>$(PROJECT_PATH)/components</cite>, <code class="docutils literal notranslate"><span class="pre">$(PROJECT_PATH)/main</span></code> and <code class="docutils literal notranslate"><span class="pre">EXTRA_COMPONENT_DIRS</span></code>. Override this variable if you don’t want to search for components in these places.</li>
+<li><code class="docutils literal notranslate"><span class="pre">EXTRA_COMPONENT_DIRS</span></code>: Optional list of additional directories to search for components.</li>
+<li><code class="docutils literal notranslate"><span class="pre">COMPONENTS</span></code>: A list of component names to build into the project. Defaults to all components found in the COMPONENT_DIRS directories.</li>
+<li><code class="docutils literal notranslate"><span class="pre">EXCLUDE_COMPONENTS</span></code>: Optional list of component names to exclude during the build process. Note that this decreases build time, but not binary size.</li>
+<li><code class="docutils literal notranslate"><span class="pre">TEST_EXCLUDE_COMPONENTS</span></code>: Optional list of component names to exclude during the build process of unit tests.</li>
+</ul>
+<p>Any paths in these Makefile variables should be absolute paths. You can convert relative paths using <code class="docutils literal notranslate"><span class="pre">$(PROJECT_PATH)/xxx</span></code>, <code class="docutils literal notranslate"><span class="pre">$(IDF_PATH)/xxx</span></code>, or use the Make function <code class="docutils literal notranslate"><span class="pre">$(abspath</span> <span class="pre">xxx)</span></code>.</p>
+<p>These variables should all be set before the line <code class="docutils literal notranslate"><span class="pre">include</span> <span class="pre">$(IDF_PATH)/make/project.mk</span></code> in the Makefile.</p>
+</div>
+</div>
+<div class="section" id="component-makefiles">
+<h3>Component Makefiles<a class="headerlink" href="#component-makefiles" title="Permalink to this headline">¶</a></h3>
+<p>Each project contains one or more components, which can either be part of esp-idf or added from other component directories.</p>
+<p>A component is any directory that contains a <code class="docutils literal notranslate"><span class="pre">component.mk</span></code> file.</p>
+</div>
+<div class="section" id="searching-for-components">
+<h3>Searching for Components<a class="headerlink" href="#searching-for-components" title="Permalink to this headline">¶</a></h3>
+<p>The list of directories in <code class="docutils literal notranslate"><span class="pre">COMPONENT_DIRS</span></code> is searched for the project’s components. Directories in this list can either be components themselves (ie they contain a <cite>component.mk</cite> file), or they can be top-level directories whose subdirectories are components.</p>
+<p>Running the <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">list-components</span></code> target dumps many of these variables and can help debug the discovery of component directories.</p>
+<div class="section" id="multiple-components-with-the-same-name">
+<h4>Multiple components with the same name<a class="headerlink" href="#multiple-components-with-the-same-name" title="Permalink to this headline">¶</a></h4>
+<p>When esp-idf is collecting all the components to compile, it will do this in the order specified by <code class="docutils literal notranslate"><span class="pre">COMPONENT_DIRS</span></code>; by default, this means the
+idf components first, the project components second and optionally the components in <code class="docutils literal notranslate"><span class="pre">EXTRA_COMPONENT_DIRS</span></code> last. If two or more of these directories
+contain component subdirectories with the same name, the component in the last place searched is used. This allows, for example, overriding esp-idf components
+with a modified version by simply copying the component from the esp-idf component directory to the project component tree and then modifying it there.
+If used in this way, the esp-idf directory itself can remain untouched.</p>
+</div>
+<div class="section" id="minimal-component-makefile">
+<h4>Minimal Component Makefile<a class="headerlink" href="#minimal-component-makefile" title="Permalink to this headline">¶</a></h4>
+<p>The minimal <code class="docutils literal notranslate"><span class="pre">component.mk</span></code> file is an empty file(!). If the file is empty, the default component behaviour is set:</p>
+<ul class="simple">
+<li>All source files in the same directory as the makefile (<code class="docutils literal notranslate"><span class="pre">*.c</span></code>, <code class="docutils literal notranslate"><span class="pre">*.cpp</span></code>, <code class="docutils literal notranslate"><span class="pre">*.cc</span></code>, <code class="docutils literal notranslate"><span class="pre">*.S</span></code>) will be compiled into the component library</li>
+<li>A sub-directory “include” will be added to the global include search path for all other components.</li>
+<li>The component library will be linked into the project app.</li>
+</ul>
+<p>See <a class="reference internal" href="#example-component-makefiles">example component makefiles</a> for more complete component makefile examples.</p>
+<p>Note that there is a difference between an empty <code class="docutils literal notranslate"><span class="pre">component.mk</span></code> file (which invokes default component build behaviour) and no <code class="docutils literal notranslate"><span class="pre">component.mk</span></code> file (which means no default component build behaviour will occur.) It is possible for a component to have no <cite>component.mk</cite> file, if it only contains other files which influence the project configuration or build process.</p>
+</div>
+<div class="section" id="preset-component-variables">
+<h4>Preset Component Variables<a class="headerlink" href="#preset-component-variables" title="Permalink to this headline">¶</a></h4>
+<p>The following component-specific variables are available for use inside <code class="docutils literal notranslate"><span class="pre">component.mk</span></code>, but should not be modified:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">COMPONENT_PATH</span></code>: The component directory. Evaluates to the absolute path of the directory containing <code class="docutils literal notranslate"><span class="pre">component.mk</span></code>. The component path cannot contain spaces.</li>
+<li><code class="docutils literal notranslate"><span class="pre">COMPONENT_NAME</span></code>: Name of the component. Defaults to the name of the component directory.</li>
+<li><code class="docutils literal notranslate"><span class="pre">COMPONENT_BUILD_DIR</span></code>: The component build directory. Evaluates to the absolute path of a directory inside <cite>$(BUILD_DIR_BASE)</cite> where this component’s source files are to be built. This is also the Current Working Directory any time the component is being built, so relative paths in make targets, etc. will be relative to this directory.</li>
+<li><code class="docutils literal notranslate"><span class="pre">COMPONENT_LIBRARY</span></code>: Name of the static library file (relative to the component build directory) that will be built for this component. Defaults to <code class="docutils literal notranslate"><span class="pre">$(COMPONENT_NAME).a</span></code>.</li>
+</ul>
+<p>The following variables are set at the project level, but exported for use in the component build:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">PROJECT_NAME</span></code>: Name of the project, as set in project Makefile</li>
+<li><code class="docutils literal notranslate"><span class="pre">PROJECT_PATH</span></code>: Absolute path of the project directory containing the project Makefile.</li>
+<li><code class="docutils literal notranslate"><span class="pre">COMPONENTS</span></code>: Name of all components that are included in this build.</li>
+<li><code class="docutils literal notranslate"><span class="pre">CONFIG_*</span></code>: Each value in the project configuration has a corresponding variable available in make. All names begin with <code class="docutils literal notranslate"><span class="pre">CONFIG_</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">CC</span></code>, <code class="docutils literal notranslate"><span class="pre">LD</span></code>, <code class="docutils literal notranslate"><span class="pre">AR</span></code>, <code class="docutils literal notranslate"><span class="pre">OBJCOPY</span></code>: Full paths to each tool from the gcc xtensa cross-toolchain.</li>
+<li><code class="docutils literal notranslate"><span class="pre">HOSTCC</span></code>, <code class="docutils literal notranslate"><span class="pre">HOSTLD</span></code>, <code class="docutils literal notranslate"><span class="pre">HOSTAR</span></code>: Full names of each tool from the host native toolchain.</li>
+<li><code class="docutils literal notranslate"><span class="pre">IDF_VER</span></code>: ESP-IDF version, retrieved from either <code class="docutils literal notranslate"><span class="pre">$(IDF_PATH)/version.txt</span></code> file (if present) else using git command <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">describe</span></code>. Recommended format here is single liner that specifies major IDF release version, e.g. <code class="docutils literal notranslate"><span class="pre">v2.0</span></code> for a tagged release or <code class="docutils literal notranslate"><span class="pre">v2.0-275-g0efaa4f</span></code> for an arbitrary commit. Application can make use of this by calling <a class="reference internal" href="../api-reference/system/system.html#_CPPv419esp_get_idf_versionv" title="esp_get_idf_version"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_get_idf_version()</span></code></a>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">IDF_VERSION_MAJOR</span></code>, <code class="docutils literal notranslate"><span class="pre">IDF_VERSION_MINOR</span></code>, <code class="docutils literal notranslate"><span class="pre">IDF_VERSION_PATCH</span></code>: Components of ESP-IDF version, to be used in conditional expressions. Note that this information is less precise than that provided by <code class="docutils literal notranslate"><span class="pre">IDF_VER</span></code> variable. <code class="docutils literal notranslate"><span class="pre">v4.0-dev-*</span></code>, <code class="docutils literal notranslate"><span class="pre">v4.0-beta1</span></code>, <code class="docutils literal notranslate"><span class="pre">v4.0-rc1</span></code> and <code class="docutils literal notranslate"><span class="pre">v4.0</span></code> will all have the same values of <code class="docutils literal notranslate"><span class="pre">ESP_IDF_VERSION_*</span></code> variables, but different <code class="docutils literal notranslate"><span class="pre">IDF_VER</span></code> values.</li>
+<li><code class="docutils literal notranslate"><span class="pre">PROJECT_VER</span></code>: Project version.<ul>
+<li>If <a class="reference internal" href="../api-reference/kconfig.html#config-app-project-ver-from-config"><span class="std std-ref">CONFIG_APP_PROJECT_VER_FROM_CONFIG</span></a> option is set, the value of <a class="reference internal" href="../api-reference/kconfig.html#config-app-project-ver"><span class="std std-ref">CONFIG_APP_PROJECT_VER</span></a> will be used.</li>
+<li>Else, if <code class="docutils literal notranslate"><span class="pre">PROJECT_VER</span></code> variable is set in project Makefile file, its value will be used.</li>
+<li>Else, if the <code class="docutils literal notranslate"><span class="pre">$PROJECT_PATH/version.txt</span></code> exists, its contents will be used as <code class="docutils literal notranslate"><span class="pre">PROJECT_VER</span></code>.</li>
+<li>Else, if the project is located inside a Git repository, the output of git describe will be used.</li>
+<li>Otherwise, <code class="docutils literal notranslate"><span class="pre">PROJECT_VER</span></code> will be “1”.</li>
+</ul>
+</li>
+</ul>
+<p>If you modify any of these variables inside <code class="docutils literal notranslate"><span class="pre">component.mk</span></code> then this will not prevent other components from building but it may make your component hard to build and/or debug.</p>
+</div>
+<div class="section" id="optional-project-wide-component-variables">
+<h4>Optional Project-Wide Component Variables<a class="headerlink" href="#optional-project-wide-component-variables" title="Permalink to this headline">¶</a></h4>
+<p>The following variables can be set inside <code class="docutils literal notranslate"><span class="pre">component.mk</span></code> to control build settings across the entire project:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">COMPONENT_ADD_INCLUDEDIRS</span></code>: Paths, relative to the component
+directory, which will be added to the include search path for
+all components in the project. Defaults to <code class="docutils literal notranslate"><span class="pre">include</span></code> if not overridden. If an include directory is only needed to compile
+this specific component, add it to <code class="docutils literal notranslate"><span class="pre">COMPONENT_PRIV_INCLUDEDIRS</span></code> instead.</li>
+<li><code class="docutils literal notranslate"><span class="pre">COMPONENT_ADD_LDFLAGS</span></code>: Add linker arguments to the LDFLAGS for
+the app executable. Defaults to <code class="docutils literal notranslate"><span class="pre">-l$(COMPONENT_NAME)</span></code>.  If
+adding pre-compiled libraries to this directory, add them as
+absolute paths - ie $(COMPONENT_PATH)/libwhatever.a</li>
+<li><code class="docutils literal notranslate"><span class="pre">COMPONENT_DEPENDS</span></code>: Optional list of component names that should
+be compiled before this component. This is not necessary for
+link-time dependencies, because all component include directories
+are available at all times. It is necessary if one component
+generates an include file which you then want to include in another
+component. Most components do not need to set this variable.</li>
+<li><code class="docutils literal notranslate"><span class="pre">COMPONENT_ADD_LINKER_DEPS</span></code>: Optional list of component-relative paths
+to files which should trigger a re-link of the ELF file if they change.
+Typically used for linker script files and binary libraries. Most components do
+not need to set this variable.</li>
+</ul>
+<p>The following variable only works for components that are part of esp-idf itself:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">COMPONENT_SUBMODULES</span></code>: Optional list of git submodule paths
+(relative to COMPONENT_PATH) used by the component. These will be
+checked (and initialised if necessary) by the build process. This
+variable is ignored if the component is outside the IDF_PATH
+directory.</li>
+</ul>
+</div>
+<div class="section" id="optional-component-specific-variables">
+<h4>Optional Component-Specific Variables<a class="headerlink" href="#optional-component-specific-variables" title="Permalink to this headline">¶</a></h4>
+<p>The following variables can be set inside <code class="docutils literal notranslate"><span class="pre">component.mk</span></code> to control the build of that component:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">COMPONENT_PRIV_INCLUDEDIRS</span></code>: Directory paths, must be relative to
+the component directory, which will be added to the include search
+path for this component’s source files only.</li>
+<li><code class="docutils literal notranslate"><span class="pre">COMPONENT_EXTRA_INCLUDES</span></code>: Any extra include paths used when
+compiling the component’s source files. These will be prefixed with
+‘-I’ and passed as-is to the compiler.  Similar to the
+<code class="docutils literal notranslate"><span class="pre">COMPONENT_PRIV_INCLUDEDIRS</span></code> variable, except these paths are not
+expanded relative to the component directory.</li>
+<li><code class="docutils literal notranslate"><span class="pre">COMPONENT_SRCDIRS</span></code>: Directory paths, must be relative to the
+component directory, which will be searched for source files (<code class="docutils literal notranslate"><span class="pre">*.cpp</span></code>,
+<code class="docutils literal notranslate"><span class="pre">*.c</span></code>, <code class="docutils literal notranslate"><span class="pre">*.S</span></code>). Defaults to ‘.’, ie the component directory
+itself. Override this to specify a different list of directories
+which contain source files.</li>
+<li><code class="docutils literal notranslate"><span class="pre">COMPONENT_OBJS</span></code>: Object files to compile. Default value is a .o
+file for each source file that is found in <code class="docutils literal notranslate"><span class="pre">COMPONENT_SRCDIRS</span></code>.
+Overriding this list allows you to exclude source files in
+<code class="docutils literal notranslate"><span class="pre">COMPONENT_SRCDIRS</span></code> that would otherwise be compiled. See
+<cite>Specifying source files</cite></li>
+<li><code class="docutils literal notranslate"><span class="pre">COMPONENT_EXTRA_CLEAN</span></code>: Paths, relative to the component build
+directory, of any files that are generated using custom make rules
+in the component.mk file and which need to be removed as part of
+<code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">clean</span></code>. See <a class="reference internal" href="#source-code-generation">Source Code Generation</a> for an example.</li>
+<li><code class="docutils literal notranslate"><span class="pre">COMPONENT_OWNBUILDTARGET</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">COMPONENT_OWNCLEANTARGET</span></code>: These
+targets allow you to fully override the default build behaviour for
+the component. See <a class="reference internal" href="#fully-overriding-the-component-makefile">Fully Overriding The Component Makefile</a> for
+more details.</li>
+<li><code class="docutils literal notranslate"><span class="pre">COMPONENT_CONFIG_ONLY</span></code>: If set, this flag indicates that the component
+produces no built output at all (ie <code class="docutils literal notranslate"><span class="pre">COMPONENT_LIBRARY</span></code> is not built),
+and most other component variables are ignored. This flag is used for IDF
+internal components which contain only <code class="docutils literal notranslate"><span class="pre">KConfig.projbuild</span></code> and/or
+<code class="docutils literal notranslate"><span class="pre">Makefile.projbuild</span></code> files to configure the project, but no source files.</li>
+<li><code class="docutils literal notranslate"><span class="pre">CFLAGS</span></code>: Flags passed to the C compiler. A default set of
+<code class="docutils literal notranslate"><span class="pre">CFLAGS</span></code> is defined based on project settings. Component-specific
+additions can be made via <code class="docutils literal notranslate"><span class="pre">CFLAGS</span> <span class="pre">+=</span></code>. It is also possible
+(although not recommended) to override this variable completely for
+a component.</li>
+<li><code class="docutils literal notranslate"><span class="pre">CPPFLAGS</span></code>: Flags passed to the C preprocessor (used for .c, .cpp
+and .S files). A default set of <code class="docutils literal notranslate"><span class="pre">CPPFLAGS</span></code> is defined based on
+project settings. Component-specific additions can be made via
+<code class="docutils literal notranslate"><span class="pre">CPPFLAGS</span> <span class="pre">+=</span></code>. It is also possible (although not recommended) to
+override this variable completely for a component.</li>
+<li><code class="docutils literal notranslate"><span class="pre">CXXFLAGS</span></code>: Flags passed to the C++ compiler. A default set of
+<code class="docutils literal notranslate"><span class="pre">CXXFLAGS</span></code> is defined based on project
+settings. Component-specific additions can be made via <code class="docutils literal notranslate"><span class="pre">CXXFLAGS</span>
+<span class="pre">+=</span></code>. It is also possible (although not recommended) to override
+this variable completely for a component.</li>
+<li><code class="docutils literal notranslate"><span class="pre">COMPONENT_ADD_LDFRAGMENTS</span></code>: Paths to linker fragment files for the linker
+script generation functionality. See <a class="reference internal" href="linker-script-generation.html"><span class="doc">Linker Script Generation</span></a>.</li>
+</ul>
+<p>To apply compilation flags to a single source file, you can add a variable override as a target, ie:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apps</span><span class="o">/</span><span class="n">dhcpserver</span><span class="o">.</span><span class="n">o</span><span class="p">:</span> <span class="n">CFLAGS</span> <span class="o">+=</span> <span class="o">-</span><span class="n">Wno</span><span class="o">-</span><span class="n">unused</span><span class="o">-</span><span class="n">variable</span>
+</pre></div>
+</div>
+<p>This can be useful if there is upstream code that emits warnings.</p>
+</div>
+</div>
+<div class="section" id="component-configuration">
+<h3>Component Configuration<a class="headerlink" href="#component-configuration" title="Permalink to this headline">¶</a></h3>
+<p>Each component can also have a Kconfig file, alongside <code class="docutils literal notranslate"><span class="pre">component.mk</span></code>. This contains contains
+configuration settings to add to the “make menuconfig” for this component.</p>
+<p>These settings are found under the “Component Settings” menu when menuconfig is run.</p>
+<p>To create a component KConfig file, it is easiest to start with one of the KConfig files distributed with esp-idf.</p>
+<p>For an example, see <a class="reference internal" href="#adding-conditional-configuration">Adding conditional configuration</a>.</p>
+</div>
+<div class="section" id="preprocessor-definitions">
+<h3>Preprocessor Definitions<a class="headerlink" href="#preprocessor-definitions" title="Permalink to this headline">¶</a></h3>
+<p>ESP-IDF build systems adds the following C preprocessor definitions on the command line:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">ESP_PLATFORM</span></code> — Can be used to detect that build happens within ESP-IDF.</li>
+<li><code class="docutils literal notranslate"><span class="pre">IDF_VER</span></code> — ESP-IDF version, see <a class="reference internal" href="#preset-component-variables">Preset Component Variables</a> for more details.</li>
+</ul>
+</div>
+<div class="section" id="build-process-internals">
+<h3>Build Process Internals<a class="headerlink" href="#build-process-internals" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="top-level-project-makefile">
+<h4>Top Level: Project Makefile<a class="headerlink" href="#top-level-project-makefile" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>“make” is always run from the project directory and the project makefile, typically named Makefile.</li>
+<li>The project makefile sets <code class="docutils literal notranslate"><span class="pre">PROJECT_NAME</span></code> and optionally customises other <cite>optional project variables</cite></li>
+<li>The project makefile includes <code class="docutils literal notranslate"><span class="pre">$(IDF_PATH)/make/project.mk</span></code> which contains the project-level Make logic.</li>
+<li><code class="docutils literal notranslate"><span class="pre">project.mk</span></code> fills in default project-level make variables and includes make variables from the project configuration. If the generated makefile containing project configuration is out of date, then it is regenerated (via targets in <code class="docutils literal notranslate"><span class="pre">project_config.mk</span></code>) and then the make process restarts from the top.</li>
+<li><code class="docutils literal notranslate"><span class="pre">project.mk</span></code> builds a list of components to build, based on the default component directories or a custom list of components set in <cite>optional project variables</cite>.</li>
+<li>Each component can set some <a class="reference internal" href="#optional-project-wide-component-variables">optional project-wide component variables</a>. These are included via generated makefiles named <code class="docutils literal notranslate"><span class="pre">component_project_vars.mk</span></code> - there is one per component. These generated makefiles are included into <code class="docutils literal notranslate"><span class="pre">project.mk</span></code>. If any are missing or out of date, they are regenerated (via a recursive make call to the component makefile) and then the make process restarts from the top.</li>
+<li><cite>Makefile.projbuild</cite> files from components are included into the make process, to add extra targets or configuration.</li>
+<li>By default, the project makefile also generates top-level build &amp; clean targets for each component and sets up <cite>app</cite> and <cite>clean</cite> targets to invoke all of these sub-targets.</li>
+<li>In order to compile each component, a recursive make is performed for the component makefile.</li>
+</ul>
+<p>To better understand the project make process, have a read through the <code class="docutils literal notranslate"><span class="pre">project.mk</span></code> file itself.</p>
+</div>
+<div class="section" id="second-level-component-makefiles">
+<h4>Second Level: Component Makefiles<a class="headerlink" href="#second-level-component-makefiles" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>Each call to a component makefile goes via the <code class="docutils literal notranslate"><span class="pre">$(IDF_PATH)/make/component_wrapper.mk</span></code> wrapper makefile.</li>
+<li>This component wrapper includes all component <code class="docutils literal notranslate"><span class="pre">Makefile.componentbuild</span></code> files, making any recipes, variables etc in these files available to every component.</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">component_wrapper.mk</span></code> is called with the current directory set to the component build directory, and the <code class="docutils literal notranslate"><span class="pre">COMPONENT_MAKEFILE</span></code> variable is set to the absolute path to <code class="docutils literal notranslate"><span class="pre">component.mk</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">component_wrapper.mk</span></code> sets default values for all <cite>component variables</cite>, then includes the <cite>component.mk</cite> file which can override or modify these.</li>
+<li>If <code class="docutils literal notranslate"><span class="pre">COMPONENT_OWNBUILDTARGET</span></code> and <code class="docutils literal notranslate"><span class="pre">COMPONENT_OWNCLEANTARGET</span></code> are not defined, default build and clean targets are created for the component’s source files and the prerequisite <code class="docutils literal notranslate"><span class="pre">COMPONENT_LIBRARY</span></code> static library file.</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">component_project_vars.mk</span></code> file has its own target in <code class="docutils literal notranslate"><span class="pre">component_wrapper.mk</span></code>, which is evaluated from <code class="docutils literal notranslate"><span class="pre">project.mk</span></code> if this file needs to be rebuilt due to changes in the component makefile or the project configuration.</li>
+</ul>
+<p>To better understand the component make process, have a read through the <code class="docutils literal notranslate"><span class="pre">component_wrapper.mk</span></code> file and some of the <code class="docutils literal notranslate"><span class="pre">component.mk</span></code> files included with esp-idf.</p>
+</div>
+</div>
+<div class="section" id="running-make-non-interactively">
+<h3>Running Make Non-Interactively<a class="headerlink" href="#running-make-non-interactively" title="Permalink to this headline">¶</a></h3>
+<p>When running <code class="docutils literal notranslate"><span class="pre">make</span></code> in a situation where you don’t want interactive prompts (for example: inside an IDE or an automated build system) append <code class="docutils literal notranslate"><span class="pre">BATCH_BUILD=1</span></code> to the make arguments (or set it as an environment variable).</p>
+<p>Setting <code class="docutils literal notranslate"><span class="pre">BATCH_BUILD</span></code> implies the following:</p>
+<ul class="simple">
+<li>Verbose output (same as <code class="docutils literal notranslate"><span class="pre">V=1</span></code>, see below). If you don’t want verbose output, also set <code class="docutils literal notranslate"><span class="pre">V=0</span></code>.</li>
+<li>If the project configuration is missing new configuration items (from new components or esp-idf updates) then the project use the default values, instead of prompting the user for each item.</li>
+<li>If the build system needs to invoke <code class="docutils literal notranslate"><span class="pre">menuconfig</span></code>, an error is printed and the build fails.</li>
+</ul>
+</div>
+<div class="section" id="advanced-make-targets">
+<span id="make-size"></span><h3>Advanced Make Targets<a class="headerlink" href="#advanced-make-targets" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">app</span></code>, <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">bootloader</span></code>, <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">partition</span> <span class="pre">table</span></code> can be used to build only the app, bootloader, or partition table from the project as applicable.</li>
+<li><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">erase_flash</span></code> and <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">erase_otadata</span></code> will use esptool.py to erase the entire flash chip and the OTA selection setting from the flash chip, respectively.</li>
+<li><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">size</span></code> prints some size information about the app. <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">size-components</span></code> and <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">size-files</span></code> are similar targets which print more detailed per-component or per-source-file information, respectively.</li>
+</ul>
+</div>
+<div class="section" id="debugging-the-make-process">
+<h3>Debugging The Make Process<a class="headerlink" href="#debugging-the-make-process" title="Permalink to this headline">¶</a></h3>
+<p>Some tips for debugging the esp-idf build system:</p>
+<ul class="simple">
+<li>Appending <code class="docutils literal notranslate"><span class="pre">V=1</span></code> to the make arguments (or setting it as an environment variable) will cause make to echo all commands executed, and also each directory as it is entered for a sub-make.</li>
+<li>Running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">-w</span></code> will cause make to echo each directory as it is entered for a sub-make - same as <code class="docutils literal notranslate"><span class="pre">V=1</span></code> but without also echoing all commands.</li>
+<li>Running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">--trace</span></code> (possibly in addition to one of the above arguments) will print out every target as it is built, and the dependency which caused it to be built.</li>
+<li>Running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">-p</span></code> prints a (very verbose) summary of every generated target in each makefile.</li>
+</ul>
+<p>For more debugging tips and general make information, see the <cite>GNU Make Manual</cite>.</p>
+<div class="section" id="warning-on-undefined-variables">
+<span id="warn-undefined-variables-legacy"></span><h4>Warning On Undefined Variables<a class="headerlink" href="#warning-on-undefined-variables" title="Permalink to this headline">¶</a></h4>
+<p>By default, the build process will print a warning if an undefined variable is referenced (like <code class="docutils literal notranslate"><span class="pre">$(DOES_NOT_EXIST)</span></code>). This can be useful to find errors in variable names.</p>
+<p>If you don’t want this behaviour, it can be disabled in menuconfig’s top level menu under <cite>SDK tool configuration</cite>.</p>
+<p>Note that this option doesn’t trigger a warning if <code class="docutils literal notranslate"><span class="pre">ifdef</span></code> or <code class="docutils literal notranslate"><span class="pre">ifndef</span></code> are used in Makefiles.</p>
+</div>
+</div>
+<div class="section" id="overriding-parts-of-the-project">
+<h3>Overriding Parts of the Project<a class="headerlink" href="#overriding-parts-of-the-project" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="makefile-projbuild">
+<h4>Makefile.projbuild<a class="headerlink" href="#makefile-projbuild" title="Permalink to this headline">¶</a></h4>
+<p>For components that have build requirements that must be evaluated in the top-level
+project make pass, you can create a file called <code class="docutils literal notranslate"><span class="pre">Makefile.projbuild</span></code> in the
+component directory. This makefile is included when <code class="docutils literal notranslate"><span class="pre">project.mk</span></code> is evaluated.</p>
+<p>For example, if your component needs to add to CFLAGS for the entire
+project (not just for its own source files) then you can set
+<code class="docutils literal notranslate"><span class="pre">CFLAGS</span> <span class="pre">+=</span></code> in Makefile.projbuild.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Makefile.projbuild</span></code> files are used heavily inside esp-idf, for defining project-wide build features such as <code class="docutils literal notranslate"><span class="pre">esptool.py</span></code> command line arguments and the <code class="docutils literal notranslate"><span class="pre">bootloader</span></code> “special app”.</p>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">Makefile.projbuild</span></code> isn’t necessary for the most common component uses - such as adding include directories to the project, or LDFLAGS to the final linking step. These values can be customised via the <code class="docutils literal notranslate"><span class="pre">component.mk</span></code> file itself. See <a class="reference internal" href="#optional-project-wide-component-variables">Optional Project-Wide Component Variables</a> for details.</p>
+<p>Take care when setting variables or targets in this file. As the values are included into the top-level project makefile pass, they can influence or break functionality across all components!</p>
+</div>
+<div class="section" id="kconfig-projbuild">
+<h4>KConfig.projbuild<a class="headerlink" href="#kconfig-projbuild" title="Permalink to this headline">¶</a></h4>
+<p>This is an equivalent to <code class="docutils literal notranslate"><span class="pre">Makefile.projbuild</span></code> for <cite>component configuration</cite> KConfig files. If you want to include
+configuration options at the top-level of menuconfig, rather than inside the “Component Configuration” sub-menu, then these can be defined in the KConfig.projbuild file alongside the <code class="docutils literal notranslate"><span class="pre">component.mk</span></code> file.</p>
+<p>Take care when adding configuration values in this file, as they will be included across the entire project configuration. Where possible, it’s generally better to create a KConfig file for <cite>component configuration</cite>.</p>
+</div>
+<div class="section" id="makefile-componentbuild">
+<h4>Makefile.componentbuild<a class="headerlink" href="#makefile-componentbuild" title="Permalink to this headline">¶</a></h4>
+<p>For components that e.g. include tools to generate source files from other files, it is necessary to be able to add recipes, macros or variable definitions
+into the component build process of every components. This is done by having a <code class="docutils literal notranslate"><span class="pre">Makefile.componentbuild</span></code> in a component directory. This file gets included
+in <code class="docutils literal notranslate"><span class="pre">component_wrapper.mk</span></code>, before the <code class="docutils literal notranslate"><span class="pre">component.mk</span></code> of the component is included. As with the Makefile.projbuild, take care with these files: as they’re
+included in each component build, a <code class="docutils literal notranslate"><span class="pre">Makefile.componentbuild</span></code> error may only show up when compiling an entirely different component.</p>
+</div>
+<div class="section" id="configuration-only-components">
+<h4>Configuration-Only Components<a class="headerlink" href="#configuration-only-components" title="Permalink to this headline">¶</a></h4>
+<p>Some special components which contain no source files, only <code class="docutils literal notranslate"><span class="pre">Kconfig.projbuild</span></code> and <code class="docutils literal notranslate"><span class="pre">Makefile.projbuild</span></code>, may set the flag <code class="docutils literal notranslate"><span class="pre">COMPONENT_CONFIG_ONLY</span></code> in the component.mk file. If this flag is set, most other component variables are ignored and no build step is run for the component.</p>
+</div>
+</div>
+<div class="section" id="example-component-makefiles">
+<h3>Example Component Makefiles<a class="headerlink" href="#example-component-makefiles" title="Permalink to this headline">¶</a></h3>
+<p>Because the build environment tries to set reasonable defaults that will work most
+of the time, component.mk can be very small or even empty (see <a class="reference internal" href="#minimal-component-makefile">Minimal Component Makefile</a>). However, overriding <cite>component variables</cite> is usually required for some functionality.</p>
+<p>Here are some more advanced examples of <code class="docutils literal notranslate"><span class="pre">component.mk</span></code> makefiles:</p>
+<div class="section" id="adding-source-directories">
+<h4>Adding source directories<a class="headerlink" href="#adding-source-directories" title="Permalink to this headline">¶</a></h4>
+<p>By default, sub-directories are ignored. If your project has sources in sub-directories
+instead of in the root of the component then you can tell that to the build
+system by setting <code class="docutils literal notranslate"><span class="pre">COMPONENT_SRCDIRS</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">COMPONENT_SRCDIRS</span> <span class="p">:</span><span class="o">=</span> <span class="n">src1</span> <span class="n">src2</span>
+</pre></div>
+</div>
+<p>This will compile all source files in the src1/ and src2/ sub-directories
+instead.</p>
+</div>
+<div class="section" id="specifying-source-files">
+<h4>Specifying source files<a class="headerlink" href="#specifying-source-files" title="Permalink to this headline">¶</a></h4>
+<p>The standard component.mk logic adds all .S and .c files in the source
+directories as sources to be compiled unconditionally. It is possible
+to circumvent that logic and hard-code the objects to be compiled by
+manually setting the <code class="docutils literal notranslate"><span class="pre">COMPONENT_OBJS</span></code> variable to the name of the
+objects that need to be generated:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">COMPONENT_OBJS</span> <span class="p">:</span><span class="o">=</span> <span class="n">file1</span><span class="o">.</span><span class="n">o</span> <span class="n">file2</span><span class="o">.</span><span class="n">o</span> <span class="n">thing</span><span class="o">/</span><span class="n">filea</span><span class="o">.</span><span class="n">o</span> <span class="n">thing</span><span class="o">/</span><span class="n">fileb</span><span class="o">.</span><span class="n">o</span> <span class="n">anotherthing</span><span class="o">/</span><span class="n">main</span><span class="o">.</span><span class="n">o</span>
+<span class="n">COMPONENT_SRCDIRS</span> <span class="p">:</span><span class="o">=</span> <span class="o">.</span> <span class="n">thing</span> <span class="n">anotherthing</span>
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">COMPONENT_SRCDIRS</span></code> must be set as well.</p>
+</div>
+<div class="section" id="adding-conditional-configuration">
+<h4>Adding conditional configuration<a class="headerlink" href="#adding-conditional-configuration" title="Permalink to this headline">¶</a></h4>
+<p>The configuration system can be used to conditionally compile some files
+depending on the options selected in <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">menuconfig</span></code>. For this, ESP-IDF
+has the compile_only_if and compile_only_if_not macros:</p>
+<p><code class="docutils literal notranslate"><span class="pre">Kconfig</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="n">FOO_ENABLE_BAR</span>
+    <span class="nb">bool</span> <span class="s2">&quot;Enable the BAR feature.&quot;</span>
+    <span class="n">help</span>
+        <span class="n">This</span> <span class="n">enables</span> <span class="n">the</span> <span class="n">BAR</span> <span class="n">feature</span> <span class="n">of</span> <span class="n">the</span> <span class="n">FOO</span> <span class="n">component</span><span class="o">.</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">component.mk</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$(call compile_only_if,$(CONFIG_FOO_ENABLE_BAR),bar.o)
+</pre></div>
+</div>
+<p>As can be seen in the example, the <code class="docutils literal notranslate"><span class="pre">compile_only_if</span></code> macro takes a condition and a
+list of object files as parameters. If the condition is true (in this case: if the
+BAR feature is enabled in menuconfig) the object files (in this case: bar.o) will
+always be compiled. The opposite goes as well: if the condition is not true, bar.o
+will never be compiled. <code class="docutils literal notranslate"><span class="pre">compile_only_if_not</span></code> does the opposite: compile if the
+condition is false, not compile if the condition is true.</p>
+<p>This can also be used to select or stub out an implementation, as such:</p>
+<p><code class="docutils literal notranslate"><span class="pre">Kconfig</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">config</span> <span class="n">ENABLE_LCD_OUTPUT</span>
+    <span class="nb">bool</span> <span class="s2">&quot;Enable LCD output.&quot;</span>
+    <span class="n">help</span>
+        <span class="n">Select</span> <span class="n">this</span> <span class="k">if</span> <span class="n">your</span> <span class="n">board</span> <span class="n">has</span> <span class="n">a</span> <span class="n">LCD</span><span class="o">.</span>
+
+<span class="n">config</span> <span class="n">ENABLE_LCD_CONSOLE</span>
+    <span class="nb">bool</span> <span class="s2">&quot;Output console text to LCD&quot;</span>
+    <span class="n">depends</span> <span class="n">on</span> <span class="n">ENABLE_LCD_OUTPUT</span>
+    <span class="n">help</span>
+        <span class="n">Select</span> <span class="n">this</span> <span class="n">to</span> <span class="n">output</span> <span class="n">debugging</span> <span class="n">output</span> <span class="n">to</span> <span class="n">the</span> <span class="n">lcd</span>
+
+<span class="n">config</span> <span class="n">ENABLE_LCD_PLOT</span>
+    <span class="nb">bool</span> <span class="s2">&quot;Output temperature plots to LCD&quot;</span>
+    <span class="n">depends</span> <span class="n">on</span> <span class="n">ENABLE_LCD_OUTPUT</span>
+    <span class="n">help</span>
+        <span class="n">Select</span> <span class="n">this</span> <span class="n">to</span> <span class="n">output</span> <span class="n">temperature</span> <span class="n">plots</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">component.mk</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># If LCD is enabled, compile interface to it, otherwise compile dummy interface
+$(call compile_only_if,$(CONFIG_ENABLE_LCD_OUTPUT),lcd-real.o lcd-spi.o)
+$(call compile_only_if_not,$(CONFIG_ENABLE_LCD_OUTPUT),lcd-dummy.o)
+
+#We need font if either console or plot is enabled
+$(call compile_only_if,$(or $(CONFIG_ENABLE_LCD_CONSOLE),$(CONFIG_ENABLE_LCD_PLOT)), font.o)
+</pre></div>
+</div>
+<p>Note the use of the Make ‘or’ function to include the font file. Other substitution functions,
+like ‘and’ and ‘if’ will also work here. Variables that do not come from menuconfig can also
+be used: ESP-IDF uses the default Make policy of judging a variable which is empty or contains
+only whitespace to be false while a variable with any non-whitespace in it is true.</p>
+<p>(Note: Older versions of this document advised conditionally adding object file names to
+<code class="docutils literal notranslate"><span class="pre">COMPONENT_OBJS</span></code>. While this still is possible, this will only work when all object
+files for a component are named explicitely, and will not clean up deselected object files
+in a <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">clean</span></code> pass.)</p>
+</div>
+<div class="section" id="source-code-generation">
+<h4>Source Code Generation<a class="headerlink" href="#source-code-generation" title="Permalink to this headline">¶</a></h4>
+<p>Some components will have a situation where a source file isn’t
+supplied with the component itself but has to be generated from
+another file. Say our component has a header file that consists of the
+converted binary data of a BMP file, converted using a hypothetical
+tool called bmp2h. The header file is then included in as C source
+file called graphics_lib.c:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>COMPONENT_EXTRA_CLEAN := logo.h
+
+graphics_lib.o: logo.h
+
+logo.h: $(COMPONENT_PATH)/logo.bmp
+    bmp2h -i $^ -o $@
+</pre></div>
+</div>
+<p>In this example, graphics_lib.o and logo.h will be generated in the
+current directory (the build directory) while logo.bmp comes with the
+component and resides under the component path. Because logo.h is a
+generated file, it needs to be cleaned when make clean is called which
+why it is added to the COMPONENT_EXTRA_CLEAN variable.</p>
+</div>
+<div class="section" id="cosmetic-improvements">
+<h4>Cosmetic Improvements<a class="headerlink" href="#cosmetic-improvements" title="Permalink to this headline">¶</a></h4>
+<p>Because logo.h is a generated file, it needs to be cleaned when make
+clean is called which why it is added to the COMPONENT_EXTRA_CLEAN
+variable.</p>
+<p>Adding logo.h to the <code class="docutils literal notranslate"><span class="pre">graphics_lib.o</span></code> dependencies causes it to be
+generated before <code class="docutils literal notranslate"><span class="pre">graphics_lib.c</span></code> is compiled.</p>
+<p>If a a source file in another component included <code class="docutils literal notranslate"><span class="pre">logo.h</span></code>, then this
+component’s name would have to be added to the other component’s
+<code class="docutils literal notranslate"><span class="pre">COMPONENT_DEPENDS</span></code> list to ensure that the components were built
+in-order.</p>
+</div>
+<div class="section" id="embedding-binary-data">
+<h4>Embedding Binary Data<a class="headerlink" href="#embedding-binary-data" title="Permalink to this headline">¶</a></h4>
+<p>Sometimes you have a file with some binary or text data that you’d like to make available to your component - but you don’t want to reformat the file as C source.</p>
+<p>You can set a variable COMPONENT_EMBED_FILES in component.mk, giving the names of the files to embed in this way:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">COMPONENT_EMBED_FILES</span> <span class="p">:</span><span class="o">=</span> <span class="n">server_root_cert</span><span class="o">.</span><span class="n">der</span>
+</pre></div>
+</div>
+<p>Or if the file is a string, you can use the variable COMPONENT_EMBED_TXTFILES. This will embed the contents of the text file as a null-terminated string:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">COMPONENT_EMBED_TXTFILES</span> <span class="p">:</span><span class="o">=</span> <span class="n">server_root_cert</span><span class="o">.</span><span class="n">pem</span>
+</pre></div>
+</div>
+<p>The file’s contents will be added to the .rodata section in flash, and are available via symbol names as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">extern</span> <span class="n">const</span> <span class="n">uint8_t</span> <span class="n">server_root_cert_pem_start</span><span class="p">[]</span> <span class="n">asm</span><span class="p">(</span><span class="s2">&quot;_binary_server_root_cert_pem_start&quot;</span><span class="p">);</span>
+<span class="n">extern</span> <span class="n">const</span> <span class="n">uint8_t</span> <span class="n">server_root_cert_pem_end</span><span class="p">[]</span>   <span class="n">asm</span><span class="p">(</span><span class="s2">&quot;_binary_server_root_cert_pem_end&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The names are generated from the full name of the file, as given in COMPONENT_EMBED_FILES. Characters /, ., etc. are replaced with underscores. The _binary prefix in the symbol name is added by objcopy and is the same for both text and binary files.</p>
+<p>For an example of using this technique, see <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/https_request">protocols/https_request</a> - the certificate file contents are loaded from the text .pem file at compile time.</p>
+</div>
+</div>
+<div class="section" id="code-and-data-placements">
+<h3>Code and Data Placements<a class="headerlink" href="#code-and-data-placements" title="Permalink to this headline">¶</a></h3>
+<p>ESP-IDF has a feature called linker script generation that enables components to define where its code and data will be placed in memory through
+linker fragment files. These files are processed by the build system, and is used to augment the linker script used for linking
+app binary. See <a class="reference internal" href="linker-script-generation.html"><span class="doc">Linker Script Generation</span></a> for a quick start guide as well as a detailed discussion
+of the mechanism.</p>
+</div>
+<div class="section" id="fully-overriding-the-component-makefile">
+<h3>Fully Overriding The Component Makefile<a class="headerlink" href="#fully-overriding-the-component-makefile" title="Permalink to this headline">¶</a></h3>
+<p>Obviously, there are cases where all these recipes are insufficient for a
+certain component, for example when the component is basically a wrapper
+around another third-party component not originally intended to be
+compiled under this build system. In that case, it’s possible to forego
+the esp-idf build system entirely by setting COMPONENT_OWNBUILDTARGET and
+possibly  COMPONENT_OWNCLEANTARGET and defining your own targets named <code class="docutils literal notranslate"><span class="pre">build</span></code> and <code class="docutils literal notranslate"><span class="pre">clean</span></code> in <code class="docutils literal notranslate"><span class="pre">component.mk</span></code>
+target. The build target can do anything as long as it creates
+$(COMPONENT_LIBRARY) for the project make process to link into the app binary.</p>
+<p>(Actually, even this is not strictly necessary - if the COMPONENT_ADD_LDFLAGS variable
+is overridden then the component can instruct the linker to link other binaries instead.)</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When using an external build process with PSRAM, remember to add <code class="docutils literal notranslate"><span class="pre">-mfix-esp32-psram-cache-issue</span></code> to the C compiler arguments. See <a class="reference internal" href="../api-reference/kconfig.html#config-spiram-cache-workaround"><span class="std std-ref">CONFIG_SPIRAM_CACHE_WORKAROUND</span></a> for details of this flag.</p>
+</div>
+</div>
+<div class="section" id="custom-sdkconfig-defaults">
+<span id="custom-sdkconfig-defaults-legacy"></span><h3>Custom sdkconfig defaults<a class="headerlink" href="#custom-sdkconfig-defaults" title="Permalink to this headline">¶</a></h3>
+<p>For example projects or other projects where you don’t want to specify a full sdkconfig configuration, but you do want to override some key values from the esp-idf defaults, it is possible to create a file <code class="docutils literal notranslate"><span class="pre">sdkconfig.defaults</span></code> in the project directory. This file will be used when running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">defconfig</span></code>, or creating a new config from scratch.</p>
+<p>To override the name of this file, set the <code class="docutils literal notranslate"><span class="pre">SDKCONFIG_DEFAULTS</span></code> environment variable.</p>
+</div>
+<div class="section" id="save-flash-arguments">
+<h3>Save flash arguments<a class="headerlink" href="#save-flash-arguments" title="Permalink to this headline">¶</a></h3>
+<p>There’re some scenarios that we want to flash the target board without IDF. For this case we want to save the built binaries, esptool.py and esptool write_flash arguments. It’s simple to write a script to save binaries and esptool.py. We can use command <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">print_flash_cmd</span></code>, it will print the flash arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">flash_mode</span> <span class="n">dio</span> <span class="o">--</span><span class="n">flash_freq</span> <span class="mi">40</span><span class="n">m</span> <span class="o">--</span><span class="n">flash_size</span> <span class="n">detect</span> <span class="mh">0x1000</span> <span class="n">bootloader</span><span class="o">/</span><span class="n">bootloader</span><span class="o">.</span><span class="n">bin</span> <span class="mh">0x10000</span> <span class="n">example_app</span><span class="o">.</span><span class="n">bin</span> <span class="mh">0x8000</span> <span class="n">partition_table_unit_test_app</span><span class="o">.</span><span class="n">bin</span>
+</pre></div>
+</div>
+<p>Then use flash arguments as the arguemnts for esptool write_flash arguments:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">esptool</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">chip</span> <span class="n">esp32</span> <span class="o">--</span><span class="n">port</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">ttyUSB0</span> <span class="o">--</span><span class="n">baud</span> <span class="mi">921600</span> <span class="o">--</span><span class="n">before</span> <span class="n">default_reset</span> <span class="o">--</span><span class="n">after</span> <span class="n">hard_reset</span> <span class="n">write_flash</span> <span class="o">-</span><span class="n">z</span> <span class="o">--</span><span class="n">flash_mode</span> <span class="n">dio</span> <span class="o">--</span><span class="n">flash_freq</span> <span class="mi">40</span><span class="n">m</span> <span class="o">--</span><span class="n">flash_size</span> <span class="n">detect</span> <span class="mh">0x1000</span> <span class="n">bootloader</span><span class="o">/</span><span class="n">bootloader</span><span class="o">.</span><span class="n">bin</span> <span class="mh">0x10000</span> <span class="n">example_app</span><span class="o">.</span><span class="n">bin</span> <span class="mh">0x8000</span> <span class="n">partition_table_unit_test_app</span><span class="o">.</span><span class="n">bin</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="building-the-bootloader">
+<h2>Building the Bootloader<a class="headerlink" href="#building-the-bootloader" title="Permalink to this headline">¶</a></h2>
+<p>The bootloader is built by default as part of “make all”, or can be built standalone via “make bootloader-clean”. There is also “make bootloader-list-components” to see the components included in the bootloader build.</p>
+<p>The component in IDF components/bootloader is special, as the second stage bootloader is a separate .ELF and .BIN file to the main project. However it shares its configuration and build directory with the main project.</p>
+<p>This is accomplished by adding a subproject under components/bootloader/subproject. This subproject has its own Makefile, but it expects to be called from the project’s own Makefile via some glue in the components/bootloader/Makefile.projectbuild file. See these files for more details.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="console.html" class="btn btn-neutral float-right" title="Console" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="build-system.html" class="btn btn-neutral float-left" title="Build System" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/build-system-legacy.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:15 GMT -->
+</html>

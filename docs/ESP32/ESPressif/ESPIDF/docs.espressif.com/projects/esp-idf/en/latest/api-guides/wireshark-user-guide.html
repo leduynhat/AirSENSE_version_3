@@ -1,0 +1,541 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/wireshark-user-guide.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:38 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Espressif Wireshark User Guide &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Libraries and Frameworks" href="../libraries-and-frameworks/index.html" />
+    <link rel="prev" title="Wi-Fi Driver" href="wifi.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="wireshark-user-guide.html" />
+
+<link rel="stylesheet" href="../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-guides/wireshark-user-guide"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="app_trace.html">Application Level Tracing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blufi.html">BluFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootloader.html">Bootloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-system.html">Build System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-system-legacy.html">Build System (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="console.html">Console Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deep-sleep-stub.html">Deep Sleep Wake Stubs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="error-handling.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="esp-ble-mesh/ble-mesh-index.html">ESP-BLE-MESH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh.html">ESP-MESH (Wi-Fi)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core_dump.html">ESP32 Core Dump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event-handling.html">Event Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="external-ram.html">External SPI-connected RAM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fatal-errors.html">Fatal Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/flash-encryption.html">Flash Encryption</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freertos-smp.html">FreeRTOS SMP Changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general-notes.html">General Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hlinterrupts.html">High Level Interrupts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jtag-debugging/index.html">JTAG Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker-script-generation.html">Linker Script Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lwip.html">lwIP TCP/IP Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="partition-tables.html">Partition Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RF_calibration.html">RF Calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="romconsole.html">ROM debug console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/secure-boot.html">Secure Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thread-local-storage.html">Thread Local Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ulp.html">ULP Coprocessor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ulp-legacy.html">ULP Coprocessor (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit-tests-legacy.html">Unit Testing (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit-tests.html">Unit Testing</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="wifi.html">WiFi Driver</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#esp32-wi-fi-feature-list">ESP32 Wi-Fi Feature List</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#how-to-write-a-wi-fi-application">How To Write a Wi-Fi Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#esp32-wi-fi-api-error-code">ESP32 Wi-Fi API Error Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#esp32-wi-fi-api-parameter-initialization">ESP32 Wi-Fi API Parameter Initialization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#esp32-wi-fi-programming-model">ESP32 Wi-Fi Programming Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#esp32-wi-fi-event-description">ESP32 Wi-Fi Event Description</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#esp32-wi-fi-station-general-scenario">ESP32 Wi-Fi Station General Scenario</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#esp32-wi-fi-ap-general-scenario">ESP32 Wi-Fi AP General Scenario</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#esp32-wi-fi-scan">ESP32 Wi-Fi Scan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#esp32-wi-fi-station-connecting-scenario">ESP32 Wi-Fi Station Connecting Scenario</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#esp32-wi-fi-station-connecting-when-multiple-aps-are-found">ESP32 Wi-Fi Station Connecting When Multiple APs Are Found</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#wi-fi-reconnect">Wi-Fi Reconnect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#wi-fi-beacon-timeout">Wi-Fi Beacon Timeout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#esp32-wi-fi-configuration">ESP32 Wi-Fi Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#wi-fi-security">Wi-Fi Security</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#esp32-wi-fi-power-saving-mode">ESP32 Wi-Fi Power-saving Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#esp32-wi-fi-connect-crypto">ESP32 Wi-Fi Connect Crypto</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#esp32-wi-fi-throughput">ESP32 Wi-Fi Throughput</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#wi-fi-80211-packet-send">Wi-Fi 80211 Packet Send</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#wi-fi-sniffer-mode">Wi-Fi Sniffer Mode</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#wi-fi-multiple-antennas">Wi-Fi Multiple Antennas</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#wi-fi-channel-state-information">Wi-Fi Channel State Information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#wi-fi-channel-state-information-configure">Wi-Fi Channel State Information Configure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#wi-fi-ht20-40">Wi-Fi HT20/40</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#wi-fi-qos">Wi-Fi QoS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#wi-fi-amsdu">Wi-Fi AMSDU</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#wi-fi-fragment">Wi-Fi Fragment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#wps-enrolle">WPS Enrolle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#wi-fi-buffer-usage">Wi-Fi Buffer Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#wi-fi-menuconfig">Wi-Fi Menuconfig</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="wifi.html#troubleshooting">Troubleshooting</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Espressif Wireshark User Guide</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">API Guides</a> &raquo;</li>
+        
+          <li><a href="wifi.html">Wi-Fi Driver</a> &raquo;</li>
+        
+      <li>Espressif Wireshark User Guide</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-guides/wireshark-user-guide.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="espressif-wireshark-user-guide">
+<h1>Espressif Wireshark User Guide<a class="headerlink" href="#espressif-wireshark-user-guide" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/api-guides/wireshark-user-guide.html">[中文]</a></p>
+<div class="section" id="overview">
+<h2>1. Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="what-is-wireshark">
+<h3>1.1 What is Wireshark?<a class="headerlink" href="#what-is-wireshark" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://www.wireshark.org/">Wireshark</a> (originally named “Ethereal”) is a network packet analyzer that captures network packets and displays the packet data as detailed as possible. It uses WinPcap as its interface to directly capture network traffic going through a network interface controller (NIC).</p>
+<p>You could think of a network packet analyzer as a measuring device used to examine what is going on inside a network cable, just like a voltmeter is used by an electrician to examine what is going on inside an electric cable.</p>
+<p>In the past, such tools were either very expensive, proprietary, or both. However, with the advent of Wireshark, all that has changed.</p>
+<p>Wireshark is released under the terms of the GNU General Public License, which means you can use the software and the source code free of charge. It also allows you to modify and customize the source code.</p>
+<p>Wireshark is, perhaps, one of the best open source packet analyzers available today.</p>
+</div>
+<div class="section" id="some-intended-purposes">
+<h3>1.2 Some Intended Purposes<a class="headerlink" href="#some-intended-purposes" title="Permalink to this headline">¶</a></h3>
+<p>Here are some examples of how Wireshark is typically used:</p>
+<ul class="simple">
+<li>Network administrators use it to troubleshoot network problems.</li>
+<li>Network security engineers use it to examine security problems.</li>
+<li>Developers use it to debug protocol implementations.</li>
+<li>People use it to learn more about network protocol internals.</li>
+</ul>
+<p>Beside these examples, Wireshark can be used for many other purposes.</p>
+</div>
+<div class="section" id="features">
+<h3>1.3 Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h3>
+<p>The main features of Wireshark are as follows:</p>
+<ul class="simple">
+<li>Available for UNIX and Windows</li>
+<li>Captures live packet data from a network interface</li>
+<li>Displays packets along with detailed protocol information</li>
+<li>Opens/saves the captured packet data</li>
+<li>Imports/exports packets into a number of file formats, supported by other capture programs</li>
+<li>Advanced packet filtering</li>
+<li>Searches for packets based on multiple criteria</li>
+<li>Colorizes packets according to display filters</li>
+<li>Calculates statistics</li>
+<li>… and a lot more!</li>
+</ul>
+</div>
+<div class="section" id="wireshark-can-or-can-t-do">
+<h3>1.4 Wireshark Can or Can’t Do<a class="headerlink" href="#wireshark-can-or-can-t-do" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Live capture from different network media</strong>.</p>
+<p>Wireshark can capture traffic from different network media, including wireless LAN.</p>
+</li>
+<li><p class="first"><strong>Import files from many other capture programs</strong>.</p>
+<p>Wireshark can import data from a large number of file formats, supported by other capture programs.</p>
+</li>
+<li><p class="first"><strong>Export files for many other capture programs</strong>.</p>
+<p>Wireshark can export data into a large number of file formats, supported by other capture programs.</p>
+</li>
+<li><p class="first"><strong>Numerous protocol dissectors</strong>.</p>
+<p>Wireshark can dissect, or decode, a large number of protocols.</p>
+</li>
+<li><p class="first"><strong>Wireshark is not an intrusion detection system</strong>.</p>
+<p>It will not warn you if there are any suspicious activities on your network. However, if strange things happen, Wireshark might help you figure out what is really going on.</p>
+</li>
+<li><p class="first"><strong>Wireshark does not manipulate processes on the network, it can only perform “measurements” within it</strong>.</p>
+<p>Wireshark does not send packets on the network or influence it in any other way, except for resolving names (converting numerical address values into a human readable format), but even that can be disabled.</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="where-to-get-wireshark">
+<h2>2. Where to Get Wireshark<a class="headerlink" href="#where-to-get-wireshark" title="Permalink to this headline">¶</a></h2>
+<p>You can get Wireshark from the official website: <a class="reference external" href="https://www.wireshark.org/download.html">https://www.wireshark.org/download.html</a></p>
+<p>Wireshark can run on various operating systems. Please download the correct version according to the operating system you are using.</p>
+</div>
+<div class="section" id="step-by-step-guide">
+<h2>3. Step-by-step Guide<a class="headerlink" href="#step-by-step-guide" title="Permalink to this headline">¶</a></h2>
+<p><strong>This demonstration uses Wireshark 2.2.6 on Linux.</strong></p>
+<p><strong>a) Start Wireshark</strong></p>
+<p>On Linux, you can run the shell script provided below. It starts Wireshark, then configures NIC and the channel for packet capture.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ifconfig $1 down
+iwconfig $1 mode monitor
+iwconfig $1 channel $2
+ifconfig $1 up
+Wireshark&amp;
+</pre></div>
+</div>
+<p>In the above script, the parameter <code class="docutils literal notranslate"><span class="pre">$1</span></code> represents NIC and <code class="docutils literal notranslate"><span class="pre">$2</span></code> represents channel. For example, <code class="docutils literal notranslate"><span class="pre">wlan0</span></code> in <code class="docutils literal notranslate"><span class="pre">./xxx.sh</span> <span class="pre">wlan0</span> <span class="pre">6</span></code>, specifies the NIC for packet capture, and <code class="docutils literal notranslate"><span class="pre">6</span></code> identifies the channel of an AP or Soft-AP.</p>
+<p><strong>b) Run the Shell Script to Open Wireshark and Display Capture Interface</strong></p>
+<div class="align-center figure" id="id1">
+<a class="reference internal image-reference" href="../_images/ws-capture-interface.jpg"><img alt="Wireshark Capture Interface" src="../_images/ws-capture-interface.jpg" style="width: 60%;" /></a>
+<p class="caption"><span class="caption-text">Wireshark Capture Interface</span></p>
+</div>
+<p><strong>c) Select the Interface to Start Packet Capture</strong></p>
+<p>As the red markup shows in the picture above, many interfaces are available. The first one is a local NIC and the second one is a wireless NIC.</p>
+<p>Please select the NIC according to your requirements. This document will use the wireless NIC to demonstrate packet capture.</p>
+<p>Double click <em>wlan0</em> to start packet capture.</p>
+<p><strong>d) Set up Filters</strong></p>
+<p>Since all packets in the channel will be captured, and many of them are not needed, you have to set up filters to get the packets that you need.</p>
+<p>Please find the picture below with the red markup, indicating where the filters should be set up.</p>
+<div class="align-center figure" id="id2">
+<img alt="Setting up Filters in Wireshark" src="../_images/ws-setup-filters.png" />
+<p class="caption"><span class="caption-text">Setting up Filters in Wireshark</span></p>
+</div>
+<p>Click <em>Filter</em>, the top left blue button in the picture below. The <em>display filter</em> dialogue box will appear.</p>
+<div class="align-center figure" id="id3">
+<a class="reference internal image-reference" href="../_images/ws-display-filter-dialogue-box.png"><img alt="*Display Filter* Dialogue Box" src="../_images/ws-display-filter-dialogue-box.png" style="width: 60%;" /></a>
+<p class="caption"><span class="caption-text"><em>Display Filter</em> Dialogue Box</span></p>
+</div>
+<p>Click the <em>Expression</em> button to bring up the <em>Filter Expression</em> dialogue box and set the filter according to your requirements.</p>
+<div class="align-center figure" id="id4">
+<a class="reference internal image-reference" href="../_images/ws-filter-expression.png"><img alt="*Filter Expression* Dialogue Box" src="../_images/ws-filter-expression.png" style="width: 80%;" /></a>
+<p class="caption"><span class="caption-text"><em>Filter Expression</em> Dialogue Box</span></p>
+</div>
+<p><strong>The quickest way</strong>: enter the filters directly in the toolbar.</p>
+<div class="align-center figure" id="id5">
+<img alt="Filter Toolbar" src="../_images/ws-filter-toolbar.png" />
+<p class="caption"><span class="caption-text">Filter Toolbar</span></p>
+</div>
+<p>Click on this area to enter or modify the filters. If you enter a wrong or unfinished filter, the built-in syntax check turns the background red. As soon as the correct expression is entered, the background becomes green.</p>
+<p>The previously entered filters are automatically saved. You can access them anytime by opening the drop down list.</p>
+<p>For example, as shown in the picture below, enter two MAC addresses as the filters and click <em>Apply</em> (the blue arrow). In this case, only the packet data transmitted between these two MAC addresses will be captured.</p>
+<div class="align-center figure" id="id6">
+<img alt="Example of MAC Addresses applied in the Filter Toolbar" src="../_images/ws-filter-toolbar_green.png" />
+<p class="caption"><span class="caption-text">Example of MAC Addresses applied in the Filter Toolbar</span></p>
+</div>
+<p><strong>e) Packet List</strong></p>
+<p>You can click any packet in the packet list and check the detailed information about it in the box below the list. For example, if you click the first packet, its details will appear in that box.</p>
+<div class="align-center figure" id="id7">
+<img alt="Example of Packet List Details" src="../_images/ws-packet-list.png" />
+<p class="caption"><span class="caption-text">Example of Packet List Details</span></p>
+</div>
+<p><strong>f) Stop/Start Packet Capture</strong></p>
+<p>As shown in the picture below, click the red button to stop capturing the current packet.</p>
+<div class="align-center figure" id="id8">
+<img alt="Stopping Packets Capture" src="../_images/ws-stop-packet-capture.png" />
+<p class="caption"><span class="caption-text">Stopping Packet Capture</span></p>
+</div>
+<p>Click the top left blue button to start or resume packet capture.</p>
+<div class="align-center figure" id="id9">
+<a class="reference internal image-reference" href="../_images/ws-start-resume-packet-capture.png"><img alt="Starting or Resuming Packets Capture" src="../_images/ws-start-resume-packet-capture.png" style="width: 60%;" /></a>
+<p class="caption"><span class="caption-text">Starting or Resuming the Packets Capture</span></p>
+</div>
+<p><strong>g) Save the Current Packet</strong></p>
+<p>On Linux, go to <em>File</em> -&gt; <em>Export Packet Dissections</em> -&gt; <em>As Plain Text File</em> to save the packet.</p>
+<div class="align-center figure" id="id10">
+<a class="reference internal image-reference" href="../_images/ws-save-packets.png"><img alt="Saving Captured Packets" src="../_images/ws-save-packets.png" style="width: 60%;" /></a>
+<p class="caption"><span class="caption-text">Saving Captured Packets</span></p>
+</div>
+<p>Please note that <em>All packets</em>, <em>Displayed</em> and <em>All expanded</em> must be selected.</p>
+<p>By default, Wireshark saves the captured packet in a libpcap file. You can also save the file in other formats, e.g. txt, to analyze it in other tools.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../libraries-and-frameworks/index.html" class="btn btn-neutral float-right" title="Libraries and Frameworks" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="wifi.html" class="btn btn-neutral float-left" title="Wi-Fi Driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/wireshark-user-guide.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:48 GMT -->
+</html>

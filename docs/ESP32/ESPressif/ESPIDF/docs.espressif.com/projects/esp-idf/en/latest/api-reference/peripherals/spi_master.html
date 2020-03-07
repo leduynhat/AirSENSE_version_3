@@ -1,0 +1,1879 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/spi_master.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:39 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SPI Master Driver &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="SPI Slave Driver" href="spi_slave.html" />
+    <link rel="prev" title="Sigma-delta Modulation" href="sigmadelta.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="spi_master.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/peripherals/spi_master"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Peripherals</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="adc.html">ADC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="can.html">CAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html">DAC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html">GPIO (including RTC low power I/O)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html">I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html">I2S</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ledc.html">LED Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcpwm.html">MCPWM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pcnt.html">Pulse Counter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rmt.html">Remote Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sd_pullup_requirements.html">SD Pull-up Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdmmc_host.html">SDMMC Host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdspi_host.html">SD SPI Host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdio_slave.html">SDIO Slave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sigmadelta.html">Sigma-delta Modulation</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">SPI Master</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview-of-esp32-s-spi-peripherals">Overview of ESP32’s SPI peripherals</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#terminology">Terminology</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#driver-features">Driver Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#spi-transactions">SPI Transactions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#driver-usage">Driver Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gpio-matrix-and-io-mux">GPIO Matrix and IO_MUX</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transfer-speed-considerations">Transfer Speed Considerations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#timing-considerations">Timing Considerations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#known-issues">Known Issues</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-example">Application Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference-spi-common">API Reference - SPI Common</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference-spi-master">API Reference - SPI Master</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html">SPI Slave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="temp_sensor.html">Temp sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html">Touch Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uart.html">UART</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Peripherals API</a> &raquo;</li>
+        
+      <li>SPI Master Driver</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/peripherals/spi_master.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spi-master-driver">
+<h1>SPI Master Driver<a class="headerlink" href="#spi-master-driver" title="Permalink to this headline">¶</a></h1>
+<p>SPI Master driver is a program that controls ESP32’s SPI peripherals while they function as masters.</p>
+<div class="section" id="overview-of-esp32-s-spi-peripherals">
+<h2>Overview of ESP32’s SPI peripherals<a class="headerlink" href="#overview-of-esp32-s-spi-peripherals" title="Permalink to this headline">¶</a></h2>
+<p>ESP32 integrates four SPI peripherals.</p>
+<ul class="simple">
+<li>SPI0 and SPI1 are used internally to access the ESP32’s attached flash memory and thus are currently not open to users. They share one signal bus via an arbiter.</li>
+<li>SPI2 and SPI3 are general purpose SPI controllers, sometimes referred to as HSPI and VSPI, respectively. They are open to users. SPI2 and SPI3 have independent signal buses with the same respective names. Each bus has three CS lines to drive up to three SPI slaves.</li>
+</ul>
+</div>
+<div class="section" id="terminology">
+<h2>Terminology<a class="headerlink" href="#terminology" title="Permalink to this headline">¶</a></h2>
+<p>The terms used in relation to the SPI master driver are given in the table below.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Term</th>
+<th class="head">Definition</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>Host</strong></td>
+<td>The SPI controller peripheral inside ESP32 that initiates SPI transmissions over the bus, and acts as an SPI Master. This may be the SPI2 or SPI3 peripheral. (The driver will also support the SPI1 peripheral in the future.)</td>
+</tr>
+<tr class="row-odd"><td><strong>Device</strong></td>
+<td>SPI slave device. An SPI bus may be connected to one or more Devices. Each Device shares the MOSI, MISO and SCLK signals but is only active on the bus when the Host asserts the Device’s individual CS line.</td>
+</tr>
+<tr class="row-even"><td><strong>Bus</strong></td>
+<td>A signal bus, common to all Devices connected to one Host. In general, a bus includes the following lines: MISO, MOSI, SCLK, one or more CS lines, and, optionally, QUADWP and QUADHD. So Devices are connected to the same lines, with the exception that each Device has its own CS line. Several Devices can also share one CS line if connected in the daisy-chain manner.</td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li><strong>MISO</strong></li>
+</ul>
+</td>
+<td>Master In, Slave Out, a.k.a. Q. Data transmission from a Device to Host.</td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li><strong>MOSI</strong></li>
+</ul>
+</td>
+<td>Master Out, Slave In, a.k.a. D. Data transmission from a Host to Device.</td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li><strong>SCLK</strong></li>
+</ul>
+</td>
+<td>Serial Clock. Oscillating signal generated by a Host that keeps the transmission of data bits in sync.</td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li><strong>CS</strong></li>
+</ul>
+</td>
+<td>Chip Select. Allows a Host to select individual Device(s) connected to the bus in order to send or receive data.</td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li><strong>QUADWP</strong></li>
+</ul>
+</td>
+<td>Write Protect signal. Only used for 4-bit (qio/qout) transactions.</td>
+</tr>
+<tr class="row-even"><td><ul class="first last simple">
+<li><strong>QUADHD</strong></li>
+</ul>
+</td>
+<td>Hold signal. Only used for 4-bit (qio/qout) transactions.</td>
+</tr>
+<tr class="row-odd"><td><ul class="first last simple">
+<li><strong>Assertion</strong></li>
+</ul>
+</td>
+<td>The action of activating a line. The opposite action of returning the line back to inactive (back to idle) is called <em>de-assertion</em>.</td>
+</tr>
+<tr class="row-even"><td><strong>Transaction</strong></td>
+<td>One instance of a Host asserting a CS line, transferring data to and from a Device, and de-asserting the CS line. Transactions are atomic, which means they can never be interrupted by another transaction.</td>
+</tr>
+<tr class="row-odd"><td><strong>Launch edge</strong></td>
+<td>Edge of the clock at which the source register <em>launches</em> the signal onto the line.</td>
+</tr>
+<tr class="row-even"><td><strong>Latch edge</strong></td>
+<td>Edge of the clock at which the destination register <em>latches in</em> the signal.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="driver-features">
+<h2>Driver Features<a class="headerlink" href="#driver-features" title="Permalink to this headline">¶</a></h2>
+<p>The SPI master driver governs communications of Hosts with Devices. The driver supports the following features:</p>
+<ul class="simple">
+<li>Multi-threaded environments</li>
+<li>Transparent handling of DMA transfers while reading and writing data</li>
+<li>Automatic time-division multiplexing of data coming from different Devices on the same signal bus</li>
+</ul>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>The SPI master driver has the concept of multiple Devices connected to a single bus (sharing a single ESP32 SPI peripheral). As long as each Device is accessed by only one task, the driver is thread safe. However, if multiple tasks try to access the same SPI Device, the driver is <strong>not thread-safe</strong>. In this case, it is recommended to either:</p>
+<ul class="last simple">
+<li>Refactor your application so that each SPI peripheral is only accessed by a single task at a time.</li>
+<li>Add a mutex lock around the shared Device using <a class="reference internal" href="../system/freertos.html#c.xSemaphoreCreateMutex" title="xSemaphoreCreateMutex"><code class="xref c c-macro docutils literal notranslate"><span class="pre">xSemaphoreCreateMutex</span></code></a>.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="spi-transactions">
+<h2>SPI Transactions<a class="headerlink" href="#spi-transactions" title="Permalink to this headline">¶</a></h2>
+<p>An SPI bus transaction consists of five phases which can be found in the table below. Any of these phases can be skipped.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Phase</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>Command</strong></td>
+<td>In this phase, a command (0-16 bit) is written to the bus by the Host.</td>
+</tr>
+<tr class="row-odd"><td><strong>Address</strong></td>
+<td>In this phase, an address (0-64 bit) is transmitted over the bus by the Host.</td>
+</tr>
+<tr class="row-even"><td><strong>Write</strong></td>
+<td>Host sends data to a Device. This data follows the optional command and address phases and is indistinguishable from them at the electrical level.</td>
+</tr>
+<tr class="row-odd"><td><strong>Dummy</strong></td>
+<td>This phase is configurable and is used to meet the timing requirements.</td>
+</tr>
+<tr class="row-even"><td><strong>Read</strong></td>
+<td>Device sends data to its Host.</td>
+</tr>
+</tbody>
+</table>
+<p>The attributes of a transaction are determined by the bus configuration structure <a class="reference internal" href="#_CPPv416spi_bus_config_t" title="spi_bus_config_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">spi_bus_config_t</span></code></a>, device configuration structure <a class="reference internal" href="#_CPPv429spi_device_interface_config_t" title="spi_device_interface_config_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">spi_device_interface_config_t</span></code></a>, and transaction configuration structure <a class="reference internal" href="#_CPPv417spi_transaction_t" title="spi_transaction_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">spi_transaction_t</span></code></a>.</p>
+<p>An SPI Host can send full-duplex transactions, during which the read and write phases occur simultaneously. The total transaction length is determined by the sum of the following members:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#_CPPv4N29spi_device_interface_config_t12command_bitsE" title="spi_device_interface_config_t::command_bits"><code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">spi_device_interface_config_t::command_bits</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N29spi_device_interface_config_t12address_bitsE" title="spi_device_interface_config_t::address_bits"><code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">spi_device_interface_config_t::address_bits</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N17spi_transaction_t6lengthE" title="spi_transaction_t::length"><code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">spi_transaction_t::length</span></code></a></li>
+</ul>
+<p>While the member <a class="reference internal" href="#_CPPv4N17spi_transaction_t8rxlengthE" title="spi_transaction_t::rxlength"><code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">spi_transaction_t::rxlength</span></code></a> only determines the length of data received into the buffer.</p>
+<p>In half-duplex transactions, the read and write phases are not simultaneous (one direction at a time). The lengths of the write and read phases are determined by <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">length</span></code> and <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">rxlength</span></code> members of the struct <a class="reference internal" href="#_CPPv417spi_transaction_t" title="spi_transaction_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">spi_transaction_t</span></code></a> respectively.</p>
+<p>The command and address phases are optional, as not every SPI device requires a command and/or address. This is reflected in the Device’s configuration: if <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">command_bits</span></code> and/or <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">address_bits</span></code> are set to zero, no command or address phase will occur.</p>
+<p>The read and write phases can also be optional, as not every transaction requires both writing and reading data. If <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">rx_buffer</span></code> is NULL and <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">SPI_TRANS_USE_RXDATA</span></code> is not set, the read phase is skipped. If <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">tx_buffer</span></code> is NULL and <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">SPI_TRANS_USE_TXDATA</span></code> is not set, the write phase is skipped.</p>
+<p>The driver supports two types of transactions: the interrupt transactions and polling transactions. The programmer can choose to use a different transaction type per Device. If your Device requires both transaction types, see <a class="reference internal" href="#mixed-transactions"><span class="std std-ref">Notes on Sending Mixed Transactions to the Same Device</span></a>.</p>
+<div class="section" id="interrupt-transactions">
+<span id="id1"></span><h3>Interrupt Transactions<a class="headerlink" href="#interrupt-transactions" title="Permalink to this headline">¶</a></h3>
+<p>Interrupt transactions will block the transaction routine until the transaction completes, thus allowing the CPU to run other tasks.</p>
+<p>An application task can queue multiple transactions, and the driver will automatically handle them one-by-one in the interrupt service routine (ISR). It allows the task to switch to other procedures until all the transactions complete.</p>
+</div>
+<div class="section" id="polling-transactions">
+<span id="id2"></span><h3>Polling Transactions<a class="headerlink" href="#polling-transactions" title="Permalink to this headline">¶</a></h3>
+<p>Polling transactions do not use interrupts. The routine keeps polling the SPI Host’s status bit until the transaction is finished.</p>
+<p>All the tasks that use interrupt transactions can be blocked by the queue. At this point, they will need to wait for the ISR to run twice before the transaction is finished. Polling transactions save time otherwise spent on queue handling and context switching, which results in smaller transaction intervals. The disadvantage is that the CPU is busy while these transactions are in progress.</p>
+<p>The <a class="reference internal" href="#_CPPv422spi_device_polling_end19spi_device_handle_t10TickType_t" title="spi_device_polling_end"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_device_polling_end()</span></code></a> routine needs an overhead of at least 1 us to unblock other tasks when the transaction is finished. It is strongly recommended to wrap a series of polling transactions using the functions <a class="reference internal" href="#_CPPv422spi_device_acquire_bus19spi_device_handle_t10TickType_t" title="spi_device_acquire_bus"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_device_acquire_bus()</span></code></a> and <a class="reference internal" href="#_CPPv422spi_device_release_bus19spi_device_handle_t" title="spi_device_release_bus"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_device_release_bus()</span></code></a> to avoid the overhead. For more information, see <a class="reference internal" href="#bus-acquiring"><span class="std std-ref">Bus Acquiring</span></a>.</p>
+</div>
+<div class="section" id="command-and-address-phases">
+<h3>Command and Address Phases<a class="headerlink" href="#command-and-address-phases" title="Permalink to this headline">¶</a></h3>
+<p>During the command and address phases, the members <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">cmd</span></code> and <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">addr</span></code> in the struct <a class="reference internal" href="#_CPPv417spi_transaction_t" title="spi_transaction_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">spi_transaction_t</span></code></a> are sent to the bus, nothing is read at this time. The default lengths of the command and address phases are set in <a class="reference internal" href="#_CPPv429spi_device_interface_config_t" title="spi_device_interface_config_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">spi_device_interface_config_t</span></code></a> by calling <a class="reference internal" href="#_CPPv418spi_bus_add_device17spi_host_device_tPK29spi_device_interface_config_tP19spi_device_handle_t" title="spi_bus_add_device"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_bus_add_device()</span></code></a>. If the flags <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">SPI_TRANS_VARIABLE_CMD</span></code> and <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">SPI_TRANS_VARIABLE_ADDR</span></code> in the member <a class="reference internal" href="#_CPPv4N17spi_transaction_t5flagsE" title="spi_transaction_t::flags"><code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">spi_transaction_t::flags</span></code></a> are not set, the driver automatically sets the length of these phases to default values during Device initialization.</p>
+<p>If the lengths of the command and address phases need to be variable, declare the struct <a class="reference internal" href="#_CPPv421spi_transaction_ext_t" title="spi_transaction_ext_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">spi_transaction_ext_t</span></code></a>, set the flags <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">SPI_TRANS_VARIABLE_CMD</span></code> and/or <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">SPI_TRANS_VARIABLE_ADDR</span></code> in the member <a class="reference internal" href="#_CPPv4N21spi_transaction_ext_t4baseE" title="spi_transaction_ext_t::base"><code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">spi_transaction_ext_t::base</span></code></a> and configure the rest of base as usual. Then the length of each phase will be equal to <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">command_bits</span></code> and <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">address_bits</span></code> set in the struct <a class="reference internal" href="#_CPPv421spi_transaction_ext_t" title="spi_transaction_ext_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">spi_transaction_ext_t</span></code></a>.</p>
+</div>
+<div class="section" id="write-and-read-phases">
+<h3>Write and Read Phases<a class="headerlink" href="#write-and-read-phases" title="Permalink to this headline">¶</a></h3>
+<p>Normally, the data that needs to be transferred to or from a Device will be read from or written to a chunk of memory indicated by the members <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">rx_buffer</span></code> and <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">tx_buffer</span></code> of the structure <a class="reference internal" href="#_CPPv417spi_transaction_t" title="spi_transaction_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">spi_transaction_t</span></code></a>. If DMA is enabled for transfers, the buffers are required to be:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Allocated in DMA-capable internal memory. If <a class="reference internal" href="../system/mem_alloc.html#dma-capable-memory"><span class="std std-ref">external PSRAM is enabled</span></a>, this means using <code class="docutils literal notranslate"><span class="pre">pvPortMallocCaps(size,</span> <span class="pre">MALLOC_CAP_DMA)</span></code>.</li>
+<li>32-bit aligned (staring from a 32-bit boundary and having a length of multiples of 4 bytes).</li>
+</ol>
+</div></blockquote>
+<p>If these requirements are not satisfied, the transaction efficiency will be affected due to the allocation and copying of temporary buffers.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Half-duplex transactions with both read and write phases are not supported when using DMA. For details and workarounds, see <a class="reference internal" href="#spi-known-issues"><span class="std std-ref">Known Issues</span></a>.</p>
+</div>
+</div>
+<div class="section" id="bus-acquiring">
+<span id="id3"></span><h3>Bus Acquiring<a class="headerlink" href="#bus-acquiring" title="Permalink to this headline">¶</a></h3>
+<p>Sometimes you might want to send SPI transactions exclusively and continuously so that it takes as little time as possible. For this, you can use bus acquiring, which helps to suspend transactions (both polling or interrupt) to other devices until the bus is released. To acquire and release a bus, use the functions <a class="reference internal" href="#_CPPv422spi_device_acquire_bus19spi_device_handle_t10TickType_t" title="spi_device_acquire_bus"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_device_acquire_bus()</span></code></a> and <a class="reference internal" href="#_CPPv422spi_device_release_bus19spi_device_handle_t" title="spi_device_release_bus"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_device_release_bus()</span></code></a>.</p>
+</div>
+</div>
+<div class="section" id="driver-usage">
+<h2>Driver Usage<a class="headerlink" href="#driver-usage" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p class="first">Initialize an SPI bus by calling the function <a class="reference internal" href="#_CPPv418spi_bus_initialize17spi_host_device_tPK16spi_bus_config_ti" title="spi_bus_initialize"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_bus_initialize()</span></code></a>. Make sure to set the correct I/O pins in the struct <a class="reference internal" href="#_CPPv416spi_bus_config_t" title="spi_bus_config_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">spi_bus_config_t</span></code></a>. Set the signals that are not needed to <code class="docutils literal notranslate"><span class="pre">-1</span></code>.</p>
+</li>
+<li><p class="first">Register a Device connected to the bus with the driver by calling the function <a class="reference internal" href="#_CPPv418spi_bus_add_device17spi_host_device_tPK29spi_device_interface_config_tP19spi_device_handle_t" title="spi_bus_add_device"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_bus_add_device()</span></code></a>. Make sure to configure any timing requirements the device might need with the parameter <code class="docutils literal notranslate"><span class="pre">dev_config</span></code>. You should now have obtained the Device’s handle which will be used when sending a transaction to it.</p>
+</li>
+<li><p class="first">To interact with the Device, fill one or more <a class="reference internal" href="#_CPPv417spi_transaction_t" title="spi_transaction_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">spi_transaction_t</span></code></a> structs with any transaction parameters required. Then send the structs either using a polling transaction or an interrupt transaction:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="#interrupt-transactions"><span class="std std-ref">Interrupt</span></a></dt>
+<dd>Either queue all transactions by calling the function <a class="reference internal" href="#_CPPv422spi_device_queue_trans19spi_device_handle_tP17spi_transaction_t10TickType_t" title="spi_device_queue_trans"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_device_queue_trans()</span></code></a> and, at a later time, query the result using the function <a class="reference internal" href="#_CPPv427spi_device_get_trans_result19spi_device_handle_tPP17spi_transaction_t10TickType_t" title="spi_device_get_trans_result"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_device_get_trans_result()</span></code></a>, or handle all requests synchronously by feeding them into <a class="reference internal" href="#_CPPv419spi_device_transmit19spi_device_handle_tP17spi_transaction_t" title="spi_device_transmit"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_device_transmit()</span></code></a>.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference internal" href="#polling-transactions"><span class="std std-ref">Polling</span></a></dt>
+<dd>Call the function <a class="reference internal" href="#_CPPv427spi_device_polling_transmit19spi_device_handle_tP17spi_transaction_t" title="spi_device_polling_transmit"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_device_polling_transmit()</span></code></a> to send polling transactions. Alternatively, if you want to insert something in between, send the transactions by using <a class="reference internal" href="#_CPPv424spi_device_polling_start19spi_device_handle_tP17spi_transaction_t10TickType_t" title="spi_device_polling_start"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_device_polling_start()</span></code></a> and <a class="reference internal" href="#_CPPv422spi_device_polling_end19spi_device_handle_t10TickType_t" title="spi_device_polling_end"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_device_polling_end()</span></code></a>.</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">(Optional) To perform back-to-back transactions with a Device, call the function <a class="reference internal" href="#_CPPv422spi_device_acquire_bus19spi_device_handle_t10TickType_t" title="spi_device_acquire_bus"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_device_acquire_bus()</span></code></a> before sending transactions and <a class="reference internal" href="#_CPPv422spi_device_release_bus19spi_device_handle_t" title="spi_device_release_bus"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_device_release_bus()</span></code></a> after the transactions have been sent.</p>
+</li>
+<li><p class="first">(Optional) To unload the driver for a certain Device, call <a class="reference internal" href="#_CPPv421spi_bus_remove_device19spi_device_handle_t" title="spi_bus_remove_device"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_bus_remove_device()</span></code></a> with the Device handle as an argument.</p>
+</li>
+<li><p class="first">(Optional) To remove the driver for a bus, make sure no more drivers are attached and call <a class="reference internal" href="#_CPPv412spi_bus_free17spi_host_device_t" title="spi_bus_free"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_bus_free()</span></code></a>.</p>
+</li>
+</ul>
+<p>The example code for the SPI master driver can be found in the <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/spi_master">peripherals/spi_master</a> directory of ESP-IDF examples.</p>
+<div class="section" id="transactions-with-data-not-exceeding-32-bits">
+<h3>Transactions with Data Not Exceeding 32 Bits<a class="headerlink" href="#transactions-with-data-not-exceeding-32-bits" title="Permalink to this headline">¶</a></h3>
+<p>When the transaction data size is equal to or less than 32 bits, it will be sub-optimal to allocate a buffer for the data. The data can be directly stored in the transaction struct instead. For transmitted data, it can be achieved by using the <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">tx_data</span></code> member and setting the <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">SPI_TRANS_USE_TXDATA</span></code> flag on the transmission. For received data, use <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">rx_data</span></code> and set <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">SPI_TRANS_USE_RXDATA</span></code>. In both cases, do not touch the <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">tx_buffer</span></code> or <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">rx_buffer</span></code> members, because they use the same memory locations as <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">tx_data</span></code> and <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">rx_data</span></code>.</p>
+</div>
+<div class="section" id="transactions-with-integers-other-than-uint8-t">
+<h3>Transactions with Integers Other Than <code class="docutils literal notranslate"><span class="pre">uint8_t</span></code><a class="headerlink" href="#transactions-with-integers-other-than-uint8-t" title="Permalink to this headline">¶</a></h3>
+<p>An SPI Host reads and writes data into memory byte by byte. By default, data is sent with the most significant bit (MSB) first, as LSB first used in rare cases. If a value less than 8 bits needs to be sent, the bits should be written into memory in the MSB first manner.</p>
+<p>For example, if <code class="docutils literal notranslate"><span class="pre">0b00010</span></code> needs to be sent, it should be written into a <code class="docutils literal notranslate"><span class="pre">uint8_t</span></code> variable, and the length for reading should be set to 5 bits. The Device will still receive 8 bits with 3 additional “random” bits, so the reading must be performed correctly.</p>
+<p>On top of that, ESP32 is a little-endian chip, which means that the least significant byte of <code class="docutils literal notranslate"><span class="pre">uint16_t</span></code> and <code class="docutils literal notranslate"><span class="pre">uint32_t</span></code> variables is stored at the smallest address. Hence, if <code class="docutils literal notranslate"><span class="pre">uint16_t</span></code> is stored in memory, bits [7:0] are sent first, followed by bits [15:8].</p>
+<p>For cases when the data to be transmitted has the size differing from <code class="docutils literal notranslate"><span class="pre">uint8_t</span></code> arrays, the following macros can be used to transform data to the format that can be sent by the SPI driver directly:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#c.SPI_SWAP_DATA_TX" title="SPI_SWAP_DATA_TX"><code class="xref c c-macro docutils literal notranslate"><span class="pre">SPI_SWAP_DATA_TX</span></code></a> for data to be transmitted</li>
+<li><a class="reference internal" href="#c.SPI_SWAP_DATA_RX" title="SPI_SWAP_DATA_RX"><code class="xref c c-macro docutils literal notranslate"><span class="pre">SPI_SWAP_DATA_RX</span></code></a> for data received</li>
+</ul>
+</div>
+<div class="section" id="notes-on-sending-mixed-transactions-to-the-same-device">
+<span id="mixed-transactions"></span><h3>Notes on Sending Mixed Transactions to the Same Device<a class="headerlink" href="#notes-on-sending-mixed-transactions-to-the-same-device" title="Permalink to this headline">¶</a></h3>
+<p>To reduce coding complexity, send only one type of transactions (interrupt or polling) to one Device. However, you still can send both interrupt and polling transactions alternately. The notes below explain how to do this.</p>
+<p>The polling transactions should be initiated only after all the polling and interrupt transactions are finished.</p>
+<p>Since an unfinished polling transaction blocks other transactions, please do not forget to call the function <a class="reference internal" href="#_CPPv422spi_device_polling_end19spi_device_handle_t10TickType_t" title="spi_device_polling_end"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_device_polling_end()</span></code></a> after <a class="reference internal" href="#_CPPv424spi_device_polling_start19spi_device_handle_tP17spi_transaction_t10TickType_t" title="spi_device_polling_start"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_device_polling_start()</span></code></a> to allow other transactions or to allow other Devices to use the bus. Remember that if there is no need to switch to other tasks during your polling transaction, you can initiate a transaction with <a class="reference internal" href="#_CPPv427spi_device_polling_transmit19spi_device_handle_tP17spi_transaction_t" title="spi_device_polling_transmit"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_device_polling_transmit()</span></code></a> so that it will be ended automatically.</p>
+<p>In-flight polling transactions are disturbed by the ISR operation to accommodate interrupt transactions. Always make sure that all the interrupt transactions sent to the ISR are finished before you call <a class="reference internal" href="#_CPPv424spi_device_polling_start19spi_device_handle_tP17spi_transaction_t10TickType_t" title="spi_device_polling_start"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_device_polling_start()</span></code></a>. To do that, you can keep calling <a class="reference internal" href="#_CPPv427spi_device_get_trans_result19spi_device_handle_tPP17spi_transaction_t10TickType_t" title="spi_device_get_trans_result"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_device_get_trans_result()</span></code></a> until all the transactions are returned.</p>
+<p>To have better control of the calling sequence of functions, send mixed transactions to the same Device only within a single task.</p>
+</div>
+</div>
+<div class="section" id="gpio-matrix-and-io-mux">
+<h2>GPIO Matrix and IO_MUX<a class="headerlink" href="#gpio-matrix-and-io-mux" title="Permalink to this headline">¶</a></h2>
+<p>Most of ESP32’s peripheral signals have direct connection to their dedicated IO_MUX pins. However, the signals can also be routed to any other available pins using the less direct GPIO matrix. If at least one signal is routed through the GPIO matrix, then all signals will be routed through it.</p>
+<p>The GPIO matrix introduces flexibility of routing but also brings the following disadvantages:</p>
+<ul class="simple">
+<li>Increases the input delay of the MISO signal, which makes MISO setup time violations more likely. If SPI needs to operate at high speeds, use dedicated IO_MUX pins.</li>
+<li>Allows signals with clock frequencies only up to 40 MHz, as opposed to 80 MHz if IO_MUX pins are used.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">For more details about the influence of the MISO input delay on the maximum clock frequency, see <a class="reference internal" href="#timing-considerations"><span class="std std-ref">Timing Considerations</span></a>.</p>
+</div>
+<p>The IO_MUX pins for SPI buses are given below.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="45%" />
+<col width="27%" />
+<col width="27%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" rowspan="2">Pin Name</th>
+<th class="head">SPI2</th>
+<th class="head">SPI3</th>
+</tr>
+<tr class="row-even"><th class="head" colspan="2">GPIO Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-odd"><td>CS0*</td>
+<td>15</td>
+<td>5</td>
+</tr>
+<tr class="row-even"><td>SCLK</td>
+<td>14</td>
+<td>18</td>
+</tr>
+<tr class="row-odd"><td>MISO</td>
+<td>12</td>
+<td>19</td>
+</tr>
+<tr class="row-even"><td>MOSI</td>
+<td>13</td>
+<td>23</td>
+</tr>
+<tr class="row-odd"><td>QUADWP</td>
+<td>2</td>
+<td>22</td>
+</tr>
+<tr class="row-even"><td>QUADHD</td>
+<td>4</td>
+<td>21</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>Only the first Device attached to the bus can use the CS0 pin.</li>
+</ul>
+</div>
+<div class="section" id="transfer-speed-considerations">
+<span id="speed-considerations"></span><h2>Transfer Speed Considerations<a class="headerlink" href="#transfer-speed-considerations" title="Permalink to this headline">¶</a></h2>
+<p>There are three factors limiting the transfer speed:</p>
+<ul class="simple">
+<li>Transaction interval</li>
+<li>SPI clock frequency</li>
+<li>Cache miss of SPI functions, including callbacks</li>
+</ul>
+<p>The main parameter that determines the transfer speed for large transactions is clock frequency. For multiple small transactions, the transfer speed is mostly determined by the length of transaction intervals.</p>
+<div class="section" id="transaction-interval">
+<h3>Transaction Interval<a class="headerlink" href="#transaction-interval" title="Permalink to this headline">¶</a></h3>
+<p>Transaction interval is the time that software requires to set up SPI peripheral registers and to copy data to FIFOs, or to set up DMA links.</p>
+<p>Interrupt transactions allow appending extra overhead to accommodate the cost of FreeRTOS queues and the time needed for switching between tasks and the ISR.</p>
+<p>For <strong>interrupt transactions</strong>, the CPU can switch to other tasks when a transaction is in progress. This saves the CPU time but increases the interval. See <a class="reference internal" href="#interrupt-transactions"><span class="std std-ref">Interrupt Transactions</span></a>. For <strong>polling transactions</strong>, it does not block the task but allows to do polling when the transaction is in progress. For more information, see <a class="reference internal" href="#polling-transactions"><span class="std std-ref">Polling Transactions</span></a>.</p>
+<p>If DMA is enabled, setting up the linked list requires about 2 us per transaction. When a master is transferring data, it automatically reads the data from the linked list. If DMA is not enabled, the CPU has to write and read each byte from the FIFO by itself. Usually, this is faster than 2 us, but the transaction length is limited to 64 bytes for both write and read.</p>
+<p>Typical transaction interval timings for one byte of data are given below.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="42%" />
+<col width="37%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&#160;</th>
+<th class="head" colspan="2">Typical Transaction Time (us)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>&#160;</td>
+<td>Interrupt</td>
+<td>Polling</td>
+</tr>
+<tr class="row-odd"><td>DMA</td>
+<td>24</td>
+<td>8</td>
+</tr>
+<tr class="row-even"><td>No DMA</td>
+<td>22</td>
+<td>7</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="spi-clock-frequency">
+<h3>SPI Clock Frequency<a class="headerlink" href="#spi-clock-frequency" title="Permalink to this headline">¶</a></h3>
+<p>Transferring each byte takes eight times the clock period <em>8/fspi</em>. If the clock frequency is too high, the use of some functions might be limited. See <a class="reference internal" href="#timing-considerations"><span class="std std-ref">Timing Considerations</span></a>.</p>
+</div>
+<div class="section" id="cache-miss">
+<h3>Cache Miss<a class="headerlink" href="#cache-miss" title="Permalink to this headline">¶</a></h3>
+<p>The default config puts only the ISR into the IRAM. Other SPI related functions, including the driver itself and the callback, might suffer from the cache miss and will need to wait until the code is read from the flash. Select <a class="reference internal" href="../kconfig.html#config-spi-master-in-iram"><span class="std std-ref">CONFIG_SPI_MASTER_IN_IRAM</span></a> to put the whole SPI driver into IRAM and put the entire callback(s) and its callee functions into IRAM to prevent cache miss.</p>
+<p>For an interrupt transaction, the overall cost is <em>20+8n/Fspi[MHz]</em> [us] for n bytes transferred in one transaction. Hence, the transferring speed is: <em>n/(20+8n/Fspi)</em>. An example of transferring speed at 8 MHz clock speed is given in the following table.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="28%" />
+<col width="26%" />
+<col width="15%" />
+<col width="17%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><p class="first">Frequency</p>
+<p class="last">(MHz)</p>
+</th>
+<th class="head"><p class="first">Transaction Interval</p>
+<p class="last">(us)</p>
+</th>
+<th class="head"><p class="first">Transaction Length</p>
+<p class="last">(bytes)</p>
+</th>
+<th class="head"><p class="first">Total Time</p>
+<p class="last">(us)</p>
+</th>
+<th class="head"><p class="first">Total Speed</p>
+<p class="last">(KBps)</p>
+</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>8</td>
+<td>25</td>
+<td>1</td>
+<td>26</td>
+<td>38.5</td>
+</tr>
+<tr class="row-odd"><td>8</td>
+<td>25</td>
+<td>8</td>
+<td>33</td>
+<td>242.4</td>
+</tr>
+<tr class="row-even"><td>8</td>
+<td>25</td>
+<td>16</td>
+<td>41</td>
+<td>490.2</td>
+</tr>
+<tr class="row-odd"><td>8</td>
+<td>25</td>
+<td>64</td>
+<td>89</td>
+<td>719.1</td>
+</tr>
+<tr class="row-even"><td>8</td>
+<td>25</td>
+<td>128</td>
+<td>153</td>
+<td>836.6</td>
+</tr>
+</tbody>
+</table>
+<p>When a transaction length is short, the cost of transaction interval is high. If possible, try to squash several short transactions into one transaction to achieve a higher transfer speed.</p>
+<p>Please note that the ISR is disabled during flash operation by default. To keep sending transactions during flash operations, enable <a class="reference internal" href="../kconfig.html#config-spi-master-isr-in-iram"><span class="std std-ref">CONFIG_SPI_MASTER_ISR_IN_IRAM</span></a> and set <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">ESP_INTR_FLAG_IRAM</span></code> in the member <a class="reference internal" href="#_CPPv4N16spi_bus_config_t10intr_flagsE" title="spi_bus_config_t::intr_flags"><code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">spi_bus_config_t::intr_flags</span></code></a>. In this case, all the transactions queued before starting flash operations will be handled by the ISR in parallel. Also note that the callback of each Device and their callee functions should be in IRAM, or your callback will crash due to cache miss. For more details, see <a class="reference internal" href="../storage/spi_flash.html#iram-safe-interrupt-handlers"><span class="std std-ref">IRAM-Safe Interrupt Handlers</span></a>.</p>
+</div>
+</div>
+<div class="section" id="timing-considerations">
+<span id="id4"></span><h2>Timing Considerations<a class="headerlink" href="#timing-considerations" title="Permalink to this headline">¶</a></h2>
+<p>As shown in the figure below, there is a delay on the MISO line after the SCLK launch edge and before the signal is latched by the internal register. As a result, the MISO pin setup time is the limiting factor for the SPI clock speed. When the delay is too long, the setup slack is &lt; 0, and the setup timing requirement is violated, which results in the failure to perform the reading correctly.</p>
+<a class="reference internal image-reference" href="../../_images/spi_miso.png"><img alt="../../_images/spi_miso.png" class="align-center" src="../../_images/spi_miso.png" style="width: 469.6px; height: 232.0px;" /></a>
+<img alt="../../_images/miso_timing_waveform.png" src="../../_images/miso_timing_waveform.png" />
+<p>The maximum allowed frequency is dependent on:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">input_delay_ns</span></code> - maximum data valid time on the MISO bus after a clock cycle on SCLK starts</li>
+<li>If the IO_MUX pin or the GPIO Matrix is used</li>
+</ul>
+<p>When the GPIO matrix is used, the maximum allowed frequency is reduced to about 33~77% in comparison to the existing <em>input delay</em>. To retain a higher frequency, you have to use the IO_MUX pins or the <em>dummy bit workaround</em>. You can obtain the maximum reading frequency of the master by using the function <a class="reference internal" href="#_CPPv418spi_get_freq_limitbi" title="spi_get_freq_limit"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_get_freq_limit()</span></code></a>.</p>
+<p id="dummy-bit-workaround"><strong>Dummy bit workaround</strong>: Dummy clocks, during which the Host does not read data, can be inserted before the read phase begins. The Device still sees the dummy clocks and sends out data, but the Host does not read until the read phase comes. This compensates for the lack of the MISO setup time required by the Host and allows the Host to do reading at a higher frequency.</p>
+<p>In the ideal case, if the Device is so fast that the input delay is shorter than an APB clock cycle - 12.5 ns - the maximum frequency at which the Host can read (or read and write) in different conditions is as follows:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="19%" />
+<col width="18%" />
+<col width="43%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="2">Frequency Limit (MHz)</th>
+<th class="head" rowspan="2">Dummy Bits
+Used
+By Driver</th>
+<th class="head" rowspan="2">Comments</th>
+</tr>
+<tr class="row-even"><th class="head">GPIO matrix</th>
+<th class="head">IO_MUX pins</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-odd"><td>26.6</td>
+<td>80</td>
+<td>No</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>40</td>
+<td>–</td>
+<td>Yes</td>
+<td>Half-duplex, no DMA allowed</td>
+</tr>
+</tbody>
+</table>
+<p>If the Host only writes data, the <em>dummy bit workaround</em> and the frequency check can be disabled by setting the bit <cite>SPI_DEVICE_NO_DUMMY</cite> in the member <a class="reference internal" href="#_CPPv4N29spi_device_interface_config_t5flagsE" title="spi_device_interface_config_t::flags"><code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">spi_device_interface_config_t::flags</span></code></a>. When disabled, the output frequency can be 80MHz, even if the GPIO matrix is used.</p>
+<p><a class="reference internal" href="#_CPPv4N29spi_device_interface_config_t5flagsE" title="spi_device_interface_config_t::flags"><code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">spi_device_interface_config_t::flags</span></code></a></p>
+<p>The SPI master driver can work even if the <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">input_delay_ns</span></code> in the structure <a class="reference internal" href="#_CPPv429spi_device_interface_config_t" title="spi_device_interface_config_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">spi_device_interface_config_t</span></code></a> is set to 0. However, setting an accurate value helps to:</p>
+<ul class="simple">
+<li>Calculate the frequency limit for full-duplex transactions</li>
+<li>Compensate the timing correctly with dummy bits for half-duplex transactions</li>
+</ul>
+<p>You can approximate the maximum data valid time after the launch edge of SPI clocks by checking the statistics in the AC characteristics chapter of your Device’s specification or measure the time on an oscilloscope or logic analyzer.</p>
+<p>Please note that the actual PCB layout design and the excessive loads may increase the input delay. It means that non-optimal wiring and/or a load capacitor on the bus will most likely lead to the input delay values exceeding the values given in the Device specification or measured while the bus is floating.</p>
+<p>Some typical delay values are shown in the following table.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="69%" />
+<col width="31%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Device</th>
+<th class="head">Input delay (ns)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Ideal Device</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>ESP32 slave using IO_MUX*</td>
+<td>50</td>
+</tr>
+<tr class="row-even"><td>ESP32 slave using GPIO_MUX*</td>
+<td>75</td>
+</tr>
+<tr class="row-odd"><td colspan="2">ESP32’s slave device is on a different physical chip.</td>
+</tr>
+</tbody>
+</table>
+<p>The MISO path delay (valid time) consists of a slave’s <em>input delay</em> plus master’s <em>GPIO matrix delay</em>. This delay determines the frequency limit above which full-duplex transfers will not work as well as the dummy bits used in the half-duplex transactions. The frequency limit is:</p>
+<blockquote>
+<div><em>Freq limit [MHz] = 80 / (floor(MISO delay[ns]/12.5) + 1)</em></div></blockquote>
+<p>The figure below shows the relationship between frequency limit and input delay. Two extra APB clock cycle periods should be added to the MISO delay if the master uses the GPIO matrix.</p>
+<img alt="../../_images/spi_master_freq_tv.png" src="../../_images/spi_master_freq_tv.png" />
+<p>Corresponding frequency limits for different Devices with different <em>input delay</em> times are shown in the table below.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="27%" />
+<col width="33%" />
+<col width="28%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Master</th>
+<th class="head">Input delay (ns)</th>
+<th class="head">MISO path delay (ns)</th>
+<th class="head">Freq. limit (MHz)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td rowspan="3">IO_MUX
+(0ns)</td>
+<td>0</td>
+<td>0</td>
+<td>80</td>
+</tr>
+<tr class="row-odd"><td>50</td>
+<td>50</td>
+<td>16</td>
+</tr>
+<tr class="row-even"><td>75</td>
+<td>75</td>
+<td>11.43</td>
+</tr>
+<tr class="row-odd"><td rowspan="3">GPIO
+(25ns)</td>
+<td>0</td>
+<td>25</td>
+<td>26.67</td>
+</tr>
+<tr class="row-even"><td>50</td>
+<td>75</td>
+<td>11.43</td>
+</tr>
+<tr class="row-odd"><td>75</td>
+<td>100</td>
+<td>8.89</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="known-issues">
+<span id="spi-known-issues"></span><h2>Known Issues<a class="headerlink" href="#known-issues" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Half-duplex transactions are not compatible with DMA when both writing and reading phases are used.</p>
+<p>If such transactions are required, you have to use one of the alternative solutions:</p>
+<ol class="arabic">
+<li><p class="first">Use full-duplex transactions instead.</p>
+</li>
+<li><p class="first">Disable DMA by setting the bus initialization function’s last parameter to 0 as follows:
+<code class="docutils literal notranslate"><span class="pre">ret=spi_bus_initialize(VSPI_HOST,</span> <span class="pre">&amp;buscfg,</span> <span class="pre">0);</span></code></p>
+<p>This can prohibit you from transmitting and receiving data longer than 64 bytes.</p>
+</li>
+<li><p class="first">Try using the command and address fields to replace the write phase.</p>
+</li>
+</ol>
+</li>
+<li><p class="first">Full-duplex transactions are not compatible with the <em>dummy bit workaround</em>, hence the frequency is limited. See <a class="reference internal" href="#dummy-bit-workaround"><span class="std std-ref">dummy
+bit speed-up workaround</span></a>.</p>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">cs_ena_pretrans</span></code> is not compatible with the command and address phases of full-duplex transactions.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<p>The code example for displaying graphics on an ESP32-WROVER-KIT’s 320x240 LCD screen can be found in the <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/spi_master">peripherals/spi_master</a> directory of ESP-IDF examples.</p>
+</div>
+<div class="section" id="api-reference-spi-common">
+<h2>API Reference - SPI Common<a class="headerlink" href="#api-reference-spi-common" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/soc/include/hal/spi_types.h">soc/include/hal/spi_types.h</a></li>
+</ul>
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv417spi_host_device_t">
+<span id="_CPPv317spi_host_device_t"></span><span id="_CPPv217spi_host_device_t"></span><span id="spi_host_device_t"></span><span class="target" id="spi__types_8h_1aa196928ee9779318e49d008c00277957"></span><em class="property">enum </em><code class="descname">spi_host_device_t</code><a class="headerlink" href="#_CPPv417spi_host_device_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enum with the three SPI peripherals that are software-accessible in it. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv49SPI1_HOST">
+<span id="_CPPv39SPI1_HOST"></span><span id="_CPPv29SPI1_HOST"></span><span class="target" id="spi__types_8h_1aa196928ee9779318e49d008c00277957acef0912a11f1b6a8acc4a44161769ed1"></span><code class="descname">SPI1_HOST</code> =0<a class="headerlink" href="#_CPPv49SPI1_HOST" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SPI1. </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv49SPI2_HOST">
+<span id="_CPPv39SPI2_HOST"></span><span id="_CPPv29SPI2_HOST"></span><span class="target" id="spi__types_8h_1aa196928ee9779318e49d008c00277957a729a6771ecd9ed5d633e273ff36e9aca"></span><code class="descname">SPI2_HOST</code> =1<a class="headerlink" href="#_CPPv49SPI2_HOST" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SPI2. </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv49SPI3_HOST">
+<span id="_CPPv39SPI3_HOST"></span><span id="_CPPv29SPI3_HOST"></span><span class="target" id="spi__types_8h_1aa196928ee9779318e49d008c00277957a21f0274157cd0c5f89f22a6d58cba308"></span><code class="descname">SPI3_HOST</code> =2<a class="headerlink" href="#_CPPv49SPI3_HOST" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SPI3. </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="id5">
+<h3>Header File<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/driver/include/driver/spi_common.h">driver/include/driver/spi_common.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv418spi_bus_initialize17spi_host_device_tPK16spi_bus_config_ti">
+<span id="_CPPv318spi_bus_initialize17spi_host_device_tPK16spi_bus_config_ti"></span><span id="_CPPv218spi_bus_initialize17spi_host_device_tPK16spi_bus_config_ti"></span><span id="spi_bus_initialize__spi_host_device_t.spi_bus_config_tCP.i"></span><span class="target" id="spi__common_8h_1a54a928842c75180d030bac42826ab865"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">spi_bus_initialize</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv417spi_host_device_t" title="spi_host_device_t">spi_host_device_t</a> <em>host</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv416spi_bus_config_t" title="spi_bus_config_t">spi_bus_config_t</a> *<em>bus_config</em>, int <em>dma_chan</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418spi_bus_initialize17spi_host_device_tPK16spi_bus_config_ti" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize a SPI bus. </p>
+<p><dl class="docutils">
+<dt><strong>Warning</strong></dt>
+<dd>For now, only supports HSPI and VSPI.</dd>
+<dt><strong>Warning</strong></dt>
+<dd>If a DMA channel is selected, any transmit and receive buffer used should be allocated in DMA-capable memory.</dd>
+<dt><strong>Warning</strong></dt>
+<dd>The ISR of SPI is always executed on the core which calls this function. Never starve the ISR on this core or the SPI transactions will not be handled.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_ARG if configuration is invalid</li>
+<li>ESP_ERR_INVALID_STATE if host already is in use</li>
+<li>ESP_ERR_NO_MEM if out of memory</li>
+<li>ESP_OK on success </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">host</span></code>: SPI peripheral that controls this bus </li>
+<li><code class="docutils literal notranslate"><span class="pre">bus_config</span></code>: Pointer to a <a class="reference internal" href="#structspi__bus__config__t"><span class="std std-ref">spi_bus_config_t</span></a> struct specifying how the host should be initialized </li>
+<li><code class="docutils literal notranslate"><span class="pre">dma_chan</span></code>: Either channel 1 or 2, or 0 in the case when no DMA is required. Selecting a DMA channel for a SPI bus allows transfers on the bus to have sizes only limited by the amount of internal memory. Selecting no DMA channel (by passing the value 0) limits the amount of bytes transfered to a maximum of 64. Set to 0 if only the SPI flash uses this bus.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv412spi_bus_free17spi_host_device_t">
+<span id="_CPPv312spi_bus_free17spi_host_device_t"></span><span id="_CPPv212spi_bus_free17spi_host_device_t"></span><span id="spi_bus_free__spi_host_device_t"></span><span class="target" id="spi__common_8h_1ace7755d1b1585072e08db1733ae45d69"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">spi_bus_free</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv417spi_host_device_t" title="spi_host_device_t">spi_host_device_t</a> <em>host</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv412spi_bus_free17spi_host_device_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Free a SPI bus. </p>
+<p><dl class="docutils">
+<dt><strong>Warning</strong></dt>
+<dd>In order for this to succeed, all devices have to be removed first.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_ARG if parameter is invalid</li>
+<li>ESP_ERR_INVALID_STATE if not all devices on the bus are freed</li>
+<li>ESP_OK on success </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">host</span></code>: SPI peripheral to free </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv416spi_bus_config_t">
+<span id="_CPPv316spi_bus_config_t"></span><span id="_CPPv216spi_bus_config_t"></span><span id="spi_bus_config_t"></span><span class="target" id="structspi__bus__config__t"></span><em class="property">struct </em><code class="descname">spi_bus_config_t</code><a class="headerlink" href="#_CPPv416spi_bus_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This is a configuration structure for a SPI bus. </p>
+<p>You can use this structure to specify the GPIO pins of the bus. Normally, the driver will use the GPIO matrix to route the signals. An exception is made when all signals either can be routed through the IO_MUX or are -1. In that case, the IO_MUX is used, allowing for &gt;40MHz speeds.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Be advised that the slave driver does not use the quadwp/quadhd lines and fields in <a class="reference internal" href="#structspi__bus__config__t"><span class="std std-ref">spi_bus_config_t</span></a> refering to these lines will be ignored and can thus safely be left uninitialized. </dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N16spi_bus_config_t11mosi_io_numE">
+<span id="_CPPv3N16spi_bus_config_t11mosi_io_numE"></span><span id="_CPPv2N16spi_bus_config_t11mosi_io_numE"></span><span id="spi_bus_config_t::mosi_io_num__i"></span><span class="target" id="structspi__bus__config__t_1a82825092dbb29dd81a78ab7a706c5b37"></span>int <code class="descname">mosi_io_num</code><a class="headerlink" href="#_CPPv4N16spi_bus_config_t11mosi_io_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>GPIO pin for Master Out Slave In (=spi_d) signal, or -1 if not used. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16spi_bus_config_t11miso_io_numE">
+<span id="_CPPv3N16spi_bus_config_t11miso_io_numE"></span><span id="_CPPv2N16spi_bus_config_t11miso_io_numE"></span><span id="spi_bus_config_t::miso_io_num__i"></span><span class="target" id="structspi__bus__config__t_1ac37cd9e29476f602817964caff0dbbb0"></span>int <code class="descname">miso_io_num</code><a class="headerlink" href="#_CPPv4N16spi_bus_config_t11miso_io_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>GPIO pin for Master In Slave Out (=spi_q) signal, or -1 if not used. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16spi_bus_config_t11sclk_io_numE">
+<span id="_CPPv3N16spi_bus_config_t11sclk_io_numE"></span><span id="_CPPv2N16spi_bus_config_t11sclk_io_numE"></span><span id="spi_bus_config_t::sclk_io_num__i"></span><span class="target" id="structspi__bus__config__t_1a7d1f0398744dece53cffb45a45a6b02f"></span>int <code class="descname">sclk_io_num</code><a class="headerlink" href="#_CPPv4N16spi_bus_config_t11sclk_io_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>GPIO pin for Spi CLocK signal, or -1 if not used. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16spi_bus_config_t13quadwp_io_numE">
+<span id="_CPPv3N16spi_bus_config_t13quadwp_io_numE"></span><span id="_CPPv2N16spi_bus_config_t13quadwp_io_numE"></span><span id="spi_bus_config_t::quadwp_io_num__i"></span><span class="target" id="structspi__bus__config__t_1a79206359c613c99a5a4935abe53fca96"></span>int <code class="descname">quadwp_io_num</code><a class="headerlink" href="#_CPPv4N16spi_bus_config_t13quadwp_io_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>GPIO pin for WP (Write Protect) signal which is used as D2 in 4-bit communication modes, or -1 if not used. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16spi_bus_config_t13quadhd_io_numE">
+<span id="_CPPv3N16spi_bus_config_t13quadhd_io_numE"></span><span id="_CPPv2N16spi_bus_config_t13quadhd_io_numE"></span><span id="spi_bus_config_t::quadhd_io_num__i"></span><span class="target" id="structspi__bus__config__t_1a175e82d5d219072718241b40db6865a6"></span>int <code class="descname">quadhd_io_num</code><a class="headerlink" href="#_CPPv4N16spi_bus_config_t13quadhd_io_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>GPIO pin for HD (HolD) signal which is used as D3 in 4-bit communication modes, or -1 if not used. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16spi_bus_config_t15max_transfer_szE">
+<span id="_CPPv3N16spi_bus_config_t15max_transfer_szE"></span><span id="_CPPv2N16spi_bus_config_t15max_transfer_szE"></span><span id="spi_bus_config_t::max_transfer_sz__i"></span><span class="target" id="structspi__bus__config__t_1aa410adc675cc48fdc0b0b7e4d49dff17"></span>int <code class="descname">max_transfer_sz</code><a class="headerlink" href="#_CPPv4N16spi_bus_config_t15max_transfer_szE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Maximum transfer size, in bytes. Defaults to 4094 if 0. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16spi_bus_config_t5flagsE">
+<span id="_CPPv3N16spi_bus_config_t5flagsE"></span><span id="_CPPv2N16spi_bus_config_t5flagsE"></span><span id="spi_bus_config_t::flags__uint32_t"></span><span class="target" id="structspi__bus__config__t_1abcfa56a7c8c40a1693ecd4e04b2974f6"></span>uint32_t <code class="descname">flags</code><a class="headerlink" href="#_CPPv4N16spi_bus_config_t5flagsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Abilities of bus to be checked by the driver. Or-ed value of <code class="docutils literal notranslate"><span class="pre">SPICOMMON_BUSFLAG_*</span></code> flags. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16spi_bus_config_t10intr_flagsE">
+<span id="_CPPv3N16spi_bus_config_t10intr_flagsE"></span><span id="_CPPv2N16spi_bus_config_t10intr_flagsE"></span><span id="spi_bus_config_t::intr_flags__i"></span><span class="target" id="structspi__bus__config__t_1a896901a733f575ef23562b50e182ec7d"></span>int <code class="descname">intr_flags</code><a class="headerlink" href="#_CPPv4N16spi_bus_config_t10intr_flagsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Interrupt flag for the bus to set the priority, and IRAM attribute, see <code class="docutils literal notranslate"><span class="pre">esp_intr_alloc.h</span></code>. Note that the EDGE, INTRDISABLED attribute are ignored by the driver. Note that if ESP_INTR_FLAG_IRAM is set, ALL the callbacks of the driver, and their callee functions, should be put in the IRAM. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.SPI_MAX_DMA_LEN">
+<span class="target" id="spi__common_8h_1a28d038c3b926bf899d56d94445224e91"></span><code class="descname">SPI_MAX_DMA_LEN</code><a class="headerlink" href="#c.SPI_MAX_DMA_LEN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.SPI_SWAP_DATA_TX">
+<span class="target" id="spi__common_8h_1aa3c78ae3609eb7e6444ccaf746e386da"></span><code class="descname">SPI_SWAP_DATA_TX</code><span class="sig-paren">(</span>DATA, LEN<span class="sig-paren">)</span><a class="headerlink" href="#c.SPI_SWAP_DATA_TX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform unsigned integer of length &lt;= 32 bits to the format which can be sent by the SPI driver directly.</p>
+<p>E.g. to send 9 bits of data, you can: <div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">uint16_t</span> <span class="n">data</span> <span class="o">=</span> <span class="n">SPI_SWAP_DATA_TX</span><span class="p">(</span><span class="mh">0x145</span><span class="p">,</span> <span class="mi">9</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p>Then points tx_buffer to <code class="docutils literal notranslate"><span class="pre">&amp;data</span></code>.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">DATA</span></code>: Data to be sent, can be uint8_t, uint16_t or uint32_t. </li>
+<li><code class="docutils literal notranslate"><span class="pre">LEN</span></code>: Length of data to be sent, since the SPI peripheral sends from the MSB, this helps to shift the data to the MSB. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPI_SWAP_DATA_RX">
+<span class="target" id="spi__common_8h_1a65c779521116d561f65aa045b9f70cdd"></span><code class="descname">SPI_SWAP_DATA_RX</code><span class="sig-paren">(</span>DATA, LEN<span class="sig-paren">)</span><a class="headerlink" href="#c.SPI_SWAP_DATA_RX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform received data of length &lt;= 32 bits to the format of an unsigned integer.</p>
+<p>E.g. to transform the data of 15 bits placed in a 4-byte array to integer: <div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">uint16_t</span> <span class="n">data</span> <span class="o">=</span> <span class="n">SPI_SWAP_DATA_RX</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">uint32_t</span><span class="o">*</span><span class="p">)</span><span class="n">t</span><span class="o">-&gt;</span><span class="n">rx_data</span><span class="p">,</span> <span class="mi">15</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">DATA</span></code>: Data to be rearranged, can be uint8_t, uint16_t or uint32_t. </li>
+<li><code class="docutils literal notranslate"><span class="pre">LEN</span></code>: Length of data received, since the SPI peripheral writes from the MSB, this helps to shift the data to the LSB. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPICOMMON_BUSFLAG_SLAVE">
+<span class="target" id="spi__common_8h_1a2cb9dc9f014fd2c11825dae982850cf3"></span><code class="descname">SPICOMMON_BUSFLAG_SLAVE</code><a class="headerlink" href="#c.SPICOMMON_BUSFLAG_SLAVE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize I/O in slave mode. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPICOMMON_BUSFLAG_MASTER">
+<span class="target" id="spi__common_8h_1a91cd9add7317fe9841b76418aa125795"></span><code class="descname">SPICOMMON_BUSFLAG_MASTER</code><a class="headerlink" href="#c.SPICOMMON_BUSFLAG_MASTER" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize I/O in master mode. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPICOMMON_BUSFLAG_IOMUX_PINS">
+<span class="target" id="spi__common_8h_1a4a909f13e14d68479cfc9fe1e72b720a"></span><code class="descname">SPICOMMON_BUSFLAG_IOMUX_PINS</code><a class="headerlink" href="#c.SPICOMMON_BUSFLAG_IOMUX_PINS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check using iomux pins. Or indicates the pins are configured through the IO mux rather than GPIO matrix. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPICOMMON_BUSFLAG_SCLK">
+<span class="target" id="spi__common_8h_1a8c323f6823f271b75cd9fcef3a1d8791"></span><code class="descname">SPICOMMON_BUSFLAG_SCLK</code><a class="headerlink" href="#c.SPICOMMON_BUSFLAG_SCLK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check existing of SCLK pin. Or indicates CLK line initialized. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPICOMMON_BUSFLAG_MISO">
+<span class="target" id="spi__common_8h_1add599b1e30e148e9f9134e9f1d704017"></span><code class="descname">SPICOMMON_BUSFLAG_MISO</code><a class="headerlink" href="#c.SPICOMMON_BUSFLAG_MISO" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check existing of MISO pin. Or indicates MISO line initialized. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPICOMMON_BUSFLAG_MOSI">
+<span class="target" id="spi__common_8h_1a0ded8d1b02ab49b247710d5843d81c0c"></span><code class="descname">SPICOMMON_BUSFLAG_MOSI</code><a class="headerlink" href="#c.SPICOMMON_BUSFLAG_MOSI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check existing of MOSI pin. Or indicates CLK line initialized. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPICOMMON_BUSFLAG_DUAL">
+<span class="target" id="spi__common_8h_1a8b37774386e68830a832006250a5818d"></span><code class="descname">SPICOMMON_BUSFLAG_DUAL</code><a class="headerlink" href="#c.SPICOMMON_BUSFLAG_DUAL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check MOSI and MISO pins can output. Or indicates bus able to work under DIO mode. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPICOMMON_BUSFLAG_WPHD">
+<span class="target" id="spi__common_8h_1a27b07b93e521053ceb90d0695be5ca55"></span><code class="descname">SPICOMMON_BUSFLAG_WPHD</code><a class="headerlink" href="#c.SPICOMMON_BUSFLAG_WPHD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check existing of WP and HD pins. Or indicates WP &amp; HD pins initialized. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPICOMMON_BUSFLAG_QUAD">
+<span class="target" id="spi__common_8h_1ab5cdeb953df2abf527e04d1ea5a5d7ec"></span><code class="descname">SPICOMMON_BUSFLAG_QUAD</code><a class="headerlink" href="#c.SPICOMMON_BUSFLAG_QUAD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check existing of MOSI/MISO/WP/HD pins as output. Or indicates bus able to work under QIO mode. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPICOMMON_BUSFLAG_NATIVE_PINS">
+<span class="target" id="spi__common_8h_1ad53c465ea3c5884eddcad1e4949fde16"></span><code class="descname">SPICOMMON_BUSFLAG_NATIVE_PINS</code><a class="headerlink" href="#c.SPICOMMON_BUSFLAG_NATIVE_PINS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+<div class="section" id="api-reference-spi-master">
+<h2>API Reference - SPI Master<a class="headerlink" href="#api-reference-spi-master" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h3>Header File<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/driver/include/driver/spi_master.h">driver/include/driver/spi_master.h</a></li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h3>Functions<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv418spi_bus_add_device17spi_host_device_tPK29spi_device_interface_config_tP19spi_device_handle_t">
+<span id="_CPPv318spi_bus_add_device17spi_host_device_tPK29spi_device_interface_config_tP19spi_device_handle_t"></span><span id="_CPPv218spi_bus_add_device17spi_host_device_tPK29spi_device_interface_config_tP19spi_device_handle_t"></span><span id="spi_bus_add_device__spi_host_device_t.spi_device_interface_config_tCP.spi_device_handle_tP"></span><span class="target" id="spi__master_8h_1a3d7c6487570fa1765e6d4dbd9cc17e82"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">spi_bus_add_device</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv417spi_host_device_t" title="spi_host_device_t">spi_host_device_t</a> <em>host</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv429spi_device_interface_config_t" title="spi_device_interface_config_t">spi_device_interface_config_t</a> *<em>dev_config</em>, <a class="reference internal" href="#_CPPv419spi_device_handle_t" title="spi_device_handle_t">spi_device_handle_t</a> *<em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418spi_bus_add_device17spi_host_device_tPK29spi_device_interface_config_tP19spi_device_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Allocate a device on a SPI bus. </p>
+<p>This initializes the internal structures for a device, plus allocates a CS pin on the indicated SPI master peripheral and routes it to the indicated GPIO. All SPI master devices have three CS pins and can thus control up to three devices.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>While in general, speeds up to 80MHz on the dedicated SPI pins and 40MHz on GPIO-matrix-routed pins are supported, full-duplex transfers routed over the GPIO matrix only support speeds up to 26MHz.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_ARG if parameter is invalid</li>
+<li>ESP_ERR_NOT_FOUND if host doesn’t have any free CS slots</li>
+<li>ESP_ERR_NO_MEM if out of memory</li>
+<li>ESP_OK on success </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">host</span></code>: SPI peripheral to allocate device on </li>
+<li><code class="docutils literal notranslate"><span class="pre">dev_config</span></code>: SPI interface protocol config for the device </li>
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Pointer to variable to hold the device handle </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421spi_bus_remove_device19spi_device_handle_t">
+<span id="_CPPv321spi_bus_remove_device19spi_device_handle_t"></span><span id="_CPPv221spi_bus_remove_device19spi_device_handle_t"></span><span id="spi_bus_remove_device__spi_device_handle_t"></span><span class="target" id="spi__master_8h_1ab069df1bd29bed4bb240db25b47b245d"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">spi_bus_remove_device</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv419spi_device_handle_t" title="spi_device_handle_t">spi_device_handle_t</a> <em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421spi_bus_remove_device19spi_device_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remove a device from the SPI bus. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_ARG if parameter is invalid</li>
+<li>ESP_ERR_INVALID_STATE if device already is freed</li>
+<li>ESP_OK on success </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Device handle to free </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422spi_device_queue_trans19spi_device_handle_tP17spi_transaction_t10TickType_t">
+<span id="_CPPv322spi_device_queue_trans19spi_device_handle_tP17spi_transaction_t10TickType_t"></span><span id="_CPPv222spi_device_queue_trans19spi_device_handle_tP17spi_transaction_t10TickType_t"></span><span id="spi_device_queue_trans__spi_device_handle_t.spi_transaction_tP.TickType_t"></span><span class="target" id="spi__master_8h_1a99240e063510ed8cdf08c926a7f2ea3c"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">spi_device_queue_trans</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv419spi_device_handle_t" title="spi_device_handle_t">spi_device_handle_t</a> <em>handle</em>, <a class="reference internal" href="#_CPPv417spi_transaction_t" title="spi_transaction_t">spi_transaction_t</a> *<em>trans_desc</em>, TickType_t <em>ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422spi_device_queue_trans19spi_device_handle_tP17spi_transaction_t10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Queue a SPI transaction for interrupt transaction execution. Get the result by <code class="docutils literal notranslate"><span class="pre">spi_device_get_trans_result</span></code>. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Normally a device cannot start (queue) polling and interrupt transactions simultaneously.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_ARG if parameter is invalid</li>
+<li>ESP_ERR_TIMEOUT if there was no room in the queue before ticks_to_wait expired</li>
+<li>ESP_ERR_NO_MEM if allocating DMA-capable temporary buffer failed</li>
+<li>ESP_ERR_INVALID_STATE if previous transactions are not finished</li>
+<li>ESP_OK on success </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Device handle obtained using spi_host_add_dev </li>
+<li><code class="docutils literal notranslate"><span class="pre">trans_desc</span></code>: Description of transaction to execute </li>
+<li><code class="docutils literal notranslate"><span class="pre">ticks_to_wait</span></code>: Ticks to wait until there’s room in the queue; use portMAX_DELAY to never time out. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427spi_device_get_trans_result19spi_device_handle_tPP17spi_transaction_t10TickType_t">
+<span id="_CPPv327spi_device_get_trans_result19spi_device_handle_tPP17spi_transaction_t10TickType_t"></span><span id="_CPPv227spi_device_get_trans_result19spi_device_handle_tPP17spi_transaction_t10TickType_t"></span><span id="spi_device_get_trans_result__spi_device_handle_t.spi_transaction_tPP.TickType_t"></span><span class="target" id="spi__master_8h_1a114e18c5514dfec3d1226affc1c10d61"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">spi_device_get_trans_result</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv419spi_device_handle_t" title="spi_device_handle_t">spi_device_handle_t</a> <em>handle</em>, <a class="reference internal" href="#_CPPv417spi_transaction_t" title="spi_transaction_t">spi_transaction_t</a> **<em>trans_desc</em>, TickType_t <em>ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427spi_device_get_trans_result19spi_device_handle_tPP17spi_transaction_t10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the result of a SPI transaction queued earlier by <code class="docutils literal notranslate"><span class="pre">spi_device_queue_trans</span></code>. </p>
+<p>This routine will wait until a transaction to the given device succesfully completed. It will then return the description of the completed transaction so software can inspect the result and e.g. free the memory or re-use the buffers.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_ARG if parameter is invalid</li>
+<li>ESP_ERR_TIMEOUT if there was no completed transaction before ticks_to_wait expired</li>
+<li>ESP_OK on success </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Device handle obtained using spi_host_add_dev </li>
+<li><code class="docutils literal notranslate"><span class="pre">trans_desc</span></code>: Pointer to variable able to contain a pointer to the description of the transaction that is executed. The descriptor should not be modified until the descriptor is returned by spi_device_get_trans_result. </li>
+<li><code class="docutils literal notranslate"><span class="pre">ticks_to_wait</span></code>: Ticks to wait until there’s a returned item; use portMAX_DELAY to never time out. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419spi_device_transmit19spi_device_handle_tP17spi_transaction_t">
+<span id="_CPPv319spi_device_transmit19spi_device_handle_tP17spi_transaction_t"></span><span id="_CPPv219spi_device_transmit19spi_device_handle_tP17spi_transaction_t"></span><span id="spi_device_transmit__spi_device_handle_t.spi_transaction_tP"></span><span class="target" id="spi__master_8h_1a14588d8a89c0b7331d89e154cb865722"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">spi_device_transmit</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv419spi_device_handle_t" title="spi_device_handle_t">spi_device_handle_t</a> <em>handle</em>, <a class="reference internal" href="#_CPPv417spi_transaction_t" title="spi_transaction_t">spi_transaction_t</a> *<em>trans_desc</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419spi_device_transmit19spi_device_handle_tP17spi_transaction_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Send a SPI transaction, wait for it to complete, and return the result. </p>
+<p>This function is the equivalent of calling spi_device_queue_trans() followed by spi_device_get_trans_result(). Do not use this when there is still a transaction separately queued (started) from spi_device_queue_trans() or polling_start/transmit that hasn’t been finalized.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This function is not thread safe when multiple tasks access the same SPI device. Normally a device cannot start (queue) polling and interrupt transactions simutanuously.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_ARG if parameter is invalid</li>
+<li>ESP_OK on success </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Device handle obtained using spi_host_add_dev </li>
+<li><code class="docutils literal notranslate"><span class="pre">trans_desc</span></code>: Description of transaction to execute </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424spi_device_polling_start19spi_device_handle_tP17spi_transaction_t10TickType_t">
+<span id="_CPPv324spi_device_polling_start19spi_device_handle_tP17spi_transaction_t10TickType_t"></span><span id="_CPPv224spi_device_polling_start19spi_device_handle_tP17spi_transaction_t10TickType_t"></span><span id="spi_device_polling_start__spi_device_handle_t.spi_transaction_tP.TickType_t"></span><span class="target" id="spi__master_8h_1a6eef7f1ae45be0d57ddad3bea83a1523"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">spi_device_polling_start</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv419spi_device_handle_t" title="spi_device_handle_t">spi_device_handle_t</a> <em>handle</em>, <a class="reference internal" href="#_CPPv417spi_transaction_t" title="spi_transaction_t">spi_transaction_t</a> *<em>trans_desc</em>, TickType_t <em>ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424spi_device_polling_start19spi_device_handle_tP17spi_transaction_t10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Immediately start a polling transaction. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Normally a device cannot start (queue) polling and interrupt transactions simutanuously. Moreover, a device cannot start a new polling transaction if another polling transaction is not finished.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_ARG if parameter is invalid</li>
+<li>ESP_ERR_TIMEOUT if the device cannot get control of the bus before <code class="docutils literal notranslate"><span class="pre">ticks_to_wait</span></code> expired</li>
+<li>ESP_ERR_NO_MEM if allocating DMA-capable temporary buffer failed</li>
+<li>ESP_ERR_INVALID_STATE if previous transactions are not finished</li>
+<li>ESP_OK on success </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Device handle obtained using spi_host_add_dev </li>
+<li><code class="docutils literal notranslate"><span class="pre">trans_desc</span></code>: Description of transaction to execute </li>
+<li><code class="docutils literal notranslate"><span class="pre">ticks_to_wait</span></code>: Ticks to wait until there’s room in the queue; currently only portMAX_DELAY is supported.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422spi_device_polling_end19spi_device_handle_t10TickType_t">
+<span id="_CPPv322spi_device_polling_end19spi_device_handle_t10TickType_t"></span><span id="_CPPv222spi_device_polling_end19spi_device_handle_t10TickType_t"></span><span id="spi_device_polling_end__spi_device_handle_t.TickType_t"></span><span class="target" id="spi__master_8h_1ab6731f3fcbc682f7ac9e7b0ad99e2dcb"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">spi_device_polling_end</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv419spi_device_handle_t" title="spi_device_handle_t">spi_device_handle_t</a> <em>handle</em>, TickType_t <em>ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422spi_device_polling_end19spi_device_handle_t10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Poll until the polling transaction ends. </p>
+<p>This routine will not return until the transaction to the given device has succesfully completed. The task is not blocked, but actively busy-spins for the transaction to be completed.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_ARG if parameter is invalid</li>
+<li>ESP_ERR_TIMEOUT if the transaction cannot finish before ticks_to_wait expired</li>
+<li>ESP_OK on success </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Device handle obtained using spi_host_add_dev </li>
+<li><code class="docutils literal notranslate"><span class="pre">ticks_to_wait</span></code>: Ticks to wait until there’s a returned item; use portMAX_DELAY to never time out. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427spi_device_polling_transmit19spi_device_handle_tP17spi_transaction_t">
+<span id="_CPPv327spi_device_polling_transmit19spi_device_handle_tP17spi_transaction_t"></span><span id="_CPPv227spi_device_polling_transmit19spi_device_handle_tP17spi_transaction_t"></span><span id="spi_device_polling_transmit__spi_device_handle_t.spi_transaction_tP"></span><span class="target" id="spi__master_8h_1a426bbc2907eb2da390f25d5889dbc0a5"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">spi_device_polling_transmit</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv419spi_device_handle_t" title="spi_device_handle_t">spi_device_handle_t</a> <em>handle</em>, <a class="reference internal" href="#_CPPv417spi_transaction_t" title="spi_transaction_t">spi_transaction_t</a> *<em>trans_desc</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427spi_device_polling_transmit19spi_device_handle_tP17spi_transaction_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Send a polling transaction, wait for it to complete, and return the result. </p>
+<p>This function is the equivalent of calling spi_device_polling_start() followed by spi_device_polling_end(). Do not use this when there is still a transaction that hasn’t been finalized.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This function is not thread safe when multiple tasks access the same SPI device. Normally a device cannot start (queue) polling and interrupt transactions simutanuously.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_ARG if parameter is invalid</li>
+<li>ESP_OK on success </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Device handle obtained using spi_host_add_dev </li>
+<li><code class="docutils literal notranslate"><span class="pre">trans_desc</span></code>: Description of transaction to execute </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422spi_device_acquire_bus19spi_device_handle_t10TickType_t">
+<span id="_CPPv322spi_device_acquire_bus19spi_device_handle_t10TickType_t"></span><span id="_CPPv222spi_device_acquire_bus19spi_device_handle_t10TickType_t"></span><span id="spi_device_acquire_bus__spi_device_handle_t.TickType_t"></span><span class="target" id="spi__master_8h_1aba4d0d6d062d4d542d37cd4dfa18d915"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">spi_device_acquire_bus</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv419spi_device_handle_t" title="spi_device_handle_t">spi_device_handle_t</a> <em>device</em>, TickType_t <em>wait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422spi_device_acquire_bus19spi_device_handle_t10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Occupy the SPI bus for a device to do continuous transactions. </p>
+<p>Transactions to all other devices will be put off until <code class="docutils literal notranslate"><span class="pre">spi_device_release_bus</span></code> is called.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>The function will wait until all the existing transactions have been sent.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_ARG : <code class="docutils literal notranslate"><span class="pre">wait</span></code> is not set to portMAX_DELAY.</li>
+<li>ESP_OK : Success. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">device</span></code>: The device to occupy the bus. </li>
+<li><code class="docutils literal notranslate"><span class="pre">wait</span></code>: Time to wait before the the bus is occupied by the device. Currently MUST set to portMAX_DELAY.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422spi_device_release_bus19spi_device_handle_t">
+<span id="_CPPv322spi_device_release_bus19spi_device_handle_t"></span><span id="_CPPv222spi_device_release_bus19spi_device_handle_t"></span><span id="spi_device_release_bus__spi_device_handle_t"></span><span class="target" id="spi__master_8h_1a7921cf4e7e6c347eb3f76d1beda63293"></span>void <code class="descname">spi_device_release_bus</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv419spi_device_handle_t" title="spi_device_handle_t">spi_device_handle_t</a> <em>dev</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422spi_device_release_bus19spi_device_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Release the SPI bus occupied by the device. All other devices can start sending transactions. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">dev</span></code>: The device to release the bus. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv413spi_cal_clockiiiP8uint32_t">
+<span id="_CPPv313spi_cal_clockiiiP8uint32_t"></span><span id="_CPPv213spi_cal_clockiiiP8uint32_t"></span><span id="spi_cal_clock__i.i.i.uint32_tP"></span><span class="target" id="spi__master_8h_1a91d1aa1ab75c191b9dbff7ac22967e57"></span>int <code class="descname">spi_cal_clock</code><span class="sig-paren">(</span>int <em>fapb</em>, int <em>hz</em>, int <em>duty_cycle</em>, uint32_t *<em>reg_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413spi_cal_clockiiiP8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Calculate the working frequency that is most close to desired frequency, and also the register value. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">fapb</span></code>: The frequency of apb clock, should be <code class="docutils literal notranslate"><span class="pre">APB_CLK_FREQ</span></code>. </li>
+<li><code class="docutils literal notranslate"><span class="pre">hz</span></code>: Desired working frequency </li>
+<li><code class="docutils literal notranslate"><span class="pre">duty_cycle</span></code>: Duty cycle of the spi clock </li>
+<li><code class="docutils literal notranslate"><span class="pre">reg_o</span></code>: Output of value to be set in clock register, or NULL if not needed.</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>Actual working frequency that most fit. </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420spi_get_actual_clockiii">
+<span id="_CPPv320spi_get_actual_clockiii"></span><span id="_CPPv220spi_get_actual_clockiii"></span><span id="spi_get_actual_clock__i.i.i"></span><span class="target" id="spi__master_8h_1abb29dbfe1eba9c9ff256d3b6bd7df2fe"></span>int <code class="descname">spi_get_actual_clock</code><span class="sig-paren">(</span>int <em>fapb</em>, int <em>hz</em>, int <em>duty_cycle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420spi_get_actual_clockiii" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Calculate the working frequency that is most close to desired frequency. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>Actual working frequency that most fit. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">fapb</span></code>: The frequency of apb clock, should be <code class="docutils literal notranslate"><span class="pre">APB_CLK_FREQ</span></code>. </li>
+<li><code class="docutils literal notranslate"><span class="pre">hz</span></code>: Desired working frequency </li>
+<li><code class="docutils literal notranslate"><span class="pre">duty_cycle</span></code>: Duty cycle of the spi clock</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414spi_get_timingbiiPiPi">
+<span id="_CPPv314spi_get_timingbiiPiPi"></span><span id="_CPPv214spi_get_timingbiiPiPi"></span><span id="spi_get_timing__b.i.i.iP.iP"></span><span class="target" id="spi__master_8h_1a4e5144109a31b96a2cbe3b94e882da2d"></span>void <code class="descname">spi_get_timing</code><span class="sig-paren">(</span>bool <em>gpio_is_used</em>, int <em>input_delay_ns</em>, int <em>eff_clk</em>, int *<em>dummy_o</em>, int *<em>cycles_remain_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414spi_get_timingbiiPiPi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Calculate the timing settings of specified frequency and settings. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>If **dummy_o* is not zero, it means dummy bits should be applied in half duplex mode, and full duplex mode may not work. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_is_used</span></code>: True if using GPIO matrix, or False if iomux pins are used. </li>
+<li><code class="docutils literal notranslate"><span class="pre">input_delay_ns</span></code>: Input delay from SCLK launch edge to MISO data valid. </li>
+<li><code class="docutils literal notranslate"><span class="pre">eff_clk</span></code>: Effective clock frequency (in Hz) from spi_cal_clock. </li>
+<li><code class="docutils literal notranslate"><span class="pre">dummy_o</span></code>: Address of dummy bits used output. Set to NULL if not needed. </li>
+<li><code class="docutils literal notranslate"><span class="pre">cycles_remain_o</span></code>: Address of cycles remaining (after dummy bits are used) output.<ul>
+<li>-1 If too many cycles remaining, suggest to compensate half a clock.</li>
+<li>0 If no remaining cycles or dummy bits are not used.</li>
+<li>positive value: cycles suggest to compensate.</li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418spi_get_freq_limitbi">
+<span id="_CPPv318spi_get_freq_limitbi"></span><span id="_CPPv218spi_get_freq_limitbi"></span><span id="spi_get_freq_limit__b.i"></span><span class="target" id="spi__master_8h_1ab1118a9b8328e61eb441ecd4cfec3566"></span>int <code class="descname">spi_get_freq_limit</code><span class="sig-paren">(</span>bool <em>gpio_is_used</em>, int <em>input_delay_ns</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418spi_get_freq_limitbi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the frequency limit of current configurations. SPI master working at this limit is OK, while above the limit, full duplex mode and DMA will not work, and dummy bits will be aplied in the half duplex mode. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>Frequency limit of current configurations. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_is_used</span></code>: True if using GPIO matrix, or False if native pins are used. </li>
+<li><code class="docutils literal notranslate"><span class="pre">input_delay_ns</span></code>: Input delay from SCLK launch edge to MISO data valid. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id8">
+<h3>Structures<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv429spi_device_interface_config_t">
+<span id="_CPPv329spi_device_interface_config_t"></span><span id="_CPPv229spi_device_interface_config_t"></span><span id="spi_device_interface_config_t"></span><span class="target" id="structspi__device__interface__config__t"></span><em class="property">struct </em><code class="descname">spi_device_interface_config_t</code><a class="headerlink" href="#_CPPv429spi_device_interface_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This is a configuration for a SPI slave device that is connected to one of the SPI buses. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N29spi_device_interface_config_t12command_bitsE">
+<span id="_CPPv3N29spi_device_interface_config_t12command_bitsE"></span><span id="_CPPv2N29spi_device_interface_config_t12command_bitsE"></span><span id="spi_device_interface_config_t::command_bits__uint8_t"></span><span class="target" id="structspi__device__interface__config__t_1a85d8e76ff0693b13bba7e5384be85389"></span>uint8_t <code class="descname">command_bits</code><a class="headerlink" href="#_CPPv4N29spi_device_interface_config_t12command_bitsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Default amount of bits in command phase (0-16), used when <code class="docutils literal notranslate"><span class="pre">SPI_TRANS_VARIABLE_CMD</span></code> is not used, otherwise ignored. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29spi_device_interface_config_t12address_bitsE">
+<span id="_CPPv3N29spi_device_interface_config_t12address_bitsE"></span><span id="_CPPv2N29spi_device_interface_config_t12address_bitsE"></span><span id="spi_device_interface_config_t::address_bits__uint8_t"></span><span class="target" id="structspi__device__interface__config__t_1a266f720ad824d7e71a295a1eb6b0e5e3"></span>uint8_t <code class="descname">address_bits</code><a class="headerlink" href="#_CPPv4N29spi_device_interface_config_t12address_bitsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Default amount of bits in address phase (0-64), used when <code class="docutils literal notranslate"><span class="pre">SPI_TRANS_VARIABLE_ADDR</span></code> is not used, otherwise ignored. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29spi_device_interface_config_t10dummy_bitsE">
+<span id="_CPPv3N29spi_device_interface_config_t10dummy_bitsE"></span><span id="_CPPv2N29spi_device_interface_config_t10dummy_bitsE"></span><span id="spi_device_interface_config_t::dummy_bits__uint8_t"></span><span class="target" id="structspi__device__interface__config__t_1a5195c009a5ed045f48ec76130d649770"></span>uint8_t <code class="descname">dummy_bits</code><a class="headerlink" href="#_CPPv4N29spi_device_interface_config_t10dummy_bitsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Amount of dummy bits to insert between address and data phase. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29spi_device_interface_config_t4modeE">
+<span id="_CPPv3N29spi_device_interface_config_t4modeE"></span><span id="_CPPv2N29spi_device_interface_config_t4modeE"></span><span id="spi_device_interface_config_t::mode__uint8_t"></span><span class="target" id="structspi__device__interface__config__t_1a3614f6a8e10e639a14c26e8d917be5c4"></span>uint8_t <code class="descname">mode</code><a class="headerlink" href="#_CPPv4N29spi_device_interface_config_t4modeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SPI mode (0-3) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29spi_device_interface_config_t14duty_cycle_posE">
+<span id="_CPPv3N29spi_device_interface_config_t14duty_cycle_posE"></span><span id="_CPPv2N29spi_device_interface_config_t14duty_cycle_posE"></span><span id="spi_device_interface_config_t::duty_cycle_pos__uint16_t"></span><span class="target" id="structspi__device__interface__config__t_1a2d172c4e4b6720b393d86e9964774e17"></span>uint16_t <code class="descname">duty_cycle_pos</code><a class="headerlink" href="#_CPPv4N29spi_device_interface_config_t14duty_cycle_posE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Duty cycle of positive clock, in 1/256th increments (128 = 50%/50% duty). Setting this to 0 (=not setting it) is equivalent to setting this to 128. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29spi_device_interface_config_t15cs_ena_pretransE">
+<span id="_CPPv3N29spi_device_interface_config_t15cs_ena_pretransE"></span><span id="_CPPv2N29spi_device_interface_config_t15cs_ena_pretransE"></span><span id="spi_device_interface_config_t::cs_ena_pretrans__uint16_t"></span><span class="target" id="structspi__device__interface__config__t_1a37979b67f4f4254d286d03cc60092915"></span>uint16_t <code class="descname">cs_ena_pretrans</code><a class="headerlink" href="#_CPPv4N29spi_device_interface_config_t15cs_ena_pretransE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Amount of SPI bit-cycles the cs should be activated before the transmission (0-16). This only works on half-duplex transactions. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29spi_device_interface_config_t16cs_ena_posttransE">
+<span id="_CPPv3N29spi_device_interface_config_t16cs_ena_posttransE"></span><span id="_CPPv2N29spi_device_interface_config_t16cs_ena_posttransE"></span><span id="spi_device_interface_config_t::cs_ena_posttrans__uint8_t"></span><span class="target" id="structspi__device__interface__config__t_1a9a655c42678eaf8697817e9bcad47929"></span>uint8_t <code class="descname">cs_ena_posttrans</code><a class="headerlink" href="#_CPPv4N29spi_device_interface_config_t16cs_ena_posttransE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Amount of SPI bit-cycles the cs should stay active after the transmission (0-16) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29spi_device_interface_config_t14clock_speed_hzE">
+<span id="_CPPv3N29spi_device_interface_config_t14clock_speed_hzE"></span><span id="_CPPv2N29spi_device_interface_config_t14clock_speed_hzE"></span><span id="spi_device_interface_config_t::clock_speed_hz__i"></span><span class="target" id="structspi__device__interface__config__t_1a181e48de86d80d282e2c4a9019598c0f"></span>int <code class="descname">clock_speed_hz</code><a class="headerlink" href="#_CPPv4N29spi_device_interface_config_t14clock_speed_hzE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Clock speed, divisors of 80MHz, in Hz. See <code class="docutils literal notranslate"><span class="pre">SPI_MASTER_FREQ_*</span></code>. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29spi_device_interface_config_t14input_delay_nsE">
+<span id="_CPPv3N29spi_device_interface_config_t14input_delay_nsE"></span><span id="_CPPv2N29spi_device_interface_config_t14input_delay_nsE"></span><span id="spi_device_interface_config_t::input_delay_ns__i"></span><span class="target" id="structspi__device__interface__config__t_1af3f5b5403503b6e94cab75b43fd5af38"></span>int <code class="descname">input_delay_ns</code><a class="headerlink" href="#_CPPv4N29spi_device_interface_config_t14input_delay_nsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Maximum data valid time of slave. The time required between SCLK and MISO valid, including the possible clock delay from slave to master. The driver uses this value to give an extra delay before the MISO is ready on the line. Leave at 0 unless you know you need a delay. For better timing performance at high frequency (over 8MHz), it’s suggest to have the right value. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29spi_device_interface_config_t12spics_io_numE">
+<span id="_CPPv3N29spi_device_interface_config_t12spics_io_numE"></span><span id="_CPPv2N29spi_device_interface_config_t12spics_io_numE"></span><span id="spi_device_interface_config_t::spics_io_num__i"></span><span class="target" id="structspi__device__interface__config__t_1a125057d318b9467a5dd3f1b8a72342f6"></span>int <code class="descname">spics_io_num</code><a class="headerlink" href="#_CPPv4N29spi_device_interface_config_t12spics_io_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CS GPIO pin for this device, or -1 if not used. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29spi_device_interface_config_t5flagsE">
+<span id="_CPPv3N29spi_device_interface_config_t5flagsE"></span><span id="_CPPv2N29spi_device_interface_config_t5flagsE"></span><span id="spi_device_interface_config_t::flags__uint32_t"></span><span class="target" id="structspi__device__interface__config__t_1a992b96881ba3744a691c5024ed19f807"></span>uint32_t <code class="descname">flags</code><a class="headerlink" href="#_CPPv4N29spi_device_interface_config_t5flagsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bitwise OR of SPI_DEVICE_* flags. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29spi_device_interface_config_t10queue_sizeE">
+<span id="_CPPv3N29spi_device_interface_config_t10queue_sizeE"></span><span id="_CPPv2N29spi_device_interface_config_t10queue_sizeE"></span><span id="spi_device_interface_config_t::queue_size__i"></span><span class="target" id="structspi__device__interface__config__t_1a36b391a7008efae8664f60ea8c8dc5e3"></span>int <code class="descname">queue_size</code><a class="headerlink" href="#_CPPv4N29spi_device_interface_config_t10queue_sizeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Transaction queue size. This sets how many transactions can be ‘in the air’ (queued using spi_device_queue_trans but not yet finished using spi_device_get_trans_result) at the same time. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29spi_device_interface_config_t6pre_cbE">
+<span id="_CPPv3N29spi_device_interface_config_t6pre_cbE"></span><span id="_CPPv2N29spi_device_interface_config_t6pre_cbE"></span><span id="spi_device_interface_config_t::pre_cb__transaction_cb_t"></span><span class="target" id="structspi__device__interface__config__t_1ab98766875246c59eb2dce1dcb8ed12ee"></span><a class="reference internal" href="#_CPPv416transaction_cb_t" title="transaction_cb_t">transaction_cb_t</a> <code class="descname">pre_cb</code><a class="headerlink" href="#_CPPv4N29spi_device_interface_config_t6pre_cbE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Callback to be called before a transmission is started.</p>
+<p>This callback is called within interrupt context should be in IRAM for best performance, see “Transferring Speed” section in the SPI Master documentation for full details. If not, the callback may crash during flash operation when the driver is initialized with ESP_INTR_FLAG_IRAM. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29spi_device_interface_config_t7post_cbE">
+<span id="_CPPv3N29spi_device_interface_config_t7post_cbE"></span><span id="_CPPv2N29spi_device_interface_config_t7post_cbE"></span><span id="spi_device_interface_config_t::post_cb__transaction_cb_t"></span><span class="target" id="structspi__device__interface__config__t_1ae0bb84767e1c28f52831db2c2a8922b9"></span><a class="reference internal" href="#_CPPv416transaction_cb_t" title="transaction_cb_t">transaction_cb_t</a> <code class="descname">post_cb</code><a class="headerlink" href="#_CPPv4N29spi_device_interface_config_t7post_cbE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Callback to be called after a transmission has completed.</p>
+<p>This callback is called within interrupt context should be in IRAM for best performance, see “Transferring Speed” section in the SPI Master documentation for full details. If not, the callback may crash during flash operation when the driver is initialized with ESP_INTR_FLAG_IRAM. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv417spi_transaction_t">
+<span id="_CPPv317spi_transaction_t"></span><span id="_CPPv217spi_transaction_t"></span><span id="spi_transaction_t"></span><span class="target" id="structspi__transaction__t"></span><em class="property">struct </em><code class="descname">spi_transaction_t</code><a class="headerlink" href="#_CPPv417spi_transaction_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This structure describes one SPI transaction. The descriptor should not be modified until the transaction finishes. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N17spi_transaction_t5flagsE">
+<span id="_CPPv3N17spi_transaction_t5flagsE"></span><span id="_CPPv2N17spi_transaction_t5flagsE"></span><span id="spi_transaction_t::flags__uint32_t"></span><span class="target" id="structspi__transaction__t_1af3c521c6a4bb6f22235d58e13acf4ba9"></span>uint32_t <code class="descname">flags</code><a class="headerlink" href="#_CPPv4N17spi_transaction_t5flagsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bitwise OR of SPI_TRANS_* flags. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17spi_transaction_t3cmdE">
+<span id="_CPPv3N17spi_transaction_t3cmdE"></span><span id="_CPPv2N17spi_transaction_t3cmdE"></span><span id="spi_transaction_t::cmd__uint16_t"></span><span class="target" id="structspi__transaction__t_1a3c79123d92db99847ca818b8d2bb1ca9"></span>uint16_t <code class="descname">cmd</code><a class="headerlink" href="#_CPPv4N17spi_transaction_t3cmdE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Command data, of which the length is set in the <code class="docutils literal notranslate"><span class="pre">command_bits</span></code> of <a class="reference internal" href="#structspi__device__interface__config__t"><span class="std std-ref">spi_device_interface_config_t</span></a>.</p>
+<p><strong>NOTE: this field, used to be “command” in ESP-IDF 2.1 and before, is re-written to be used in a new way in ESP-IDF 3.0.</strong></p>
+<p>Example: write 0x0123 and command_bits=12 to send command 0x12, 0x3_ (in previous version, you may have to write 0x3_12). </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17spi_transaction_t4addrE">
+<span id="_CPPv3N17spi_transaction_t4addrE"></span><span id="_CPPv2N17spi_transaction_t4addrE"></span><span id="spi_transaction_t::addr__uint64_t"></span><span class="target" id="structspi__transaction__t_1aa4898bbbe31a7819ac032cdaa5bae11d"></span>uint64_t <code class="descname">addr</code><a class="headerlink" href="#_CPPv4N17spi_transaction_t4addrE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Address data, of which the length is set in the <code class="docutils literal notranslate"><span class="pre">address_bits</span></code> of <a class="reference internal" href="#structspi__device__interface__config__t"><span class="std std-ref">spi_device_interface_config_t</span></a>.</p>
+<p><strong>NOTE: this field, used to be “address” in ESP-IDF 2.1 and before, is re-written to be used in a new way in ESP-IDF3.0.</strong></p>
+<p>Example: write 0x123400 and address_bits=24 to send address of 0x12, 0x34, 0x00 (in previous version, you may have to write 0x12340000). </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17spi_transaction_t6lengthE">
+<span id="_CPPv3N17spi_transaction_t6lengthE"></span><span id="_CPPv2N17spi_transaction_t6lengthE"></span><span id="spi_transaction_t::length__s"></span><span class="target" id="structspi__transaction__t_1a0265f1bab4aebceecf709e4af8c4d58b"></span>size_t <code class="descname">length</code><a class="headerlink" href="#_CPPv4N17spi_transaction_t6lengthE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Total data length, in bits. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17spi_transaction_t8rxlengthE">
+<span id="_CPPv3N17spi_transaction_t8rxlengthE"></span><span id="_CPPv2N17spi_transaction_t8rxlengthE"></span><span id="spi_transaction_t::rxlength__s"></span><span class="target" id="structspi__transaction__t_1a59234aff0e4dc8a319d64f0e5363b2d3"></span>size_t <code class="descname">rxlength</code><a class="headerlink" href="#_CPPv4N17spi_transaction_t8rxlengthE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Total data length received, should be not greater than <code class="docutils literal notranslate"><span class="pre">length</span></code> in full-duplex mode (0 defaults this to the value of <code class="docutils literal notranslate"><span class="pre">length</span></code>). </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17spi_transaction_t4userE">
+<span id="_CPPv3N17spi_transaction_t4userE"></span><span id="_CPPv2N17spi_transaction_t4userE"></span><span id="spi_transaction_t::user__voidP"></span><span class="target" id="structspi__transaction__t_1a18ad90e27eff1d9ac63826c68ddde997"></span>void *<code class="descname">user</code><a class="headerlink" href="#_CPPv4N17spi_transaction_t4userE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>User-defined variable. Can be used to store eg transaction ID. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17spi_transaction_t9tx_bufferE">
+<span id="_CPPv3N17spi_transaction_t9tx_bufferE"></span><span id="_CPPv2N17spi_transaction_t9tx_bufferE"></span><span id="spi_transaction_t::tx_buffer__voidCP"></span><span class="target" id="structspi__transaction__t_1a5ca7790355f9062174605aa76f5326c9"></span><em class="property">const</em> void *<code class="descname">tx_buffer</code><a class="headerlink" href="#_CPPv4N17spi_transaction_t9tx_bufferE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Pointer to transmit buffer, or NULL for no MOSI phase. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17spi_transaction_t7tx_dataE">
+<span id="_CPPv3N17spi_transaction_t7tx_dataE"></span><span id="_CPPv2N17spi_transaction_t7tx_dataE"></span><span id="spi_transaction_t::tx_data__uint8_tA"></span><span class="target" id="structspi__transaction__t_1abf1e2454ae2d68394f05954b20e300c0"></span>uint8_t <code class="descname">tx_data</code>[4]<a class="headerlink" href="#_CPPv4N17spi_transaction_t7tx_dataE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>If SPI_TRANS_USE_TXDATA is set, data set here is sent directly from this variable. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17spi_transaction_t9rx_bufferE">
+<span id="_CPPv3N17spi_transaction_t9rx_bufferE"></span><span id="_CPPv2N17spi_transaction_t9rx_bufferE"></span><span id="spi_transaction_t::rx_buffer__voidP"></span><span class="target" id="structspi__transaction__t_1abc1c39ea706c5c7f53473865e0bec47c"></span>void *<code class="descname">rx_buffer</code><a class="headerlink" href="#_CPPv4N17spi_transaction_t9rx_bufferE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Pointer to receive buffer, or NULL for no MISO phase. Written by 4 bytes-unit if DMA is used. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17spi_transaction_t7rx_dataE">
+<span id="_CPPv3N17spi_transaction_t7rx_dataE"></span><span id="_CPPv2N17spi_transaction_t7rx_dataE"></span><span id="spi_transaction_t::rx_data__uint8_tA"></span><span class="target" id="structspi__transaction__t_1a2f0574ba69fabc6cec8a6d87e31d5c06"></span>uint8_t <code class="descname">rx_data</code>[4]<a class="headerlink" href="#_CPPv4N17spi_transaction_t7rx_dataE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>If SPI_TRANS_USE_RXDATA is set, data is received directly to this variable. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv421spi_transaction_ext_t">
+<span id="_CPPv321spi_transaction_ext_t"></span><span id="_CPPv221spi_transaction_ext_t"></span><span id="spi_transaction_ext_t"></span><span class="target" id="structspi__transaction__ext__t"></span><em class="property">struct </em><code class="descname">spi_transaction_ext_t</code><a class="headerlink" href="#_CPPv421spi_transaction_ext_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This struct is for SPI transactions which may change their address and command length. Please do set the flags in base to <code class="docutils literal notranslate"><span class="pre">SPI_TRANS_VARIABLE_CMD_ADR</span></code> to use the bit length here. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N21spi_transaction_ext_t4baseE">
+<span id="_CPPv3N21spi_transaction_ext_t4baseE"></span><span id="_CPPv2N21spi_transaction_ext_t4baseE"></span><span id="spi_transaction_ext_t::base__spi_transaction_t"></span><span class="target" id="structspi__transaction__ext__t_1a921a7bb2158cef699e002d262c35da56"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv417spi_transaction_t" title="spi_transaction_t">spi_transaction_t</a> <code class="descname">base</code><a class="headerlink" href="#_CPPv4N21spi_transaction_ext_t4baseE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Transaction data, so that pointer to <a class="reference internal" href="#structspi__transaction__t"><span class="std std-ref">spi_transaction_t</span></a> can be converted into <a class="reference internal" href="#structspi__transaction__ext__t"><span class="std std-ref">spi_transaction_ext_t</span></a>. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21spi_transaction_ext_t12command_bitsE">
+<span id="_CPPv3N21spi_transaction_ext_t12command_bitsE"></span><span id="_CPPv2N21spi_transaction_ext_t12command_bitsE"></span><span id="spi_transaction_ext_t::command_bits__uint8_t"></span><span class="target" id="structspi__transaction__ext__t_1ac67443c5dc5ae78742ff2318ac6cad94"></span>uint8_t <code class="descname">command_bits</code><a class="headerlink" href="#_CPPv4N21spi_transaction_ext_t12command_bitsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The command length in this transaction, in bits. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21spi_transaction_ext_t12address_bitsE">
+<span id="_CPPv3N21spi_transaction_ext_t12address_bitsE"></span><span id="_CPPv2N21spi_transaction_ext_t12address_bitsE"></span><span id="spi_transaction_ext_t::address_bits__uint8_t"></span><span class="target" id="structspi__transaction__ext__t_1a49e7862b3ca3f50614ccc4b26c5c8d9f"></span>uint8_t <code class="descname">address_bits</code><a class="headerlink" href="#_CPPv4N21spi_transaction_ext_t12address_bitsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The address length in this transaction, in bits. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21spi_transaction_ext_t10dummy_bitsE">
+<span id="_CPPv3N21spi_transaction_ext_t10dummy_bitsE"></span><span id="_CPPv2N21spi_transaction_ext_t10dummy_bitsE"></span><span id="spi_transaction_ext_t::dummy_bits__uint8_t"></span><span class="target" id="structspi__transaction__ext__t_1ae237269d8309f7fd32b454550ccd5624"></span>uint8_t <code class="descname">dummy_bits</code><a class="headerlink" href="#_CPPv4N21spi_transaction_ext_t10dummy_bitsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The dummy length in this transaction, in bits. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="id9">
+<h3>Macros<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.SPI_DEVICE_TXBIT_LSBFIRST">
+<span class="target" id="spi__master_8h_1a8988816a1df67eb9b1193b9551423a7f"></span><code class="descname">SPI_DEVICE_TXBIT_LSBFIRST</code><a class="headerlink" href="#c.SPI_DEVICE_TXBIT_LSBFIRST" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transmit command/address/data LSB first instead of the default MSB first. </p>
+<p>SPI master clock is divided by 80MHz apb clock. Below defines are example frequencies, and are accurate. Be free to specify a random frequency, it will be rounded to closest frequency (to macros below if above 8MHz). 8MHz </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPI_DEVICE_RXBIT_LSBFIRST">
+<span class="target" id="spi__master_8h_1a1c80635361c43d3e60786f9e3646d19c"></span><code class="descname">SPI_DEVICE_RXBIT_LSBFIRST</code><a class="headerlink" href="#c.SPI_DEVICE_RXBIT_LSBFIRST" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receive data LSB first instead of the default MSB first. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPI_DEVICE_BIT_LSBFIRST">
+<span class="target" id="spi__master_8h_1aa4a0b55bca0869f71f9a7f53018efb2c"></span><code class="descname">SPI_DEVICE_BIT_LSBFIRST</code><a class="headerlink" href="#c.SPI_DEVICE_BIT_LSBFIRST" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transmit and receive LSB first. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPI_DEVICE_3WIRE">
+<span class="target" id="spi__master_8h_1a0bc45cf36a0eb48d33159257440c483e"></span><code class="descname">SPI_DEVICE_3WIRE</code><a class="headerlink" href="#c.SPI_DEVICE_3WIRE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use MOSI (=spid) for both sending and receiving data. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPI_DEVICE_POSITIVE_CS">
+<span class="target" id="spi__master_8h_1a94dc7e7689e6d66215886f0d4051508b"></span><code class="descname">SPI_DEVICE_POSITIVE_CS</code><a class="headerlink" href="#c.SPI_DEVICE_POSITIVE_CS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make CS positive during a transaction instead of negative. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPI_DEVICE_HALFDUPLEX">
+<span class="target" id="spi__master_8h_1a32ddffedddff7b374bc084f63fb03377"></span><code class="descname">SPI_DEVICE_HALFDUPLEX</code><a class="headerlink" href="#c.SPI_DEVICE_HALFDUPLEX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transmit data before receiving it, instead of simultaneously. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPI_DEVICE_CLK_AS_CS">
+<span class="target" id="spi__master_8h_1ae86c08578138d84a5292c851f5a1f527"></span><code class="descname">SPI_DEVICE_CLK_AS_CS</code><a class="headerlink" href="#c.SPI_DEVICE_CLK_AS_CS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output clock on CS line if CS is active. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPI_DEVICE_NO_DUMMY">
+<span class="target" id="spi__master_8h_1a02dd5057c1de66befe1eb84a1c638746"></span><code class="descname">SPI_DEVICE_NO_DUMMY</code><a class="headerlink" href="#c.SPI_DEVICE_NO_DUMMY" title="Permalink to this definition">¶</a></dt>
+<dd><p>There are timing issue when reading at high frequency (the frequency is related to whether iomux pins are used, valid time after slave sees the clock).<ul class="simple">
+<li>In half-duplex mode, the driver automatically inserts dummy bits before reading phase to fix the timing issue. Set this flag to disable this feature.</li>
+<li>In full-duplex mode, however, the hardware cannot use dummy bits, so there is no way to prevent data being read from getting corrupted. Set this flag to confirm that you’re going to work with output only, or read without dummy bits at your own risk. </li>
+</ul>
+</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPI_DEVICE_DDRCLK">
+<span class="target" id="spi__master_8h_1a0956f9b3b3fc8d01f92f4892c8cac9d5"></span><code class="descname">SPI_DEVICE_DDRCLK</code><a class="headerlink" href="#c.SPI_DEVICE_DDRCLK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.SPI_TRANS_MODE_DIO">
+<span class="target" id="spi__master_8h_1a53466d01d30e7844d8ed549fa3f42b6b"></span><code class="descname">SPI_TRANS_MODE_DIO</code><a class="headerlink" href="#c.SPI_TRANS_MODE_DIO" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transmit/receive data in 2-bit mode. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPI_TRANS_MODE_QIO">
+<span class="target" id="spi__master_8h_1a4b6c82296c80973ac9a3b1710bab9438"></span><code class="descname">SPI_TRANS_MODE_QIO</code><a class="headerlink" href="#c.SPI_TRANS_MODE_QIO" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transmit/receive data in 4-bit mode. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPI_TRANS_USE_RXDATA">
+<span class="target" id="spi__master_8h_1ae9c12dcb7994ba3e0eb502f7faa376e2"></span><code class="descname">SPI_TRANS_USE_RXDATA</code><a class="headerlink" href="#c.SPI_TRANS_USE_RXDATA" title="Permalink to this definition">¶</a></dt>
+<dd><p>Receive into rx_data member of <a class="reference internal" href="#structspi__transaction__t"><span class="std std-ref">spi_transaction_t</span></a> instead into memory at rx_buffer. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPI_TRANS_USE_TXDATA">
+<span class="target" id="spi__master_8h_1ae8a5f363fe787a05f82fd7ee2e7f5338"></span><code class="descname">SPI_TRANS_USE_TXDATA</code><a class="headerlink" href="#c.SPI_TRANS_USE_TXDATA" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transmit tx_data member of <a class="reference internal" href="#structspi__transaction__t"><span class="std std-ref">spi_transaction_t</span></a> instead of data at tx_buffer. Do not set tx_buffer when using this. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPI_TRANS_MODE_DIOQIO_ADDR">
+<span class="target" id="spi__master_8h_1aaea00fa6c88f713f3ccd5e6c552b0e6a"></span><code class="descname">SPI_TRANS_MODE_DIOQIO_ADDR</code><a class="headerlink" href="#c.SPI_TRANS_MODE_DIOQIO_ADDR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Also transmit address in mode selected by SPI_MODE_DIO/SPI_MODE_QIO. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPI_TRANS_VARIABLE_CMD">
+<span class="target" id="spi__master_8h_1aee0b033b134a4a21dba78a36b0b71317"></span><code class="descname">SPI_TRANS_VARIABLE_CMD</code><a class="headerlink" href="#c.SPI_TRANS_VARIABLE_CMD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the <code class="docutils literal notranslate"><span class="pre">command_bits</span></code> in <code class="docutils literal notranslate"><a class="reference internal" href="#structspi__transaction__ext__t"><span class="std std-ref"><span class="pre">spi_transaction_ext_t</span></span></a></code> rather than default value in <code class="docutils literal notranslate"><a class="reference internal" href="#structspi__device__interface__config__t"><span class="std std-ref"><span class="pre">spi_device_interface_config_t</span></span></a></code>. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPI_TRANS_VARIABLE_ADDR">
+<span class="target" id="spi__master_8h_1af56b50359065c92670d331d2a874664f"></span><code class="descname">SPI_TRANS_VARIABLE_ADDR</code><a class="headerlink" href="#c.SPI_TRANS_VARIABLE_ADDR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the <code class="docutils literal notranslate"><span class="pre">address_bits</span></code> in <code class="docutils literal notranslate"><a class="reference internal" href="#structspi__transaction__ext__t"><span class="std std-ref"><span class="pre">spi_transaction_ext_t</span></span></a></code> rather than default value in <code class="docutils literal notranslate"><a class="reference internal" href="#structspi__device__interface__config__t"><span class="std std-ref"><span class="pre">spi_device_interface_config_t</span></span></a></code>. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPI_TRANS_VARIABLE_DUMMY">
+<span class="target" id="spi__master_8h_1a7eeea05a38015ca95699bd7f56d1f9cc"></span><code class="descname">SPI_TRANS_VARIABLE_DUMMY</code><a class="headerlink" href="#c.SPI_TRANS_VARIABLE_DUMMY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use the <code class="docutils literal notranslate"><span class="pre">dummy_bits</span></code> in <code class="docutils literal notranslate"><a class="reference internal" href="#structspi__transaction__ext__t"><span class="std std-ref"><span class="pre">spi_transaction_ext_t</span></span></a></code> rather than default value in <code class="docutils literal notranslate"><a class="reference internal" href="#structspi__device__interface__config__t"><span class="std std-ref"><span class="pre">spi_device_interface_config_t</span></span></a></code>. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SPI_TRANS_SET_CD">
+<span class="target" id="spi__master_8h_1a55d6a8689b7d8f5f9ff5a7582f52319a"></span><code class="descname">SPI_TRANS_SET_CD</code><a class="headerlink" href="#c.SPI_TRANS_SET_CD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the CD pin. </p>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv417spi_transaction_t">
+<span id="_CPPv317spi_transaction_t"></span><span id="_CPPv217spi_transaction_t"></span><span class="target" id="spi__master_8h_1a706f88a9eac964d91b98f98a1af63d36"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv417spi_transaction_t" title="spi_transaction_t">spi_transaction_t</a> <code class="descname">spi_transaction_t</code><br /></dt>
+<dd></dd></dl>
+
+<dl class="type">
+<dt id="_CPPv416transaction_cb_t">
+<span id="_CPPv316transaction_cb_t"></span><span id="_CPPv216transaction_cb_t"></span><span id="transaction_cb_t"></span><span class="target" id="spi__master_8h_1ac9ff702f3e8e8936642a2853985a1618"></span><em class="property">typedef </em>void (*<code class="descname">transaction_cb_t</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv417spi_transaction_t" title="spi_transaction_t">spi_transaction_t</a> *trans<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416transaction_cb_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="type">
+<dt id="_CPPv419spi_device_handle_t">
+<span id="_CPPv319spi_device_handle_t"></span><span id="_CPPv219spi_device_handle_t"></span><span id="spi_device_handle_t"></span><span class="target" id="spi__master_8h_1a7ce8be646715ad8b62840bde8f319659"></span><em class="property">typedef </em><em class="property">struct</em> spi_device_t *<code class="descname">spi_device_handle_t</code><a class="headerlink" href="#_CPPv419spi_device_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Handle for a device on a SPI bus. </p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="spi_slave.html" class="btn btn-neutral float-right" title="SPI Slave Driver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="sigmadelta.html" class="btn btn-neutral float-left" title="Sigma-delta Modulation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/spi_master.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:41 GMT -->
+</html>

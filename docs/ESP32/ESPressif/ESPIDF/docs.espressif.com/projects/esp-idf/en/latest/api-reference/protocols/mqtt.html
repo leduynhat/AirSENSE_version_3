@@ -1,0 +1,1276 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/protocols/mqtt.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:27 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ESP-MQTT &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ESP-TLS" href="esp_tls.html" />
+    <link rel="prev" title="ASIO port" href="asio.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="mqtt.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/protocols/mqtt"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Protocols</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="asio.html">ASIO</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ESP-MQTT</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-example">Application Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#events">Events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="esp_tls.html">ESP-TLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_http_client.html">HTTP Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_http_server.html">HTTP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_https_server.html">HTTPS Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="icmp_echo.html">ICMP Echo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_local_ctrl.html">Local Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modbus.html">Modbus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_websocket_client.html">Websocket Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_serial_slave_link.html">ESP Serial Slave Link</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#ip-network-layer">IP Network Layer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Application Protocols</a> &raquo;</li>
+        
+      <li>ESP-MQTT</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/protocols/mqtt.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esp-mqtt">
+<h1>ESP-MQTT<a class="headerlink" href="#esp-mqtt" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>ESP-MQTT is an implementation of MQTT protocol client (MQTT is a lightweight publish/subscribe messaging protocol).</p>
+</div>
+<div class="section" id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li>Supports MQTT over TCP, SSL with mbedtls, MQTT over Websocket, MQTT over Websocket Secure.</li>
+<li>Easy to setup with URI</li>
+<li>Multiple instances (Multiple clients in one application)</li>
+<li>Support subscribing, publishing, authentication, last will messages, keep alive pings and all 3 QoS levels (it should be a fully functional client).</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/mqtt/tcp">protocols/mqtt/tcp</a>: MQTT over tcp, default port 1883</li>
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/mqtt/ssl">protocols/mqtt/ssl</a>:  MQTT over tcp, default port 8883</li>
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/mqtt/ssl_psk">protocols/mqtt/ssl_psk</a>: MQTT over tcp using pre-shared keys for authentication, default port 8883</li>
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/mqtt/ws">protocols/mqtt/ws</a>: MQTT over Websocket, default port 80</li>
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/mqtt/wss">protocols/mqtt/wss</a>: MQTT over Websocket Secure, default port 443</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="uri">
+<h3>URI<a class="headerlink" href="#uri" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Curently support <code class="docutils literal notranslate"><span class="pre">mqtt</span></code>, <code class="docutils literal notranslate"><span class="pre">mqtts</span></code>, <code class="docutils literal notranslate"><span class="pre">ws</span></code>, <code class="docutils literal notranslate"><span class="pre">wss</span></code> schemes</li>
+<li>MQTT over TCP samples:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">mqtt://mqtt.eclipse.org</span></code>: MQTT over TCP, default port 1883:</li>
+<li><code class="docutils literal notranslate"><span class="pre">mqtt://mqtt.eclipse.org:1884</span></code> MQTT over TCP, port 1884:</li>
+<li><code class="docutils literal notranslate"><span class="pre">mqtt://username:password&#64;mqtt.eclipse.org:1884</span></code> MQTT over TCP,
+port 1884, with username and password</li>
+</ul>
+</li>
+<li>MQTT over SSL samples:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">mqtts://mqtt.eclipse.org</span></code>: MQTT over SSL, port 8883</li>
+<li><code class="docutils literal notranslate"><span class="pre">mqtts://mqtt.eclipse.org:8884</span></code>: MQTT over SSL, port 8884</li>
+</ul>
+</li>
+<li>MQTT over Websocket samples:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">ws://mqtt.eclipse.org:80/mqtt</span></code></li>
+</ul>
+</li>
+<li>MQTT over Websocket Secure samples:<ul>
+<li><code class="docutils literal notranslate"><span class="pre">wss://mqtt.eclipse.org:443/mqtt</span></code></li>
+</ul>
+</li>
+<li>Minimal configurations:</li>
+</ul>
+<div class="code c highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">const</span> <span class="n">esp_mqtt_client_config_t</span> <span class="n">mqtt_cfg</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="s2">&quot;mqtt://mqtt.eclipse.org&quot;</span><span class="p">,</span>
+    <span class="o">//</span> <span class="o">.</span><span class="n">user_context</span> <span class="o">=</span> <span class="p">(</span><span class="n">void</span> <span class="o">*</span><span class="p">)</span><span class="n">your_context</span>
+<span class="p">};</span>
+<span class="n">esp_mqtt_client_handle_t</span> <span class="n">client</span> <span class="o">=</span> <span class="n">esp_mqtt_client_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mqtt_cfg</span><span class="p">);</span>
+<span class="n">esp_mqtt_client_register_event</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">ESP_EVENT_ANY_ID</span><span class="p">,</span> <span class="n">mqtt_event_handler</span><span class="p">,</span> <span class="n">client</span><span class="p">);</span>
+<span class="n">esp_mqtt_client_start</span><span class="p">(</span><span class="n">client</span><span class="p">);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Note: By default mqtt client uses event loop library to post related mqtt events (connected, subscribed, published, etc.)</li>
+</ul>
+</div>
+<div class="section" id="ssl">
+<h3>SSL<a class="headerlink" href="#ssl" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Get certificate from server, example: <code class="docutils literal notranslate"><span class="pre">mqtt.eclipse.org</span></code>
+<code class="docutils literal notranslate"><span class="pre">openssl</span> <span class="pre">s_client</span> <span class="pre">-showcerts</span> <span class="pre">-connect</span> <span class="pre">mqtt.eclipse.org:8883</span> <span class="pre">&lt;/dev/null</span> <span class="pre">2&gt;/dev/null|openssl</span> <span class="pre">x509</span> <span class="pre">-outform</span> <span class="pre">PEM</span> <span class="pre">&gt;mqtt_eclipse_org.pem</span></code></li>
+<li>Check the sample application: <code class="docutils literal notranslate"><span class="pre">examples/mqtt_ssl</span></code></li>
+<li>Configuration:</li>
+</ul>
+<div class="code c highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">const</span> <span class="n">esp_mqtt_client_config_t</span> <span class="n">mqtt_cfg</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="s2">&quot;mqtts://mqtt.eclipse.org:8883&quot;</span><span class="p">,</span>
+    <span class="o">.</span><span class="n">event_handle</span> <span class="o">=</span> <span class="n">mqtt_event_handler</span><span class="p">,</span>
+    <span class="o">.</span><span class="n">cert_pem</span> <span class="o">=</span> <span class="p">(</span><span class="n">const</span> <span class="n">char</span> <span class="o">*</span><span class="p">)</span><span class="n">mqtt_eclipse_org_pem_start</span><span class="p">,</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>If the certificate is not null-terminated then <code class="docutils literal notranslate"><span class="pre">cert_len</span></code> should also be set.
+Other SSL related configuration parameters are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">use_global_ca_store</span></code>: use the global certificate store to verify server certificate, see <code class="docutils literal notranslate"><span class="pre">esp-tls.h</span></code> for more information</li>
+<li><code class="docutils literal notranslate"><span class="pre">client_cert_pem</span></code>: pointer to certificate data in PEM or DER format for SSL mutual authentication, default is NULL, not required if mutual authentication is not needed.</li>
+<li><code class="docutils literal notranslate"><span class="pre">client_cert_len</span></code>: length of the buffer pointed to by client_cert_pem. May be 0 for null-terminated pem.</li>
+<li><code class="docutils literal notranslate"><span class="pre">client_key_pem</span></code>: pointer to private key data in PEM or DER format for SSL mutual authentication, default is NULL, not required if mutual authentication is not needed.</li>
+<li><code class="docutils literal notranslate"><span class="pre">client_key_len</span></code>: length of the buffer pointed to by client_key_pem. May be 0 for null-terminated pem.</li>
+<li><code class="docutils literal notranslate"><span class="pre">psk_hint_key</span></code>: pointer to PSK struct defined in esp_tls.h to enable PSK authentication (as alternative to certificate verification). If not NULL and server/client certificates are NULL, PSK is enabled</li>
+<li><code class="docutils literal notranslate"><span class="pre">alpn_protos</span></code>: NULL-terminated list of protocols to be used for ALPN.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="last-will-and-testament">
+<h3>Last Will and Testament<a class="headerlink" href="#last-will-and-testament" title="Permalink to this headline">¶</a></h3>
+<p>MQTT allows for a last will and testament (LWT) message to notify other clients when a client ungracefully disconnects. This is configured by the following fields
+in the <code class="docutils literal notranslate"><span class="pre">esp_mqtt_client_config_t</span></code>-struct.</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">lwt_topic</span></code>: pointer to the LWT message topic</li>
+<li><code class="docutils literal notranslate"><span class="pre">lwt_msg</span></code>: pointer to the LWT message</li>
+<li><code class="docutils literal notranslate"><span class="pre">lwt_msg_len</span></code>: length of the LWT message, required if <code class="docutils literal notranslate"><span class="pre">lwt_msg</span></code> is not null-terminated</li>
+<li><code class="docutils literal notranslate"><span class="pre">lwt_qos</span></code>: quality of service for the LWT message</li>
+<li><code class="docutils literal notranslate"><span class="pre">lwt_retain</span></code>: specifies the retain flag of the LWT message</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="other-configuration-parameters">
+<h3>Other Configuration Parameters<a class="headerlink" href="#other-configuration-parameters" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">disable_clean_session</span></code>: determines the clean session flag for the connect message, defaults to a clean session</li>
+<li><code class="docutils literal notranslate"><span class="pre">keepalive</span></code>: determines how many seconds the client will wait for a ping response before disconnecting, default is 120 seconds.</li>
+<li><code class="docutils literal notranslate"><span class="pre">disable_auto_reconnect</span></code>: enable to stop the client from reconnecting to server after errors or disconnects</li>
+<li><code class="docutils literal notranslate"><span class="pre">user_context</span></code>: custom context that will be passed to the event handler</li>
+<li><code class="docutils literal notranslate"><span class="pre">task_prio</span></code>: MQTT task priority, defaults to 5</li>
+<li><code class="docutils literal notranslate"><span class="pre">task_stack</span></code>: MQTT task stack size, defaults to 6144 bytes, setting this will override setting from menuconfig</li>
+<li><code class="docutils literal notranslate"><span class="pre">buffer_size</span></code>: size of MQTT send/receive buffer, default is 1024 bytes</li>
+<li><code class="docutils literal notranslate"><span class="pre">username</span></code>: pointer to the username used for connecting to the broker</li>
+<li><code class="docutils literal notranslate"><span class="pre">password</span></code>: pointer to the password used for connecting to the broker</li>
+<li><code class="docutils literal notranslate"><span class="pre">client_id</span></code>: pointer to the client id, defaults to <code class="docutils literal notranslate"><span class="pre">ESP32_%CHIPID%</span></code> where %CHIPID% are the last 3 bytes of MAC address in hex format</li>
+<li><code class="docutils literal notranslate"><span class="pre">host</span></code>: MQTT broker domain (ipv4 as string), setting the uri will override this</li>
+<li><code class="docutils literal notranslate"><span class="pre">port</span></code>: MQTT broker port, specifying the port in the uri will override this</li>
+<li><code class="docutils literal notranslate"><span class="pre">transport</span></code>: sets the transport protocol, setting the uri will override this</li>
+<li><code class="docutils literal notranslate"><span class="pre">refresh_connection_after_ms</span></code>: refresh connection after this value (in milliseconds)</li>
+<li><code class="docutils literal notranslate"><span class="pre">event_handle</span></code>: handle for MQTT events as a callback in legacy mode</li>
+<li><code class="docutils literal notranslate"><span class="pre">event_loop_handle</span></code>: handle for MQTT event loop library</li>
+</ul>
+</div></blockquote>
+<p>For more options on <code class="docutils literal notranslate"><span class="pre">esp_mqtt_client_config_t</span></code>, please refer to API reference below</p>
+</div>
+<div class="section" id="change-settings-in-project-configuration-menu">
+<h3>Change settings in Project Configuration Menu<a class="headerlink" href="#change-settings-in-project-configuration-menu" title="Permalink to this headline">¶</a></h3>
+<p>The settings for MQTT can be found using <code class="docutils literal notranslate"><span class="pre">idf.py</span> <span class="pre">menuconfig</span></code>, under Component config -&gt; ESP-MQTT Configuration</p>
+<p>The following settings are available:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../kconfig.html#config-mqtt-protocol-311"><span class="std std-ref">CONFIG_MQTT_PROTOCOL_311</span></a>: Enables 3.1.1 version of MQTT protocol</li>
+<li><a class="reference internal" href="../kconfig.html#config-mqtt-transport-ssl"><span class="std std-ref">CONFIG_MQTT_TRANSPORT_SSL</span></a>, <a class="reference internal" href="../kconfig.html#config-mqtt-transport-websocket"><span class="std std-ref">CONFIG_MQTT_TRANSPORT_WEBSOCKET</span></a>: Enables specific MQTT transport layer, such as SSL, WEBSOCKET, WEBSOCKET_SECURE</li>
+<li><a class="reference internal" href="../kconfig.html#config-mqtt-custom-outbox"><span class="std std-ref">CONFIG_MQTT_CUSTOM_OUTBOX</span></a>: Disables default implementation of mqtt_outbox, so a specific implementaion can be supplied</li>
+</ul>
+</div>
+</div>
+<div class="section" id="events">
+<h2>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h2>
+<p>The following events may be posted by the MQTT client:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">MQTT_EVENT_BEFORE_CONNECT</span></code>: The client is initialized and about to start connecting to the broker.</li>
+<li><code class="docutils literal notranslate"><span class="pre">MQTT_EVENT_CONNECTED</span></code>: The client has successfully established a connection to the broker. The client is now ready to send and receive data.</li>
+<li><code class="docutils literal notranslate"><span class="pre">MQTT_EVENT_DISCONNECTED</span></code>: The client has aborted the connection due to being unable to read or write data, e.g. because the server is unavailable.</li>
+<li><code class="docutils literal notranslate"><span class="pre">MQTT_EVENT_SUBSCRIBED</span></code>: The broker has acknowledged the client’s subscribe request. The event data will contain the message ID of the subscribe message.</li>
+<li><code class="docutils literal notranslate"><span class="pre">MQTT_EVENT_UNSUBSCRIBED</span></code>: The broker has acknowledged the client’s unsubscribe request. The event data will contain the message ID of the unsubscribe message.</li>
+<li><code class="docutils literal notranslate"><span class="pre">MQTT_EVENT_PUBLISHED</span></code>: The broker has acknowledged the client’s publish message. This will only be posted for Quality of Service level 1 and 2, as level 0 does not use acknowledgements. The event data will contain the message ID of the publish message.</li>
+<li><code class="docutils literal notranslate"><span class="pre">MQTT_EVENT_DATA</span></code>: The client has received a publish message. The event data contains: message ID, name of the topic it was published to, received data and its length. For data that exceeds the internal buffer multiple <cite>MQTT_EVENT_DATA</cite> will be posted and <cite>current_data_offset</cite> and <cite>total_data_len</cite> from event data updated to keep track of the fragmented message.</li>
+<li><code class="docutils literal notranslate"><span class="pre">MQTT_EVENT_ERROR</span></code>: The client has encountered an error. <cite>esp_mqtt_error_type_t</cite> from <cite>error_handle</cite> in the event data can be used to further determine the type of the error. The type of error will determine which parts of the <cite>error_handle</cite> struct is filled.</li>
+</ul>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/mqtt/esp-mqtt/include/mqtt_client.h">mqtt/esp-mqtt/include/mqtt_client.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv420esp_mqtt_client_initPK24esp_mqtt_client_config_t">
+<span id="_CPPv320esp_mqtt_client_initPK24esp_mqtt_client_config_t"></span><span id="_CPPv220esp_mqtt_client_initPK24esp_mqtt_client_config_t"></span><span id="esp_mqtt_client_init__esp_mqtt_client_config_tCP"></span><span class="target" id="mqtt__client_8h_1ac686bcd9a50d090377cfa18616de6181"></span><a class="reference internal" href="#_CPPv424esp_mqtt_client_handle_t" title="esp_mqtt_client_handle_t">esp_mqtt_client_handle_t</a> <code class="descname">esp_mqtt_client_init</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv424esp_mqtt_client_config_t" title="esp_mqtt_client_config_t">esp_mqtt_client_config_t</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420esp_mqtt_client_initPK24esp_mqtt_client_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Creates mqtt client handle based on the configuration. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>mqtt_client_handle if successfully created, NULL on error </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">config</span></code>: mqtt configuration structure</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423esp_mqtt_client_set_uri24esp_mqtt_client_handle_tPKc">
+<span id="_CPPv323esp_mqtt_client_set_uri24esp_mqtt_client_handle_tPKc"></span><span id="_CPPv223esp_mqtt_client_set_uri24esp_mqtt_client_handle_tPKc"></span><span id="esp_mqtt_client_set_uri__esp_mqtt_client_handle_t.cCP"></span><span class="target" id="mqtt__client_8h_1a9cfde62e54d6924990bf9a67ebc3e854"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_mqtt_client_set_uri</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_mqtt_client_handle_t" title="esp_mqtt_client_handle_t">esp_mqtt_client_handle_t</a> <em>client</em>, <em class="property">const</em> char *<em>uri</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423esp_mqtt_client_set_uri24esp_mqtt_client_handle_tPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Sets mqtt connection URI. This API is usually used to overrides the URI configured in esp_mqtt_client_init. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_FAIL if URI parse error, ESP_OK on success </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: mqtt client handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">uri</span></code>: </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421esp_mqtt_client_start24esp_mqtt_client_handle_t">
+<span id="_CPPv321esp_mqtt_client_start24esp_mqtt_client_handle_t"></span><span id="_CPPv221esp_mqtt_client_start24esp_mqtt_client_handle_t"></span><span id="esp_mqtt_client_start__esp_mqtt_client_handle_t"></span><span class="target" id="mqtt__client_8h_1a9ff83b825252a3de25589ed9298fa1d2"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_mqtt_client_start</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_mqtt_client_handle_t" title="esp_mqtt_client_handle_t">esp_mqtt_client_handle_t</a> <em>client</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421esp_mqtt_client_start24esp_mqtt_client_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Starts mqtt client with already created client handle. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK on success ESP_ERR_INVALID_ARG on wrong initialization ESP_FAIL on other error </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: mqtt client handle</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425esp_mqtt_client_reconnect24esp_mqtt_client_handle_t">
+<span id="_CPPv325esp_mqtt_client_reconnect24esp_mqtt_client_handle_t"></span><span id="_CPPv225esp_mqtt_client_reconnect24esp_mqtt_client_handle_t"></span><span id="esp_mqtt_client_reconnect__esp_mqtt_client_handle_t"></span><span class="target" id="mqtt__client_8h_1a7c704b4ca7d16b96e59b8f62759a70d0"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_mqtt_client_reconnect</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_mqtt_client_handle_t" title="esp_mqtt_client_handle_t">esp_mqtt_client_handle_t</a> <em>client</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425esp_mqtt_client_reconnect24esp_mqtt_client_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This api is typically used to force reconnection upon a specific event. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK on success ESP_FAIL if client is in invalid state </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: mqtt client handle</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420esp_mqtt_client_stop24esp_mqtt_client_handle_t">
+<span id="_CPPv320esp_mqtt_client_stop24esp_mqtt_client_handle_t"></span><span id="_CPPv220esp_mqtt_client_stop24esp_mqtt_client_handle_t"></span><span id="esp_mqtt_client_stop__esp_mqtt_client_handle_t"></span><span class="target" id="mqtt__client_8h_1a857f1e77762f49eb72f6123d62985f2c"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_mqtt_client_stop</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_mqtt_client_handle_t" title="esp_mqtt_client_handle_t">esp_mqtt_client_handle_t</a> <em>client</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420esp_mqtt_client_stop24esp_mqtt_client_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stops mqtt client tasks. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK on success ESP_FAIL if client is in invalid state </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: mqtt client handle</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425esp_mqtt_client_subscribe24esp_mqtt_client_handle_tPKci">
+<span id="_CPPv325esp_mqtt_client_subscribe24esp_mqtt_client_handle_tPKci"></span><span id="_CPPv225esp_mqtt_client_subscribe24esp_mqtt_client_handle_tPKci"></span><span id="esp_mqtt_client_subscribe__esp_mqtt_client_handle_t.cCP.i"></span><span class="target" id="mqtt__client_8h_1a8dca07b86caf956c3f71c82d751593ec"></span>int <code class="descname">esp_mqtt_client_subscribe</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_mqtt_client_handle_t" title="esp_mqtt_client_handle_t">esp_mqtt_client_handle_t</a> <em>client</em>, <em class="property">const</em> char *<em>topic</em>, int <em>qos</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425esp_mqtt_client_subscribe24esp_mqtt_client_handle_tPKci" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Subscribe the client to defined topic with defined qos. </p>
+<p>Notes:<ul class="simple">
+<li>Client must be connected to send subscribe message</li>
+<li>This API is could be executed from a user task or from a mqtt event callback i.e. internal mqtt task (API is protected by internal mutex, so it might block if a longer data receive operation is in progress.</li>
+</ul>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>message_id of the subscribe message on success -1 on failure </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: mqtt client handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">topic</span></code>: </li>
+<li><code class="docutils literal notranslate"><span class="pre">qos</span></code>: </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427esp_mqtt_client_unsubscribe24esp_mqtt_client_handle_tPKc">
+<span id="_CPPv327esp_mqtt_client_unsubscribe24esp_mqtt_client_handle_tPKc"></span><span id="_CPPv227esp_mqtt_client_unsubscribe24esp_mqtt_client_handle_tPKc"></span><span id="esp_mqtt_client_unsubscribe__esp_mqtt_client_handle_t.cCP"></span><span class="target" id="mqtt__client_8h_1a5dbc4e611973bd09082fd5decf31aa1f"></span>int <code class="descname">esp_mqtt_client_unsubscribe</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_mqtt_client_handle_t" title="esp_mqtt_client_handle_t">esp_mqtt_client_handle_t</a> <em>client</em>, <em class="property">const</em> char *<em>topic</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427esp_mqtt_client_unsubscribe24esp_mqtt_client_handle_tPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Unsubscribe the client from defined topic. </p>
+<p>Notes:<ul class="simple">
+<li>Client must be connected to send unsubscribe message</li>
+<li>It is thread safe, please refer to <code class="docutils literal notranslate"><span class="pre">esp_mqtt_client_subscribe</span></code> for details</li>
+</ul>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>message_id of the subscribe message on success -1 on failure </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: mqtt client handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">topic</span></code>: </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423esp_mqtt_client_publish24esp_mqtt_client_handle_tPKcPKciii">
+<span id="_CPPv323esp_mqtt_client_publish24esp_mqtt_client_handle_tPKcPKciii"></span><span id="_CPPv223esp_mqtt_client_publish24esp_mqtt_client_handle_tPKcPKciii"></span><span id="esp_mqtt_client_publish__esp_mqtt_client_handle_t.cCP.cCP.i.i.i"></span><span class="target" id="mqtt__client_8h_1a5b5cc7b7f948f635bfbcd67ac1519730"></span>int <code class="descname">esp_mqtt_client_publish</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_mqtt_client_handle_t" title="esp_mqtt_client_handle_t">esp_mqtt_client_handle_t</a> <em>client</em>, <em class="property">const</em> char *<em>topic</em>, <em class="property">const</em> char *<em>data</em>, int <em>len</em>, int <em>qos</em>, int <em>retain</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423esp_mqtt_client_publish24esp_mqtt_client_handle_tPKcPKciii" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Client to send a publish message to the broker. </p>
+<p>Notes:<ul class="simple">
+<li>Client doesn’t have to be connected to send publish message (although it would drop all qos=0 messages, qos&gt;1 messages would be enqueued)</li>
+<li>It is thread safe, please refer to <code class="docutils literal notranslate"><span class="pre">esp_mqtt_client_subscribe</span></code> for details</li>
+</ul>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>message_id of the publish message (for QoS 0 message_id will always be zero) on success. -1 on failure. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: mqtt client handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">topic</span></code>: topic string </li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: payload string (set to NULL, sending empty payload message) </li>
+<li><code class="docutils literal notranslate"><span class="pre">len</span></code>: data length, if set to 0, length is calculated from payload string </li>
+<li><code class="docutils literal notranslate"><span class="pre">qos</span></code>: qos of publish message </li>
+<li><code class="docutils literal notranslate"><span class="pre">retain</span></code>: retain flag</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423esp_mqtt_client_destroy24esp_mqtt_client_handle_t">
+<span id="_CPPv323esp_mqtt_client_destroy24esp_mqtt_client_handle_t"></span><span id="_CPPv223esp_mqtt_client_destroy24esp_mqtt_client_handle_t"></span><span id="esp_mqtt_client_destroy__esp_mqtt_client_handle_t"></span><span class="target" id="mqtt__client_8h_1a5f877de7858f432346ad279f5c3ea275"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_mqtt_client_destroy</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_mqtt_client_handle_t" title="esp_mqtt_client_handle_t">esp_mqtt_client_handle_t</a> <em>client</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423esp_mqtt_client_destroy24esp_mqtt_client_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Destroys the client handle. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: mqtt client handle</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419esp_mqtt_set_config24esp_mqtt_client_handle_tPK24esp_mqtt_client_config_t">
+<span id="_CPPv319esp_mqtt_set_config24esp_mqtt_client_handle_tPK24esp_mqtt_client_config_t"></span><span id="_CPPv219esp_mqtt_set_config24esp_mqtt_client_handle_tPK24esp_mqtt_client_config_t"></span><span id="esp_mqtt_set_config__esp_mqtt_client_handle_t.esp_mqtt_client_config_tCP"></span><span class="target" id="mqtt__client_8h_1adcbf54e70cb89e71e9f3eaa4bdd44d45"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_mqtt_set_config</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_mqtt_client_handle_t" title="esp_mqtt_client_handle_t">esp_mqtt_client_handle_t</a> <em>client</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv424esp_mqtt_client_config_t" title="esp_mqtt_client_config_t">esp_mqtt_client_config_t</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419esp_mqtt_set_config24esp_mqtt_client_handle_tPK24esp_mqtt_client_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set configuration structure, typically used when updating the config (i.e. on “before_connect” event. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_ERR_NO_MEM if failed to allocate ESP_OK on success </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: mqtt client handle</li>
+<li><code class="docutils literal notranslate"><span class="pre">config</span></code>: mqtt configuration structure</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv430esp_mqtt_client_register_event24esp_mqtt_client_handle_t19esp_mqtt_event_id_t19esp_event_handler_tPv">
+<span id="_CPPv330esp_mqtt_client_register_event24esp_mqtt_client_handle_t19esp_mqtt_event_id_t19esp_event_handler_tPv"></span><span id="_CPPv230esp_mqtt_client_register_event24esp_mqtt_client_handle_t19esp_mqtt_event_id_t19esp_event_handler_tPv"></span><span id="esp_mqtt_client_register_event__esp_mqtt_client_handle_t.esp_mqtt_event_id_t.esp_event_handler_t.voidP"></span><span class="target" id="mqtt__client_8h_1ac0c0594e5d079702bae63c9a93fc133b"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_mqtt_client_register_event</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_mqtt_client_handle_t" title="esp_mqtt_client_handle_t">esp_mqtt_client_handle_t</a> <em>client</em>, <a class="reference internal" href="#_CPPv419esp_mqtt_event_id_t" title="esp_mqtt_event_id_t">esp_mqtt_event_id_t</a> <em>event</em>, <a class="reference internal" href="../system/esp_event.html#_CPPv419esp_event_handler_t" title="esp_event_handler_t">esp_event_handler_t</a> <em>event_handler</em>, void *<em>event_handler_arg</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv430esp_mqtt_client_register_event24esp_mqtt_client_handle_t19esp_mqtt_event_id_t19esp_event_handler_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Registers mqtt event. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_ERR_NO_MEM if failed to allocate ESP_OK on success </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: mqtt client handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">event</span></code>: event type </li>
+<li><code class="docutils literal notranslate"><span class="pre">event_handler</span></code>: handler callback </li>
+<li><code class="docutils literal notranslate"><span class="pre">event_handler_arg</span></code>: handlers context</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv420esp_mqtt_error_codes">
+<span id="_CPPv320esp_mqtt_error_codes"></span><span id="_CPPv220esp_mqtt_error_codes"></span><span id="esp_mqtt_error_codes"></span><span class="target" id="structesp__mqtt__error__codes"></span><em class="property">struct </em><code class="descname">esp_mqtt_error_codes</code><a class="headerlink" href="#_CPPv420esp_mqtt_error_codes" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT error code structure to be passed as a contextual information into ERROR event. </p>
+<p>Important: This structure extends <code class="docutils literal notranslate"><a class="reference internal" href="esp_tls.html#structesp__tls__last__error"><span class="std std-ref"><span class="pre">esp_tls_last_error</span></span></a></code> error structure and is backward compatible with it (so might be down-casted and treated as <code class="docutils literal notranslate"><a class="reference internal" href="esp_tls.html#structesp__tls__last__error"><span class="std std-ref"><span class="pre">esp_tls_last_error</span></span></a></code> error, but recommended to update applications if used this way previously)</p>
+<p>Use this structure directly checking error_type first and then appropriate error code depending on the source of the error:</p>
+<p>| error_type | related member variables | note | | MQTT_ERROR_TYPE_ESP_TLS | esp_tls_last_esp_err, esp_tls_stack_err, esp_tls_cert_verify_flags | Error reported from esp-tls | | MQTT_ERROR_TYPE_CONNECTION_REFUSED | connect_return_code | Internal error reported from MQTT broker on connection | </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_mqtt_error_codes20esp_tls_last_esp_errE">
+<span id="_CPPv3N20esp_mqtt_error_codes20esp_tls_last_esp_errE"></span><span id="_CPPv2N20esp_mqtt_error_codes20esp_tls_last_esp_errE"></span><span id="esp_mqtt_error_codes::esp_tls_last_esp_err__esp_err_t"></span><span class="target" id="structesp__mqtt__error__codes_1a206ad5b39241b01c46797ae037e2d730"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_tls_last_esp_err</code><a class="headerlink" href="#_CPPv4N20esp_mqtt_error_codes20esp_tls_last_esp_errE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>last esp_err code reported from esp-tls component </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_mqtt_error_codes17esp_tls_stack_errE">
+<span id="_CPPv3N20esp_mqtt_error_codes17esp_tls_stack_errE"></span><span id="_CPPv2N20esp_mqtt_error_codes17esp_tls_stack_errE"></span><span id="esp_mqtt_error_codes::esp_tls_stack_err__i"></span><span class="target" id="structesp__mqtt__error__codes_1ad1a450bda2b3a1dfe0fc8ed5b32a2317"></span>int <code class="descname">esp_tls_stack_err</code><a class="headerlink" href="#_CPPv4N20esp_mqtt_error_codes17esp_tls_stack_errE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>tls specific error code reported from underlying tls stack </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_mqtt_error_codes25esp_tls_cert_verify_flagsE">
+<span id="_CPPv3N20esp_mqtt_error_codes25esp_tls_cert_verify_flagsE"></span><span id="_CPPv2N20esp_mqtt_error_codes25esp_tls_cert_verify_flagsE"></span><span id="esp_mqtt_error_codes::esp_tls_cert_verify_flags__i"></span><span class="target" id="structesp__mqtt__error__codes_1a12b447f898607f89b28d4d16e7d8f9ed"></span>int <code class="descname">esp_tls_cert_verify_flags</code><a class="headerlink" href="#_CPPv4N20esp_mqtt_error_codes25esp_tls_cert_verify_flagsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>tls flags reported from underlying tls stack during certificate verification </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_mqtt_error_codes10error_typeE">
+<span id="_CPPv3N20esp_mqtt_error_codes10error_typeE"></span><span id="_CPPv2N20esp_mqtt_error_codes10error_typeE"></span><span id="esp_mqtt_error_codes::error_type__esp_mqtt_error_type_t"></span><span class="target" id="structesp__mqtt__error__codes_1ac00be6050fb287d73fe606f33353dce2"></span><a class="reference internal" href="#_CPPv421esp_mqtt_error_type_t" title="esp_mqtt_error_type_t">esp_mqtt_error_type_t</a> <code class="descname">error_type</code><a class="headerlink" href="#_CPPv4N20esp_mqtt_error_codes10error_typeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>error type referring to the source of the error </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_mqtt_error_codes19connect_return_codeE">
+<span id="_CPPv3N20esp_mqtt_error_codes19connect_return_codeE"></span><span id="_CPPv2N20esp_mqtt_error_codes19connect_return_codeE"></span><span id="esp_mqtt_error_codes::connect_return_code__esp_mqtt_connect_return_code_t"></span><span class="target" id="structesp__mqtt__error__codes_1a9d0e11a98316144b08a6eca24dd88e3a"></span><a class="reference internal" href="#_CPPv430esp_mqtt_connect_return_code_t" title="esp_mqtt_connect_return_code_t">esp_mqtt_connect_return_code_t</a> <code class="descname">connect_return_code</code><a class="headerlink" href="#_CPPv4N20esp_mqtt_error_codes19connect_return_codeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>connection refused error code reported from MQTT broker on connection </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv416esp_mqtt_event_t">
+<span id="_CPPv316esp_mqtt_event_t"></span><span id="_CPPv216esp_mqtt_event_t"></span><span id="esp_mqtt_event_t"></span><span class="target" id="structesp__mqtt__event__t"></span><em class="property">struct </em><code class="descname">esp_mqtt_event_t</code><a class="headerlink" href="#_CPPv416esp_mqtt_event_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT event configuration structure </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N16esp_mqtt_event_t8event_idE">
+<span id="_CPPv3N16esp_mqtt_event_t8event_idE"></span><span id="_CPPv2N16esp_mqtt_event_t8event_idE"></span><span id="esp_mqtt_event_t::event_id__esp_mqtt_event_id_t"></span><span class="target" id="structesp__mqtt__event__t_1a8d39e94e410be510669137cc409ebf59"></span><a class="reference internal" href="#_CPPv419esp_mqtt_event_id_t" title="esp_mqtt_event_id_t">esp_mqtt_event_id_t</a> <code class="descname">event_id</code><a class="headerlink" href="#_CPPv4N16esp_mqtt_event_t8event_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT event type </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16esp_mqtt_event_t6clientE">
+<span id="_CPPv3N16esp_mqtt_event_t6clientE"></span><span id="_CPPv2N16esp_mqtt_event_t6clientE"></span><span id="esp_mqtt_event_t::client__esp_mqtt_client_handle_t"></span><span class="target" id="structesp__mqtt__event__t_1a98cc67a3e2bc2edff318a9b8e462f013"></span><a class="reference internal" href="#_CPPv424esp_mqtt_client_handle_t" title="esp_mqtt_client_handle_t">esp_mqtt_client_handle_t</a> <code class="descname">client</code><a class="headerlink" href="#_CPPv4N16esp_mqtt_event_t6clientE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT client handle for this event </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16esp_mqtt_event_t12user_contextE">
+<span id="_CPPv3N16esp_mqtt_event_t12user_contextE"></span><span id="_CPPv2N16esp_mqtt_event_t12user_contextE"></span><span id="esp_mqtt_event_t::user_context__voidP"></span><span class="target" id="structesp__mqtt__event__t_1ab777fea2dd581f7a66332e328c453dc3"></span>void *<code class="descname">user_context</code><a class="headerlink" href="#_CPPv4N16esp_mqtt_event_t12user_contextE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>User context passed from MQTT client config </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16esp_mqtt_event_t4dataE">
+<span id="_CPPv3N16esp_mqtt_event_t4dataE"></span><span id="_CPPv2N16esp_mqtt_event_t4dataE"></span><span id="esp_mqtt_event_t::data__cP"></span><span class="target" id="structesp__mqtt__event__t_1a775c7292c911598ba70d83de920aa13c"></span>char *<code class="descname">data</code><a class="headerlink" href="#_CPPv4N16esp_mqtt_event_t4dataE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Data associated with this event </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16esp_mqtt_event_t8data_lenE">
+<span id="_CPPv3N16esp_mqtt_event_t8data_lenE"></span><span id="_CPPv2N16esp_mqtt_event_t8data_lenE"></span><span id="esp_mqtt_event_t::data_len__i"></span><span class="target" id="structesp__mqtt__event__t_1a7138e57613333befa84b780259ffe9a0"></span>int <code class="descname">data_len</code><a class="headerlink" href="#_CPPv4N16esp_mqtt_event_t8data_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Length of the data for this event </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16esp_mqtt_event_t14total_data_lenE">
+<span id="_CPPv3N16esp_mqtt_event_t14total_data_lenE"></span><span id="_CPPv2N16esp_mqtt_event_t14total_data_lenE"></span><span id="esp_mqtt_event_t::total_data_len__i"></span><span class="target" id="structesp__mqtt__event__t_1ab1572c86f4daf8de8f073726b47bbc59"></span>int <code class="descname">total_data_len</code><a class="headerlink" href="#_CPPv4N16esp_mqtt_event_t14total_data_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Total length of the data (longer data are supplied with multiple events) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16esp_mqtt_event_t19current_data_offsetE">
+<span id="_CPPv3N16esp_mqtt_event_t19current_data_offsetE"></span><span id="_CPPv2N16esp_mqtt_event_t19current_data_offsetE"></span><span id="esp_mqtt_event_t::current_data_offset__i"></span><span class="target" id="structesp__mqtt__event__t_1a8ced8992b9de3b739496cbb7a100529e"></span>int <code class="descname">current_data_offset</code><a class="headerlink" href="#_CPPv4N16esp_mqtt_event_t19current_data_offsetE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Actual offset for the data associated with this event </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16esp_mqtt_event_t5topicE">
+<span id="_CPPv3N16esp_mqtt_event_t5topicE"></span><span id="_CPPv2N16esp_mqtt_event_t5topicE"></span><span id="esp_mqtt_event_t::topic__cP"></span><span class="target" id="structesp__mqtt__event__t_1aaad657d5f5a42ff5e79cd27f370d7477"></span>char *<code class="descname">topic</code><a class="headerlink" href="#_CPPv4N16esp_mqtt_event_t5topicE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Topic associated with this event </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16esp_mqtt_event_t9topic_lenE">
+<span id="_CPPv3N16esp_mqtt_event_t9topic_lenE"></span><span id="_CPPv2N16esp_mqtt_event_t9topic_lenE"></span><span id="esp_mqtt_event_t::topic_len__i"></span><span class="target" id="structesp__mqtt__event__t_1aa2cb2fc24cf9b8226c1c294f81bb61ce"></span>int <code class="descname">topic_len</code><a class="headerlink" href="#_CPPv4N16esp_mqtt_event_t9topic_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Length of the topic for this event associated with this event </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16esp_mqtt_event_t6msg_idE">
+<span id="_CPPv3N16esp_mqtt_event_t6msg_idE"></span><span id="_CPPv2N16esp_mqtt_event_t6msg_idE"></span><span id="esp_mqtt_event_t::msg_id__i"></span><span class="target" id="structesp__mqtt__event__t_1a2dac4c1bab157c73b759251dbe50d534"></span>int <code class="descname">msg_id</code><a class="headerlink" href="#_CPPv4N16esp_mqtt_event_t6msg_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT messaged id of message </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16esp_mqtt_event_t15session_presentE">
+<span id="_CPPv3N16esp_mqtt_event_t15session_presentE"></span><span id="_CPPv2N16esp_mqtt_event_t15session_presentE"></span><span id="esp_mqtt_event_t::session_present__i"></span><span class="target" id="structesp__mqtt__event__t_1a06fac53e30358c4d19d9d573b9fd91d6"></span>int <code class="descname">session_present</code><a class="headerlink" href="#_CPPv4N16esp_mqtt_event_t15session_presentE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT session_present flag for connection event </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16esp_mqtt_event_t12error_handleE">
+<span id="_CPPv3N16esp_mqtt_event_t12error_handleE"></span><span id="_CPPv2N16esp_mqtt_event_t12error_handleE"></span><span id="esp_mqtt_event_t::error_handle__esp_mqtt_error_codes_tP"></span><span class="target" id="structesp__mqtt__event__t_1a066c507f85d92fbd3e605c3685c907ec"></span><a class="reference internal" href="#_CPPv422esp_mqtt_error_codes_t" title="esp_mqtt_error_codes_t">esp_mqtt_error_codes_t</a> *<code class="descname">error_handle</code><a class="headerlink" href="#_CPPv4N16esp_mqtt_event_t12error_handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>esp-mqtt error handle including esp-tls errors as well as internal mqtt errors </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv424esp_mqtt_client_config_t">
+<span id="_CPPv324esp_mqtt_client_config_t"></span><span id="_CPPv224esp_mqtt_client_config_t"></span><span id="esp_mqtt_client_config_t"></span><span class="target" id="structesp__mqtt__client__config__t"></span><em class="property">struct </em><code class="descname">esp_mqtt_client_config_t</code><a class="headerlink" href="#_CPPv424esp_mqtt_client_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT client configuration structure </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t12event_handleE">
+<span id="_CPPv3N24esp_mqtt_client_config_t12event_handleE"></span><span id="_CPPv2N24esp_mqtt_client_config_t12event_handleE"></span><span id="esp_mqtt_client_config_t::event_handle__mqtt_event_callback_t"></span><span class="target" id="structesp__mqtt__client__config__t_1ac9322967df55b26a689778f880768f11"></span><a class="reference internal" href="#_CPPv421mqtt_event_callback_t" title="mqtt_event_callback_t">mqtt_event_callback_t</a> <code class="descname">event_handle</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t12event_handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>handle for MQTT events as a callback in legacy mode </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t17event_loop_handleE">
+<span id="_CPPv3N24esp_mqtt_client_config_t17event_loop_handleE"></span><span id="_CPPv2N24esp_mqtt_client_config_t17event_loop_handleE"></span><span id="esp_mqtt_client_config_t::event_loop_handle__esp_event_loop_handle_t"></span><span class="target" id="structesp__mqtt__client__config__t_1ab7436f783a108562d38beb746c0fe6ef"></span><a class="reference internal" href="../system/esp_event.html#_CPPv423esp_event_loop_handle_t" title="esp_event_loop_handle_t">esp_event_loop_handle_t</a> <code class="descname">event_loop_handle</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t17event_loop_handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>handle for MQTT event loop library </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t4hostE">
+<span id="_CPPv3N24esp_mqtt_client_config_t4hostE"></span><span id="_CPPv2N24esp_mqtt_client_config_t4hostE"></span><span id="esp_mqtt_client_config_t::host__cCP"></span><span class="target" id="structesp__mqtt__client__config__t_1a7fdad85fcfffb3dc4f9c2cfa929056f7"></span><em class="property">const</em> char *<code class="descname">host</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t4hostE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT server domain (ipv4 as string) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t3uriE">
+<span id="_CPPv3N24esp_mqtt_client_config_t3uriE"></span><span id="_CPPv2N24esp_mqtt_client_config_t3uriE"></span><span id="esp_mqtt_client_config_t::uri__cCP"></span><span class="target" id="structesp__mqtt__client__config__t_1a9ba5575c53069b3dabadfb656d0e35e9"></span><em class="property">const</em> char *<code class="descname">uri</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t3uriE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Complete MQTT broker URI </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t4portE">
+<span id="_CPPv3N24esp_mqtt_client_config_t4portE"></span><span id="_CPPv2N24esp_mqtt_client_config_t4portE"></span><span id="esp_mqtt_client_config_t::port__uint32_t"></span><span class="target" id="structesp__mqtt__client__config__t_1a22afb5c27e5e6cebb4d8f6d1c5c8c54a"></span>uint32_t <code class="descname">port</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t4portE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT server port </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t9client_idE">
+<span id="_CPPv3N24esp_mqtt_client_config_t9client_idE"></span><span id="_CPPv2N24esp_mqtt_client_config_t9client_idE"></span><span id="esp_mqtt_client_config_t::client_id__cCP"></span><span class="target" id="structesp__mqtt__client__config__t_1a6d4201882597f2d5778dd4f26e47c3f2"></span><em class="property">const</em> char *<code class="descname">client_id</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t9client_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>default client id is <code class="docutils literal notranslate"><span class="pre">ESP32_CHIPID%</span></code> where CHIPID% are last 3 bytes of MAC address in hex format </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t8usernameE">
+<span id="_CPPv3N24esp_mqtt_client_config_t8usernameE"></span><span id="_CPPv2N24esp_mqtt_client_config_t8usernameE"></span><span id="esp_mqtt_client_config_t::username__cCP"></span><span class="target" id="structesp__mqtt__client__config__t_1a5cd76b2edd703c178c275570175bcff9"></span><em class="property">const</em> char *<code class="descname">username</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t8usernameE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT username </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t8passwordE">
+<span id="_CPPv3N24esp_mqtt_client_config_t8passwordE"></span><span id="_CPPv2N24esp_mqtt_client_config_t8passwordE"></span><span id="esp_mqtt_client_config_t::password__cCP"></span><span class="target" id="structesp__mqtt__client__config__t_1a899d8f238ec79e49e5b82633bcdabe2f"></span><em class="property">const</em> char *<code class="descname">password</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t8passwordE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT password </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t9lwt_topicE">
+<span id="_CPPv3N24esp_mqtt_client_config_t9lwt_topicE"></span><span id="_CPPv2N24esp_mqtt_client_config_t9lwt_topicE"></span><span id="esp_mqtt_client_config_t::lwt_topic__cCP"></span><span class="target" id="structesp__mqtt__client__config__t_1af322a84e5cc2bd90174247247214fed3"></span><em class="property">const</em> char *<code class="descname">lwt_topic</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t9lwt_topicE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>LWT (Last Will and Testament) message topic (NULL by default) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t7lwt_msgE">
+<span id="_CPPv3N24esp_mqtt_client_config_t7lwt_msgE"></span><span id="_CPPv2N24esp_mqtt_client_config_t7lwt_msgE"></span><span id="esp_mqtt_client_config_t::lwt_msg__cCP"></span><span class="target" id="structesp__mqtt__client__config__t_1aa254b986d5018e34418e223053d5f023"></span><em class="property">const</em> char *<code class="descname">lwt_msg</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t7lwt_msgE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>LWT message (NULL by default) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t7lwt_qosE">
+<span id="_CPPv3N24esp_mqtt_client_config_t7lwt_qosE"></span><span id="_CPPv2N24esp_mqtt_client_config_t7lwt_qosE"></span><span id="esp_mqtt_client_config_t::lwt_qos__i"></span><span class="target" id="structesp__mqtt__client__config__t_1a8dc3842c3639f811c471be1ad4805d6d"></span>int <code class="descname">lwt_qos</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t7lwt_qosE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>LWT message qos </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t10lwt_retainE">
+<span id="_CPPv3N24esp_mqtt_client_config_t10lwt_retainE"></span><span id="_CPPv2N24esp_mqtt_client_config_t10lwt_retainE"></span><span id="esp_mqtt_client_config_t::lwt_retain__i"></span><span class="target" id="structesp__mqtt__client__config__t_1a220e90698d16bc7bce4dec9c5898208b"></span>int <code class="descname">lwt_retain</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t10lwt_retainE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>LWT retained message flag </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t11lwt_msg_lenE">
+<span id="_CPPv3N24esp_mqtt_client_config_t11lwt_msg_lenE"></span><span id="_CPPv2N24esp_mqtt_client_config_t11lwt_msg_lenE"></span><span id="esp_mqtt_client_config_t::lwt_msg_len__i"></span><span class="target" id="structesp__mqtt__client__config__t_1abbeb446d1e351e4fecc6d509b2a406c3"></span>int <code class="descname">lwt_msg_len</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t11lwt_msg_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>LWT message length </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t21disable_clean_sessionE">
+<span id="_CPPv3N24esp_mqtt_client_config_t21disable_clean_sessionE"></span><span id="_CPPv2N24esp_mqtt_client_config_t21disable_clean_sessionE"></span><span id="esp_mqtt_client_config_t::disable_clean_session__i"></span><span class="target" id="structesp__mqtt__client__config__t_1a97346007dcfc54e10059293e98f38e44"></span>int <code class="descname">disable_clean_session</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t21disable_clean_sessionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>mqtt clean session, default clean_session is true </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t9keepaliveE">
+<span id="_CPPv3N24esp_mqtt_client_config_t9keepaliveE"></span><span id="_CPPv2N24esp_mqtt_client_config_t9keepaliveE"></span><span id="esp_mqtt_client_config_t::keepalive__i"></span><span class="target" id="structesp__mqtt__client__config__t_1a1c52b6c471523352b904f3b3d0cd4851"></span>int <code class="descname">keepalive</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t9keepaliveE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>mqtt keepalive, default is 120 seconds </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t22disable_auto_reconnectE">
+<span id="_CPPv3N24esp_mqtt_client_config_t22disable_auto_reconnectE"></span><span id="_CPPv2N24esp_mqtt_client_config_t22disable_auto_reconnectE"></span><span id="esp_mqtt_client_config_t::disable_auto_reconnect__b"></span><span class="target" id="structesp__mqtt__client__config__t_1abe28b6c54df3b413c844501522df52ec"></span>bool <code class="descname">disable_auto_reconnect</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t22disable_auto_reconnectE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>this mqtt client will reconnect to server (when errors/disconnect). Set disable_auto_reconnect=true to disable </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t12user_contextE">
+<span id="_CPPv3N24esp_mqtt_client_config_t12user_contextE"></span><span id="_CPPv2N24esp_mqtt_client_config_t12user_contextE"></span><span id="esp_mqtt_client_config_t::user_context__voidP"></span><span class="target" id="structesp__mqtt__client__config__t_1a0f67866e7823e7527c3feb9a42300ed2"></span>void *<code class="descname">user_context</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t12user_contextE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>pass user context to this option, then can receive that context in <code class="docutils literal notranslate"><span class="pre">event-&gt;user_context</span></code> </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t9task_prioE">
+<span id="_CPPv3N24esp_mqtt_client_config_t9task_prioE"></span><span id="_CPPv2N24esp_mqtt_client_config_t9task_prioE"></span><span id="esp_mqtt_client_config_t::task_prio__i"></span><span class="target" id="structesp__mqtt__client__config__t_1a124d1c11799b0bbb01ba98d278c2836e"></span>int <code class="descname">task_prio</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t9task_prioE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT task priority, default is 5, can be changed in <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">menuconfig</span></code> </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t10task_stackE">
+<span id="_CPPv3N24esp_mqtt_client_config_t10task_stackE"></span><span id="_CPPv2N24esp_mqtt_client_config_t10task_stackE"></span><span id="esp_mqtt_client_config_t::task_stack__i"></span><span class="target" id="structesp__mqtt__client__config__t_1a3fc8a30df723c0687286dbfa23c953f3"></span>int <code class="descname">task_stack</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t10task_stackE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT task stack size, default is 6144 bytes, can be changed in <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">menuconfig</span></code> </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t11buffer_sizeE">
+<span id="_CPPv3N24esp_mqtt_client_config_t11buffer_sizeE"></span><span id="_CPPv2N24esp_mqtt_client_config_t11buffer_sizeE"></span><span id="esp_mqtt_client_config_t::buffer_size__i"></span><span class="target" id="structesp__mqtt__client__config__t_1ac6dfaa4b711673cbbd23157f76d2e5a1"></span>int <code class="descname">buffer_size</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t11buffer_sizeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>size of MQTT send/receive buffer, default is 1024 </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t8cert_pemE">
+<span id="_CPPv3N24esp_mqtt_client_config_t8cert_pemE"></span><span id="_CPPv2N24esp_mqtt_client_config_t8cert_pemE"></span><span id="esp_mqtt_client_config_t::cert_pem__cCP"></span><span class="target" id="structesp__mqtt__client__config__t_1a171270636cedfa1a4c430487ac472111"></span><em class="property">const</em> char *<code class="descname">cert_pem</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t8cert_pemE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Pointer to certificate data in PEM or DER format for server verify (with SSL), default is NULL, not required to verify the server. PEM-format must have a terminating NULL-character. DER-format requires the length to be passed in cert_len. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t8cert_lenE">
+<span id="_CPPv3N24esp_mqtt_client_config_t8cert_lenE"></span><span id="_CPPv2N24esp_mqtt_client_config_t8cert_lenE"></span><span id="esp_mqtt_client_config_t::cert_len__s"></span><span class="target" id="structesp__mqtt__client__config__t_1a21724409757f4fb83d65eb27d1545458"></span>size_t <code class="descname">cert_len</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t8cert_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Length of the buffer pointed to by cert_pem. May be 0 for null-terminated pem </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t15client_cert_pemE">
+<span id="_CPPv3N24esp_mqtt_client_config_t15client_cert_pemE"></span><span id="_CPPv2N24esp_mqtt_client_config_t15client_cert_pemE"></span><span id="esp_mqtt_client_config_t::client_cert_pem__cCP"></span><span class="target" id="structesp__mqtt__client__config__t_1adfd9b59bcc9f02bcf727150afa3dac8a"></span><em class="property">const</em> char *<code class="descname">client_cert_pem</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t15client_cert_pemE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Pointer to certificate data in PEM or DER format for SSL mutual authentication, default is NULL, not required if mutual authentication is not needed. If it is not NULL, also <code class="docutils literal notranslate"><span class="pre">client_key_pem</span></code> has to be provided. PEM-format must have a terminating NULL-character. DER-format requires the length to be passed in client_cert_len. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t15client_cert_lenE">
+<span id="_CPPv3N24esp_mqtt_client_config_t15client_cert_lenE"></span><span id="_CPPv2N24esp_mqtt_client_config_t15client_cert_lenE"></span><span id="esp_mqtt_client_config_t::client_cert_len__s"></span><span class="target" id="structesp__mqtt__client__config__t_1a54fc909888a6dae1d003ad367ee4bc53"></span>size_t <code class="descname">client_cert_len</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t15client_cert_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Length of the buffer pointed to by client_cert_pem. May be 0 for null-terminated pem </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t14client_key_pemE">
+<span id="_CPPv3N24esp_mqtt_client_config_t14client_key_pemE"></span><span id="_CPPv2N24esp_mqtt_client_config_t14client_key_pemE"></span><span id="esp_mqtt_client_config_t::client_key_pem__cCP"></span><span class="target" id="structesp__mqtt__client__config__t_1ae8075a2070ea985c37b811367c2e0442"></span><em class="property">const</em> char *<code class="descname">client_key_pem</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t14client_key_pemE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Pointer to private key data in PEM or DER format for SSL mutual authentication, default is NULL, not required if mutual authentication is not needed. If it is not NULL, also <code class="docutils literal notranslate"><span class="pre">client_cert_pem</span></code> has to be provided. PEM-format must have a terminating NULL-character. DER-format requires the length to be passed in client_key_len </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t14client_key_lenE">
+<span id="_CPPv3N24esp_mqtt_client_config_t14client_key_lenE"></span><span id="_CPPv2N24esp_mqtt_client_config_t14client_key_lenE"></span><span id="esp_mqtt_client_config_t::client_key_len__s"></span><span class="target" id="structesp__mqtt__client__config__t_1a5025acfb51c2ecf52e05f75ea7551fd9"></span>size_t <code class="descname">client_key_len</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t14client_key_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Length of the buffer pointed to by client_key_pem. May be 0 for null-terminated pem </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t9transportE">
+<span id="_CPPv3N24esp_mqtt_client_config_t9transportE"></span><span id="_CPPv2N24esp_mqtt_client_config_t9transportE"></span><span id="esp_mqtt_client_config_t::transport__esp_mqtt_transport_t"></span><span class="target" id="structesp__mqtt__client__config__t_1ad3716bc32d9ce7927b93fa2907028117"></span><a class="reference internal" href="#_CPPv420esp_mqtt_transport_t" title="esp_mqtt_transport_t">esp_mqtt_transport_t</a> <code class="descname">transport</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t9transportE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>overrides URI transport </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t27refresh_connection_after_msE">
+<span id="_CPPv3N24esp_mqtt_client_config_t27refresh_connection_after_msE"></span><span id="_CPPv2N24esp_mqtt_client_config_t27refresh_connection_after_msE"></span><span id="esp_mqtt_client_config_t::refresh_connection_after_ms__i"></span><span class="target" id="structesp__mqtt__client__config__t_1a11dd7e79c450f73a77e58d52b67fd2e0"></span>int <code class="descname">refresh_connection_after_ms</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t27refresh_connection_after_msE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Refresh connection after this value (in milliseconds) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t12psk_hint_keyE">
+<span id="_CPPv3N24esp_mqtt_client_config_t12psk_hint_keyE"></span><span id="_CPPv2N24esp_mqtt_client_config_t12psk_hint_keyE"></span><span id="esp_mqtt_client_config_t::psk_hint_key__psk_key_hintCP"></span><span class="target" id="structesp__mqtt__client__config__t_1adbdff1ae91e0af81e5af8fe5c8050547"></span><em class="property">const</em> <em class="property">struct</em> <a class="reference internal" href="esp_tls.html#_CPPv412psk_key_hint" title="psk_key_hint">psk_key_hint</a> *<code class="descname">psk_hint_key</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t12psk_hint_keyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Pointer to PSK struct defined in esp_tls.h to enable PSK authentication (as alternative to certificate verification). If not NULL and server/client certificates are NULL, PSK is enabled </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t19use_global_ca_storeE">
+<span id="_CPPv3N24esp_mqtt_client_config_t19use_global_ca_storeE"></span><span id="_CPPv2N24esp_mqtt_client_config_t19use_global_ca_storeE"></span><span id="esp_mqtt_client_config_t::use_global_ca_store__b"></span><span class="target" id="structesp__mqtt__client__config__t_1a47f28e328d199d8ed5bbc8e9e4c17b95"></span>bool <code class="descname">use_global_ca_store</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t19use_global_ca_storeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Use a global ca_store for all the connections in which this bool is set. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t20reconnect_timeout_msE">
+<span id="_CPPv3N24esp_mqtt_client_config_t20reconnect_timeout_msE"></span><span id="_CPPv2N24esp_mqtt_client_config_t20reconnect_timeout_msE"></span><span id="esp_mqtt_client_config_t::reconnect_timeout_ms__i"></span><span class="target" id="structesp__mqtt__client__config__t_1aef1bff755d2eefa6d80f1cafbda195c8"></span>int <code class="descname">reconnect_timeout_ms</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t20reconnect_timeout_msE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reconnect to the broker after this value in miliseconds if auto reconnect is not disabled </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t11alpn_protosE">
+<span id="_CPPv3N24esp_mqtt_client_config_t11alpn_protosE"></span><span id="_CPPv2N24esp_mqtt_client_config_t11alpn_protosE"></span><span id="esp_mqtt_client_config_t::alpn_protos__cCPP"></span><span class="target" id="structesp__mqtt__client__config__t_1ae5c0be3a7466dbc307ad7b9f4aa979be"></span><em class="property">const</em> char **<code class="descname">alpn_protos</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t11alpn_protosE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>NULL-terminated list of supported application protocols to be used for ALPN </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t18clientkey_passwordE">
+<span id="_CPPv3N24esp_mqtt_client_config_t18clientkey_passwordE"></span><span id="_CPPv2N24esp_mqtt_client_config_t18clientkey_passwordE"></span><span id="esp_mqtt_client_config_t::clientkey_password__cCP"></span><span class="target" id="structesp__mqtt__client__config__t_1ae9f0588cd877165acafc58a4a2644cd9"></span><em class="property">const</em> char *<code class="descname">clientkey_password</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t18clientkey_passwordE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Client key decryption password string </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_mqtt_client_config_t22clientkey_password_lenE">
+<span id="_CPPv3N24esp_mqtt_client_config_t22clientkey_password_lenE"></span><span id="_CPPv2N24esp_mqtt_client_config_t22clientkey_password_lenE"></span><span id="esp_mqtt_client_config_t::clientkey_password_len__i"></span><span class="target" id="structesp__mqtt__client__config__t_1a6ee9efe3713c09ceb9d757b00915479d"></span>int <code class="descname">clientkey_password_len</code><a class="headerlink" href="#_CPPv4N24esp_mqtt_client_config_t22clientkey_password_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>String length of the password pointed to by clientkey_password </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv424esp_mqtt_client_handle_t">
+<span id="_CPPv324esp_mqtt_client_handle_t"></span><span id="_CPPv224esp_mqtt_client_handle_t"></span><span id="esp_mqtt_client_handle_t"></span><span class="target" id="mqtt__client_8h_1aa32a33a6f15f0c3c0669c6cf6f6af3d4"></span><em class="property">typedef </em><em class="property">struct</em> esp_mqtt_client *<code class="descname">esp_mqtt_client_handle_t</code><a class="headerlink" href="#_CPPv424esp_mqtt_client_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="type">
+<dt id="_CPPv422esp_mqtt_error_codes_t">
+<span id="_CPPv322esp_mqtt_error_codes_t"></span><span id="_CPPv222esp_mqtt_error_codes_t"></span><span id="esp_mqtt_error_codes_t"></span><span class="target" id="mqtt__client_8h_1adb96212f5251bc456073b211261ffcf6"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_mqtt_error_codes" title="esp_mqtt_error_codes">esp_mqtt_error_codes</a> <code class="descname">esp_mqtt_error_codes_t</code><a class="headerlink" href="#_CPPv422esp_mqtt_error_codes_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT error code structure to be passed as a contextual information into ERROR event. </p>
+<p>Important: This structure extends <code class="docutils literal notranslate"><a class="reference internal" href="esp_tls.html#structesp__tls__last__error"><span class="std std-ref"><span class="pre">esp_tls_last_error</span></span></a></code> error structure and is backward compatible with it (so might be down-casted and treated as <code class="docutils literal notranslate"><a class="reference internal" href="esp_tls.html#structesp__tls__last__error"><span class="std std-ref"><span class="pre">esp_tls_last_error</span></span></a></code> error, but recommended to update applications if used this way previously)</p>
+<p>Use this structure directly checking error_type first and then appropriate error code depending on the source of the error:</p>
+<p>| error_type | related member variables | note | | MQTT_ERROR_TYPE_ESP_TLS | esp_tls_last_esp_err, esp_tls_stack_err, esp_tls_cert_verify_flags | Error reported from esp-tls | | MQTT_ERROR_TYPE_CONNECTION_REFUSED | connect_return_code | Internal error reported from MQTT broker on connection | </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv423esp_mqtt_event_handle_t">
+<span id="_CPPv323esp_mqtt_event_handle_t"></span><span id="_CPPv223esp_mqtt_event_handle_t"></span><span id="esp_mqtt_event_handle_t"></span><span class="target" id="mqtt__client_8h_1a3a20d2e793441bb4f2ef4de23d10b7da"></span><em class="property">typedef </em><a class="reference internal" href="#_CPPv416esp_mqtt_event_t" title="esp_mqtt_event_t">esp_mqtt_event_t</a> *<code class="descname">esp_mqtt_event_handle_t</code><a class="headerlink" href="#_CPPv423esp_mqtt_event_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="type">
+<dt id="_CPPv421mqtt_event_callback_t">
+<span id="_CPPv321mqtt_event_callback_t"></span><span id="_CPPv221mqtt_event_callback_t"></span><span id="mqtt_event_callback_t"></span><span class="target" id="mqtt__client_8h_1a3ace0b63edc79545b273015bc215c651"></span><em class="property">typedef </em><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">mqtt_event_callback_t</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv423esp_mqtt_event_handle_t" title="esp_mqtt_event_handle_t">esp_mqtt_event_handle_t</a> event<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421mqtt_event_callback_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv419esp_mqtt_event_id_t">
+<span id="_CPPv319esp_mqtt_event_id_t"></span><span id="_CPPv219esp_mqtt_event_id_t"></span><span id="esp_mqtt_event_id_t"></span><span class="target" id="mqtt__client_8h_1ac7683a1edce4b5e816943006a3a8d021"></span><em class="property">enum </em><code class="descname">esp_mqtt_event_id_t</code><a class="headerlink" href="#_CPPv419esp_mqtt_event_id_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT event types. </p>
+<p>User event handler receives context data in <code class="docutils literal notranslate"><a class="reference internal" href="#structesp__mqtt__event__t"><span class="std std-ref"><span class="pre">esp_mqtt_event_t</span></span></a></code> structure with<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">user_context</span></code> - user data from <code class="docutils literal notranslate"><a class="reference internal" href="#structesp__mqtt__client__config__t"><span class="std std-ref"><span class="pre">esp_mqtt_client_config_t</span></span></a></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code> - mqtt client handle</li>
+<li>various other data depending on event type </li>
+</ul>
+</p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv416MQTT_EVENT_ERROR">
+<span id="_CPPv316MQTT_EVENT_ERROR"></span><span id="_CPPv216MQTT_EVENT_ERROR"></span><span class="target" id="mqtt__client_8h_1ac7683a1edce4b5e816943006a3a8d021a1c05926ed3b69d298e253ab5477a2837"></span><code class="descname">MQTT_EVENT_ERROR</code> = 0<a class="headerlink" href="#_CPPv416MQTT_EVENT_ERROR" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>on error event, additional context: connection return code, error handle from <a class="reference internal" href="esp_tls.html#structesp__tls"><span class="std std-ref">esp_tls</span></a> (if supported) </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv420MQTT_EVENT_CONNECTED">
+<span id="_CPPv320MQTT_EVENT_CONNECTED"></span><span id="_CPPv220MQTT_EVENT_CONNECTED"></span><span class="target" id="mqtt__client_8h_1ac7683a1edce4b5e816943006a3a8d021a389dab7d667392932a622de052a25601"></span><code class="descname">MQTT_EVENT_CONNECTED</code><a class="headerlink" href="#_CPPv420MQTT_EVENT_CONNECTED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>connected event, additional context: session_present flag </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423MQTT_EVENT_DISCONNECTED">
+<span id="_CPPv323MQTT_EVENT_DISCONNECTED"></span><span id="_CPPv223MQTT_EVENT_DISCONNECTED"></span><span class="target" id="mqtt__client_8h_1ac7683a1edce4b5e816943006a3a8d021aa46c6cfa863fb0b11718e3afbd2fe1f0"></span><code class="descname">MQTT_EVENT_DISCONNECTED</code><a class="headerlink" href="#_CPPv423MQTT_EVENT_DISCONNECTED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>disconnected event </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv421MQTT_EVENT_SUBSCRIBED">
+<span id="_CPPv321MQTT_EVENT_SUBSCRIBED"></span><span id="_CPPv221MQTT_EVENT_SUBSCRIBED"></span><span class="target" id="mqtt__client_8h_1ac7683a1edce4b5e816943006a3a8d021afd19f7aa79ef83e12e2dca624c897a7d"></span><code class="descname">MQTT_EVENT_SUBSCRIBED</code><a class="headerlink" href="#_CPPv421MQTT_EVENT_SUBSCRIBED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>subscribed event, additional context: msg_id </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423MQTT_EVENT_UNSUBSCRIBED">
+<span id="_CPPv323MQTT_EVENT_UNSUBSCRIBED"></span><span id="_CPPv223MQTT_EVENT_UNSUBSCRIBED"></span><span class="target" id="mqtt__client_8h_1ac7683a1edce4b5e816943006a3a8d021a8c91781885051efe9b866c0a3892face"></span><code class="descname">MQTT_EVENT_UNSUBSCRIBED</code><a class="headerlink" href="#_CPPv423MQTT_EVENT_UNSUBSCRIBED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>unsubscribed event </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv420MQTT_EVENT_PUBLISHED">
+<span id="_CPPv320MQTT_EVENT_PUBLISHED"></span><span id="_CPPv220MQTT_EVENT_PUBLISHED"></span><span class="target" id="mqtt__client_8h_1ac7683a1edce4b5e816943006a3a8d021af3ebab2f4e6e887c156370521df95ea9"></span><code class="descname">MQTT_EVENT_PUBLISHED</code><a class="headerlink" href="#_CPPv420MQTT_EVENT_PUBLISHED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>published event, additional context: msg_id </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv415MQTT_EVENT_DATA">
+<span id="_CPPv315MQTT_EVENT_DATA"></span><span id="_CPPv215MQTT_EVENT_DATA"></span><span class="target" id="mqtt__client_8h_1ac7683a1edce4b5e816943006a3a8d021a54e72585428883f87e5a77727a1b99e7"></span><code class="descname">MQTT_EVENT_DATA</code><a class="headerlink" href="#_CPPv415MQTT_EVENT_DATA" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>data event, additional context:<ul class="simple">
+<li>msg_id message id</li>
+<li>topic pointer to the received topic</li>
+<li>topic_len length of the topic</li>
+<li>data pointer to the received data</li>
+<li>data_len length of the data for this event</li>
+<li>current_data_offset offset of the current data for this event</li>
+<li>total_data_len total length of the data received Note: Multiple MQTT_EVENT_DATA could be fired for one message, if it is longer than internal buffer. In that case only first event contains topic pointer and length, other contain data only with current data length and current data offset updating. </li>
+</ul>
+</p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv425MQTT_EVENT_BEFORE_CONNECT">
+<span id="_CPPv325MQTT_EVENT_BEFORE_CONNECT"></span><span id="_CPPv225MQTT_EVENT_BEFORE_CONNECT"></span><span class="target" id="mqtt__client_8h_1ac7683a1edce4b5e816943006a3a8d021a63a3057bc3c852844f9ce85a7b20d90f"></span><code class="descname">MQTT_EVENT_BEFORE_CONNECT</code><a class="headerlink" href="#_CPPv425MQTT_EVENT_BEFORE_CONNECT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The event occurs before connecting </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv430esp_mqtt_connect_return_code_t">
+<span id="_CPPv330esp_mqtt_connect_return_code_t"></span><span id="_CPPv230esp_mqtt_connect_return_code_t"></span><span id="esp_mqtt_connect_return_code_t"></span><span class="target" id="mqtt__client_8h_1acbe96fe95e06da0ce202ee9a0add4d40"></span><em class="property">enum </em><code class="descname">esp_mqtt_connect_return_code_t</code><a class="headerlink" href="#_CPPv430esp_mqtt_connect_return_code_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT connection error codes propagated via ERROR event </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv424MQTT_CONNECTION_ACCEPTED">
+<span id="_CPPv324MQTT_CONNECTION_ACCEPTED"></span><span id="_CPPv224MQTT_CONNECTION_ACCEPTED"></span><span class="target" id="mqtt__client_8h_1acbe96fe95e06da0ce202ee9a0add4d40a2fdd911a8978b8df2254766c1e3fd050"></span><code class="descname">MQTT_CONNECTION_ACCEPTED</code> = 0<a class="headerlink" href="#_CPPv424MQTT_CONNECTION_ACCEPTED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Connection accepted </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv431MQTT_CONNECTION_REFUSE_PROTOCOL">
+<span id="_CPPv331MQTT_CONNECTION_REFUSE_PROTOCOL"></span><span id="_CPPv231MQTT_CONNECTION_REFUSE_PROTOCOL"></span><span class="target" id="mqtt__client_8h_1acbe96fe95e06da0ce202ee9a0add4d40ace539c2e51492a856c4a359811b4268d"></span><code class="descname">MQTT_CONNECTION_REFUSE_PROTOCOL</code><a class="headerlink" href="#_CPPv431MQTT_CONNECTION_REFUSE_PROTOCOL" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT connection refused reason: Wrong protocol </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv434MQTT_CONNECTION_REFUSE_ID_REJECTED">
+<span id="_CPPv334MQTT_CONNECTION_REFUSE_ID_REJECTED"></span><span id="_CPPv234MQTT_CONNECTION_REFUSE_ID_REJECTED"></span><span class="target" id="mqtt__client_8h_1acbe96fe95e06da0ce202ee9a0add4d40abad20149335b341d257d4fb3a7061199"></span><code class="descname">MQTT_CONNECTION_REFUSE_ID_REJECTED</code><a class="headerlink" href="#_CPPv434MQTT_CONNECTION_REFUSE_ID_REJECTED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT connection refused reason: ID rejected </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv441MQTT_CONNECTION_REFUSE_SERVER_UNAVAILABLE">
+<span id="_CPPv341MQTT_CONNECTION_REFUSE_SERVER_UNAVAILABLE"></span><span id="_CPPv241MQTT_CONNECTION_REFUSE_SERVER_UNAVAILABLE"></span><span class="target" id="mqtt__client_8h_1acbe96fe95e06da0ce202ee9a0add4d40a46aed302289773e8c2d2b3b19d2cace9"></span><code class="descname">MQTT_CONNECTION_REFUSE_SERVER_UNAVAILABLE</code><a class="headerlink" href="#_CPPv441MQTT_CONNECTION_REFUSE_SERVER_UNAVAILABLE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT connection refused reason: Server unavailable </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv435MQTT_CONNECTION_REFUSE_BAD_USERNAME">
+<span id="_CPPv335MQTT_CONNECTION_REFUSE_BAD_USERNAME"></span><span id="_CPPv235MQTT_CONNECTION_REFUSE_BAD_USERNAME"></span><span class="target" id="mqtt__client_8h_1acbe96fe95e06da0ce202ee9a0add4d40adf142a8ac1ffc9d0600221a8ef07ceb5"></span><code class="descname">MQTT_CONNECTION_REFUSE_BAD_USERNAME</code><a class="headerlink" href="#_CPPv435MQTT_CONNECTION_REFUSE_BAD_USERNAME" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT connection refused reason: Wrong user </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv437MQTT_CONNECTION_REFUSE_NOT_AUTHORIZED">
+<span id="_CPPv337MQTT_CONNECTION_REFUSE_NOT_AUTHORIZED"></span><span id="_CPPv237MQTT_CONNECTION_REFUSE_NOT_AUTHORIZED"></span><span class="target" id="mqtt__client_8h_1acbe96fe95e06da0ce202ee9a0add4d40ad90a63784fb58dcdb24417ada388a684"></span><code class="descname">MQTT_CONNECTION_REFUSE_NOT_AUTHORIZED</code><a class="headerlink" href="#_CPPv437MQTT_CONNECTION_REFUSE_NOT_AUTHORIZED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT connection refused reason: Wrong username or password </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv421esp_mqtt_error_type_t">
+<span id="_CPPv321esp_mqtt_error_type_t"></span><span id="_CPPv221esp_mqtt_error_type_t"></span><span id="esp_mqtt_error_type_t"></span><span class="target" id="mqtt__client_8h_1ac5519aa6c71ade348ec5e5bb2d9d970f"></span><em class="property">enum </em><code class="descname">esp_mqtt_error_type_t</code><a class="headerlink" href="#_CPPv421esp_mqtt_error_type_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT connection error codes propagated via ERROR event </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv420MQTT_ERROR_TYPE_NONE">
+<span id="_CPPv320MQTT_ERROR_TYPE_NONE"></span><span id="_CPPv220MQTT_ERROR_TYPE_NONE"></span><span class="target" id="mqtt__client_8h_1ac5519aa6c71ade348ec5e5bb2d9d970fab9ac86bb206c7f1a8680988d256414a6"></span><code class="descname">MQTT_ERROR_TYPE_NONE</code> = 0<a class="headerlink" href="#_CPPv420MQTT_ERROR_TYPE_NONE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423MQTT_ERROR_TYPE_ESP_TLS">
+<span id="_CPPv323MQTT_ERROR_TYPE_ESP_TLS"></span><span id="_CPPv223MQTT_ERROR_TYPE_ESP_TLS"></span><span class="target" id="mqtt__client_8h_1ac5519aa6c71ade348ec5e5bb2d9d970fae18ba5a2c3ac68b195424fe573e301f8"></span><code class="descname">MQTT_ERROR_TYPE_ESP_TLS</code><a class="headerlink" href="#_CPPv423MQTT_ERROR_TYPE_ESP_TLS" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv434MQTT_ERROR_TYPE_CONNECTION_REFUSED">
+<span id="_CPPv334MQTT_ERROR_TYPE_CONNECTION_REFUSED"></span><span id="_CPPv234MQTT_ERROR_TYPE_CONNECTION_REFUSED"></span><span class="target" id="mqtt__client_8h_1ac5519aa6c71ade348ec5e5bb2d9d970fab24b1505c31ca59377482f341bb73e25"></span><code class="descname">MQTT_ERROR_TYPE_CONNECTION_REFUSED</code><a class="headerlink" href="#_CPPv434MQTT_ERROR_TYPE_CONNECTION_REFUSED" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv420esp_mqtt_transport_t">
+<span id="_CPPv320esp_mqtt_transport_t"></span><span id="_CPPv220esp_mqtt_transport_t"></span><span id="esp_mqtt_transport_t"></span><span class="target" id="mqtt__client_8h_1a543e6f53f0b091688eba50a7bb101aad"></span><em class="property">enum </em><code class="descname">esp_mqtt_transport_t</code><a class="headerlink" href="#_CPPv420esp_mqtt_transport_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv422MQTT_TRANSPORT_UNKNOWN">
+<span id="_CPPv322MQTT_TRANSPORT_UNKNOWN"></span><span id="_CPPv222MQTT_TRANSPORT_UNKNOWN"></span><span class="target" id="mqtt__client_8h_1a543e6f53f0b091688eba50a7bb101aada7e646eb7c70521978ac5b8b16c5c77b0"></span><code class="descname">MQTT_TRANSPORT_UNKNOWN</code> = 0x0<a class="headerlink" href="#_CPPv422MQTT_TRANSPORT_UNKNOWN" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423MQTT_TRANSPORT_OVER_TCP">
+<span id="_CPPv323MQTT_TRANSPORT_OVER_TCP"></span><span id="_CPPv223MQTT_TRANSPORT_OVER_TCP"></span><span class="target" id="mqtt__client_8h_1a543e6f53f0b091688eba50a7bb101aadad547f05248833cf06b40eab173ed1084"></span><code class="descname">MQTT_TRANSPORT_OVER_TCP</code><a class="headerlink" href="#_CPPv423MQTT_TRANSPORT_OVER_TCP" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT over TCP, using scheme: <code class="docutils literal notranslate"><span class="pre">mqtt</span></code> </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423MQTT_TRANSPORT_OVER_SSL">
+<span id="_CPPv323MQTT_TRANSPORT_OVER_SSL"></span><span id="_CPPv223MQTT_TRANSPORT_OVER_SSL"></span><span class="target" id="mqtt__client_8h_1a543e6f53f0b091688eba50a7bb101aada990443456721abb2dc15fde97c9cc0cd"></span><code class="descname">MQTT_TRANSPORT_OVER_SSL</code><a class="headerlink" href="#_CPPv423MQTT_TRANSPORT_OVER_SSL" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT over SSL, using scheme: <code class="docutils literal notranslate"><span class="pre">mqtts</span></code> </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv422MQTT_TRANSPORT_OVER_WS">
+<span id="_CPPv322MQTT_TRANSPORT_OVER_WS"></span><span id="_CPPv222MQTT_TRANSPORT_OVER_WS"></span><span class="target" id="mqtt__client_8h_1a543e6f53f0b091688eba50a7bb101aada96360bf3ceb3f1650bcebfbb51fd5d4a"></span><code class="descname">MQTT_TRANSPORT_OVER_WS</code><a class="headerlink" href="#_CPPv422MQTT_TRANSPORT_OVER_WS" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT over Websocket, using scheme:: <code class="docutils literal notranslate"><span class="pre">ws</span></code> </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423MQTT_TRANSPORT_OVER_WSS">
+<span id="_CPPv323MQTT_TRANSPORT_OVER_WSS"></span><span id="_CPPv223MQTT_TRANSPORT_OVER_WSS"></span><span class="target" id="mqtt__client_8h_1a543e6f53f0b091688eba50a7bb101aadacc33f9e8bf4635f8b81ebac0fe7a0148"></span><code class="descname">MQTT_TRANSPORT_OVER_WSS</code><a class="headerlink" href="#_CPPv423MQTT_TRANSPORT_OVER_WSS" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MQTT over Websocket Secure, using scheme: <code class="docutils literal notranslate"><span class="pre">wss</span></code> </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esp_tls.html" class="btn btn-neutral float-right" title="ESP-TLS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="asio.html" class="btn btn-neutral float-left" title="ASIO port" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/protocols/mqtt.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:27 GMT -->
+</html>

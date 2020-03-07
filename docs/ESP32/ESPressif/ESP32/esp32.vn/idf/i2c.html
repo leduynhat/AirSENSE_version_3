@@ -1,0 +1,1656 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from esp32.vn/idf/i2c.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:16:14 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Giao tiếp I2C &mdash; Tài liệu ESP32 1.0</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Tìm Kiếm" href="../search.html"/>
+    <link rel="top" title="Tài liệu ESP32 1.0" href="../index-2.html"/>
+        <link rel="up" title="ESP32 IDF" href="index.html"/>
+        <link rel="next" title="GPIO &amp; RTC GPIO" href="gpio.html"/>
+        <link rel="prev" title="I2S" href="i2s.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> ESP32
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://esp32.vn/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Phần cứng</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">Phần cứng</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../hardware/board.html">Board ESP32vn IoT Uno</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hardware/connection.html">Kết nối máy tính</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../hardware/connection.html#ket-noi-phan-cung">Kết nối phần cứng</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hardware/connection.html#cai-dat-usb-driver">Cài đặt USB Driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hardware/connection.html#cau-hinh-ket-noi">Cấu hình kết nối</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">ESP32 Arduino</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arduino/index.html">Arduino cơ bản</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../arduino/install.html">Cài đặt Arduino IDE</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/install.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/install.html#huong-dan">Hướng dẫn</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../arduino/library.html">Cài đặt thư viện</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../arduino/blink.html">Blink</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#gioi-thieu">Giới thiệu.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#chuan-bi">Chuẩn bị.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#ket-noi">Kết nối.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#chuong-trinh">Chương trình.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#nap-chuong-trinh">Nạp chương trình.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#ket-luan">Kết luận.</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../arduino/i2c_oled.html">I2C/OLED</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/i2c_oled.html#oled-la-gi">OLED là gì?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/i2c_oled.html#i2c">I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/i2c_oled.html#demo">Demo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">ESP32 IDF</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">ESP-IDF cơ bản</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="install.html">Cài đặt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="install.html#cai-dat-toolchain">Cài đặt Toolchain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#tai-esp-idf">Tải ESP-IDF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#add-idf-path">ADD IDF_PATH</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="hello-world.html">Hello World</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#gioi-thieu">Giới thiệu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#demo">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blink-idf.html">Blink</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#gioi-thieu">Giới thiệu.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#chuan-bi">Chuẩn bị.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#ket-noi">Kết nối.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#demo">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="button.html">Nút nhấn</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="button.html#gioi-thieu">Giới thiệu.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#chuan-bi">Chuẩn bị.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#ket-noi">Kết nối.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#demo">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="adc.html">ADC</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="adc.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adc.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adc.html#vi-du">Ví dụ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adc.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dac.html">DAC</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dac.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html#vi-du-minh-hoa">Ví dụ minh họa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="spi_master.html">SPI master</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html#application-example">Application Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html#api-reference-spi-common">API Reference - SPI Common</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html#api-reference-spi-master">API Reference - SPI Master</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="spi_slave.html">SPI slave</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html#application-example">Application Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="i2s.html">I2S</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html#tong-quan">TỔNG QUAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html#vi-du">Ví dụ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">I2C</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vi-du-minh-hoa">Ví dụ minh họa:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html">GPIO &amp; RTC GPIO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html#tong-quan">Tổng Quan</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html#vi-du-minh-hoa">Ví dụ minh họa:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html#application-example">Application Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html#api-reference-normal-gpio">API Reference - Normal GPIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html#api-reference-rtc-gpio">API Reference - RTC GPIO</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html#luu-y">Lưu ý</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RMT.html">Remote Control</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#vi-du-minh-hoa">Ví dụ minh họa:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="touch_pad.html">Touch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#gioi-thieu">Giới thiệu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wifi.html">Wifi</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#vi-du">Ví dụ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#api-reference">API Reference</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sdcard.html">Thẻ nhớ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sdcard.html#bien-dich-du-an-mau">Biên dịch dự án mẫu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sdcard.html#code">Code</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Hướng dẫn đóng góp</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#cai-dat-cong-cu-can-thiet">Cài đặt công cụ cần thiết</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#viet-bai">Viết bài</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#mot-so-luu-y-khac">Một số lưu ý khác</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#danh-sach-cac-thanh-vien-da-dong-gop">Danh sách các thành viên đã đóng góp</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index-2.html">ESP32</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">ESP32 IDF</a> &raquo;</li>
+        
+      <li>Giao tiếp I2C</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/idf/i2c.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="giao-tiep-i2c">
+<h1>Giao tiếp I2C<a class="headerlink" href="#giao-tiep-i2c" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tong-quan">
+<h2>Tổng quan<a class="headerlink" href="#tong-quan" title="Permalink to this headline">¶</a></h2>
+<p>I2C là giao thức truyền thông nối tiếp đồng bộ phổ biến hiện nay, được sử dụng rộng rãi trong việc kết nối nhiều IC với nhau, hay kết nối giữa IC và các ngoại vi với tốc độ thấp. Ví dụ về kết nối oled bằng I2C có thể xem <a class="reference external" href="../arduino/i2c_oled.html">ở đây</a>.</p>
+<p>Giao tiếp I2C sử dụng 2 dây để kết nối là SCL (Serial Clock) và SDA (Serial Data). Trong đó dây SCL có tác dụng để đồng bộ hóa giữa các thiết bị khi truyền dữ liệu, còn SDA là dây dữ liệu truyền qua.</p>
+<p>Board ESP32-IoT-Uno có 2 bộ điều khiển I2C có thể thiết lập ở chế độ chủ (master) hoặc tớ (slave).</p>
+</div>
+<div class="section" id="chuan-bi">
+<h2>Chuẩn bị<a class="headerlink" href="#chuan-bi" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Tên board mạch</strong></th>
+<th class="head"><strong>Link</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Board ESP32 IoT Uno</td>
+<td><a class="reference external" href="https://github.com/esp32vn/esp32-iot-uno">https://github.com/esp32vn/esp32-iot-uno</a></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="vi-du-minh-hoa">
+<h2>Ví dụ minh họa:<a class="headerlink" href="#vi-du-minh-hoa" title="Permalink to this headline">¶</a></h2>
+<p>Ví dụ sau sẽ mô tả cách sử dụng giao tiếp I2C.</p>
+<dl class="docutils">
+<dt>Mô tả code:</dt>
+<dd>Sử dụng 1 I2C port ở chế độ master để điều khiển 1 I2C port khác ở chế độ slave trên cùng 1 board ESP32.</dd>
+<dt>Gán chân:</dt>
+<dd><ul class="first last simple">
+<li><dl class="first docutils">
+<dt>Slave:</dt>
+<dd><ul class="first last">
+<li>Gán chân GPIO26 là chân dữ liệu SDA của i2c slave port</li>
+<li>Gán chân GPIO27 là chân tín hiệu clock SCL của i2c slave port</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Master</dt>
+<dd><ul class="first last">
+<li>Gán chân GPIO16 là chân dữ liệu SDA của i2c master port</li>
+<li>Gán chân GPIO17 là chân tín hiệu clock SCL của i2c master port</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt>Kết nối chân:</dt>
+<dd><p class="first">Tiến hành kết nối các chân SDA và SCL của slave lần lượt với SDA và SCL của master:</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>GPIO26 --&gt; GPIO16</li>
+<li>GPIO27 --&gt; GPIO17</li>
+</ul>
+</div></blockquote>
+</dd>
+<dt>Các bước cơ bản:</dt>
+<dd><blockquote class="first">
+<div><ol class="arabic">
+<li><p class="first">Khởi tạo các port I2C bao gồm cài driver và set các thông số cần thiết.</p>
+</li>
+<li><p class="first">Đọc dữ liệu từ slave về master như sau:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Đẩy dữ liệu từ slave ra I2C buffer</li>
+<li>Master gửi lệnh để đọc dữ liệu từ I2C buffer</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">Gửi dữ liệu từ master đến slave:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Đẩy dữ liệu từ master đến I2C buffer</li>
+<li>Slave đọc dữ liệu từ buffer lưu vào bộ nhớ.</li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+</div></blockquote>
+</dd>
+</dl>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="cm">/* i2c - Example</span>
+<span class="cm">   For other examples please check:</span>
+<span class="cm">   https://github.com/espressif/esp-idf/tree/master/examples</span>
+<span class="cm">   This example code is in the Public Domain (or CC0 licensed, at your option.)</span>
+<span class="cm">   Unless required by applicable law or agreed to in writing, this</span>
+<span class="cm">   software is distributed on an &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR</span>
+<span class="cm">   CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="cm">*/</span>
+<span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;driver/i2c.h&quot;</span><span class="cp"></span>
+
+<span class="cm">/**</span>
+<span class="cm"> * TEST CODE BRIEF</span>
+<span class="cm"> *</span>
+<span class="cm"> * This example will show you how to use I2C module by running a task on i2c bus:</span>
+<span class="cm"> *</span>
+<span class="cm"> * - Use one I2C port(master mode) to read or write the other I2C port(slave mode) on one ESP32 chip.</span>
+<span class="cm"> *</span>
+<span class="cm"> * Pin assignment:</span>
+<span class="cm"> *</span>
+<span class="cm"> * - slave :</span>
+<span class="cm"> *    GPIO26 is assigned as the data signal of i2c slave port</span>
+<span class="cm"> *    GPIO27 is assigned as the clock signal of i2c slave port</span>
+<span class="cm"> * - master:</span>
+<span class="cm"> *    GPIO16 is assigned as the data signal of i2c master port</span>
+<span class="cm"> *    GPIO17 is assigned as the clock signal of i2c master port</span>
+<span class="cm"> *</span>
+<span class="cm"> * Connection:</span>
+<span class="cm"> *</span>
+<span class="cm"> * - connect GPIO16 with GPIO26</span>
+<span class="cm"> * - connect GPIO17 with GPIO27</span>
+<span class="cm"> *</span>
+<span class="cm"> * Test items:</span>
+<span class="cm"> *</span>
+<span class="cm"> * - i2c master(ESP32) will write data to i2c slave(ESP32).</span>
+<span class="cm"> * - i2c master(ESP32) will read data from i2c slave(ESP32).</span>
+<span class="cm"> */</span>
+
+<span class="cp">#define DATA_LENGTH          512  </span><span class="cm">/*!&lt;Data buffer length for test buffer*/</span><span class="cp"></span>
+<span class="cp">#define RW_TEST_LENGTH       129  </span><span class="cm">/*!&lt;Data length for r/w test, any value from 0-DATA_LENGTH*/</span><span class="cp"></span>
+<span class="cp">#define DELAY_TIME_BETWEEN_ITEMS_MS   1234 </span><span class="cm">/*!&lt; delay time between different test items */</span><span class="cp"></span>
+
+<span class="cp">#define I2C_EXAMPLE_SLAVE_SCL_IO     26     </span><span class="cm">/*!&lt;gpio number for i2c slave clock  */</span><span class="cp"></span>
+<span class="cp">#define I2C_EXAMPLE_SLAVE_SDA_IO       27  </span><span class="cm">/*!&lt;gpio number for i2c slave data */</span><span class="cp"></span>
+<span class="cp">#define I2C_EXAMPLE_SLAVE_NUM I2C_NUM_0    </span><span class="cm">/*!&lt;I2C port number for slave dev */</span><span class="cp"></span>
+<span class="cp">#define I2C_EXAMPLE_SLAVE_TX_BUF_LEN  (10*DATA_LENGTH) </span><span class="cm">/*!&lt;I2C slave tx buffer size */</span><span class="cp"></span>
+<span class="cp">#define I2C_EXAMPLE_SLAVE_RX_BUF_LEN  (10*DATA_LENGTH) </span><span class="cm">/*!&lt;I2C slave rx buffer size */</span><span class="cp"></span>
+
+<span class="cp">#define I2C_EXAMPLE_MASTER_SCL_IO    16    </span><span class="cm">/*!&lt; gpio number for I2C master clock */</span><span class="cp"></span>
+<span class="cp">#define I2C_EXAMPLE_MASTER_SDA_IO    17    </span><span class="cm">/*!&lt; gpio number for I2C master data  */</span><span class="cp"></span>
+<span class="cp">#define I2C_EXAMPLE_MASTER_NUM I2C_NUM_1   </span><span class="cm">/*!&lt; I2C port number for master dev */</span><span class="cp"></span>
+<span class="cp">#define I2C_EXAMPLE_MASTER_TX_BUF_DISABLE   0   </span><span class="cm">/*!&lt; I2C master do not need buffer */</span><span class="cp"></span>
+<span class="cp">#define I2C_EXAMPLE_MASTER_RX_BUF_DISABLE   0   </span><span class="cm">/*!&lt; I2C master do not need buffer */</span><span class="cp"></span>
+<span class="cp">#define I2C_EXAMPLE_MASTER_FREQ_HZ    100000     </span><span class="cm">/*!&lt; I2C master clock frequency */</span><span class="cp"></span>
+
+<span class="cp">#define ESP_SLAVE_ADDR 0x28         </span><span class="cm">/*!&lt; ESP32 slave address, you can set any 7bit value */</span><span class="cp"></span>
+<span class="cp">#define WRITE_BIT  I2C_MASTER_WRITE </span><span class="cm">/*!&lt; I2C master write */</span><span class="cp"></span>
+<span class="cp">#define READ_BIT   I2C_MASTER_READ  </span><span class="cm">/*!&lt; I2C master read */</span><span class="cp"></span>
+<span class="cp">#define ACK_CHECK_EN   0x1     </span><span class="cm">/*!&lt; I2C master will check ack from slave*/</span><span class="cp"></span>
+<span class="cp">#define ACK_CHECK_DIS  0x0     </span><span class="cm">/*!&lt; I2C master will not check ack from slave */</span><span class="cp"></span>
+<span class="cp">#define ACK_VAL    0x0         </span><span class="cm">/*!&lt; I2C ack value */</span><span class="cp"></span>
+<span class="cp">#define NACK_VAL   0x1         </span><span class="cm">/*!&lt; I2C nack value */</span><span class="cp"></span>
+
+<span class="cm">/**</span>
+<span class="cm"> * @brief test code to read esp-i2c-slave</span>
+<span class="cm"> *        We need to fill the buffer of esp slave device, then master can read them out.</span>
+<span class="cm"> *</span>
+<span class="cm"> * _______________________________________________________________________________________</span>
+<span class="cm"> * | start | slave_addr + rd_bit +ack | read n-1 bytes + ack | read 1 byte + nack | stop |</span>
+<span class="cm"> * --------|--------------------------|----------------------|--------------------|------|</span>
+<span class="cm"> *</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="n">esp_err_t</span> <span class="nf">i2c_example_master_read_slave</span><span class="p">(</span><span class="n">i2c_port_t</span> <span class="n">i2c_num</span><span class="p">,</span> <span class="kt">uint8_t</span><span class="o">*</span> <span class="n">data_rd</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">ESP_OK</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">i2c_cmd_handle_t</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">i2c_cmd_link_create</span><span class="p">();</span>
+    <span class="n">i2c_master_start</span><span class="p">(</span><span class="n">cmd</span><span class="p">);</span>
+    <span class="n">i2c_master_write_byte</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="p">(</span> <span class="n">ESP_SLAVE_ADDR</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span> <span class="p">)</span> <span class="o">|</span> <span class="n">READ_BIT</span><span class="p">,</span> <span class="n">ACK_CHECK_EN</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">i2c_master_read</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">data_rd</span><span class="p">,</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ACK_VAL</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">i2c_master_read_byte</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">data_rd</span> <span class="o">+</span> <span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NACK_VAL</span><span class="p">);</span>
+    <span class="n">i2c_master_stop</span><span class="p">(</span><span class="n">cmd</span><span class="p">);</span>
+    <span class="n">esp_err_t</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">i2c_master_cmd_begin</span><span class="p">(</span><span class="n">i2c_num</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="mi">1000</span> <span class="o">/</span> <span class="n">portTICK_RATE_MS</span><span class="p">);</span>
+    <span class="n">i2c_cmd_link_delete</span><span class="p">(</span><span class="n">cmd</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * @brief Test code to write esp-i2c-slave</span>
+<span class="cm"> *        Master device write data to slave(both esp32),</span>
+<span class="cm"> *        the data will be stored in slave buffer.</span>
+<span class="cm"> *        We can read them out from slave buffer.</span>
+<span class="cm"> *</span>
+<span class="cm"> * ___________________________________________________________________</span>
+<span class="cm"> * | start | slave_addr + wr_bit + ack | write n bytes + ack  | stop |</span>
+<span class="cm"> * --------|---------------------------|----------------------|------|</span>
+<span class="cm"> *</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="n">esp_err_t</span> <span class="nf">i2c_example_master_write_slave</span><span class="p">(</span><span class="n">i2c_port_t</span> <span class="n">i2c_num</span><span class="p">,</span> <span class="kt">uint8_t</span><span class="o">*</span> <span class="n">data_wr</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">i2c_cmd_handle_t</span> <span class="n">cmd</span> <span class="o">=</span> <span class="n">i2c_cmd_link_create</span><span class="p">();</span>
+    <span class="n">i2c_master_start</span><span class="p">(</span><span class="n">cmd</span><span class="p">);</span>
+    <span class="n">i2c_master_write_byte</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="p">(</span> <span class="n">ESP_SLAVE_ADDR</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span> <span class="p">)</span> <span class="o">|</span> <span class="n">WRITE_BIT</span><span class="p">,</span> <span class="n">ACK_CHECK_EN</span><span class="p">);</span>
+    <span class="n">i2c_master_write</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="n">data_wr</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">ACK_CHECK_EN</span><span class="p">);</span>
+    <span class="n">i2c_master_stop</span><span class="p">(</span><span class="n">cmd</span><span class="p">);</span>
+    <span class="n">esp_err_t</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">i2c_master_cmd_begin</span><span class="p">(</span><span class="n">i2c_num</span><span class="p">,</span> <span class="n">cmd</span><span class="p">,</span> <span class="mi">1000</span> <span class="o">/</span> <span class="n">portTICK_RATE_MS</span><span class="p">);</span>
+    <span class="n">i2c_cmd_link_delete</span><span class="p">(</span><span class="n">cmd</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * @brief test code to write esp-i2c-slave</span>
+<span class="cm"> *</span>
+<span class="cm"> * 1. set mode</span>
+<span class="cm"> * _________________________________________________________________</span>
+<span class="cm"> * | start | slave_addr + wr_bit + ack | write 1 byte + ack  | stop |</span>
+<span class="cm"> * --------|---------------------------|---------------------|------|</span>
+<span class="cm"> * 2. wait more than 24 ms</span>
+<span class="cm"> * 3. read data</span>
+<span class="cm"> * ______________________________________________________________________________________</span>
+<span class="cm"> * | start | slave_addr + rd_bit + ack | read 1 byte + ack  | read 1 byte + nack | stop |</span>
+<span class="cm"> * --------|---------------------------|--------------------|--------------------|------|</span>
+<span class="cm"> */</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * @brief i2c master initialization</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">i2c_example_master_init</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i2c_master_port</span> <span class="o">=</span> <span class="n">I2C_EXAMPLE_MASTER_NUM</span><span class="p">;</span>
+    <span class="n">i2c_config_t</span> <span class="n">conf</span><span class="p">;</span>
+    <span class="n">conf</span><span class="p">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">I2C_MODE_MASTER</span><span class="p">;</span>
+    <span class="n">conf</span><span class="p">.</span><span class="n">sda_io_num</span> <span class="o">=</span> <span class="n">I2C_EXAMPLE_MASTER_SDA_IO</span><span class="p">;</span>
+    <span class="n">conf</span><span class="p">.</span><span class="n">sda_pullup_en</span> <span class="o">=</span> <span class="n">GPIO_PULLUP_ENABLE</span><span class="p">;</span>
+    <span class="n">conf</span><span class="p">.</span><span class="n">scl_io_num</span> <span class="o">=</span> <span class="n">I2C_EXAMPLE_MASTER_SCL_IO</span><span class="p">;</span>
+    <span class="n">conf</span><span class="p">.</span><span class="n">scl_pullup_en</span> <span class="o">=</span> <span class="n">GPIO_PULLUP_ENABLE</span><span class="p">;</span>
+    <span class="n">conf</span><span class="p">.</span><span class="n">master</span><span class="p">.</span><span class="n">clk_speed</span> <span class="o">=</span> <span class="n">I2C_EXAMPLE_MASTER_FREQ_HZ</span><span class="p">;</span>
+    <span class="n">i2c_param_config</span><span class="p">(</span><span class="n">i2c_master_port</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">conf</span><span class="p">);</span>
+    <span class="n">i2c_driver_install</span><span class="p">(</span><span class="n">i2c_master_port</span><span class="p">,</span> <span class="n">conf</span><span class="p">.</span><span class="n">mode</span><span class="p">,</span>
+                       <span class="n">I2C_EXAMPLE_MASTER_RX_BUF_DISABLE</span><span class="p">,</span>
+                       <span class="n">I2C_EXAMPLE_MASTER_TX_BUF_DISABLE</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * @brief i2c slave initialization</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">i2c_example_slave_init</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i2c_slave_port</span> <span class="o">=</span> <span class="n">I2C_EXAMPLE_SLAVE_NUM</span><span class="p">;</span>
+    <span class="n">i2c_config_t</span> <span class="n">conf_slave</span><span class="p">;</span>
+    <span class="n">conf_slave</span><span class="p">.</span><span class="n">sda_io_num</span> <span class="o">=</span> <span class="n">I2C_EXAMPLE_SLAVE_SDA_IO</span><span class="p">;</span>
+    <span class="n">conf_slave</span><span class="p">.</span><span class="n">sda_pullup_en</span> <span class="o">=</span> <span class="n">GPIO_PULLUP_ENABLE</span><span class="p">;</span>
+    <span class="n">conf_slave</span><span class="p">.</span><span class="n">scl_io_num</span> <span class="o">=</span> <span class="n">I2C_EXAMPLE_SLAVE_SCL_IO</span><span class="p">;</span>
+    <span class="n">conf_slave</span><span class="p">.</span><span class="n">scl_pullup_en</span> <span class="o">=</span> <span class="n">GPIO_PULLUP_ENABLE</span><span class="p">;</span>
+    <span class="n">conf_slave</span><span class="p">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">I2C_MODE_SLAVE</span><span class="p">;</span>
+    <span class="n">conf_slave</span><span class="p">.</span><span class="n">slave</span><span class="p">.</span><span class="n">addr_10bit_en</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">conf_slave</span><span class="p">.</span><span class="n">slave</span><span class="p">.</span><span class="n">slave_addr</span> <span class="o">=</span> <span class="n">ESP_SLAVE_ADDR</span><span class="p">;</span>
+    <span class="n">i2c_param_config</span><span class="p">(</span><span class="n">i2c_slave_port</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">conf_slave</span><span class="p">);</span>
+    <span class="n">i2c_driver_install</span><span class="p">(</span><span class="n">i2c_slave_port</span><span class="p">,</span> <span class="n">conf_slave</span><span class="p">.</span><span class="n">mode</span><span class="p">,</span>
+                       <span class="n">I2C_EXAMPLE_SLAVE_RX_BUF_LEN</span><span class="p">,</span>
+                       <span class="n">I2C_EXAMPLE_SLAVE_TX_BUF_LEN</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * @brief test function to show buffer</span>
+<span class="cm"> */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">disp_buf</span><span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span> <span class="n">buf</span><span class="p">,</span> <span class="kt">int</span> <span class="n">len</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">len</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%02x &quot;</span><span class="p">,</span> <span class="n">buf</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="k">if</span> <span class="p">((</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">)</span> <span class="o">%</span> <span class="mi">16</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">i2c_test_task</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">arg</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">ret</span><span class="p">;</span>
+    <span class="kt">uint32_t</span> <span class="n">task_idx</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint32_t</span><span class="p">)</span> <span class="n">arg</span><span class="p">;</span>
+    <span class="kt">uint8_t</span><span class="o">*</span> <span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="n">DATA_LENGTH</span><span class="p">);</span>
+    <span class="kt">uint8_t</span><span class="o">*</span> <span class="n">data_wr</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="n">DATA_LENGTH</span><span class="p">);</span>
+    <span class="kt">uint8_t</span><span class="o">*</span> <span class="n">data_rd</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span><span class="p">)</span> <span class="n">malloc</span><span class="p">(</span><span class="n">DATA_LENGTH</span><span class="p">);</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">DATA_LENGTH</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="kt">size_t</span> <span class="n">d_size</span> <span class="o">=</span> <span class="n">i2c_slave_write_buffer</span><span class="p">(</span><span class="n">I2C_EXAMPLE_SLAVE_NUM</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">RW_TEST_LENGTH</span><span class="p">,</span> <span class="mi">1000</span> <span class="o">/</span> <span class="n">portTICK_RATE_MS</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">d_size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;i2c slave tx buffer full</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="n">i2c_example_master_read_slave</span><span class="p">(</span><span class="n">I2C_EXAMPLE_MASTER_NUM</span><span class="p">,</span> <span class="n">data_rd</span><span class="p">,</span> <span class="n">DATA_LENGTH</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="n">i2c_example_master_read_slave</span><span class="p">(</span><span class="n">I2C_EXAMPLE_MASTER_NUM</span><span class="p">,</span> <span class="n">data_rd</span><span class="p">,</span> <span class="n">RW_TEST_LENGTH</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;*******************</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;TASK[%d]  MASTER READ FROM SLAVE</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">task_idx</span><span class="p">);</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;*******************</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;====TASK[%d] Slave buffer data ====</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">task_idx</span><span class="p">);</span>
+        <span class="n">disp_buf</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">d_size</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">==</span> <span class="n">ESP_OK</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;====TASK[%d] Master read ====</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">task_idx</span><span class="p">);</span>
+            <span class="n">disp_buf</span><span class="p">(</span><span class="n">data_rd</span><span class="p">,</span> <span class="n">d_size</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Master read slave error, IO not connected...</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">vTaskDelay</span><span class="p">((</span> <span class="n">DELAY_TIME_BETWEEN_ITEMS_MS</span> <span class="o">*</span> <span class="p">(</span> <span class="n">task_idx</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">)</span> <span class="p">)</span> <span class="o">/</span> <span class="n">portTICK_RATE_MS</span><span class="p">);</span>
+        <span class="c1">//---------------------------------------------------</span>
+        <span class="kt">int</span> <span class="n">size</span><span class="p">;</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">DATA_LENGTH</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">data_wr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">10</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="c1">//we need to fill the slave buffer so that master can read later</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">i2c_example_master_write_slave</span><span class="p">(</span> <span class="n">I2C_EXAMPLE_MASTER_NUM</span><span class="p">,</span> <span class="n">data_wr</span><span class="p">,</span> <span class="n">RW_TEST_LENGTH</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">==</span> <span class="n">ESP_OK</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="n">i2c_slave_read_buffer</span><span class="p">(</span> <span class="n">I2C_EXAMPLE_SLAVE_NUM</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">RW_TEST_LENGTH</span><span class="p">,</span> <span class="mi">1000</span> <span class="o">/</span> <span class="n">portTICK_RATE_MS</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;*******************</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;TASK[%d]  MASTER WRITE TO SLAVE</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">task_idx</span><span class="p">);</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;*******************</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;----TASK[%d] Master write ----</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">task_idx</span><span class="p">);</span>
+        <span class="n">disp_buf</span><span class="p">(</span><span class="n">data_wr</span><span class="p">,</span> <span class="n">RW_TEST_LENGTH</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">==</span> <span class="n">ESP_OK</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;----TASK[%d] Slave read: [%d] bytes ----</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">task_idx</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+            <span class="n">disp_buf</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">size</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;TASK[%d] Master write slave error, IO not connected....</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">task_idx</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">vTaskDelay</span><span class="p">((</span> <span class="n">DELAY_TIME_BETWEEN_ITEMS_MS</span> <span class="o">*</span> <span class="p">(</span> <span class="n">task_idx</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">)</span> <span class="p">)</span> <span class="o">/</span> <span class="n">portTICK_RATE_MS</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">app_main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">i2c_example_slave_init</span><span class="p">();</span>
+    <span class="n">i2c_example_master_init</span><span class="p">();</span>
+
+    <span class="n">xTaskCreate</span><span class="p">(</span><span class="n">i2c_test_task</span><span class="p">,</span> <span class="s">&quot;i2c test&quot;</span><span class="p">,</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/6fbd6a0/components/driver/include/driver/i2c.h">driver/include/driver/i2c.h</a></li>
+</ul>
+</div>
+<div class="section" id="mot-so-ham-tham-khao">
+<h3>Một số hàm tham khảo<a class="headerlink" href="#mot-so-ham-tham-khao" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="c.i2c_driver_install">
+esp_err_t <code class="descname">i2c_driver_install</code><span class="sig-paren">(</span>i2c_port_t<em>&nbsp;i2c_num</em>, i2c_mode_t<em>&nbsp;mode</em>, size_t<em>&nbsp;slv_rx_buf_len</em>, size_t<em>&nbsp;slv_tx_buf_len</em>, int<em>&nbsp;intr_alloc_flags</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_driver_install" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Cài đặt I2C driver.</dd>
+<dt>Note:</dt>
+<dd>Chỉ có slave mode sử dụng giá trị này. Driver sẽ bỏ qua gía trị này trong master mode.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK  Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+<li>ESP_FAIL  Lỗi cài đặt driver.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">i2c_num</span></code>: Cổng điều khiển I2C.</li>
+<li><code class="docutils literal"><span class="pre">mode</span></code>: Chế độ làm việc của thiết bị khi kết nối I2C.</li>
+<li><code class="docutils literal"><span class="pre">slv_rx_buf_len</span></code>: Kích thước bộ đệm thu của Slave.</li>
+<li><code class="docutils literal"><span class="pre">slv_tx_buf_len</span></code>: Kích thước bộ đệm gửi của Slave.</li>
+<li><code class="docutils literal"><span class="pre">intr_alloc_flags</span></code>: Các cờ cấp phát cho ngắt. Dùng để xác định mức độ ưu tiên cho ngắt. Được quy định trong file esp_intr_alloc.h</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_driver_delete">
+esp_err_t <code class="descname">i2c_driver_delete</code><span class="sig-paren">(</span>i2c_port_t<em>&nbsp;i2c_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_driver_delete" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Xóa I2C driver.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">i2c_num</span></code>: Cổng điều khiển I2C.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_param_config">
+esp_err_t <code class="descname">i2c_param_config</code><span class="sig-paren">(</span>i2c_port_t<em>&nbsp;i2c_num</em>, const <a class="reference internal" href="#c.i2c_config_t" title="i2c_config_t">i2c_config_t</a><em>&nbsp;*i2c_conf</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_param_config" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Khởi tạo các thông số điều khiển I2C.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">i2c_num</span></code>: Cổng điều khiển I2C.</li>
+<li><code class="docutils literal"><span class="pre">i2c_conf</span></code>: Con trỏ trỏ đến biến chứa thông số cài đặt I2C.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_reset_rx_fifo">
+esp_err_t <code class="descname">i2c_reset_rx_fifo</code><span class="sig-paren">(</span>i2c_port_t<em>&nbsp;i2c_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_reset_rx_fifo" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Reset bộ đệm thu của cổng I2C..</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">i2c_num</span></code>: Cổng điều khiển I2C.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_reset_tx_fifo">
+esp_err_t <code class="descname">i2c_reset_tx_fifo</code><span class="sig-paren">(</span>i2c_port_t<em>&nbsp;i2c_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_reset_tx_fifo" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Reset bộ đệm phát của cổng I2C.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">i2c_num</span></code>: Cổng điều khiển I2C.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_isr_register">
+esp_err_t <code class="descname">i2c_isr_register</code><span class="sig-paren">(</span>i2c_port_t<em>&nbsp;i2c_num</em>, void (<em>*fn</em>)(void *), void<em>&nbsp;*arg</em>, int<em>&nbsp;intr_alloc_flags</em>, intr_handle_t<em>&nbsp;*handle</em>, <span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_isr_register" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Quản lý trình phục vụ ngắt trong giao tiếp I2C.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">i2c_num</span></code>: Cổng điều khiển I2C.</li>
+<li><code class="docutils literal"><span class="pre">fn</span></code>: Hàm gọi chương trình phục vụ ngắt.</li>
+<li><code class="docutils literal"><span class="pre">arg</span></code>: Đối số cho hàm phục vụ ngắt.</li>
+<li><code class="docutils literal"><span class="pre">intr_alloc_flags</span></code>: Các cờ cấp phát cho ngắt. Dùng để xác định mức độ ưu tiên cho ngắt. Được quy định trong file esp_intr_alloc.h</li>
+<li><code class="docutils literal"><span class="pre">hanlde</span></code>: Con trỏ trỏ đến trình phục vụ ngắt, quản lý trở về từ esp_intr_alloc.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_isr_free">
+esp_err_t <code class="descname">i2c_isr_free</code><span class="sig-paren">(</span>intr_handle_t<em>&nbsp;handle</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_isr_free" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Xóa trình phục vụ ngắt, giải phóng bộ nhớ.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">handle</span></code>: Chương trình quản lý phục vụ ngắt.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_set_pin">
+esp_err_t <code class="descname">i2c_set_pin</code><span class="sig-paren">(</span>i2c_port_t<em>&nbsp;i2c_num</em>, <a class="reference internal" href="gpio.html#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;sda_io_num</em>, <a class="reference internal" href="gpio.html#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a><em>&nbsp;scl_io_num</em>, <a class="reference internal" href="gpio.html#c.gpio_pullup_t" title="gpio_pullup_t">gpio_pullup_t</a><em>&nbsp;sda_pullup_en</em>, <a class="reference internal" href="gpio.html#c.gpio_pullup_t" title="gpio_pullup_t">gpio_pullup_t</a><em>&nbsp;scl_pullup_en</em>, i2c_mode_t<em>&nbsp;mode</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_set_pin" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Cấu hình chân GPIO thành SCL và SDA để kết nối I2C.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">i2c_num</span></code>: Cổng điều khiển I2C.</li>
+<li><code class="docutils literal"><span class="pre">sda_io_num</span></code>: Chân GPIO được cấu hình thành SDA</li>
+<li><code class="docutils literal"><span class="pre">scl_io_num</span></code>: Chân GPIO được cấu hình thành SCL</li>
+<li><code class="docutils literal"><span class="pre">sda_pullup_en</span></code>: Cho phép chức năng pullup trên chân SDA.</li>
+<li><code class="docutils literal"><span class="pre">scl_pullup_en</span></code>: Cho phép chức năng pullup trên chân SCL.</li>
+<li><code class="docutils literal"><span class="pre">mode</span></code>: Chế độ hoạt động của thiết bị kết nối I2C.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_cmd_link_create">
+<a class="reference internal" href="#c.i2c_cmd_handle_t" title="i2c_cmd_handle_t">i2c_cmd_handle_t</a> <code class="descname">i2c_cmd_link_create</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_cmd_link_create" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Tạo và khởi động command link</dd>
+<dt>Note:</dt>
+<dd>Khi muốn gửi lệnh thông qua I2C, ta phải gọi hàm này để tạo command link. Sau khi kết thúc việc gửi các lệnh, ta cần xóa command link để giải phóng tài nguyên cho CPU bằng cách gọi hàm i2c_cmd_link_delete().</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>i2c command link handle.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_cmd_link_delete">
+void <code class="descname">i2c_cmd_link_delete</code><span class="sig-paren">(</span><a class="reference internal" href="#c.i2c_cmd_handle_t" title="i2c_cmd_handle_t">i2c_cmd_handle_t</a><em>&nbsp;cmd_handle</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_cmd_link_delete" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Xóa command link.</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">cmd_handle</span></code>: i2c command link handle.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_master_start">
+esp_err_t <code class="descname">i2c_master_start</code><span class="sig-paren">(</span><a class="reference internal" href="#c.i2c_cmd_handle_t" title="i2c_cmd_handle_t">i2c_cmd_handle_t</a><em>&nbsp;cmd_handle</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_master_start" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Gửi 1 lệnh đến hàng chờ của I2C master để tạo tín hiệu start.</dd>
+<dt>Note:</dt>
+<dd>Chỉ gọi hàm này khi ở chế độ master, gọi hàm i2c_master_cmd_begin() để gửi tất cả các lệnh ở hàng chờ.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">cmd_handle</span></code>: i2c command link handle.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_master_write_byte">
+esp_err_t <code class="descname">i2c_master_write_byte</code><span class="sig-paren">(</span><a class="reference internal" href="#c.i2c_cmd_handle_t" title="i2c_cmd_handle_t">i2c_cmd_handle_t</a><em>&nbsp;cmd_handle</em>, uint8_t<em>&nbsp;data</em>, bool<em>&nbsp;ack_en</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_master_write_byte" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Gửi 1 lệnh đến hàng chờ của I2C master để ghi 1 byte dữ liệu lên I2C bus.</dd>
+<dt>Note:</dt>
+<dd>Chỉ gọi hàm này khi ở chế độ master, gọi hàm i2c_master_cmd_begin() để gửi tất cả các lệnh ở hàng chờ.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">cmd_handle</span></code>: i2c command link handle.</li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: 1 byte dữ liệu ghi lên bus của I2C.</li>
+<li><code class="docutils literal"><span class="pre">ack_en</span></code>: Cho phép chức năng kiểm tra ACK.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_master_write">
+esp_err_t <code class="descname">i2c_master_write</code><span class="sig-paren">(</span><a class="reference internal" href="#c.i2c_cmd_handle_t" title="i2c_cmd_handle_t">i2c_cmd_handle_t</a><em>&nbsp;cmd_handle</em>, uint8_t<em>&nbsp;*data</em>, size_t<em>&nbsp;data_len</em>, bool<em>&nbsp;ack_en</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_master_write" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Gửi 1 lệnh đến hàng chờ của I2C master để ghi dữ liệu vào bộ đệm I2C bus.</dd>
+<dt>Note:</dt>
+<dd>Chỉ gọi hàm này khi ở chế độ master, gọi hàm i2c_master_cmd_begin() để gửi tất cả các lệnh ở hàng chờ.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">cmd_handle</span></code>: i2c command link handle.</li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: Dữ liệu cần gửi.</li>
+<li><code class="docutils literal"><span class="pre">data_len</span></code>: Độ dài dữ liệu.</li>
+<li><code class="docutils literal"><span class="pre">ack_en</span></code>: Cho phép chức năng kiểm tra ACK.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_master_read_byte">
+esp_err_t <code class="descname">i2c_master_read_byte</code><span class="sig-paren">(</span><a class="reference internal" href="#c.i2c_cmd_handle_t" title="i2c_cmd_handle_t">i2c_cmd_handle_t</a><em>&nbsp;cmd_handle</em>, uint8_t<em>&nbsp;*data</em>, int<em>&nbsp;ack</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_master_read_byte" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Gửi 1 lệnh đến hàng chờ của I2C master để đọc 1byte dữ liệu từ I2C bus.</dd>
+<dt>Note:</dt>
+<dd>Chỉ gọi hàm này khi ở chế độ master, gọi hàm i2c_master_cmd_begin() để gửi tất cả các lệnh ở hàng chờ.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">cmd_handle</span></code>: i2c command link handle.</li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: Con trỏ trỏ đến bộ nhớ tiếp nhận dữ liệu để đọc.</li>
+<li><code class="docutils literal"><span class="pre">ack</span></code>: Giá trị ACK cho lệnh đọc dữ liệu.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_master_read">
+esp_err_t <code class="descname">i2c_master_read</code><span class="sig-paren">(</span><a class="reference internal" href="#c.i2c_cmd_handle_t" title="i2c_cmd_handle_t">i2c_cmd_handle_t</a><em>&nbsp;cmd_handle</em>, uint8_t<em>&nbsp;*data</em>, size_t<em>&nbsp;data_len</em>, int<em>&nbsp;ack</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_master_read" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Gửi 1 lệnh đến hàng chờ của I2C master để đọc dữ liệu từ I2C bus.</dd>
+<dt>Note:</dt>
+<dd>Chỉ gọi hàm này khi ở chế độ master, gọi hàm i2c_master_cmd_begin() để gửi tất cả các lệnh ở hàng chờ.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">cmd_handle</span></code>: i2c command link handle.</li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: Con trỏ trỏ đến bộ nhớ tiếp nhận dữ liệu để đọc.</li>
+<li><code class="docutils literal"><span class="pre">data_len</span></code>: Độ dài dữ liệu cần đọc.</li>
+<li><code class="docutils literal"><span class="pre">ack</span></code>: Giá trị ACK cho lệnh đọc dữ liệu.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_master_stop">
+esp_err_t <code class="descname">i2c_master_stop</code><span class="sig-paren">(</span><a class="reference internal" href="#c.i2c_cmd_handle_t" title="i2c_cmd_handle_t">i2c_cmd_handle_t</a><em>&nbsp;cmd_handle</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_master_stop" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Gửi 1 lệnh đến hàng chờ của I2C master để tạo tín hiệu stop.</dd>
+<dt>Note:</dt>
+<dd>Chỉ gọi hàm này khi ở chế độ master, gọi hàm i2c_master_cmd_begin() để gửi tất cả các lệnh ở hàng chờ.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">cmd_handle</span></code>: i2c command link handle.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_master_cmd_begin">
+esp_err_t <code class="descname">i2c_master_cmd_begin</code><span class="sig-paren">(</span>i2c_port_t<em>&nbsp;i2c_num</em>, <a class="reference internal" href="#c.i2c_cmd_handle_t" title="i2c_cmd_handle_t">i2c_cmd_handle_t</a><em>&nbsp;cmd_handle</em>, portBASE_TYPE<em>&nbsp;ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_master_cmd_begin" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>I2C master gửi đi tất cả các lệnh trong hàng chờ. Các tác vụ khác sẽ bị block cho đến khi tất cả các lệnh được gửi đi. Vì vậy, khi sử dụng I2C trong việc điều khiển nhiều tác vụ cần chú ý đến vấn đề multi-thread.</dd>
+<dt>Note:</dt>
+<dd>Chỉ gọi hàm này khi ở chế độ master.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+<li>ESP_FAIL Lỗi khi gửi lệnh, slave không nhận được đường truyền.</li>
+<li>ESP_ERR_INVALID_STATE Chưa cài đặt I2C driver hoặc đang không ở trong master mode.</li>
+<li>ESP_ERR_TIMEOUT Quá thời gian chờ, đường truyền đang bận.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">i2c_num</span></code>: Cổng điều khiển I2C.</li>
+<li><code class="docutils literal"><span class="pre">cmd_handle</span></code>: i2c command link handle.</li>
+<li><code class="docutils literal"><span class="pre">ticks_to_wait</span></code>: thời gian chờ tối đa.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_slave_write_buffer">
+int <code class="descname">i2c_slave_write_buffer</code><span class="sig-paren">(</span>i2c_port_t<em>&nbsp;i2c_num</em>, uint8_t<em>&nbsp;*data</em>, int<em>&nbsp;size</em>, portBASE_TYPE<em>&nbsp;ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_slave_write_buffer" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>I2C slave ghi dữ liệu vào bộ đệm trong (internal ringbuffer), khi bộ đệm truyền (tx fifo) rỗng, dữ liệu sẽ được đẩy vào fifo từ bộ đệm internal rungbuffer này.</dd>
+<dt>Note:</dt>
+<dd>Chỉ gọi hàm này khi ở chế độ slave.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_FAIL(-1) Parameter error</li>
+<li>Others(&gt;=0) Số byte dữ liệu được đẩy ra slave buffer.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">i2c_num</span></code>: Cổng điều khiển I2C.</li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: Con trỏ dữ liệu trỏ đến bộ nhớ đệm internal ringbuffer.</li>
+<li><code class="docutils literal"><span class="pre">size</span></code>: Kích thước dữ liệu.</li>
+<li><code class="docutils literal"><span class="pre">ticks_to_wait</span></code>: thời gian chờ tối đa.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_slave_read_buffer">
+int <code class="descname">i2c_slave_read_buffer</code><span class="sig-paren">(</span>i2c_port_t<em>&nbsp;i2c_num</em>, uint8_t<em>&nbsp;*data</em>, size_t<em>&nbsp;max_size</em>, portBASE_TYPE<em>&nbsp;ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_slave_read_buffer" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>I2C slave đọc dữ liệu từ bộ đệm internal buffer. Khi I2C slave nhận dữ liệu, dữ liệu này sẽ được copy từ bộ đệm thu (rx fifo) đến bộ đệm internal ringbuffer.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_FAIL(-1) Parameter error</li>
+<li>Others(&gt;=0) Số byte dữ liệu đọc được từ slave buffer.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">i2c_num</span></code>: Cổng điều khiển I2C.</li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: Con trỏ dữ liệu trỏ đến bộ nhớ đệm internal ringbuffer.</li>
+<li><code class="docutils literal"><span class="pre">max_size</span></code>: Kích thước dữ liệu tối đa có thể đọc.</li>
+<li><code class="docutils literal"><span class="pre">ticks_to_wait</span></code>: thời gian chờ tối đa.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_set_period">
+esp_err_t <code class="descname">i2c_set_period</code><span class="sig-paren">(</span>i2c_port_t<em>&nbsp;i2c_num</em>, int<em>&nbsp;high_period</em>, int<em>&nbsp;low_period</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_set_period" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Cài đặt chu kì clock cho I2C master</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">i2c_num</span></code>: Cổng điều khiển I2C.</li>
+<li><code class="docutils literal"><span class="pre">high_period</span></code>: Số chu kỳ clock ở mức cao, high_period là 1 giá trị 14 bit.</li>
+<li><code class="docutils literal"><span class="pre">low_period</span></code>: Số chu kỳ clock ở mức thấp, low_period là 1 giá trị 14 bit.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_get_period">
+esp_err_t <code class="descname">i2c_get_period</code><span class="sig-paren">(</span>i2c_port_t<em>&nbsp;i2c_num</em>, int<em>&nbsp;*high_period</em>, int<em>&nbsp;*low_period</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_get_period" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Lấy chu kì clock của I2C master</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">i2c_num</span></code>: Cổng điều khiển I2C.</li>
+<li><code class="docutils literal"><span class="pre">high_period</span></code>: con trỏ đến số chu kỳ clock mức cao, sẽ lấy về 1 giá trị 14 bit.</li>
+<li><code class="docutils literal"><span class="pre">low_period</span></code>: con trỏ đến số chu kỳ clock mức thấp, sẽ lấy về 1 giá trị 14 bit.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_set_start_timing">
+esp_err_t <code class="descname">i2c_set_start_timing</code><span class="sig-paren">(</span>i2c_port_t<em>&nbsp;i2c_num</em>, int<em>&nbsp;setup_time</em>, int<em>&nbsp;hold_time</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_set_start_timing" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Cài đặt timing cho tín hiệu start</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">i2c_num</span></code>: Cổng điều khiển I2C.</li>
+<li><code class="docutils literal"><span class="pre">setup_time</span></code>: số clock tính từ cạnh xuống của SDA đến cạnh lên của SCL. Là giá trị 10 bit</li>
+<li><code class="docutils literal"><span class="pre">hold_time</span></code>: số clock tính từ cạnh xuống của SDA đến cạnh xuống của SCL. Là gía trị 10 bit</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_get_start_timing">
+esp_err_t <code class="descname">i2c_get_start_timing</code><span class="sig-paren">(</span>i2c_port_t<em>&nbsp;i2c_num</em>, int<em>&nbsp;*setup_time</em>, int<em>&nbsp;*hold_time</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_get_start_timing" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Lấy kết quả cài đặt timing của start signal.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">i2c_num</span></code>: Cổng điều khiển I2C.</li>
+<li><code class="docutils literal"><span class="pre">setup_time</span></code>: con trỏ đến setup time start.</li>
+<li><code class="docutils literal"><span class="pre">hold_time</span></code>: con trỏ đến hold time start.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_set_stop_timing">
+esp_err_t <code class="descname">i2c_set_stop_timing</code><span class="sig-paren">(</span>i2c_port_t<em>&nbsp;i2c_num</em>, int<em>&nbsp;setup_time</em>, int<em>&nbsp;hold_time</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_set_stop_timing" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Cài đặt timing cho tín hiệu stop</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">i2c_num</span></code>: Cổng điều khiển I2C.</li>
+<li><code class="docutils literal"><span class="pre">setup_time</span></code>: số clock tính từ cạnh lên của SCL đến cạnh lên của SDA. Đây là 1 giá trị 10 bit.</li>
+<li><code class="docutils literal"><span class="pre">hold_time</span></code>: số clock tính từ sau cạnh lên của STOP bit, là gía trị 14 bit.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_get_stop_timing">
+esp_err_t <code class="descname">i2c_get_stop_timing</code><span class="sig-paren">(</span>i2c_port_t<em>&nbsp;i2c_num</em>, int<em>&nbsp;*setup_time</em>, int<em>&nbsp;*hold_time</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_get_stop_timing" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Lấy kết quả cài đặt timing của stop signal.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">i2c_num</span></code>: Cổng điều khiển I2C.</li>
+<li><code class="docutils literal"><span class="pre">setup_time</span></code>: con trỏ đến setup time stop.</li>
+<li><code class="docutils literal"><span class="pre">hold_time</span></code>: con trỏ đến hold time stop.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_set_data_timing">
+esp_err_t <code class="descname">i2c_set_data_timing</code><span class="sig-paren">(</span>i2c_port_t<em>&nbsp;i2c_num</em>, int<em>&nbsp;sample_time</em>, int<em>&nbsp;hold_time</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_set_data_timing" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Cài đặt timing cho tín hiệu data.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">i2c_num</span></code>: Cổng điều khiển I2C.</li>
+<li><code class="docutils literal"><span class="pre">sample_time</span></code>: số clock sử dụng để lấy mẫu trên SDA sau khi phát hiện cạnh lên của SCL. Là 1 giá trị 10 bit.</li>
+<li><code class="docutils literal"><span class="pre">hold_time</span></code>: số clock sử dụng để giữ dữ liệu sau khi có cạnh xuống của SCL. Là 1 giá trị 10 bit.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_get_data_timing">
+esp_err_t <code class="descname">i2c_get_data_timing</code><span class="sig-paren">(</span>i2c_port_t<em>&nbsp;i2c_num</em>, int<em>&nbsp;*sample_time</em>, int<em>&nbsp;*hold_time</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_get_data_timing" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Lấy kết quả cài đặt timing của tín hiệu data.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">i2c_num</span></code>: Cổng điều khiển I2C.</li>
+<li><code class="docutils literal"><span class="pre">sample_time</span></code>: Con trỏ đến sample time data.</li>
+<li><code class="docutils literal"><span class="pre">hold_time</span></code>: Con trỏ đến hold time data.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_set_data_mode">
+esp_err_t <code class="descname">i2c_set_data_mode</code><span class="sig-paren">(</span>i2c_port_t<em>&nbsp;i2c_num</em>, i2c_trans_mode_t<em>&nbsp;tx_trans_mode</em>, i2c_trans_mode_t<em>&nbsp;rx_trans_mode</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_set_data_mode" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Cài đặt chế độ truyền dữ liệu.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li>&quot;i2c_num&quot;: Cổng điều khiển I2C.</li>
+<li><code class="docutils literal"><span class="pre">tx_trans_mode</span></code>: Chế độ gửi dữ liệu.</li>
+<li><code class="docutils literal"><span class="pre">rx_trans_mode</span></code>: Chế độ thu dữ liệu.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="c.i2c_get_data_mode">
+esp_err_t <code class="descname">i2c_get_data_mode</code><span class="sig-paren">(</span>i2c_port_t<em>&nbsp;i2c_num</em>, i2c_trans_mode_t<em>&nbsp;*tx_trans_mode</em>, i2c_trans_mode_t<em>&nbsp;*rx_trans_mode</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2c_get_data_mode" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Mô tả hàm:</dt>
+<dd>Lấy kết quả cài đặt chế độ truyền dữ liệu.</dd>
+<dt>Kết quả trả về:</dt>
+<dd><ul class="first last simple">
+<li>ESP_OK Thành công.</li>
+<li>ESP_ERR_INVALID_ARG Lỗi đối số.</li>
+</ul>
+</dd>
+<dt>Các đối số:</dt>
+<dd><ul class="first last simple">
+<li>&quot;i2c_num&quot;: Cổng điều khiển I2C.</li>
+<li><code class="docutils literal"><span class="pre">tx_trans_mode</span></code>: Con trỏ để lấy chế độ truyền dữ liệu</li>
+<li><code class="docutils literal"><span class="pre">rx_trans_mode</span></code>: Con trỏ để thu chế độ truyền dữ liệu</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="member">
+<dt id="c.i2c_config_t">
+struct <code class="descname">i2c_config_t</code><a class="headerlink" href="#c.i2c_config_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Khởi tạo các thông số cho I2C.</p>
+<blockquote>
+<div><p><strong>Public Members</strong></p>
+<dl class="member">
+<dt id="c.mode">
+i2c_mode_t <code class="descname">mode</code><a class="headerlink" href="#c.mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>I2C mode</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="c.sda_io_num">
+<a class="reference internal" href="gpio.html#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a> <code class="descname">sda_io_num</code><a class="headerlink" href="#c.sda_io_num" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chân GPIO cho tín hiệu SDA</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="c.sda_pullup_en">
+<a class="reference internal" href="gpio.html#c.gpio_pullup_t" title="gpio_pullup_t">gpio_pullup_t</a> <code class="descname">sda_pullup_en</code><a class="headerlink" href="#c.sda_pullup_en" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chế độ pull-up cho tín hiệu SDA</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="c.scl_io_num">
+<a class="reference internal" href="gpio.html#c.gpio_num_t" title="gpio_num_t">gpio_num_t</a> <code class="descname">scl_io_num</code><a class="headerlink" href="#c.scl_io_num" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chân GPIO cho tín hiệu SCL</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="c.scl_pullup_en">
+<a class="reference internal" href="gpio.html#c.gpio_pullup_t" title="gpio_pullup_t">gpio_pullup_t</a> <code class="descname">scl_pullup_en</code><a class="headerlink" href="#c.scl_pullup_en" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chế độ pull-up cho tín hiệu SCL</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="c.clk_speed">
+uint32_t <code class="descname">clk_speed</code><a class="headerlink" href="#c.clk_speed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tần số clock cho I2C master mode, (không lớn hơn 1MHz)</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="c.addr_10bit_en">
+uint8_t <code class="descname">addr_10bit_en</code><a class="headerlink" href="#c.addr_10bit_en" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chế độ 10 bit địa chỉ cho slave</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="c.slave_addr">
+uint16_t <code class="descname">slave_addr</code><a class="headerlink" href="#c.slave_addr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Địa chỉ của Slave</p>
+</dd></dl>
+
+</div></blockquote>
+</dd></dl>
+
+</div>
+<div class="section" id="macro">
+<h3>Macro<a class="headerlink" href="#macro" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.APB_CLK_FREQ">
+I2C_APB_CLK_FREQ <code class="descname">APB_CLK_FREQ</code><a class="headerlink" href="#c.APB_CLK_FREQ" title="Permalink to this definition">¶</a></dt>
+<dd><p>Nguồn clock cấp cho I2C là APB clock (Advanced Peripheral Bus) 80MHz</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I2C_FIFO_LEN">
+<code class="descname">I2C_FIFO_LEN</code><span class="sig-paren">(</span>32<span class="sig-paren">)</span><a class="headerlink" href="#c.I2C_FIFO_LEN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Độ dài của FIFO hardware</p>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="c.i2c_cmd_handle_t">
+typedef void *<code class="descname">i2c_cmd_handle_t</code><a class="headerlink" href="#c.i2c_cmd_handle_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>I2C command handle</p>
+</dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="enum">
+<dt id="_CPPv210i2c_mode_t">
+<em class="property">enum </em><code class="descclassname"></code><code class="descname">i2c_mode_t</code><a class="headerlink" href="#_CPPv210i2c_mode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><cite>Các giá trị</cite>:</p>
+<dl class="macro">
+<dt id="c.0">
+I2C_MODE_SLAVE = <code class="descname">0</code><a class="headerlink" href="#c.0" title="Permalink to this definition">¶</a></dt>
+<dd><p>I2C slave mode</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I2C_MODE_MASTER">
+<code class="descname">I2C_MODE_MASTER</code><a class="headerlink" href="#c.I2C_MODE_MASTER" title="Permalink to this definition">¶</a></dt>
+<dd><p>I2C master mode</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I2C_MODE_MAX">
+<code class="descname">I2C_MODE_MAX</code><a class="headerlink" href="#c.I2C_MODE_MAX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="enum">
+<dt id="_CPPv28i2c_rw_t">
+<em class="property">enum </em><code class="descclassname"></code><code class="descname">i2c_rw_t</code><a class="headerlink" href="#_CPPv28i2c_rw_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><cite>Các giá trị</cite>:</p>
+<dl class="macro">
+<dt>
+I2C_MASTER_WRITE = <code class="descname">0</code></dt>
+<dd><p>I2C ghi dữ liệu từ master đến slave</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I2C_MASTER_READ">
+<code class="descname">I2C_MASTER_READ</code><a class="headerlink" href="#c.I2C_MASTER_READ" title="Permalink to this definition">¶</a></dt>
+<dd><p>I2C đọc dữ liệu từ slave về master</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="enum">
+<dt id="_CPPv216i2c_trans_mode_t">
+<em class="property">enum </em><code class="descclassname"></code><code class="descname">i2c_trans_mode_t</code><a class="headerlink" href="#_CPPv216i2c_trans_mode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><cite>Các gía trị</cite>:</p>
+<dl class="macro">
+<dt>
+I2C_DATA_MODE_MSB_FIRST = <code class="descname">0</code></dt>
+<dd><p>Bit có trọng số cao của dữ liệu được truyền trước</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.1">
+I2C_DATA_MODE_LSB_FIRST = <code class="descname">1</code><a class="headerlink" href="#c.1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bit có trọng số thấp của dữ liệu được truyền trước</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I2C_DATA_MODE_MAX">
+<code class="descname">I2C_DATA_MODE_MAX</code><a class="headerlink" href="#c.I2C_DATA_MODE_MAX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="enum">
+<dt id="_CPPv212i2c_opmode_t">
+<em class="property">enum </em><code class="descclassname"></code><code class="descname">i2c_opmode_t</code><a class="headerlink" href="#_CPPv212i2c_opmode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><cite>Các giá trị</cite>:</p>
+<dl class="macro">
+<dt>
+I2C_CMD_RESTART = <code class="descname">0</code></dt>
+<dd><p>Lệnh restart I2C</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I2C_CMD_WRITE">
+<code class="descname">I2C_CMD_WRITE</code><a class="headerlink" href="#c.I2C_CMD_WRITE" title="Permalink to this definition">¶</a></dt>
+<dd><p>I2C write command</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I2C_CMD_READ">
+<code class="descname">I2C_CMD_READ</code><a class="headerlink" href="#c.I2C_CMD_READ" title="Permalink to this definition">¶</a></dt>
+<dd><p>I2C read command</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I2C_CMD_STOP">
+<code class="descname">I2C_CMD_STOP</code><a class="headerlink" href="#c.I2C_CMD_STOP" title="Permalink to this definition">¶</a></dt>
+<dd><p>I2C stop command</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I2C_CMD_END">
+<code class="descname">I2C_CMD_END</code><a class="headerlink" href="#c.I2C_CMD_END" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lệnh kết thúc I2C</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="enum">
+<dt id="_CPPv210i2c_port_t">
+<em class="property">enum </em><code class="descclassname"></code><code class="descname">i2c_port_t</code><a class="headerlink" href="#_CPPv210i2c_port_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><cite>Các giá trị</cite>:</p>
+<blockquote>
+<div><dl class="macro">
+<dt>
+I2C_NUM_0 = <code class="descname">0</code></dt>
+<dd><p>I2C port 0</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I2C_NUM_1">
+<code class="descname">I2C_NUM_1</code><a class="headerlink" href="#c.I2C_NUM_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>I2C port 1</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I2C_NUM_MAX">
+<code class="descname">I2C_NUM_MAX</code><a class="headerlink" href="#c.I2C_NUM_MAX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div></blockquote>
+</dd></dl>
+
+<dl class="enum">
+<dt id="_CPPv215i2c_addr_mode_t">
+<em class="property">enum </em><code class="descclassname"></code><code class="descname">i2c_addr_mode_t</code><a class="headerlink" href="#_CPPv215i2c_addr_mode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><cite>Các giá trị</cite>:</p>
+<blockquote>
+<div><dl class="macro">
+<dt>
+I2C_ADDR_BIT_7 = <code class="descname">0</code></dt>
+<dd><p>7 bit địa chỉ cho I2C slave</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I2C_ADDR_BIT_10">
+<code class="descname">I2C_ADDR_BIT_10</code><a class="headerlink" href="#c.I2C_ADDR_BIT_10" title="Permalink to this definition">¶</a></dt>
+<dd><p>10 bit địa chỉ cho I2C slave</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I2C_ADDR_BIT_MAX">
+<code class="descname">I2C_ADDR_BIT_MAX</code><a class="headerlink" href="#c.I2C_ADDR_BIT_MAX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div></blockquote>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="luu-y">
+<h2>Lưu ý<a class="headerlink" href="#luu-y" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Hướng dẫn cài đặt <a class="reference external" href="https://esp-idf.readthedocs.io/en/latest/index.html">ESP-IDF</a></li>
+<li>Nạp và Debug chương trình <a class="reference external" href="https://esp-idf.readthedocs.io/en/latest/index.html">xem tại đây</a></li>
+<li>Tài nguyên hệ thống xem <a class="reference external" href="https://github.com/espressif/esp-idf">tại đây</a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="gpio.html" class="btn btn-neutral float-right" title="GPIO &amp; RTC GPIO" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="i2s.html" class="btn btn-neutral" title="I2S" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, TuanPM.
+
+    </p>
+  </div>
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            LANGUAGE:'vi',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+      <script type="text/javascript" src="../../cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+ 
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-60470603-07");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+
+</body>
+
+<!-- Mirrored from esp32.vn/idf/i2c.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:16:15 GMT -->
+</html>

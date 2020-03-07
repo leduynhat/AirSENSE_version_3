@@ -1,0 +1,772 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/system/power_management.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:27 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Power Management &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Sleep Modes" href="sleep_modes.html" />
+    <link rel="prev" title="Performance Monitor" href="perfmon.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="power_management.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/system/power_management"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">System</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="app_image_format.html">App image format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="app_trace.html">Application Level Tracing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="efuse.html">eFuse Manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_err.html">Error Codes and Helper Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_https_ota.html">ESP HTTPS OTA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_pthread.html">ESP pthread</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_event.html">Event Loop Library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freertos.html">FreeRTOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freertos_additions.html">FreeRTOS Additions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mem_alloc.html">Heap Memory Allocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="heap_debug.html">Heap Memory Debugging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_timer.html">High Resolution Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="himem.html">Himem (large external SPI RAM) API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipc.html">Inter-Processor Call</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_expression_with_stack.html">Call function with external stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="intr_alloc.html">Interrupt Allocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log.html">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system.html">Miscellaneous System APIs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ota.html">Over The Air Updates (OTA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="perfmon.html">Performance Monitor</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Power Management</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#power-management-locks">Power Management Locks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#esp32-power-management-algorithm">ESP32 Power Management Algorithm</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dynamic-frequency-scaling-and-peripheral-drivers">Dynamic Frequency Scaling and Peripheral Drivers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="sleep_modes.html">Sleep Modes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wdts.html">Watchdogs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system_time.html">System Time</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">System API</a> &raquo;</li>
+        
+      <li>Power Management</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/system/power_management.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="power-management">
+<h1>Power Management<a class="headerlink" href="#power-management" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/api-reference/system/power_management.html">[中文]</a></p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Power management algorithm included in ESP-IDF can adjust the advanced peripheral bus (APB) frequency, CPU frequency, and put the chip into light sleep mode to run an application at smallest possible power consumption, given the requirements of application components.</p>
+<p>Application components can express their requirements by creating and acquiring power management locks.</p>
+<p>For example:</p>
+<ul class="simple">
+<li>Driver for a peripheral clocked from APB can request the APB frequency to be set to 80 MHz while the peripheral is used.</li>
+<li>RTOS can request the CPU to run at the highest configured frequency while there are tasks ready to run.</li>
+<li>A peripheral driver may need interrupts to be enabled, which means it will have to request disabling light sleep.</li>
+</ul>
+<p>Since requesting higher APB or CPU frequencies or disabling light sleep causes higher current consumption, please keep the usage of power management locks by components to a minimum.</p>
+</div>
+<div class="section" id="configuration">
+<h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<p>Power management can be enabled at compile time, using the option <a class="reference internal" href="../kconfig.html#config-pm-enable"><span class="std std-ref">CONFIG_PM_ENABLE</span></a>.</p>
+<p>Enabling power management features comes at the cost of increased interrupt latency. Extra latency depends on a number of factors, such as the CPU frequency, single/dual core mode, whether or not frequency switch needs to be done. Minimum extra latency is 0.2 us (when the CPU frequency is 240 MHz and frequency scaling is not enabled). Maximum extra latency is 40 us (when frequency scaling is enabled, and a switch from 40 MHz to 80 MHz is performed on interrupt entry).</p>
+<p>Dynamic frequency scaling (DFS) and automatic light sleep can be enabled in an application by calling the function <a class="reference internal" href="#_CPPv416esp_pm_configurePKv" title="esp_pm_configure"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_pm_configure()</span></code></a>. Its argument is a structure defining the frequency scaling settings, <a class="reference internal" href="#_CPPv421esp_pm_config_esp32_t" title="esp_pm_config_esp32_t"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">esp_pm_config_esp32_t</span></code></a>. In this structure, three fields need to be initialized:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">max_freq_mhz</span></code>: Maximum CPU frequency in MHz, i.e., the frequency used when the <code class="docutils literal notranslate"><span class="pre">ESP_PM_CPU_FREQ_MAX</span></code> lock is acquired. This field will usually be set to <a class="reference internal" href="../kconfig.html#config-esp32-default-cpu-freq-mhz"><span class="std std-ref">CONFIG_ESP32_DEFAULT_CPU_FREQ_MHZ</span></a>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">min_freq_mhz</span></code>: Minimum CPU frequency in MHz, i.e., the frequency used when only the <code class="docutils literal notranslate"><span class="pre">ESP_PM_APB_FREQ_MAX</span></code> lock is acquired. This field can be set to the XTAL frequency value, or the XTAL frequency divided by an integer. Note that 10 MHz is the lowest frequency at which the default REF_TICK clock of 1 MHz can be generated.</li>
+<li><code class="docutils literal notranslate"><span class="pre">light_sleep_enable</span></code>: Whether the system should automatically enter light sleep when no locks are acquired (<code class="docutils literal notranslate"><span class="pre">true</span></code>/<code class="docutils literal notranslate"><span class="pre">false</span></code>).</li>
+</ul>
+<p>Alternatively, if you enable the option <a class="reference internal" href="../kconfig.html#config-pm-dfs-init-auto"><span class="std std-ref">CONFIG_PM_DFS_INIT_AUTO</span></a> in menuconfig, the maximum CPU frequency will be determined by the <a class="reference internal" href="../kconfig.html#config-esp32-default-cpu-freq-mhz"><span class="std std-ref">CONFIG_ESP32_DEFAULT_CPU_FREQ_MHZ</span></a> setting, and the minimum CPU frequency will be locked to the XTAL frequency.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Automatic light sleep is based on FreeRTOS Tickless Idle functionality. If automatic light sleep is requested while the option <a class="reference internal" href="../kconfig.html#config-freertos-use-tickless-idle"><span class="std std-ref">CONFIG_FREERTOS_USE_TICKLESS_IDLE</span></a> is not enabled in menuconfig, <a class="reference internal" href="#_CPPv416esp_pm_configurePKv" title="esp_pm_configure"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_pm_configure()</span></code></a> will return the error <cite>ESP_ERR_NOT_SUPPORTED</cite>.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In light sleep, peripherals are clock gated, and interrupts (from GPIOs and internal peripherals) will not be generated. A wakeup source described in the <a class="reference internal" href="sleep_modes.html"><span class="doc">Sleep Modes</span></a> documentation can be used to trigger wakeup from the light sleep state. For example, the EXT0 and EXT1 wakeup sources can be used to wake up the chip via a GPIO.</p>
+</div>
+</div>
+<div class="section" id="power-management-locks">
+<h2>Power Management Locks<a class="headerlink" href="#power-management-locks" title="Permalink to this headline">¶</a></h2>
+<p>Applications have the ability to acquire/release locks in order to control the power management algorithm. When an application acquires a lock, the power management algorithm operation is restricted in a way described below. When the lock is released, such restrictions are removed.</p>
+<p>Power management locks have acquire/release counters. If the lock has been acquired a number of times, it needs to be released the same number of times to remove associated restrictions.</p>
+<p>ESP32 supports three types of locks described in the table below.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Lock</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">ESP_PM_CPU_FREQ_MAX</span></code></td>
+<td>Requests CPU frequency to be at the maximum value set with <a class="reference internal" href="#_CPPv416esp_pm_configurePKv" title="esp_pm_configure"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_pm_configure()</span></code></a>. For ESP32, this value can be set to 80 MHz, 160 MHz, or 240 MHz.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">ESP_PM_APB_FREQ_MAX</span></code></td>
+<td>Requests the APB frequency to be at the maximum supported value. For ESP32, this is 80 MHz.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">ESP_PM_NO_LIGHT_SLEEP</span></code></td>
+<td>Disables automatic switching to light sleep.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="esp32-power-management-algorithm">
+<h2>ESP32 Power Management Algorithm<a class="headerlink" href="#esp32-power-management-algorithm" title="Permalink to this headline">¶</a></h2>
+<p>The table below shows how CPU and APB frequencies will be switched if dynamic frequency scaling is enabled. You can specify the maximum CPU frequency with either <a class="reference internal" href="#_CPPv416esp_pm_configurePKv" title="esp_pm_configure"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_pm_configure()</span></code></a> or <a class="reference internal" href="../kconfig.html#config-esp32-default-cpu-freq-mhz"><span class="std std-ref">CONFIG_ESP32_DEFAULT_CPU_FREQ_MHZ</span></a>.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="43%" />
+<col width="41%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Max CPU
+Frequency Set</td>
+<td>Lock Acquisition</td>
+<td>CPU and APB Frequncies</td>
+</tr>
+<tr class="row-even"><td rowspan="2">240</td>
+<td><div class="first last line-block">
+<div class="line">Any of <code class="docutils literal notranslate"><span class="pre">ESP_PM_CPU_FREQ_MAX</span></code></div>
+<div class="line">or <code class="docutils literal notranslate"><span class="pre">ESP_PM_APB_FREQ_MAX</span></code> acquired</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">CPU: 240 MHz</div>
+<div class="line">APB: 80 MHz</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td>None</td>
+<td>Min values for both frequencies set
+with <a class="reference internal" href="#_CPPv416esp_pm_configurePKv" title="esp_pm_configure"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_pm_configure()</span></code></a></td>
+</tr>
+<tr class="row-even"><td rowspan="3">160</td>
+<td><code class="docutils literal notranslate"><span class="pre">ESP_PM_CPU_FREQ_MAX</span></code> acquired</td>
+<td><div class="first last line-block">
+<div class="line">CPU: 160 MHz</div>
+<div class="line">APB: 80 MHz</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">ESP_PM_CPU_FREQ_MAX</span></code> acquired,
+<code class="docutils literal notranslate"><span class="pre">ESP_PM_APB_FREQ_MAX</span></code> not acquired</td>
+<td><div class="first last line-block">
+<div class="line">CPU: 80 MHz</div>
+<div class="line">APB: 80 MHz</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>None</td>
+<td>Min values for both frequencies set
+with <a class="reference internal" href="#_CPPv416esp_pm_configurePKv" title="esp_pm_configure"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_pm_configure()</span></code></a></td>
+</tr>
+<tr class="row-odd"><td rowspan="2">80</td>
+<td><div class="first last line-block">
+<div class="line">Any of <code class="docutils literal notranslate"><span class="pre">ESP_PM_CPU_FREQ_MAX</span></code></div>
+<div class="line">or <code class="docutils literal notranslate"><span class="pre">ESP_PM_APB_FREQ_MAX</span></code> acquired</div>
+</div>
+</td>
+<td><div class="first last line-block">
+<div class="line">CPU: 80 MHz</div>
+<div class="line">APB: 80 MHz</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td>None</td>
+<td>Min values for both frequencies set
+with <a class="reference internal" href="#_CPPv416esp_pm_configurePKv" title="esp_pm_configure"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_pm_configure()</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>If none of the locks are acquired, and light sleep is enabled in a call to <a class="reference internal" href="#_CPPv416esp_pm_configurePKv" title="esp_pm_configure"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_pm_configure()</span></code></a>, the system will go into light sleep mode. The duration of light sleep will be determined by:</p>
+<ul class="simple">
+<li>FreeRTOS tasks blocked with finite timeouts</li>
+<li>Timers registered with <a class="reference internal" href="esp_timer.html"><span class="doc">High resolution timer</span></a> APIs</li>
+</ul>
+<p>Light sleep duration will be chosen to wake up the chip before the nearest event (task being unblocked, or timer elapses).</p>
+</div>
+<div class="section" id="dynamic-frequency-scaling-and-peripheral-drivers">
+<h2>Dynamic Frequency Scaling and Peripheral Drivers<a class="headerlink" href="#dynamic-frequency-scaling-and-peripheral-drivers" title="Permalink to this headline">¶</a></h2>
+<p>When DFS is enabled, the APB frequency can be changed multiple times within a single RTOS tick. The APB frequency change does not affect the work of some peripherals, while other peripherals may have issues. For example, Timer Group peripheral timers will keep counting, however, the speed at which they count will change proportionally to the APB frequency.</p>
+<p>The following peripherals work normally even when the APB frequency is changing:</p>
+<ul class="simple">
+<li><strong>UART</strong>: if REF_TICK is used as a clock source. See <cite>use_ref_tick</cite> member of <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">uart_config_t</span></code>.</li>
+<li><strong>LEDC</strong>: if REF_TICK is used as a clock source. See <a class="reference internal" href="../peripherals/ledc.html#_CPPv417ledc_timer_configPK19ledc_timer_config_t" title="ledc_timer_config"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">ledc_timer_config()</span></code></a> function.</li>
+<li><strong>RMT</strong>: if REF_TICK is used as a clock source. Although the driver does not support REF_TICK, this feature can be enabled by clearing the <code class="docutils literal notranslate"><span class="pre">RMT_REF_ALWAYS_ON_CHx</span></code> bit for the respective channel.</li>
+</ul>
+<p>Currently, the following peripheral drivers are aware of DFS and will use the <code class="docutils literal notranslate"><span class="pre">ESP_PM_APB_FREQ_MAX</span></code> lock for the duration of the transaction:</p>
+<ul class="simple">
+<li>SPI master</li>
+<li>I2C</li>
+<li>I2S (If the APLL clock is used, then it will use the <code class="docutils literal notranslate"><span class="pre">ESP_PM_NO_LIGHT_SLEEP</span></code> lock)</li>
+<li>SDMMC</li>
+</ul>
+<p>The following drivers will hold the <code class="docutils literal notranslate"><span class="pre">ESP_PM_APB_FREQ_MAX</span></code> lock while the driver is enabled:</p>
+<ul class="simple">
+<li><strong>SPI slave</strong>: between calls to <a class="reference internal" href="../peripherals/spi_slave.html#_CPPv420spi_slave_initialize17spi_host_device_tPK16spi_bus_config_tPK28spi_slave_interface_config_ti" title="spi_slave_initialize"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_slave_initialize()</span></code></a> and <a class="reference internal" href="../peripherals/spi_slave.html#_CPPv414spi_slave_free17spi_host_device_t" title="spi_slave_free"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">spi_slave_free()</span></code></a>.</li>
+<li><strong>Ethernet</strong>: between calls to <a class="reference internal" href="../network/esp_eth.html#_CPPv422esp_eth_driver_installPK16esp_eth_config_tP16esp_eth_handle_t" title="esp_eth_driver_install"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_eth_driver_install()</span></code></a> and <a class="reference internal" href="../network/esp_eth.html#_CPPv424esp_eth_driver_uninstall16esp_eth_handle_t" title="esp_eth_driver_uninstall"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_eth_driver_uninstall()</span></code></a>.</li>
+<li><strong>WiFi</strong>: between calls to <a class="reference internal" href="../network/esp_wifi.html#_CPPv414esp_wifi_startv" title="esp_wifi_start"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_wifi_start()</span></code></a> and <a class="reference internal" href="../network/esp_wifi.html#_CPPv413esp_wifi_stopv" title="esp_wifi_stop"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_wifi_stop()</span></code></a>. If modem sleep is enabled, the lock will be released for the periods of time when radio is disabled.</li>
+<li><strong>Bluetooth</strong>: between calls to <a class="reference internal" href="../bluetooth/controller_vhci.html#_CPPv424esp_bt_controller_enable13esp_bt_mode_t" title="esp_bt_controller_enable"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_bt_controller_enable()</span></code></a> and <a class="reference internal" href="../bluetooth/controller_vhci.html#_CPPv425esp_bt_controller_disablev" title="esp_bt_controller_disable"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_bt_controller_disable()</span></code></a>. If Bluetooth modem sleep is enabled, the <code class="docutils literal notranslate"><span class="pre">ESP_PM_APB_FREQ_MAX</span></code> lock will be released for the periods of time when radio is disabled. However the <code class="docutils literal notranslate"><span class="pre">ESP_PM_NO_LIGHT_SLEEP</span></code> lock will still be held, unless <a class="reference internal" href="../kconfig.html#config-btdm-low-power-clock"><span class="std std-ref">CONFIG_BTDM_LOW_POWER_CLOCK</span></a> option is set to “External 32kHz crystal”.</li>
+<li><strong>CAN</strong>: between calls to <a class="reference internal" href="../peripherals/can.html#_CPPv418can_driver_installPK20can_general_config_tPK19can_timing_config_tPK19can_filter_config_t" title="can_driver_install"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">can_driver_install()</span></code></a> and <a class="reference internal" href="../peripherals/can.html#_CPPv420can_driver_uninstallv" title="can_driver_uninstall"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">can_driver_uninstall()</span></code></a>.</li>
+</ul>
+<p>The following peripheral drivers are not aware of DFS yet. Applications need to acquire/release locks themselves, when necessary:</p>
+<ul class="simple">
+<li>MCPWM</li>
+<li>PCNT</li>
+<li>Sigma-delta</li>
+<li>Timer group</li>
+</ul>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_common/include/esp_pm.h">esp_common/include/esp_pm.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv416esp_pm_configurePKv">
+<span id="_CPPv316esp_pm_configurePKv"></span><span id="_CPPv216esp_pm_configurePKv"></span><span id="esp_pm_configure__voidCP"></span><span class="target" id="esp__pm_8h_1a44155b70884b6475fc0c43db7f140095"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_pm_configure</code><span class="sig-paren">(</span><em class="property">const</em> void *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416esp_pm_configurePKv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set implementation-specific power management configuration. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_INVALID_ARG if the configuration values are not correct</li>
+<li>ESP_ERR_NOT_SUPPORTED if certain combination of values is not supported, or if CONFIG_PM_ENABLE is not enabled in sdkconfig </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">config</span></code>: pointer to implementation-specific configuration structure (e.g. esp_pm_config_esp32) </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418esp_pm_lock_create18esp_pm_lock_type_tiPKcP20esp_pm_lock_handle_t">
+<span id="_CPPv318esp_pm_lock_create18esp_pm_lock_type_tiPKcP20esp_pm_lock_handle_t"></span><span id="_CPPv218esp_pm_lock_create18esp_pm_lock_type_tiPKcP20esp_pm_lock_handle_t"></span><span id="esp_pm_lock_create__esp_pm_lock_type_t.i.cCP.esp_pm_lock_handle_tP"></span><span class="target" id="esp__pm_8h_1ae42237e0138a098f7c7159c28ee3cdd5"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_pm_lock_create</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv418esp_pm_lock_type_t" title="esp_pm_lock_type_t">esp_pm_lock_type_t</a> <em>lock_type</em>, int <em>arg</em>, <em class="property">const</em> char *<em>name</em>, <a class="reference internal" href="#_CPPv420esp_pm_lock_handle_t" title="esp_pm_lock_handle_t">esp_pm_lock_handle_t</a> *<em>out_handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418esp_pm_lock_create18esp_pm_lock_type_tiPKcP20esp_pm_lock_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize a lock handle for certain power management parameter. </p>
+<p>When lock is created, initially it is not taken. Call esp_pm_lock_acquire to take the lock.</p>
+<p>This function must not be called from an ISR.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_NO_MEM if the lock structure can not be allocated</li>
+<li>ESP_ERR_INVALID_ARG if out_handle is NULL or type argument is not valid</li>
+<li>ESP_ERR_NOT_SUPPORTED if CONFIG_PM_ENABLE is not enabled in sdkconfig </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">lock_type</span></code>: Power management constraint which the lock should control </li>
+<li><code class="docutils literal notranslate"><span class="pre">arg</span></code>: argument, value depends on lock_type, see esp_pm_lock_type_t </li>
+<li><code class="docutils literal notranslate"><span class="pre">name</span></code>: arbitrary string identifying the lock (e.g. “wifi” or “spi”). Used by the esp_pm_dump_locks function to list existing locks. May be set to NULL. If not set to NULL, must point to a string which is valid for the lifetime of the lock. </li>
+<li><code class="docutils literal notranslate"><span class="pre">out_handle</span></code>: handle returned from this function. Use this handle when calling esp_pm_lock_delete, esp_pm_lock_acquire, esp_pm_lock_release. Must not be NULL. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419esp_pm_lock_acquire20esp_pm_lock_handle_t">
+<span id="_CPPv319esp_pm_lock_acquire20esp_pm_lock_handle_t"></span><span id="_CPPv219esp_pm_lock_acquire20esp_pm_lock_handle_t"></span><span id="esp_pm_lock_acquire__esp_pm_lock_handle_t"></span><span class="target" id="esp__pm_8h_1af232756882d8732a73b88f40e0ab4572"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_pm_lock_acquire</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv420esp_pm_lock_handle_t" title="esp_pm_lock_handle_t">esp_pm_lock_handle_t</a> <em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419esp_pm_lock_acquire20esp_pm_lock_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Take a power management lock. </p>
+<p>Once the lock is taken, power management algorithm will not switch to the mode specified in a call to esp_pm_lock_create, or any of the lower power modes (higher numeric values of ‘mode’).</p>
+<p>The lock is recursive, in the sense that if esp_pm_lock_acquire is called a number of times, esp_pm_lock_release has to be called the same number of times in order to release the lock.</p>
+<p>This function may be called from an ISR.</p>
+<p>This function is not thread-safe w.r.t. calls to other esp_pm_lock_* functions for the same handle.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_INVALID_ARG if the handle is invalid</li>
+<li>ESP_ERR_NOT_SUPPORTED if CONFIG_PM_ENABLE is not enabled in sdkconfig </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: handle obtained from esp_pm_lock_create function </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419esp_pm_lock_release20esp_pm_lock_handle_t">
+<span id="_CPPv319esp_pm_lock_release20esp_pm_lock_handle_t"></span><span id="_CPPv219esp_pm_lock_release20esp_pm_lock_handle_t"></span><span id="esp_pm_lock_release__esp_pm_lock_handle_t"></span><span class="target" id="esp__pm_8h_1a822861449d5fda28c2dd47d4efb0902f"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_pm_lock_release</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv420esp_pm_lock_handle_t" title="esp_pm_lock_handle_t">esp_pm_lock_handle_t</a> <em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419esp_pm_lock_release20esp_pm_lock_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Release the lock taken using esp_pm_lock_acquire. </p>
+<p>Call to this functions removes power management restrictions placed when taking the lock.</p>
+<p>Locks are recursive, so if esp_pm_lock_acquire is called a number of times, esp_pm_lock_release has to be called the same number of times in order to actually release the lock.</p>
+<p>This function may be called from an ISR.</p>
+<p>This function is not thread-safe w.r.t. calls to other esp_pm_lock_* functions for the same handle.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_INVALID_ARG if the handle is invalid</li>
+<li>ESP_ERR_INVALID_STATE if lock is not acquired</li>
+<li>ESP_ERR_NOT_SUPPORTED if CONFIG_PM_ENABLE is not enabled in sdkconfig </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: handle obtained from esp_pm_lock_create function </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418esp_pm_lock_delete20esp_pm_lock_handle_t">
+<span id="_CPPv318esp_pm_lock_delete20esp_pm_lock_handle_t"></span><span id="_CPPv218esp_pm_lock_delete20esp_pm_lock_handle_t"></span><span id="esp_pm_lock_delete__esp_pm_lock_handle_t"></span><span class="target" id="esp__pm_8h_1a4c24f2a8ee647d6ec51faf38a83b62d0"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_pm_lock_delete</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv420esp_pm_lock_handle_t" title="esp_pm_lock_handle_t">esp_pm_lock_handle_t</a> <em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418esp_pm_lock_delete20esp_pm_lock_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Delete a lock created using esp_pm_lock. </p>
+<p>The lock must be released before calling this function.</p>
+<p>This function must not be called from an ISR.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_INVALID_ARG if the handle argument is NULL</li>
+<li>ESP_ERR_INVALID_STATE if the lock is still acquired</li>
+<li>ESP_ERR_NOT_SUPPORTED if CONFIG_PM_ENABLE is not enabled in sdkconfig </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: handle obtained from esp_pm_lock_create function </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417esp_pm_dump_locksP4FILE">
+<span id="_CPPv317esp_pm_dump_locksP4FILE"></span><span id="_CPPv217esp_pm_dump_locksP4FILE"></span><span id="esp_pm_dump_locks__FILEP"></span><span class="target" id="esp__pm_8h_1a833eb396e9e828a769ed891d058d5913"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_pm_dump_locks</code><span class="sig-paren">(</span>FILE *<em>stream</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417esp_pm_dump_locksP4FILE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Dump the list of all locks to stderr</p>
+<p>This function dumps debugging information about locks created using esp_pm_lock_create to an output stream.</p>
+<p>This function must not be called from an ISR. If esp_pm_lock_acquire/release are called while this function is running, inconsistent results may be reported.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_NOT_SUPPORTED if CONFIG_PM_ENABLE is not enabled in sdkconfig </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">stream</span></code>: stream to print information to; use stdout or stderr to print to the console; use fmemopen/open_memstream to print to a string buffer. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv420esp_pm_lock_handle_t">
+<span id="_CPPv320esp_pm_lock_handle_t"></span><span id="_CPPv220esp_pm_lock_handle_t"></span><span id="esp_pm_lock_handle_t"></span><span class="target" id="esp__pm_8h_1a21da52d75f3be5398817602b196b6a63"></span><em class="property">typedef </em><em class="property">struct</em> esp_pm_lock *<code class="descname">esp_pm_lock_handle_t</code><a class="headerlink" href="#_CPPv420esp_pm_lock_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Opaque handle to the power management lock. </p>
+</dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv418esp_pm_lock_type_t">
+<span id="_CPPv318esp_pm_lock_type_t"></span><span id="_CPPv218esp_pm_lock_type_t"></span><span id="esp_pm_lock_type_t"></span><span class="target" id="esp__pm_8h_1afbfc19b34963b4af9bd297511e395a65"></span><em class="property">enum </em><code class="descname">esp_pm_lock_type_t</code><a class="headerlink" href="#_CPPv418esp_pm_lock_type_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Power management constraints. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv419ESP_PM_CPU_FREQ_MAX">
+<span id="_CPPv319ESP_PM_CPU_FREQ_MAX"></span><span id="_CPPv219ESP_PM_CPU_FREQ_MAX"></span><span class="target" id="esp__pm_8h_1afbfc19b34963b4af9bd297511e395a65a11bc9d01585a00c073bdf74905a398aa"></span><code class="descname">ESP_PM_CPU_FREQ_MAX</code><a class="headerlink" href="#_CPPv419ESP_PM_CPU_FREQ_MAX" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Require CPU frequency to be at the maximum value set via esp_pm_configure. Argument is unused and should be set to 0. </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv419ESP_PM_APB_FREQ_MAX">
+<span id="_CPPv319ESP_PM_APB_FREQ_MAX"></span><span id="_CPPv219ESP_PM_APB_FREQ_MAX"></span><span class="target" id="esp__pm_8h_1afbfc19b34963b4af9bd297511e395a65a589cd59500c1e2360fbe174c9c183fde"></span><code class="descname">ESP_PM_APB_FREQ_MAX</code><a class="headerlink" href="#_CPPv419ESP_PM_APB_FREQ_MAX" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Require APB frequency to be at the maximum value supported by the chip. Argument is unused and should be set to 0. </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv421ESP_PM_NO_LIGHT_SLEEP">
+<span id="_CPPv321ESP_PM_NO_LIGHT_SLEEP"></span><span id="_CPPv221ESP_PM_NO_LIGHT_SLEEP"></span><span class="target" id="esp__pm_8h_1afbfc19b34963b4af9bd297511e395a65a1f0a8265811148c862a987eb32330ac4"></span><code class="descname">ESP_PM_NO_LIGHT_SLEEP</code><a class="headerlink" href="#_CPPv421ESP_PM_NO_LIGHT_SLEEP" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Prevent the system from going into light sleep. Argument is unused and should be set to 0. </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="id1">
+<h3>Header File<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp32/include/esp32/pm.h">esp32/include/esp32/pm.h</a></li>
+</ul>
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv421esp_pm_config_esp32_t">
+<span id="_CPPv321esp_pm_config_esp32_t"></span><span id="_CPPv221esp_pm_config_esp32_t"></span><span id="esp_pm_config_esp32_t"></span><span class="target" id="structesp__pm__config__esp32__t"></span><em class="property">struct </em><code class="descname">esp_pm_config_esp32_t</code><a class="headerlink" href="#_CPPv421esp_pm_config_esp32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Power management config for ESP32. </p>
+<p>Pass a pointer to this structure as an argument to esp_pm_configure function. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N21esp_pm_config_esp32_t12max_freq_mhzE">
+<span id="_CPPv3N21esp_pm_config_esp32_t12max_freq_mhzE"></span><span id="_CPPv2N21esp_pm_config_esp32_t12max_freq_mhzE"></span><span id="esp_pm_config_esp32_t::max_freq_mhz__i"></span><span class="target" id="structesp__pm__config__esp32__t_1a55e5303f8a7d89687f6229fc49a2e3aa"></span>int <code class="descname">max_freq_mhz</code><a class="headerlink" href="#_CPPv4N21esp_pm_config_esp32_t12max_freq_mhzE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Maximum CPU frequency, in MHz </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21esp_pm_config_esp32_t12min_freq_mhzE">
+<span id="_CPPv3N21esp_pm_config_esp32_t12min_freq_mhzE"></span><span id="_CPPv2N21esp_pm_config_esp32_t12min_freq_mhzE"></span><span id="esp_pm_config_esp32_t::min_freq_mhz__i"></span><span class="target" id="structesp__pm__config__esp32__t_1aaaf6855e839ab4571b703e570ed8f8be"></span>int <code class="descname">min_freq_mhz</code><a class="headerlink" href="#_CPPv4N21esp_pm_config_esp32_t12min_freq_mhzE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Minimum CPU frequency to use when no locks are taken, in MHz </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21esp_pm_config_esp32_t18light_sleep_enableE">
+<span id="_CPPv3N21esp_pm_config_esp32_t18light_sleep_enableE"></span><span id="_CPPv2N21esp_pm_config_esp32_t18light_sleep_enableE"></span><span id="esp_pm_config_esp32_t::light_sleep_enable__b"></span><span class="target" id="structesp__pm__config__esp32__t_1a18ba324ab15ae606c969b5c1667dac5c"></span>bool <code class="descname">light_sleep_enable</code><a class="headerlink" href="#_CPPv4N21esp_pm_config_esp32_t18light_sleep_enableE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enter light sleep when no locks are taken </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sleep_modes.html" class="btn btn-neutral float-right" title="Sleep Modes" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="perfmon.html" class="btn btn-neutral float-left" title="Performance Monitor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/system/power_management.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:27 GMT -->
+</html>

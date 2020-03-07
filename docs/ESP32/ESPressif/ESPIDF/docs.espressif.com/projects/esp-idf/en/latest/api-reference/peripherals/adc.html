@@ -1,0 +1,1584 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/adc.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:03 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Analog to Digital Converter &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Controller Area Network (CAN)" href="can.html" />
+    <link rel="prev" title="Peripherals API" href="index.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="adc.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/peripherals/adc"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Peripherals</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ADC</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration-and-reading-adc">Configuration and Reading ADC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-examples">Application Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#minimizing-noise">Minimizing Noise</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#adc-calibration">ADC Calibration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#gpio-lookup-macros">GPIO Lookup Macros</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="can.html">CAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html">DAC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html">GPIO (including RTC low power I/O)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html">I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html">I2S</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ledc.html">LED Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcpwm.html">MCPWM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pcnt.html">Pulse Counter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rmt.html">Remote Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sd_pullup_requirements.html">SD Pull-up Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdmmc_host.html">SDMMC Host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdspi_host.html">SD SPI Host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdio_slave.html">SDIO Slave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sigmadelta.html">Sigma-delta Modulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html">SPI Master</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html">SPI Slave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="temp_sensor.html">Temp sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html">Touch Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uart.html">UART</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Peripherals API</a> &raquo;</li>
+        
+      <li>Analog to Digital Converter</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/peripherals/adc.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="analog-to-digital-converter">
+<h1>Analog to Digital Converter<a class="headerlink" href="#analog-to-digital-converter" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The ESP32 integrates two 12-bit SAR (<a class="reference external" href="https://en.wikipedia.org/wiki/Successive_approximation_ADC">Successive Approximation Register</a>) ADCs supporting a total of 18 measurement channels (analog enabled pins).</p>
+<p>The ADC driver API supports ADC1 (8 channels, attached to GPIOs 32 - 39), and ADC2 (10 channels, attached to GPIOs 0, 2, 4, 12 - 15 and 25 - 27). However, the usage of ADC2 has some restrictions for the application:</p>
+<ol class="arabic simple">
+<li>ADC2 is used by the Wi-Fi driver. Therefore the application can only use ADC2 when the Wi-Fi driver has not started.</li>
+<li>Some of the ADC2 pins are used as strapping pins (GPIO 0, 2, 15) thus cannot be used freely. Such is the case in the following official Development Kits:</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="../../hw-reference/modules-and-boards.html#esp-modules-and-boards-esp32-devkitc"><span class="std std-ref">ESP32 DevKitC</span></a>: GPIO 0 cannot be used due to external auto program circuits.</li>
+<li><a class="reference internal" href="../../hw-reference/modules-and-boards.html#esp-modules-and-boards-esp-wrover-kit"><span class="std std-ref">ESP-WROVER-KIT</span></a>: GPIO 0, 2, 4 and 15 cannot be used due to external connections for different purposes.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="configuration-and-reading-adc">
+<h2>Configuration and Reading ADC<a class="headerlink" href="#configuration-and-reading-adc" title="Permalink to this headline">¶</a></h2>
+<p>The ADC should be configured before reading is taken.</p>
+<blockquote>
+<div><ul class="simple">
+<li>For ADC1, configure desired precision and attenuation by calling functions <a class="reference internal" href="#_CPPv417adc1_config_width16adc_bits_width_t" title="adc1_config_width"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">adc1_config_width()</span></code></a> and <a class="reference internal" href="#_CPPv425adc1_config_channel_atten14adc1_channel_t11adc_atten_t" title="adc1_config_channel_atten"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">adc1_config_channel_atten()</span></code></a>.</li>
+<li>For ADC2, configure the attenuation by <a class="reference internal" href="#_CPPv425adc2_config_channel_atten14adc2_channel_t11adc_atten_t" title="adc2_config_channel_atten"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">adc2_config_channel_atten()</span></code></a>. The reading width of ADC2 is configured every time you take the reading.</li>
+</ul>
+</div></blockquote>
+<p>Attenuation configuration is done per channel, see <a class="reference internal" href="#_CPPv414adc1_channel_t" title="adc1_channel_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">adc1_channel_t</span></code></a> and <a class="reference internal" href="#_CPPv414adc2_channel_t" title="adc2_channel_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">adc2_channel_t</span></code></a>, set as a parameter of above functions.</p>
+<p>Then it is possible to read ADC conversion result with <a class="reference internal" href="#_CPPv412adc1_get_raw14adc1_channel_t" title="adc1_get_raw"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">adc1_get_raw()</span></code></a> and <a class="reference internal" href="#_CPPv412adc2_get_raw14adc2_channel_t16adc_bits_width_tPi" title="adc2_get_raw"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">adc2_get_raw()</span></code></a>. Reading width of ADC2 should be set as a parameter of <a class="reference internal" href="#_CPPv412adc2_get_raw14adc2_channel_t16adc_bits_width_tPi" title="adc2_get_raw"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">adc2_get_raw()</span></code></a> instead of in the configuration functions.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Since the ADC2 is shared with the WIFI module, which has higher priority, reading operation of <a class="reference internal" href="#_CPPv412adc2_get_raw14adc2_channel_t16adc_bits_width_tPi" title="adc2_get_raw"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">adc2_get_raw()</span></code></a> will fail between <a class="reference internal" href="../network/esp_wifi.html#_CPPv414esp_wifi_startv" title="esp_wifi_start"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_wifi_start()</span></code></a> and <a class="reference internal" href="../network/esp_wifi.html#_CPPv413esp_wifi_stopv" title="esp_wifi_stop"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_wifi_stop()</span></code></a>. Use the return code to see whether the reading is successful.</p>
+</div>
+<p>It is also possible to read the internal hall effect sensor via ADC1 by calling dedicated function <a class="reference internal" href="#_CPPv416hall_sensor_readv" title="hall_sensor_read"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">hall_sensor_read()</span></code></a>. Note that even the hall sensor is internal to ESP32, reading from it uses channels 0 and 3 of ADC1 (GPIO 36 and 39). Do not connect anything else to these pins and do not change their configuration. Otherwise it may affect the measurement of low value signal from the sensor.</p>
+<p>This API provides convenient way to configure ADC1 for reading from <a class="reference internal" href="../../api-guides/ulp.html"><span class="doc">ULP</span></a>. To do so, call function <a class="reference internal" href="#_CPPv415adc1_ulp_enablev" title="adc1_ulp_enable"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">adc1_ulp_enable()</span></code></a> and then set precision and attenuation as discussed above.</p>
+<p>There is another specific function <a class="reference internal" href="#_CPPv417adc2_vref_to_gpio10gpio_num_t" title="adc2_vref_to_gpio"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">adc2_vref_to_gpio()</span></code></a> used to route internal reference voltage to a GPIO pin. It comes handy to calibrate ADC reading and this is discussed in section <a class="reference internal" href="#adc-api-adc-calibration"><span class="std std-ref">Minimizing Noise</span></a>.</p>
+</div>
+<div class="section" id="application-examples">
+<h2>Application Examples<a class="headerlink" href="#application-examples" title="Permalink to this headline">¶</a></h2>
+<p>Reading voltage on ADC1 channel 0 (GPIO 36):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &lt;driver/adc.h&gt;</span>
+
+<span class="o">...</span>
+
+    <span class="n">adc1_config_width</span><span class="p">(</span><span class="n">ADC_WIDTH_BIT_12</span><span class="p">);</span>
+    <span class="n">adc1_config_channel_atten</span><span class="p">(</span><span class="n">ADC1_CHANNEL_0</span><span class="p">,</span><span class="n">ADC_ATTEN_DB_0</span><span class="p">);</span>
+    <span class="nb">int</span> <span class="n">val</span> <span class="o">=</span> <span class="n">adc1_get_raw</span><span class="p">(</span><span class="n">ADC1_CHANNEL_0</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The input voltage in above example is from 0 to 1.1V (0 dB attenuation). The input range can be extended by setting higher attenuation, see <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">adc_atten_t</span></code>.
+An example using the ADC driver including calibration (discussed below) is available in esp-idf: <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/adc">peripherals/adc</a></p>
+<p>Reading voltage on ADC2 channel 7 (GPIO 27):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &lt;driver/adc.h&gt;</span>
+
+<span class="o">...</span>
+
+    <span class="nb">int</span> <span class="n">read_raw</span><span class="p">;</span>
+    <span class="n">adc2_config_channel_atten</span><span class="p">(</span> <span class="n">ADC2_CHANNEL_7</span><span class="p">,</span> <span class="n">ADC_ATTEN_0db</span> <span class="p">);</span>
+
+    <span class="n">esp_err_t</span> <span class="n">r</span> <span class="o">=</span> <span class="n">adc2_get_raw</span><span class="p">(</span> <span class="n">ADC2_CHANNEL_7</span><span class="p">,</span> <span class="n">ADC_WIDTH_12Bit</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">read_raw</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span> <span class="n">r</span> <span class="o">==</span> <span class="n">ESP_OK</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">read_raw</span> <span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">r</span> <span class="o">==</span> <span class="n">ESP_ERR_TIMEOUT</span> <span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;ADC2 used by Wi-Fi.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>The reading may fail due to collision with Wi-Fi, should check it.
+An example using the ADC2 driver to read the output of DAC is available in esp-idf: <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/adc2">peripherals/adc2</a></p>
+<p>Reading the internal hall effect sensor:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &lt;driver/adc.h&gt;</span>
+
+<span class="o">...</span>
+
+    <span class="n">adc1_config_width</span><span class="p">(</span><span class="n">ADC_WIDTH_BIT_12</span><span class="p">);</span>
+    <span class="nb">int</span> <span class="n">val</span> <span class="o">=</span> <span class="n">hall_sensor_read</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>The value read in both these examples is 12 bits wide (range 0-4095).</p>
+</div>
+<div class="section" id="minimizing-noise">
+<span id="adc-api-adc-calibration"></span><h2>Minimizing Noise<a class="headerlink" href="#minimizing-noise" title="Permalink to this headline">¶</a></h2>
+<p>The ESP32 ADC can be sensitive to noise leading to large discrepancies in ADC readings. To minimize noise, users may connect a 0.1uF capacitor to the ADC input pad in use. Multisampling may also be used to further mitigate the effects of noise.</p>
+<div class="figure align-center" id="id8">
+<img alt="ADC noise mitigation" src="../../_images/adc-noise-graph.jpg" />
+<p class="caption"><span class="caption-text">Graph illustrating noise mitigation using capacitor and multisampling of 64 samples.</span></p>
+</div>
+</div>
+<div class="section" id="adc-calibration">
+<h2>ADC Calibration<a class="headerlink" href="#adc-calibration" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_adc_cal/include/esp_adc_cal.h">esp_adc_cal/include/esp_adc_cal.h</a> API provides functions to correct for differences in measured voltages caused by variation of ADC reference voltages (Vref) between chips. Per design the ADC reference voltage is 1100mV, however the true reference voltage can range from 1000mV to 1200mV amongst different ESP32s.</p>
+<div class="figure align-center" id="id9">
+<img alt="ADC reference voltage comparison" src="../../_images/adc-vref-graph.jpg" />
+<p class="caption"><span class="caption-text">Graph illustrating effect of differing reference voltages on the ADC voltage curve.</span></p>
+</div>
+<p>Correcting ADC readings using this API involves characterizing one of the ADCs at a given attenuation to obtain a characteristics curve (ADC-Voltage curve) that takes into account the difference in ADC reference voltage. The characteristics curve is in the form of <code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">coeff_a</span> <span class="pre">*</span> <span class="pre">x</span> <span class="pre">+</span> <span class="pre">coeff_b</span></code> and is used to convert ADC readings to voltages in mV. Calculation of the characteristics curve is based on calibration values which can be stored in eFuse or provided by the user.</p>
+<div class="section" id="calibration-values">
+<h3>Calibration Values<a class="headerlink" href="#calibration-values" title="Permalink to this headline">¶</a></h3>
+<p>Calibration values are used to generate characteristic curves that account for the unique ADC reference voltage of a particular ESP32. There are currently three sources of calibration values. The availability of these calibration values will depend on the type and production date of the ESP32 chip/module.</p>
+<ul class="simple">
+<li><strong>Two Point</strong> values represent each of the ADCs’ readings at 150mV and 850mV. To obtain more accurate calibration results these values should be measured by user and burned into eFuse <code class="docutils literal notranslate"><span class="pre">BLOCK3</span></code>.</li>
+<li><strong>eFuse Vref</strong> represents the true ADC reference voltage. This value is measured and burned into eFuse <code class="docutils literal notranslate"><span class="pre">BLOCK0</span></code> during factory calibration.</li>
+<li><strong>Default Vref</strong> is an estimate of the ADC reference voltage provided by the user as a parameter during characterization. If Two Point or eFuse Vref values are unavailable, <strong>Default Vref</strong> will be used.</li>
+</ul>
+<p>Individual measurement and burning of the <strong>eFuse Vref</strong> has been applied to ESP32-D0WD and ESP32-D0WDQ6 chips produced on/after the 1st week of 2018. Such chips may be recognized by date codes on/later than 012018 (see Line 4 on figure below).</p>
+<div class="figure align-center" id="id10">
+<img alt="ESP32 Chip Surface Marking" src="../../_images/chip_surface_marking.png" />
+<p class="caption"><span class="caption-text">ESP32 Chip Surface Marking</span></p>
+</div>
+<p>If you would like to purchase chips or modules with calibration, double check with distributor or Espressif directly.</p>
+<p>If you are unable to check the date code (i.e. the chip may be enclosed inside a canned module, etc.), you can still verify if <strong>eFuse Vref</strong> is present by running <a class="reference external" href="https://github.com/espressif/esptool/wiki/espefuse">espefuse.py</a>  tool with <code class="docutils literal notranslate"><span class="pre">adc_info</span></code> parameter</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$IDF_PATH/components/esptool_py/esptool/espefuse.py --port /dev/ttyUSB0 adc_info
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">/dev/ttyUSB0</span></code> with ESP32 board’s port name.</p>
+<p>A chip that has specific <strong>eFuse Vref</strong> value programmed (in this case 1093mV) will be reported as follows:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ADC VRef calibration: 1093mV
+</pre></div>
+</div>
+<p>In another example below the <strong>eFuse Vref</strong> is not programmed:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ADC VRef calibration: None (1100mV nominal)
+</pre></div>
+</div>
+<p>For a chip with two point calibration the message will look similar to:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ADC VRef calibration: 1149mV
+ADC readings stored in efuse BLK3:
+    ADC1 Low reading  (150mV): 306
+    ADC1 High reading (850mV): 3153
+    ADC2 Low reading  (150mV): 389
+    ADC2 High reading (850mV): 3206
+</pre></div>
+</div>
+</div>
+<div class="section" id="application-example">
+<h3>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h3>
+<p>For a full example see esp-idf: <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/adc">peripherals/adc</a></p>
+<p>Characterizing an ADC at a particular attenuation:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#include &quot;driver/adc.h&quot;
+#include &quot;esp_adc_cal.h&quot;
+
+...
+
+    //Characterize ADC at particular atten
+    esp_adc_cal_characteristics_t *adc_chars = calloc(1, sizeof(esp_adc_cal_characteristics_t));
+    esp_adc_cal_value_t val_type = esp_adc_cal_characterize(unit, atten, ADC_WIDTH_BIT_12, DEFAULT_VREF, adc_chars);
+    //Check type of calibration value used to characterize ADC
+    if (val_type == ESP_ADC_CAL_VAL_EFUSE_VREF) {
+        printf(&quot;eFuse Vref&quot;);
+    } else if (val_type == ESP_ADC_CAL_VAL_EFUSE_TP) {
+        printf(&quot;Two Point&quot;);
+    } else {
+        printf(&quot;Default&quot;);
+    }
+</pre></div>
+</div>
+<p>Reading an ADC then converting the reading to a voltage:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#include &quot;driver/adc.h&quot;
+#include &quot;esp_adc_cal.h&quot;
+
+...
+    uint32_t reading =  adc1_get_raw(ADC1_CHANNEL_5);
+    uint32_t voltage = esp_adc_cal_raw_to_voltage(reading, adc_chars);
+</pre></div>
+</div>
+<p>Routing ADC reference voltage to GPIO, so it can be manually measured (for <strong>Default Vref</strong>):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#include &quot;driver/adc.h&quot;
+
+...
+
+    esp_err_t status = adc2_vref_to_gpio(GPIO_NUM_25);
+    if (status == ESP_OK) {
+        printf(&quot;v_ref routed to GPIO\n&quot;);
+    } else {
+        printf(&quot;failed to route v_ref\n&quot;);
+    }
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="gpio-lookup-macros">
+<h2>GPIO Lookup Macros<a class="headerlink" href="#gpio-lookup-macros" title="Permalink to this headline">¶</a></h2>
+<p>There are macros available to specify the GPIO number of a ADC channel, or vice versa.
+e.g.</p>
+<ol class="arabic simple">
+<li><code class="docutils literal notranslate"><span class="pre">ADC1_CHANNEL_0_GPIO_NUM</span></code> is the GPIO number of ADC1 channel 0 (36);</li>
+<li><code class="docutils literal notranslate"><span class="pre">ADC1_GPIO32_CHANNEL</span></code> is the ADC1 channel number of GPIO 32 (ADC1 channel 4).</li>
+</ol>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<p>This reference covers three components:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#adc-api-reference-adc-driver"><span class="std std-ref">ADC driver</span></a></li>
+<li><a class="reference internal" href="#adc-api-reference-adc-calibration"><span class="std std-ref">ADC Calibration</span></a></li>
+<li><a class="reference internal" href="#adc-api-reference-gpio-lookup-macros"><span class="std std-ref">GPIO Lookup Macros</span></a></li>
+</ul>
+<div class="section" id="adc-driver">
+<span id="adc-api-reference-adc-driver"></span><h3>ADC driver<a class="headerlink" href="#adc-driver" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/driver/include/driver/adc.h">driver/include/driver/adc.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv419adc1_pad_get_io_num14adc1_channel_tP10gpio_num_t">
+<span id="_CPPv319adc1_pad_get_io_num14adc1_channel_tP10gpio_num_t"></span><span id="_CPPv219adc1_pad_get_io_num14adc1_channel_tP10gpio_num_t"></span><span id="adc1_pad_get_io_num__adc1_channel_t.gpio_num_tP"></span><span class="target" id="adc_8h_1a4da45ca347c044db3e172cd0590e49b9"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">adc1_pad_get_io_num</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414adc1_channel_t" title="adc1_channel_t">adc1_channel_t</a> <em>channel</em>, gpio_num_t *<em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419adc1_pad_get_io_num14adc1_channel_tP10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the GPIO number of a specific ADC1 channel. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK if success</li>
+<li>ESP_ERR_INVALID_ARG if channel not valid </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">channel</span></code>: Channel to get the GPIO number</li>
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: output buffer to hold the GPIO number</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417adc1_config_width16adc_bits_width_t">
+<span id="_CPPv317adc1_config_width16adc_bits_width_t"></span><span id="_CPPv217adc1_config_width16adc_bits_width_t"></span><span id="adc1_config_width__adc_bits_width_t"></span><span class="target" id="adc_8h_1a5f1b540c76d60a9d14ffe706c4ec2e90"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">adc1_config_width</code><span class="sig-paren">(</span>adc_bits_width_t <em>width_bit</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417adc1_config_width16adc_bits_width_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Configure ADC1 capture width, meanwhile enable output invert for ADC1. The configuration is for all channels of ADC1. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">width_bit</span></code>: Bit capture width for ADC1</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418adc_set_data_width10adc_unit_t16adc_bits_width_t">
+<span id="_CPPv318adc_set_data_width10adc_unit_t16adc_bits_width_t"></span><span id="_CPPv218adc_set_data_width10adc_unit_t16adc_bits_width_t"></span><span id="adc_set_data_width__adc_unit_t.adc_bits_width_t"></span><span class="target" id="adc_8h_1ad9b37db919e5f672e17484b6161873c5"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">adc_set_data_width</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv410adc_unit_t" title="adc_unit_t">adc_unit_t</a> <em>adc_unit</em>, adc_bits_width_t <em>width_bit</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418adc_set_data_width10adc_unit_t16adc_bits_width_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Configure ADC capture width. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">adc_unit</span></code>: ADC unit index </li>
+<li><code class="docutils literal notranslate"><span class="pre">width_bit</span></code>: Bit capture width for ADC unit. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425adc1_config_channel_atten14adc1_channel_t11adc_atten_t">
+<span id="_CPPv325adc1_config_channel_atten14adc1_channel_t11adc_atten_t"></span><span id="_CPPv225adc1_config_channel_atten14adc1_channel_t11adc_atten_t"></span><span id="adc1_config_channel_atten__adc1_channel_t.adc_atten_t"></span><span class="target" id="adc_8h_1aaff65fd1778a4032496e1c618036f16f"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">adc1_config_channel_atten</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414adc1_channel_t" title="adc1_channel_t">adc1_channel_t</a> <em>channel</em>, adc_atten_t <em>atten</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425adc1_config_channel_atten14adc1_channel_t11adc_atten_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the attenuation of a particular channel on ADC1, and configure its associated GPIO pin mux. </p>
+<p><p>The default ADC full-scale voltage is 1.1 V. To read higher voltages (up to the pin maximum voltage, usually 3.3 V) requires setting &gt;0 dB signal attenuation for that ADC channel.</p>
+<dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>For any given channel, this function must be called before the first time adc1_get_raw() is called for that channel.</dd>
+<dt><strong>Note</strong></dt>
+<dd>This function can be called multiple times to configure multiple ADC channels simultaneously. adc1_get_raw() can then be called for any configured channel.</dd>
+</dl>
+</p>
+<p>When VDD_A is 3.3 V:</p>
+<p><ul class="simple">
+<li>0 dB attenuation (ADC_ATTEN_DB_0) gives full-scale voltage 1.1 V</li>
+<li>2.5 dB attenuation (ADC_ATTEN_DB_2_5) gives full-scale voltage 1.5 V</li>
+<li>6 dB attenuation (ADC_ATTEN_DB_6) gives full-scale voltage 2.2 V</li>
+<li>11 dB attenuation (ADC_ATTEN_DB_11) gives full-scale voltage 3.9 V (see note below)</li>
+</ul>
+</p>
+<p><p>Due to ADC characteristics, most accurate results are obtained within the following approximate voltage ranges:</p>
+<dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>The full-scale voltage is the voltage corresponding to a maximum reading (depending on ADC1 configured bit width, this value is: 4095 for 12-bits, 2047 for 11-bits, 1023 for 10-bits, 511 for 9 bits.)</dd>
+<dt><strong>Note</strong></dt>
+<dd>At 11 dB attenuation the maximum voltage is limited by VDD_A, not the full scale voltage.</dd>
+</dl>
+</p>
+<p><ul class="simple">
+<li>0 dB attenuation (ADC_ATTEN_DB_0) between 100 and 950 mV</li>
+<li>2.5 dB attenuation (ADC_ATTEN_DB_2_5) between 100 and 1250 mV</li>
+<li>6 dB attenuation (ADC_ATTEN_DB_6) between 150 to 1750 mV</li>
+<li>11 dB attenuation (ADC_ATTEN_DB_11) between 150 to 2450 mV</li>
+</ul>
+</p>
+<p>For maximum accuracy, use the ADC calibration APIs and measure voltages within these recommended ranges.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">channel</span></code>: ADC1 channel to configure </li>
+<li><code class="docutils literal notranslate"><span class="pre">atten</span></code>: Attenuation level</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv412adc1_get_raw14adc1_channel_t">
+<span id="_CPPv312adc1_get_raw14adc1_channel_t"></span><span id="_CPPv212adc1_get_raw14adc1_channel_t"></span><span id="adc1_get_raw__adc1_channel_t"></span><span class="target" id="adc_8h_1afbe0364a7d70a6950fdcb296963519c4"></span>int <code class="descname">adc1_get_raw</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414adc1_channel_t" title="adc1_channel_t">adc1_channel_t</a> <em>channel</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv412adc1_get_raw14adc1_channel_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Take an ADC1 reading from a single channel. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>When the power switch of SARADC1, SARADC2, HALL sensor and AMP sensor is turned on, the input of GPIO36 and GPIO39 will be pulled down for about 80ns. When enabling power for any of these peripherals, ignore input from GPIO36 and GPIO39. Please refer to section 3.11 of ‘ECO_and_Workarounds_for_Bugs_in_ESP32’ for the description of this issue.</dd>
+<dt><strong>Note</strong></dt>
+<dd>Call adc1_config_width() before the first time this function is called.</dd>
+<dt><strong>Note</strong></dt>
+<dd>For any given channel, adc1_config_channel_atten(channel) must be called before the first time this function is called. Configuring a new channel does not prevent a previously configured channel from being read.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>-1: Parameter error</li>
+<li>Other: ADC1 channel reading. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">channel</span></code>: ADC1 channel to read</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv412adc_power_onv">
+<span id="_CPPv312adc_power_onv"></span><span id="_CPPv212adc_power_onv"></span><span id="adc_power_on__void"></span><span class="target" id="adc_8h_1a8969c663ffb9d46f589e8465181f3003"></span>void <code class="descname">adc_power_on</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv412adc_power_onv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable ADC power. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv413adc_power_offv">
+<span id="_CPPv313adc_power_offv"></span><span id="_CPPv213adc_power_offv"></span><span id="adc_power_off__void"></span><span class="target" id="adc_8h_1ae9610df7ff6d875c007534eb8c6ecf57"></span>void <code class="descname">adc_power_off</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413adc_power_offv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Power off SAR ADC This function will force power down for ADC. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv413adc_gpio_init10adc_unit_t13adc_channel_t">
+<span id="_CPPv313adc_gpio_init10adc_unit_t13adc_channel_t"></span><span id="_CPPv213adc_gpio_init10adc_unit_t13adc_channel_t"></span><span id="adc_gpio_init__adc_unit_t.adc_channel_t"></span><span class="target" id="adc_8h_1a65e887fd369287be89b0ab2f2a3b0e3e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">adc_gpio_init</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv410adc_unit_t" title="adc_unit_t">adc_unit_t</a> <em>adc_unit</em>, adc_channel_t <em>channel</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413adc_gpio_init10adc_unit_t13adc_channel_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize ADC pad. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">adc_unit</span></code>: ADC unit index </li>
+<li><code class="docutils literal notranslate"><span class="pre">channel</span></code>: ADC channel index </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416adc_set_data_inv10adc_unit_tb">
+<span id="_CPPv316adc_set_data_inv10adc_unit_tb"></span><span id="_CPPv216adc_set_data_inv10adc_unit_tb"></span><span id="adc_set_data_inv__adc_unit_t.b"></span><span class="target" id="adc_8h_1a801ecc76875d39d1b19d5d5effa895d5"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">adc_set_data_inv</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv410adc_unit_t" title="adc_unit_t">adc_unit_t</a> <em>adc_unit</em>, bool <em>inv_en</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416adc_set_data_inv10adc_unit_tb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set ADC data invert. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">adc_unit</span></code>: ADC unit index </li>
+<li><code class="docutils literal notranslate"><span class="pre">inv_en</span></code>: whether enable data invert </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415adc_set_clk_div7uint8_t">
+<span id="_CPPv315adc_set_clk_div7uint8_t"></span><span id="_CPPv215adc_set_clk_div7uint8_t"></span><span id="adc_set_clk_div__uint8_t"></span><span class="target" id="adc_8h_1a77a45941f4502e006030bdc1ac18a8ca"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">adc_set_clk_div</code><span class="sig-paren">(</span>uint8_t <em>clk_div</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415adc_set_clk_div7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set ADC source clock. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK success </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">clk_div</span></code>: ADC clock divider, ADC clock is divided from APB clock </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423adc_set_i2s_data_source16adc_i2s_source_t">
+<span id="_CPPv323adc_set_i2s_data_source16adc_i2s_source_t"></span><span id="_CPPv223adc_set_i2s_data_source16adc_i2s_source_t"></span><span id="adc_set_i2s_data_source__adc_i2s_source_t"></span><span class="target" id="adc_8h_1ab44d2ccd0914193d04e917060900900d"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">adc_set_i2s_data_source</code><span class="sig-paren">(</span>adc_i2s_source_t <em>src</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423adc_set_i2s_data_source16adc_i2s_source_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set I2S data source. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK success </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">src</span></code>: I2S DMA data source, I2S DMA can get data from digital signals or from ADC. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417adc_i2s_mode_init10adc_unit_t13adc_channel_t">
+<span id="_CPPv317adc_i2s_mode_init10adc_unit_t13adc_channel_t"></span><span id="_CPPv217adc_i2s_mode_init10adc_unit_t13adc_channel_t"></span><span id="adc_i2s_mode_init__adc_unit_t.adc_channel_t"></span><span class="target" id="adc_8h_1abbf51c258db5190c8563fe691dc76a74"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">adc_i2s_mode_init</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv410adc_unit_t" title="adc_unit_t">adc_unit_t</a> <em>adc_unit</em>, adc_channel_t <em>channel</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417adc_i2s_mode_init10adc_unit_t13adc_channel_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize I2S ADC mode. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">adc_unit</span></code>: ADC unit index </li>
+<li><code class="docutils literal notranslate"><span class="pre">channel</span></code>: ADC channel index </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415adc1_ulp_enablev">
+<span id="_CPPv315adc1_ulp_enablev"></span><span id="_CPPv215adc1_ulp_enablev"></span><span id="adc1_ulp_enable__void"></span><span class="target" id="adc_8h_1af8aa317d2975e815f3c1b3b143757e20"></span>void <code class="descname">adc1_ulp_enable</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415adc1_ulp_enablev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Configure ADC1 to be usable by the ULP. </p>
+<p>This function reconfigures ADC1 to be controlled by the ULP. Effect of this function can be reverted using adc1_get_raw function.</p>
+<p>Note that adc1_config_channel_atten, adc1_config_width functions need to be called to configure ADC1 channels, before ADC1 is used by the ULP. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416hall_sensor_readv">
+<span id="_CPPv316hall_sensor_readv"></span><span id="_CPPv216hall_sensor_readv"></span><span id="hall_sensor_read__void"></span><span class="target" id="adc_8h_1a96adc9cbafc9d624749fbfd30572255f"></span>int <code class="descname">hall_sensor_read</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416hall_sensor_readv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read Hall Sensor. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>When the power switch of SARADC1, SARADC2, HALL sensor and AMP sensor is turned on, the input of GPIO36 and GPIO39 will be pulled down for about 80ns. When enabling power for any of these peripherals, ignore input from GPIO36 and GPIO39. Please refer to section 3.11 of ‘ECO_and_Workarounds_for_Bugs_in_ESP32’ for the description of this issue.</dd>
+<dt><strong>Note</strong></dt>
+<dd>The Hall Sensor uses channels 0 and 3 of ADC1. Do not configure these channels for use as ADC channels.</dd>
+<dt><strong>Note</strong></dt>
+<dd>The ADC1 module must be enabled by calling adc1_config_width() before calling hall_sensor_read(). ADC1 should be configured for 12 bit readings, as the hall sensor readings are low values and do not cover the full range of the ADC.</dd>
+<dt><strong>Return</strong></dt>
+<dd>The hall sensor reading. </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419adc2_pad_get_io_num14adc2_channel_tP10gpio_num_t">
+<span id="_CPPv319adc2_pad_get_io_num14adc2_channel_tP10gpio_num_t"></span><span id="_CPPv219adc2_pad_get_io_num14adc2_channel_tP10gpio_num_t"></span><span id="adc2_pad_get_io_num__adc2_channel_t.gpio_num_tP"></span><span class="target" id="adc_8h_1a1e4d9dd3bd22fce747f65bc92813c465"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">adc2_pad_get_io_num</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414adc2_channel_t" title="adc2_channel_t">adc2_channel_t</a> <em>channel</em>, gpio_num_t *<em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419adc2_pad_get_io_num14adc2_channel_tP10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the GPIO number of a specific ADC2 channel. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK if success</li>
+<li>ESP_ERR_INVALID_ARG if channel not valid </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">channel</span></code>: Channel to get the GPIO number</li>
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: output buffer to hold the GPIO number</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425adc2_config_channel_atten14adc2_channel_t11adc_atten_t">
+<span id="_CPPv325adc2_config_channel_atten14adc2_channel_t11adc_atten_t"></span><span id="_CPPv225adc2_config_channel_atten14adc2_channel_t11adc_atten_t"></span><span id="adc2_config_channel_atten__adc2_channel_t.adc_atten_t"></span><span class="target" id="adc_8h_1ad2446316ddd13d2f0683fd1b4c7931cd"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">adc2_config_channel_atten</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414adc2_channel_t" title="adc2_channel_t">adc2_channel_t</a> <em>channel</em>, adc_atten_t <em>atten</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425adc2_config_channel_atten14adc2_channel_t11adc_atten_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Configure the ADC2 channel, including setting attenuation. </p>
+<p><p>The default ADC full-scale voltage is 1.1 V. To read higher voltages (up to the pin maximum voltage, usually 3.3 V) requires setting &gt;0 dB signal attenuation for that ADC channel.</p>
+<dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This function also configures the input GPIO pin mux to connect it to the ADC2 channel. It must be called before calling <code class="docutils literal notranslate"><span class="pre">adc2_get_raw()</span></code> for this channel.</dd>
+</dl>
+</p>
+<p>When VDD_A is 3.3 V:</p>
+<p><ul class="simple">
+<li>0 dB attenuation (ADC_ATTEN_0db) gives full-scale voltage 1.1 V</li>
+<li>2.5 dB attenuation (ADC_ATTEN_2_5db) gives full-scale voltage 1.5 V</li>
+<li>6 dB attenuation (ADC_ATTEN_6db) gives full-scale voltage 2.2 V</li>
+<li>11 dB attenuation (ADC_ATTEN_11db) gives full-scale voltage 3.9 V (see note below)</li>
+</ul>
+</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>The full-scale voltage is the voltage corresponding to a maximum reading (depending on ADC2 configured bit width, this value is: 4095 for 12-bits, 2047 for 11-bits, 1023 for 10-bits, 511 for 9 bits.)</dd>
+<dt><strong>Note</strong></dt>
+<dd>At 11 dB attenuation the maximum voltage is limited by VDD_A, not the full scale voltage.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">channel</span></code>: ADC2 channel to configure </li>
+<li><code class="docutils literal notranslate"><span class="pre">atten</span></code>: Attenuation level</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv412adc2_get_raw14adc2_channel_t16adc_bits_width_tPi">
+<span id="_CPPv312adc2_get_raw14adc2_channel_t16adc_bits_width_tPi"></span><span id="_CPPv212adc2_get_raw14adc2_channel_t16adc_bits_width_tPi"></span><span id="adc2_get_raw__adc2_channel_t.adc_bits_width_t.iP"></span><span class="target" id="adc_8h_1ab6c178b47956d7cba2e7f7fe3f012d58"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">adc2_get_raw</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414adc2_channel_t" title="adc2_channel_t">adc2_channel_t</a> <em>channel</em>, adc_bits_width_t <em>width_bit</em>, int *<em>raw_out</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv412adc2_get_raw14adc2_channel_t16adc_bits_width_tPi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Take an ADC2 reading on a single channel. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>When the power switch of SARADC1, SARADC2, HALL sensor and AMP sensor is turned on, the input of GPIO36 and GPIO39 will be pulled down for about 80ns. When enabling power for any of these peripherals, ignore input from GPIO36 and GPIO39. Please refer to section 3.11 of ‘ECO_and_Workarounds_for_Bugs_in_ESP32’ for the description of this issue.</dd>
+<dt><strong>Note</strong></dt>
+<dd>For a given channel, <code class="docutils literal notranslate"><span class="pre">adc2_config_channel_atten()</span></code> must be called before the first time this function is called. If Wi-Fi is started via <code class="docutils literal notranslate"><span class="pre">esp_wifi_start()</span></code>, this function will always fail with <code class="docutils literal notranslate"><span class="pre">ESP_ERR_TIMEOUT</span></code>.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK if success</li>
+<li>ESP_ERR_TIMEOUT the WIFI is started, using the ADC2 </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">channel</span></code>: ADC2 channel to read</li>
+<li><code class="docutils literal notranslate"><span class="pre">width_bit</span></code>: Bit capture width for ADC2</li>
+<li><code class="docutils literal notranslate"><span class="pre">raw_out</span></code>: the variable to hold the output data.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417adc2_vref_to_gpio10gpio_num_t">
+<span id="_CPPv317adc2_vref_to_gpio10gpio_num_t"></span><span id="_CPPv217adc2_vref_to_gpio10gpio_num_t"></span><span id="adc2_vref_to_gpio__gpio_num_t"></span><span class="target" id="adc_8h_1adeef7f895bc221eb4513855f13996252"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">adc2_vref_to_gpio</code><span class="sig-paren">(</span>gpio_num_t <em>gpio</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417adc2_vref_to_gpio10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Output ADC2 reference voltage to GPIO 25 or 26 or 27. </p>
+<p>This function utilizes the testing mux exclusive to ADC 2 to route the reference voltage one of ADC2’s channels. Supported GPIOs are GPIOs 25, 26, and 27. This refernce voltage can be manually read from the pin and used in the esp_adc_cal component.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: v_ref successfully routed to selected GPIO</li>
+<li>ESP_ERR_INVALID_ARG: Unsupported GPIO </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio</span></code>: GPIO number (GPIOs 25, 26 and 27 are supported)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.ADC_ATTEN_0db">
+<span class="target" id="adc_8h_1a36ba833994c0bb1557e537de46ca14d6"></span><code class="descname">ADC_ATTEN_0db</code><a class="headerlink" href="#c.ADC_ATTEN_0db" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC_ATTEN_2_5db">
+<span class="target" id="adc_8h_1af2f8dd81c6cdc165291246c4cf155153"></span><code class="descname">ADC_ATTEN_2_5db</code><a class="headerlink" href="#c.ADC_ATTEN_2_5db" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC_ATTEN_6db">
+<span class="target" id="adc_8h_1ad7ac57a103d7a401b3a8780353e3d758"></span><code class="descname">ADC_ATTEN_6db</code><a class="headerlink" href="#c.ADC_ATTEN_6db" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC_ATTEN_11db">
+<span class="target" id="adc_8h_1af443c2fb2fc0c8f04c1f7df83e16765e"></span><code class="descname">ADC_ATTEN_11db</code><a class="headerlink" href="#c.ADC_ATTEN_11db" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC_WIDTH_9Bit">
+<span class="target" id="adc_8h_1afa411e250cf8a752f7148fe3425f6027"></span><code class="descname">ADC_WIDTH_9Bit</code><a class="headerlink" href="#c.ADC_WIDTH_9Bit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC_WIDTH_10Bit">
+<span class="target" id="adc_8h_1aa44c4fa9fd2760bade3e738efe7e8fa9"></span><code class="descname">ADC_WIDTH_10Bit</code><a class="headerlink" href="#c.ADC_WIDTH_10Bit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC_WIDTH_11Bit">
+<span class="target" id="adc_8h_1ac99c6a51e364a17aeb39508e73f5270e"></span><code class="descname">ADC_WIDTH_11Bit</code><a class="headerlink" href="#c.ADC_WIDTH_11Bit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC_WIDTH_12Bit">
+<span class="target" id="adc_8h_1a9f3102767582936aa6b384adc47be0da"></span><code class="descname">ADC_WIDTH_12Bit</code><a class="headerlink" href="#c.ADC_WIDTH_12Bit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv414adc1_channel_t">
+<span id="_CPPv314adc1_channel_t"></span><span id="_CPPv214adc1_channel_t"></span><span id="adc1_channel_t"></span><span class="target" id="adc_8h_1a8e96d37cc0b8db1f8584a1edab904cb2"></span><em class="property">enum </em><code class="descname">adc1_channel_t</code><a class="headerlink" href="#_CPPv414adc1_channel_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv414ADC1_CHANNEL_0">
+<span id="_CPPv314ADC1_CHANNEL_0"></span><span id="_CPPv214ADC1_CHANNEL_0"></span><span class="target" id="adc_8h_1a8e96d37cc0b8db1f8584a1edab904cb2a09a37f64a05e7fd244711d148786e9a3"></span><code class="descname">ADC1_CHANNEL_0</code> = 0<a class="headerlink" href="#_CPPv414ADC1_CHANNEL_0" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC1 channel 0 is GPIO36 (ESP32), GPIO1 (ESP32-S2) </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ADC1_CHANNEL_1">
+<span id="_CPPv314ADC1_CHANNEL_1"></span><span id="_CPPv214ADC1_CHANNEL_1"></span><span class="target" id="adc_8h_1a8e96d37cc0b8db1f8584a1edab904cb2a61ace8fc414b4d0eb03ddb1e4a7597df"></span><code class="descname">ADC1_CHANNEL_1</code><a class="headerlink" href="#_CPPv414ADC1_CHANNEL_1" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC1 channel 1 is GPIO37 (ESP32), GPIO2 (ESP32-S2) </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ADC1_CHANNEL_2">
+<span id="_CPPv314ADC1_CHANNEL_2"></span><span id="_CPPv214ADC1_CHANNEL_2"></span><span class="target" id="adc_8h_1a8e96d37cc0b8db1f8584a1edab904cb2aa7439c0ed8d6993d699fe23fd87ca701"></span><code class="descname">ADC1_CHANNEL_2</code><a class="headerlink" href="#_CPPv414ADC1_CHANNEL_2" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC1 channel 2 is GPIO38 (ESP32), GPIO3 (ESP32-S2) </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ADC1_CHANNEL_3">
+<span id="_CPPv314ADC1_CHANNEL_3"></span><span id="_CPPv214ADC1_CHANNEL_3"></span><span class="target" id="adc_8h_1a8e96d37cc0b8db1f8584a1edab904cb2ad59ac233d194165733cf0fb3da93d353"></span><code class="descname">ADC1_CHANNEL_3</code><a class="headerlink" href="#_CPPv414ADC1_CHANNEL_3" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC1 channel 3 is GPIO39 (ESP32), GPIO4 (ESP32-S2) </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ADC1_CHANNEL_4">
+<span id="_CPPv314ADC1_CHANNEL_4"></span><span id="_CPPv214ADC1_CHANNEL_4"></span><span class="target" id="adc_8h_1a8e96d37cc0b8db1f8584a1edab904cb2afe32cf782e36f2e4cf2e7f9d386ea53e"></span><code class="descname">ADC1_CHANNEL_4</code><a class="headerlink" href="#_CPPv414ADC1_CHANNEL_4" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC1 channel 4 is GPIO32 (ESP32), GPIO5 (ESP32-S2) </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ADC1_CHANNEL_5">
+<span id="_CPPv314ADC1_CHANNEL_5"></span><span id="_CPPv214ADC1_CHANNEL_5"></span><span class="target" id="adc_8h_1a8e96d37cc0b8db1f8584a1edab904cb2aed9b68bc0bf9a0e70f1d8178837a5222"></span><code class="descname">ADC1_CHANNEL_5</code><a class="headerlink" href="#_CPPv414ADC1_CHANNEL_5" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC1 channel 5 is GPIO33 (ESP32), GPIO6 (ESP32-S2) </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ADC1_CHANNEL_6">
+<span id="_CPPv314ADC1_CHANNEL_6"></span><span id="_CPPv214ADC1_CHANNEL_6"></span><span class="target" id="adc_8h_1a8e96d37cc0b8db1f8584a1edab904cb2ad3fcc86772a54ddc54fbb62c0b162c53"></span><code class="descname">ADC1_CHANNEL_6</code><a class="headerlink" href="#_CPPv414ADC1_CHANNEL_6" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC1 channel 6 is GPIO34 (ESP32), GPIO7 (ESP32-S2) </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ADC1_CHANNEL_7">
+<span id="_CPPv314ADC1_CHANNEL_7"></span><span id="_CPPv214ADC1_CHANNEL_7"></span><span class="target" id="adc_8h_1a8e96d37cc0b8db1f8584a1edab904cb2ab2bc7760c7aae276915354476de0c806"></span><code class="descname">ADC1_CHANNEL_7</code><a class="headerlink" href="#_CPPv414ADC1_CHANNEL_7" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC1 channel 7 is GPIO35 (ESP32), GPIO8 (ESP32-S2) </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv414adc2_channel_t">
+<span id="_CPPv314adc2_channel_t"></span><span id="_CPPv214adc2_channel_t"></span><span id="adc2_channel_t"></span><span class="target" id="adc_8h_1add66cc30ecddacdbbe3b815cd38d6c96"></span><em class="property">enum </em><code class="descname">adc2_channel_t</code><a class="headerlink" href="#_CPPv414adc2_channel_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv414ADC2_CHANNEL_0">
+<span id="_CPPv314ADC2_CHANNEL_0"></span><span id="_CPPv214ADC2_CHANNEL_0"></span><span class="target" id="adc_8h_1add66cc30ecddacdbbe3b815cd38d6c96ac62b236f2cedd3c61670f6a58f50554c"></span><code class="descname">ADC2_CHANNEL_0</code> = 0<a class="headerlink" href="#_CPPv414ADC2_CHANNEL_0" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC2 channel 0 is GPIO4 (ESP32), GPIO11 (ESP32-S2) </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ADC2_CHANNEL_1">
+<span id="_CPPv314ADC2_CHANNEL_1"></span><span id="_CPPv214ADC2_CHANNEL_1"></span><span class="target" id="adc_8h_1add66cc30ecddacdbbe3b815cd38d6c96a3e0af246a4ef1a39e57357f676ff01b4"></span><code class="descname">ADC2_CHANNEL_1</code><a class="headerlink" href="#_CPPv414ADC2_CHANNEL_1" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC2 channel 1 is GPIO0 (ESP32), GPIO12 (ESP32-S2) </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ADC2_CHANNEL_2">
+<span id="_CPPv314ADC2_CHANNEL_2"></span><span id="_CPPv214ADC2_CHANNEL_2"></span><span class="target" id="adc_8h_1add66cc30ecddacdbbe3b815cd38d6c96a3b98868444340544045772751a57e8f5"></span><code class="descname">ADC2_CHANNEL_2</code><a class="headerlink" href="#_CPPv414ADC2_CHANNEL_2" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC2 channel 2 is GPIO2 (ESP32), GPIO13 (ESP32-S2) </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ADC2_CHANNEL_3">
+<span id="_CPPv314ADC2_CHANNEL_3"></span><span id="_CPPv214ADC2_CHANNEL_3"></span><span class="target" id="adc_8h_1add66cc30ecddacdbbe3b815cd38d6c96a6970f67eb488461ed03e607c933b4d8f"></span><code class="descname">ADC2_CHANNEL_3</code><a class="headerlink" href="#_CPPv414ADC2_CHANNEL_3" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC2 channel 3 is GPIO15 (ESP32), GPIO14 (ESP32-S2) </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ADC2_CHANNEL_4">
+<span id="_CPPv314ADC2_CHANNEL_4"></span><span id="_CPPv214ADC2_CHANNEL_4"></span><span class="target" id="adc_8h_1add66cc30ecddacdbbe3b815cd38d6c96a7cb063d84edda821a88906d8676717aa"></span><code class="descname">ADC2_CHANNEL_4</code><a class="headerlink" href="#_CPPv414ADC2_CHANNEL_4" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC2 channel 4 is GPIO13 (ESP32), GPIO15 (ESP32-S2) </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ADC2_CHANNEL_5">
+<span id="_CPPv314ADC2_CHANNEL_5"></span><span id="_CPPv214ADC2_CHANNEL_5"></span><span class="target" id="adc_8h_1add66cc30ecddacdbbe3b815cd38d6c96afae3aa880373ea4eab6e471d53239980"></span><code class="descname">ADC2_CHANNEL_5</code><a class="headerlink" href="#_CPPv414ADC2_CHANNEL_5" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC2 channel 5 is GPIO12 (ESP32), GPIO16 (ESP32-S2) </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ADC2_CHANNEL_6">
+<span id="_CPPv314ADC2_CHANNEL_6"></span><span id="_CPPv214ADC2_CHANNEL_6"></span><span class="target" id="adc_8h_1add66cc30ecddacdbbe3b815cd38d6c96aae18e68836a685fb3f5c1c55d770650c"></span><code class="descname">ADC2_CHANNEL_6</code><a class="headerlink" href="#_CPPv414ADC2_CHANNEL_6" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC2 channel 6 is GPIO14 (ESP32), GPIO17 (ESP32-S2) </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ADC2_CHANNEL_7">
+<span id="_CPPv314ADC2_CHANNEL_7"></span><span id="_CPPv214ADC2_CHANNEL_7"></span><span class="target" id="adc_8h_1add66cc30ecddacdbbe3b815cd38d6c96a2cca95e05e6ecc39d2dc7ccaefce8915"></span><code class="descname">ADC2_CHANNEL_7</code><a class="headerlink" href="#_CPPv414ADC2_CHANNEL_7" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC2 channel 7 is GPIO27 (ESP32), GPIO18 (ESP32-S2) </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ADC2_CHANNEL_8">
+<span id="_CPPv314ADC2_CHANNEL_8"></span><span id="_CPPv214ADC2_CHANNEL_8"></span><span class="target" id="adc_8h_1add66cc30ecddacdbbe3b815cd38d6c96aa95fa52ed25a5563afabf4f705f65757"></span><code class="descname">ADC2_CHANNEL_8</code><a class="headerlink" href="#_CPPv414ADC2_CHANNEL_8" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC2 channel 8 is GPIO25 (ESP32), GPIO19 (ESP32-S2) </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ADC2_CHANNEL_9">
+<span id="_CPPv314ADC2_CHANNEL_9"></span><span id="_CPPv214ADC2_CHANNEL_9"></span><span class="target" id="adc_8h_1add66cc30ecddacdbbe3b815cd38d6c96a352105afac9536ba12efa911cc892bb6"></span><code class="descname">ADC2_CHANNEL_9</code><a class="headerlink" href="#_CPPv414ADC2_CHANNEL_9" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC2 channel 9 is GPIO26 (ESP32), GPIO20 (ESP32-S2) </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv416ADC2_CHANNEL_MAX">
+<span id="_CPPv316ADC2_CHANNEL_MAX"></span><span id="_CPPv216ADC2_CHANNEL_MAX"></span><span class="target" id="adc_8h_1add66cc30ecddacdbbe3b815cd38d6c96a2fa7929e0f7ad42f8d1741b33681083f"></span><code class="descname">ADC2_CHANNEL_MAX</code><a class="headerlink" href="#_CPPv416ADC2_CHANNEL_MAX" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv410adc_unit_t">
+<span id="_CPPv310adc_unit_t"></span><span id="_CPPv210adc_unit_t"></span><span id="adc_unit_t"></span><span class="target" id="adc_8h_1ad8b7b5a18bfe497e5313ac9a47b297e2"></span><em class="property">enum </em><code class="descname">adc_unit_t</code><a class="headerlink" href="#_CPPv410adc_unit_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv410ADC_UNIT_1">
+<span id="_CPPv310ADC_UNIT_1"></span><span id="_CPPv210ADC_UNIT_1"></span><span class="target" id="adc_8h_1ad8b7b5a18bfe497e5313ac9a47b297e2a104d8d36c8b116f544b799df3e6ec673"></span><code class="descname">ADC_UNIT_1</code> = 1<a class="headerlink" href="#_CPPv410ADC_UNIT_1" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SAR ADC 1 </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv410ADC_UNIT_2">
+<span id="_CPPv310ADC_UNIT_2"></span><span id="_CPPv210ADC_UNIT_2"></span><span class="target" id="adc_8h_1ad8b7b5a18bfe497e5313ac9a47b297e2ab23f1637a412e6f1047d63389e49464e"></span><code class="descname">ADC_UNIT_2</code> = 2<a class="headerlink" href="#_CPPv410ADC_UNIT_2" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SAR ADC 2, not supported yet </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv413ADC_UNIT_BOTH">
+<span id="_CPPv313ADC_UNIT_BOTH"></span><span id="_CPPv213ADC_UNIT_BOTH"></span><span class="target" id="adc_8h_1ad8b7b5a18bfe497e5313ac9a47b297e2a610564d78f0f8f4f4af25267bd081972"></span><code class="descname">ADC_UNIT_BOTH</code> = 3<a class="headerlink" href="#_CPPv413ADC_UNIT_BOTH" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SAR ADC 1 and 2, not supported yet </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ADC_UNIT_ALTER">
+<span id="_CPPv314ADC_UNIT_ALTER"></span><span id="_CPPv214ADC_UNIT_ALTER"></span><span class="target" id="adc_8h_1ad8b7b5a18bfe497e5313ac9a47b297e2ad591c18511434280633702d2a55ff644"></span><code class="descname">ADC_UNIT_ALTER</code> = 7<a class="headerlink" href="#_CPPv414ADC_UNIT_ALTER" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SAR ADC 1 and 2 alternative mode, not supported yet </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv412ADC_UNIT_MAX">
+<span id="_CPPv312ADC_UNIT_MAX"></span><span id="_CPPv212ADC_UNIT_MAX"></span><span class="target" id="adc_8h_1ad8b7b5a18bfe497e5313ac9a47b297e2a6b2db62e5883ff3f1def324ddba320ad"></span><code class="descname">ADC_UNIT_MAX</code><a class="headerlink" href="#_CPPv412ADC_UNIT_MAX" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv416adc_i2s_encode_t">
+<span id="_CPPv316adc_i2s_encode_t"></span><span id="_CPPv216adc_i2s_encode_t"></span><span id="adc_i2s_encode_t"></span><span class="target" id="adc_8h_1af3d1893ceafe16fc72994ab7a663e1e3"></span><em class="property">enum </em><code class="descname">adc_i2s_encode_t</code><a class="headerlink" href="#_CPPv416adc_i2s_encode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv416ADC_ENCODE_12BIT">
+<span id="_CPPv316ADC_ENCODE_12BIT"></span><span id="_CPPv216ADC_ENCODE_12BIT"></span><span class="target" id="adc_8h_1af3d1893ceafe16fc72994ab7a663e1e3a7f772d6b2892420b3f0af1d186662d17"></span><code class="descname">ADC_ENCODE_12BIT</code><a class="headerlink" href="#_CPPv416ADC_ENCODE_12BIT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC to I2S data format, [15:12]-channel [11:0]-12 bits ADC data </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv416ADC_ENCODE_11BIT">
+<span id="_CPPv316ADC_ENCODE_11BIT"></span><span id="_CPPv216ADC_ENCODE_11BIT"></span><span class="target" id="adc_8h_1af3d1893ceafe16fc72994ab7a663e1e3a5ae221fd154ab92cacd80e91f59cd2f3"></span><code class="descname">ADC_ENCODE_11BIT</code><a class="headerlink" href="#_CPPv416ADC_ENCODE_11BIT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC to I2S data format, [15]-1 [14:11]-channel [10:0]-11 bits ADC data </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ADC_ENCODE_MAX">
+<span id="_CPPv314ADC_ENCODE_MAX"></span><span id="_CPPv214ADC_ENCODE_MAX"></span><span class="target" id="adc_8h_1af3d1893ceafe16fc72994ab7a663e1e3a5c381652211caa567864ae7aa93044b8"></span><code class="descname">ADC_ENCODE_MAX</code><a class="headerlink" href="#_CPPv414ADC_ENCODE_MAX" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="adc-api-reference-adc-calibration">
+<span id="id1"></span><h3>ADC Calibration<a class="headerlink" href="#adc-api-reference-adc-calibration" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id2">
+<h3>Header File<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_adc_cal/include/esp_adc_cal.h">esp_adc_cal/include/esp_adc_cal.h</a></li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h3>Functions<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv423esp_adc_cal_check_efuse19esp_adc_cal_value_t">
+<span id="_CPPv323esp_adc_cal_check_efuse19esp_adc_cal_value_t"></span><span id="_CPPv223esp_adc_cal_check_efuse19esp_adc_cal_value_t"></span><span id="esp_adc_cal_check_efuse__esp_adc_cal_value_t"></span><span class="target" id="esp__adc__cal_8h_1a71d2113fafacbe409d0a82ad44822d64"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_adc_cal_check_efuse</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv419esp_adc_cal_value_t" title="esp_adc_cal_value_t">esp_adc_cal_value_t</a> <em>value_type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423esp_adc_cal_check_efuse19esp_adc_cal_value_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Checks if ADC calibration values are burned into eFuse. </p>
+<p>This function checks if ADC reference voltage or Two Point values have been burned to the eFuse of the current ESP32</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: The calibration mode is supported in eFuse</li>
+<li>ESP_ERR_NOT_SUPPORTED: Error, eFuse values are not burned</li>
+<li>ESP_ERR_INVALID_ARG: Error, invalid argument (ESP_ADC_CAL_VAL_DEFAULT_VREF) </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">value_type</span></code>: Type of calibration value (ESP_ADC_CAL_VAL_EFUSE_VREF or ESP_ADC_CAL_VAL_EFUSE_TP)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424esp_adc_cal_characterize10adc_unit_t11adc_atten_t16adc_bits_width_t8uint32_tP29esp_adc_cal_characteristics_t">
+<span id="_CPPv324esp_adc_cal_characterize10adc_unit_t11adc_atten_t16adc_bits_width_t8uint32_tP29esp_adc_cal_characteristics_t"></span><span id="_CPPv224esp_adc_cal_characterize10adc_unit_t11adc_atten_t16adc_bits_width_t8uint32_tP29esp_adc_cal_characteristics_t"></span><span id="esp_adc_cal_characterize__adc_unit_t.adc_atten_t.adc_bits_width_t.uint32_t.esp_adc_cal_characteristics_tP"></span><span class="target" id="esp__adc__cal_8h_1aa5257bc6eb1b5d0e840bfa93e45153e5"></span><a class="reference internal" href="#_CPPv419esp_adc_cal_value_t" title="esp_adc_cal_value_t">esp_adc_cal_value_t</a> <code class="descname">esp_adc_cal_characterize</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv410adc_unit_t" title="adc_unit_t">adc_unit_t</a> <em>adc_num</em>, adc_atten_t <em>atten</em>, adc_bits_width_t <em>bit_width</em>, uint32_t <em>default_vref</em>, <a class="reference internal" href="#_CPPv429esp_adc_cal_characteristics_t" title="esp_adc_cal_characteristics_t">esp_adc_cal_characteristics_t</a> *<em>chars</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424esp_adc_cal_characterize10adc_unit_t11adc_atten_t16adc_bits_width_t8uint32_tP29esp_adc_cal_characteristics_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Characterize an ADC at a particular attenuation. </p>
+<p>This function will characterize the ADC at a particular attenuation and generate the ADC-Voltage curve in the form of [y = coeff_a * x + coeff_b]. Characterization can be based on Two Point values, eFuse Vref, or default Vref and the calibration values will be prioritized in that order.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Two Point values and eFuse Vref can be enabled/disabled using menuconfig.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ADC_CAL_VAL_EFUSE_VREF: eFuse Vref used for characterization</li>
+<li>ESP_ADC_CAL_VAL_EFUSE_TP: Two Point value used for characterization (only in Linear Mode)</li>
+<li>ESP_ADC_CAL_VAL_DEFAULT_VREF: Default Vref used for characterization </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">adc_num</span></code>: ADC to characterize (ADC_UNIT_1 or ADC_UNIT_2) </li>
+<li><code class="docutils literal notranslate"><span class="pre">atten</span></code>: Attenuation to characterize </li>
+<li><code class="docutils literal notranslate"><span class="pre">bit_width</span></code>: Bit width configuration of ADC </li>
+<li><code class="docutils literal notranslate"><span class="pre">default_vref</span></code>: Default ADC reference voltage in mV (used if eFuse values is not available) </li>
+<li><code class="docutils literal notranslate"><span class="pre">chars</span></code>: Pointer to empty structure used to store ADC characteristics</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426esp_adc_cal_raw_to_voltage8uint32_tPK29esp_adc_cal_characteristics_t">
+<span id="_CPPv326esp_adc_cal_raw_to_voltage8uint32_tPK29esp_adc_cal_characteristics_t"></span><span id="_CPPv226esp_adc_cal_raw_to_voltage8uint32_tPK29esp_adc_cal_characteristics_t"></span><span id="esp_adc_cal_raw_to_voltage__uint32_t.esp_adc_cal_characteristics_tCP"></span><span class="target" id="esp__adc__cal_8h_1a1c9acc7816e2524b09fdb031f271d1a9"></span>uint32_t <code class="descname">esp_adc_cal_raw_to_voltage</code><span class="sig-paren">(</span>uint32_t <em>adc_reading</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv429esp_adc_cal_characteristics_t" title="esp_adc_cal_characteristics_t">esp_adc_cal_characteristics_t</a> *<em>chars</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426esp_adc_cal_raw_to_voltage8uint32_tPK29esp_adc_cal_characteristics_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Convert an ADC reading to voltage in mV. </p>
+<p>This function converts an ADC reading to a voltage in mV based on the ADC’s characteristics.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Characteristics structure must be initialized before this function is called (call esp_adc_cal_characterize())</dd>
+<dt><strong>Return</strong></dt>
+<dd>Voltage in mV </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">adc_reading</span></code>: ADC reading </li>
+<li><code class="docutils literal notranslate"><span class="pre">chars</span></code>: Pointer to initialized structure containing ADC characteristics</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423esp_adc_cal_get_voltage13adc_channel_tPK29esp_adc_cal_characteristics_tP8uint32_t">
+<span id="_CPPv323esp_adc_cal_get_voltage13adc_channel_tPK29esp_adc_cal_characteristics_tP8uint32_t"></span><span id="_CPPv223esp_adc_cal_get_voltage13adc_channel_tPK29esp_adc_cal_characteristics_tP8uint32_t"></span><span id="esp_adc_cal_get_voltage__adc_channel_t.esp_adc_cal_characteristics_tCP.uint32_tP"></span><span class="target" id="esp__adc__cal_8h_1aba77c3398505d9b4e83805720812b9fb"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_adc_cal_get_voltage</code><span class="sig-paren">(</span>adc_channel_t <em>channel</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv429esp_adc_cal_characteristics_t" title="esp_adc_cal_characteristics_t">esp_adc_cal_characteristics_t</a> *<em>chars</em>, uint32_t *<em>voltage</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423esp_adc_cal_get_voltage13adc_channel_tPK29esp_adc_cal_characteristics_tP8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reads an ADC and converts the reading to a voltage in mV. </p>
+<p>This function reads an ADC then converts the raw reading to a voltage in mV based on the characteristics provided. The ADC that is read is also determined by the characteristics.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>The Characteristics structure must be initialized before this function is called (call esp_adc_cal_characterize())</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: ADC read and converted to mV</li>
+<li>ESP_ERR_TIMEOUT: Error, timed out attempting to read ADC</li>
+<li>ESP_ERR_INVALID_ARG: Error due to invalid arguments </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">channel</span></code>: ADC Channel to read </li>
+<li><code class="docutils literal notranslate"><span class="pre">chars</span></code>: Pointer to initialized ADC characteristics structure </li>
+<li><code class="docutils literal notranslate"><span class="pre">voltage</span></code>: Pointer to store converted voltage</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv429esp_adc_cal_characteristics_t">
+<span id="_CPPv329esp_adc_cal_characteristics_t"></span><span id="_CPPv229esp_adc_cal_characteristics_t"></span><span id="esp_adc_cal_characteristics_t"></span><span class="target" id="structesp__adc__cal__characteristics__t"></span><em class="property">struct </em><code class="descname">esp_adc_cal_characteristics_t</code><a class="headerlink" href="#_CPPv429esp_adc_cal_characteristics_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Structure storing characteristics of an ADC. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Call esp_adc_cal_characterize() to initialize the structure </dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N29esp_adc_cal_characteristics_t7adc_numE">
+<span id="_CPPv3N29esp_adc_cal_characteristics_t7adc_numE"></span><span id="_CPPv2N29esp_adc_cal_characteristics_t7adc_numE"></span><span id="esp_adc_cal_characteristics_t::adc_num__adc_unit_t"></span><span class="target" id="structesp__adc__cal__characteristics__t_1a708636e738f721a7e394db7f0da01496"></span><a class="reference internal" href="#_CPPv410adc_unit_t" title="adc_unit_t">adc_unit_t</a> <code class="descname">adc_num</code><a class="headerlink" href="#_CPPv4N29esp_adc_cal_characteristics_t7adc_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC number </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29esp_adc_cal_characteristics_t5attenE">
+<span id="_CPPv3N29esp_adc_cal_characteristics_t5attenE"></span><span id="_CPPv2N29esp_adc_cal_characteristics_t5attenE"></span><span id="esp_adc_cal_characteristics_t::atten__adc_atten_t"></span><span class="target" id="structesp__adc__cal__characteristics__t_1a4eb3ed29b5ec44c7be42531b032c8f4d"></span>adc_atten_t <code class="descname">atten</code><a class="headerlink" href="#_CPPv4N29esp_adc_cal_characteristics_t5attenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC attenuation </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29esp_adc_cal_characteristics_t9bit_widthE">
+<span id="_CPPv3N29esp_adc_cal_characteristics_t9bit_widthE"></span><span id="_CPPv2N29esp_adc_cal_characteristics_t9bit_widthE"></span><span id="esp_adc_cal_characteristics_t::bit_width__adc_bits_width_t"></span><span class="target" id="structesp__adc__cal__characteristics__t_1a4040b2aaacdc3d379ca668513bdc3b54"></span>adc_bits_width_t <code class="descname">bit_width</code><a class="headerlink" href="#_CPPv4N29esp_adc_cal_characteristics_t9bit_widthE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ADC bit width </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29esp_adc_cal_characteristics_t7coeff_aE">
+<span id="_CPPv3N29esp_adc_cal_characteristics_t7coeff_aE"></span><span id="_CPPv2N29esp_adc_cal_characteristics_t7coeff_aE"></span><span id="esp_adc_cal_characteristics_t::coeff_a__uint32_t"></span><span class="target" id="structesp__adc__cal__characteristics__t_1a829cf7a46b66f51810e3b759371763dd"></span>uint32_t <code class="descname">coeff_a</code><a class="headerlink" href="#_CPPv4N29esp_adc_cal_characteristics_t7coeff_aE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gradient of ADC-Voltage curve </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29esp_adc_cal_characteristics_t7coeff_bE">
+<span id="_CPPv3N29esp_adc_cal_characteristics_t7coeff_bE"></span><span id="_CPPv2N29esp_adc_cal_characteristics_t7coeff_bE"></span><span id="esp_adc_cal_characteristics_t::coeff_b__uint32_t"></span><span class="target" id="structesp__adc__cal__characteristics__t_1a1f5e76564c1285692204411b141adef4"></span>uint32_t <code class="descname">coeff_b</code><a class="headerlink" href="#_CPPv4N29esp_adc_cal_characteristics_t7coeff_bE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Offset of ADC-Voltage curve </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29esp_adc_cal_characteristics_t4vrefE">
+<span id="_CPPv3N29esp_adc_cal_characteristics_t4vrefE"></span><span id="_CPPv2N29esp_adc_cal_characteristics_t4vrefE"></span><span id="esp_adc_cal_characteristics_t::vref__uint32_t"></span><span class="target" id="structesp__adc__cal__characteristics__t_1a8857a145c290230afa3d947c5269d47f"></span>uint32_t <code class="descname">vref</code><a class="headerlink" href="#_CPPv4N29esp_adc_cal_characteristics_t4vrefE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Vref used by lookup table </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29esp_adc_cal_characteristics_t9low_curveE">
+<span id="_CPPv3N29esp_adc_cal_characteristics_t9low_curveE"></span><span id="_CPPv2N29esp_adc_cal_characteristics_t9low_curveE"></span><span id="esp_adc_cal_characteristics_t::low_curve__uint32_tCP"></span><span class="target" id="structesp__adc__cal__characteristics__t_1a080694181ac5dc78c616f38c007b861c"></span><em class="property">const</em> uint32_t *<code class="descname">low_curve</code><a class="headerlink" href="#_CPPv4N29esp_adc_cal_characteristics_t9low_curveE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Pointer to low Vref curve of lookup table (NULL if unused) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29esp_adc_cal_characteristics_t10high_curveE">
+<span id="_CPPv3N29esp_adc_cal_characteristics_t10high_curveE"></span><span id="_CPPv2N29esp_adc_cal_characteristics_t10high_curveE"></span><span id="esp_adc_cal_characteristics_t::high_curve__uint32_tCP"></span><span class="target" id="structesp__adc__cal__characteristics__t_1aecdcf553dca53610dc8fc06ccae7d5ea"></span><em class="property">const</em> uint32_t *<code class="descname">high_curve</code><a class="headerlink" href="#_CPPv4N29esp_adc_cal_characteristics_t10high_curveE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Pointer to high Vref curve of lookup table (NULL if unused) </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="id4">
+<h3>Enumerations<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv419esp_adc_cal_value_t">
+<span id="_CPPv319esp_adc_cal_value_t"></span><span id="_CPPv219esp_adc_cal_value_t"></span><span id="esp_adc_cal_value_t"></span><span class="target" id="esp__adc__cal_8h_1a1f6ae945f9cd5c548b93c61d995b5091"></span><em class="property">enum </em><code class="descname">esp_adc_cal_value_t</code><a class="headerlink" href="#_CPPv419esp_adc_cal_value_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Type of calibration value used in characterization. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv426ESP_ADC_CAL_VAL_EFUSE_VREF">
+<span id="_CPPv326ESP_ADC_CAL_VAL_EFUSE_VREF"></span><span id="_CPPv226ESP_ADC_CAL_VAL_EFUSE_VREF"></span><span class="target" id="esp__adc__cal_8h_1a1f6ae945f9cd5c548b93c61d995b5091a7cebb535368a559f490d61a44a271d06"></span><code class="descname">ESP_ADC_CAL_VAL_EFUSE_VREF</code> = 0<a class="headerlink" href="#_CPPv426ESP_ADC_CAL_VAL_EFUSE_VREF" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Characterization based on reference voltage stored in eFuse </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv424ESP_ADC_CAL_VAL_EFUSE_TP">
+<span id="_CPPv324ESP_ADC_CAL_VAL_EFUSE_TP"></span><span id="_CPPv224ESP_ADC_CAL_VAL_EFUSE_TP"></span><span class="target" id="esp__adc__cal_8h_1a1f6ae945f9cd5c548b93c61d995b5091a653eb147015f3b248aaa376038f343f5"></span><code class="descname">ESP_ADC_CAL_VAL_EFUSE_TP</code> = 1<a class="headerlink" href="#_CPPv424ESP_ADC_CAL_VAL_EFUSE_TP" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Characterization based on Two Point values stored in eFuse </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv428ESP_ADC_CAL_VAL_DEFAULT_VREF">
+<span id="_CPPv328ESP_ADC_CAL_VAL_DEFAULT_VREF"></span><span id="_CPPv228ESP_ADC_CAL_VAL_DEFAULT_VREF"></span><span class="target" id="esp__adc__cal_8h_1a1f6ae945f9cd5c548b93c61d995b5091ab6343220961a636c720585a816c38c12"></span><code class="descname">ESP_ADC_CAL_VAL_DEFAULT_VREF</code> = 2<a class="headerlink" href="#_CPPv428ESP_ADC_CAL_VAL_DEFAULT_VREF" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Characterization based on default reference voltage </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="adc-api-reference-gpio-lookup-macros">
+<span id="id5"></span><h3>GPIO Lookup Macros<a class="headerlink" href="#adc-api-reference-gpio-lookup-macros" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id6">
+<h3>Header File<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/soc/esp32/include/soc/adc_channel.h">soc/esp32/include/soc/adc_channel.h</a></li>
+</ul>
+</div>
+<div class="section" id="id7">
+<h3>Macros<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.ADC1_GPIO36_CHANNEL">
+<span class="target" id="adc__channel_8h_1a04533aae285c91532772515db7cba70d"></span><code class="descname">ADC1_GPIO36_CHANNEL</code><a class="headerlink" href="#c.ADC1_GPIO36_CHANNEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC1_CHANNEL_0_GPIO_NUM">
+<span class="target" id="adc__channel_8h_1a9734ca1c41537f06c28b9106a35f4a11"></span><code class="descname">ADC1_CHANNEL_0_GPIO_NUM</code><a class="headerlink" href="#c.ADC1_CHANNEL_0_GPIO_NUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC1_GPIO37_CHANNEL">
+<span class="target" id="adc__channel_8h_1a4a20440ff374c143e5799cab24f5d7e6"></span><code class="descname">ADC1_GPIO37_CHANNEL</code><a class="headerlink" href="#c.ADC1_GPIO37_CHANNEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC1_CHANNEL_1_GPIO_NUM">
+<span class="target" id="adc__channel_8h_1aea2af61d638ac552b6de284af606fd6d"></span><code class="descname">ADC1_CHANNEL_1_GPIO_NUM</code><a class="headerlink" href="#c.ADC1_CHANNEL_1_GPIO_NUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC1_GPIO38_CHANNEL">
+<span class="target" id="adc__channel_8h_1a7b169385f4931e3ff73b57a4a25521db"></span><code class="descname">ADC1_GPIO38_CHANNEL</code><a class="headerlink" href="#c.ADC1_GPIO38_CHANNEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC1_CHANNEL_2_GPIO_NUM">
+<span class="target" id="adc__channel_8h_1a6f9983f0c45d3e74b345038688a34ff8"></span><code class="descname">ADC1_CHANNEL_2_GPIO_NUM</code><a class="headerlink" href="#c.ADC1_CHANNEL_2_GPIO_NUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC1_GPIO39_CHANNEL">
+<span class="target" id="adc__channel_8h_1ab307a6cd1b2be2751a87b3b2bdea893c"></span><code class="descname">ADC1_GPIO39_CHANNEL</code><a class="headerlink" href="#c.ADC1_GPIO39_CHANNEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC1_CHANNEL_3_GPIO_NUM">
+<span class="target" id="adc__channel_8h_1a79f5800e14b6c1dbc175488008ff4783"></span><code class="descname">ADC1_CHANNEL_3_GPIO_NUM</code><a class="headerlink" href="#c.ADC1_CHANNEL_3_GPIO_NUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC1_GPIO32_CHANNEL">
+<span class="target" id="adc__channel_8h_1a9124dbfece590eeb6f2a05379bb0af70"></span><code class="descname">ADC1_GPIO32_CHANNEL</code><a class="headerlink" href="#c.ADC1_GPIO32_CHANNEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC1_CHANNEL_4_GPIO_NUM">
+<span class="target" id="adc__channel_8h_1ab2330713b7f369b0489df708e7cc2e8a"></span><code class="descname">ADC1_CHANNEL_4_GPIO_NUM</code><a class="headerlink" href="#c.ADC1_CHANNEL_4_GPIO_NUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC1_GPIO33_CHANNEL">
+<span class="target" id="adc__channel_8h_1a9d84e944c15018af6df3d0637f50fb05"></span><code class="descname">ADC1_GPIO33_CHANNEL</code><a class="headerlink" href="#c.ADC1_GPIO33_CHANNEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC1_CHANNEL_5_GPIO_NUM">
+<span class="target" id="adc__channel_8h_1a217faaf0dee2ea4ae01cc66aebd61e10"></span><code class="descname">ADC1_CHANNEL_5_GPIO_NUM</code><a class="headerlink" href="#c.ADC1_CHANNEL_5_GPIO_NUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC1_GPIO34_CHANNEL">
+<span class="target" id="adc__channel_8h_1a06cf6ec60f42bd1233e1372c013501e3"></span><code class="descname">ADC1_GPIO34_CHANNEL</code><a class="headerlink" href="#c.ADC1_GPIO34_CHANNEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC1_CHANNEL_6_GPIO_NUM">
+<span class="target" id="adc__channel_8h_1aa757ebfe9b7b9f0b70d1159c637f31f8"></span><code class="descname">ADC1_CHANNEL_6_GPIO_NUM</code><a class="headerlink" href="#c.ADC1_CHANNEL_6_GPIO_NUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC1_GPIO35_CHANNEL">
+<span class="target" id="adc__channel_8h_1a1af6f75f20d519bada3813ff47740cb8"></span><code class="descname">ADC1_GPIO35_CHANNEL</code><a class="headerlink" href="#c.ADC1_GPIO35_CHANNEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC1_CHANNEL_7_GPIO_NUM">
+<span class="target" id="adc__channel_8h_1af0c0d4ed9962bd5a2bbce0d5090a318d"></span><code class="descname">ADC1_CHANNEL_7_GPIO_NUM</code><a class="headerlink" href="#c.ADC1_CHANNEL_7_GPIO_NUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC2_GPIO4_CHANNEL">
+<span class="target" id="adc__channel_8h_1a828e97669030a879115dd0bffd8ffab5"></span><code class="descname">ADC2_GPIO4_CHANNEL</code><a class="headerlink" href="#c.ADC2_GPIO4_CHANNEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC2_CHANNEL_0_GPIO_NUM">
+<span class="target" id="adc__channel_8h_1a6cb55443db2901cc91b1dd7592a8e4d6"></span><code class="descname">ADC2_CHANNEL_0_GPIO_NUM</code><a class="headerlink" href="#c.ADC2_CHANNEL_0_GPIO_NUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC2_GPIO0_CHANNEL">
+<span class="target" id="adc__channel_8h_1a327d527db97071e7a23aebf71c679867"></span><code class="descname">ADC2_GPIO0_CHANNEL</code><a class="headerlink" href="#c.ADC2_GPIO0_CHANNEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC2_CHANNEL_1_GPIO_NUM">
+<span class="target" id="adc__channel_8h_1ad9ddcb90619263aa6fd40ae48cec903b"></span><code class="descname">ADC2_CHANNEL_1_GPIO_NUM</code><a class="headerlink" href="#c.ADC2_CHANNEL_1_GPIO_NUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC2_GPIO2_CHANNEL">
+<span class="target" id="adc__channel_8h_1aed19abaadd8a418f93d4f18b66faf48e"></span><code class="descname">ADC2_GPIO2_CHANNEL</code><a class="headerlink" href="#c.ADC2_GPIO2_CHANNEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC2_CHANNEL_2_GPIO_NUM">
+<span class="target" id="adc__channel_8h_1a037cabce79e67999bb44d087b6768d6d"></span><code class="descname">ADC2_CHANNEL_2_GPIO_NUM</code><a class="headerlink" href="#c.ADC2_CHANNEL_2_GPIO_NUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC2_GPIO15_CHANNEL">
+<span class="target" id="adc__channel_8h_1a4f09e24427f8c23a4ed2d8006cdfb582"></span><code class="descname">ADC2_GPIO15_CHANNEL</code><a class="headerlink" href="#c.ADC2_GPIO15_CHANNEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC2_CHANNEL_3_GPIO_NUM">
+<span class="target" id="adc__channel_8h_1a34695cae52c51792b9a4d11a9e6799ad"></span><code class="descname">ADC2_CHANNEL_3_GPIO_NUM</code><a class="headerlink" href="#c.ADC2_CHANNEL_3_GPIO_NUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC2_GPIO13_CHANNEL">
+<span class="target" id="adc__channel_8h_1a038b00f68d9c1e4796ccfeb426b34c0b"></span><code class="descname">ADC2_GPIO13_CHANNEL</code><a class="headerlink" href="#c.ADC2_GPIO13_CHANNEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC2_CHANNEL_4_GPIO_NUM">
+<span class="target" id="adc__channel_8h_1a1e0a23c5f443d955cb4cb33a63ed5623"></span><code class="descname">ADC2_CHANNEL_4_GPIO_NUM</code><a class="headerlink" href="#c.ADC2_CHANNEL_4_GPIO_NUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC2_GPIO12_CHANNEL">
+<span class="target" id="adc__channel_8h_1a0834cbde8fc0511b40a2e5bae00d4ce6"></span><code class="descname">ADC2_GPIO12_CHANNEL</code><a class="headerlink" href="#c.ADC2_GPIO12_CHANNEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC2_CHANNEL_5_GPIO_NUM">
+<span class="target" id="adc__channel_8h_1a14c17d8d66d4ffbb71eb35cbea4f6392"></span><code class="descname">ADC2_CHANNEL_5_GPIO_NUM</code><a class="headerlink" href="#c.ADC2_CHANNEL_5_GPIO_NUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC2_GPIO14_CHANNEL">
+<span class="target" id="adc__channel_8h_1afc5858de954f02bc754284aace8a2d74"></span><code class="descname">ADC2_GPIO14_CHANNEL</code><a class="headerlink" href="#c.ADC2_GPIO14_CHANNEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC2_CHANNEL_6_GPIO_NUM">
+<span class="target" id="adc__channel_8h_1ae660366e11061b5666c109d1d698b746"></span><code class="descname">ADC2_CHANNEL_6_GPIO_NUM</code><a class="headerlink" href="#c.ADC2_CHANNEL_6_GPIO_NUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC2_GPIO27_CHANNEL">
+<span class="target" id="adc__channel_8h_1ae8200c541ad925e9046fe2ce5f24275e"></span><code class="descname">ADC2_GPIO27_CHANNEL</code><a class="headerlink" href="#c.ADC2_GPIO27_CHANNEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC2_CHANNEL_7_GPIO_NUM">
+<span class="target" id="adc__channel_8h_1aed783c639b7710b2fb181a20cc87abb9"></span><code class="descname">ADC2_CHANNEL_7_GPIO_NUM</code><a class="headerlink" href="#c.ADC2_CHANNEL_7_GPIO_NUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC2_GPIO25_CHANNEL">
+<span class="target" id="adc__channel_8h_1a176ad21523ce5c04c9963a63626bfafd"></span><code class="descname">ADC2_GPIO25_CHANNEL</code><a class="headerlink" href="#c.ADC2_GPIO25_CHANNEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC2_CHANNEL_8_GPIO_NUM">
+<span class="target" id="adc__channel_8h_1aefabeb950c331d26be4e8a6cf31f4f5e"></span><code class="descname">ADC2_CHANNEL_8_GPIO_NUM</code><a class="headerlink" href="#c.ADC2_CHANNEL_8_GPIO_NUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC2_GPIO26_CHANNEL">
+<span class="target" id="adc__channel_8h_1acbfedf28cd7b765e091355d1ffd0c9ad"></span><code class="descname">ADC2_GPIO26_CHANNEL</code><a class="headerlink" href="#c.ADC2_GPIO26_CHANNEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ADC2_CHANNEL_9_GPIO_NUM">
+<span class="target" id="adc__channel_8h_1abd09aac3c54233425e36839eb835c1e8"></span><code class="descname">ADC2_CHANNEL_9_GPIO_NUM</code><a class="headerlink" href="#c.ADC2_CHANNEL_9_GPIO_NUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="can.html" class="btn btn-neutral float-right" title="Controller Area Network (CAN)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Peripherals API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/adc.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:06 GMT -->
+</html>

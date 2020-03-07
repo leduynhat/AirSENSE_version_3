@@ -1,0 +1,631 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/system/perfmon.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:43 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Performance Monitor &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Power Management" href="power_management.html" />
+    <link rel="prev" title="Over The Air Updates (OTA)" href="ota.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="perfmon.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/system/perfmon"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">System</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="app_image_format.html">App image format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="app_trace.html">Application Level Tracing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="efuse.html">eFuse Manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_err.html">Error Codes and Helper Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_https_ota.html">ESP HTTPS OTA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_pthread.html">ESP pthread</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_event.html">Event Loop Library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freertos.html">FreeRTOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freertos_additions.html">FreeRTOS Additions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mem_alloc.html">Heap Memory Allocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="heap_debug.html">Heap Memory Debugging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_timer.html">High Resolution Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="himem.html">Himem (large external SPI RAM) API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipc.html">Inter-Processor Call</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_expression_with_stack.html">Call function with external stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="intr_alloc.html">Interrupt Allocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log.html">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system.html">Miscellaneous System APIs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ota.html">Over The Air Updates (OTA)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Performance Monitor</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#application-example">Application Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#high-level-api-reference">High level API Reference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="power_management.html">Power Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sleep_modes.html">Sleep Modes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wdts.html">Watchdogs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system_time.html">System Time</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">System API</a> &raquo;</li>
+        
+      <li>Performance Monitor</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/system/perfmon.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="performance-monitor">
+<h1>Performance Monitor<a class="headerlink" href="#performance-monitor" title="Permalink to this headline">¶</a></h1>
+<p>The Performance Monitor component provides APIs to use ESP32 internal performance counters to profile functions and
+applications.</p>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<p>An example which combines performance monitor is provided in <code class="docutils literal notranslate"><span class="pre">examples/system/perfmon</span></code> directory.
+This example initializes the performance monitor structure and execute them with printing the statistics.</p>
+</div>
+<div class="section" id="high-level-api-reference">
+<h2>High level API Reference<a class="headerlink" href="#high-level-api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-files">
+<h3>Header Files<a class="headerlink" href="#header-files" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/perfmon/include/perfmon.h">perfmon/include/perfmon.h</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/perfmon/include/xtensa_perfmon_access.h">perfmon/include/xtensa_perfmon_access.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv419xtensa_perfmon_initi8uint16_t8uint16_tii">
+<span id="_CPPv319xtensa_perfmon_initi8uint16_t8uint16_tii"></span><span id="_CPPv219xtensa_perfmon_initi8uint16_t8uint16_tii"></span><span id="xtensa_perfmon_init__i.uint16_t.uint16_t.i.i"></span><span class="target" id="xtensa__perfmon__access_8h_1aa8a46810f43d47470972a36116d8df4d"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">xtensa_perfmon_init</code><span class="sig-paren">(</span>int <em>id</em>, uint16_t <em>select</em>, uint16_t <em>mask</em>, int <em>kernelcnt</em>, int <em>tracelevel</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419xtensa_perfmon_initi8uint16_t8uint16_tii" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Init Performance Monitoor. </p>
+<p>Initialize performance monitor register with define values</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_INVALID_ARG if one of the arguments is not correct </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">id</span></code>: performance counter number </li>
+<li><code class="docutils literal notranslate"><span class="pre">select</span></code>: select value from PMCTRLx register </li>
+<li><code class="docutils literal notranslate"><span class="pre">mask</span></code>: mask value from PMCTRLx register </li>
+<li><code class="docutils literal notranslate"><span class="pre">kernelcnt</span></code>: kernelcnt value from PMCTRLx register </li>
+<li><code class="docutils literal notranslate"><span class="pre">tracelevel</span></code>: tracelevel value from PMCTRLx register</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420xtensa_perfmon_reseti">
+<span id="_CPPv320xtensa_perfmon_reseti"></span><span id="_CPPv220xtensa_perfmon_reseti"></span><span id="xtensa_perfmon_reset__i"></span><span class="target" id="xtensa__perfmon__access_8h_1aa236be37a23f3d3cfbd1738bd7c11a58"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">xtensa_perfmon_reset</code><span class="sig-paren">(</span>int <em>id</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420xtensa_perfmon_reseti" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reset PM counter. </p>
+<p>Reset PM counter. Writes 0 to the PMx register.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_INVALID_ARG if id out of range </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">id</span></code>: performance counter number</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420xtensa_perfmon_startv">
+<span id="_CPPv320xtensa_perfmon_startv"></span><span id="_CPPv220xtensa_perfmon_startv"></span><span id="xtensa_perfmon_start__void"></span><span class="target" id="xtensa__perfmon__access_8h_1abcf044fe2ecd96e9326ca3d038a784ae"></span>void <code class="descname">xtensa_perfmon_start</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420xtensa_perfmon_startv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start PM counters. </p>
+<p>Start all PM counters synchronously. Write 1 to the PGM register </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419xtensa_perfmon_stopv">
+<span id="_CPPv319xtensa_perfmon_stopv"></span><span id="_CPPv219xtensa_perfmon_stopv"></span><span id="xtensa_perfmon_stop__void"></span><span class="target" id="xtensa__perfmon__access_8h_1ad3ddd78ed5862597e9214a905da60e9c"></span>void <code class="descname">xtensa_perfmon_stop</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419xtensa_perfmon_stopv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stop PM counters. </p>
+<p>Stop all PM counters synchronously. Write 0 to the PGM register </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420xtensa_perfmon_valuei">
+<span id="_CPPv320xtensa_perfmon_valuei"></span><span id="_CPPv220xtensa_perfmon_valuei"></span><span id="xtensa_perfmon_value__i"></span><span class="target" id="xtensa__perfmon__access_8h_1a48439603c95e94cd8bd8a0656c69b616"></span>uint32_t <code class="descname">xtensa_perfmon_value</code><span class="sig-paren">(</span>int <em>id</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420xtensa_perfmon_valuei" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read PM counter. </p>
+<p>Read value of defined PM counter.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>Performance counter value </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">id</span></code>: performance counter number</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423xtensa_perfmon_overflowi">
+<span id="_CPPv323xtensa_perfmon_overflowi"></span><span id="_CPPv223xtensa_perfmon_overflowi"></span><span id="xtensa_perfmon_overflow__i"></span><span class="target" id="xtensa__perfmon__access_8h_1a8047ac99f92308d6a9deba0e7be71a13"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">xtensa_perfmon_overflow</code><span class="sig-paren">(</span>int <em>id</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423xtensa_perfmon_overflowi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read PM overflow state. </p>
+<p>Read overflow value of defined PM counter.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK if there is no overflow (overflow = 0)</li>
+<li>ESP_FAIL if overflow occure (overflow = 1) </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">id</span></code>: performance counter number</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419xtensa_perfmon_dumpv">
+<span id="_CPPv319xtensa_perfmon_dumpv"></span><span id="_CPPv219xtensa_perfmon_dumpv"></span><span id="xtensa_perfmon_dump__void"></span><span class="target" id="xtensa__perfmon__access_8h_1a3079f1d48a185ca9bfd4b04c66a7c85a"></span>void <code class="descname">xtensa_perfmon_dump</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419xtensa_perfmon_dumpv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Dump PM values. </p>
+<p>Dump all PM register to the console. </p>
+</dd></dl>
+
+</div>
+<div class="section" id="id1">
+<h3>Header File<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/perfmon/include/xtensa_perfmon_apis.h">perfmon/include/xtensa_perfmon_apis.h</a></li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>Functions<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv419xtensa_perfmon_execPK23xtensa_perfmon_config_t">
+<span id="_CPPv319xtensa_perfmon_execPK23xtensa_perfmon_config_t"></span><span id="_CPPv219xtensa_perfmon_execPK23xtensa_perfmon_config_t"></span><span id="xtensa_perfmon_exec__xtensa_perfmon_config_tCP"></span><span class="target" id="xtensa__perfmon__apis_8h_1a5463babb2cdb85a3f3d9381b0ad89722"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">xtensa_perfmon_exec</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv423xtensa_perfmon_config_t" title="xtensa_perfmon_config_t">xtensa_perfmon_config_t</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419xtensa_perfmon_execPK23xtensa_perfmon_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Execute PM. </p>
+<p>Execute performance counter for dedicated function with defined parameters</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK if no errors</li>
+<li>ESP_ERR_INVALID_ARG if one of the required parameters not defined</li>
+<li>ESP_FAIL - counter overflow </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">config</span></code>: pointer to the configuration structure</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422xtensa_perfmon_view_cbPv8uint32_t8uint32_t8uint32_t">
+<span id="_CPPv322xtensa_perfmon_view_cbPv8uint32_t8uint32_t8uint32_t"></span><span id="_CPPv222xtensa_perfmon_view_cbPv8uint32_t8uint32_t8uint32_t"></span><span id="xtensa_perfmon_view_cb__voidP.uint32_t.uint32_t.uint32_t"></span><span class="target" id="xtensa__perfmon__apis_8h_1a7813287d608aeffb8184e088b9c69304"></span>void <code class="descname">xtensa_perfmon_view_cb</code><span class="sig-paren">(</span>void *<em>params</em>, uint32_t <em>select</em>, uint32_t <em>mask</em>, uint32_t <em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422xtensa_perfmon_view_cbPv8uint32_t8uint32_t8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Dump PM results. </p>
+<p>Callback to dump perfmon result to a FILE* stream specified in perfmon_config_t::callback_params. If callback_params is set to NULL, will print to stdout</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">params</span></code>: used parameters passed from configuration (callback_params). This parameter expected as FILE* hanle, where data will be stored. If this parameter NULL, then data will be stored to the stdout. </li>
+<li><code class="docutils literal notranslate"><span class="pre">select</span></code>: select value for current counter </li>
+<li><code class="docutils literal notranslate"><span class="pre">mask</span></code>: mask value for current counter </li>
+<li><code class="docutils literal notranslate"><span class="pre">value</span></code>: counter value for current counter </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv421xtensa_perfmon_config">
+<span id="_CPPv321xtensa_perfmon_config"></span><span id="_CPPv221xtensa_perfmon_config"></span><span id="xtensa_perfmon_config"></span><span class="target" id="structxtensa__perfmon__config"></span><em class="property">struct </em><code class="descname">xtensa_perfmon_config</code><a class="headerlink" href="#_CPPv421xtensa_perfmon_config" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Performance monitor configuration structure. </p>
+<p>Structure to configure performance counter to measure dedicated function </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N21xtensa_perfmon_config12repeat_countE">
+<span id="_CPPv3N21xtensa_perfmon_config12repeat_countE"></span><span id="_CPPv2N21xtensa_perfmon_config12repeat_countE"></span><span id="xtensa_perfmon_config::repeat_count__i"></span><span class="target" id="structxtensa__perfmon__config_1a491f6a0d30f799f8fdea51a10b14ad51"></span>int <code class="descname">repeat_count</code><a class="headerlink" href="#_CPPv4N21xtensa_perfmon_config12repeat_countE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>how much times function will be called before the calback will be repeated </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21xtensa_perfmon_config13max_deviationE">
+<span id="_CPPv3N21xtensa_perfmon_config13max_deviationE"></span><span id="_CPPv2N21xtensa_perfmon_config13max_deviationE"></span><span id="xtensa_perfmon_config::max_deviation__float"></span><span class="target" id="structxtensa__perfmon__config_1a92ae54c44759cf738e20170af79cacdb"></span>float <code class="descname">max_deviation</code><a class="headerlink" href="#_CPPv4N21xtensa_perfmon_config13max_deviationE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Difference between min and max counter number 0..1, 0 - no difference, 1 - not used </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21xtensa_perfmon_config11call_paramsE">
+<span id="_CPPv3N21xtensa_perfmon_config11call_paramsE"></span><span id="_CPPv2N21xtensa_perfmon_config11call_paramsE"></span><span id="xtensa_perfmon_config::call_params__voidP"></span><span class="target" id="structxtensa__perfmon__config_1a4d4599378ade4941a9eb1479f506a2de"></span>void *<code class="descname">call_params</code><a class="headerlink" href="#_CPPv4N21xtensa_perfmon_config11call_paramsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This pointer will be passed to the call_function as a parameter </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21xtensa_perfmon_config13call_functionE">
+<span id="_CPPv3N21xtensa_perfmon_config13call_functionE"></span><span id="_CPPv2N21xtensa_perfmon_config13call_functionE"></span><span class="target" id="structxtensa__perfmon__config_1a1394c9c505b7dd0617258dd92dda4051"></span>void (*<code class="descname">call_function</code>)<span class="sig-paren">(</span>void *params<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N21xtensa_perfmon_config13call_functionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>pointer to the function that have to be called </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21xtensa_perfmon_config8callbackE">
+<span id="_CPPv3N21xtensa_perfmon_config8callbackE"></span><span id="_CPPv2N21xtensa_perfmon_config8callbackE"></span><span class="target" id="structxtensa__perfmon__config_1a847e25523e5022287402d85549d951cb"></span>void (*<code class="descname">callback</code>)<span class="sig-paren">(</span>void *params, uint32_t select, uint32_t mask, uint32_t value<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N21xtensa_perfmon_config8callbackE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>pointer to the function that will be called with result parameters </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21xtensa_perfmon_config15callback_paramsE">
+<span id="_CPPv3N21xtensa_perfmon_config15callback_paramsE"></span><span id="_CPPv2N21xtensa_perfmon_config15callback_paramsE"></span><span id="xtensa_perfmon_config::callback_params__voidP"></span><span class="target" id="structxtensa__perfmon__config_1ad7257dbcd2b7421ce6d450adcd5b1cbe"></span>void *<code class="descname">callback_params</code><a class="headerlink" href="#_CPPv4N21xtensa_perfmon_config15callback_paramsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>parameter that will be passed to the callback </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21xtensa_perfmon_config10tracelevelE">
+<span id="_CPPv3N21xtensa_perfmon_config10tracelevelE"></span><span id="_CPPv2N21xtensa_perfmon_config10tracelevelE"></span><span id="xtensa_perfmon_config::tracelevel__i"></span><span class="target" id="structxtensa__perfmon__config_1a5d386bfc3ccd66877cd2bfa9518aba31"></span>int <code class="descname">tracelevel</code><a class="headerlink" href="#_CPPv4N21xtensa_perfmon_config10tracelevelE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>trace level for all counters. In case of negative value, the filter will be ignored. If it’s &gt;=0, then the perfmon will count only when interrupt level &gt; tracelevel. It’s useful to monitor interrupts. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21xtensa_perfmon_config13counters_sizeE">
+<span id="_CPPv3N21xtensa_perfmon_config13counters_sizeE"></span><span id="_CPPv2N21xtensa_perfmon_config13counters_sizeE"></span><span id="xtensa_perfmon_config::counters_size__uint32_t"></span><span class="target" id="structxtensa__perfmon__config_1a627e88131cf34fa3caa18543d77ea529"></span>uint32_t <code class="descname">counters_size</code><a class="headerlink" href="#_CPPv4N21xtensa_perfmon_config13counters_sizeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>amount of counter in the list </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21xtensa_perfmon_config11select_maskE">
+<span id="_CPPv3N21xtensa_perfmon_config11select_maskE"></span><span id="_CPPv2N21xtensa_perfmon_config11select_maskE"></span><span id="xtensa_perfmon_config::select_mask__uint32_tCP"></span><span class="target" id="structxtensa__perfmon__config_1a0091a2f71c55a86157d4c4fb968820aa"></span><em class="property">const</em> uint32_t *<code class="descname">select_mask</code><a class="headerlink" href="#_CPPv4N21xtensa_perfmon_config11select_maskE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>list of the select/mask parameters </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv423xtensa_perfmon_config_t">
+<span id="_CPPv323xtensa_perfmon_config_t"></span><span id="_CPPv223xtensa_perfmon_config_t"></span><span id="xtensa_perfmon_config_t"></span><span class="target" id="xtensa__perfmon__apis_8h_1a00a90c0c7e75ef9f064b9abd74741909"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv421xtensa_perfmon_config" title="xtensa_perfmon_config">xtensa_perfmon_config</a> <code class="descname">xtensa_perfmon_config_t</code><a class="headerlink" href="#_CPPv423xtensa_perfmon_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Performance monitor configuration structure. </p>
+<p>Structure to configure performance counter to measure dedicated function </p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="power_management.html" class="btn btn-neutral float-right" title="Power Management" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ota.html" class="btn btn-neutral float-left" title="Over The Air Updates (OTA)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/system/perfmon.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:43 GMT -->
+</html>

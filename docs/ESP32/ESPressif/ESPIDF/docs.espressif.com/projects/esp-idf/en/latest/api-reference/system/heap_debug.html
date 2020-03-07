@@ -1,0 +1,951 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/system/heap_debug.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:10 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Heap Memory Debugging &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="High Resolution Timer" href="esp_timer.html" />
+    <link rel="prev" title="Heap Memory Allocation" href="mem_alloc.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="heap_debug.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/system/heap_debug"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">System</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="app_image_format.html">App image format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="app_trace.html">Application Level Tracing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="efuse.html">eFuse Manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_err.html">Error Codes and Helper Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_https_ota.html">ESP HTTPS OTA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_pthread.html">ESP pthread</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_event.html">Event Loop Library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freertos.html">FreeRTOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freertos_additions.html">FreeRTOS Additions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mem_alloc.html">Heap Memory Allocation</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Heap Memory Debugging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#heap-information">Heap Information</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#heap-corruption-detection">Heap Corruption Detection</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#heap-tracing">Heap Tracing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference-heap-tracing">API Reference - Heap Tracing</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="esp_timer.html">High Resolution Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="himem.html">Himem (large external SPI RAM) API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipc.html">Inter-Processor Call</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_expression_with_stack.html">Call function with external stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="intr_alloc.html">Interrupt Allocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log.html">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system.html">Miscellaneous System APIs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ota.html">Over The Air Updates (OTA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="perfmon.html">Performance Monitor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="power_management.html">Power Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sleep_modes.html">Sleep Modes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wdts.html">Watchdogs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system_time.html">System Time</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">System API</a> &raquo;</li>
+        
+      <li>Heap Memory Debugging</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/system/heap_debug.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="heap-memory-debugging">
+<h1>Heap Memory Debugging<a class="headerlink" href="#heap-memory-debugging" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>ESP-IDF integrates tools for requesting <a class="reference internal" href="#heap-information"><span class="std std-ref">heap information</span></a>, <a class="reference internal" href="#heap-corruption"><span class="std std-ref">detecting heap corruption</span></a>, and <a class="reference internal" href="#heap-tracing"><span class="std std-ref">tracing memory leaks</span></a>. These can help track down memory-related bugs.</p>
+<p>For general information about the heap memory allocator, see the <a class="reference internal" href="mem_alloc.html"><span class="doc">Heap Memory Allocation</span></a> page.</p>
+</div>
+<div class="section" id="heap-information">
+<span id="id1"></span><h2>Heap Information<a class="headerlink" href="#heap-information" title="Permalink to this headline">¶</a></h2>
+<p>To obtain information about the state of the heap:</p>
+<ul class="simple">
+<li><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xPortGetFreeHeapSize()</span></code> is a FreeRTOS function which returns the number of free bytes in the (data memory) heap. This is equivalent to calling <code class="docutils literal notranslate"><span class="pre">heap_caps_get_free_size(MALLOC_CAP_8BIT)</span></code>.</li>
+<li><a class="reference internal" href="mem_alloc.html#_CPPv423heap_caps_get_free_size8uint32_t" title="heap_caps_get_free_size"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_caps_get_free_size()</span></code></a> can also be used to return the current free memory for different memory capabilities.</li>
+<li><a class="reference internal" href="mem_alloc.html#_CPPv432heap_caps_get_largest_free_block8uint32_t" title="heap_caps_get_largest_free_block"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_caps_get_largest_free_block()</span></code></a> can be used to return the largest free block in the heap. This is the largest single allocation which is currently possible. Tracking this value and comparing to total free heap allows you to detect heap fragmentation.</li>
+<li><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xPortGetMinimumEverFreeHeapSize()</span></code> and the related <a class="reference internal" href="mem_alloc.html#_CPPv431heap_caps_get_minimum_free_size8uint32_t" title="heap_caps_get_minimum_free_size"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_caps_get_minimum_free_size()</span></code></a> can be used to track the heap “low water mark” since boot.</li>
+<li><a class="reference internal" href="mem_alloc.html#_CPPv418heap_caps_get_infoP17multi_heap_info_t8uint32_t" title="heap_caps_get_info"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_caps_get_info()</span></code></a> returns a <a class="reference internal" href="mem_alloc.html#_CPPv417multi_heap_info_t" title="multi_heap_info_t"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">multi_heap_info_t</span></code></a> structure which contains the information from the above functions, plus some additional heap-specific data (number of allocations, etc.).</li>
+<li><a class="reference internal" href="mem_alloc.html#_CPPv425heap_caps_print_heap_info8uint32_t" title="heap_caps_print_heap_info"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_caps_print_heap_info()</span></code></a> prints a summary to stdout of the information returned by <a class="reference internal" href="mem_alloc.html#_CPPv418heap_caps_get_infoP17multi_heap_info_t8uint32_t" title="heap_caps_get_info"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_caps_get_info()</span></code></a>.</li>
+<li><a class="reference internal" href="mem_alloc.html#_CPPv414heap_caps_dump8uint32_t" title="heap_caps_dump"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_caps_dump()</span></code></a> and <a class="reference internal" href="mem_alloc.html#_CPPv418heap_caps_dump_allv" title="heap_caps_dump_all"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_caps_dump_all()</span></code></a> will output detailed information about the structure of each block in the heap. Note that this can be large amount of output.</li>
+</ul>
+</div>
+<div class="section" id="heap-corruption-detection">
+<span id="heap-corruption"></span><h2>Heap Corruption Detection<a class="headerlink" href="#heap-corruption-detection" title="Permalink to this headline">¶</a></h2>
+<p>Heap corruption detection allows you to detect various types of heap memory errors:</p>
+<ul class="simple">
+<li>Out of bounds writes &amp; buffer overflow.</li>
+<li>Writes to freed memory.</li>
+<li>Reads from freed or uninitialized memory,</li>
+</ul>
+<div class="section" id="assertions">
+<h3>Assertions<a class="headerlink" href="#assertions" title="Permalink to this headline">¶</a></h3>
+<p>The heap implementation (<code class="docutils literal notranslate"><span class="pre">multi_heap.c</span></code>, etc.) includes a lot of assertions which will fail if the heap memory is corrupted. To detect heap corruption most effectively, ensure that assertions are enabled in the project configuration menu under <code class="docutils literal notranslate"><span class="pre">Compiler</span> <span class="pre">options</span></code> -&gt; <a class="reference internal" href="../kconfig.html#config-compiler-optimization-assertion-level"><span class="std std-ref">CONFIG_COMPILER_OPTIMIZATION_ASSERTION_LEVEL</span></a>.</p>
+<p>If a heap integrity assertion fails, a line will be printed like <code class="docutils literal notranslate"><span class="pre">CORRUPT</span> <span class="pre">HEAP:</span> <span class="pre">multi_heap.c:225</span> <span class="pre">detected</span> <span class="pre">at</span> <span class="pre">0x3ffbb71c</span></code>. The memory address which is printed is the address of the heap structure which has corrupt content.</p>
+<p>It’s also possible to manually check heap integrity by calling <a class="reference internal" href="mem_alloc.html#_CPPv429heap_caps_check_integrity_allb" title="heap_caps_check_integrity_all"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_caps_check_integrity_all()</span></code></a> or related functions. This function checks all of requested heap memory for integrity, and can be used even if assertions are disabled. If the integrity check prints an error, it will also contain the address(es) of corrupt heap structures.</p>
+</div>
+<div class="section" id="finding-heap-corruption">
+<h3>Finding Heap Corruption<a class="headerlink" href="#finding-heap-corruption" title="Permalink to this headline">¶</a></h3>
+<p>Memory corruption can be one of the hardest classes of bugs to find and fix, as one area of memory can be corrupted from a totally different place. Some tips:</p>
+<ul class="simple">
+<li>A crash with a <code class="docutils literal notranslate"><span class="pre">CORRUPT</span> <span class="pre">HEAP:</span></code> message will usually include a stack trace, but this stack trace is rarely useful. The crash is the symptom of memory corruption when the system realises the heap is corrupt, but usually the corruption happened elsewhere and earlier in time.</li>
+<li>Increasing the Heap memory debugging <a class="reference internal" href="#configuration">Configuration</a> level to “Light impact” or “Comprehensive” can give you a more accurate message with the first corrupt memory address.</li>
+<li>Adding regular calls to <a class="reference internal" href="mem_alloc.html#_CPPv429heap_caps_check_integrity_allb" title="heap_caps_check_integrity_all"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_caps_check_integrity_all()</span></code></a> or <a class="reference internal" href="mem_alloc.html#_CPPv430heap_caps_check_integrity_addr8intptr_tb" title="heap_caps_check_integrity_addr"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_caps_check_integrity_addr()</span></code></a> in your code will help you pin down the exact time that the corruption happened. You can move these checks around to “close in on” the section of code that corrupted the heap.</li>
+<li>Based on the memory address which is being corrupted, you can use <a class="reference internal" href="../../api-guides/jtag-debugging/index.html#jtag-debugging-introduction"><span class="std std-ref">JTAG debugging</span></a> to set a watchpoint on this address and have the CPU halt when it is written to.</li>
+<li>If you don’t have JTAG, but you do know roughly when the corruption happens, then you can set a watchpoint in software just beforehand via <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_set_watchpoint()</span></code>. A fatal exception will occur when the watchpoint triggers. For example <code class="docutils literal notranslate"><span class="pre">esp_set_watchpoint(0,</span> <span class="pre">(void</span> <span class="pre">*)addr,</span> <span class="pre">4,</span> <span class="pre">ESP_WATCHPOINT_STORE</span></code>. Note that watchpoints are per-CPU and are set on the current running CPU only, so if you don’t know which CPU is corrupting memory then you will need to call this function on both CPUs.</li>
+<li>For buffer overflows, <a class="reference internal" href="#id2">heap tracing</a> in <code class="docutils literal notranslate"><span class="pre">HEAP_TRACE_ALL</span></code> mode lets you see which callers are allocating which addresses from the heap. See <a class="reference internal" href="#heap-tracing-to-find-heap-corruption">Heap Tracing To Find Heap Corruption</a> for more details. If you can find the function which allocates memory with an address immediately before the address which is corrupted, this will probably be the function which overflows the buffer.</li>
+<li>Calling <a class="reference internal" href="mem_alloc.html#_CPPv414heap_caps_dump8uint32_t" title="heap_caps_dump"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_caps_dump()</span></code></a> or <a class="reference internal" href="mem_alloc.html#_CPPv418heap_caps_dump_allv" title="heap_caps_dump_all"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_caps_dump_all()</span></code></a> can give an indication of what heap blocks are surrounding the corrupted region and may have overflowed/underflowed/etc.</li>
+</ul>
+</div>
+<div class="section" id="configuration">
+<h3>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h3>
+<p>Temporarily increasing the heap corruption detection level can give more detailed information about heap corruption errors.</p>
+<p>In the project configuration menu, under <code class="docutils literal notranslate"><span class="pre">Component</span> <span class="pre">config</span></code> there is a menu <code class="docutils literal notranslate"><span class="pre">Heap</span> <span class="pre">memory</span> <span class="pre">debugging</span></code>. The setting <a class="reference internal" href="../kconfig.html#config-heap-corruption-detection"><span class="std std-ref">CONFIG_HEAP_CORRUPTION_DETECTION</span></a> can be set to one of three levels:</p>
+<div class="section" id="basic-no-poisoning">
+<h4>Basic (no poisoning)<a class="headerlink" href="#basic-no-poisoning" title="Permalink to this headline">¶</a></h4>
+<p>This is the default level. No special heap corruption features are enabled, but provided assertions are enabled (the default configuration) then a heap corruption error will be printed if any of the heap’s internal data structures appear overwritten or corrupted. This usually indicates a buffer overrun or out of bounds write.</p>
+<p>If assertions are enabled, an assertion will also trigger if a double-free occurs (the same memory is freed twice).</p>
+<p>Calling <a class="reference internal" href="mem_alloc.html#_CPPv425heap_caps_check_integrity8uint32_tb" title="heap_caps_check_integrity"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_caps_check_integrity()</span></code></a> in Basic mode will check the integrity of all heap structures, and print errors if any appear to be corrupted.</p>
+</div>
+<div class="section" id="light-impact">
+<h4>Light Impact<a class="headerlink" href="#light-impact" title="Permalink to this headline">¶</a></h4>
+<p>At this level, heap memory is additionally “poisoned” with head and tail “canary bytes” before and after each block which is allocated. If an application writes outside the bounds of allocated buffers, the canary bytes will be corrupted and the integrity check will fail.</p>
+<p>The head canary word is 0xABBA1234 (3412BAAB in byte order), and the tail canary word is 0xBAAD5678 (7856ADBA in byte order).</p>
+<p>“Basic” heap corruption checks can also detect most out of bounds writes, but this setting is more precise as even a single byte overrun can be detected. With Basic heap checks, the number of overrun bytes before a failure is detected will depend on the properties of the heap.</p>
+<p>Enabling “Light Impact” checking increases memory usage, each individual allocation will use 9 to 12 additional bytes of memory (depending on alignment).</p>
+<p>Each time <code class="docutils literal notranslate"><span class="pre">free()</span></code> is called in Light Impact mode, the head and tail canary bytes of the buffer being freed are checked against the expected values.</p>
+<p>When <a class="reference internal" href="mem_alloc.html#_CPPv425heap_caps_check_integrity8uint32_tb" title="heap_caps_check_integrity"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_caps_check_integrity()</span></code></a> is called, all allocated blocks of heap memory have their canary bytes checked against the expected values.</p>
+<p>In both cases, the check is that the first 4 bytes of an allocated block (before the buffer returned to the user) should be the word 0xABBA1234. Then the last 4 bytes of the allocated block (after the buffer returned to the user) should be the word 0xBAAD5678.</p>
+<p>Different values usually indicate buffer underrun or overrun, respectively.</p>
+</div>
+<div class="section" id="comprehensive">
+<h4>Comprehensive<a class="headerlink" href="#comprehensive" title="Permalink to this headline">¶</a></h4>
+<p>This level incorporates the “light impact” detection features plus additional checks for uninitialised-access and use-after-free bugs. In this mode, all freshly allocated memory is filled with the pattern 0xCE, and all freed memory is filled with the pattern 0xFE.</p>
+<p>Enabling “Comprehensive” detection has a substantial runtime performance impact (as all memory needs to be set to the allocation patterns each time a malloc/free completes, and the memory also needs to be checked each time.) However it allows easier detection of memory corruption bugs which are much more subtle to find otherwise. It is recommended to only enable this mode when debugging, not in production.</p>
+<div class="section" id="crashes-in-comprehensive-mode">
+<h5>Crashes in Comprehensive Mode<a class="headerlink" href="#crashes-in-comprehensive-mode" title="Permalink to this headline">¶</a></h5>
+<p>If an application crashes reading/writing an address related to 0xCECECECE in Comprehensive mode, this indicates it has read uninitialized memory. The application should be changed to either use calloc() (which zeroes memory), or initialize the memory before using it. The value 0xCECECECE may also be seen in stack-allocated automatic variables, because in IDF most task stacks are originally allocated from the heap and in C stack memory is uninitialized by default.</p>
+<p>If an application crashes and the exception register dump indicates that some addresses or values were 0xFEFEFEFE, this indicates it is reading heap memory after it has been freed (a “use after free bug”.) The application should be changed to not access heap memory after it has been freed.</p>
+<p>If a call to malloc() or realloc() causes a crash because it expected to find the pattern 0xFEFEFEFE in free memory and a different pattern was found, then this indicates the app has a use-after-free bug where it is writing to memory which has already been freed.</p>
+</div>
+<div class="section" id="manual-heap-checks-in-comprehensive-mode">
+<h5>Manual Heap Checks in Comprehensive Mode<a class="headerlink" href="#manual-heap-checks-in-comprehensive-mode" title="Permalink to this headline">¶</a></h5>
+<p>Calls to <a class="reference internal" href="mem_alloc.html#_CPPv425heap_caps_check_integrity8uint32_tb" title="heap_caps_check_integrity"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_caps_check_integrity()</span></code></a> may print errors relating to 0xFEFEFEFE, 0xABBA1234 or 0xBAAD5678. In each case the checker is expecting to find a given pattern, and will error out if this is not found:</p>
+<ul class="simple">
+<li>For free heap blocks, the checker expects to find all bytes set to 0xFE. Any other values indicate a use-after-free bug where free memory has been incorrectly overwritten.</li>
+<li>For allocated heap blocks, the behaviour is the same as for <cite>Light Impact</cite> mode. The canary bytes 0xABBA1234 and 0xBAAD5678 are checked at the head and tail of each allocated buffer, and any variation indicates a buffer overrun/underrun.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="heap-tracing">
+<span id="id2"></span><h2>Heap Tracing<a class="headerlink" href="#heap-tracing" title="Permalink to this headline">¶</a></h2>
+<p>Heap Tracing allows tracing of code which allocates/frees memory. Two tracing modes are supported:</p>
+<ul class="simple">
+<li>Standalone. In this mode trace data are kept on-board, so the size of gathered information is limited by the buffer assigned for that purposes. Analysis is done by the on-board code. There are a couple of APIs available for accessing and dumping collected info.</li>
+<li>Host-based. This mode does not have the limitation of the standalone mode, because trace data are sent to the host over JTAG connection using app_trace library. Later on they can be analysed using special tools.</li>
+</ul>
+<p>Heap tracing can perform two functions:</p>
+<ul class="simple">
+<li>Leak checking: find memory which is allocated and never freed.</li>
+<li>Heap use analysis: show all functions that are allocating/freeing memory while the trace is running.</li>
+</ul>
+<div class="section" id="how-to-diagnose-memory-leaks">
+<h3>How To Diagnose Memory Leaks<a class="headerlink" href="#how-to-diagnose-memory-leaks" title="Permalink to this headline">¶</a></h3>
+<p>If you suspect a memory leak, the first step is to figure out which part of the program is leaking memory. Use the <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xPortGetFreeHeapSize()</span></code>, <a class="reference internal" href="mem_alloc.html#_CPPv423heap_caps_get_free_size8uint32_t" title="heap_caps_get_free_size"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_caps_get_free_size()</span></code></a>, or <a class="reference internal" href="#heap-information"><span class="std std-ref">related functions</span></a> to track memory use over the life of the application. Try to narrow the leak down to a single function or sequence of functions where free memory always decreases and never recovers.</p>
+<div class="section" id="standalone-mode">
+<h4>Standalone Mode<a class="headerlink" href="#standalone-mode" title="Permalink to this headline">¶</a></h4>
+<p>Once you’ve identified the code which you think is leaking:</p>
+<ul class="simple">
+<li>In the project configuration menu, navigate to <code class="docutils literal notranslate"><span class="pre">Component</span> <span class="pre">settings</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">Heap</span> <span class="pre">Memory</span> <span class="pre">Debugging</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">Heap</span> <span class="pre">tracing</span></code> and select <code class="docutils literal notranslate"><span class="pre">Standalone</span></code> option (see <a class="reference internal" href="../kconfig.html#config-heap-tracing-dest"><span class="std std-ref">CONFIG_HEAP_TRACING_DEST</span></a>).</li>
+<li>Call the function <a class="reference internal" href="#_CPPv426heap_trace_init_standaloneP19heap_trace_record_t6size_t" title="heap_trace_init_standalone"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_trace_init_standalone()</span></code></a> early in the program, to register a buffer which can be used to record the memory trace.</li>
+<li>Call the function <a class="reference internal" href="#_CPPv416heap_trace_start17heap_trace_mode_t" title="heap_trace_start"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_trace_start()</span></code></a> to begin recording all mallocs/frees in the system. Call this immediately before the piece of code which you suspect is leaking memory.</li>
+<li>Call the function <a class="reference internal" href="#_CPPv415heap_trace_stopv" title="heap_trace_stop"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_trace_stop()</span></code></a> to stop the trace once the suspect piece of code has finished executing.</li>
+<li>Call the function <a class="reference internal" href="#_CPPv415heap_trace_dumpv" title="heap_trace_dump"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_trace_dump()</span></code></a> to dump the results of the heap trace.</li>
+</ul>
+<p>An example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &quot;esp_heap_trace.h&quot;</span>
+
+<span class="c1">#define NUM_RECORDS 100</span>
+<span class="n">static</span> <span class="n">heap_trace_record_t</span> <span class="n">trace_record</span><span class="p">[</span><span class="n">NUM_RECORDS</span><span class="p">];</span> <span class="o">//</span> <span class="n">This</span> <span class="n">buffer</span> <span class="n">must</span> <span class="n">be</span> <span class="ow">in</span> <span class="n">internal</span> <span class="n">RAM</span>
+
+<span class="o">...</span>
+
+<span class="n">void</span> <span class="n">app_main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="o">...</span>
+    <span class="n">ESP_ERROR_CHECK</span><span class="p">(</span> <span class="n">heap_trace_init_standalone</span><span class="p">(</span><span class="n">trace_record</span><span class="p">,</span> <span class="n">NUM_RECORDS</span><span class="p">)</span> <span class="p">);</span>
+    <span class="o">...</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">some_function</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">ESP_ERROR_CHECK</span><span class="p">(</span> <span class="n">heap_trace_start</span><span class="p">(</span><span class="n">HEAP_TRACE_LEAKS</span><span class="p">)</span> <span class="p">);</span>
+
+    <span class="n">do_something_you_suspect_is_leaking</span><span class="p">();</span>
+
+    <span class="n">ESP_ERROR_CHECK</span><span class="p">(</span> <span class="n">heap_trace_stop</span><span class="p">()</span> <span class="p">);</span>
+    <span class="n">heap_trace_dump</span><span class="p">();</span>
+    <span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The output from the heap trace will look something like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2</span> <span class="n">allocations</span> <span class="n">trace</span> <span class="p">(</span><span class="mi">100</span> <span class="n">entry</span> <span class="n">buffer</span><span class="p">)</span>
+<span class="mi">32</span> <span class="nb">bytes</span> <span class="p">(</span><span class="o">@</span> <span class="mh">0x3ffaf214</span><span class="p">)</span> <span class="n">allocated</span> <span class="n">CPU</span> <span class="mi">0</span> <span class="n">ccount</span> <span class="mh">0x2e9b7384</span> <span class="n">caller</span> <span class="mh">0x400d276d</span><span class="p">:</span><span class="mh">0x400d27c1</span>
+<span class="mh">0x400d276d</span><span class="p">:</span> <span class="n">leak_some_memory</span> <span class="n">at</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">idf</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">get</span><span class="o">-</span><span class="n">started</span><span class="o">/</span><span class="n">blink</span><span class="o">/</span><span class="n">main</span><span class="o">/./</span><span class="n">blink</span><span class="o">.</span><span class="n">c</span><span class="p">:</span><span class="mi">27</span>
+
+<span class="mh">0x400d27c1</span><span class="p">:</span> <span class="n">blink_task</span> <span class="n">at</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">idf</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">get</span><span class="o">-</span><span class="n">started</span><span class="o">/</span><span class="n">blink</span><span class="o">/</span><span class="n">main</span><span class="o">/./</span><span class="n">blink</span><span class="o">.</span><span class="n">c</span><span class="p">:</span><span class="mi">52</span>
+
+<span class="mi">8</span> <span class="nb">bytes</span> <span class="p">(</span><span class="o">@</span> <span class="mh">0x3ffaf804</span><span class="p">)</span> <span class="n">allocated</span> <span class="n">CPU</span> <span class="mi">0</span> <span class="n">ccount</span> <span class="mh">0x2e9b79c0</span> <span class="n">caller</span> <span class="mh">0x400d2776</span><span class="p">:</span><span class="mh">0x400d27c1</span>
+<span class="mh">0x400d2776</span><span class="p">:</span> <span class="n">leak_some_memory</span> <span class="n">at</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">idf</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">get</span><span class="o">-</span><span class="n">started</span><span class="o">/</span><span class="n">blink</span><span class="o">/</span><span class="n">main</span><span class="o">/./</span><span class="n">blink</span><span class="o">.</span><span class="n">c</span><span class="p">:</span><span class="mi">29</span>
+
+<span class="mh">0x400d27c1</span><span class="p">:</span> <span class="n">blink_task</span> <span class="n">at</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">idf</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">get</span><span class="o">-</span><span class="n">started</span><span class="o">/</span><span class="n">blink</span><span class="o">/</span><span class="n">main</span><span class="o">/./</span><span class="n">blink</span><span class="o">.</span><span class="n">c</span><span class="p">:</span><span class="mi">52</span>
+
+<span class="mi">40</span> <span class="nb">bytes</span> <span class="s1">&#39;leaked&#39;</span> <span class="ow">in</span> <span class="n">trace</span> <span class="p">(</span><span class="mi">2</span> <span class="n">allocations</span><span class="p">)</span>
+<span class="n">total</span> <span class="n">allocations</span> <span class="mi">2</span> <span class="n">total</span> <span class="n">frees</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>(Above example output is using <a class="reference internal" href="../../api-guides/tools/idf-monitor.html"><span class="doc">IDF Monitor</span></a> to automatically decode PC addresses to their source files &amp; line number.)</p>
+<p>The first line indicates how many allocation entries are in the buffer, compared to its total size.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">HEAP_TRACE_LEAKS</span></code> mode, for each traced memory allocation which has not already been freed a line is printed with:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">XX</span> <span class="pre">bytes</span></code> is number of bytes allocated</li>
+<li><code class="docutils literal notranslate"><span class="pre">&#64;</span> <span class="pre">0x...</span></code> is the heap address returned from malloc/calloc.</li>
+<li><code class="docutils literal notranslate"><span class="pre">CPU</span> <span class="pre">x</span></code> is the CPU (0 or 1) running when the allocation was made.</li>
+<li><code class="docutils literal notranslate"><span class="pre">ccount</span> <span class="pre">0x...</span></code> is the CCOUNT (CPU cycle count) register value when the allocation was mode. Is different for CPU 0 vs CPU 1.</li>
+<li><code class="docutils literal notranslate"><span class="pre">caller</span> <span class="pre">0x...</span></code> gives the call stack of the call to malloc()/free(), as a list of PC addresses.
+These can be decoded to source files and line numbers, as shown above.</li>
+</ul>
+<p>The depth of the call stack recorded for each trace entry can be configured in the project configuration menu, under <code class="docutils literal notranslate"><span class="pre">Heap</span> <span class="pre">Memory</span> <span class="pre">Debugging</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">Enable</span> <span class="pre">heap</span> <span class="pre">tracing</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">Heap</span> <span class="pre">tracing</span> <span class="pre">stack</span> <span class="pre">depth</span></code>. Up to 10 stack frames can be recorded for each allocation (the default is 2). Each additional stack frame increases the memory usage of each <code class="docutils literal notranslate"><span class="pre">heap_trace_record_t</span></code> record by eight bytes.</p>
+<p>Finally, the total number of ‘leaked’ bytes (bytes allocated but not freed while trace was running) is printed, and the total number of allocations this represents.</p>
+<p>A warning will be printed if the trace buffer was not large enough to hold all the allocations which happened. If you see this warning, consider either shortening the tracing period or increasing the number of records in the trace buffer.</p>
+</div>
+<div class="section" id="host-based-mode">
+<h4>Host-Based Mode<a class="headerlink" href="#host-based-mode" title="Permalink to this headline">¶</a></h4>
+<p>Once you’ve identified the code which you think is leaking:</p>
+<ul class="simple">
+<li>In the project configuration menu, navigate to <code class="docutils literal notranslate"><span class="pre">Component</span> <span class="pre">settings</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">Heap</span> <span class="pre">Memory</span> <span class="pre">Debugging</span></code> -&gt; <a class="reference internal" href="../kconfig.html#config-heap-tracing-dest"><span class="std std-ref">CONFIG_HEAP_TRACING_DEST</span></a> and select <code class="docutils literal notranslate"><span class="pre">Host-Based</span></code>.</li>
+<li>In the project configuration menu, navigate to <code class="docutils literal notranslate"><span class="pre">Component</span> <span class="pre">settings</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">Application</span> <span class="pre">Level</span> <span class="pre">Tracing</span></code> -&gt; <a class="reference internal" href="../kconfig.html#config-apptrace-destination"><span class="std std-ref">CONFIG_APPTRACE_DESTINATION</span></a> and select <code class="docutils literal notranslate"><span class="pre">Trace</span> <span class="pre">memory</span></code>.</li>
+<li>In the project configuration menu, navigate to <code class="docutils literal notranslate"><span class="pre">Component</span> <span class="pre">settings</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">Application</span> <span class="pre">Level</span> <span class="pre">Tracing</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">FreeRTOS</span> <span class="pre">SystemView</span> <span class="pre">Tracing</span></code> and enable <a class="reference internal" href="../kconfig.html#config-sysview-enable"><span class="std std-ref">CONFIG_SYSVIEW_ENABLE</span></a>.</li>
+<li>Call the function <a class="reference internal" href="#_CPPv422heap_trace_init_tohostv" title="heap_trace_init_tohost"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_trace_init_tohost()</span></code></a> early in the program, to initialize JTAG heap tracing module.</li>
+<li>Call the function <a class="reference internal" href="#_CPPv416heap_trace_start17heap_trace_mode_t" title="heap_trace_start"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_trace_start()</span></code></a> to begin recording all mallocs/frees in the system. Call this immediately before the piece of code which you suspect is leaking memory.
+In host-based mode argument to this function is ignored and heap tracing module behaves like <code class="docutils literal notranslate"><span class="pre">HEAP_TRACE_ALL</span></code> was passed: all allocations and deallocations are sent to the host.</li>
+<li>Call the function <a class="reference internal" href="#_CPPv415heap_trace_stopv" title="heap_trace_stop"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_trace_stop()</span></code></a> to stop the trace once the suspect piece of code has finished executing.</li>
+</ul>
+<p>An example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &quot;esp_heap_trace.h&quot;</span>
+
+<span class="o">...</span>
+
+<span class="n">void</span> <span class="n">app_main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="o">...</span>
+    <span class="n">ESP_ERROR_CHECK</span><span class="p">(</span> <span class="n">heap_trace_init_tohost</span><span class="p">()</span> <span class="p">);</span>
+    <span class="o">...</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">some_function</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">ESP_ERROR_CHECK</span><span class="p">(</span> <span class="n">heap_trace_start</span><span class="p">(</span><span class="n">HEAP_TRACE_LEAKS</span><span class="p">)</span> <span class="p">);</span>
+
+    <span class="n">do_something_you_suspect_is_leaking</span><span class="p">();</span>
+
+    <span class="n">ESP_ERROR_CHECK</span><span class="p">(</span> <span class="n">heap_trace_stop</span><span class="p">()</span> <span class="p">);</span>
+    <span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>To gather and analyse heap trace do the following on the host:</p>
+<ol class="arabic simple">
+<li>Build the program and download it to the target as described in <a class="reference internal" href="../../get-started/index.html#get-started-build"><span class="std std-ref">Getting Started Guide</span></a>.</li>
+<li>Run OpenOCD (see <a class="reference internal" href="../../api-guides/jtag-debugging/index.html"><span class="doc">JTAG Debugging</span></a>).</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In order to use this feature you need OpenOCD version <cite>v0.10.0-esp32-20181105</cite> or later.</p>
+</div>
+<ol class="arabic" start="3">
+<li><p class="first">You can use GDB to start and/or stop tracing automatically. To do this you need to prepare special <code class="docutils literal notranslate"><span class="pre">gdbinit</span></code> file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">target</span> <span class="n">remote</span> <span class="p">:</span><span class="mi">3333</span>
+
+<span class="n">mon</span> <span class="n">reset</span> <span class="n">halt</span>
+<span class="n">flushregs</span>
+
+<span class="n">tb</span> <span class="n">heap_trace_start</span>
+<span class="n">commands</span>
+<span class="n">mon</span> <span class="n">esp32</span> <span class="n">sysview</span> <span class="n">start</span> <span class="n">file</span><span class="p">:</span><span class="o">///</span><span class="n">tmp</span><span class="o">/</span><span class="n">heap</span><span class="o">.</span><span class="n">svdat</span>
+<span class="n">c</span>
+<span class="n">end</span>
+
+<span class="n">tb</span> <span class="n">heap_trace_stop</span>
+<span class="n">commands</span>
+<span class="n">mon</span> <span class="n">esp32</span> <span class="n">sysview</span> <span class="n">stop</span>
+<span class="n">end</span>
+
+<span class="n">c</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Using this file GDB will connect to the target, reset it, and start tracing when program hits breakpoint at <a class="reference internal" href="#_CPPv416heap_trace_start17heap_trace_mode_t" title="heap_trace_start"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_trace_start()</span></code></a>. Trace data will be saved to <code class="docutils literal notranslate"><span class="pre">/tmp/heap_log.svdat</span></code>. Tracing will be stopped when program hits breakpoint at <a class="reference internal" href="#_CPPv415heap_trace_stopv" title="heap_trace_stop"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_trace_stop()</span></code></a>.</p>
+<ol class="arabic simple" start="4">
+<li>Run GDB using the following command <code class="docutils literal notranslate"><span class="pre">xtensa-esp32-elf-gdb</span> <span class="pre">-x</span> <span class="pre">gdbinit</span> <span class="pre">&lt;/path/to/program/elf&gt;</span></code></li>
+<li>Quit GDB when program stops at <a class="reference internal" href="#_CPPv415heap_trace_stopv" title="heap_trace_stop"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_trace_stop()</span></code></a>. Trace data are saved in <code class="docutils literal notranslate"><span class="pre">/tmp/heap.svdat</span></code></li>
+<li>Run processing script <code class="docutils literal notranslate"><span class="pre">$IDF_PATH/tools/esp_app_trace/sysviewtrace_proc.py</span> <span class="pre">-p</span> <span class="pre">-b</span> <span class="pre">&lt;/path/to/program/elf&gt;</span> <span class="pre">/tmp/heap_log.svdat</span></code></li>
+</ol>
+<p>The output from the heap trace will look something like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Parse trace from &#39;/tmp/heap.svdat&#39;...
+Stop parsing trace. (Timeout 0.000000 sec while reading 1 bytes!)
+Process events from &#39;[&#39;/tmp/heap.svdat&#39;]&#39;...
+[0.002244575] HEAP: Allocated 1 bytes @ 0x3ffaffd8 from task &quot;alloc&quot; on core 0 by:
+/home/user/projects/esp/esp-idf/examples/system/sysview_tracing_heap_log/main/sysview_heap_log.c:47
+/home/user/projects/esp/esp-idf/components/freertos/port.c:355 (discriminator 1)
+
+[0.002258425] HEAP: Allocated 2 bytes @ 0x3ffaffe0 from task &quot;alloc&quot; on core 0 by:
+/home/user/projects/esp/esp-idf/examples/system/sysview_tracing_heap_log/main/sysview_heap_log.c:48
+/home/user/projects/esp/esp-idf/components/freertos/port.c:355 (discriminator 1)
+
+[0.002563725] HEAP: Freed bytes @ 0x3ffaffe0 from task &quot;free&quot; on core 0 by:
+/home/user/projects/esp/esp-idf/examples/system/sysview_tracing_heap_log/main/sysview_heap_log.c:31 (discriminator 9)
+/home/user/projects/esp/esp-idf/components/freertos/port.c:355 (discriminator 1)
+
+[0.002782950] HEAP: Freed bytes @ 0x3ffb40b8 from task &quot;main&quot; on core 0 by:
+/home/user/projects/esp/esp-idf/components/freertos/tasks.c:4590
+/home/user/projects/esp/esp-idf/components/freertos/tasks.c:4590
+
+[0.002798700] HEAP: Freed bytes @ 0x3ffb50bc from task &quot;main&quot; on core 0 by:
+/home/user/projects/esp/esp-idf/components/freertos/tasks.c:4590
+/home/user/projects/esp/esp-idf/components/freertos/tasks.c:4590
+
+[0.102436025] HEAP: Allocated 2 bytes @ 0x3ffaffe0 from task &quot;alloc&quot; on core 0 by:
+/home/user/projects/esp/esp-idf/examples/system/sysview_tracing_heap_log/main/sysview_heap_log.c:47
+/home/user/projects/esp/esp-idf/components/freertos/port.c:355 (discriminator 1)
+
+[0.102449800] HEAP: Allocated 4 bytes @ 0x3ffaffe8 from task &quot;alloc&quot; on core 0 by:
+/home/user/projects/esp/esp-idf/examples/system/sysview_tracing_heap_log/main/sysview_heap_log.c:48
+/home/user/projects/esp/esp-idf/components/freertos/port.c:355 (discriminator 1)
+
+[0.102666150] HEAP: Freed bytes @ 0x3ffaffe8 from task &quot;free&quot; on core 0 by:
+/home/user/projects/esp/esp-idf/examples/system/sysview_tracing_heap_log/main/sysview_heap_log.c:31 (discriminator 9)
+/home/user/projects/esp/esp-idf/components/freertos/port.c:355 (discriminator 1)
+
+[0.202436200] HEAP: Allocated 3 bytes @ 0x3ffaffe8 from task &quot;alloc&quot; on core 0 by:
+/home/user/projects/esp/esp-idf/examples/system/sysview_tracing_heap_log/main/sysview_heap_log.c:47
+/home/user/projects/esp/esp-idf/components/freertos/port.c:355 (discriminator 1)
+
+[0.202451725] HEAP: Allocated 6 bytes @ 0x3ffafff0 from task &quot;alloc&quot; on core 0 by:
+/home/user/projects/esp/esp-idf/examples/system/sysview_tracing_heap_log/main/sysview_heap_log.c:48
+/home/user/projects/esp/esp-idf/components/freertos/port.c:355 (discriminator 1)
+
+[0.202667075] HEAP: Freed bytes @ 0x3ffafff0 from task &quot;free&quot; on core 0 by:
+/home/user/projects/esp/esp-idf/examples/system/sysview_tracing_heap_log/main/sysview_heap_log.c:31 (discriminator 9)
+/home/user/projects/esp/esp-idf/components/freertos/port.c:355 (discriminator 1)
+
+[0.302436000] HEAP: Allocated 4 bytes @ 0x3ffafff0 from task &quot;alloc&quot; on core 0 by:
+/home/user/projects/esp/esp-idf/examples/system/sysview_tracing_heap_log/main/sysview_heap_log.c:47
+/home/user/projects/esp/esp-idf/components/freertos/port.c:355 (discriminator 1)
+
+[0.302451475] HEAP: Allocated 8 bytes @ 0x3ffb40b8 from task &quot;alloc&quot; on core 0 by:
+/home/user/projects/esp/esp-idf/examples/system/sysview_tracing_heap_log/main/sysview_heap_log.c:48
+/home/user/projects/esp/esp-idf/components/freertos/port.c:355 (discriminator 1)
+
+[0.302667500] HEAP: Freed bytes @ 0x3ffb40b8 from task &quot;free&quot; on core 0 by:
+/home/user/projects/esp/esp-idf/examples/system/sysview_tracing_heap_log/main/sysview_heap_log.c:31 (discriminator 9)
+/home/user/projects/esp/esp-idf/components/freertos/port.c:355 (discriminator 1)
+
+Processing completed.
+Processed 1019 events
+=============== HEAP TRACE REPORT ===============
+Processed 14 heap events.
+[0.002244575] HEAP: Allocated 1 bytes @ 0x3ffaffd8 from task &quot;alloc&quot; on core 0 by:
+/home/user/projects/esp/esp-idf/examples/system/sysview_tracing_heap_log/main/sysview_heap_log.c:47
+/home/user/projects/esp/esp-idf/components/freertos/port.c:355 (discriminator 1)
+
+[0.102436025] HEAP: Allocated 2 bytes @ 0x3ffaffe0 from task &quot;alloc&quot; on core 0 by:
+/home/user/projects/esp/esp-idf/examples/system/sysview_tracing_heap_log/main/sysview_heap_log.c:47
+/home/user/projects/esp/esp-idf/components/freertos/port.c:355 (discriminator 1)
+
+[0.202436200] HEAP: Allocated 3 bytes @ 0x3ffaffe8 from task &quot;alloc&quot; on core 0 by:
+/home/user/projects/esp/esp-idf/examples/system/sysview_tracing_heap_log/main/sysview_heap_log.c:47
+/home/user/projects/esp/esp-idf/components/freertos/port.c:355 (discriminator 1)
+
+[0.302436000] HEAP: Allocated 4 bytes @ 0x3ffafff0 from task &quot;alloc&quot; on core 0 by:
+/home/user/projects/esp/esp-idf/examples/system/sysview_tracing_heap_log/main/sysview_heap_log.c:47
+/home/user/projects/esp/esp-idf/components/freertos/port.c:355 (discriminator 1)
+
+Found 10 leaked bytes in 4 blocks.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="heap-tracing-to-find-heap-corruption">
+<h3>Heap Tracing To Find Heap Corruption<a class="headerlink" href="#heap-tracing-to-find-heap-corruption" title="Permalink to this headline">¶</a></h3>
+<p>Heap tracing can also be used to help track down heap corruption. When a region in heap is corrupted, it may be from some other part of the program which allocated memory at a nearby address.</p>
+<p>If you have some idea at what time the corruption occurred, enabling heap tracing in <code class="docutils literal notranslate"><span class="pre">HEAP_TRACE_ALL</span></code> mode allows you to record all of the functions which allocated memory, and the addresses of the allocations.</p>
+<p>Using heap tracing in this way is very similar to memory leak detection as described above. For memory which is allocated and not freed, the output is the same. However, records will also be shown for memory which has been freed.</p>
+</div>
+<div class="section" id="performance-impact">
+<h3>Performance Impact<a class="headerlink" href="#performance-impact" title="Permalink to this headline">¶</a></h3>
+<p>Enabling heap tracing in menuconfig increases the code size of your program, and has a very small negative impact on performance of heap allocation/free operations even when heap tracing is not running.</p>
+<p>When heap tracing is running, heap allocation/free operations are substantially slower than when heap tracing is stopped. Increasing the depth of stack frames recorded for each allocation (see above) will also increase this performance impact.</p>
+</div>
+<div class="section" id="false-positive-memory-leaks">
+<h3>False-Positive Memory Leaks<a class="headerlink" href="#false-positive-memory-leaks" title="Permalink to this headline">¶</a></h3>
+<p>Not everything printed by <a class="reference internal" href="#_CPPv415heap_trace_dumpv" title="heap_trace_dump"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_trace_dump()</span></code></a> is necessarily a memory leak. Among things which may show up here, but are not memory leaks:</p>
+<ul class="simple">
+<li>Any memory which is allocated after <a class="reference internal" href="#_CPPv416heap_trace_start17heap_trace_mode_t" title="heap_trace_start"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_trace_start()</span></code></a> but then freed after <a class="reference internal" href="#_CPPv415heap_trace_stopv" title="heap_trace_stop"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_trace_stop()</span></code></a> will appear in the leak dump.</li>
+<li>Allocations may be made by other tasks in the system. Depending on the timing of these tasks, it’s quite possible this memory is freed after <a class="reference internal" href="#_CPPv415heap_trace_stopv" title="heap_trace_stop"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">heap_trace_stop()</span></code></a> is called.</li>
+<li>The first time a task uses stdio - for example, when it calls <code class="docutils literal notranslate"><span class="pre">printf()</span></code> - a lock (RTOS mutex semaphore) is allocated by the libc. This allocation lasts until the task is deleted.</li>
+<li>Certain uses of <code class="docutils literal notranslate"><span class="pre">printf()</span></code>, such as printing floating point numbers, will allocate some memory from the heap on demand. These allocations last until the task is deleted.</li>
+<li>The Bluetooth, WiFi, and TCP/IP libraries will allocate heap memory buffers to handle incoming or outgoing data. These memory buffers are usually short lived, but some may be shown in the heap leak trace if the data was received/transmitted by the lower levels of the network while the leak trace was running.</li>
+<li>TCP connections will continue to use some memory after they are closed, because of the <code class="docutils literal notranslate"><span class="pre">TIME_WAIT</span></code> state. After the <code class="docutils literal notranslate"><span class="pre">TIME_WAIT</span></code> period has completed, this memory will be freed.</li>
+</ul>
+<p>One way to differentiate between “real” and “false positive” memory leaks is to call the suspect code multiple times while tracing is running, and look for patterns (multiple matching allocations) in the heap trace output.</p>
+</div>
+</div>
+<div class="section" id="api-reference-heap-tracing">
+<h2>API Reference - Heap Tracing<a class="headerlink" href="#api-reference-heap-tracing" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/heap/include/esp_heap_trace.h">heap/include/esp_heap_trace.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv426heap_trace_init_standaloneP19heap_trace_record_t6size_t">
+<span id="_CPPv326heap_trace_init_standaloneP19heap_trace_record_t6size_t"></span><span id="_CPPv226heap_trace_init_standaloneP19heap_trace_record_t6size_t"></span><span id="heap_trace_init_standalone__heap_trace_record_tP.s"></span><span class="target" id="esp__heap__trace_8h_1a8884934797d03cc7114b64f1849420e2"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">heap_trace_init_standalone</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv419heap_trace_record_t" title="heap_trace_record_t">heap_trace_record_t</a> *<em>record_buffer</em>, size_t <em>num_records</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426heap_trace_init_standaloneP19heap_trace_record_t6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialise heap tracing in standalone mode. </p>
+<p>This function must be called before any other heap tracing functions.</p>
+<p>To disable heap tracing and allow the buffer to be freed, stop tracing and then call heap_trace_init_standalone(NULL, 0);</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_NOT_SUPPORTED Project was compiled without heap tracing enabled in menuconfig.</li>
+<li>ESP_ERR_INVALID_STATE Heap tracing is currently in progress.</li>
+<li>ESP_OK Heap tracing initialised successfully. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">record_buffer</span></code>: Provide a buffer to use for heap trace data. Must remain valid any time heap tracing is enabled, meaning it must be allocated from internal memory not in PSRAM. </li>
+<li><code class="docutils literal notranslate"><span class="pre">num_records</span></code>: Size of the heap trace buffer, as number of record structures. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422heap_trace_init_tohostv">
+<span id="_CPPv322heap_trace_init_tohostv"></span><span id="_CPPv222heap_trace_init_tohostv"></span><span id="heap_trace_init_tohost__void"></span><span class="target" id="esp__heap__trace_8h_1a01c97e0002efcd2a3402a412640b02fd"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">heap_trace_init_tohost</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422heap_trace_init_tohostv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialise heap tracing in host-based mode. </p>
+<p>This function must be called before any other heap tracing functions.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_STATE Heap tracing is currently in progress.</li>
+<li>ESP_OK Heap tracing initialised successfully. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416heap_trace_start17heap_trace_mode_t">
+<span id="_CPPv316heap_trace_start17heap_trace_mode_t"></span><span id="_CPPv216heap_trace_start17heap_trace_mode_t"></span><span id="heap_trace_start__heap_trace_mode_t"></span><span class="target" id="esp__heap__trace_8h_1ac324e6c910f4a2a71e0e364130c069b6"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">heap_trace_start</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv417heap_trace_mode_t" title="heap_trace_mode_t">heap_trace_mode_t</a> <em>mode</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416heap_trace_start17heap_trace_mode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start heap tracing. All heap allocations &amp; frees will be traced, until heap_trace_stop() is called. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>heap_trace_init_standalone() must be called to provide a valid buffer, before this function is called.</dd>
+<dt><strong>Note</strong></dt>
+<dd>Calling this function while heap tracing is running will reset the heap trace state and continue tracing.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_NOT_SUPPORTED Project was compiled without heap tracing enabled in menuconfig.</li>
+<li>ESP_ERR_INVALID_STATE A non-zero-length buffer has not been set via heap_trace_init_standalone().</li>
+<li>ESP_OK Tracing is started. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mode</span></code>: Mode for tracing.<ul>
+<li>HEAP_TRACE_ALL means all heap allocations and frees are traced.</li>
+<li>HEAP_TRACE_LEAKS means only suspected memory leaks are traced. (When memory is freed, the record is removed from the trace buffer.) </li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415heap_trace_stopv">
+<span id="_CPPv315heap_trace_stopv"></span><span id="_CPPv215heap_trace_stopv"></span><span id="heap_trace_stop__void"></span><span class="target" id="esp__heap__trace_8h_1aa2a9740da05f6833efbc39c0520681de"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">heap_trace_stop</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415heap_trace_stopv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stop heap tracing. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_NOT_SUPPORTED Project was compiled without heap tracing enabled in menuconfig.</li>
+<li>ESP_ERR_INVALID_STATE Heap tracing was not in progress.</li>
+<li>ESP_OK Heap tracing stopped.. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417heap_trace_resumev">
+<span id="_CPPv317heap_trace_resumev"></span><span id="_CPPv217heap_trace_resumev"></span><span id="heap_trace_resume__void"></span><span class="target" id="esp__heap__trace_8h_1a62cef359ef92ecb1b0760b3e1e5e1203"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">heap_trace_resume</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417heap_trace_resumev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Resume heap tracing which was previously stopped. </p>
+<p>Unlike heap_trace_start(), this function does not clear the buffer of any pre-existing trace records.</p>
+<p>The heap trace mode is the same as when heap_trace_start() was last called (or HEAP_TRACE_ALL if heap_trace_start() was never called).</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_NOT_SUPPORTED Project was compiled without heap tracing enabled in menuconfig.</li>
+<li>ESP_ERR_INVALID_STATE Heap tracing was already started.</li>
+<li>ESP_OK Heap tracing resumed. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420heap_trace_get_countv">
+<span id="_CPPv320heap_trace_get_countv"></span><span id="_CPPv220heap_trace_get_countv"></span><span id="heap_trace_get_count__void"></span><span class="target" id="esp__heap__trace_8h_1a9ac798a6e570fd665d6e5c715c1a3d1b"></span>size_t <code class="descname">heap_trace_get_count</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420heap_trace_get_countv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return number of records in the heap trace buffer. </p>
+<p>It is safe to call this function while heap tracing is running. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414heap_trace_get6size_tP19heap_trace_record_t">
+<span id="_CPPv314heap_trace_get6size_tP19heap_trace_record_t"></span><span id="_CPPv214heap_trace_get6size_tP19heap_trace_record_t"></span><span id="heap_trace_get__s.heap_trace_record_tP"></span><span class="target" id="esp__heap__trace_8h_1a007b0b85daa123d2a7a7d74e6383f42c"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">heap_trace_get</code><span class="sig-paren">(</span>size_t <em>index</em>, <a class="reference internal" href="#_CPPv419heap_trace_record_t" title="heap_trace_record_t">heap_trace_record_t</a> *<em>record</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414heap_trace_get6size_tP19heap_trace_record_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return a raw record from the heap trace buffer. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>It is safe to call this function while heap tracing is running, however in HEAP_TRACE_LEAK mode record indexing may skip entries unless heap tracing is stopped first.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_NOT_SUPPORTED Project was compiled without heap tracing enabled in menuconfig.</li>
+<li>ESP_ERR_INVALID_STATE Heap tracing was not initialised.</li>
+<li>ESP_ERR_INVALID_ARG Index is out of bounds for current heap trace record count.</li>
+<li>ESP_OK Record returned successfully. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">index</span></code>: Index (zero-based) of the record to return. </li>
+<li><code class="docutils literal notranslate"><span class="pre">record</span></code>: Record where the heap trace record will be copied. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415heap_trace_dumpv">
+<span id="_CPPv315heap_trace_dumpv"></span><span id="_CPPv215heap_trace_dumpv"></span><span id="heap_trace_dump__void"></span><span class="target" id="esp__heap__trace_8h_1a9e80331ce5188a84bb60fdf0bd1ab828"></span>void <code class="descname">heap_trace_dump</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415heap_trace_dumpv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Dump heap trace record data to stdout. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>It is safe to call this function while heap tracing is running, however in HEAP_TRACE_LEAK mode the dump may skip entries unless heap tracing is stopped first. </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv419heap_trace_record_t">
+<span id="_CPPv319heap_trace_record_t"></span><span id="_CPPv219heap_trace_record_t"></span><span id="heap_trace_record_t"></span><span class="target" id="structheap__trace__record__t"></span><em class="property">struct </em><code class="descname">heap_trace_record_t</code><a class="headerlink" href="#_CPPv419heap_trace_record_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Trace record data type. Stores information about an allocated region of memory. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N19heap_trace_record_t6ccountE">
+<span id="_CPPv3N19heap_trace_record_t6ccountE"></span><span id="_CPPv2N19heap_trace_record_t6ccountE"></span><span id="heap_trace_record_t::ccount__uint32_t"></span><span class="target" id="structheap__trace__record__t_1a3a5a11507218cbab8b0f1ec08f8f5c40"></span>uint32_t <code class="descname">ccount</code><a class="headerlink" href="#_CPPv4N19heap_trace_record_t6ccountE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CCOUNT of the CPU when the allocation was made. LSB (bit value 1) is the CPU number (0 or 1). </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19heap_trace_record_t7addressE">
+<span id="_CPPv3N19heap_trace_record_t7addressE"></span><span id="_CPPv2N19heap_trace_record_t7addressE"></span><span id="heap_trace_record_t::address__voidP"></span><span class="target" id="structheap__trace__record__t_1a948933cb24b2aa572f45b806e82ae818"></span>void *<code class="descname">address</code><a class="headerlink" href="#_CPPv4N19heap_trace_record_t7addressE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Address which was allocated. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19heap_trace_record_t4sizeE">
+<span id="_CPPv3N19heap_trace_record_t4sizeE"></span><span id="_CPPv2N19heap_trace_record_t4sizeE"></span><span id="heap_trace_record_t::size__s"></span><span class="target" id="structheap__trace__record__t_1a1a13eb467724bf28ccacb694627b6f3d"></span>size_t <code class="descname">size</code><a class="headerlink" href="#_CPPv4N19heap_trace_record_t4sizeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Size of the allocation. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19heap_trace_record_t10alloced_byE">
+<span id="_CPPv3N19heap_trace_record_t10alloced_byE"></span><span id="_CPPv2N19heap_trace_record_t10alloced_byE"></span><span id="heap_trace_record_t::alloced_by__voidPA"></span><span class="target" id="structheap__trace__record__t_1aa3ed0367bc373515a3d4961a7269fdf2"></span>void *<code class="descname">alloced_by</code>[<code class="descname">CONFIG_HEAP_TRACING_STACK_DEPTH</code>]<a class="headerlink" href="#_CPPv4N19heap_trace_record_t10alloced_byE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Call stack of the caller which allocated the memory. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19heap_trace_record_t8freed_byE">
+<span id="_CPPv3N19heap_trace_record_t8freed_byE"></span><span id="_CPPv2N19heap_trace_record_t8freed_byE"></span><span id="heap_trace_record_t::freed_by__voidPA"></span><span class="target" id="structheap__trace__record__t_1a3ad6d8c9eb49b5285a508e1ec230cea1"></span>void *<code class="descname">freed_by</code>[<code class="descname">CONFIG_HEAP_TRACING_STACK_DEPTH</code>]<a class="headerlink" href="#_CPPv4N19heap_trace_record_t8freed_byE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Call stack of the caller which freed the memory (all zero if not freed.) </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.CONFIG_HEAP_TRACING_STACK_DEPTH">
+<span class="target" id="esp__heap__trace_8h_1a962faaf6cd044ada51170a779dd716ff"></span><code class="descname">CONFIG_HEAP_TRACING_STACK_DEPTH</code><a class="headerlink" href="#c.CONFIG_HEAP_TRACING_STACK_DEPTH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv417heap_trace_mode_t">
+<span id="_CPPv317heap_trace_mode_t"></span><span id="_CPPv217heap_trace_mode_t"></span><span id="heap_trace_mode_t"></span><span class="target" id="esp__heap__trace_8h_1a405bc5c6c3a6e07f82086254c944563d"></span><em class="property">enum </em><code class="descname">heap_trace_mode_t</code><a class="headerlink" href="#_CPPv417heap_trace_mode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv414HEAP_TRACE_ALL">
+<span id="_CPPv314HEAP_TRACE_ALL"></span><span id="_CPPv214HEAP_TRACE_ALL"></span><span class="target" id="esp__heap__trace_8h_1a405bc5c6c3a6e07f82086254c944563da852d11079e290f8415591926a5465d0e"></span><code class="descname">HEAP_TRACE_ALL</code><a class="headerlink" href="#_CPPv414HEAP_TRACE_ALL" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv416HEAP_TRACE_LEAKS">
+<span id="_CPPv316HEAP_TRACE_LEAKS"></span><span id="_CPPv216HEAP_TRACE_LEAKS"></span><span class="target" id="esp__heap__trace_8h_1a405bc5c6c3a6e07f82086254c944563da8b871cc1175288956caf38a820f56930"></span><code class="descname">HEAP_TRACE_LEAKS</code><a class="headerlink" href="#_CPPv416HEAP_TRACE_LEAKS" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esp_timer.html" class="btn btn-neutral float-right" title="High Resolution Timer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="mem_alloc.html" class="btn btn-neutral float-left" title="Heap Memory Allocation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/system/heap_debug.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:10 GMT -->
+</html>

@@ -1,0 +1,589 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/jtag-debugging/configure-wrover.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:29:21 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Configure WROVER JTAG Interface &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Configure Other JTAG Interface" href="configure-other-jtag.html" />
+    <link rel="prev" title="JTAG Debugging" href="index.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="configure-wrover.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-guides/jtag-debugging/configure-wrover"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../app_trace.html">Application Level Tracing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../blufi.html">BluFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bootloader.html">Bootloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../build-system.html">Build System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../build-system-legacy.html">Build System (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../console.html">Console Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../deep-sleep-stub.html">Deep Sleep Wake Stubs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-handling.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../esp-ble-mesh/ble-mesh-index.html">ESP-BLE-MESH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mesh.html">ESP-MESH (Wi-Fi)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../core_dump.html">ESP32 Core Dump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../event-handling.html">Event Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../external-ram.html">External SPI-connected RAM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../fatal-errors.html">Fatal Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../security/flash-encryption.html">Flash Encryption</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../freertos-smp.html">FreeRTOS SMP Changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../general-notes.html">General Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hlinterrupts.html">High Level Interrupts</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">JTAG Debugging</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="index.html#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#how-it-works">How it Works?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#selecting-jtag-adapter">Selecting JTAG Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#setup-of-openocd">Setup of OpenOCD</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#configuring-esp32-target">Configuring ESP32 Target</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="index.html#configure-and-connect-jtag-interface">Configure and connect JTAG interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#run-openocd">Run OpenOCD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#upload-application-for-debugging">Upload application for debugging</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#launching-debugger">Launching Debugger</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#debugging-examples">Debugging Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#building-openocd-from-sources">Building OpenOCD from Sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#tips-and-quirks">Tips and Quirks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#related-documents">Related Documents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../linker-script-generation.html">Linker Script Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lwip.html">lwIP TCP/IP Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../partition-tables.html">Partition Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../RF_calibration.html">RF Calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../romconsole.html">ROM debug console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../security/secure-boot.html">Secure Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thread-local-storage.html">Thread Local Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tools/index.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ulp.html">ULP Coprocessor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ulp-legacy.html">ULP Coprocessor (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit-tests-legacy.html">Unit Testing (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../unit-tests.html">Unit Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wifi.html">WiFi Driver</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Guides</a> &raquo;</li>
+        
+          <li><a href="index.html">JTAG Debugging</a> &raquo;</li>
+        
+      <li>Configure WROVER JTAG Interface</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-guides/jtag-debugging/configure-wrover.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="configure-wrover-jtag-interface">
+<h1>Configure WROVER JTAG Interface<a class="headerlink" href="#configure-wrover-jtag-interface" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/api-guides/jtag-debugging/configure-wrover.html">[中文]</a></p>
+<p>All versions of ESP-WROVER-KIT boards have built-in JTAG functionality. Putting it to work requires setting jumpers to enable JTAG functionality, setting SPI flash voltage and configuring USB drivers. Please refer to step by step instructions below.</p>
+<div class="section" id="configure-hardware">
+<h2>Configure Hardware<a class="headerlink" href="#configure-hardware" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Enable on-board JTAG functionality by setting JP8 according to <a class="reference internal" href="../../hw-reference/get-started-wrover-kit.html"><span class="doc">ESP-WROVER-KIT V4.1 Getting Started Guide</span></a>, Section <a class="reference internal" href="../../hw-reference/get-started-wrover-kit.html#get-started-esp-wrover-kit-v4-1-setup-options"><span class="std std-ref">Setup Options</span></a>.</p>
+</li>
+<li><p class="first">Verify if ESP32 pins used for JTAG communication are not connected to some other h/w that may disturb JTAG operation:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="48%" />
+<col width="42%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&#160;</th>
+<th class="head">ESP32 Pin</th>
+<th class="head">JTAG Signal</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>CHIP_PU</td>
+<td>TRST_N</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>MTDO / GPIO15</td>
+<td>TDO</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>MTDI / GPIO12</td>
+<td>TDI</td>
+</tr>
+<tr class="row-odd"><td>4</td>
+<td>MTCK / GPIO13</td>
+<td>TCK</td>
+</tr>
+<tr class="row-even"><td>5</td>
+<td>MTMS / GPIO14</td>
+<td>TMS</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+</div>
+<div class="section" id="configure-usb-drivers">
+<h2>Configure USB Drivers<a class="headerlink" href="#configure-usb-drivers" title="Permalink to this headline">¶</a></h2>
+<p>Install and configure USB drivers, so OpenOCD is able to communicate with JTAG interface on ESP-WROVER-KIT board as well as with UART interface used to upload application for flash. Follow steps below specific to your operating system.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ESP-WROVER-KIT uses an FT2232 adapter. The following instructions can also be used for other FT2232 based JTAG adapters.</p>
+</div>
+<div class="section" id="windows">
+<h3>Windows<a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic">
+<li><p class="first">Using standard USB A / micro USB B cable connect ESP-WROVER-KIT to the computer. Switch the WROVER KIT on.</p>
+</li>
+<li><p class="first">Wait until USB ports of WROVER KIT are recognized by Windows and drives are installed. If they do not install automatically, then download them from <a class="reference external" href="http://www.ftdichip.com/Drivers/D2XX.htm">http://www.ftdichip.com/Drivers/D2XX.htm</a> and install manually.</p>
+</li>
+<li><p class="first">Download Zadig tool (Zadig_X.X.exe) from <a class="reference external" href="http://zadig.akeo.ie/">http://zadig.akeo.ie/</a> and run it.</p>
+</li>
+<li><p class="first">In Zadig tool go to “Options” and check “List All Devices”.</p>
+</li>
+<li><p class="first">Check the list of devices that should contain two WROVER specific USB entries: “Dual RS232-HS (Interface 0)” and “Dual RS232-HS (Interface 1)”. The driver name would be “FTDIBUS (vxxxx)” and USB ID: 0403 6010.</p>
+<div class="align-center figure" id="id1">
+<img alt="Configuration of JTAG USB driver in Zadig tool" src="../../_images/jtag-usb-configuration-zadig.jpg" />
+<p class="caption"><span class="caption-text">Configuration of JTAG USB driver in Zadig tool</span></p>
+</div>
+</li>
+<li><p class="first">The first device (Dual RS232-HS (Interface 0)) is connected to the JTAG port of the ESP32. Original “FTDIBUS (vxxxx)” driver of this device should be replaced with “WinUSB (v6xxxxx)”. To do so, select “Dual RS232-HS (Interface 0) and reinstall attached driver to the “WinUSB (v6xxxxx)”, see picture above.</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Do not change the second device “Dual RS232-HS (Interface 1)”. It is routed to ESP32’s serial port (UART) used for upload of application to ESP32’s flash.</p>
+</div>
+<p>Now ESP-WROVER-KIT’s JTAG interface should be available to the OpenOCD. To carry on with debugging environment setup, proceed to section <a class="reference internal" href="index.html#jtag-debugging-run-openocd"><span class="std std-ref">Run OpenOCD</span></a>.</p>
+</div>
+<div class="section" id="linux">
+<h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>Using standard USB A / micro USB B cable connect ESP-WROVER-KIT board to the computer. Power on the board.</li>
+</ol>
+<ol class="arabic" start="2">
+<li><p class="first">Open a terminal, enter <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">-l</span> <span class="pre">/dev/ttyUSB*</span></code> command and check, if board’s USB ports are recognized by the OS. You are looking for similar result:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>user-name@computer-name:~/esp$ ls -l /dev/ttyUSB*
+crw-rw---- 1 root dialout 188, 0 Jul 10 19:04 /dev/ttyUSB0
+crw-rw---- 1 root dialout 188, 1 Jul 10 19:04 /dev/ttyUSB1
+</pre></div>
+</div>
+</li>
+<li><p class="first">Following section “Permissions delegation” in <a class="reference external" href="https://sourceforge.net/p/openocd/code/ci/master/tree/README">OpenOCD’s README</a>, set up the access permissions to both USB ports.</p>
+</li>
+<li><p class="first">Log off and login, then cycle the power to the board to make the changes effective. In terminal enter again <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">-l</span> <span class="pre">/dev/ttyUSB*</span></code> command to verify, if group-owner has changed from <code class="docutils literal notranslate"><span class="pre">dialout</span></code> to <code class="docutils literal notranslate"><span class="pre">plugdev</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>user-name@computer-name:~/esp$ ls -l /dev/ttyUSB*
+crw-rw-r-- 1 root plugdev 188, 0 Jul 10 19:07 /dev/ttyUSB0
+crw-rw-r-- 1 root plugdev 188, 1 Jul 10 19:07 /dev/ttyUSB1
+</pre></div>
+</div>
+<p>If you see similar result and you are a member of <code class="docutils literal notranslate"><span class="pre">plugdev</span></code> group, then the set up is complete.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">/dev/ttyUSBn</span></code> interface with lower number is used for JTAG communication. The other interface is routed to ESP32’s serial port (UART) used for upload of application to ESP32’s flash.</p>
+</li>
+</ol>
+<p>Now ESP-WROVER-KIT’s JTAG interface should be available to the OpenOCD. To carry on with debugging environment setup, proceed to section <a class="reference internal" href="index.html#jtag-debugging-run-openocd"><span class="std std-ref">Run OpenOCD</span></a>.</p>
+</div>
+<div class="section" id="macos">
+<h3>MacOS<a class="headerlink" href="#macos" title="Permalink to this headline">¶</a></h3>
+<p>On macOS, using FT2232 for JTAG and serial port at the same time needs some additional steps. When the OS loads FTDI serial port driver, it does so for both channels of FT2232 chip. However only one of these channels is used as a serial port, while the other is used as JTAG. If the OS has loaded FTDI serial port driver for the channel used for JTAG, OpenOCD will not be able to connect to the chip. There are two ways around this:</p>
+<ol class="arabic simple">
+<li>Manually unload the FTDI serial port driver before starting OpenOCD, start OpenOCD, then load the serial port driver.</li>
+<li>Modify FTDI driver configuration so that it doesn’t load itself for channel B of FT2232 chip, which is the channel used for JTAG on WROVER KIT.</li>
+</ol>
+<div class="section" id="manually-unloading-the-driver">
+<h4>Manually unloading the driver<a class="headerlink" href="#manually-unloading-the-driver" title="Permalink to this headline">¶</a></h4>
+<ol class="arabic">
+<li><p class="first">Install FTDI driver from <a class="reference external" href="http://www.ftdichip.com/Drivers/VCP.htm">http://www.ftdichip.com/Drivers/VCP.htm</a></p>
+</li>
+<li><p class="first">Connect USB cable to the WROVER KIT.</p>
+</li>
+<li><p class="first">Unload the serial port driver:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo kextunload -b com.FTDI.driver.FTDIUSBSerialDriver
+</pre></div>
+</div>
+<p>In some cases you may need to unload Apple’s FTDI driver as well:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo kextunload -b com.apple.driver.AppleUSBFTDI
+</pre></div>
+</div>
+</li>
+<li><p class="first">Run OpenOCD:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>bin/openocd -f board/esp32-wrover-kit-3.3v.cfg
+</pre></div>
+</div>
+</li>
+<li><p class="first">In another terminal window, load FTDI serial port driver again:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo kextload -b com.FTDI.driver.FTDIUSBSerialDriver
+</pre></div>
+</div>
+</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you need to restart OpenOCD, there is no need to unload FTDI driver again — just stop OpenOCD and start it again. The driver only needs to be unloaded if WROVER KIT was reconnected or power was toggled.</p>
+</div>
+<p>This procedure can be wrapped into a shell script, if desired.</p>
+</div>
+<div class="section" id="modifying-ftdi-driver">
+<h4>Modifying FTDI driver<a class="headerlink" href="#modifying-ftdi-driver" title="Permalink to this headline">¶</a></h4>
+<p>In a nutshell, this approach requires modification to FTDI driver configuration file, which prevents the driver from being loaded for channel B of FT2232H.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Other boards may use channel A for JTAG, so use this option with caution.</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This approach also needs signature verification of drivers to be disabled, so may not be acceptable for all users.</p>
+</div>
+<ol class="arabic">
+<li><p class="first">Open FTDI driver configuration file using a text editor (note <code class="docutils literal notranslate"><span class="pre">sudo</span></code>):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>sudo nano /Library/Extensions/FTDIUSBSerialDriver.kext/Contents/Info.plist
+</pre></div>
+</div>
+</li>
+<li><p class="first">Find and delete the following lines:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;key&gt;FT2232H_B&lt;/key&gt;
+&lt;dict&gt;
+    &lt;key&gt;CFBundleIdentifier&lt;/key&gt;
+    &lt;string&gt;com.FTDI.driver.FTDIUSBSerialDriver&lt;/string&gt;
+    &lt;key&gt;IOClass&lt;/key&gt;
+    &lt;string&gt;FTDIUSBSerialDriver&lt;/string&gt;
+    &lt;key&gt;IOProviderClass&lt;/key&gt;
+    &lt;string&gt;IOUSBInterface&lt;/string&gt;
+    &lt;key&gt;bConfigurationValue&lt;/key&gt;
+    &lt;integer&gt;1&lt;/integer&gt;
+    &lt;key&gt;bInterfaceNumber&lt;/key&gt;
+    &lt;integer&gt;1&lt;/integer&gt;
+    &lt;key&gt;bcdDevice&lt;/key&gt;
+    &lt;integer&gt;1792&lt;/integer&gt;
+    &lt;key&gt;idProduct&lt;/key&gt;
+    &lt;integer&gt;24592&lt;/integer&gt;
+    &lt;key&gt;idVendor&lt;/key&gt;
+    &lt;integer&gt;1027&lt;/integer&gt;
+&lt;/dict&gt;
+</pre></div>
+</div>
+</li>
+<li><p class="first">Save and close the file</p>
+</li>
+<li><p class="first">Disable driver signature verification:</p>
+<ol class="arabic">
+<li><p class="first">Open Apple logo menu, choose “Restart…”</p>
+</li>
+<li><p class="first">When you hear the chime after reboot, press CMD+R immediately</p>
+</li>
+<li><p class="first">Once Recovery mode starts up, open Terminal</p>
+</li>
+<li><p class="first">Run the command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>csrutil enable --without kext
+</pre></div>
+</div>
+</li>
+<li><p class="first">Restart again</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>After these steps, serial port and JTAG can be used at the same time.</p>
+<p>To carry on with debugging environment setup, proceed to section <a class="reference internal" href="index.html#jtag-debugging-run-openocd"><span class="std std-ref">Run OpenOCD</span></a>.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="configure-other-jtag.html" class="btn btn-neutral float-right" title="Configure Other JTAG Interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="JTAG Debugging" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/jtag-debugging/configure-wrover.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:29:22 GMT -->
+</html>

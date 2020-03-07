@@ -1,0 +1,1175 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/bluetooth/controller_vhci.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:01 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Controller &amp;&amp; VHCI &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="BT COMMON" href="bt_common.html" />
+    <link rel="prev" title="Bluetooth API" href="index.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="controller_vhci.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/bluetooth/controller_vhci"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Bluetooth</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Bluetooth Controller &amp;&amp; VHCI</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-example">Application Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="bt_common.html">Bluetooth Common</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bt_le.html">Bluetooth LE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="classic_bt.html">Bluetooth Classic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nimble/index.html">NimBLE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp-ble-mesh.html">ESP-BLE-MESH</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Bluetooth API</a> &raquo;</li>
+        
+      <li>Controller &amp;&amp; VHCI</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/bluetooth/controller_vhci.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="controller-vhci">
+<h1>Controller &amp;&amp; VHCI<a class="headerlink" href="#controller-vhci" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="../template.html">Instructions</a></p>
+</div>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<p>Check <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/bluetooth/bluedroid/hci">bluetooth/bluedroid/hci</a> folder in ESP-IDF examples, which contains the following application:</p>
+<ul class="simple">
+<li>This is a BLE advertising demo with virtual HCI interface. Send Reset/ADV_PARAM/ADV_DATA/ADV_ENABLE HCI command for BLE advertising - <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/bluetooth/bluedroid/hci/controller_vhci_ble_adv">bluetooth/bluedroid/hci/controller_vhci_ble_adv</a>.</li>
+</ul>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/bt/include/esp_bt.h">bt/include/esp_bt.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv420esp_ble_tx_power_set20esp_ble_power_type_t17esp_power_level_t">
+<span id="_CPPv320esp_ble_tx_power_set20esp_ble_power_type_t17esp_power_level_t"></span><span id="_CPPv220esp_ble_tx_power_set20esp_ble_power_type_t17esp_power_level_t"></span><span id="esp_ble_tx_power_set__esp_ble_power_type_t.esp_power_level_t"></span><span class="target" id="esp__bt_8h_1a97c91c039845ee2faab7361f601cb0cb"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_ble_tx_power_set</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv420esp_ble_power_type_t" title="esp_ble_power_type_t">esp_ble_power_type_t</a> <em>power_type</em>, <a class="reference internal" href="#_CPPv417esp_power_level_t" title="esp_power_level_t">esp_power_level_t</a> <em>power_level</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420esp_ble_tx_power_set20esp_ble_power_type_t17esp_power_level_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set BLE TX power Connection Tx power should only be set after connection created. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK - success, other - failed </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">power_type</span></code>: : The type of which tx power, could set Advertising/Connection/Default and etc </li>
+<li><code class="docutils literal notranslate"><span class="pre">power_level</span></code>: Power level(index) corresponding to absolute value(dbm) </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420esp_ble_tx_power_get20esp_ble_power_type_t">
+<span id="_CPPv320esp_ble_tx_power_get20esp_ble_power_type_t"></span><span id="_CPPv220esp_ble_tx_power_get20esp_ble_power_type_t"></span><span id="esp_ble_tx_power_get__esp_ble_power_type_t"></span><span class="target" id="esp__bt_8h_1a9a52095f5a28e7a0e147ff7e753a2925"></span><a class="reference internal" href="#_CPPv417esp_power_level_t" title="esp_power_level_t">esp_power_level_t</a> <code class="descname">esp_ble_tx_power_get</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv420esp_ble_power_type_t" title="esp_ble_power_type_t">esp_ble_power_type_t</a> <em>power_type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420esp_ble_tx_power_get20esp_ble_power_type_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get BLE TX power Connection Tx power should only be get after connection created. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>&gt;= 0 - Power level, &lt; 0 - Invalid </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">power_type</span></code>: : The type of which tx power, could set Advertising/Connection/Default and etc </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422esp_bredr_tx_power_set17esp_power_level_t17esp_power_level_t">
+<span id="_CPPv322esp_bredr_tx_power_set17esp_power_level_t17esp_power_level_t"></span><span id="_CPPv222esp_bredr_tx_power_set17esp_power_level_t17esp_power_level_t"></span><span id="esp_bredr_tx_power_set__esp_power_level_t.esp_power_level_t"></span><span class="target" id="esp__bt_8h_1a6740ad5e895045b9221b2c88650a98d2"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_bredr_tx_power_set</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv417esp_power_level_t" title="esp_power_level_t">esp_power_level_t</a> <em>min_power_level</em>, <a class="reference internal" href="#_CPPv417esp_power_level_t" title="esp_power_level_t">esp_power_level_t</a> <em>max_power_level</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_bredr_tx_power_set17esp_power_level_t17esp_power_level_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set BR/EDR TX power BR/EDR power control will use the power in range of minimum value and maximum value. The power level will effect the global BR/EDR TX power, such inquire, page, connection and so on. Please call the function after esp_bt_controller_enable and before any function which cause RF do TX. So you can call the function before doing discovery, profile init and so on. For example, if you want BR/EDR use the new TX power to do inquire, you should call this function before inquire. Another word, If call this function when BR/EDR is in inquire(ING), please do inquire again after call this function. Default minimum power level is ESP_PWR_LVL_N0, and maximum power level is ESP_PWR_LVL_P3. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK - success, other - failed </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">min_power_level</span></code>: The minimum power level </li>
+<li><code class="docutils literal notranslate"><span class="pre">max_power_level</span></code>: The maximum power level </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422esp_bredr_tx_power_getP17esp_power_level_tP17esp_power_level_t">
+<span id="_CPPv322esp_bredr_tx_power_getP17esp_power_level_tP17esp_power_level_t"></span><span id="_CPPv222esp_bredr_tx_power_getP17esp_power_level_tP17esp_power_level_t"></span><span id="esp_bredr_tx_power_get__esp_power_level_tP.esp_power_level_tP"></span><span class="target" id="esp__bt_8h_1a1e44b86dbe725ddb3e5c3215a92840fe"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_bredr_tx_power_get</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv417esp_power_level_t" title="esp_power_level_t">esp_power_level_t</a> *<em>min_power_level</em>, <a class="reference internal" href="#_CPPv417esp_power_level_t" title="esp_power_level_t">esp_power_level_t</a> *<em>max_power_level</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_bredr_tx_power_getP17esp_power_level_tP17esp_power_level_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get BR/EDR TX power If the argument is not NULL, then store the corresponding value. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK - success, other - failed </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">min_power_level</span></code>: The minimum power level </li>
+<li><code class="docutils literal notranslate"><span class="pre">max_power_level</span></code>: The maximum power level </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426esp_bredr_sco_datapath_set19esp_sco_data_path_t">
+<span id="_CPPv326esp_bredr_sco_datapath_set19esp_sco_data_path_t"></span><span id="_CPPv226esp_bredr_sco_datapath_set19esp_sco_data_path_t"></span><span id="esp_bredr_sco_datapath_set__esp_sco_data_path_t"></span><span class="target" id="esp__bt_8h_1ad46ee66d0a12e2b2716ec8a71b65ab70"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_bredr_sco_datapath_set</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv419esp_sco_data_path_t" title="esp_sco_data_path_t">esp_sco_data_path_t</a> <em>data_path</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426esp_bredr_sco_datapath_set19esp_sco_data_path_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set default SCO data path Should be called after controller is enabled, and before (e)SCO link is established </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK - success, other - failed </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">data_path</span></code>: SCO data path </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422esp_bt_controller_initP26esp_bt_controller_config_t">
+<span id="_CPPv322esp_bt_controller_initP26esp_bt_controller_config_t"></span><span id="_CPPv222esp_bt_controller_initP26esp_bt_controller_config_t"></span><span id="esp_bt_controller_init__esp_bt_controller_config_tP"></span><span class="target" id="esp__bt_8h_1ac42f1ff3a691751e68f762aef227f0b2"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_bt_controller_init</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv426esp_bt_controller_config_t" title="esp_bt_controller_config_t">esp_bt_controller_config_t</a> *<em>cfg</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_bt_controller_initP26esp_bt_controller_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize BT controller to allocate task and other resource. This function should be called only once, before any other BT functions are called. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK - success, other - failed </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">cfg</span></code>: Initial configuration of BT controller. Different from previous version, there’s a mode and some connection configuration in “cfg” to configure controller work mode and allocate the resource which is needed. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424esp_bt_controller_deinitv">
+<span id="_CPPv324esp_bt_controller_deinitv"></span><span id="_CPPv224esp_bt_controller_deinitv"></span><span id="esp_bt_controller_deinit__void"></span><span class="target" id="esp__bt_8h_1a6b4f4dc9cbf60befe4c9762474f2b68e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_bt_controller_deinit</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424esp_bt_controller_deinitv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>De-initialize BT controller to free resource and delete task. </p>
+<p>This function should be called only once, after any other BT functions are called. <dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK - success, other - failed </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424esp_bt_controller_enable13esp_bt_mode_t">
+<span id="_CPPv324esp_bt_controller_enable13esp_bt_mode_t"></span><span id="_CPPv224esp_bt_controller_enable13esp_bt_mode_t"></span><span id="esp_bt_controller_enable__esp_bt_mode_t"></span><span class="target" id="esp__bt_8h_1a761867a85f3fb3f0d36e97666aed433a"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_bt_controller_enable</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_bt_mode_t" title="esp_bt_mode_t">esp_bt_mode_t</a> <em>mode</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424esp_bt_controller_enable13esp_bt_mode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable BT controller. Due to a known issue, you cannot call esp_bt_controller_enable() a second time to change the controller mode dynamically. To change controller mode, call esp_bt_controller_disable() and then call esp_bt_controller_enable() with the new mode. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK - success, other - failed </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mode</span></code>: : the mode(BLE/BT/BTDM) to enable. For compatible of API, retain this argument. This mode must be equal as the mode in “cfg” of esp_bt_controller_init(). </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425esp_bt_controller_disablev">
+<span id="_CPPv325esp_bt_controller_disablev"></span><span id="_CPPv225esp_bt_controller_disablev"></span><span id="esp_bt_controller_disable__void"></span><span class="target" id="esp__bt_8h_1a12e0a1f6dd686843a27246e3f1eafee7"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_bt_controller_disable</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425esp_bt_controller_disablev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable BT controller. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK - success, other - failed </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428esp_bt_controller_get_statusv">
+<span id="_CPPv328esp_bt_controller_get_statusv"></span><span id="_CPPv228esp_bt_controller_get_statusv"></span><span id="esp_bt_controller_get_status__void"></span><span class="target" id="esp__bt_8h_1abdbb34d86a449e25bc66279e671d4408"></span><a class="reference internal" href="#_CPPv426esp_bt_controller_status_t" title="esp_bt_controller_status_t">esp_bt_controller_status_t</a> <code class="descname">esp_bt_controller_get_status</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428esp_bt_controller_get_statusv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get BT controller is initialised/de-initialised/enabled/disabled. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>status value </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv434esp_vhci_host_check_send_availablev">
+<span id="_CPPv334esp_vhci_host_check_send_availablev"></span><span id="_CPPv234esp_vhci_host_check_send_availablev"></span><span id="esp_vhci_host_check_send_available__void"></span><span class="target" id="esp__bt_8h_1af351f87224219c040352fdc7cd436386"></span>bool <code class="descname">esp_vhci_host_check_send_available</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv434esp_vhci_host_check_send_availablev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>esp_vhci_host_check_send_available used for check actively if the host can send packet to controller or not. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>true for ready to send, false means cannot send packet </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425esp_vhci_host_send_packetP7uint8_t8uint16_t">
+<span id="_CPPv325esp_vhci_host_send_packetP7uint8_t8uint16_t"></span><span id="_CPPv225esp_vhci_host_send_packetP7uint8_t8uint16_t"></span><span id="esp_vhci_host_send_packet__uint8_tP.uint16_t"></span><span class="target" id="esp__bt_8h_1aac26f3fcd110bdc080c3e21cb0badd16"></span>void <code class="descname">esp_vhci_host_send_packet</code><span class="sig-paren">(</span>uint8_t *<em>data</em>, uint16_t <em>len</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425esp_vhci_host_send_packetP7uint8_t8uint16_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>esp_vhci_host_send_packet host send packet to controller </p>
+<p>Should not call this function from within a critical section or when the scheduler is suspended.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: the packet point </li>
+<li><code class="docutils literal notranslate"><span class="pre">len</span></code>: the packet length </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv431esp_vhci_host_register_callbackPK24esp_vhci_host_callback_t">
+<span id="_CPPv331esp_vhci_host_register_callbackPK24esp_vhci_host_callback_t"></span><span id="_CPPv231esp_vhci_host_register_callbackPK24esp_vhci_host_callback_t"></span><span id="esp_vhci_host_register_callback__esp_vhci_host_callback_tCP"></span><span class="target" id="esp__bt_8h_1abf64fbb55572df00e583b3a2383b9dc0"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_vhci_host_register_callback</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv424esp_vhci_host_callback_t" title="esp_vhci_host_callback_t">esp_vhci_host_callback_t</a> *<em>callback</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv431esp_vhci_host_register_callbackPK24esp_vhci_host_callback_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>esp_vhci_host_register_callback register the vhci reference callback struct defined by vhci_host_callback structure. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK - success, ESP_FAIL - failed </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">callback</span></code>: <a class="reference internal" href="#structesp__vhci__host__callback"><span class="std std-ref">esp_vhci_host_callback</span></a> type variable </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv429esp_bt_controller_mem_release13esp_bt_mode_t">
+<span id="_CPPv329esp_bt_controller_mem_release13esp_bt_mode_t"></span><span id="_CPPv229esp_bt_controller_mem_release13esp_bt_mode_t"></span><span id="esp_bt_controller_mem_release__esp_bt_mode_t"></span><span class="target" id="esp__bt_8h_1a92d1ee8bfa956acee4d03dc87c64b75a"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_bt_controller_mem_release</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_bt_mode_t" title="esp_bt_mode_t">esp_bt_mode_t</a> <em>mode</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv429esp_bt_controller_mem_release13esp_bt_mode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>esp_bt_controller_mem_release release the controller memory as per the mode </p>
+<p>This function releases the BSS, data and other sections of the controller to heap. The total size is about 70k bytes.</p>
+<p>esp_bt_controller_mem_release(mode) should be called only before esp_bt_controller_init() or after esp_bt_controller_deinit().</p>
+<p>Note that once BT controller memory is released, the process cannot be reversed. It means you cannot use the bluetooth mode which you have released by this function.</p>
+<p>If your firmware will later upgrade the Bluetooth controller mode (BLE -&gt; BT Classic or disabled -&gt; enabled) then do not call this function.</p>
+<p>If the app calls esp_bt_controller_enable(ESP_BT_MODE_BLE) to use BLE only then it is safe to call esp_bt_controller_mem_release(ESP_BT_MODE_CLASSIC_BT) at initialization time to free unused BT Classic memory.</p>
+<p>If the mode is ESP_BT_MODE_BTDM, then it may be useful to call API esp_bt_mem_release(ESP_BT_MODE_BTDM) instead, which internally calls esp_bt_controller_mem_release(ESP_BT_MODE_BTDM) and additionally releases the BSS and data consumed by the BT/BLE host stack to heap. For more details about usage please refer to the documentation of esp_bt_mem_release() function</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK - success, other - failed </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mode</span></code>: : the mode want to release memory </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418esp_bt_mem_release13esp_bt_mode_t">
+<span id="_CPPv318esp_bt_mem_release13esp_bt_mode_t"></span><span id="_CPPv218esp_bt_mem_release13esp_bt_mode_t"></span><span id="esp_bt_mem_release__esp_bt_mode_t"></span><span class="target" id="esp__bt_8h_1afe1c8b7d1f5937f39afab8257ee3699e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_bt_mem_release</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413esp_bt_mode_t" title="esp_bt_mode_t">esp_bt_mode_t</a> <em>mode</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418esp_bt_mem_release13esp_bt_mode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>esp_bt_mem_release release controller memory and BSS and data section of the BT/BLE host stack as per the mode </p>
+<p>This function first releases controller memory by internally calling esp_bt_controller_mem_release(). Additionally, if the mode is set to ESP_BT_MODE_BTDM, it also releases the BSS and data consumed by the BT/BLE host stack to heap</p>
+<p>Note that once BT memory is released, the process cannot be reversed. It means you cannot use the bluetooth mode which you have released by this function.</p>
+<p>If your firmware will later upgrade the Bluetooth controller mode (BLE -&gt; BT Classic or disabled -&gt; enabled) then do not call this function.</p>
+<p>If you never intend to use bluetooth in a current boot-up cycle, you can call esp_bt_mem_release(ESP_BT_MODE_BTDM) before esp_bt_controller_init or after esp_bt_controller_deinit.</p>
+<p>For example, if a user only uses bluetooth for setting the WiFi configuration, and does not use bluetooth in the rest of the product operation”. In such cases, after receiving the WiFi configuration, you can disable/deinit bluetooth and release its memory. Below is the sequence of APIs to be called for such scenarios: <div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">esp_bluedroid_disable</span><span class="p">();</span>
+ <span class="n">esp_bluedroid_deinit</span><span class="p">();</span>
+ <span class="n">esp_bt_controller_disable</span><span class="p">();</span>
+ <span class="n">esp_bt_controller_deinit</span><span class="p">();</span>
+ <span class="n">esp_bt_mem_release</span><span class="p">(</span><span class="n">ESP_BT_MODE_BTDM</span><span class="p">);</span>
+</pre></div>
+</div>
+</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>In case of NimBLE host, to release BSS and data memory to heap, the mode needs to be set to ESP_BT_MODE_BTDM as controller is dual mode. </dd>
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK - success, other - failed </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mode</span></code>: : the mode whose memory is to be released </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419esp_bt_sleep_enablev">
+<span id="_CPPv319esp_bt_sleep_enablev"></span><span id="_CPPv219esp_bt_sleep_enablev"></span><span id="esp_bt_sleep_enable__void"></span><span class="target" id="esp__bt_8h_1a89330ae47d843d9a8f0239776aafd391"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_bt_sleep_enable</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419esp_bt_sleep_enablev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>enable bluetooth to enter modem sleep </p>
+<p>Note that this function shall not be invoked before esp_bt_controller_enable()</p>
+<p>There are currently two options for bluetooth modem sleep, one is ORIG mode, and another is EVED Mode. EVED Mode is intended for BLE only.</p>
+<p>For ORIG mode: Bluetooth modem sleep is enabled in controller start up by default if CONFIG_BTDM_MODEM_SLEEP is set and “ORIG mode” is selected. In ORIG modem sleep mode, bluetooth controller will switch off some components and pause to work every now and then, if there is no event to process; and wakeup according to the scheduled interval and resume the work. It can also wakeup earlier upon external request using function “esp_bt_controller_wakeup_request”.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420esp_bt_sleep_disablev">
+<span id="_CPPv320esp_bt_sleep_disablev"></span><span id="_CPPv220esp_bt_sleep_disablev"></span><span id="esp_bt_sleep_disable__void"></span><span class="target" id="esp__bt_8h_1aa9059c2adc45724634afe9ca058f69a4"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_bt_sleep_disable</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420esp_bt_sleep_disablev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>disable bluetooth modem sleep </p>
+<p>Note that this function shall not be invoked before esp_bt_controller_enable()</p>
+<p>If esp_bt_sleep_disable() is called, bluetooth controller will not be allowed to enter modem sleep;</p>
+<p>If ORIG modem sleep mode is in use, if this function is called, bluetooth controller may not immediately wake up if it is dormant then. In this case, esp_bt_controller_wakeup_request() can be used to shorten the time for wakeup.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv429esp_bt_controller_is_sleepingv">
+<span id="_CPPv329esp_bt_controller_is_sleepingv"></span><span id="_CPPv229esp_bt_controller_is_sleepingv"></span><span id="esp_bt_controller_is_sleeping__void"></span><span class="target" id="esp__bt_8h_1a1fc78e358f86076c2c6ef93ec903cf75"></span>bool <code class="descname">esp_bt_controller_is_sleeping</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv429esp_bt_controller_is_sleepingv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>to check whether bluetooth controller is sleeping at the instant, if modem sleep is enabled </p>
+<p>Note that this function shall not be invoked before esp_bt_controller_enable() This function is supposed to be used ORIG mode of modem sleep</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>true if in modem sleep state, false otherwise </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv432esp_bt_controller_wakeup_requestv">
+<span id="_CPPv332esp_bt_controller_wakeup_requestv"></span><span id="_CPPv232esp_bt_controller_wakeup_requestv"></span><span id="esp_bt_controller_wakeup_request__void"></span><span class="target" id="esp__bt_8h_1a6f27cd1b993f160e8095dd75a1b8957e"></span>void <code class="descname">esp_bt_controller_wakeup_request</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv432esp_bt_controller_wakeup_requestv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>request controller to wakeup from sleeping state during sleep mode </p>
+<p>Note that this function shall not be invoked before esp_bt_controller_enable() Note that this function is supposed to be used ORIG mode of modem sleep Note that after this request, bluetooth controller may again enter sleep as long as the modem sleep is enabled</p>
+<p>Profiling shows that it takes several milliseconds to wakeup from modem sleep after this request. Generally it takes longer if 32kHz XTAL is used than the main XTAL, due to the lower frequency of the former as the bluetooth low power clock source. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv433esp_ble_scan_dupilcate_list_flushv">
+<span id="_CPPv333esp_ble_scan_dupilcate_list_flushv"></span><span id="_CPPv233esp_ble_scan_dupilcate_list_flushv"></span><span id="esp_ble_scan_dupilcate_list_flush__void"></span><span class="target" id="esp__bt_8h_1a7d78bf09335cc19e641a5e1f25beceda"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_ble_scan_dupilcate_list_flush</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv433esp_ble_scan_dupilcate_list_flushv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Manually clear scan duplicate list. </p>
+<p>Note that scan duplicate list will be automatically cleared when the maximum amount of device in the filter is reached the amount of device in the filter can be configured in menuconfig.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv426esp_bt_controller_config_t">
+<span id="_CPPv326esp_bt_controller_config_t"></span><span id="_CPPv226esp_bt_controller_config_t"></span><span id="esp_bt_controller_config_t"></span><span class="target" id="structesp__bt__controller__config__t"></span><em class="property">struct </em><code class="descname">esp_bt_controller_config_t</code><a class="headerlink" href="#_CPPv426esp_bt_controller_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Controller config options, depend on config mask. Config mask indicate which functions enabled, this means some options or parameters of some functions enabled by config mask. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N26esp_bt_controller_config_t26controller_task_stack_sizeE">
+<span id="_CPPv3N26esp_bt_controller_config_t26controller_task_stack_sizeE"></span><span id="_CPPv2N26esp_bt_controller_config_t26controller_task_stack_sizeE"></span><span id="esp_bt_controller_config_t::controller_task_stack_size__uint16_t"></span><span class="target" id="structesp__bt__controller__config__t_1a0756c8942601f60a789f1b1e8b08e808"></span>uint16_t <code class="descname">controller_task_stack_size</code><a class="headerlink" href="#_CPPv4N26esp_bt_controller_config_t26controller_task_stack_sizeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bluetooth controller task stack size </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N26esp_bt_controller_config_t20controller_task_prioE">
+<span id="_CPPv3N26esp_bt_controller_config_t20controller_task_prioE"></span><span id="_CPPv2N26esp_bt_controller_config_t20controller_task_prioE"></span><span id="esp_bt_controller_config_t::controller_task_prio__uint8_t"></span><span class="target" id="structesp__bt__controller__config__t_1aac8caa5dbcc3fd857cfa0fe25089bbd7"></span>uint8_t <code class="descname">controller_task_prio</code><a class="headerlink" href="#_CPPv4N26esp_bt_controller_config_t20controller_task_prioE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bluetooth controller task priority </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N26esp_bt_controller_config_t11hci_uart_noE">
+<span id="_CPPv3N26esp_bt_controller_config_t11hci_uart_noE"></span><span id="_CPPv2N26esp_bt_controller_config_t11hci_uart_noE"></span><span id="esp_bt_controller_config_t::hci_uart_no__uint8_t"></span><span class="target" id="structesp__bt__controller__config__t_1a725ef7f9198916fb915ddd8f76e2ad1b"></span>uint8_t <code class="descname">hci_uart_no</code><a class="headerlink" href="#_CPPv4N26esp_bt_controller_config_t11hci_uart_noE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>If use UART1/2 as HCI IO interface, indicate UART number </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N26esp_bt_controller_config_t17hci_uart_baudrateE">
+<span id="_CPPv3N26esp_bt_controller_config_t17hci_uart_baudrateE"></span><span id="_CPPv2N26esp_bt_controller_config_t17hci_uart_baudrateE"></span><span id="esp_bt_controller_config_t::hci_uart_baudrate__uint32_t"></span><span class="target" id="structesp__bt__controller__config__t_1abb711c13de3d228dce8874d716cfb202"></span>uint32_t <code class="descname">hci_uart_baudrate</code><a class="headerlink" href="#_CPPv4N26esp_bt_controller_config_t17hci_uart_baudrateE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>If use UART1/2 as HCI IO interface, indicate UART baudrate </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N26esp_bt_controller_config_t19scan_duplicate_modeE">
+<span id="_CPPv3N26esp_bt_controller_config_t19scan_duplicate_modeE"></span><span id="_CPPv2N26esp_bt_controller_config_t19scan_duplicate_modeE"></span><span id="esp_bt_controller_config_t::scan_duplicate_mode__uint8_t"></span><span class="target" id="structesp__bt__controller__config__t_1af670f5a837831babad85982ed4d710f4"></span>uint8_t <code class="descname">scan_duplicate_mode</code><a class="headerlink" href="#_CPPv4N26esp_bt_controller_config_t19scan_duplicate_modeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>scan duplicate mode </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N26esp_bt_controller_config_t19scan_duplicate_typeE">
+<span id="_CPPv3N26esp_bt_controller_config_t19scan_duplicate_typeE"></span><span id="_CPPv2N26esp_bt_controller_config_t19scan_duplicate_typeE"></span><span id="esp_bt_controller_config_t::scan_duplicate_type__uint8_t"></span><span class="target" id="structesp__bt__controller__config__t_1a0585a86fb9d6ea0c31177518d9ffba0a"></span>uint8_t <code class="descname">scan_duplicate_type</code><a class="headerlink" href="#_CPPv4N26esp_bt_controller_config_t19scan_duplicate_typeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>scan duplicate type </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N26esp_bt_controller_config_t15normal_adv_sizeE">
+<span id="_CPPv3N26esp_bt_controller_config_t15normal_adv_sizeE"></span><span id="_CPPv2N26esp_bt_controller_config_t15normal_adv_sizeE"></span><span id="esp_bt_controller_config_t::normal_adv_size__uint16_t"></span><span class="target" id="structesp__bt__controller__config__t_1a6c204f564758099821d6a6d16e9c2868"></span>uint16_t <code class="descname">normal_adv_size</code><a class="headerlink" href="#_CPPv4N26esp_bt_controller_config_t15normal_adv_sizeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Normal adv size for scan duplicate </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N26esp_bt_controller_config_t13mesh_adv_sizeE">
+<span id="_CPPv3N26esp_bt_controller_config_t13mesh_adv_sizeE"></span><span id="_CPPv2N26esp_bt_controller_config_t13mesh_adv_sizeE"></span><span id="esp_bt_controller_config_t::mesh_adv_size__uint16_t"></span><span class="target" id="structesp__bt__controller__config__t_1ad09f283c3ec79ba32fb82115cb3814d8"></span>uint16_t <code class="descname">mesh_adv_size</code><a class="headerlink" href="#_CPPv4N26esp_bt_controller_config_t13mesh_adv_sizeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Mesh adv size for scan duplicate </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N26esp_bt_controller_config_t22send_adv_reserved_sizeE">
+<span id="_CPPv3N26esp_bt_controller_config_t22send_adv_reserved_sizeE"></span><span id="_CPPv2N26esp_bt_controller_config_t22send_adv_reserved_sizeE"></span><span id="esp_bt_controller_config_t::send_adv_reserved_size__uint16_t"></span><span class="target" id="structesp__bt__controller__config__t_1a3755641bb378793812a18f7b0a0b7219"></span>uint16_t <code class="descname">send_adv_reserved_size</code><a class="headerlink" href="#_CPPv4N26esp_bt_controller_config_t22send_adv_reserved_sizeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Controller minimum memory value </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N26esp_bt_controller_config_t21controller_debug_flagE">
+<span id="_CPPv3N26esp_bt_controller_config_t21controller_debug_flagE"></span><span id="_CPPv2N26esp_bt_controller_config_t21controller_debug_flagE"></span><span id="esp_bt_controller_config_t::controller_debug_flag__uint32_t"></span><span class="target" id="structesp__bt__controller__config__t_1a47c806fb582e2067a3140cd22eaf3061"></span>uint32_t <code class="descname">controller_debug_flag</code><a class="headerlink" href="#_CPPv4N26esp_bt_controller_config_t21controller_debug_flagE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Controller debug log flag </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N26esp_bt_controller_config_t4modeE">
+<span id="_CPPv3N26esp_bt_controller_config_t4modeE"></span><span id="_CPPv2N26esp_bt_controller_config_t4modeE"></span><span id="esp_bt_controller_config_t::mode__uint8_t"></span><span class="target" id="structesp__bt__controller__config__t_1aed1945121d00434079a868bc33a5e446"></span>uint8_t <code class="descname">mode</code><a class="headerlink" href="#_CPPv4N26esp_bt_controller_config_t4modeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Controller mode: BR/EDR, BLE or Dual Mode </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N26esp_bt_controller_config_t12ble_max_connE">
+<span id="_CPPv3N26esp_bt_controller_config_t12ble_max_connE"></span><span id="_CPPv2N26esp_bt_controller_config_t12ble_max_connE"></span><span id="esp_bt_controller_config_t::ble_max_conn__uint8_t"></span><span class="target" id="structesp__bt__controller__config__t_1a2125ebe9e95b06cf4fc446f5f99fcded"></span>uint8_t <code class="descname">ble_max_conn</code><a class="headerlink" href="#_CPPv4N26esp_bt_controller_config_t12ble_max_connE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLE maximum connection numbers </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N26esp_bt_controller_config_t15bt_max_acl_connE">
+<span id="_CPPv3N26esp_bt_controller_config_t15bt_max_acl_connE"></span><span id="_CPPv2N26esp_bt_controller_config_t15bt_max_acl_connE"></span><span id="esp_bt_controller_config_t::bt_max_acl_conn__uint8_t"></span><span class="target" id="structesp__bt__controller__config__t_1a4ab6567ef52e8a997bbfd7835324a2af"></span>uint8_t <code class="descname">bt_max_acl_conn</code><a class="headerlink" href="#_CPPv4N26esp_bt_controller_config_t15bt_max_acl_connE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BR/EDR maximum ACL connection numbers </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N26esp_bt_controller_config_t15bt_sco_datapathE">
+<span id="_CPPv3N26esp_bt_controller_config_t15bt_sco_datapathE"></span><span id="_CPPv2N26esp_bt_controller_config_t15bt_sco_datapathE"></span><span id="esp_bt_controller_config_t::bt_sco_datapath__uint8_t"></span><span class="target" id="structesp__bt__controller__config__t_1a1f68b7112ec4abae13db11c1b7f36a1c"></span>uint8_t <code class="descname">bt_sco_datapath</code><a class="headerlink" href="#_CPPv4N26esp_bt_controller_config_t15bt_sco_datapathE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SCO data path, i.e. HCI or PCM module </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N26esp_bt_controller_config_t12auto_latencyE">
+<span id="_CPPv3N26esp_bt_controller_config_t12auto_latencyE"></span><span id="_CPPv2N26esp_bt_controller_config_t12auto_latencyE"></span><span id="esp_bt_controller_config_t::auto_latency__b"></span><span class="target" id="structesp__bt__controller__config__t_1af8d7a2dfd8f3a03e6ab7ebf3ab172d5b"></span>bool <code class="descname">auto_latency</code><a class="headerlink" href="#_CPPv4N26esp_bt_controller_config_t12auto_latencyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLE auto latency, used to enhance classic BT performance </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N26esp_bt_controller_config_t16bt_max_sync_connE">
+<span id="_CPPv3N26esp_bt_controller_config_t16bt_max_sync_connE"></span><span id="_CPPv2N26esp_bt_controller_config_t16bt_max_sync_connE"></span><span id="esp_bt_controller_config_t::bt_max_sync_conn__uint8_t"></span><span class="target" id="structesp__bt__controller__config__t_1ac224e3317cc134a5f51461b50d705739"></span>uint8_t <code class="descname">bt_max_sync_conn</code><a class="headerlink" href="#_CPPv4N26esp_bt_controller_config_t16bt_max_sync_connE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BR/EDR maximum ACL connection numbers. Effective in menuconfig </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N26esp_bt_controller_config_t7ble_scaE">
+<span id="_CPPv3N26esp_bt_controller_config_t7ble_scaE"></span><span id="_CPPv2N26esp_bt_controller_config_t7ble_scaE"></span><span id="esp_bt_controller_config_t::ble_sca__uint8_t"></span><span class="target" id="structesp__bt__controller__config__t_1a74f68aa5cbfacbda41d79b6370cd4595"></span>uint8_t <code class="descname">ble_sca</code><a class="headerlink" href="#_CPPv4N26esp_bt_controller_config_t7ble_scaE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLE low power crystal accuracy index </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N26esp_bt_controller_config_t5magicE">
+<span id="_CPPv3N26esp_bt_controller_config_t5magicE"></span><span id="_CPPv2N26esp_bt_controller_config_t5magicE"></span><span id="esp_bt_controller_config_t::magic__uint32_t"></span><span class="target" id="structesp__bt__controller__config__t_1af46869c5762287ea94744b5c49f80fe3"></span>uint32_t <code class="descname">magic</code><a class="headerlink" href="#_CPPv4N26esp_bt_controller_config_t5magicE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Magic number </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv422esp_vhci_host_callback">
+<span id="_CPPv322esp_vhci_host_callback"></span><span id="_CPPv222esp_vhci_host_callback"></span><span id="esp_vhci_host_callback"></span><span class="target" id="structesp__vhci__host__callback"></span><em class="property">struct </em><code class="descname">esp_vhci_host_callback</code><a class="headerlink" href="#_CPPv422esp_vhci_host_callback" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="#structesp__vhci__host__callback"><span class="std std-ref">esp_vhci_host_callback</span></a> used for vhci call host function to notify what host need to do </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N22esp_vhci_host_callback26notify_host_send_availableE">
+<span id="_CPPv3N22esp_vhci_host_callback26notify_host_send_availableE"></span><span id="_CPPv2N22esp_vhci_host_callback26notify_host_send_availableE"></span><span class="target" id="structesp__vhci__host__callback_1a1f59e4e8a21d5cdd898c49e9f3aac49e"></span>void (*<code class="descname">notify_host_send_available</code>)<span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N22esp_vhci_host_callback26notify_host_send_availableE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>callback used to notify that the host can send packet to controller </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22esp_vhci_host_callback16notify_host_recvE">
+<span id="_CPPv3N22esp_vhci_host_callback16notify_host_recvE"></span><span id="_CPPv2N22esp_vhci_host_callback16notify_host_recvE"></span><span class="target" id="structesp__vhci__host__callback_1aa1469e21291a01054d38fa788bea676e"></span>int (*<code class="descname">notify_host_recv</code>)<span class="sig-paren">(</span>uint8_t *data, uint16_t len<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N22esp_vhci_host_callback16notify_host_recvE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>callback used to notify that the controller has a packet to send to the host </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.ESP_BT_CONTROLLER_CONFIG_MAGIC_VAL">
+<span class="target" id="esp__bt_8h_1aa6060d913345aa45d89771504a65fde2"></span><code class="descname">ESP_BT_CONTROLLER_CONFIG_MAGIC_VAL</code><a class="headerlink" href="#c.ESP_BT_CONTROLLER_CONFIG_MAGIC_VAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.BT_CONTROLLER_INIT_CONFIG_DEFAULT">
+<span class="target" id="esp__bt_8h_1a683fbbdfdcbd71906b19cc95effe3654"></span><code class="descname">BT_CONTROLLER_INIT_CONFIG_DEFAULT</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.BT_CONTROLLER_INIT_CONFIG_DEFAULT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv424esp_vhci_host_callback_t">
+<span id="_CPPv324esp_vhci_host_callback_t"></span><span id="_CPPv224esp_vhci_host_callback_t"></span><span id="esp_vhci_host_callback_t"></span><span class="target" id="esp__bt_8h_1acc5e2059ee0759982719fa998805c39b"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv422esp_vhci_host_callback" title="esp_vhci_host_callback">esp_vhci_host_callback</a> <code class="descname">esp_vhci_host_callback_t</code><a class="headerlink" href="#_CPPv424esp_vhci_host_callback_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="#structesp__vhci__host__callback"><span class="std std-ref">esp_vhci_host_callback</span></a> used for vhci call host function to notify what host need to do </p>
+</dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv413esp_bt_mode_t">
+<span id="_CPPv313esp_bt_mode_t"></span><span id="_CPPv213esp_bt_mode_t"></span><span id="esp_bt_mode_t"></span><span class="target" id="esp__bt_8h_1a9861ef3ac455a4b2875219d457073de4"></span><em class="property">enum </em><code class="descname">esp_bt_mode_t</code><a class="headerlink" href="#_CPPv413esp_bt_mode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bluetooth mode for controller enable/disable. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv416ESP_BT_MODE_IDLE">
+<span id="_CPPv316ESP_BT_MODE_IDLE"></span><span id="_CPPv216ESP_BT_MODE_IDLE"></span><span class="target" id="esp__bt_8h_1a9861ef3ac455a4b2875219d457073de4a479cab8a16f9567cb00a7940564d3943"></span><code class="descname">ESP_BT_MODE_IDLE</code> = 0x00<a class="headerlink" href="#_CPPv416ESP_BT_MODE_IDLE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bluetooth is not running </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv415ESP_BT_MODE_BLE">
+<span id="_CPPv315ESP_BT_MODE_BLE"></span><span id="_CPPv215ESP_BT_MODE_BLE"></span><span class="target" id="esp__bt_8h_1a9861ef3ac455a4b2875219d457073de4aedb9bdfab09a30a92faa66165dc35c36"></span><code class="descname">ESP_BT_MODE_BLE</code> = 0x01<a class="headerlink" href="#_CPPv415ESP_BT_MODE_BLE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Run BLE mode </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv422ESP_BT_MODE_CLASSIC_BT">
+<span id="_CPPv322ESP_BT_MODE_CLASSIC_BT"></span><span id="_CPPv222ESP_BT_MODE_CLASSIC_BT"></span><span class="target" id="esp__bt_8h_1a9861ef3ac455a4b2875219d457073de4a9fab3664192991a2bd656ba090c1da85"></span><code class="descname">ESP_BT_MODE_CLASSIC_BT</code> = 0x02<a class="headerlink" href="#_CPPv422ESP_BT_MODE_CLASSIC_BT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Run Classic BT mode </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv416ESP_BT_MODE_BTDM">
+<span id="_CPPv316ESP_BT_MODE_BTDM"></span><span id="_CPPv216ESP_BT_MODE_BTDM"></span><span class="target" id="esp__bt_8h_1a9861ef3ac455a4b2875219d457073de4a3d0aa499ec6f785eeaa44765e8585cb3"></span><code class="descname">ESP_BT_MODE_BTDM</code> = 0x03<a class="headerlink" href="#_CPPv416ESP_BT_MODE_BTDM" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Run dual mode </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv412__anonymous0">
+<span id="_CPPv312__anonymous0"></span><span id="_CPPv212__anonymous0"></span><span id="__anonymous0"></span><span class="target" id="esp__bt_8h_1a06fc87d81c62e9abb8790b6e5713c55b"></span><em class="property">enum </em><code class="descname"><strong>[anonymous]</strong></code><a class="headerlink" href="#_CPPv412__anonymous0" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLE sleep clock accuracy(SCA), values for ble_sca field in <a class="reference internal" href="#structesp__bt__controller__config__t"><span class="std std-ref">esp_bt_controller_config_t</span></a>, currently only ESP_BLE_SCA_500PPM and ESP_BLE_SCA_250PPM are supported. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv418ESP_BLE_SCA_500PPM">
+<span id="_CPPv318ESP_BLE_SCA_500PPM"></span><span id="_CPPv218ESP_BLE_SCA_500PPM"></span><span class="target" id="esp__bt_8h_1a06fc87d81c62e9abb8790b6e5713c55bae3cc98172b1d0813a01ec74b1165fdc9"></span><code class="descname">ESP_BLE_SCA_500PPM</code> = 0<a class="headerlink" href="#_CPPv418ESP_BLE_SCA_500PPM" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLE SCA at 500ppm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv418ESP_BLE_SCA_250PPM">
+<span id="_CPPv318ESP_BLE_SCA_250PPM"></span><span id="_CPPv218ESP_BLE_SCA_250PPM"></span><span class="target" id="esp__bt_8h_1a06fc87d81c62e9abb8790b6e5713c55bab89dc9696dab24eaa0b9e80cf3140f17"></span><code class="descname">ESP_BLE_SCA_250PPM</code><a class="headerlink" href="#_CPPv418ESP_BLE_SCA_250PPM" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLE SCA at 250ppm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv418ESP_BLE_SCA_150PPM">
+<span id="_CPPv318ESP_BLE_SCA_150PPM"></span><span id="_CPPv218ESP_BLE_SCA_150PPM"></span><span class="target" id="esp__bt_8h_1a06fc87d81c62e9abb8790b6e5713c55ba00893a68c39f13eb06c7541cfbf04bde"></span><code class="descname">ESP_BLE_SCA_150PPM</code><a class="headerlink" href="#_CPPv418ESP_BLE_SCA_150PPM" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLE SCA at 150ppm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv418ESP_BLE_SCA_100PPM">
+<span id="_CPPv318ESP_BLE_SCA_100PPM"></span><span id="_CPPv218ESP_BLE_SCA_100PPM"></span><span class="target" id="esp__bt_8h_1a06fc87d81c62e9abb8790b6e5713c55ba612987fa49629ea86e27678aba4b0994"></span><code class="descname">ESP_BLE_SCA_100PPM</code><a class="headerlink" href="#_CPPv418ESP_BLE_SCA_100PPM" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLE SCA at 100ppm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv417ESP_BLE_SCA_75PPM">
+<span id="_CPPv317ESP_BLE_SCA_75PPM"></span><span id="_CPPv217ESP_BLE_SCA_75PPM"></span><span class="target" id="esp__bt_8h_1a06fc87d81c62e9abb8790b6e5713c55ba3fac3aa43388de0e279790979bb25992"></span><code class="descname">ESP_BLE_SCA_75PPM</code><a class="headerlink" href="#_CPPv417ESP_BLE_SCA_75PPM" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLE SCA at 75ppm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv417ESP_BLE_SCA_50PPM">
+<span id="_CPPv317ESP_BLE_SCA_50PPM"></span><span id="_CPPv217ESP_BLE_SCA_50PPM"></span><span class="target" id="esp__bt_8h_1a06fc87d81c62e9abb8790b6e5713c55ba1097649f0b69359ff285b2455b1501d2"></span><code class="descname">ESP_BLE_SCA_50PPM</code><a class="headerlink" href="#_CPPv417ESP_BLE_SCA_50PPM" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLE SCA at 50ppm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv417ESP_BLE_SCA_30PPM">
+<span id="_CPPv317ESP_BLE_SCA_30PPM"></span><span id="_CPPv217ESP_BLE_SCA_30PPM"></span><span class="target" id="esp__bt_8h_1a06fc87d81c62e9abb8790b6e5713c55baac0869e1a6fafab9569e4fe29f5f5b6a"></span><code class="descname">ESP_BLE_SCA_30PPM</code><a class="headerlink" href="#_CPPv417ESP_BLE_SCA_30PPM" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLE SCA at 30ppm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv417ESP_BLE_SCA_20PPM">
+<span id="_CPPv317ESP_BLE_SCA_20PPM"></span><span id="_CPPv217ESP_BLE_SCA_20PPM"></span><span class="target" id="esp__bt_8h_1a06fc87d81c62e9abb8790b6e5713c55ba92cbd612ebb468bcf90f2d685028e9d3"></span><code class="descname">ESP_BLE_SCA_20PPM</code><a class="headerlink" href="#_CPPv417ESP_BLE_SCA_20PPM" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLE SCA at 20ppm </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv426esp_bt_controller_status_t">
+<span id="_CPPv326esp_bt_controller_status_t"></span><span id="_CPPv226esp_bt_controller_status_t"></span><span id="esp_bt_controller_status_t"></span><span class="target" id="esp__bt_8h_1a699e8644da180659eea493a48fab1a1c"></span><em class="property">enum </em><code class="descname">esp_bt_controller_status_t</code><a class="headerlink" href="#_CPPv426esp_bt_controller_status_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bluetooth controller enable/disable/initialised/de-initialised status. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv429ESP_BT_CONTROLLER_STATUS_IDLE">
+<span id="_CPPv329ESP_BT_CONTROLLER_STATUS_IDLE"></span><span id="_CPPv229ESP_BT_CONTROLLER_STATUS_IDLE"></span><span class="target" id="esp__bt_8h_1a699e8644da180659eea493a48fab1a1ca71a4f3cca6ddd074789df5c742ecd4cd"></span><code class="descname">ESP_BT_CONTROLLER_STATUS_IDLE</code> = 0<a class="headerlink" href="#_CPPv429ESP_BT_CONTROLLER_STATUS_IDLE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv431ESP_BT_CONTROLLER_STATUS_INITED">
+<span id="_CPPv331ESP_BT_CONTROLLER_STATUS_INITED"></span><span id="_CPPv231ESP_BT_CONTROLLER_STATUS_INITED"></span><span class="target" id="esp__bt_8h_1a699e8644da180659eea493a48fab1a1caaa124ea9a4086d9bea6edafeb232b776"></span><code class="descname">ESP_BT_CONTROLLER_STATUS_INITED</code><a class="headerlink" href="#_CPPv431ESP_BT_CONTROLLER_STATUS_INITED" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv432ESP_BT_CONTROLLER_STATUS_ENABLED">
+<span id="_CPPv332ESP_BT_CONTROLLER_STATUS_ENABLED"></span><span id="_CPPv232ESP_BT_CONTROLLER_STATUS_ENABLED"></span><span class="target" id="esp__bt_8h_1a699e8644da180659eea493a48fab1a1ca12a31f96f1fef6235a2bcc41d0189de6"></span><code class="descname">ESP_BT_CONTROLLER_STATUS_ENABLED</code><a class="headerlink" href="#_CPPv432ESP_BT_CONTROLLER_STATUS_ENABLED" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv428ESP_BT_CONTROLLER_STATUS_NUM">
+<span id="_CPPv328ESP_BT_CONTROLLER_STATUS_NUM"></span><span id="_CPPv228ESP_BT_CONTROLLER_STATUS_NUM"></span><span class="target" id="esp__bt_8h_1a699e8644da180659eea493a48fab1a1ca2432e977675d820cd1046343fae95410"></span><code class="descname">ESP_BT_CONTROLLER_STATUS_NUM</code><a class="headerlink" href="#_CPPv428ESP_BT_CONTROLLER_STATUS_NUM" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv420esp_ble_power_type_t">
+<span id="_CPPv320esp_ble_power_type_t"></span><span id="_CPPv220esp_ble_power_type_t"></span><span id="esp_ble_power_type_t"></span><span class="target" id="esp__bt_8h_1a81248817e4a9f339d03c36fbf319b19c"></span><em class="property">enum </em><code class="descname">esp_ble_power_type_t</code><a class="headerlink" href="#_CPPv420esp_ble_power_type_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLE tx power type ESP_BLE_PWR_TYPE_CONN_HDL0-8: for each connection, and only be set after connection completed. when disconnect, the correspond TX power is not effected. ESP_BLE_PWR_TYPE_ADV : for advertising/scan response. ESP_BLE_PWR_TYPE_SCAN : for scan. ESP_BLE_PWR_TYPE_DEFAULT : if each connection’s TX power is not set, it will use this default value. if neither in scan mode nor in adv mode, it will use this default value. If none of power type is set, system will use ESP_PWR_LVL_P3 as default for ADV/SCAN/CONN0-9. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv426ESP_BLE_PWR_TYPE_CONN_HDL0">
+<span id="_CPPv326ESP_BLE_PWR_TYPE_CONN_HDL0"></span><span id="_CPPv226ESP_BLE_PWR_TYPE_CONN_HDL0"></span><span class="target" id="esp__bt_8h_1a81248817e4a9f339d03c36fbf319b19ca713168bdcbc7ce48b6111a758a508c96"></span><code class="descname">ESP_BLE_PWR_TYPE_CONN_HDL0</code> = 0<a class="headerlink" href="#_CPPv426ESP_BLE_PWR_TYPE_CONN_HDL0" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For connection handle 0 </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv426ESP_BLE_PWR_TYPE_CONN_HDL1">
+<span id="_CPPv326ESP_BLE_PWR_TYPE_CONN_HDL1"></span><span id="_CPPv226ESP_BLE_PWR_TYPE_CONN_HDL1"></span><span class="target" id="esp__bt_8h_1a81248817e4a9f339d03c36fbf319b19ca5cb1c7b57712880615187d3440ca99c1"></span><code class="descname">ESP_BLE_PWR_TYPE_CONN_HDL1</code> = 1<a class="headerlink" href="#_CPPv426ESP_BLE_PWR_TYPE_CONN_HDL1" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For connection handle 1 </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv426ESP_BLE_PWR_TYPE_CONN_HDL2">
+<span id="_CPPv326ESP_BLE_PWR_TYPE_CONN_HDL2"></span><span id="_CPPv226ESP_BLE_PWR_TYPE_CONN_HDL2"></span><span class="target" id="esp__bt_8h_1a81248817e4a9f339d03c36fbf319b19caf5f4783d39d9eb73ca0e0a75942e1cd7"></span><code class="descname">ESP_BLE_PWR_TYPE_CONN_HDL2</code> = 2<a class="headerlink" href="#_CPPv426ESP_BLE_PWR_TYPE_CONN_HDL2" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For connection handle 2 </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv426ESP_BLE_PWR_TYPE_CONN_HDL3">
+<span id="_CPPv326ESP_BLE_PWR_TYPE_CONN_HDL3"></span><span id="_CPPv226ESP_BLE_PWR_TYPE_CONN_HDL3"></span><span class="target" id="esp__bt_8h_1a81248817e4a9f339d03c36fbf319b19ca32734ae530a1d76372c7c7b6d0f404ba"></span><code class="descname">ESP_BLE_PWR_TYPE_CONN_HDL3</code> = 3<a class="headerlink" href="#_CPPv426ESP_BLE_PWR_TYPE_CONN_HDL3" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For connection handle 3 </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv426ESP_BLE_PWR_TYPE_CONN_HDL4">
+<span id="_CPPv326ESP_BLE_PWR_TYPE_CONN_HDL4"></span><span id="_CPPv226ESP_BLE_PWR_TYPE_CONN_HDL4"></span><span class="target" id="esp__bt_8h_1a81248817e4a9f339d03c36fbf319b19ca405303beed5a7d162e9b7cc348477c64"></span><code class="descname">ESP_BLE_PWR_TYPE_CONN_HDL4</code> = 4<a class="headerlink" href="#_CPPv426ESP_BLE_PWR_TYPE_CONN_HDL4" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For connection handle 4 </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv426ESP_BLE_PWR_TYPE_CONN_HDL5">
+<span id="_CPPv326ESP_BLE_PWR_TYPE_CONN_HDL5"></span><span id="_CPPv226ESP_BLE_PWR_TYPE_CONN_HDL5"></span><span class="target" id="esp__bt_8h_1a81248817e4a9f339d03c36fbf319b19ca9c48a1ff2bd7101d97484c42d08021d9"></span><code class="descname">ESP_BLE_PWR_TYPE_CONN_HDL5</code> = 5<a class="headerlink" href="#_CPPv426ESP_BLE_PWR_TYPE_CONN_HDL5" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For connection handle 5 </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv426ESP_BLE_PWR_TYPE_CONN_HDL6">
+<span id="_CPPv326ESP_BLE_PWR_TYPE_CONN_HDL6"></span><span id="_CPPv226ESP_BLE_PWR_TYPE_CONN_HDL6"></span><span class="target" id="esp__bt_8h_1a81248817e4a9f339d03c36fbf319b19ca995d11260c264e3659646459b2d39732"></span><code class="descname">ESP_BLE_PWR_TYPE_CONN_HDL6</code> = 6<a class="headerlink" href="#_CPPv426ESP_BLE_PWR_TYPE_CONN_HDL6" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For connection handle 6 </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv426ESP_BLE_PWR_TYPE_CONN_HDL7">
+<span id="_CPPv326ESP_BLE_PWR_TYPE_CONN_HDL7"></span><span id="_CPPv226ESP_BLE_PWR_TYPE_CONN_HDL7"></span><span class="target" id="esp__bt_8h_1a81248817e4a9f339d03c36fbf319b19ca45be7a2d31ce91599b9c28fc5ed2f001"></span><code class="descname">ESP_BLE_PWR_TYPE_CONN_HDL7</code> = 7<a class="headerlink" href="#_CPPv426ESP_BLE_PWR_TYPE_CONN_HDL7" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For connection handle 7 </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv426ESP_BLE_PWR_TYPE_CONN_HDL8">
+<span id="_CPPv326ESP_BLE_PWR_TYPE_CONN_HDL8"></span><span id="_CPPv226ESP_BLE_PWR_TYPE_CONN_HDL8"></span><span class="target" id="esp__bt_8h_1a81248817e4a9f339d03c36fbf319b19ca2014b5c4a0e9415ef6bd627ac0c28060"></span><code class="descname">ESP_BLE_PWR_TYPE_CONN_HDL8</code> = 8<a class="headerlink" href="#_CPPv426ESP_BLE_PWR_TYPE_CONN_HDL8" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For connection handle 8 </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv420ESP_BLE_PWR_TYPE_ADV">
+<span id="_CPPv320ESP_BLE_PWR_TYPE_ADV"></span><span id="_CPPv220ESP_BLE_PWR_TYPE_ADV"></span><span class="target" id="esp__bt_8h_1a81248817e4a9f339d03c36fbf319b19ca73bb4e4d36ae9c8d9137d27cc1f9763a"></span><code class="descname">ESP_BLE_PWR_TYPE_ADV</code> = 9<a class="headerlink" href="#_CPPv420ESP_BLE_PWR_TYPE_ADV" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For advertising </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv421ESP_BLE_PWR_TYPE_SCAN">
+<span id="_CPPv321ESP_BLE_PWR_TYPE_SCAN"></span><span id="_CPPv221ESP_BLE_PWR_TYPE_SCAN"></span><span class="target" id="esp__bt_8h_1a81248817e4a9f339d03c36fbf319b19cad4ebb6208263f1d13e039ec051a65019"></span><code class="descname">ESP_BLE_PWR_TYPE_SCAN</code> = 10<a class="headerlink" href="#_CPPv421ESP_BLE_PWR_TYPE_SCAN" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For scan </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv424ESP_BLE_PWR_TYPE_DEFAULT">
+<span id="_CPPv324ESP_BLE_PWR_TYPE_DEFAULT"></span><span id="_CPPv224ESP_BLE_PWR_TYPE_DEFAULT"></span><span class="target" id="esp__bt_8h_1a81248817e4a9f339d03c36fbf319b19ca1b7b487b2da0a0d060fd35e41bd1a793"></span><code class="descname">ESP_BLE_PWR_TYPE_DEFAULT</code> = 11<a class="headerlink" href="#_CPPv424ESP_BLE_PWR_TYPE_DEFAULT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For default, if not set other, it will use default value </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv420ESP_BLE_PWR_TYPE_NUM">
+<span id="_CPPv320ESP_BLE_PWR_TYPE_NUM"></span><span id="_CPPv220ESP_BLE_PWR_TYPE_NUM"></span><span class="target" id="esp__bt_8h_1a81248817e4a9f339d03c36fbf319b19ca222149b54c78062a8544effeebf6fe4c"></span><code class="descname">ESP_BLE_PWR_TYPE_NUM</code> = 12<a class="headerlink" href="#_CPPv420ESP_BLE_PWR_TYPE_NUM" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TYPE numbers </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv417esp_power_level_t">
+<span id="_CPPv317esp_power_level_t"></span><span id="_CPPv217esp_power_level_t"></span><span id="esp_power_level_t"></span><span class="target" id="esp__bt_8h_1aaffee2888a1597a4282393f41ed5e009"></span><em class="property">enum </em><code class="descname">esp_power_level_t</code><a class="headerlink" href="#_CPPv417esp_power_level_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bluetooth TX power level(index), it’s just a index corresponding to power(dbm). </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv415ESP_PWR_LVL_N12">
+<span id="_CPPv315ESP_PWR_LVL_N12"></span><span id="_CPPv215ESP_PWR_LVL_N12"></span><span class="target" id="esp__bt_8h_1aaffee2888a1597a4282393f41ed5e009acb2b11379230ad506c4e3b23181c8261"></span><code class="descname">ESP_PWR_LVL_N12</code> = 0<a class="headerlink" href="#_CPPv415ESP_PWR_LVL_N12" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Corresponding to -12dbm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ESP_PWR_LVL_N9">
+<span id="_CPPv314ESP_PWR_LVL_N9"></span><span id="_CPPv214ESP_PWR_LVL_N9"></span><span class="target" id="esp__bt_8h_1aaffee2888a1597a4282393f41ed5e009a56dcd57b968b7e4feeeacd7bfa1dbd59"></span><code class="descname">ESP_PWR_LVL_N9</code> = 1<a class="headerlink" href="#_CPPv414ESP_PWR_LVL_N9" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Corresponding to -9dbm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ESP_PWR_LVL_N6">
+<span id="_CPPv314ESP_PWR_LVL_N6"></span><span id="_CPPv214ESP_PWR_LVL_N6"></span><span class="target" id="esp__bt_8h_1aaffee2888a1597a4282393f41ed5e009a8a7fd99f4fb611ef97ef1b5725417e3e"></span><code class="descname">ESP_PWR_LVL_N6</code> = 2<a class="headerlink" href="#_CPPv414ESP_PWR_LVL_N6" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Corresponding to -6dbm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ESP_PWR_LVL_N3">
+<span id="_CPPv314ESP_PWR_LVL_N3"></span><span id="_CPPv214ESP_PWR_LVL_N3"></span><span class="target" id="esp__bt_8h_1aaffee2888a1597a4282393f41ed5e009add09ce9e46379d448f37bc672703c851"></span><code class="descname">ESP_PWR_LVL_N3</code> = 3<a class="headerlink" href="#_CPPv414ESP_PWR_LVL_N3" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Corresponding to -3dbm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ESP_PWR_LVL_N0">
+<span id="_CPPv314ESP_PWR_LVL_N0"></span><span id="_CPPv214ESP_PWR_LVL_N0"></span><span class="target" id="esp__bt_8h_1aaffee2888a1597a4282393f41ed5e009aaef7bb34acc40ecb99fc44ed9919228b"></span><code class="descname">ESP_PWR_LVL_N0</code> = 4<a class="headerlink" href="#_CPPv414ESP_PWR_LVL_N0" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Corresponding to 0dbm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ESP_PWR_LVL_P3">
+<span id="_CPPv314ESP_PWR_LVL_P3"></span><span id="_CPPv214ESP_PWR_LVL_P3"></span><span class="target" id="esp__bt_8h_1aaffee2888a1597a4282393f41ed5e009ad356d171e5d2dea8637c6379da2950df"></span><code class="descname">ESP_PWR_LVL_P3</code> = 5<a class="headerlink" href="#_CPPv414ESP_PWR_LVL_P3" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Corresponding to +3dbm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ESP_PWR_LVL_P6">
+<span id="_CPPv314ESP_PWR_LVL_P6"></span><span id="_CPPv214ESP_PWR_LVL_P6"></span><span class="target" id="esp__bt_8h_1aaffee2888a1597a4282393f41ed5e009a459b248d28616ba1d65624b525338730"></span><code class="descname">ESP_PWR_LVL_P6</code> = 6<a class="headerlink" href="#_CPPv414ESP_PWR_LVL_P6" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Corresponding to +6dbm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ESP_PWR_LVL_P9">
+<span id="_CPPv314ESP_PWR_LVL_P9"></span><span id="_CPPv214ESP_PWR_LVL_P9"></span><span class="target" id="esp__bt_8h_1aaffee2888a1597a4282393f41ed5e009a328c629c1ac87fd5e293d73a15d1eb45"></span><code class="descname">ESP_PWR_LVL_P9</code> = 7<a class="headerlink" href="#_CPPv414ESP_PWR_LVL_P9" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Corresponding to +9dbm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv415ESP_PWR_LVL_N14">
+<span id="_CPPv315ESP_PWR_LVL_N14"></span><span id="_CPPv215ESP_PWR_LVL_N14"></span><span class="target" id="esp__bt_8h_1aaffee2888a1597a4282393f41ed5e009a0e505b3b580d312abc6118349faf3b1f"></span><code class="descname">ESP_PWR_LVL_N14</code> = ESP_PWR_LVL_N12<a class="headerlink" href="#_CPPv415ESP_PWR_LVL_N14" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Backward compatibility! Setting to -14dbm will actually result to -12dbm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv415ESP_PWR_LVL_N11">
+<span id="_CPPv315ESP_PWR_LVL_N11"></span><span id="_CPPv215ESP_PWR_LVL_N11"></span><span class="target" id="esp__bt_8h_1aaffee2888a1597a4282393f41ed5e009a4c9c40a06efdae726044a84b8004319a"></span><code class="descname">ESP_PWR_LVL_N11</code> = ESP_PWR_LVL_N9<a class="headerlink" href="#_CPPv415ESP_PWR_LVL_N11" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Backward compatibility! Setting to -11dbm will actually result to -9dbm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ESP_PWR_LVL_N8">
+<span id="_CPPv314ESP_PWR_LVL_N8"></span><span id="_CPPv214ESP_PWR_LVL_N8"></span><span class="target" id="esp__bt_8h_1aaffee2888a1597a4282393f41ed5e009a13d81af4dc5e25f6ad4a47a754fb6991"></span><code class="descname">ESP_PWR_LVL_N8</code> = ESP_PWR_LVL_N6<a class="headerlink" href="#_CPPv414ESP_PWR_LVL_N8" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Backward compatibility! Setting to -8dbm will actually result to -6dbm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ESP_PWR_LVL_N5">
+<span id="_CPPv314ESP_PWR_LVL_N5"></span><span id="_CPPv214ESP_PWR_LVL_N5"></span><span class="target" id="esp__bt_8h_1aaffee2888a1597a4282393f41ed5e009a7c188846bfa8a86f2b5a2eede3e5f6e7"></span><code class="descname">ESP_PWR_LVL_N5</code> = ESP_PWR_LVL_N3<a class="headerlink" href="#_CPPv414ESP_PWR_LVL_N5" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Backward compatibility! Setting to -5dbm will actually result to -3dbm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ESP_PWR_LVL_N2">
+<span id="_CPPv314ESP_PWR_LVL_N2"></span><span id="_CPPv214ESP_PWR_LVL_N2"></span><span class="target" id="esp__bt_8h_1aaffee2888a1597a4282393f41ed5e009a691b558775cbee0308557f3be1f13425"></span><code class="descname">ESP_PWR_LVL_N2</code> = ESP_PWR_LVL_N0<a class="headerlink" href="#_CPPv414ESP_PWR_LVL_N2" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Backward compatibility! Setting to -2dbm will actually result to 0dbm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ESP_PWR_LVL_P1">
+<span id="_CPPv314ESP_PWR_LVL_P1"></span><span id="_CPPv214ESP_PWR_LVL_P1"></span><span class="target" id="esp__bt_8h_1aaffee2888a1597a4282393f41ed5e009ac043f49a13c5995ccd3485c29d87aeeb"></span><code class="descname">ESP_PWR_LVL_P1</code> = ESP_PWR_LVL_P3<a class="headerlink" href="#_CPPv414ESP_PWR_LVL_P1" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Backward compatibility! Setting to +1dbm will actually result to +3dbm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ESP_PWR_LVL_P4">
+<span id="_CPPv314ESP_PWR_LVL_P4"></span><span id="_CPPv214ESP_PWR_LVL_P4"></span><span class="target" id="esp__bt_8h_1aaffee2888a1597a4282393f41ed5e009a075ed79a99b8c6ee7bd80cb3d36f4cab"></span><code class="descname">ESP_PWR_LVL_P4</code> = ESP_PWR_LVL_P6<a class="headerlink" href="#_CPPv414ESP_PWR_LVL_P4" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Backward compatibility! Setting to +4dbm will actually result to +6dbm </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ESP_PWR_LVL_P7">
+<span id="_CPPv314ESP_PWR_LVL_P7"></span><span id="_CPPv214ESP_PWR_LVL_P7"></span><span class="target" id="esp__bt_8h_1aaffee2888a1597a4282393f41ed5e009a9aca1e83e52640195838aca1205f713e"></span><code class="descname">ESP_PWR_LVL_P7</code> = ESP_PWR_LVL_P9<a class="headerlink" href="#_CPPv414ESP_PWR_LVL_P7" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Backward compatibility! Setting to +7dbm will actually result to +9dbm </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv419esp_sco_data_path_t">
+<span id="_CPPv319esp_sco_data_path_t"></span><span id="_CPPv219esp_sco_data_path_t"></span><span id="esp_sco_data_path_t"></span><span class="target" id="esp__bt_8h_1a1e1c2f9d09823ba525b363e1865ae3b2"></span><em class="property">enum </em><code class="descname">esp_sco_data_path_t</code><a class="headerlink" href="#_CPPv419esp_sco_data_path_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bluetooth audio data transport path. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv421ESP_SCO_DATA_PATH_HCI">
+<span id="_CPPv321ESP_SCO_DATA_PATH_HCI"></span><span id="_CPPv221ESP_SCO_DATA_PATH_HCI"></span><span class="target" id="esp__bt_8h_1a1e1c2f9d09823ba525b363e1865ae3b2acb868b85fe9c06a6726071dcb17c2ff5"></span><code class="descname">ESP_SCO_DATA_PATH_HCI</code> = 0<a class="headerlink" href="#_CPPv421ESP_SCO_DATA_PATH_HCI" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>data over HCI transport </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv421ESP_SCO_DATA_PATH_PCM">
+<span id="_CPPv321ESP_SCO_DATA_PATH_PCM"></span><span id="_CPPv221ESP_SCO_DATA_PATH_PCM"></span><span class="target" id="esp__bt_8h_1a1e1c2f9d09823ba525b363e1865ae3b2a69504d3de243dad385bd1af9fed77c2d"></span><code class="descname">ESP_SCO_DATA_PATH_PCM</code> = 1<a class="headerlink" href="#_CPPv421ESP_SCO_DATA_PATH_PCM" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>data over PCM interface </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="bt_common.html" class="btn btn-neutral float-right" title="BT COMMON" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Bluetooth API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/bluetooth/controller_vhci.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:01 GMT -->
+</html>

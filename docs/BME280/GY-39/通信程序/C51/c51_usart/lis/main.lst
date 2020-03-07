@@ -1,0 +1,87 @@
+C51 COMPILER V8.02   MAIN                                                                  05/23/2016 09:44:30 PAGE 1   
+
+
+C51 COMPILER V8.02, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN ..\output\main.obj
+COMPILER INVOKED BY: D:\Program Files (x86)\Keil\C51\BIN\C51.EXE main.c BROWSE INCDIR(..\Peripherals\inc\) DEBUG OBJECTE
+                    -XTEND PRINT(..\lis\main.lst) OBJECT(..\output\main.obj)
+
+line level    source
+
+   1          #include <reg52.h>
+   2          #include "usart.h"
+   3          #include "iic.h"  
+   4          /*
+   5          硬件接法：
+   6          GY-39---c51
+   7          1、GY-39_RX---c51_TX,c51复位将发送A5 82 27 给模块
+   8          2、c51_TX---FT232,STM32将数据上传给上位机
+   9          3、GY-39_TX---c51_RX，接收模块角度数据
+  10          软件说明:
+  11          该程序采用串口方式获取模块数据，波特率9600
+  12          所以得用上位机先将模块串口设置成9600，然后再进行以上操作：
+  13          指令:A5 AE 53,模块需复位生效
+  14          
+  15          注：中断函数位于stc_it.c
+  16          联系方式：
+  17          http://shop62474960.taobao.com/?spm=a230r.7195193.1997079397.2.9qa3Ky&v=1
+  18          */
+  19          void send_com(u8 datas)
+  20          {
+  21   1              u8 bytes[3]={0};
+  22   1              bytes[0]=0xa5;
+  23   1              bytes[1]=datas;//功能字节
+  24   1              USART_Send(bytes,3);//发送帧头、功能字节、校验和
+  25   1      }
+  26          typedef struct
+  27          {
+  28              uint32_t P;
+  29              uint16_t Temp;
+  30              uint16_t Hum;
+  31              uint16_t Alt;
+  32          } bme;
+  33          
+  34          int main(void)
+  35          {
+  36   1         uint16_t data_16[2]={0};
+  37   1               bme Bme={0,0,0,0};
+  38   1          u8 sum=0,i=0;
+  39   1              Usart_Int(9600);
+  40   1              send_com(0x82);//发送读方位角指令
+  41   1              while(1)
+  42   1              {
+  43   2                      if(Receive_ok)//串口接收完毕
+  44   2                      {
+  45   3                              for(sum=0,i=0;i<(raw_data[3]+4);i++)//rgb_data[3]=3
+  46   3                              sum+=raw_data[i];
+  47   3                      if(sum==raw_data[i])//校验和判断
+  48   3                              {
+  49   4                                      Bme.Temp=(raw_data[4]<<8)|raw_data[5];
+  50   4                      data_16[0]=(((uint16_t)raw_data[6])<<8)|raw_data[7];
+  51   4                                      data_16[1]=(((uint16_t)raw_data[8])<<8)|raw_data[9];
+  52   4                                      Bme.P=(((uint32_t)data_16[0])<<16)|data_16[1];
+  53   4                      Bme.Hum=(raw_data[10]<<8)|raw_data[11];
+  54   4                      Bme.Alt=(raw_data[12]<<8)|raw_data[13]; 
+C51 COMPILER V8.02   MAIN                                                                  05/23/2016 09:44:30 PAGE 2   
+
+  55   4                              send_3out(&raw_data[4],10,0x45);//上传给上位机
+  56   4                                      
+  57   4                              }
+  58   3                              Receive_ok=0;//处理数据完毕标志
+  59   3                      }       
+  60   2              }
+  61   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    245    ----
+   CONSTANT SIZE    =     17    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      20
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

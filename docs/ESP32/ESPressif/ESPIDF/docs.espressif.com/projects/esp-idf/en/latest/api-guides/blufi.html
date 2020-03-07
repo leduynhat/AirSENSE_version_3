@@ -1,0 +1,975 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/blufi.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:14 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>BluFi &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Bootloader" href="bootloader.html" />
+    <link rel="prev" title="Application Level Tracing library" href="app_trace.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="blufi.html" />
+
+<link rel="stylesheet" href="../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-guides/blufi"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="app_trace.html">Application Level Tracing</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">BluFi</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-blufi-flow">The BluFi Flow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-flow-chart-of-blufi">The flow chart of BluFi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-frame-formats-defined-in-blufi">The Frame Formats Defined in BluFi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-security-implementation-of-esp32">The Security Implementation of ESP32</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gatt-related-instructions">GATT Related Instructions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#uuid">UUID</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="bootloader.html">Bootloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-system.html">Build System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-system-legacy.html">Build System (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="console.html">Console Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deep-sleep-stub.html">Deep Sleep Wake Stubs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="error-handling.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="esp-ble-mesh/ble-mesh-index.html">ESP-BLE-MESH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh.html">ESP-MESH (Wi-Fi)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core_dump.html">ESP32 Core Dump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event-handling.html">Event Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="external-ram.html">External SPI-connected RAM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fatal-errors.html">Fatal Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/flash-encryption.html">Flash Encryption</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freertos-smp.html">FreeRTOS SMP Changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general-notes.html">General Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hlinterrupts.html">High Level Interrupts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jtag-debugging/index.html">JTAG Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker-script-generation.html">Linker Script Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lwip.html">lwIP TCP/IP Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="partition-tables.html">Partition Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RF_calibration.html">RF Calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="romconsole.html">ROM debug console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/secure-boot.html">Secure Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thread-local-storage.html">Thread Local Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ulp.html">ULP Coprocessor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ulp-legacy.html">ULP Coprocessor (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit-tests-legacy.html">Unit Testing (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit-tests.html">Unit Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wifi.html">WiFi Driver</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">API Guides</a> &raquo;</li>
+        
+      <li>BluFi</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-guides/blufi.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="blufi">
+<h1>BluFi<a class="headerlink" href="#blufi" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/api-guides/blufi.html">[中文]</a></p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The BluFi for ESP32 is a Wi-Fi network configuration function via Bluetooth channel. It provides a secure protocol to pass Wi-Fi configuration and credentials to the ESP32. Using this information ESP32 can then e.g. connect to an AP or establish a SoftAP.</p>
+<p>Fragmenting, data encryption, checksum verification in the BluFi layer are the key elements of this process.</p>
+<p>You can customize symmetric encryption, asymmetric encryption and checksum support customization. Here we use the DH algorithm for key negotiation, 128-AES algorithm for data encryption, and CRC16 algorithm for checksum verification.</p>
+</div>
+<div class="section" id="the-blufi-flow">
+<h2>The BluFi Flow<a class="headerlink" href="#the-blufi-flow" title="Permalink to this headline">¶</a></h2>
+<p>The BluFi networking flow includes the configuration of the SoftAP and Station.</p>
+<p>The following uses Station as an example to illustrate the core parts of the procedure, including broadcast, connection, service discovery, negotiation of the shared key, data transmission, connection status backhaul.</p>
+<ol class="arabic simple">
+<li>Set the ESP32 into GATT Server mode and then it will send broadcasts with specific <em>advertising data</em>. You can customize this broadcast as needed, which is not a part of the BluFi Profile.</li>
+<li>Use the App installed on the mobile phone to search for this particular broadcast. The mobile phone will connect to ESP32 as the GATT Client once the broadcast is confirmed. The App used during this part is up to you.</li>
+<li>After the GATT connection is successfully established, the mobile phone will send a data frame for key negotiation to ESP32 (see the section <a class="reference internal" href="#frame-formats"><span class="std std-ref">The Frame Formats Defined in BluFi</span></a> for details).</li>
+<li>After ESP32 receives the data frame of key negotiation, it will parse the content according to the user-defined negotiation method.</li>
+<li>The mobile phone works with ESP32 for key negotiation using the encryption algorithms such as DH, RSA or ECC.</li>
+<li>After the negotiation process is completed, the mobile phone will send a control frame for security-mode setup to ESP32.</li>
+<li>When receiving this control frame, ESP32 will be able to encrypt and decrypt the communication data using the shared key and the security configuration.</li>
+<li>The mobile phone sends the data frame defined in the section of <a class="reference internal" href="#frame-formats"><span class="std std-ref">The Frame Formats Defined in BluFi</span></a>，with the Wi-Fi configuration information to ESP32, including SSID, password, etc.</li>
+<li>The mobile phone sends a control frame of Wi-Fi connection request to ESP32. When receiving this control frame, ESP32 will regard the communication of essential information as done and get ready to connect to the Wi-Fi.</li>
+<li>After connecting to the Wi-Fi, ESP32 will send a control frame of Wi-Fi connection status report to the mobile phone，to report the connection status. At this point the networking procedure is completed.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ol class="last arabic simple">
+<li>After ESP32 receives the control frame of security-mode configuration, it will execute the operations in accordance with the defined security mode.</li>
+<li>The data lengths before and after symmetric encryption/decryption must stay the same. It also supports in-place encryption and decryption.</li>
+</ol>
+</div>
+</div>
+<div class="section" id="the-flow-chart-of-blufi">
+<h2>The flow chart of BluFi<a class="headerlink" href="#the-flow-chart-of-blufi" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center" id="id1">
+<div><img height="480" src="../_images/seqdiag-b074d5e06d1b3c6f34b4874692deb00855a82c4f.png" width="588" /></div><p class="caption"><span class="caption-text">BluFi Flow Chart</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="the-frame-formats-defined-in-blufi">
+<span id="frame-formats"></span><h2>The Frame Formats Defined in BluFi<a class="headerlink" href="#the-frame-formats-defined-in-blufi" title="Permalink to this headline">¶</a></h2>
+<p>The frame formats for the communication between the mobile phone App and ESP32 are defined as follows:</p>
+<p>The frame format with no fragment (8 bit)：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="52%" />
+<col width="48%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Description</th>
+<th class="head">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LSB - Type</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>Frame Control</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>Sequence Number</td>
+<td>1</td>
+</tr>
+<tr class="row-odd"><td>Data Length</td>
+<td>1</td>
+</tr>
+<tr class="row-even"><td>Data</td>
+<td>${Data Length}</td>
+</tr>
+<tr class="row-odd"><td>MSB - CheckSum</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p>If the <strong>Frame Ctrl</strong> bit is enabled, the <strong>Total length</strong> bit indicates the length of remaining part of the frame. It can tell the remote how much memory needs to be alloced.</p>
+<p>The frame format with fragments（8 bit）：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="35%" />
+<col width="32%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Description</th>
+<th class="head" colspan="2">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>LSB - Type</td>
+<td colspan="2">1</td>
+</tr>
+<tr class="row-odd"><td>FrameControl(Frag)</td>
+<td colspan="2">1</td>
+</tr>
+<tr class="row-even"><td>SequenceNumber</td>
+<td colspan="2">1</td>
+</tr>
+<tr class="row-odd"><td>DataLength</td>
+<td colspan="2">1</td>
+</tr>
+<tr class="row-even"><td rowspan="2">Data</td>
+<td>Total Content Length</td>
+<td>2</td>
+</tr>
+<tr class="row-odd"><td>Content</td>
+<td>${Data Length} - 2</td>
+</tr>
+<tr class="row-even"><td>MSB - CheckSum</td>
+<td colspan="2">2</td>
+</tr>
+</tbody>
+</table>
+<p>Normally, the control frame does not contain data bits, except for Ack Frame.</p>
+<p>The format of Ack Frame（8 bit）：</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="38%" />
+<col width="33%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Description</td>
+<td colspan="2">Value</td>
+</tr>
+<tr class="row-even"><td>LSB - Type (Ack)</td>
+<td colspan="2">1</td>
+</tr>
+<tr class="row-odd"><td>Frame Control</td>
+<td colspan="2">1</td>
+</tr>
+<tr class="row-even"><td>SequenceNumber</td>
+<td colspan="2">1</td>
+</tr>
+<tr class="row-odd"><td>DataLength</td>
+<td colspan="2">1</td>
+</tr>
+<tr class="row-even"><td rowspan="2">Data</td>
+<td rowspan="2">Acked Sequence Number</td>
+<td rowspan="2">2</td>
+</tr>
+<tr class="row-odd"></tr>
+<tr class="row-even"><td>MSB - CheckSum</td>
+<td colspan="2">2</td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic">
+<li><p class="first">Type</p>
+<p>The <strong>Type</strong> field, taking 1 byte, is divided into <strong>Type</strong> and <strong>Subtype</strong>, that Type uses the lower 2 bits and <strong>Subtype</strong> uses the upper 6 bits.</p>
+<ul class="simple">
+<li>The control frame is not encrypted for the time being and supports to be verified;</li>
+<li>The data frame supports to be encrypted and verified.</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<div><p><strong>1.1 Control Frame (0x0 b’00)</strong></p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="29%" />
+<col width="30%" />
+<col width="30%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Control Frame (Binary)</th>
+<th class="head">Implication</th>
+<th class="head">Explanation</th>
+<th class="head">Note</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0x0 (b’000000)</td>
+<td>Ack</td>
+<td>The data field of the Ack frame uses the same
+sequence value of the frame to reply to.</td>
+<td>The data field consumes a byte and its value is
+the same as the sequence field of the frame to reply to.</td>
+</tr>
+<tr class="row-odd"><td rowspan="5">0x1 (b’000001)</td>
+<td rowspan="5">Set ESP32 to the security mode.</td>
+<td rowspan="5">To inform ESP32 of the security mode to use
+when sending data, which is allowed to be reset
+multiple times during the process.
+Each setting affects the subsequent security mode used.
+If it is not set, ESP32 will send the control frame
+and data frame with no checksum and encryption by default.
+The data transmission from the mobile phone to ESP32 is
+controlled by this control frame.</td>
+<td>The data field consumes a byte.
+The higher 4 bits are for the security mode setting
+of the control frame, and the lower 4 bits are for
+the security mode setting of the data frame.</td>
+</tr>
+<tr class="row-even"><td>b’0000: no checksum and no encryption;</td>
+</tr>
+<tr class="row-odd"><td>b’0001: with checksum but no encryption;</td>
+</tr>
+<tr class="row-even"><td>b’0010: no checksum but with encryption;</td>
+</tr>
+<tr class="row-odd"><td>b’0011: with both checksum and encryption.</td>
+</tr>
+<tr class="row-even"><td rowspan="6">0x2 (b’000010)</td>
+<td rowspan="6">Set the opmode of Wi-Fi.</td>
+<td rowspan="6">The frame contains opmode settings for
+configuring for the Wi-Fi mode of ESP32.</td>
+<td>data[0] is for opmode settings, including:</td>
+</tr>
+<tr class="row-odd"><td>0x00: NULL；</td>
+</tr>
+<tr class="row-even"><td>0x01: STA;</td>
+</tr>
+<tr class="row-odd"><td>0x02: SoftAP;</td>
+</tr>
+<tr class="row-even"><td>0x03: SoftAP&amp;STA.</td>
+</tr>
+<tr class="row-odd"><td>Please set the SSID/Password/Max Connection Number of
+the AP mode in the first place if an AP gets involved.</td>
+</tr>
+<tr class="row-even"><td>0x3 (b’000011)</td>
+<td>Connect ESP32 to the AP.</td>
+<td>To notify ESP32 that the essential information has been sent
+and it is allowed to connect to the AP.</td>
+<td>No data field is contained.</td>
+</tr>
+<tr class="row-odd"><td>0x4 (b’000100)</td>
+<td>Disconnect ESP32 from the AP.</td>
+<td>&#160;</td>
+<td>No data field is contained.</td>
+</tr>
+<tr class="row-even"><td>0x5 (b’000101)</td>
+<td>To get the information of ESP32’s Wi-Fi mode and its status.</td>
+<td>&#160;</td>
+<td>No data field is contained.
+When receiving this control frame, ESP32 will send back
+a follow-up  frame of Wi-Fi connection state report to
+the mobile phone with the information of the current opmode,
+connection status, SSID and so on.
+The types of information sent to the mobile phone is
+defined by the application installed on the phone.</td>
+</tr>
+<tr class="row-odd"><td>0x6 (b’000110)</td>
+<td>Disconnect the STA device from the SoftAP (in SoftAP mode).</td>
+<td>&#160;</td>
+<td>Date[0~5] is taken as the MAC address for the STA device.
+If there is a second STA device, then it uses data[6-11]
+and the rest can be done in the same manner.</td>
+</tr>
+<tr class="row-even"><td>0x7 (b‘000111)</td>
+<td>Get the version information.</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>0x8 (b’001000)</td>
+<td>Disconnect the BLE GATT link.</td>
+<td>&#160;</td>
+<td>ESP32 will disconnect the BLE GATT link
+after receives this command.</td>
+</tr>
+<tr class="row-even"><td>0x9 (b’001001)</td>
+<td>Get the Wi-Fi list.</td>
+<td>To get ESP32 to scan the Wi-Fi access points around.</td>
+<td>No data field is contained.
+When receiving this control frame,
+ESP32 will send back a follow-up frame of Wi-Fi list
+report to the mobile phone.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>1.2 Data Frame (0x1 b’01)</strong></p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="25%" />
+<col width="31%" />
+<col width="35%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Data Frame(Binary)</th>
+<th class="head">Implication</th>
+<th class="head">Explanation</th>
+<th class="head">Note</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0x0 (b’000000)</td>
+<td>Send the negotiation data.</td>
+<td>The negotiation data will be sent to the callback
+function registered in the application layer.</td>
+<td>The length of the data depends on the length field.</td>
+</tr>
+<tr class="row-odd"><td>0x1 (b’000001)</td>
+<td>Send the BSSID for STA mode.</td>
+<td>To send the BSSID of the AP for the STA device to
+connect under the condition that  the SSID is hidden.</td>
+<td>The length of the data depends on the length field.
+When the transmission direction is ESP32 to the mobile phone,
+it means to provide the mobile phone with the needed information.</td>
+</tr>
+<tr class="row-even"><td>0x2 (b’000010)</td>
+<td>Send the SSID for STA mode.</td>
+<td>To send the SSID of the AP for the STA device to connect.</td>
+<td>The length of the data depends on the length field.
+When the transmission direction is ESP32 to the mobile phone,
+it means to provide the mobile phone with the needed information.</td>
+</tr>
+<tr class="row-odd"><td>0x3 (b’000011)</td>
+<td>Send the password for STA mode.</td>
+<td>To send the password of the AP for the STA device to connect.</td>
+<td>The length of the data depends on the length field.
+When the transmission direction is ESP32 to the mobile phone,
+it means to provide the mobile phone with the needed information.</td>
+</tr>
+<tr class="row-even"><td>0x4 (b’000100)</td>
+<td>Send the SSID for SoftAP mode.</td>
+<td>&#160;</td>
+<td>The length of the data depends on the length field.
+When the transmission direction is ESP32 to the mobile phone,
+it means to provide the mobile phone with the needed information.</td>
+</tr>
+<tr class="row-odd"><td>0x5 (b’000101)</td>
+<td>Send the password for SoftAPmode.</td>
+<td>&#160;</td>
+<td>The length of the data depends on the length field.
+When the transmission direction is ESP32 to the mobile phone,
+it means to provide the mobile phone with the needed information.</td>
+</tr>
+<tr class="row-even"><td>0x6 (b’000110)</td>
+<td>Set the maximum connection number for SoftAP mode.</td>
+<td>&#160;</td>
+<td>data[0] represents the value of the connection number,
+ranging from 1 to 4. When the transmission direction is ESP32
+to the mobile phone, it means to provide the mobile phone with
+the needed information.</td>
+</tr>
+<tr class="row-odd"><td rowspan="7">0x7 (b’000111)</td>
+<td rowspan="7">Set the authentication mode for the SoftAP.</td>
+<td rowspan="7">&#160;</td>
+<td>data[0]：</td>
+</tr>
+<tr class="row-even"><td>0x00: OPEN</td>
+</tr>
+<tr class="row-odd"><td>0x01: WEP</td>
+</tr>
+<tr class="row-even"><td>0x02: WPA_PSK</td>
+</tr>
+<tr class="row-odd"><td>0x03: WPA2_PSK</td>
+</tr>
+<tr class="row-even"><td>0x04: WPA_WPA2_PSK</td>
+</tr>
+<tr class="row-odd"><td>When the transmission direction is ESP32 to the mobile phone,
+it means to provide the mobile phone with the needed information.</td>
+</tr>
+<tr class="row-even"><td>0x8 (b’001000)</td>
+<td>Set the channel amount for SoftAP mode.</td>
+<td>&#160;</td>
+<td>data[0] represents the quantity of the supported channels,
+ranging from 1 to 14.
+When the transmission direction is ESP32 to the mobile phone,
+it means to provide the mobile phone with the needed information.</td>
+</tr>
+<tr class="row-odd"><td>0x9 (b’001001)</td>
+<td>Username</td>
+<td>It provides the username of the GATT client when using
+encryption of enterprise level.</td>
+<td>The length of the data depends on the length field.</td>
+</tr>
+<tr class="row-even"><td>0xa (b’001010)</td>
+<td>CA Certification</td>
+<td>It provides the CA Certification when using encryption
+of enterprise level.</td>
+<td>The length of the data depends on the length field.
+The frame supports to be fragmented if the data length is not enough.</td>
+</tr>
+<tr class="row-odd"><td>0xb (b’001011)</td>
+<td>Client Certification</td>
+<td>It provides the client certification when
+using encryption of enterprise level.
+Whether the private key is contained or not
+depends on the content of the certification.</td>
+<td>The length of the data depends on the length field.
+The frame supports to be fragmented if the data length is not enough.</td>
+</tr>
+<tr class="row-even"><td>0xc (b’001100)</td>
+<td>Server Certification</td>
+<td>It provides the sever certification when using
+encryption of enterprise level. Whether the private key is
+contained or not depends on the content of the certification.</td>
+<td>The length of the data depends on the length field.
+The frame supports to be fragmented if the data length is not enough.</td>
+</tr>
+<tr class="row-odd"><td>0xd (b’001101)</td>
+<td>ClientPrivate Key</td>
+<td>It provides the private key of the client when
+using encryption of enterprise level.</td>
+<td>The length of the data depends on the length field.
+The frame supports to be fragmented if the data length is not enough.</td>
+</tr>
+<tr class="row-even"><td>0xe (b’001110)</td>
+<td>ServerPrivate Key</td>
+<td>It provides the private key of the sever when
+using encryption of enterprise level.</td>
+<td>The length of the data depends on the length field.
+The frame supports to be fragmented if the data length is not enough.</td>
+</tr>
+<tr class="row-odd"><td rowspan="8">0xf (b’001111)</td>
+<td rowspan="8">Wi-Fi Connection State Report</td>
+<td rowspan="8">To notify the phone of the ESP32’s Wi-Fi status,
+including STA status and SoftAP status.
+It is for the STA device to connect to the
+mobile phone or the SoftAP.
+However, when the mobile phone receives the Wi-Fi status,
+it can reply to other frames in addition to this frame.</td>
+<td>data[0] represents opmode, including:</td>
+</tr>
+<tr class="row-even"><td>0x00: NULL</td>
+</tr>
+<tr class="row-odd"><td>0x01: STA</td>
+</tr>
+<tr class="row-even"><td>0x02: SoftAP</td>
+</tr>
+<tr class="row-odd"><td>0x03: SoftAP&amp;STA</td>
+</tr>
+<tr class="row-even"><td>data[1]：the connection state of the STA device,
+0x0 indicates a connection state,
+and others represent a disconnected state;</td>
+</tr>
+<tr class="row-odd"><td>data[2]：the connection state of the SoftAP,
+that is, how many STA devices have been connected.</td>
+</tr>
+<tr class="row-even"><td>data[3] and the subsequent is in accordance with the
+format of SSID/BSSID information.</td>
+</tr>
+<tr class="row-odd"><td>0x10 (b’010000)</td>
+<td>Version</td>
+<td>&#160;</td>
+<td>data[0]= great versiondata[1]= sub version</td>
+</tr>
+<tr class="row-even"><td>0x11 (b’010001)</td>
+<td>Wi-Fi List</td>
+<td>To send the Wi-Fi list to ESP32.</td>
+<td>The format of the data frame is length + RSSI + SSID
+and it supports to be sent into fragments
+if the data length is too long.</td>
+</tr>
+<tr class="row-odd"><td rowspan="9">0x12 (b’010010)</td>
+<td rowspan="9">Report Error</td>
+<td rowspan="9">To notify the mobile phone that there is an error with BluFi.</td>
+<td>0x00: sequence error</td>
+</tr>
+<tr class="row-even"><td>0x01: checksum error</td>
+</tr>
+<tr class="row-odd"><td>0x02: decrypt error</td>
+</tr>
+<tr class="row-even"><td>0x03: encrypt error</td>
+</tr>
+<tr class="row-odd"><td>0x04: init security error</td>
+</tr>
+<tr class="row-even"><td>0x05: dh malloc error</td>
+</tr>
+<tr class="row-odd"><td>0x06: dh param error</td>
+</tr>
+<tr class="row-even"><td>0x07: read param  error</td>
+</tr>
+<tr class="row-odd"><td>0x08: make public error</td>
+</tr>
+<tr class="row-even"><td>0x13 (b’010011)</td>
+<td>Custom Data</td>
+<td>To send or receive custom data.</td>
+<td>The data frame supports to be sent into
+fragments if the data length is too long.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div></blockquote>
+<ol class="arabic" start="2">
+<li><p class="first">Frame Control</p>
+<p>Control field, takes 1 byte and each bit has a different meaning.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Bit</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td rowspan="4">0x01</td>
+<td>Indicates whether the frame is encrypted.</td>
+</tr>
+<tr class="row-odd"><td>1 means encryption, and 0 means unencrypted.</td>
+</tr>
+<tr class="row-even"><td>The encrypted part of the frame includes
+the full clear data before the DATA field is encrypted (no checksum).</td>
+</tr>
+<tr class="row-odd"><td>Control frame is not encrypted, so this bit is 0.</td>
+</tr>
+<tr class="row-even"><td>0x02</td>
+<td>The data field that indicates whether a frame contains
+a checksum (such as SHA1,MD5,CRC, etc.) for the end of
+the frame data field includes SEQUCNE + data length + clear text.
+Both the control frame and the data frame can contain a check bit or not.</td>
+</tr>
+<tr class="row-odd"><td>0x04</td>
+<td>Represents the data direction.</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td>0 means the mobile phone to ESP32;</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>1 means ESP32 to the mobile phone.</td>
+</tr>
+<tr class="row-even"><td>0x08</td>
+<td>Indicates whether the other person is required to reply to an ACK.</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>0 indicates no requirement;</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td>1 indicates to reply Ack.</td>
+</tr>
+<tr class="row-odd"><td>0x10</td>
+<td>Indicates whether there are subsequent data fragments.</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td>0 indicates that there are no subsequent data fragments for this frame;</td>
+</tr>
+<tr class="row-odd"><td>&#160;</td>
+<td>1 indicates that there are subsequent data fragments and used to transmit longer data.</td>
+</tr>
+<tr class="row-even"><td>&#160;</td>
+<td>In the case of a frag frame,
+the total length of the current content section + subsequent content section is given,
+in the first 2 bytes of the data field (that is, the content data of the maximum support 64K).</td>
+</tr>
+<tr class="row-odd"><td>0x10~0x80 reserved</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p class="first">Sequence Control</p>
+<p>Sequence control field. When a frame is sent,the value of sequence fied is automatically incremented by 1 regardless of the type of frame, which prevents Replay Attack. The sequence is cleared after each reconnection.</p>
+</li>
+<li><p class="first">Length</p>
+<p>The length of the data field that does not include CheckSum.</p>
+</li>
+<li><p class="first">Data</p>
+<p>The instruction of the data field is different according to various values of Type or Subtype. Please refer to the table above.</p>
+</li>
+<li><p class="first">CheckSum</p>
+<p>This field takes 2 bytes that is used to check “sequence + data length + clear text data”.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="the-security-implementation-of-esp32">
+<h2>The Security Implementation of ESP32<a class="headerlink" href="#the-security-implementation-of-esp32" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Securing data</p>
+<p>To ensure that the transmission of the Wi-Fi SSID and password is secure, the message needs to be encrypted using symmetric encryption algorithms, such as AES, DES and so on. Before using symmetric encryption algorithms, the devices are required to negotiate (or generate) a shared key using an asymmetric encryption algorithm (DH, RSA, ECC, etc).</p>
+</li>
+<li><p class="first">Ensuring data integrity</p>
+<p>To ensure data integrity, you need to add a checksum algorithm, such as SHA1, MD5, CRC, etc.</p>
+</li>
+<li><p class="first">Securing identity (signature)</p>
+<p>Algorithm like RSA can be used to secure identity. But for DH, it needs other algorithms as an companion for signature.</p>
+</li>
+<li><p class="first">Replay attack prevention</p>
+<p>It is added to the Sequence field and used during the checksum verification.</p>
+<p>For the coding of ESP32, you can determine and develop the security processing, such as key negotiation. The mobile application sends the negotiation data to ESP32 and then the data will be sent to the application layer for processing. If the application layer does not process it, you can use the DH encryption algorithm provided by BluFi to negotiate the key.</p>
+<p>The application layer needs to register several security-related functions to BluFi:</p>
+</li>
+</ol>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">esp_blufi_negotiate_data_handler_t</span><span class="p">)(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="kt">int</span> <span class="n">len</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="o">**</span><span class="n">output_data</span><span class="p">,</span> <span class="kt">int</span> <span class="o">*</span><span class="n">output_len</span><span class="p">,</span> <span class="kt">bool</span> <span class="o">*</span><span class="n">need_free</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This function is for ESP32 to receive normal data during negotiation, and after processing is completed, the data will be transmitted using Output_data and Output_len.</p>
+<p>BluFi will send output_data from Negotiate_data_handler after Negotiate_data_handler is called.</p>
+<p>Here are two “*”, because the length of the data to be emitted is unknown that requires the function to allocate itself (malloc) or point to the global variable, and to inform whether the memory needs to be freed by NEED_FREE.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="kt">int</span> <span class="p">(</span><span class="o">*</span> <span class="n">esp_blufi_encrypt_func_t</span><span class="p">)(</span><span class="kt">uint8_t</span> <span class="n">iv8</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">crypt_data</span><span class="p">,</span> <span class="kt">int</span> <span class="n">cyprt_len</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The data to be encrypted and decrypted must use the same length. The IV8 is a 8 bit sequence value of frames, which can be used as a 8 bit of IV.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="kt">int</span> <span class="p">(</span><span class="o">*</span> <span class="n">esp_blufi_decrypt_func_t</span><span class="p">)(</span><span class="kt">uint8_t</span> <span class="n">iv8</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">crypt_data</span><span class="p">,</span> <span class="kt">int</span> <span class="n">crypt_len</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The data to be encrypted and decrypted must use the same length. The IV8 is a 8 bit sequence value of frames, which can be used as a 8 bit of IV.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="kt">uint16_t</span> <span class="p">(</span><span class="o">*</span><span class="n">esp_blufi_checksum_func_t</span><span class="p">)(</span><span class="kt">uint8_t</span> <span class="n">iv8</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="kt">int</span> <span class="n">len</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This function is used to compute CheckSum and return a value of CheckSum. BluFi uses the returned value to compare the CheckSum of the frame.</p>
+</div>
+<div class="section" id="gatt-related-instructions">
+<h2>GATT Related Instructions<a class="headerlink" href="#gatt-related-instructions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="uuid">
+<h3>UUID<a class="headerlink" href="#uuid" title="Permalink to this headline">¶</a></h3>
+<p>BluFi Service UUID: 0xFFFF，16 bit</p>
+<p>BluFi (the mobile -&gt; ESP32): 0xFF01, writable</p>
+<p>Blufi (ESP32 -&gt; the mobile phone): 0xFF02, readable and callable</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="bootloader.html" class="btn btn-neutral float-right" title="Bootloader" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="app_trace.html" class="btn btn-neutral float-left" title="Application Level Tracing library" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/blufi.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:14 GMT -->
+</html>

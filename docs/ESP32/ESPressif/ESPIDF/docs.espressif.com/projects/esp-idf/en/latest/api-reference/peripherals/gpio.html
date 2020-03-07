@@ -1,0 +1,1369 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/gpio.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:27 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>GPIO &amp; RTC GPIO &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="I2C Driver" href="i2c.html" />
+    <link rel="prev" title="Digital To Analog Converter" href="dac.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="gpio.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/peripherals/gpio"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Peripherals</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="adc.html">ADC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="can.html">CAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html">DAC</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">GPIO (including RTC low power I/O)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-example">Application Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference-normal-gpio">API Reference - Normal GPIO</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference-rtc-gpio">API Reference - RTC GPIO</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html">I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html">I2S</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ledc.html">LED Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcpwm.html">MCPWM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pcnt.html">Pulse Counter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rmt.html">Remote Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sd_pullup_requirements.html">SD Pull-up Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdmmc_host.html">SDMMC Host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdspi_host.html">SD SPI Host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdio_slave.html">SDIO Slave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sigmadelta.html">Sigma-delta Modulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html">SPI Master</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html">SPI Slave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="temp_sensor.html">Temp sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html">Touch Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uart.html">UART</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Peripherals API</a> &raquo;</li>
+        
+      <li>GPIO &amp; RTC GPIO</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/peripherals/gpio.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="gpio-rtc-gpio">
+<h1>GPIO &amp; RTC GPIO<a class="headerlink" href="#gpio-rtc-gpio" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The ESP32 chip features 40 physical GPIO pads. Some GPIO pads cannot be used or do not have the corresponding pin on the chip package(refer to technical reference manual). Each pad can be used as a general purpose I/O or can be connected to an internal peripheral signal.</p>
+<ul class="simple">
+<li>Note that GPIO6-11 are usually used for SPI flash.</li>
+<li>GPIO34-39 can only be set as input mode and do not have software pullup or pulldown functions.</li>
+</ul>
+<p>There is also separate “RTC GPIO” support, which functions when GPIOs are routed to the “RTC” low-power and analog subsystem. These pin functions can be used when in deep sleep, when the <a class="reference internal" href="../../api-guides/ulp.html"><span class="doc">Ultra Low Power co-processor</span></a> is running, or when analog functions such as ADC/DAC/etc are in use.</p>
+</div>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<p>GPIO output and input interrupt example: <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/gpio">peripherals/gpio</a>.</p>
+</div>
+<div class="section" id="api-reference-normal-gpio">
+<h2>API Reference - Normal GPIO<a class="headerlink" href="#api-reference-normal-gpio" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/driver/include/driver/gpio.h">driver/include/driver/gpio.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv411gpio_configPK13gpio_config_t">
+<span id="_CPPv311gpio_configPK13gpio_config_t"></span><span id="_CPPv211gpio_configPK13gpio_config_t"></span><span id="gpio_config__gpio_config_tCP"></span><span class="target" id="gpio_8h_1a994c5b8ab2930c7cb0e13427bba38658"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_config</code><span class="sig-paren">(</span><em class="property">const</em> gpio_config_t *<em>pGPIOConfig</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv411gpio_configPK13gpio_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>GPIO common configuration. </p>
+<p>Configure GPIO’s Mode,pull-up,PullDown,IntrType</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">pGPIOConfig</span></code>: Pointer to GPIO configure struct</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414gpio_reset_pin10gpio_num_t">
+<span id="_CPPv314gpio_reset_pin10gpio_num_t"></span><span id="_CPPv214gpio_reset_pin10gpio_num_t"></span><span id="gpio_reset_pin__gpio_num_t"></span><span class="target" id="gpio_8h_1a79bea7977973d514581e42f9505f146f"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_reset_pin</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414gpio_reset_pin10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reset an gpio to default state (select gpio function, enable pullup and disable input and output). </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This function also configures the IOMUX for this pin to the GPIO function, and disconnects any other peripheral output configured via GPIO Matrix.</dd>
+<dt><strong>Return</strong></dt>
+<dd>Always return ESP_OK. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418gpio_set_intr_type10gpio_num_t15gpio_int_type_t">
+<span id="_CPPv318gpio_set_intr_type10gpio_num_t15gpio_int_type_t"></span><span id="_CPPv218gpio_set_intr_type10gpio_num_t15gpio_int_type_t"></span><span id="gpio_set_intr_type__gpio_num_t.gpio_int_type_t"></span><span class="target" id="gpio_8h_1ad786cce417256036f213d7c3d9bb646f"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_set_intr_type</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em>, gpio_int_type_t <em>intr_type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418gpio_set_intr_type10gpio_num_t15gpio_int_type_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>GPIO set interrupt trigger type. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number. If you want to set the trigger type of e.g. of GPIO16, gpio_num should be GPIO_NUM_16 (16); </li>
+<li><code class="docutils literal notranslate"><span class="pre">intr_type</span></code>: Interrupt type, select from gpio_int_type_t</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416gpio_intr_enable10gpio_num_t">
+<span id="_CPPv316gpio_intr_enable10gpio_num_t"></span><span id="_CPPv216gpio_intr_enable10gpio_num_t"></span><span id="gpio_intr_enable__gpio_num_t"></span><span class="target" id="gpio_8h_1ab412b597c318316e1fb7da1af0e74577"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_intr_enable</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416gpio_intr_enable10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable GPIO module interrupt signal. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Please do not use the interrupt of GPIO36 and GPIO39 when using ADC. Please refer to the comments of <code class="docutils literal notranslate"><span class="pre">adc1_get_raw</span></code>. Please refer to section 3.11 of ‘ECO_and_Workarounds_for_Bugs_in_ESP32’ for the description of this issue.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number. If you want to enable an interrupt on e.g. GPIO16, gpio_num should be GPIO_NUM_16 (16);</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417gpio_intr_disable10gpio_num_t">
+<span id="_CPPv317gpio_intr_disable10gpio_num_t"></span><span id="_CPPv217gpio_intr_disable10gpio_num_t"></span><span id="gpio_intr_disable__gpio_num_t"></span><span class="target" id="gpio_8h_1abde4080e9d805a2c3ebd60c6c0385dae"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_intr_disable</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417gpio_intr_disable10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable GPIO module interrupt signal. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number. If you want to disable the interrupt of e.g. GPIO16, gpio_num should be GPIO_NUM_16 (16);</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414gpio_set_level10gpio_num_t8uint32_t">
+<span id="_CPPv314gpio_set_level10gpio_num_t8uint32_t"></span><span id="_CPPv214gpio_set_level10gpio_num_t8uint32_t"></span><span id="gpio_set_level__gpio_num_t.uint32_t"></span><span class="target" id="gpio_8h_1afadd72970c01a00f25df734eba0d2b29"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_set_level</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em>, uint32_t <em>level</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414gpio_set_level10gpio_num_t8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>GPIO set output level. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG GPIO number error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number. If you want to set the output level of e.g. GPIO16, gpio_num should be GPIO_NUM_16 (16); </li>
+<li><code class="docutils literal notranslate"><span class="pre">level</span></code>: Output level. 0: low ; 1: high</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414gpio_get_level10gpio_num_t">
+<span id="_CPPv314gpio_get_level10gpio_num_t"></span><span id="_CPPv214gpio_get_level10gpio_num_t"></span><span id="gpio_get_level__gpio_num_t"></span><span class="target" id="gpio_8h_1a50241613208689a83e0a72e4dc0ed7c3"></span>int <code class="descname">gpio_get_level</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414gpio_get_level10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>GPIO get input level. </p>
+<p><dl class="docutils">
+<dt><strong>Warning</strong></dt>
+<dd>If the pad is not configured for input (or input and output) the returned value is always 0.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>0 the GPIO input level is 0</li>
+<li>1 the GPIO input level is 1 </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number. If you want to get the logic level of e.g. pin GPIO16, gpio_num should be GPIO_NUM_16 (16);</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418gpio_set_direction10gpio_num_t11gpio_mode_t">
+<span id="_CPPv318gpio_set_direction10gpio_num_t11gpio_mode_t"></span><span id="_CPPv218gpio_set_direction10gpio_num_t11gpio_mode_t"></span><span id="gpio_set_direction__gpio_num_t.gpio_mode_t"></span><span class="target" id="gpio_8h_1abea1de9763f4754edc8d3f815d11efc1"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_set_direction</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em>, gpio_mode_t <em>mode</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418gpio_set_direction10gpio_num_t11gpio_mode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>GPIO set direction. </p>
+<p>Configure GPIO direction,such as output_only,input_only,output_and_input</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG GPIO error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: Configure GPIO pins number, it should be GPIO number. If you want to set direction of e.g. GPIO16, gpio_num should be GPIO_NUM_16 (16); </li>
+<li><code class="docutils literal notranslate"><span class="pre">mode</span></code>: GPIO direction</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418gpio_set_pull_mode10gpio_num_t16gpio_pull_mode_t">
+<span id="_CPPv318gpio_set_pull_mode10gpio_num_t16gpio_pull_mode_t"></span><span id="_CPPv218gpio_set_pull_mode10gpio_num_t16gpio_pull_mode_t"></span><span id="gpio_set_pull_mode__gpio_num_t.gpio_pull_mode_t"></span><span class="target" id="gpio_8h_1a7a7b8d376c4de80421df41320ed916e7"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_set_pull_mode</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em>, gpio_pull_mode_t <em>pull</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418gpio_set_pull_mode10gpio_num_t16gpio_pull_mode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Configure GPIO pull-up/pull-down resistors. </p>
+<p>Only pins that support both input &amp; output have integrated pull-up and pull-down resistors. Input-only GPIOs 34-39 do not.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG : Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number. If you want to set pull up or down mode for e.g. GPIO16, gpio_num should be GPIO_NUM_16 (16); </li>
+<li><code class="docutils literal notranslate"><span class="pre">pull</span></code>: GPIO pull up/down mode.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418gpio_wakeup_enable10gpio_num_t15gpio_int_type_t">
+<span id="_CPPv318gpio_wakeup_enable10gpio_num_t15gpio_int_type_t"></span><span id="_CPPv218gpio_wakeup_enable10gpio_num_t15gpio_int_type_t"></span><span id="gpio_wakeup_enable__gpio_num_t.gpio_int_type_t"></span><span class="target" id="gpio_8h_1ab0625f4ec860635bcfd744a18e56b029"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_wakeup_enable</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em>, gpio_int_type_t <em>intr_type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418gpio_wakeup_enable10gpio_num_t15gpio_int_type_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable GPIO wake-up function. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number.</li>
+<li><code class="docutils literal notranslate"><span class="pre">intr_type</span></code>: GPIO wake-up type. Only GPIO_INTR_LOW_LEVEL or GPIO_INTR_HIGH_LEVEL can be used.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419gpio_wakeup_disable10gpio_num_t">
+<span id="_CPPv319gpio_wakeup_disable10gpio_num_t"></span><span id="_CPPv219gpio_wakeup_disable10gpio_num_t"></span><span id="gpio_wakeup_disable__gpio_num_t"></span><span class="target" id="gpio_8h_1ad4b048f8bdfbc3e65e7a0f8111861939"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_wakeup_disable</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419gpio_wakeup_disable10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable GPIO wake-up function. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417gpio_isr_registerPFvPvEPviP17gpio_isr_handle_t">
+<span id="_CPPv317gpio_isr_registerPFvPvEPviP17gpio_isr_handle_t"></span><span id="_CPPv217gpio_isr_registerPFvPvEPviP17gpio_isr_handle_t"></span><span class="target" id="gpio_8h_1a16f3aef75c5a9cbad10264cc7f0f66c1"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_isr_register</code><span class="sig-paren">(</span>void (*<em>fn</em>)<span class="sig-paren">(</span>void *<span class="sig-paren">)</span>, void *<em>arg</em>, int <em>intr_alloc_flags</em>, <a class="reference internal" href="#_CPPv417gpio_isr_handle_t" title="gpio_isr_handle_t">gpio_isr_handle_t</a> *<em>handle</em>, <span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417gpio_isr_registerPFvPvEPviP17gpio_isr_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Register GPIO interrupt handler, the handler is an ISR. The handler will be attached to the same CPU core that this function is running on. </p>
+<p>This ISR function is called whenever any GPIO interrupt occurs. See the alternative gpio_install_isr_service() and gpio_isr_handler_add() API in order to have the driver support per-GPIO ISRs.</p>
+<p><p>To disable or remove the ISR, pass the returned handle to the <a class="reference internal" href="../system/intr_alloc.html"><span class="doc">interrupt allocation functions</span></a>.</p>
+<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">fn</span></code>: Interrupt handler function. </li>
+<li><code class="docutils literal notranslate"><span class="pre">intr_alloc_flags</span></code>: Flags used to allocate the interrupt. One or multiple (ORred) ESP_INTR_FLAG_* values. See esp_intr_alloc.h for more info. </li>
+<li><code class="docutils literal notranslate"><span class="pre">arg</span></code>: Parameter for handler function </li>
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Pointer to return handle. If non-NULL, a handle for the interrupt will be returned here.</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success ;</li>
+<li>ESP_ERR_INVALID_ARG GPIO error</li>
+<li>ESP_ERR_NOT_FOUND No free interrupt found with the specified flags </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414gpio_pullup_en10gpio_num_t">
+<span id="_CPPv314gpio_pullup_en10gpio_num_t"></span><span id="_CPPv214gpio_pullup_en10gpio_num_t"></span><span id="gpio_pullup_en__gpio_num_t"></span><span class="target" id="gpio_8h_1a042006a8dca808bcc66d8054233f6e17"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_pullup_en</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414gpio_pullup_en10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable pull-up on GPIO. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415gpio_pullup_dis10gpio_num_t">
+<span id="_CPPv315gpio_pullup_dis10gpio_num_t"></span><span id="_CPPv215gpio_pullup_dis10gpio_num_t"></span><span id="gpio_pullup_dis__gpio_num_t"></span><span class="target" id="gpio_8h_1a5768de2196af2dd321852258cb82202b"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_pullup_dis</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415gpio_pullup_dis10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable pull-up on GPIO. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416gpio_pulldown_en10gpio_num_t">
+<span id="_CPPv316gpio_pulldown_en10gpio_num_t"></span><span id="_CPPv216gpio_pulldown_en10gpio_num_t"></span><span id="gpio_pulldown_en__gpio_num_t"></span><span class="target" id="gpio_8h_1a8860c21c03a83bd431d026db223592b9"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_pulldown_en</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416gpio_pulldown_en10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable pull-down on GPIO. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417gpio_pulldown_dis10gpio_num_t">
+<span id="_CPPv317gpio_pulldown_dis10gpio_num_t"></span><span id="_CPPv217gpio_pulldown_dis10gpio_num_t"></span><span id="gpio_pulldown_dis__gpio_num_t"></span><span class="target" id="gpio_8h_1af5f70a96b8d737622c4623aab7a13cbd"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_pulldown_dis</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417gpio_pulldown_dis10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable pull-down on GPIO. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424gpio_install_isr_servicei">
+<span id="_CPPv324gpio_install_isr_servicei"></span><span id="_CPPv224gpio_install_isr_servicei"></span><span id="gpio_install_isr_service__i"></span><span class="target" id="gpio_8h_1a3c66e3a547639d382d62497b39800de9"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_install_isr_service</code><span class="sig-paren">(</span>int <em>intr_alloc_flags</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424gpio_install_isr_servicei" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Install the driver’s GPIO ISR handler service, which allows per-pin GPIO interrupt handlers. </p>
+<p>This function is incompatible with gpio_isr_register() - if that function is used, a single global ISR is registered for all GPIO interrupts. If this function is used, the ISR service provides a global GPIO ISR and individual pin handlers are registered via the gpio_isr_handler_add() function.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_NO_MEM No memory to install this service</li>
+<li>ESP_ERR_INVALID_STATE ISR service already installed.</li>
+<li>ESP_ERR_NOT_FOUND No free interrupt found with the specified flags</li>
+<li>ESP_ERR_INVALID_ARG GPIO error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">intr_alloc_flags</span></code>: Flags used to allocate the interrupt. One or multiple (ORred) ESP_INTR_FLAG_* values. See esp_intr_alloc.h for more info.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426gpio_uninstall_isr_servicev">
+<span id="_CPPv326gpio_uninstall_isr_servicev"></span><span id="_CPPv226gpio_uninstall_isr_servicev"></span><span id="gpio_uninstall_isr_service__void"></span><span class="target" id="gpio_8h_1abad6f0378f9a37854bee3ced8014ac09"></span>void <code class="descname">gpio_uninstall_isr_service</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426gpio_uninstall_isr_servicev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Uninstall the driver’s GPIO ISR service, freeing related resources. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420gpio_isr_handler_add10gpio_num_t10gpio_isr_tPv">
+<span id="_CPPv320gpio_isr_handler_add10gpio_num_t10gpio_isr_tPv"></span><span id="_CPPv220gpio_isr_handler_add10gpio_num_t10gpio_isr_tPv"></span><span id="gpio_isr_handler_add__gpio_num_t.gpio_isr_t.voidP"></span><span class="target" id="gpio_8h_1a612767be29fc6e8209d2a4a774d325f8"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_isr_handler_add</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em>, gpio_isr_t <em>isr_handler</em>, void *<em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420gpio_isr_handler_add10gpio_num_t10gpio_isr_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add ISR handler for the corresponding GPIO pin. </p>
+<p>Call this function after using gpio_install_isr_service() to install the driver’s GPIO ISR handler service.</p>
+<p>The pin ISR handlers no longer need to be declared with IRAM_ATTR, unless you pass the ESP_INTR_FLAG_IRAM flag when allocating the ISR in gpio_install_isr_service().</p>
+<p>This ISR handler will be called from an ISR. So there is a stack size limit (configurable as “ISR stack size” in menuconfig). This limit is smaller compared to a global GPIO interrupt handler due to the additional level of indirection.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_STATE Wrong state, the ISR service has not been initialized.</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number </li>
+<li><code class="docutils literal notranslate"><span class="pre">isr_handler</span></code>: ISR handler function for the corresponding GPIO number. </li>
+<li><code class="docutils literal notranslate"><span class="pre">args</span></code>: parameter for ISR handler.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423gpio_isr_handler_remove10gpio_num_t">
+<span id="_CPPv323gpio_isr_handler_remove10gpio_num_t"></span><span id="_CPPv223gpio_isr_handler_remove10gpio_num_t"></span><span id="gpio_isr_handler_remove__gpio_num_t"></span><span class="target" id="gpio_8h_1a6089e615a3b223313a1303854edbac62"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_isr_handler_remove</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423gpio_isr_handler_remove10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remove ISR handler for the corresponding GPIO pin. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_STATE Wrong state, the ISR service has not been initialized.</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425gpio_set_drive_capability10gpio_num_t16gpio_drive_cap_t">
+<span id="_CPPv325gpio_set_drive_capability10gpio_num_t16gpio_drive_cap_t"></span><span id="_CPPv225gpio_set_drive_capability10gpio_num_t16gpio_drive_cap_t"></span><span id="gpio_set_drive_capability__gpio_num_t.gpio_drive_cap_t"></span><span class="target" id="gpio_8h_1a77767afdf86aa491ae2bcc55f9b46d0e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_set_drive_capability</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em>, gpio_drive_cap_t <em>strength</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425gpio_set_drive_capability10gpio_num_t16gpio_drive_cap_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set GPIO pad drive capability. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number, only support output GPIOs </li>
+<li><code class="docutils literal notranslate"><span class="pre">strength</span></code>: Drive capability of the pad</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425gpio_get_drive_capability10gpio_num_tP16gpio_drive_cap_t">
+<span id="_CPPv325gpio_get_drive_capability10gpio_num_tP16gpio_drive_cap_t"></span><span id="_CPPv225gpio_get_drive_capability10gpio_num_tP16gpio_drive_cap_t"></span><span id="gpio_get_drive_capability__gpio_num_t.gpio_drive_cap_tP"></span><span class="target" id="gpio_8h_1a5d337f165475712e547c6558b436b8bf"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_get_drive_capability</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em>, gpio_drive_cap_t *<em>strength</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425gpio_get_drive_capability10gpio_num_tP16gpio_drive_cap_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get GPIO pad drive capability. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number, only support output GPIOs </li>
+<li><code class="docutils literal notranslate"><span class="pre">strength</span></code>: Pointer to accept drive capability of the pad</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv412gpio_hold_en10gpio_num_t">
+<span id="_CPPv312gpio_hold_en10gpio_num_t"></span><span id="_CPPv212gpio_hold_en10gpio_num_t"></span><span id="gpio_hold_en__gpio_num_t"></span><span class="target" id="gpio_8h_1a36256f51d3e64b672dfcab489c256f2e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_hold_en</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv412gpio_hold_en10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable gpio pad hold function. </p>
+<p>The gpio pad hold function works in both input and output modes, but must be output-capable gpios. If pad hold enabled: in output mode: the output level of the pad will be force locked and can not be changed. in input mode: the input value read will not change, regardless the changes of input signal.</p>
+<p>The state of digital gpio cannot be held during Deep-sleep, and it will resume the hold function when the chip wakes up from Deep-sleep. If the digital gpio also needs to be held during Deep-sleep, <code class="docutils literal notranslate"><span class="pre">gpio_deep_sleep_hold_en</span></code> should also be called.</p>
+<p>Power down or call gpio_hold_dis will disable this function.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_NOT_SUPPORTED Not support pad hold function </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number, only support output-capable GPIOs</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv413gpio_hold_dis10gpio_num_t">
+<span id="_CPPv313gpio_hold_dis10gpio_num_t"></span><span id="_CPPv213gpio_hold_dis10gpio_num_t"></span><span id="gpio_hold_dis__gpio_num_t"></span><span class="target" id="gpio_8h_1a81146ff13f2cc3b8b22b5a6b887396fa"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">gpio_hold_dis</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413gpio_hold_dis10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable gpio pad hold function. </p>
+<p>When the chip is woken up from Deep-sleep, the gpio will be set to the default mode, so, the gpio will output the default level if this function is called. If you don’t want the level changes, the gpio should be configured to a known state before this function is called. e.g. If you hold gpio18 high during Deep-sleep, after the chip is woken up and <code class="docutils literal notranslate"><span class="pre">gpio_hold_dis</span></code> is called, gpio18 will output low level(because gpio18 is input mode by default). If you don’t want this behavior, you should configure gpio18 as output mode and set it to hight level before calling <code class="docutils literal notranslate"><span class="pre">gpio_hold_dis</span></code>.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_NOT_SUPPORTED Not support pad hold function </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number, only support output-capable GPIOs</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423gpio_deep_sleep_hold_env">
+<span id="_CPPv323gpio_deep_sleep_hold_env"></span><span id="_CPPv223gpio_deep_sleep_hold_env"></span><span id="gpio_deep_sleep_hold_en__void"></span><span class="target" id="gpio_8h_1a87f647d7f3bfb18b229d6cba649ef6e3"></span>void <code class="descname">gpio_deep_sleep_hold_en</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423gpio_deep_sleep_hold_env" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable all digital gpio pad hold function during Deep-sleep. </p>
+<p>When the chip is in Deep-sleep mode, all digital gpio will hold the state before sleep, and when the chip is woken up, the status of digital gpio will not be held. Note that the pad hold feature only works when the chip is in Deep-sleep mode, when not in sleep mode, the digital gpio state can be changed even you have called this function.</p>
+<p>Power down or call gpio_hold_dis will disable this function, otherwise, the digital gpio hold feature works as long as the chip enter Deep-sleep. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424gpio_deep_sleep_hold_disv">
+<span id="_CPPv324gpio_deep_sleep_hold_disv"></span><span id="_CPPv224gpio_deep_sleep_hold_disv"></span><span id="gpio_deep_sleep_hold_dis__void"></span><span class="target" id="gpio_8h_1ab717b4544b06a4d7f0ad714d846fca4c"></span>void <code class="descname">gpio_deep_sleep_hold_dis</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424gpio_deep_sleep_hold_disv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable all digital gpio pad hold function during Deep-sleep. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv413gpio_iomux_in8uint32_t8uint32_t">
+<span id="_CPPv313gpio_iomux_in8uint32_t8uint32_t"></span><span id="_CPPv213gpio_iomux_in8uint32_t8uint32_t"></span><span id="gpio_iomux_in__uint32_t.uint32_t"></span><span class="target" id="gpio_8h_1ac3cebe102c30883c99ae881c5323a561"></span>void <code class="descname">gpio_iomux_in</code><span class="sig-paren">(</span>uint32_t <em>gpio_num</em>, uint32_t <em>signal_idx</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413gpio_iomux_in8uint32_t8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set pad input to a peripheral signal through the IOMUX. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number of the pad. </li>
+<li><code class="docutils literal notranslate"><span class="pre">signal_idx</span></code>: Peripheral signal id to input. One of the <code class="docutils literal notranslate"><span class="pre">*_IN_IDX</span></code> signals in <code class="docutils literal notranslate"><span class="pre">soc/gpio_sig_map.h</span></code>. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414gpio_iomux_out7uint8_tib">
+<span id="_CPPv314gpio_iomux_out7uint8_tib"></span><span id="_CPPv214gpio_iomux_out7uint8_tib"></span><span id="gpio_iomux_out__uint8_t.i.b"></span><span class="target" id="gpio_8h_1a38683a77c422f8209e1747a3d7143661"></span>void <code class="descname">gpio_iomux_out</code><span class="sig-paren">(</span>uint8_t <em>gpio_num</em>, int <em>func</em>, bool <em>oen_inv</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414gpio_iomux_out7uint8_tib" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set peripheral output to an GPIO pad through the IOMUX. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: gpio_num GPIO number of the pad. </li>
+<li><code class="docutils literal notranslate"><span class="pre">func</span></code>: The function number of the peripheral pin to output pin. One of the <code class="docutils literal notranslate"><span class="pre">FUNC_X_*</span></code> of specified pin (X) in <code class="docutils literal notranslate"><span class="pre">soc/io_mux_reg.h</span></code>. </li>
+<li><code class="docutils literal notranslate"><span class="pre">oen_inv</span></code>: True if the output enable needs to be inverted, otherwise False. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv417gpio_isr_handle_t">
+<span id="_CPPv317gpio_isr_handle_t"></span><span id="_CPPv217gpio_isr_handle_t"></span><span id="gpio_isr_handle_t"></span><span class="target" id="gpio_8h_1a8f1cd5285765352c503728d7c6c9a5ba"></span><em class="property">typedef </em><a class="reference internal" href="../system/intr_alloc.html#_CPPv413intr_handle_t" title="intr_handle_t">intr_handle_t</a> <code class="descname">gpio_isr_handle_t</code><a class="headerlink" href="#_CPPv417gpio_isr_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+<div class="section" id="api-reference-rtc-gpio">
+<h2>API Reference - RTC GPIO<a class="headerlink" href="#api-reference-rtc-gpio" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Header File<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/driver/include/driver/rtc_io.h">driver/include/driver/rtc_io.h</a></li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>Functions<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv422rtc_gpio_is_valid_gpio10gpio_num_t">
+<span id="_CPPv322rtc_gpio_is_valid_gpio10gpio_num_t"></span><span id="_CPPv222rtc_gpio_is_valid_gpio10gpio_num_t"></span><span id="rtc_gpio_is_valid_gpio__gpio_num_t"></span><span class="target" id="rtc__io_8h_1a4e38ae834c3bd4f13347f3e99549c4a0"></span><em class="property">static</em> bool <code class="descname">rtc_gpio_is_valid_gpio</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422rtc_gpio_is_valid_gpio10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Determine if the specified GPIO is a valid RTC GPIO. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>true if GPIO is valid for RTC GPIO use. false otherwise. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417rtc_io_number_get10gpio_num_t">
+<span id="_CPPv317rtc_io_number_get10gpio_num_t"></span><span id="_CPPv217rtc_io_number_get10gpio_num_t"></span><span id="rtc_io_number_get__gpio_num_t"></span><span class="target" id="rtc__io_8h_1ad33d71f223b82fd0464a05b091212475"></span><em class="property">static</em> int <code class="descname">rtc_io_number_get</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417rtc_io_number_get10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get RTC IO index number by gpio number. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>&gt;=0: Index of rtcio. -1 : The gpio is not rtcio. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv413rtc_gpio_init10gpio_num_t">
+<span id="_CPPv313rtc_gpio_init10gpio_num_t"></span><span id="_CPPv213rtc_gpio_init10gpio_num_t"></span><span id="rtc_gpio_init__gpio_num_t"></span><span class="target" id="rtc__io_8h_1a9d9c788d12235b0f392c1ccd813f7aab"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">rtc_gpio_init</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413rtc_gpio_init10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Init a GPIO as RTC GPIO. </p>
+<p>This function must be called when initializing a pad for an analog function.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK success</li>
+<li>ESP_ERR_INVALID_ARG GPIO is not an RTC IO </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number (e.g. GPIO_NUM_12)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415rtc_gpio_deinit10gpio_num_t">
+<span id="_CPPv315rtc_gpio_deinit10gpio_num_t"></span><span id="_CPPv215rtc_gpio_deinit10gpio_num_t"></span><span id="rtc_gpio_deinit__gpio_num_t"></span><span class="target" id="rtc__io_8h_1ae4d4f6dbfe94638c581f2285f4f97adc"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">rtc_gpio_deinit</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415rtc_gpio_deinit10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Init a GPIO as digital GPIO. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK success</li>
+<li>ESP_ERR_INVALID_ARG GPIO is not an RTC IO </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number (e.g. GPIO_NUM_12)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418rtc_gpio_get_level10gpio_num_t">
+<span id="_CPPv318rtc_gpio_get_level10gpio_num_t"></span><span id="_CPPv218rtc_gpio_get_level10gpio_num_t"></span><span id="rtc_gpio_get_level__gpio_num_t"></span><span class="target" id="rtc__io_8h_1ac9414b9ddf80de8f3b7d41221d274dd8"></span>uint32_t <code class="descname">rtc_gpio_get_level</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418rtc_gpio_get_level10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the RTC IO input level. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>1 High level</li>
+<li>0 Low level</li>
+<li>ESP_ERR_INVALID_ARG GPIO is not an RTC IO </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number (e.g. GPIO_NUM_12)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418rtc_gpio_set_level10gpio_num_t8uint32_t">
+<span id="_CPPv318rtc_gpio_set_level10gpio_num_t8uint32_t"></span><span id="_CPPv218rtc_gpio_set_level10gpio_num_t8uint32_t"></span><span id="rtc_gpio_set_level__gpio_num_t.uint32_t"></span><span class="target" id="rtc__io_8h_1a83d98259bf88ac6ef685ecc480ddcfa6"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">rtc_gpio_set_level</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em>, uint32_t <em>level</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418rtc_gpio_set_level10gpio_num_t8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the RTC IO output level. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG GPIO is not an RTC IO </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number (e.g. GPIO_NUM_12) </li>
+<li><code class="docutils literal notranslate"><span class="pre">level</span></code>: output level</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422rtc_gpio_set_direction10gpio_num_t15rtc_gpio_mode_t">
+<span id="_CPPv322rtc_gpio_set_direction10gpio_num_t15rtc_gpio_mode_t"></span><span id="_CPPv222rtc_gpio_set_direction10gpio_num_t15rtc_gpio_mode_t"></span><span id="rtc_gpio_set_direction__gpio_num_t.rtc_gpio_mode_t"></span><span class="target" id="rtc__io_8h_1a63ab0b99efdd086ab7f3f04af3f4a885"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">rtc_gpio_set_direction</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em>, rtc_gpio_mode_t <em>mode</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422rtc_gpio_set_direction10gpio_num_t15rtc_gpio_mode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>RTC GPIO set direction. </p>
+<p>Configure RTC GPIO direction, such as output only, input only, output and input.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG GPIO is not an RTC IO </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number (e.g. GPIO_NUM_12) </li>
+<li><code class="docutils literal notranslate"><span class="pre">mode</span></code>: GPIO direction</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv431rtc_gpio_set_direction_in_sleep10gpio_num_t15rtc_gpio_mode_t">
+<span id="_CPPv331rtc_gpio_set_direction_in_sleep10gpio_num_t15rtc_gpio_mode_t"></span><span id="_CPPv231rtc_gpio_set_direction_in_sleep10gpio_num_t15rtc_gpio_mode_t"></span><span id="rtc_gpio_set_direction_in_sleep__gpio_num_t.rtc_gpio_mode_t"></span><span class="target" id="rtc__io_8h_1a9f944ec1c97ee290820065fb998d1cd6"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">rtc_gpio_set_direction_in_sleep</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em>, rtc_gpio_mode_t <em>mode</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv431rtc_gpio_set_direction_in_sleep10gpio_num_t15rtc_gpio_mode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>RTC GPIO set direction in deep sleep mode or disable sleep status (default). In some application scenarios, IO needs to have another states during deep sleep. </p>
+<p>NOTE: ESP32 support INPUT_ONLY mode. ESP32S2 support INPUT_ONLY, OUTPUT_ONLY, INPUT_OUTPUT mode.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG GPIO is not an RTC IO </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number (e.g. GPIO_NUM_12) </li>
+<li><code class="docutils literal notranslate"><span class="pre">mode</span></code>: GPIO direction</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418rtc_gpio_pullup_en10gpio_num_t">
+<span id="_CPPv318rtc_gpio_pullup_en10gpio_num_t"></span><span id="_CPPv218rtc_gpio_pullup_en10gpio_num_t"></span><span id="rtc_gpio_pullup_en__gpio_num_t"></span><span class="target" id="rtc__io_8h_1a8bfbd05dca954f5e90a60b63097a8f86"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">rtc_gpio_pullup_en</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418rtc_gpio_pullup_en10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>RTC GPIO pullup enable. </p>
+<p>This function only works for RTC IOs. In general, call gpio_pullup_en, which will work both for normal GPIOs and RTC IOs.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG GPIO is not an RTC IO </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number (e.g. GPIO_NUM_12)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420rtc_gpio_pulldown_en10gpio_num_t">
+<span id="_CPPv320rtc_gpio_pulldown_en10gpio_num_t"></span><span id="_CPPv220rtc_gpio_pulldown_en10gpio_num_t"></span><span id="rtc_gpio_pulldown_en__gpio_num_t"></span><span class="target" id="rtc__io_8h_1a1d21985c4f8955431b8cf7751730c9c2"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">rtc_gpio_pulldown_en</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420rtc_gpio_pulldown_en10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>RTC GPIO pulldown enable. </p>
+<p>This function only works for RTC IOs. In general, call gpio_pulldown_en, which will work both for normal GPIOs and RTC IOs.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG GPIO is not an RTC IO </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number (e.g. GPIO_NUM_12)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419rtc_gpio_pullup_dis10gpio_num_t">
+<span id="_CPPv319rtc_gpio_pullup_dis10gpio_num_t"></span><span id="_CPPv219rtc_gpio_pullup_dis10gpio_num_t"></span><span id="rtc_gpio_pullup_dis__gpio_num_t"></span><span class="target" id="rtc__io_8h_1a62c686829421b0e23fb4a520a672b337"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">rtc_gpio_pullup_dis</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419rtc_gpio_pullup_dis10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>RTC GPIO pullup disable. </p>
+<p>This function only works for RTC IOs. In general, call gpio_pullup_dis, which will work both for normal GPIOs and RTC IOs.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG GPIO is not an RTC IO </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number (e.g. GPIO_NUM_12)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421rtc_gpio_pulldown_dis10gpio_num_t">
+<span id="_CPPv321rtc_gpio_pulldown_dis10gpio_num_t"></span><span id="_CPPv221rtc_gpio_pulldown_dis10gpio_num_t"></span><span id="rtc_gpio_pulldown_dis__gpio_num_t"></span><span class="target" id="rtc__io_8h_1a1edf7f5804407fafb2607b102c5a0706"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">rtc_gpio_pulldown_dis</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421rtc_gpio_pulldown_dis10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>RTC GPIO pulldown disable. </p>
+<p>This function only works for RTC IOs. In general, call gpio_pulldown_dis, which will work both for normal GPIOs and RTC IOs.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG GPIO is not an RTC IO </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number (e.g. GPIO_NUM_12)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416rtc_gpio_hold_en10gpio_num_t">
+<span id="_CPPv316rtc_gpio_hold_en10gpio_num_t"></span><span id="_CPPv216rtc_gpio_hold_en10gpio_num_t"></span><span id="rtc_gpio_hold_en__gpio_num_t"></span><span class="target" id="rtc__io_8h_1a076a3a9d42ab2d0ab6bb2f0594007976"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">rtc_gpio_hold_en</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416rtc_gpio_hold_en10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable hold function on an RTC IO pad. </p>
+<p>Enabling HOLD function will cause the pad to latch current values of input enable, output enable, output value, function, drive strength values. This function is useful when going into light or deep sleep mode to prevent the pin configuration from changing.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG GPIO is not an RTC IO </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number (e.g. GPIO_NUM_12) </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417rtc_gpio_hold_dis10gpio_num_t">
+<span id="_CPPv317rtc_gpio_hold_dis10gpio_num_t"></span><span id="_CPPv217rtc_gpio_hold_dis10gpio_num_t"></span><span id="rtc_gpio_hold_dis__gpio_num_t"></span><span class="target" id="rtc__io_8h_1a6df65a60c8fcd9971735f636b6cefaf7"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">rtc_gpio_hold_dis</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417rtc_gpio_hold_dis10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable hold function on an RTC IO pad. </p>
+<p>Disabling hold function will allow the pad receive the values of input enable, output enable, output value, function, drive strength from RTC_IO peripheral.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG GPIO is not an RTC IO </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number (e.g. GPIO_NUM_12) </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416rtc_gpio_isolate10gpio_num_t">
+<span id="_CPPv316rtc_gpio_isolate10gpio_num_t"></span><span id="_CPPv216rtc_gpio_isolate10gpio_num_t"></span><span id="rtc_gpio_isolate__gpio_num_t"></span><span class="target" id="rtc__io_8h_1a767e772683723a9de74f158ae4663652"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">rtc_gpio_isolate</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416rtc_gpio_isolate10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Helper function to disconnect internal circuits from an RTC IO This function disables input, output, pullup, pulldown, and enables hold feature for an RTC IO. Use this function if an RTC IO needs to be disconnected from internal circuits in deep sleep, to minimize leakage current. </p>
+<p>In particular, for ESP32-WROVER module, call rtc_gpio_isolate(GPIO_NUM_12) before entering deep sleep, to reduce deep sleep current.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_INVALID_ARG if GPIO is not an RTC IO </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number (e.g. GPIO_NUM_12). </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423rtc_gpio_force_hold_allv">
+<span id="_CPPv323rtc_gpio_force_hold_allv"></span><span id="_CPPv223rtc_gpio_force_hold_allv"></span><span id="rtc_gpio_force_hold_all__void"></span><span class="target" id="rtc__io_8h_1ab42cf3b78b45c181723c35627e6ca637"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">rtc_gpio_force_hold_all</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423rtc_gpio_force_hold_allv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable force hold signal for all RTC IOs. </p>
+<p>Each RTC pad has a “force hold” input signal from the RTC controller. If this signal is set, pad latches current values of input enable, function, output enable, and other signals which come from the RTC mux. Force hold signal is enabled before going into deep sleep for pins which are used for EXT1 wakeup. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427rtc_gpio_force_hold_dis_allv">
+<span id="_CPPv327rtc_gpio_force_hold_dis_allv"></span><span id="_CPPv227rtc_gpio_force_hold_dis_allv"></span><span id="rtc_gpio_force_hold_dis_all__void"></span><span class="target" id="rtc__io_8h_1ac972d7c3c6936a9fe80e2b14f2ebdceb"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">rtc_gpio_force_hold_dis_all</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427rtc_gpio_force_hold_dis_allv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable force hold signal for all RTC IOs. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv429rtc_gpio_set_drive_capability10gpio_num_t16gpio_drive_cap_t">
+<span id="_CPPv329rtc_gpio_set_drive_capability10gpio_num_t16gpio_drive_cap_t"></span><span id="_CPPv229rtc_gpio_set_drive_capability10gpio_num_t16gpio_drive_cap_t"></span><span id="rtc_gpio_set_drive_capability__gpio_num_t.gpio_drive_cap_t"></span><span class="target" id="rtc__io_8h_1acb11a5bb68bdd890261dce4c0706add3"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">rtc_gpio_set_drive_capability</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em>, gpio_drive_cap_t <em>strength</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv429rtc_gpio_set_drive_capability10gpio_num_t16gpio_drive_cap_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set RTC GPIO pad drive capability. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number, only support output GPIOs </li>
+<li><code class="docutils literal notranslate"><span class="pre">strength</span></code>: Drive capability of the pad</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv429rtc_gpio_get_drive_capability10gpio_num_tP16gpio_drive_cap_t">
+<span id="_CPPv329rtc_gpio_get_drive_capability10gpio_num_tP16gpio_drive_cap_t"></span><span id="_CPPv229rtc_gpio_get_drive_capability10gpio_num_tP16gpio_drive_cap_t"></span><span id="rtc_gpio_get_drive_capability__gpio_num_t.gpio_drive_cap_tP"></span><span class="target" id="rtc__io_8h_1a8730e9bca8bd8ef09fa66807e0c101b6"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">rtc_gpio_get_drive_capability</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em>, gpio_drive_cap_t *<em>strength</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv429rtc_gpio_get_drive_capability10gpio_num_tP16gpio_drive_cap_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get RTC GPIO pad drive capability. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number, only support output GPIOs </li>
+<li><code class="docutils literal notranslate"><span class="pre">strength</span></code>: Pointer to accept drive capability of the pad</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422rtc_gpio_wakeup_enable10gpio_num_t15gpio_int_type_t">
+<span id="_CPPv322rtc_gpio_wakeup_enable10gpio_num_t15gpio_int_type_t"></span><span id="_CPPv222rtc_gpio_wakeup_enable10gpio_num_t15gpio_int_type_t"></span><span id="rtc_gpio_wakeup_enable__gpio_num_t.gpio_int_type_t"></span><span class="target" id="rtc__io_8h_1a2da41d646d49aac21f2af811af89ae13"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">rtc_gpio_wakeup_enable</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em>, gpio_int_type_t <em>intr_type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422rtc_gpio_wakeup_enable10gpio_num_t15gpio_int_type_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable wakeup from sleep mode using specific GPIO. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_INVALID_ARG if gpio_num is not an RTC IO, or intr_type is not one of GPIO_INTR_HIGH_LEVEL, GPIO_INTR_LOW_LEVEL. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number </li>
+<li><code class="docutils literal notranslate"><span class="pre">intr_type</span></code>: Wakeup on high level (GPIO_INTR_HIGH_LEVEL) or low level (GPIO_INTR_LOW_LEVEL) </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423rtc_gpio_wakeup_disable10gpio_num_t">
+<span id="_CPPv323rtc_gpio_wakeup_disable10gpio_num_t"></span><span id="_CPPv223rtc_gpio_wakeup_disable10gpio_num_t"></span><span id="rtc_gpio_wakeup_disable__gpio_num_t"></span><span class="target" id="rtc__io_8h_1ab231178b2b32a48f71ff108fcbd57b95"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">rtc_gpio_wakeup_disable</code><span class="sig-paren">(</span>gpio_num_t <em>gpio_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423rtc_gpio_wakeup_disable10gpio_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable wakeup from sleep mode using specific GPIO. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_INVALID_ARG if gpio_num is not an RTC IO </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gpio_num</span></code>: GPIO number </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.RTC_GPIO_IS_VALID_GPIO">
+<span class="target" id="rtc__io_8h_1a45176e945178fb83ca8572deae188ba5"></span><code class="descname">RTC_GPIO_IS_VALID_GPIO</code><span class="sig-paren">(</span>gpio_num<span class="sig-paren">)</span><a class="headerlink" href="#c.RTC_GPIO_IS_VALID_GPIO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="i2c.html" class="btn btn-neutral float-right" title="I2C Driver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="dac.html" class="btn btn-neutral float-left" title="Digital To Analog Converter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/gpio.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:27 GMT -->
+</html>

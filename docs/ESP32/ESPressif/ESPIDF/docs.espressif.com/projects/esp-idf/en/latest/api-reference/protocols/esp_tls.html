@@ -1,0 +1,1279 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/protocols/esp_tls.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:16 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ESP-TLS &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ESP HTTP Client" href="esp_http_client.html" />
+    <link rel="prev" title="ESP-MQTT" href="mqtt.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="esp_tls.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/protocols/esp_tls"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Protocols</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="asio.html">ASIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mqtt.html">ESP-MQTT</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ESP-TLS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-example">Application Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tree-structure-for-esp-tls-component">Tree structure for ESP-TLS component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#underlying-ssl-tls-library-options">Underlying SSL/TLS Library Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-use-wolfssl-with-esp-idf">How to use wolfssl with ESP-IDF</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#comparison-between-mbedtls-and-wolfssl">Comparison between mbedtls and wolfssl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="esp_http_client.html">HTTP Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_http_server.html">HTTP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_https_server.html">HTTPS Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="icmp_echo.html">ICMP Echo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_local_ctrl.html">Local Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modbus.html">Modbus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_websocket_client.html">Websocket Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_serial_slave_link.html">ESP Serial Slave Link</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#ip-network-layer">IP Network Layer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Application Protocols</a> &raquo;</li>
+        
+      <li>ESP-TLS</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/protocols/esp_tls.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esp-tls">
+<h1>ESP-TLS<a class="headerlink" href="#esp-tls" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The ESP-TLS component provides a simplified API interface for accessing the commonly used TLS functionality.
+It supports common scenarios like CA certification validation, SNI, ALPN negotiation, non-blocking connection among others.
+All the configuration can be specified in the <code class="docutils literal notranslate"><span class="pre">esp_tls_cfg_t</span></code> data structure. Once done, TLS communication can be conducted using the following APIs:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#_CPPv416esp_tls_conn_newPKciiPK13esp_tls_cfg_t" title="esp_tls_conn_new"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_tls_conn_new()</span></code></a>: for opening a new TLS connection.</li>
+<li><a class="reference internal" href="#_CPPv417esp_tls_conn_readP9esp_tls_tPv6size_t" title="esp_tls_conn_read"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_tls_conn_read()</span></code></a>: for reading from the connection.</li>
+<li><a class="reference internal" href="#_CPPv418esp_tls_conn_writeP9esp_tls_tPKv6size_t" title="esp_tls_conn_write"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_tls_conn_write()</span></code></a>: for writing into the connection.</li>
+<li><a class="reference internal" href="#_CPPv419esp_tls_conn_deleteP9esp_tls_t" title="esp_tls_conn_delete"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_tls_conn_delete()</span></code></a>: for freeing up the connection.</li>
+</ul>
+</div></blockquote>
+<p>Any application layer protocol like HTTP1, HTTP2 etc can be executed on top of this layer.</p>
+</div>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<p>Simple HTTPS example that uses ESP-TLS to establish a secure socket connection: <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/https_request">protocols/https_request</a>.</p>
+</div>
+<div class="section" id="tree-structure-for-esp-tls-component">
+<h2>Tree structure for ESP-TLS component<a class="headerlink" href="#tree-structure-for-esp-tls-component" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><div class="highlight-none notranslate"><div class="highlight"><pre><span></span>├── esp_tls.c
+├── esp_tls.h
+├── esp_tls_mbedtls.c
+├── esp_tls_wolfssl.c
+└── private_include
+    ├── esp_tls_mbedtls.h
+    └── esp_tls_wolfssl.h
+</pre></div>
+</div>
+</div></blockquote>
+<p>The ESP-TLS  component has a file <a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp-tls/esp_tls.h">esp-tls/esp_tls.h</a> which contain the public API headers for the component. Internally ESP-TLS component uses one
+of the two SSL/TLS Libraries between mbedtls and wolfssl for its operation. API specific to mbedtls are present in <a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp-tls/private_include/esp_tls_mbedtls.h">esp-tls/private_include/esp_tls_mbedtls.h</a> and API
+specific to wolfssl are present in <a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp-tls/private_include/esp_tls_wolfssl.h">esp-tls/private_include/esp_tls_wolfssl.h</a>.</p>
+</div>
+<div class="section" id="underlying-ssl-tls-library-options">
+<h2>Underlying SSL/TLS Library Options<a class="headerlink" href="#underlying-ssl-tls-library-options" title="Permalink to this headline">¶</a></h2>
+<p>The ESP-TLS  component has an option to use mbedtls or wolfssl as their underlying SSL/TLS library. By default only mbedtls is available and is
+used, wolfssl SSL/TLS library is available publicly at <a class="reference external" href="https://github.com/espressif/esp-wolfssl">https://github.com/espressif/esp-wolfssl</a>. The repository provides wolfssl component in binary format, it
+also provides few examples which are useful for understanding the API. Please refer the repository README.md for
+information on licensing and other options. Please see below option for using wolfssl in your project.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><cite>As the library options are internal to ESP-TLS, switching the libries will not change ESP-TLS specific code for a project.</cite></p>
+</div>
+</div>
+<div class="section" id="how-to-use-wolfssl-with-esp-idf">
+<h2>How to use wolfssl with ESP-IDF<a class="headerlink" href="#how-to-use-wolfssl-with-esp-idf" title="Permalink to this headline">¶</a></h2>
+<p>There are two ways to use wolfssl in your project</p>
+<ol class="arabic">
+<li><p class="first">Directly add wolfssl as a component in your project with following three commands.:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>(First change directory (cd) to your project directory)
+mkdir components
+cd components
+git clone https://github.com/espressif/esp-wolfssl.git
+</pre></div>
+</div>
+</li>
+<li><p class="first">Add wolfssl as an extra component in your project.</p>
+</li>
+</ol>
+<ul>
+<li><p class="first">Download wolfssl with:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/espressif/esp-wolfssl.git
+</pre></div>
+</div>
+</li>
+<li><p class="first">Include  esp-wolfssl in ESP-IDF with setting EXTRA_COMPONENT_DIRS in CMakeLists.txt/Makefile of your project as done in <a class="reference external" href="https://github.com/espressif/esp-wolfssl/tree/master/examples">wolfssl/examples</a>. For reference see Optional Project variables in <a class="reference internal" href="../../api-guides/build-system.html"><span class="doc">build-system.</span></a></p>
+</li>
+</ul>
+<p>After above steps, you will have option to choose wolfssl as underlying SSL/TLS library in configuration menu of your project as follows:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>idf.py/make menuconfig -&gt; ESP-TLS -&gt; choose SSL/TLS Library -&gt; mbedtls/wolfssl
+</pre></div>
+</div>
+</div>
+<div class="section" id="comparison-between-mbedtls-and-wolfssl">
+<h2>Comparison between mbedtls and wolfssl<a class="headerlink" href="#comparison-between-mbedtls-and-wolfssl" title="Permalink to this headline">¶</a></h2>
+<p>The following table shows a typical comparison between wolfssl and mbedtls when <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/https_request">protocols/https_request</a> example <cite>(which has server authentication)</cite> was run with both
+SSL/TLS libraries and with all respective configurations set to default.
+<cite>(mbedtls IN_CONTENT length and OUT_CONTENT length were set to 16384 bytes and 4096 bytes respectively)</cite></p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="48%" />
+<col width="27%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Property</th>
+<th class="head">Wolfssl</th>
+<th class="head">Mbedtls</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Total Heap Consumed</td>
+<td>~19 Kb</td>
+<td>~37 Kb</td>
+</tr>
+<tr class="row-odd"><td>Task Stack Used</td>
+<td>~2.2 Kb</td>
+<td>~3.6 Kb</td>
+</tr>
+<tr class="row-even"><td>Bin size</td>
+<td>~858 Kb</td>
+<td>~736 Kb</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><cite>These values are subject to change with change in configuration options and version of respective libraries</cite>.</p>
+</div>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp-tls/esp_tls.h">esp-tls/esp_tls.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv412esp_tls_initv">
+<span id="_CPPv312esp_tls_initv"></span><span id="_CPPv212esp_tls_initv"></span><span id="esp_tls_init__void"></span><span class="target" id="esp__tls_8h_1a5c914ad9086f91ce9e6f1ce8d479dfc4"></span><a class="reference internal" href="#_CPPv49esp_tls_t" title="esp_tls_t">esp_tls_t</a> *<code class="descname">esp_tls_init</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv412esp_tls_initv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create TLS connection. </p>
+<p>This function allocates and initializes esp-tls structure handle.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>tls Pointer to esp-tls as esp-tls handle if successfully initialized, NULL if allocation error </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416esp_tls_conn_newPKciiPK13esp_tls_cfg_t">
+<span id="_CPPv316esp_tls_conn_newPKciiPK13esp_tls_cfg_t"></span><span id="_CPPv216esp_tls_conn_newPKciiPK13esp_tls_cfg_t"></span><span id="esp_tls_conn_new__cCP.i.i.esp_tls_cfg_tCP"></span><span class="target" id="esp__tls_8h_1a75b1a921b89add7f1e27ed7eb1ccfcc0"></span><a class="reference internal" href="#_CPPv49esp_tls_t" title="esp_tls_t">esp_tls_t</a> *<code class="descname">esp_tls_conn_new</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>hostname</em>, int <em>hostlen</em>, int <em>port</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv413esp_tls_cfg_t" title="esp_tls_cfg_t">esp_tls_cfg_t</a> *<em>cfg</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416esp_tls_conn_newPKciiPK13esp_tls_cfg_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a new blocking TLS/SSL connection. </p>
+<p>This function establishes a TLS/SSL connection with the specified host in blocking manner.</p>
+<p>Note: This API is present for backward compatibility reasons. Alternative function with the same functionality is <code class="docutils literal notranslate"><span class="pre">esp_tls_conn_new_sync</span></code> (and its asynchronous version <code class="docutils literal notranslate"><span class="pre">esp_tls_conn_new_async</span></code>)</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>pointer to esp_tls_t, or NULL if connection couldn’t be opened. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">hostname</span></code>: Hostname of the host. </li>
+<li><code class="docutils literal notranslate"><span class="pre">hostlen</span></code>: Length of hostname. </li>
+<li><code class="docutils literal notranslate"><span class="pre">port</span></code>: Port number of the host. </li>
+<li><code class="docutils literal notranslate"><span class="pre">cfg</span></code>: TLS configuration as esp_tls_cfg_t. If you wish to open non-TLS connection, keep this NULL. For TLS connection, a pass pointer to esp_tls_cfg_t. At a minimum, this structure should be zero-initialized.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421esp_tls_conn_new_syncPKciiPK13esp_tls_cfg_tP9esp_tls_t">
+<span id="_CPPv321esp_tls_conn_new_syncPKciiPK13esp_tls_cfg_tP9esp_tls_t"></span><span id="_CPPv221esp_tls_conn_new_syncPKciiPK13esp_tls_cfg_tP9esp_tls_t"></span><span id="esp_tls_conn_new_sync__cCP.i.i.esp_tls_cfg_tCP.esp_tls_tP"></span><span class="target" id="esp__tls_8h_1a6f572d3c019993073f7c2a7457a2590d"></span>int <code class="descname">esp_tls_conn_new_sync</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>hostname</em>, int <em>hostlen</em>, int <em>port</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv413esp_tls_cfg_t" title="esp_tls_cfg_t">esp_tls_cfg_t</a> *<em>cfg</em>, <a class="reference internal" href="#_CPPv49esp_tls_t" title="esp_tls_t">esp_tls_t</a> *<em>tls</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421esp_tls_conn_new_syncPKciiPK13esp_tls_cfg_tP9esp_tls_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a new blocking TLS/SSL connection. </p>
+<p>This function establishes a TLS/SSL connection with the specified host in blocking manner.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>-1 If connection establishment fails.</li>
+<li>1 If connection establishment is successful.</li>
+<li>0 If connection state is in progress. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">hostname</span></code>: Hostname of the host. </li>
+<li><code class="docutils literal notranslate"><span class="pre">hostlen</span></code>: Length of hostname. </li>
+<li><code class="docutils literal notranslate"><span class="pre">port</span></code>: Port number of the host. </li>
+<li><code class="docutils literal notranslate"><span class="pre">cfg</span></code>: TLS configuration as esp_tls_cfg_t. If you wish to open non-TLS connection, keep this NULL. For TLS connection, a pass pointer to esp_tls_cfg_t. At a minimum, this structure should be zero-initialized. </li>
+<li><code class="docutils literal notranslate"><span class="pre">tls</span></code>: Pointer to esp-tls as esp-tls handle.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421esp_tls_conn_http_newPKcPK13esp_tls_cfg_t">
+<span id="_CPPv321esp_tls_conn_http_newPKcPK13esp_tls_cfg_t"></span><span id="_CPPv221esp_tls_conn_http_newPKcPK13esp_tls_cfg_t"></span><span id="esp_tls_conn_http_new__cCP.esp_tls_cfg_tCP"></span><span class="target" id="esp__tls_8h_1aaf9461e0e69e84b1757d3f80b9f3f9ac"></span><a class="reference internal" href="#_CPPv49esp_tls_t" title="esp_tls_t">esp_tls_t</a> *<code class="descname">esp_tls_conn_http_new</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>url</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv413esp_tls_cfg_t" title="esp_tls_cfg_t">esp_tls_cfg_t</a> *<em>cfg</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421esp_tls_conn_http_newPKcPK13esp_tls_cfg_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a new blocking TLS/SSL connection with a given “HTTP” url. </p>
+<p>The behaviour is same as esp_tls_conn_new() API. However this API accepts host’s url.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>pointer to esp_tls_t, or NULL if connection couldn’t be opened. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">url</span></code>: url of host. </li>
+<li><code class="docutils literal notranslate"><span class="pre">cfg</span></code>: TLS configuration as esp_tls_cfg_t. If you wish to open non-TLS connection, keep this NULL. For TLS connection, a pass pointer to ‘esp_tls_cfg_t’. At a minimum, this structure should be zero-initialized. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422esp_tls_conn_new_asyncPKciiPK13esp_tls_cfg_tP9esp_tls_t">
+<span id="_CPPv322esp_tls_conn_new_asyncPKciiPK13esp_tls_cfg_tP9esp_tls_t"></span><span id="_CPPv222esp_tls_conn_new_asyncPKciiPK13esp_tls_cfg_tP9esp_tls_t"></span><span id="esp_tls_conn_new_async__cCP.i.i.esp_tls_cfg_tCP.esp_tls_tP"></span><span class="target" id="esp__tls_8h_1ab7df4e47259a5b2ce647e5068057584b"></span>int <code class="descname">esp_tls_conn_new_async</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>hostname</em>, int <em>hostlen</em>, int <em>port</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv413esp_tls_cfg_t" title="esp_tls_cfg_t">esp_tls_cfg_t</a> *<em>cfg</em>, <a class="reference internal" href="#_CPPv49esp_tls_t" title="esp_tls_t">esp_tls_t</a> *<em>tls</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_tls_conn_new_asyncPKciiPK13esp_tls_cfg_tP9esp_tls_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a new non-blocking TLS/SSL connection. </p>
+<p>This function initiates a non-blocking TLS/SSL connection with the specified host, but due to its non-blocking nature, it doesn’t wait for the connection to get established.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>-1 If connection establishment fails.</li>
+<li>0 If connection establishment is in progress.</li>
+<li>1 If connection establishment is successful. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">hostname</span></code>: Hostname of the host. </li>
+<li><code class="docutils literal notranslate"><span class="pre">hostlen</span></code>: Length of hostname. </li>
+<li><code class="docutils literal notranslate"><span class="pre">port</span></code>: Port number of the host. </li>
+<li><code class="docutils literal notranslate"><span class="pre">cfg</span></code>: TLS configuration as esp_tls_cfg_t. <code class="docutils literal notranslate"><span class="pre">non_block</span></code> member of this structure should be set to be true. </li>
+<li><code class="docutils literal notranslate"><span class="pre">tls</span></code>: pointer to esp-tls as esp-tls handle.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427esp_tls_conn_http_new_asyncPKcPK13esp_tls_cfg_tP9esp_tls_t">
+<span id="_CPPv327esp_tls_conn_http_new_asyncPKcPK13esp_tls_cfg_tP9esp_tls_t"></span><span id="_CPPv227esp_tls_conn_http_new_asyncPKcPK13esp_tls_cfg_tP9esp_tls_t"></span><span id="esp_tls_conn_http_new_async__cCP.esp_tls_cfg_tCP.esp_tls_tP"></span><span class="target" id="esp__tls_8h_1a90737cb7324a6cbc05dce7cc4e791f85"></span>int <code class="descname">esp_tls_conn_http_new_async</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>url</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv413esp_tls_cfg_t" title="esp_tls_cfg_t">esp_tls_cfg_t</a> *<em>cfg</em>, <a class="reference internal" href="#_CPPv49esp_tls_t" title="esp_tls_t">esp_tls_t</a> *<em>tls</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427esp_tls_conn_http_new_asyncPKcPK13esp_tls_cfg_tP9esp_tls_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a new non-blocking TLS/SSL connection with a given “HTTP” url. </p>
+<p>The behaviour is same as esp_tls_conn_new() API. However this API accepts host’s url.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>-1 If connection establishment fails.</li>
+<li>0 If connection establishment is in progress.</li>
+<li>1 If connection establishment is successful. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">url</span></code>: url of host. </li>
+<li><code class="docutils literal notranslate"><span class="pre">cfg</span></code>: TLS configuration as esp_tls_cfg_t. </li>
+<li><code class="docutils literal notranslate"><span class="pre">tls</span></code>: pointer to esp-tls as esp-tls handle.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418esp_tls_conn_writeP9esp_tls_tPKv6size_t">
+<span id="_CPPv318esp_tls_conn_writeP9esp_tls_tPKv6size_t"></span><span id="_CPPv218esp_tls_conn_writeP9esp_tls_tPKv6size_t"></span><span id="esp_tls_conn_write__esp_tls_tP.voidCP.s"></span><span class="target" id="esp__tls_8h_1a67a3aadca6aa86c49e42141350b77eee"></span><em class="property">static</em> ssize_t <code class="descname">esp_tls_conn_write</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv49esp_tls_t" title="esp_tls_t">esp_tls_t</a> *<em>tls</em>, <em class="property">const</em> void *<em>data</em>, size_t <em>datalen</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418esp_tls_conn_writeP9esp_tls_tPKv6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write from buffer ‘data’ into specified tls connection. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>&gt;0 if write operation was successful, the return value is the number of bytes actually written to the TLS/SSL connection.</li>
+<li>0 if write operation was not successful. The underlying connection was closed.</li>
+<li>&lt;0 if write operation was not successful, because either an error occured or an action must be taken by the calling process. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">tls</span></code>: pointer to esp-tls as esp-tls handle. </li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: Buffer from which data will be written. </li>
+<li><code class="docutils literal notranslate"><span class="pre">datalen</span></code>: Length of data buffer.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417esp_tls_conn_readP9esp_tls_tPv6size_t">
+<span id="_CPPv317esp_tls_conn_readP9esp_tls_tPv6size_t"></span><span id="_CPPv217esp_tls_conn_readP9esp_tls_tPv6size_t"></span><span id="esp_tls_conn_read__esp_tls_tP.voidP.s"></span><span class="target" id="esp__tls_8h_1a0b503ae8f0650c2fac929138bbbc53de"></span><em class="property">static</em> ssize_t <code class="descname">esp_tls_conn_read</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv49esp_tls_t" title="esp_tls_t">esp_tls_t</a> *<em>tls</em>, void *<em>data</em>, size_t <em>datalen</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417esp_tls_conn_readP9esp_tls_tPv6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read from specified tls connection into the buffer ‘data’. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>&gt;0 if read operation was successful, the return value is the number of bytes actually read from the TLS/SSL connection.</li>
+<li>0 if read operation was not successful. The underlying connection was closed.</li>
+<li>&lt;0 if read operation was not successful, because either an error occured or an action must be taken by the calling process. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">tls</span></code>: pointer to esp-tls as esp-tls handle. </li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: Buffer to hold read data. </li>
+<li><code class="docutils literal notranslate"><span class="pre">datalen</span></code>: Length of data buffer.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419esp_tls_conn_deleteP9esp_tls_t">
+<span id="_CPPv319esp_tls_conn_deleteP9esp_tls_t"></span><span id="_CPPv219esp_tls_conn_deleteP9esp_tls_t"></span><span id="esp_tls_conn_delete__esp_tls_tP"></span><span class="target" id="esp__tls_8h_1a4a05072088b8e839f9a171c858659d83"></span>void <code class="descname">esp_tls_conn_delete</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv49esp_tls_t" title="esp_tls_t">esp_tls_t</a> *<em>tls</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419esp_tls_conn_deleteP9esp_tls_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Close the TLS/SSL connection and free any allocated resources. </p>
+<p>This function should be called to close each tls connection opened with esp_tls_conn_new() or esp_tls_conn_http_new() APIs.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">tls</span></code>: pointer to esp-tls as esp-tls handle. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423esp_tls_get_bytes_availP9esp_tls_t">
+<span id="_CPPv323esp_tls_get_bytes_availP9esp_tls_t"></span><span id="_CPPv223esp_tls_get_bytes_availP9esp_tls_t"></span><span id="esp_tls_get_bytes_avail__esp_tls_tP"></span><span class="target" id="esp__tls_8h_1a65725a487d3799015ece1ddf1e9b409d"></span>ssize_t <code class="descname">esp_tls_get_bytes_avail</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv49esp_tls_t" title="esp_tls_t">esp_tls_t</a> *<em>tls</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423esp_tls_get_bytes_availP9esp_tls_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the number of application data bytes remaining to be read from the current record. </p>
+<p>This API is a wrapper over mbedtls’s mbedtls_ssl_get_bytes_avail() API.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>-1 in case of invalid arg</li>
+<li>bytes available in the application data record read buffer </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">tls</span></code>: pointer to esp-tls as esp-tls handle.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423esp_tls_get_conn_sockfdP9esp_tls_tPi">
+<span id="_CPPv323esp_tls_get_conn_sockfdP9esp_tls_tPi"></span><span id="_CPPv223esp_tls_get_conn_sockfdP9esp_tls_tPi"></span><span id="esp_tls_get_conn_sockfd__esp_tls_tP.iP"></span><span class="target" id="esp__tls_8h_1a5114105e95634af316335787d53c95c4"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_tls_get_conn_sockfd</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv49esp_tls_t" title="esp_tls_t">esp_tls_t</a> *<em>tls</em>, int *<em>sockfd</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423esp_tls_get_conn_sockfdP9esp_tls_tPi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Returns the connection socket file descriptor from <a class="reference internal" href="#structesp__tls"><span class="std std-ref">esp_tls</span></a> session. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>- ESP_OK on success and value of sockfd will be updated with socket file descriptor for connection<ul class="simple">
+<li>ESP_ERR_INVALID_ARG if (tls == NULL || sockfd == NULL) </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">tls</span></code>: handle to <a class="reference internal" href="#structesp__tls"><span class="std std-ref">esp_tls</span></a> context</li>
+<li><code class="docutils literal notranslate"><span class="pre">sockfd</span></code>: int pointer to sockfd value.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428esp_tls_init_global_ca_storev">
+<span id="_CPPv328esp_tls_init_global_ca_storev"></span><span id="_CPPv228esp_tls_init_global_ca_storev"></span><span id="esp_tls_init_global_ca_store__void"></span><span class="target" id="esp__tls_8h_1ac5db9baa6b001f66773e8cf22a494387"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_tls_init_global_ca_store</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428esp_tls_init_global_ca_storev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a global CA store, initially empty. </p>
+<p>This function should be called if the application wants to use the same CA store for multiple connections. This function initialises the global CA store which can be then set by calling esp_tls_set_global_ca_store(). To be effective, this function must be called before any call to esp_tls_set_global_ca_store().</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK if creating global CA store was successful.</li>
+<li>ESP_ERR_NO_MEM if an error occured when allocating the mbedTLS resources. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427esp_tls_set_global_ca_storePKhKj">
+<span id="_CPPv327esp_tls_set_global_ca_storePKhKj"></span><span id="_CPPv227esp_tls_set_global_ca_storePKhKj"></span><span id="esp_tls_set_global_ca_store__unsigned-cCP.unsigned-iC"></span><span class="target" id="esp__tls_8h_1aaa42ae691a6278b74f6208d608263062"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_tls_set_global_ca_store</code><span class="sig-paren">(</span><em class="property">const</em> unsigned char *<em>cacert_pem_buf</em>, <em class="property">const</em> unsigned int <em>cacert_pem_bytes</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427esp_tls_set_global_ca_storePKhKj" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the global CA store with the buffer provided in pem format. </p>
+<p>This function should be called if the application wants to set the global CA store for multiple connections i.e. to add the certificates in the provided buffer to the certificate chain. This function implicitly calls esp_tls_init_global_ca_store() if it has not already been called. The application must call this function before calling esp_tls_conn_new().</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK if adding certificates was successful.</li>
+<li>Other if an error occured or an action must be taken by the calling process. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">cacert_pem_buf</span></code>: Buffer which has certificates in pem format. This buffer is used for creating a global CA store, which can be used by other tls connections. </li>
+<li><code class="docutils literal notranslate"><span class="pre">cacert_pem_bytes</span></code>: Length of the buffer.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428esp_tls_free_global_ca_storev">
+<span id="_CPPv328esp_tls_free_global_ca_storev"></span><span id="_CPPv228esp_tls_free_global_ca_storev"></span><span id="esp_tls_free_global_ca_store__void"></span><span class="target" id="esp__tls_8h_1a2b44d254c67397af8801f49219c8c1bc"></span>void <code class="descname">esp_tls_free_global_ca_store</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428esp_tls_free_global_ca_storev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Free the global CA store currently being used. </p>
+<p>The memory being used by the global CA store to store all the parsed certificates is freed up. The application can call this API if it no longer needs the global CA store. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv432esp_tls_get_and_clear_last_error22esp_tls_error_handle_tPiPi">
+<span id="_CPPv332esp_tls_get_and_clear_last_error22esp_tls_error_handle_tPiPi"></span><span id="_CPPv232esp_tls_get_and_clear_last_error22esp_tls_error_handle_tPiPi"></span><span id="esp_tls_get_and_clear_last_error__esp_tls_error_handle_t.iP.iP"></span><span class="target" id="esp__tls_8h_1ae666402313bbb8e4be4ee44de29a67e5"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_tls_get_and_clear_last_error</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv422esp_tls_error_handle_t" title="esp_tls_error_handle_t">esp_tls_error_handle_t</a> <em>h</em>, int *<em>esp_tls_code</em>, int *<em>esp_tls_flags</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv432esp_tls_get_and_clear_last_error22esp_tls_error_handle_tPiPi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Returns last error in <a class="reference internal" href="#structesp__tls"><span class="std std-ref">esp_tls</span></a> with detailed mbedtls related error codes. The error information is cleared internally upon return. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_STATE if invalid parameters</li>
+<li>ESP_OK (0) if no error occurred</li>
+<li>specific error code (based on ESP_ERR_ESP_TLS_BASE) otherwise </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">h</span></code>: esp-tls error handle. </li>
+<li><code class="docutils literal notranslate"><span class="pre">esp_tls_code</span></code>: last error code returned from mbedtls api (set to zero if none) This pointer could be NULL if caller does not care about esp_tls_code </li>
+<li><code class="docutils literal notranslate"><span class="pre">esp_tls_flags</span></code>: last certification verification flags (set to zero if none) This pointer could be NULL if caller does not care about esp_tls_code</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv418esp_tls_last_error">
+<span id="_CPPv318esp_tls_last_error"></span><span id="_CPPv218esp_tls_last_error"></span><span id="esp_tls_last_error"></span><span class="target" id="structesp__tls__last__error"></span><em class="property">struct </em><code class="descname">esp_tls_last_error</code><a class="headerlink" href="#_CPPv418esp_tls_last_error" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Error structure containing relevant errors in case tls error occurred. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N18esp_tls_last_error10last_errorE">
+<span id="_CPPv3N18esp_tls_last_error10last_errorE"></span><span id="_CPPv2N18esp_tls_last_error10last_errorE"></span><span id="esp_tls_last_error::last_error__esp_err_t"></span><span class="target" id="structesp__tls__last__error_1a2060c38dc640827bf61dad86a6ab7a63"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">last_error</code><a class="headerlink" href="#_CPPv4N18esp_tls_last_error10last_errorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>error code (based on ESP_ERR_ESP_TLS_BASE) of the last occurred error </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18esp_tls_last_error18esp_tls_error_codeE">
+<span id="_CPPv3N18esp_tls_last_error18esp_tls_error_codeE"></span><span id="_CPPv2N18esp_tls_last_error18esp_tls_error_codeE"></span><span id="esp_tls_last_error::esp_tls_error_code__i"></span><span class="target" id="structesp__tls__last__error_1a883589f8a9f5d8271541055ac39995b4"></span>int <code class="descname">esp_tls_error_code</code><a class="headerlink" href="#_CPPv4N18esp_tls_last_error18esp_tls_error_codeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><a class="reference internal" href="#structesp__tls"><span class="std std-ref">esp_tls</span></a> error code from last <a class="reference internal" href="#structesp__tls"><span class="std std-ref">esp_tls</span></a> failed api </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18esp_tls_last_error13esp_tls_flagsE">
+<span id="_CPPv3N18esp_tls_last_error13esp_tls_flagsE"></span><span id="_CPPv2N18esp_tls_last_error13esp_tls_flagsE"></span><span id="esp_tls_last_error::esp_tls_flags__i"></span><span class="target" id="structesp__tls__last__error_1a1a1df7319bf0f50944dd4ee5fe3ebf45"></span>int <code class="descname">esp_tls_flags</code><a class="headerlink" href="#_CPPv4N18esp_tls_last_error13esp_tls_flagsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>last certification verification flags </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv412psk_key_hint">
+<span id="_CPPv312psk_key_hint"></span><span id="_CPPv212psk_key_hint"></span><span id="psk_key_hint"></span><span class="target" id="structpsk__key__hint"></span><em class="property">struct </em><code class="descname">psk_key_hint</code><a class="headerlink" href="#_CPPv412psk_key_hint" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP-TLS preshared key and hint structure. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N12psk_key_hint3keyE">
+<span id="_CPPv3N12psk_key_hint3keyE"></span><span id="_CPPv2N12psk_key_hint3keyE"></span><span id="psk_key_hint::key__uint8_tCP"></span><span class="target" id="structpsk__key__hint_1ad4f2852253bf5e154e871c0fe4d5289e"></span><em class="property">const</em> uint8_t *<code class="descname">key</code><a class="headerlink" href="#_CPPv4N12psk_key_hint3keyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>key in PSK authentication mode in binary format </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12psk_key_hint8key_sizeE">
+<span id="_CPPv3N12psk_key_hint8key_sizeE"></span><span id="_CPPv2N12psk_key_hint8key_sizeE"></span><span id="psk_key_hint::key_size__sC"></span><span class="target" id="structpsk__key__hint_1a46c8d28b9ffaa18333ad4fb90047a96e"></span><em class="property">const</em> size_t <code class="descname">key_size</code><a class="headerlink" href="#_CPPv4N12psk_key_hint8key_sizeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>length of the key </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12psk_key_hint4hintE">
+<span id="_CPPv3N12psk_key_hint4hintE"></span><span id="_CPPv2N12psk_key_hint4hintE"></span><span id="psk_key_hint::hint__cCP"></span><span class="target" id="structpsk__key__hint_1aabfc26a2dfb83a6f23f192ae4b7cd46b"></span><em class="property">const</em> char *<code class="descname">hint</code><a class="headerlink" href="#_CPPv4N12psk_key_hint4hintE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>hint in PSK authentication mode in string format </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv411esp_tls_cfg">
+<span id="_CPPv311esp_tls_cfg"></span><span id="_CPPv211esp_tls_cfg"></span><span id="esp_tls_cfg"></span><span class="target" id="structesp__tls__cfg"></span><em class="property">struct </em><code class="descname">esp_tls_cfg</code><a class="headerlink" href="#_CPPv411esp_tls_cfg" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP-TLS configuration parameters. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Note about format of certificates:<ul class="simple">
+<li>This structure includes certificates of a Certificate Authority, of client or server as well as private keys, which may be of PEM or DER format. In case of PEM format, the buffer must be NULL terminated (with NULL character included in certificate size).</li>
+<li>Certificate Authority’s certificate may be a chain of certificates in case of PEM format, but could be only one certificate in case of DER format</li>
+<li>Variables names of certificates and private key buffers and sizes are defined as unions providing backward compatibility for legacy *_pem_buf and *_pem_bytes names which suggested only PEM format was supported. It is encouraged to use generic names such as cacert_buf and cacert_bytes. </li>
+</ul>
+</dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg11alpn_protosE">
+<span id="_CPPv3N11esp_tls_cfg11alpn_protosE"></span><span id="_CPPv2N11esp_tls_cfg11alpn_protosE"></span><span id="esp_tls_cfg::alpn_protos__cCPP"></span><span class="target" id="structesp__tls__cfg_1a368bf93f1f755c79b0dc9a5cb6abcc74"></span><em class="property">const</em> char **<code class="descname">alpn_protos</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg11alpn_protosE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Application protocols required for HTTP2. If HTTP2/ALPN support is required, a list of protocols that should be negotiated. The format is length followed by protocol name. For the most common cases the following is ok: const char **alpn_protos = { “h2”, NULL };<ul class="simple">
+<li>where ‘h2’ is the protocol name </li>
+</ul>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg10cacert_bufE">
+<span id="_CPPv3N11esp_tls_cfg10cacert_bufE"></span><span id="_CPPv2N11esp_tls_cfg10cacert_bufE"></span><span id="esp_tls_cfg::cacert_buf__unsigned-cCP"></span><span class="target" id="structesp__tls__cfg_1a0b0ae5994fd8a0be592fad8ae6443419"></span><em class="property">const</em> unsigned char *<code class="descname">cacert_buf</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg10cacert_bufE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Certificate Authority’s certificate in a buffer. Format may be PEM or DER, depending on mbedtls-support This buffer should be NULL terminated in case of PEM </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg14cacert_pem_bufE">
+<span id="_CPPv3N11esp_tls_cfg14cacert_pem_bufE"></span><span id="_CPPv2N11esp_tls_cfg14cacert_pem_bufE"></span><span id="esp_tls_cfg::cacert_pem_buf__unsigned-cCP"></span><span class="target" id="structesp__tls__cfg_1a4fa0508dadada110356986b3d08a73b2"></span><em class="property">const</em> unsigned char *<code class="descname">cacert_pem_buf</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg14cacert_pem_bufE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CA certificate buffer legacy name </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg12cacert_bytesE">
+<span id="_CPPv3N11esp_tls_cfg12cacert_bytesE"></span><span id="_CPPv2N11esp_tls_cfg12cacert_bytesE"></span><span id="esp_tls_cfg::cacert_bytes__unsigned-i"></span><span class="target" id="structesp__tls__cfg_1ab08168639a5790407d12a3a62675551e"></span>unsigned int <code class="descname">cacert_bytes</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg12cacert_bytesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Size of Certificate Authority certificate pointed to by cacert_buf (including NULL-terminator in case of PEM format) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg16cacert_pem_bytesE">
+<span id="_CPPv3N11esp_tls_cfg16cacert_pem_bytesE"></span><span id="_CPPv2N11esp_tls_cfg16cacert_pem_bytesE"></span><span id="esp_tls_cfg::cacert_pem_bytes__unsigned-i"></span><span class="target" id="structesp__tls__cfg_1a0b6069bf420883b8b2e06e39877126b5"></span>unsigned int <code class="descname">cacert_pem_bytes</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg16cacert_pem_bytesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Size of Certificate Authority certificate legacy name </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg14clientcert_bufE">
+<span id="_CPPv3N11esp_tls_cfg14clientcert_bufE"></span><span id="_CPPv2N11esp_tls_cfg14clientcert_bufE"></span><span id="esp_tls_cfg::clientcert_buf__unsigned-cCP"></span><span class="target" id="structesp__tls__cfg_1ac160e62de31e55f5062e5c194b763fb6"></span><em class="property">const</em> unsigned char *<code class="descname">clientcert_buf</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg14clientcert_bufE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Client certificate in a buffer Format may be PEM or DER, depending on mbedtls-support This buffer should be NULL terminated in case of PEM </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg18clientcert_pem_bufE">
+<span id="_CPPv3N11esp_tls_cfg18clientcert_pem_bufE"></span><span id="_CPPv2N11esp_tls_cfg18clientcert_pem_bufE"></span><span id="esp_tls_cfg::clientcert_pem_buf__unsigned-cCP"></span><span class="target" id="structesp__tls__cfg_1af501892289c022b3a611189d1df36fad"></span><em class="property">const</em> unsigned char *<code class="descname">clientcert_pem_buf</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg18clientcert_pem_bufE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Client certificate legacy name </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg16clientcert_bytesE">
+<span id="_CPPv3N11esp_tls_cfg16clientcert_bytesE"></span><span id="_CPPv2N11esp_tls_cfg16clientcert_bytesE"></span><span id="esp_tls_cfg::clientcert_bytes__unsigned-i"></span><span class="target" id="structesp__tls__cfg_1a233de4c096e63beef6f406ba95abb0d1"></span>unsigned int <code class="descname">clientcert_bytes</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg16clientcert_bytesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Size of client certificate pointed to by clientcert_pem_buf (including NULL-terminator in case of PEM format) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg20clientcert_pem_bytesE">
+<span id="_CPPv3N11esp_tls_cfg20clientcert_pem_bytesE"></span><span id="_CPPv2N11esp_tls_cfg20clientcert_pem_bytesE"></span><span id="esp_tls_cfg::clientcert_pem_bytes__unsigned-i"></span><span class="target" id="structesp__tls__cfg_1a1a5eb866ceb8545b22f9df943e5d7fa4"></span>unsigned int <code class="descname">clientcert_pem_bytes</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg20clientcert_pem_bytesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Size of client certificate legacy name </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg13clientkey_bufE">
+<span id="_CPPv3N11esp_tls_cfg13clientkey_bufE"></span><span id="_CPPv2N11esp_tls_cfg13clientkey_bufE"></span><span id="esp_tls_cfg::clientkey_buf__unsigned-cCP"></span><span class="target" id="structesp__tls__cfg_1af47d888f1069b0288d445f04af8740ca"></span><em class="property">const</em> unsigned char *<code class="descname">clientkey_buf</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg13clientkey_bufE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Client key in a buffer Format may be PEM or DER, depending on mbedtls-support This buffer should be NULL terminated in case of PEM </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg17clientkey_pem_bufE">
+<span id="_CPPv3N11esp_tls_cfg17clientkey_pem_bufE"></span><span id="_CPPv2N11esp_tls_cfg17clientkey_pem_bufE"></span><span id="esp_tls_cfg::clientkey_pem_buf__unsigned-cCP"></span><span class="target" id="structesp__tls__cfg_1a0a4d2f63c91bfa9f3c1fe876f716d0ee"></span><em class="property">const</em> unsigned char *<code class="descname">clientkey_pem_buf</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg17clientkey_pem_bufE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Client key legacy name </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg15clientkey_bytesE">
+<span id="_CPPv3N11esp_tls_cfg15clientkey_bytesE"></span><span id="_CPPv2N11esp_tls_cfg15clientkey_bytesE"></span><span id="esp_tls_cfg::clientkey_bytes__unsigned-i"></span><span class="target" id="structesp__tls__cfg_1ae013e566fafcbec74b70d3b960f6584e"></span>unsigned int <code class="descname">clientkey_bytes</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg15clientkey_bytesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Size of client key pointed to by clientkey_pem_buf (including NULL-terminator in case of PEM format) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg19clientkey_pem_bytesE">
+<span id="_CPPv3N11esp_tls_cfg19clientkey_pem_bytesE"></span><span id="_CPPv2N11esp_tls_cfg19clientkey_pem_bytesE"></span><span id="esp_tls_cfg::clientkey_pem_bytes__unsigned-i"></span><span class="target" id="structesp__tls__cfg_1ad89af0097b97fa4105080097ed0177d2"></span>unsigned int <code class="descname">clientkey_pem_bytes</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg19clientkey_pem_bytesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Size of client key legacy name </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg18clientkey_passwordE">
+<span id="_CPPv3N11esp_tls_cfg18clientkey_passwordE"></span><span id="_CPPv2N11esp_tls_cfg18clientkey_passwordE"></span><span id="esp_tls_cfg::clientkey_password__unsigned-cCP"></span><span class="target" id="structesp__tls__cfg_1a55dea72dc80af9c7a8adebc80a70e377"></span><em class="property">const</em> unsigned char *<code class="descname">clientkey_password</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg18clientkey_passwordE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Client key decryption password string </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg22clientkey_password_lenE">
+<span id="_CPPv3N11esp_tls_cfg22clientkey_password_lenE"></span><span id="_CPPv2N11esp_tls_cfg22clientkey_password_lenE"></span><span id="esp_tls_cfg::clientkey_password_len__unsigned-i"></span><span class="target" id="structesp__tls__cfg_1a00d18c06fa50c529819e986d12f6085a"></span>unsigned int <code class="descname">clientkey_password_len</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg22clientkey_password_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>String length of the password pointed to by clientkey_password </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg9non_blockE">
+<span id="_CPPv3N11esp_tls_cfg9non_blockE"></span><span id="_CPPv2N11esp_tls_cfg9non_blockE"></span><span id="esp_tls_cfg::non_block__b"></span><span class="target" id="structesp__tls__cfg_1ab8c43e7f17954ecdda7662b6c4251f16"></span>bool <code class="descname">non_block</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg9non_blockE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Configure non-blocking mode. If set to true the underneath socket will be configured in non blocking mode after tls session is established </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg10timeout_msE">
+<span id="_CPPv3N11esp_tls_cfg10timeout_msE"></span><span id="_CPPv2N11esp_tls_cfg10timeout_msE"></span><span id="esp_tls_cfg::timeout_ms__i"></span><span class="target" id="structesp__tls__cfg_1ade85facf1bb21d01dc435cdcb2623f69"></span>int <code class="descname">timeout_ms</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg10timeout_msE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Network timeout in milliseconds </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg19use_global_ca_storeE">
+<span id="_CPPv3N11esp_tls_cfg19use_global_ca_storeE"></span><span id="_CPPv2N11esp_tls_cfg19use_global_ca_storeE"></span><span id="esp_tls_cfg::use_global_ca_store__b"></span><span class="target" id="structesp__tls__cfg_1a230c094a18df0b86e42ea039ef698bab"></span>bool <code class="descname">use_global_ca_store</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg19use_global_ca_storeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Use a global ca_store for all the connections in which this bool is set. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg11common_nameE">
+<span id="_CPPv3N11esp_tls_cfg11common_nameE"></span><span id="_CPPv2N11esp_tls_cfg11common_nameE"></span><span id="esp_tls_cfg::common_name__cCP"></span><span class="target" id="structesp__tls__cfg_1ad7be332ca570b700c0a74dda0926ef64"></span><em class="property">const</em> char *<code class="descname">common_name</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg11common_nameE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>If non-NULL, server certificate CN must match this name. If NULL, server certificate CN must match hostname. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg16skip_common_nameE">
+<span id="_CPPv3N11esp_tls_cfg16skip_common_nameE"></span><span id="_CPPv2N11esp_tls_cfg16skip_common_nameE"></span><span id="esp_tls_cfg::skip_common_name__b"></span><span class="target" id="structesp__tls__cfg_1ad91ed027a942386e5459ecff44c4c26a"></span>bool <code class="descname">skip_common_name</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg16skip_common_nameE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Skip any validation of server certificate CN field </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11esp_tls_cfg12psk_hint_keyE">
+<span id="_CPPv3N11esp_tls_cfg12psk_hint_keyE"></span><span id="_CPPv2N11esp_tls_cfg12psk_hint_keyE"></span><span id="esp_tls_cfg::psk_hint_key__psk_hint_key_tCP"></span><span class="target" id="structesp__tls__cfg_1ae28afdbe4be88a977151adf2525fc764"></span><em class="property">const</em> <a class="reference internal" href="#_CPPv414psk_hint_key_t" title="psk_hint_key_t">psk_hint_key_t</a> *<code class="descname">psk_hint_key</code><a class="headerlink" href="#_CPPv4N11esp_tls_cfg12psk_hint_keyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Pointer to PSK hint and key. if not NULL (and certificates are NULL) then PSK authentication is enabled with configured setup. Important note: the pointer must be valid for connection </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv47esp_tls">
+<span id="_CPPv37esp_tls"></span><span id="_CPPv27esp_tls"></span><span id="esp_tls"></span><span class="target" id="structesp__tls"></span><em class="property">struct </em><code class="descname">esp_tls</code><a class="headerlink" href="#_CPPv47esp_tls" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP-TLS Connection Handle. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N7esp_tls6sockfdE">
+<span id="_CPPv3N7esp_tls6sockfdE"></span><span id="_CPPv2N7esp_tls6sockfdE"></span><span id="esp_tls::sockfd__i"></span><span class="target" id="structesp__tls_1ab3d7a03f7ca09bd92b3a6a65a75dbe81"></span>int <code class="descname">sockfd</code><a class="headerlink" href="#_CPPv4N7esp_tls6sockfdE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Underlying socket file descriptor. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N7esp_tls4readE">
+<span id="_CPPv3N7esp_tls4readE"></span><span id="_CPPv2N7esp_tls4readE"></span><span class="target" id="structesp__tls_1a98595318039dfc5e10ffadd8a4b64abe"></span>ssize_t (*<code class="descname">read</code>)<span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#_CPPv47esp_tls" title="esp_tls">esp_tls</a> *tls, char *data, size_t datalen<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7esp_tls4readE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Callback function for reading data from TLS/SSL connection. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N7esp_tls5writeE">
+<span id="_CPPv3N7esp_tls5writeE"></span><span id="_CPPv2N7esp_tls5writeE"></span><span class="target" id="structesp__tls_1ab69458e39b01ab1136fbb22029ec3761"></span>ssize_t (*<code class="descname">write</code>)<span class="sig-paren">(</span><em class="property">struct</em> <a class="reference internal" href="#_CPPv47esp_tls" title="esp_tls">esp_tls</a> *tls, <em class="property">const</em> char *data, size_t datalen<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N7esp_tls5writeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Callback function for writing data to TLS/SSL connection. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N7esp_tls10conn_stateE">
+<span id="_CPPv3N7esp_tls10conn_stateE"></span><span id="_CPPv2N7esp_tls10conn_stateE"></span><span id="esp_tls::conn_state__esp_tls_conn_state_t"></span><span class="target" id="structesp__tls_1a96f68579072a1ef822d0c067f324abcf"></span><a class="reference internal" href="#_CPPv420esp_tls_conn_state_t" title="esp_tls_conn_state_t">esp_tls_conn_state_t</a> <code class="descname">conn_state</code><a class="headerlink" href="#_CPPv4N7esp_tls10conn_stateE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP-TLS Connection state </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N7esp_tls4rsetE">
+<span id="_CPPv3N7esp_tls4rsetE"></span><span id="_CPPv2N7esp_tls4rsetE"></span><span id="esp_tls::rset__fd_set"></span><span class="target" id="structesp__tls_1aff6fee2e205a3e66ce0fd64b161efd01"></span>fd_set <code class="descname">rset</code><a class="headerlink" href="#_CPPv4N7esp_tls4rsetE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>read file descriptors </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N7esp_tls4wsetE">
+<span id="_CPPv3N7esp_tls4wsetE"></span><span id="_CPPv2N7esp_tls4wsetE"></span><span id="esp_tls::wset__fd_set"></span><span class="target" id="structesp__tls_1a2bb70818459a22525c64e04daa296f49"></span>fd_set <code class="descname">wset</code><a class="headerlink" href="#_CPPv4N7esp_tls4wsetE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>write file descriptors </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N7esp_tls6is_tlsE">
+<span id="_CPPv3N7esp_tls6is_tlsE"></span><span id="_CPPv2N7esp_tls6is_tlsE"></span><span id="esp_tls::is_tls__b"></span><span class="target" id="structesp__tls_1a1d4ea32f2c842d99fbd036261cdf5580"></span>bool <code class="descname">is_tls</code><a class="headerlink" href="#_CPPv4N7esp_tls6is_tlsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>indicates connection type (TLS or NON-TLS) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N7esp_tls4roleE">
+<span id="_CPPv3N7esp_tls4roleE"></span><span id="_CPPv2N7esp_tls4roleE"></span><span id="esp_tls::role__esp_tls_role_t"></span><span class="target" id="structesp__tls_1ad3f845a5fbaf24606289b36c85d782c2"></span><a class="reference internal" href="#_CPPv414esp_tls_role_t" title="esp_tls_role_t">esp_tls_role_t</a> <code class="descname">role</code><a class="headerlink" href="#_CPPv4N7esp_tls4roleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>esp-tls role<ul class="simple">
+<li>ESP_TLS_CLIENT</li>
+<li>ESP_TLS_SERVER </li>
+</ul>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N7esp_tls12error_handleE">
+<span id="_CPPv3N7esp_tls12error_handleE"></span><span id="_CPPv2N7esp_tls12error_handleE"></span><span id="esp_tls::error_handle__esp_tls_error_handle_t"></span><span class="target" id="structesp__tls_1a35d5c50c568cec1882e61892e4043355"></span><a class="reference internal" href="#_CPPv422esp_tls_error_handle_t" title="esp_tls_error_handle_t">esp_tls_error_handle_t</a> <code class="descname">error_handle</code><a class="headerlink" href="#_CPPv4N7esp_tls12error_handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>handle to error descriptor </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.ESP_ERR_ESP_TLS_BASE">
+<span class="target" id="esp__tls_8h_1a69fc5e2cf24da36d8077f78fd5486e7a"></span><code class="descname">ESP_ERR_ESP_TLS_BASE</code><a class="headerlink" href="#c.ESP_ERR_ESP_TLS_BASE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starting number of ESP-TLS error codes </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_ESP_TLS_CANNOT_RESOLVE_HOSTNAME">
+<span class="target" id="esp__tls_8h_1acb1c1f734075843f58b75a294aea13b9"></span><code class="descname">ESP_ERR_ESP_TLS_CANNOT_RESOLVE_HOSTNAME</code><a class="headerlink" href="#c.ESP_ERR_ESP_TLS_CANNOT_RESOLVE_HOSTNAME" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error if hostname couldn’t be resolved upon tls connection </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_ESP_TLS_CANNOT_CREATE_SOCKET">
+<span class="target" id="esp__tls_8h_1a1175defede3af82924c85599d30ebd82"></span><code class="descname">ESP_ERR_ESP_TLS_CANNOT_CREATE_SOCKET</code><a class="headerlink" href="#c.ESP_ERR_ESP_TLS_CANNOT_CREATE_SOCKET" title="Permalink to this definition">¶</a></dt>
+<dd><p>Failed to create socket </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_ESP_TLS_UNSUPPORTED_PROTOCOL_FAMILY">
+<span class="target" id="esp__tls_8h_1ac5e2bb5455e1fe6e27827a66e00d401c"></span><code class="descname">ESP_ERR_ESP_TLS_UNSUPPORTED_PROTOCOL_FAMILY</code><a class="headerlink" href="#c.ESP_ERR_ESP_TLS_UNSUPPORTED_PROTOCOL_FAMILY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unsupported protocol family </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_ESP_TLS_FAILED_CONNECT_TO_HOST">
+<span class="target" id="esp__tls_8h_1a1e0e174e08c508de26cf488e980e77ae"></span><code class="descname">ESP_ERR_ESP_TLS_FAILED_CONNECT_TO_HOST</code><a class="headerlink" href="#c.ESP_ERR_ESP_TLS_FAILED_CONNECT_TO_HOST" title="Permalink to this definition">¶</a></dt>
+<dd><p>Failed to connect to host </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_ESP_TLS_SOCKET_SETOPT_FAILED">
+<span class="target" id="esp__tls_8h_1a10cc8ff0543cad469422733e45bcfe16"></span><code class="descname">ESP_ERR_ESP_TLS_SOCKET_SETOPT_FAILED</code><a class="headerlink" href="#c.ESP_ERR_ESP_TLS_SOCKET_SETOPT_FAILED" title="Permalink to this definition">¶</a></dt>
+<dd><p>failed to set socket option </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_MBEDTLS_CERT_PARTLY_OK">
+<span class="target" id="esp__tls_8h_1ade641646134031051bcefc4f0392ce01"></span><code class="descname">ESP_ERR_MBEDTLS_CERT_PARTLY_OK</code><a class="headerlink" href="#c.ESP_ERR_MBEDTLS_CERT_PARTLY_OK" title="Permalink to this definition">¶</a></dt>
+<dd><p>mbedtls parse certificates was partly successful </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_MBEDTLS_CTR_DRBG_SEED_FAILED">
+<span class="target" id="esp__tls_8h_1a9e559acd2e583b841b49b01c8d0ff854"></span><code class="descname">ESP_ERR_MBEDTLS_CTR_DRBG_SEED_FAILED</code><a class="headerlink" href="#c.ESP_ERR_MBEDTLS_CTR_DRBG_SEED_FAILED" title="Permalink to this definition">¶</a></dt>
+<dd><p>mbedtls api returned error </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_MBEDTLS_SSL_SET_HOSTNAME_FAILED">
+<span class="target" id="esp__tls_8h_1a16611903930c734eb454e8d976ec769d"></span><code class="descname">ESP_ERR_MBEDTLS_SSL_SET_HOSTNAME_FAILED</code><a class="headerlink" href="#c.ESP_ERR_MBEDTLS_SSL_SET_HOSTNAME_FAILED" title="Permalink to this definition">¶</a></dt>
+<dd><p>mbedtls api returned error </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_MBEDTLS_SSL_CONFIG_DEFAULTS_FAILED">
+<span class="target" id="esp__tls_8h_1aeb70ff247fa872b779a365421eeeba7c"></span><code class="descname">ESP_ERR_MBEDTLS_SSL_CONFIG_DEFAULTS_FAILED</code><a class="headerlink" href="#c.ESP_ERR_MBEDTLS_SSL_CONFIG_DEFAULTS_FAILED" title="Permalink to this definition">¶</a></dt>
+<dd><p>mbedtls api returned error </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_MBEDTLS_SSL_CONF_ALPN_PROTOCOLS_FAILED">
+<span class="target" id="esp__tls_8h_1a21e0d99297851f91bf44163e7ef53d96"></span><code class="descname">ESP_ERR_MBEDTLS_SSL_CONF_ALPN_PROTOCOLS_FAILED</code><a class="headerlink" href="#c.ESP_ERR_MBEDTLS_SSL_CONF_ALPN_PROTOCOLS_FAILED" title="Permalink to this definition">¶</a></dt>
+<dd><p>mbedtls api returned error </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_MBEDTLS_X509_CRT_PARSE_FAILED">
+<span class="target" id="esp__tls_8h_1aaa19884f16c52376bcd62fd21312ac75"></span><code class="descname">ESP_ERR_MBEDTLS_X509_CRT_PARSE_FAILED</code><a class="headerlink" href="#c.ESP_ERR_MBEDTLS_X509_CRT_PARSE_FAILED" title="Permalink to this definition">¶</a></dt>
+<dd><p>mbedtls api returned error </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_MBEDTLS_SSL_CONF_OWN_CERT_FAILED">
+<span class="target" id="esp__tls_8h_1a6a5a2b4aa2beda5a756105fa0741543d"></span><code class="descname">ESP_ERR_MBEDTLS_SSL_CONF_OWN_CERT_FAILED</code><a class="headerlink" href="#c.ESP_ERR_MBEDTLS_SSL_CONF_OWN_CERT_FAILED" title="Permalink to this definition">¶</a></dt>
+<dd><p>mbedtls api returned error </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_MBEDTLS_SSL_SETUP_FAILED">
+<span class="target" id="esp__tls_8h_1a5836694136d23cb02a1cef129cb3a733"></span><code class="descname">ESP_ERR_MBEDTLS_SSL_SETUP_FAILED</code><a class="headerlink" href="#c.ESP_ERR_MBEDTLS_SSL_SETUP_FAILED" title="Permalink to this definition">¶</a></dt>
+<dd><p>mbedtls api returned error </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_MBEDTLS_SSL_WRITE_FAILED">
+<span class="target" id="esp__tls_8h_1a13ee3a3c6c39ab514ce7228f0b3498d0"></span><code class="descname">ESP_ERR_MBEDTLS_SSL_WRITE_FAILED</code><a class="headerlink" href="#c.ESP_ERR_MBEDTLS_SSL_WRITE_FAILED" title="Permalink to this definition">¶</a></dt>
+<dd><p>mbedtls api returned error </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_MBEDTLS_PK_PARSE_KEY_FAILED">
+<span class="target" id="esp__tls_8h_1a1cdaf2b6311ed957f4359d497cb94dc6"></span><code class="descname">ESP_ERR_MBEDTLS_PK_PARSE_KEY_FAILED</code><a class="headerlink" href="#c.ESP_ERR_MBEDTLS_PK_PARSE_KEY_FAILED" title="Permalink to this definition">¶</a></dt>
+<dd><p>mbedtls api returned failed </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_MBEDTLS_SSL_HANDSHAKE_FAILED">
+<span class="target" id="esp__tls_8h_1a77b84872eabf1630c96c2c0146e077b6"></span><code class="descname">ESP_ERR_MBEDTLS_SSL_HANDSHAKE_FAILED</code><a class="headerlink" href="#c.ESP_ERR_MBEDTLS_SSL_HANDSHAKE_FAILED" title="Permalink to this definition">¶</a></dt>
+<dd><p>mbedtls api returned failed </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_MBEDTLS_SSL_CONF_PSK_FAILED">
+<span class="target" id="esp__tls_8h_1ab705b3f0c28c68839a7f8a123723d9d4"></span><code class="descname">ESP_ERR_MBEDTLS_SSL_CONF_PSK_FAILED</code><a class="headerlink" href="#c.ESP_ERR_MBEDTLS_SSL_CONF_PSK_FAILED" title="Permalink to this definition">¶</a></dt>
+<dd><p>mbedtls api returned failed </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_ESP_TLS_CONNECTION_TIMEOUT">
+<span class="target" id="esp__tls_8h_1a68caa708352ed29e3fd02ad498f43491"></span><code class="descname">ESP_ERR_ESP_TLS_CONNECTION_TIMEOUT</code><a class="headerlink" href="#c.ESP_ERR_ESP_TLS_CONNECTION_TIMEOUT" title="Permalink to this definition">¶</a></dt>
+<dd><p>new connection in esp_tls_low_level_conn connection timeouted </p>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv422esp_tls_error_handle_t">
+<span id="_CPPv322esp_tls_error_handle_t"></span><span id="_CPPv222esp_tls_error_handle_t"></span><span id="esp_tls_error_handle_t"></span><span class="target" id="esp__tls_8h_1a47054525c297968926bd747751731931"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv418esp_tls_last_error" title="esp_tls_last_error">esp_tls_last_error</a> *<code class="descname">esp_tls_error_handle_t</code><a class="headerlink" href="#_CPPv422esp_tls_error_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="type">
+<dt id="_CPPv420esp_tls_last_error_t">
+<span id="_CPPv320esp_tls_last_error_t"></span><span id="_CPPv220esp_tls_last_error_t"></span><span id="esp_tls_last_error_t"></span><span class="target" id="esp__tls_8h_1aeb4ff1d4121122f57d02790e4715229b"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv418esp_tls_last_error" title="esp_tls_last_error">esp_tls_last_error</a> <code class="descname">esp_tls_last_error_t</code><a class="headerlink" href="#_CPPv420esp_tls_last_error_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Error structure containing relevant errors in case tls error occurred. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv420esp_tls_conn_state_t">
+<span id="_CPPv320esp_tls_conn_state_t"></span><span id="_CPPv220esp_tls_conn_state_t"></span><span id="esp_tls_conn_state_t"></span><span class="target" id="esp__tls_8h_1a2b448f20960cfd67df7b736f8d816e1f"></span><em class="property">typedef </em><em class="property">enum</em> <a class="reference internal" href="#_CPPv418esp_tls_conn_state" title="esp_tls_conn_state">esp_tls_conn_state</a> <code class="descname">esp_tls_conn_state_t</code><a class="headerlink" href="#_CPPv420esp_tls_conn_state_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP-TLS Connection State. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv414esp_tls_role_t">
+<span id="_CPPv314esp_tls_role_t"></span><span id="_CPPv214esp_tls_role_t"></span><span id="esp_tls_role_t"></span><span class="target" id="esp__tls_8h_1a07c6a6a40ae86d762c76655be72b5a40"></span><em class="property">typedef </em><em class="property">enum</em> <a class="reference internal" href="#_CPPv412esp_tls_role" title="esp_tls_role">esp_tls_role</a> <code class="descname">esp_tls_role_t</code><a class="headerlink" href="#_CPPv414esp_tls_role_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="type">
+<dt id="_CPPv414psk_hint_key_t">
+<span id="_CPPv314psk_hint_key_t"></span><span id="_CPPv214psk_hint_key_t"></span><span id="psk_hint_key_t"></span><span class="target" id="esp__tls_8h_1ac444407b48f3e4854d7942f6a503a283"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv412psk_key_hint" title="psk_key_hint">psk_key_hint</a> <code class="descname">psk_hint_key_t</code><a class="headerlink" href="#_CPPv414psk_hint_key_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP-TLS preshared key and hint structure. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv413esp_tls_cfg_t">
+<span id="_CPPv313esp_tls_cfg_t"></span><span id="_CPPv213esp_tls_cfg_t"></span><span id="esp_tls_cfg_t"></span><span class="target" id="esp__tls_8h_1a1b152bb103fe4d334cc38f07532cae24"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv411esp_tls_cfg" title="esp_tls_cfg">esp_tls_cfg</a> <code class="descname">esp_tls_cfg_t</code><a class="headerlink" href="#_CPPv413esp_tls_cfg_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP-TLS configuration parameters. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Note about format of certificates:<ul class="simple">
+<li>This structure includes certificates of a Certificate Authority, of client or server as well as private keys, which may be of PEM or DER format. In case of PEM format, the buffer must be NULL terminated (with NULL character included in certificate size).</li>
+<li>Certificate Authority’s certificate may be a chain of certificates in case of PEM format, but could be only one certificate in case of DER format</li>
+<li>Variables names of certificates and private key buffers and sizes are defined as unions providing backward compatibility for legacy *_pem_buf and *_pem_bytes names which suggested only PEM format was supported. It is encouraged to use generic names such as cacert_buf and cacert_bytes. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv49esp_tls_t">
+<span id="_CPPv39esp_tls_t"></span><span id="_CPPv29esp_tls_t"></span><span id="esp_tls_t"></span><span class="target" id="esp__tls_8h_1a1a542c662c71f48c366e4525d7d3ddc4"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv47esp_tls" title="esp_tls">esp_tls</a> <code class="descname">esp_tls_t</code><a class="headerlink" href="#_CPPv49esp_tls_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP-TLS Connection Handle. </p>
+</dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv418esp_tls_conn_state">
+<span id="_CPPv318esp_tls_conn_state"></span><span id="_CPPv218esp_tls_conn_state"></span><span id="esp_tls_conn_state"></span><span class="target" id="esp__tls_8h_1a1982543604a18ff38d568448a6d88858"></span><em class="property">enum </em><code class="descname">esp_tls_conn_state</code><a class="headerlink" href="#_CPPv418esp_tls_conn_state" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP-TLS Connection State. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv412ESP_TLS_INIT">
+<span id="_CPPv312ESP_TLS_INIT"></span><span id="_CPPv212ESP_TLS_INIT"></span><span class="target" id="esp__tls_8h_1a1982543604a18ff38d568448a6d88858a556eb1dc13380a21f93729b87e6f9a4a"></span><code class="descname">ESP_TLS_INIT</code> = 0<a class="headerlink" href="#_CPPv412ESP_TLS_INIT" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv418ESP_TLS_CONNECTING">
+<span id="_CPPv318ESP_TLS_CONNECTING"></span><span id="_CPPv218ESP_TLS_CONNECTING"></span><span class="target" id="esp__tls_8h_1a1982543604a18ff38d568448a6d88858aee52f8de24e204d8aa843949fa451c66"></span><code class="descname">ESP_TLS_CONNECTING</code><a class="headerlink" href="#_CPPv418ESP_TLS_CONNECTING" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv417ESP_TLS_HANDSHAKE">
+<span id="_CPPv317ESP_TLS_HANDSHAKE"></span><span id="_CPPv217ESP_TLS_HANDSHAKE"></span><span class="target" id="esp__tls_8h_1a1982543604a18ff38d568448a6d88858af9b6afac5072d1e74d3656c57926c758"></span><code class="descname">ESP_TLS_HANDSHAKE</code><a class="headerlink" href="#_CPPv417ESP_TLS_HANDSHAKE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv412ESP_TLS_FAIL">
+<span id="_CPPv312ESP_TLS_FAIL"></span><span id="_CPPv212ESP_TLS_FAIL"></span><span class="target" id="esp__tls_8h_1a1982543604a18ff38d568448a6d88858a236d5153411a091ef7b5dfae6c5be8f4"></span><code class="descname">ESP_TLS_FAIL</code><a class="headerlink" href="#_CPPv412ESP_TLS_FAIL" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv412ESP_TLS_DONE">
+<span id="_CPPv312ESP_TLS_DONE"></span><span id="_CPPv212ESP_TLS_DONE"></span><span class="target" id="esp__tls_8h_1a1982543604a18ff38d568448a6d88858af3686106686f599e2ba816b7c1f14913"></span><code class="descname">ESP_TLS_DONE</code><a class="headerlink" href="#_CPPv412ESP_TLS_DONE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv412esp_tls_role">
+<span id="_CPPv312esp_tls_role"></span><span id="_CPPv212esp_tls_role"></span><span id="esp_tls_role"></span><span class="target" id="esp__tls_8h_1a7da9f0100dd0b9d11bb85ef308837359"></span><em class="property">enum </em><code class="descname">esp_tls_role</code><a class="headerlink" href="#_CPPv412esp_tls_role" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv414ESP_TLS_CLIENT">
+<span id="_CPPv314ESP_TLS_CLIENT"></span><span id="_CPPv214ESP_TLS_CLIENT"></span><span class="target" id="esp__tls_8h_1a7da9f0100dd0b9d11bb85ef308837359a8cf7be6505f7d0c6ba0e4c1c56f5f233"></span><code class="descname">ESP_TLS_CLIENT</code> = 0<a class="headerlink" href="#_CPPv414ESP_TLS_CLIENT" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv414ESP_TLS_SERVER">
+<span id="_CPPv314ESP_TLS_SERVER"></span><span id="_CPPv214ESP_TLS_SERVER"></span><span class="target" id="esp__tls_8h_1a7da9f0100dd0b9d11bb85ef308837359ae0d55ed7cb41bd9b3f9503f136a114e2"></span><code class="descname">ESP_TLS_SERVER</code><a class="headerlink" href="#_CPPv414ESP_TLS_SERVER" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esp_http_client.html" class="btn btn-neutral float-right" title="ESP HTTP Client" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="mqtt.html" class="btn btn-neutral float-left" title="ESP-MQTT" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/protocols/esp_tls.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:16 GMT -->
+</html>

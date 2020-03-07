@@ -1,0 +1,1573 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/protocols/esp_http_client.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:11 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ESP HTTP Client &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="HTTP Server" href="esp_http_server.html" />
+    <link rel="prev" title="ESP-TLS" href="esp_tls.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="esp_http_client.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/protocols/esp_http_client"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Protocols</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="asio.html">ASIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mqtt.html">ESP-MQTT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_tls.html">ESP-TLS</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">HTTP Client</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-example">Application Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#persistent-connections">Persistent Connections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#https">HTTPS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#http-stream">HTTP Stream</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#http-authentication">HTTP Authentication</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="esp_http_server.html">HTTP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_https_server.html">HTTPS Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="icmp_echo.html">ICMP Echo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_local_ctrl.html">Local Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modbus.html">Modbus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_websocket_client.html">Websocket Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_serial_slave_link.html">ESP Serial Slave Link</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#ip-network-layer">IP Network Layer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Application Protocols</a> &raquo;</li>
+        
+      <li>ESP HTTP Client</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/protocols/esp_http_client.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esp-http-client">
+<h1>ESP HTTP Client<a class="headerlink" href="#esp-http-client" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">esp_http_client</span></code> provides an API for making HTTP/S requests from ESP-IDF programs. The steps to use this API for an HTTP request are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#_CPPv420esp_http_client_initPK24esp_http_client_config_t" title="esp_http_client_init"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_http_client_init()</span></code></a>: To use the HTTP client, the first thing we must do is create an <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">esp_http_client</span></code> by pass into this function with the <a class="reference internal" href="#_CPPv424esp_http_client_config_t" title="esp_http_client_config_t"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">esp_http_client_config_t</span></code></a> configurations. Which configuration values we do not define, the library will use default.</li>
+<li><a class="reference internal" href="#_CPPv423esp_http_client_perform24esp_http_client_handle_t" title="esp_http_client_perform"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_http_client_perform()</span></code></a>: The <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">esp_http_client</span></code> argument created from the init function is needed. This function performs all operations of the esp_http_client, from opening the connection, sending data, downloading data and closing the connection if necessary. All related events will be invoked in the event_handle (defined by <a class="reference internal" href="#_CPPv424esp_http_client_config_t" title="esp_http_client_config_t"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">esp_http_client_config_t</span></code></a>). This function performs its job and blocks the current task until it’s done</li>
+<li><a class="reference internal" href="#_CPPv423esp_http_client_cleanup24esp_http_client_handle_t" title="esp_http_client_cleanup"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_http_client_cleanup()</span></code></a>: After completing our <strong>esp_http_client’s</strong> task, this is the last function to be called. It will close the connection (if any) and free up all the memory allocated to the HTTP client</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">esp_err_t</span> <span class="nf">_http_event_handle</span><span class="p">(</span><span class="n">esp_http_client_event_t</span> <span class="o">*</span><span class="n">evt</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">switch</span><span class="p">(</span><span class="n">evt</span><span class="o">-&gt;</span><span class="n">event_id</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="nl">HTTP_EVENT_ERROR</span><span class="p">:</span>
+            <span class="n">ESP_LOGI</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s">&quot;HTTP_EVENT_ERROR&quot;</span><span class="p">);</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="nl">HTTP_EVENT_ON_CONNECTED</span><span class="p">:</span>
+            <span class="n">ESP_LOGI</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s">&quot;HTTP_EVENT_ON_CONNECTED&quot;</span><span class="p">);</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="nl">HTTP_EVENT_HEADER_SENT</span><span class="p">:</span>
+            <span class="n">ESP_LOGI</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s">&quot;HTTP_EVENT_HEADER_SENT&quot;</span><span class="p">);</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="nl">HTTP_EVENT_ON_HEADER</span><span class="p">:</span>
+            <span class="n">ESP_LOGI</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s">&quot;HTTP_EVENT_ON_HEADER&quot;</span><span class="p">);</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%.*s&quot;</span><span class="p">,</span> <span class="n">evt</span><span class="o">-&gt;</span><span class="n">data_len</span><span class="p">,</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">evt</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">);</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="nl">HTTP_EVENT_ON_DATA</span><span class="p">:</span>
+            <span class="n">ESP_LOGI</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s">&quot;HTTP_EVENT_ON_DATA, len=%d&quot;</span><span class="p">,</span> <span class="n">evt</span><span class="o">-&gt;</span><span class="n">data_len</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">esp_http_client_is_chunked_response</span><span class="p">(</span><span class="n">evt</span><span class="o">-&gt;</span><span class="n">client</span><span class="p">))</span> <span class="p">{</span>
+                <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%.*s&quot;</span><span class="p">,</span> <span class="n">evt</span><span class="o">-&gt;</span><span class="n">data_len</span><span class="p">,</span> <span class="p">(</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">evt</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="nl">HTTP_EVENT_ON_FINISH</span><span class="p">:</span>
+            <span class="n">ESP_LOGI</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s">&quot;HTTP_EVENT_ON_FINISH&quot;</span><span class="p">);</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="k">case</span> <span class="nl">HTTP_EVENT_DISCONNECTED</span><span class="p">:</span>
+            <span class="n">ESP_LOGI</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s">&quot;HTTP_EVENT_DISCONNECTED&quot;</span><span class="p">);</span>
+            <span class="k">break</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">ESP_OK</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">esp_http_client_config_t</span> <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+   <span class="p">.</span><span class="n">url</span> <span class="o">=</span> <span class="s">&quot;http://httpbin.org/redirect/2&quot;</span><span class="p">,</span>
+   <span class="p">.</span><span class="n">event_handler</span> <span class="o">=</span> <span class="n">_http_event_handle</span><span class="p">,</span>
+<span class="p">};</span>
+<span class="n">esp_http_client_handle_t</span> <span class="n">client</span> <span class="o">=</span> <span class="n">esp_http_client_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">config</span><span class="p">);</span>
+<span class="n">esp_err_t</span> <span class="n">err</span> <span class="o">=</span> <span class="n">esp_http_client_perform</span><span class="p">(</span><span class="n">client</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">err</span> <span class="o">==</span> <span class="n">ESP_OK</span><span class="p">)</span> <span class="p">{</span>
+   <span class="n">ESP_LOGI</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s">&quot;Status = %d, content_length = %d&quot;</span><span class="p">,</span>
+           <span class="n">esp_http_client_get_status_code</span><span class="p">(</span><span class="n">client</span><span class="p">),</span>
+           <span class="n">esp_http_client_get_content_length</span><span class="p">(</span><span class="n">client</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="n">esp_http_client_cleanup</span><span class="p">(</span><span class="n">client</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="persistent-connections">
+<h2>Persistent Connections<a class="headerlink" href="#persistent-connections" title="Permalink to this headline">¶</a></h2>
+<p>Persistent connections means that the HTTP client can re-use the same connection for several transfers. If the server does not request to close the connection with the <code class="docutils literal notranslate"><span class="pre">Connection:</span> <span class="pre">close</span></code> header, the new transfer with sample ip address, port, and protocol.</p>
+<p>To allow the HTTP client to take full advantage of persistent connections, you should do as many of your file transfers as possible using the same handle.</p>
+<div class="section" id="persistent-connections-example">
+<h3>Persistent Connections example<a class="headerlink" href="#persistent-connections-example" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">esp_err_t</span> <span class="n">err</span><span class="p">;</span>
+<span class="n">esp_http_client_config_t</span> <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">.</span><span class="n">url</span> <span class="o">=</span> <span class="s">&quot;http://httpbin.org/get&quot;</span><span class="p">,</span>
+<span class="p">};</span>
+<span class="n">esp_http_client_handle_t</span> <span class="n">client</span> <span class="o">=</span> <span class="n">esp_http_client_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">config</span><span class="p">);</span>
+<span class="c1">// first request</span>
+<span class="n">err</span> <span class="o">=</span> <span class="n">esp_http_client_perform</span><span class="p">(</span><span class="n">client</span><span class="p">);</span>
+
+<span class="c1">// second request</span>
+<span class="n">esp_http_client_set_url</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="s">&quot;http://httpbin.org/anything&quot;</span><span class="p">)</span>
+<span class="n">esp_http_client_set_method</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">HTTP_METHOD_DELETE</span><span class="p">);</span>
+<span class="n">esp_http_client_set_header</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="s">&quot;HeaderKey&quot;</span><span class="p">,</span> <span class="s">&quot;HeaderValue&quot;</span><span class="p">);</span>
+<span class="n">err</span> <span class="o">=</span> <span class="n">esp_http_client_perform</span><span class="p">(</span><span class="n">client</span><span class="p">);</span>
+
+<span class="n">esp_http_client_cleanup</span><span class="p">(</span><span class="n">client</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="https">
+<h2>HTTPS<a class="headerlink" href="#https" title="Permalink to this headline">¶</a></h2>
+<p>The HTTP client supports SSL connections using <strong>mbedtls</strong>, with the <strong>url</strong> configuration starting with <code class="docutils literal notranslate"><span class="pre">https</span></code> scheme (or <code class="docutils literal notranslate"><span class="pre">transport_type</span> <span class="pre">=</span> <span class="pre">HTTP_TRANSPORT_OVER_SSL</span></code>). HTTPS support can be configured via :ref:CONFIG_ENABLE_HTTPS (enabled by default)..</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">By providing information using HTTPS, the library will use the SSL transport type to connect to the server. If you want to verify server, then need to provide additional certificate in PEM format, and provide to <code class="docutils literal notranslate"><span class="pre">cert_pem</span></code> in <code class="docutils literal notranslate"><span class="pre">esp_http_client_config_t</span></code></p>
+</div>
+<div class="section" id="https-example">
+<h3>HTTPS example<a class="headerlink" href="#https-example" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="kt">void</span> <span class="nf">https</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">esp_http_client_config_t</span> <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="p">.</span><span class="n">url</span> <span class="o">=</span> <span class="s">&quot;https://www.howsmyssl.com&quot;</span><span class="p">,</span>
+        <span class="p">.</span><span class="n">cert_pem</span> <span class="o">=</span> <span class="n">howsmyssl_com_root_cert_pem_start</span><span class="p">,</span>
+    <span class="p">};</span>
+    <span class="n">esp_http_client_handle_t</span> <span class="n">client</span> <span class="o">=</span> <span class="n">esp_http_client_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">config</span><span class="p">);</span>
+    <span class="n">esp_err_t</span> <span class="n">err</span> <span class="o">=</span> <span class="n">esp_http_client_perform</span><span class="p">(</span><span class="n">client</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">err</span> <span class="o">==</span> <span class="n">ESP_OK</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">ESP_LOGI</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s">&quot;Status = %d, content_length = %d&quot;</span><span class="p">,</span>
+                <span class="n">esp_http_client_get_status_code</span><span class="p">(</span><span class="n">client</span><span class="p">),</span>
+                <span class="n">esp_http_client_get_content_length</span><span class="p">(</span><span class="n">client</span><span class="p">));</span>
+    <span class="p">}</span>
+    <span class="n">esp_http_client_cleanup</span><span class="p">(</span><span class="n">client</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="http-stream">
+<h2>HTTP Stream<a class="headerlink" href="#http-stream" title="Permalink to this headline">¶</a></h2>
+<p>Some applications need to open the connection and control the reading of the data in an active manner. the HTTP client supports some functions to make this easier, of course, once you use these functions you should not use the <a class="reference internal" href="#_CPPv423esp_http_client_perform24esp_http_client_handle_t" title="esp_http_client_perform"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_http_client_perform()</span></code></a> function with that handle, and <a class="reference internal" href="#_CPPv420esp_http_client_initPK24esp_http_client_config_t" title="esp_http_client_init"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_http_client_init()</span></code></a> alway to called first to get the handle. Perform that functions in the order below:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#_CPPv420esp_http_client_initPK24esp_http_client_config_t" title="esp_http_client_init"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_http_client_init()</span></code></a>: to create and handle</li>
+<li><code class="docutils literal notranslate"><span class="pre">esp_http_client_set_*</span></code> or <code class="docutils literal notranslate"><span class="pre">esp_http_client_delete_*</span></code>: to modify the http connection information (optional)</li>
+<li><a class="reference internal" href="#_CPPv420esp_http_client_open24esp_http_client_handle_ti" title="esp_http_client_open"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_http_client_open()</span></code></a>: Open the http connection with <code class="docutils literal notranslate"><span class="pre">write_len</span></code> parameter, <code class="docutils literal notranslate"><span class="pre">write_len=0</span></code> if we only need read</li>
+<li><a class="reference internal" href="#_CPPv421esp_http_client_write24esp_http_client_handle_tPKci" title="esp_http_client_write"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_http_client_write()</span></code></a>: Upload data, max length equal to <code class="docutils literal notranslate"><span class="pre">write_len</span></code> of <a class="reference internal" href="#_CPPv420esp_http_client_open24esp_http_client_handle_ti" title="esp_http_client_open"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_http_client_open()</span></code></a> function. We may not need to call it if <code class="docutils literal notranslate"><span class="pre">write_len=0</span></code></li>
+<li><a class="reference internal" href="#_CPPv429esp_http_client_fetch_headers24esp_http_client_handle_t" title="esp_http_client_fetch_headers"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_http_client_fetch_headers()</span></code></a>: After sending the headers and write data (if any) to the server, this function will read the HTTP Server response headers. Calling this function will return the <code class="docutils literal notranslate"><span class="pre">content-length</span></code> from the Server, and we can call <a class="reference internal" href="#_CPPv431esp_http_client_get_status_code24esp_http_client_handle_t" title="esp_http_client_get_status_code"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_http_client_get_status_code()</span></code></a> for the HTTP status of the connection.</li>
+<li><a class="reference internal" href="#_CPPv420esp_http_client_read24esp_http_client_handle_tPci" title="esp_http_client_read"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_http_client_read()</span></code></a>: Now, we can read the HTTP stream by this function.</li>
+<li><a class="reference internal" href="#_CPPv421esp_http_client_close24esp_http_client_handle_t" title="esp_http_client_close"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_http_client_close()</span></code></a>: We should the connection after finish</li>
+<li><a class="reference internal" href="#_CPPv423esp_http_client_cleanup24esp_http_client_handle_t" title="esp_http_client_cleanup"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_http_client_cleanup()</span></code></a>: And release the resources</li>
+</ul>
+</div></blockquote>
+<div class="section" id="perform-http-request-as-stream-reader">
+<h3>Perform HTTP request as Stream reader<a class="headerlink" href="#perform-http-request-as-stream-reader" title="Permalink to this headline">¶</a></h3>
+<p>Check the example function <code class="docutils literal notranslate"><span class="pre">http_perform_as_stream_reader</span></code> at <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/esp_http_client">protocols/esp_http_client</a>.</p>
+</div>
+</div>
+<div class="section" id="http-authentication">
+<h2>HTTP Authentication<a class="headerlink" href="#http-authentication" title="Permalink to this headline">¶</a></h2>
+<p>The HTTP client supports both <strong>Basic</strong> and <strong>Digest</strong> Authentication. By providing usernames and passwords in <code class="docutils literal notranslate"><span class="pre">url</span></code> or in the <code class="docutils literal notranslate"><span class="pre">username</span></code>, <code class="docutils literal notranslate"><span class="pre">password</span></code> of config entry. And with <code class="docutils literal notranslate"><span class="pre">auth_type</span> <span class="pre">=</span> <span class="pre">HTTP_AUTH_TYPE_BASIC</span></code>, the HTTP client takes only 1 perform to pass the authentication process. If <code class="docutils literal notranslate"><span class="pre">auth_type</span> <span class="pre">=</span> <span class="pre">HTTP_AUTH_TYPE_NONE</span></code>, but there are <code class="docutils literal notranslate"><span class="pre">username</span></code> and <code class="docutils literal notranslate"><span class="pre">password</span></code> in the configuration, the HTTP client takes 2 performs. The first time it connects to the server and receives the UNAUTHORIZED header. Based on this information, it will know which authentication method to choose, and perform it on the second.</p>
+<div class="section" id="config-authentication-example-with-uri">
+<h3>Config authentication example with URI<a class="headerlink" href="#config-authentication-example-with-uri" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">esp_http_client_config_t</span> <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">.</span><span class="n">url</span> <span class="o">=</span> <span class="s">&quot;http://user:passwd@httpbin.org/basic-auth/user/passwd&quot;</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">auth_type</span> <span class="o">=</span> <span class="n">HTTP_AUTH_TYPE_BASIC</span><span class="p">,</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="config-authentication-example-with-username-password-entry">
+<h3>Config authentication example with username, password entry<a class="headerlink" href="#config-authentication-example-with-username-password-entry" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">esp_http_client_config_t</span> <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">.</span><span class="n">url</span> <span class="o">=</span> <span class="s">&quot;http://httpbin.org/basic-auth/user/passwd&quot;</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">username</span> <span class="o">=</span> <span class="s">&quot;user&quot;</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">password</span> <span class="o">=</span> <span class="s">&quot;passwd&quot;</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">auth_type</span> <span class="o">=</span> <span class="n">HTTP_AUTH_TYPE_BASIC</span><span class="p">,</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+<p>HTTP Client example: <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/esp_http_client">protocols/esp_http_client</a>.</p>
+</div>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_http_client/include/esp_http_client.h">esp_http_client/include/esp_http_client.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv420esp_http_client_initPK24esp_http_client_config_t">
+<span id="_CPPv320esp_http_client_initPK24esp_http_client_config_t"></span><span id="_CPPv220esp_http_client_initPK24esp_http_client_config_t"></span><span id="esp_http_client_init__esp_http_client_config_tCP"></span><span class="target" id="esp__http__client_8h_1a6702f76a535e342c42d96c973070e119"></span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <code class="descname">esp_http_client_init</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv424esp_http_client_config_t" title="esp_http_client_config_t">esp_http_client_config_t</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420esp_http_client_initPK24esp_http_client_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start a HTTP session This function must be the first function to call, and it returns a esp_http_client_handle_t that you must use as input to other functions in the interface. This call MUST have a corresponding call to esp_http_client_cleanup when the operation is complete. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_http_client_handle_t</span></code></li>
+<li>NULL if any errors </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">config</span></code>: The configurations, see <code class="docutils literal notranslate"><span class="pre">http_client_config_t</span></code></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423esp_http_client_perform24esp_http_client_handle_t">
+<span id="_CPPv323esp_http_client_perform24esp_http_client_handle_t"></span><span id="_CPPv223esp_http_client_perform24esp_http_client_handle_t"></span><span id="esp_http_client_perform__esp_http_client_handle_t"></span><span class="target" id="esp__http__client_8h_1a0512a0e34bd8a0d8a692db735e14f8e3"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_http_client_perform</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423esp_http_client_perform24esp_http_client_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Invoke this function after <code class="docutils literal notranslate"><span class="pre">esp_http_client_init</span></code> and all the options calls are made, and will perform the transfer as described in the options. It must be called with the same esp_http_client_handle_t as input as the esp_http_client_init call returned. esp_http_client_perform performs the entire request in either blocking or non-blocking manner. By default, the API performs request in a blocking manner and returns when done, or if it failed, and in non-blocking manner, it returns if EAGAIN/EWOULDBLOCK or EINPROGRESS is encountered, or if it failed. And in case of non-blocking request, the user may call this API multiple times unless request &amp; response is complete or there is a failure. To enable non-blocking esp_http_client_perform(), <code class="docutils literal notranslate"><span class="pre">is_async</span></code> member of <a class="reference internal" href="#structesp__http__client__config__t"><span class="std std-ref">esp_http_client_config_t</span></a> must be set while making a call to esp_http_client_init() API. You can do any amount of calls to esp_http_client_perform while using the same esp_http_client_handle_t. The underlying connection may be kept open if the server allows it. If you intend to transfer more than one file, you are even encouraged to do so. esp_http_client will then attempt to re-use the same connection for the following transfers, thus making the operations faster, less CPU intense and using less network resources. Just note that you will have to use <code class="docutils literal notranslate"><span class="pre">esp_http_client_set_**</span></code> between the invokes to set options for the following esp_http_client_perform. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>You must never call this function simultaneously from two places using the same client handle. Let the function return first before invoking it another time. If you want parallel transfers, you must use several esp_http_client_handle_t. This function include <code class="docutils literal notranslate"><span class="pre">esp_http_client_open</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">esp_http_client_write</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">esp_http_client_fetch_headers</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">esp_http_client_read</span></code> (and option) <code class="docutils literal notranslate"><span class="pre">esp_http_client_close</span></code>.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on successful</li>
+<li>ESP_FAIL on error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423esp_http_client_set_url24esp_http_client_handle_tPKc">
+<span id="_CPPv323esp_http_client_set_url24esp_http_client_handle_tPKc"></span><span id="_CPPv223esp_http_client_set_url24esp_http_client_handle_tPKc"></span><span id="esp_http_client_set_url__esp_http_client_handle_t.cCP"></span><span class="target" id="esp__http__client_8h_1a7dc1165cbde749cda767a3b4a827d526"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_http_client_set_url</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em>, <em class="property">const</em> char *<em>url</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423esp_http_client_set_url24esp_http_client_handle_tPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set URL for client, when performing this behavior, the options in the URL will replace the old ones. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_FAIL </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">url</span></code>: The url</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv430esp_http_client_set_post_field24esp_http_client_handle_tPKci">
+<span id="_CPPv330esp_http_client_set_post_field24esp_http_client_handle_tPKci"></span><span id="_CPPv230esp_http_client_set_post_field24esp_http_client_handle_tPKci"></span><span id="esp_http_client_set_post_field__esp_http_client_handle_t.cCP.i"></span><span class="target" id="esp__http__client_8h_1a290da3d0e9c64dd897135ddc9c820ed0"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_http_client_set_post_field</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em>, <em class="property">const</em> char *<em>data</em>, int <em>len</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv430esp_http_client_set_post_field24esp_http_client_handle_tPKci" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set post data, this function must be called before <code class="docutils literal notranslate"><span class="pre">esp_http_client_perform</span></code>. Note: The data parameter passed to this function is a pointer and this function will not copy the data. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_FAIL </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: post data pointer </li>
+<li><code class="docutils literal notranslate"><span class="pre">len</span></code>: post length</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv430esp_http_client_get_post_field24esp_http_client_handle_tPPc">
+<span id="_CPPv330esp_http_client_get_post_field24esp_http_client_handle_tPPc"></span><span id="_CPPv230esp_http_client_get_post_field24esp_http_client_handle_tPPc"></span><span id="esp_http_client_get_post_field__esp_http_client_handle_t.cPP"></span><span class="target" id="esp__http__client_8h_1a63557e366a8430b6f3a1ad8e752493a3"></span>int <code class="descname">esp_http_client_get_post_field</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em>, char **<em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv430esp_http_client_get_post_field24esp_http_client_handle_tPPc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get current post field information. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>Size of post data </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The client </li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: Point to post data pointer</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426esp_http_client_set_header24esp_http_client_handle_tPKcPKc">
+<span id="_CPPv326esp_http_client_set_header24esp_http_client_handle_tPKcPKc"></span><span id="_CPPv226esp_http_client_set_header24esp_http_client_handle_tPKcPKc"></span><span id="esp_http_client_set_header__esp_http_client_handle_t.cCP.cCP"></span><span class="target" id="esp__http__client_8h_1a2789702e82227b33eb34a9b59fdb1cca"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_http_client_set_header</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em>, <em class="property">const</em> char *<em>key</em>, <em class="property">const</em> char *<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426esp_http_client_set_header24esp_http_client_handle_tPKcPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set http request header, this function must be called after esp_http_client_init and before any perform function. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_FAIL </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">key</span></code>: The header key </li>
+<li><code class="docutils literal notranslate"><span class="pre">value</span></code>: The header value</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426esp_http_client_get_header24esp_http_client_handle_tPKcPPc">
+<span id="_CPPv326esp_http_client_get_header24esp_http_client_handle_tPKcPPc"></span><span id="_CPPv226esp_http_client_get_header24esp_http_client_handle_tPKcPPc"></span><span id="esp_http_client_get_header__esp_http_client_handle_t.cCP.cPP"></span><span class="target" id="esp__http__client_8h_1a95c0c00a19bc00d3467b6044f1d56d08"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_http_client_get_header</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em>, <em class="property">const</em> char *<em>key</em>, char **<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426esp_http_client_get_header24esp_http_client_handle_tPKcPPc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get http request header. The value parameter will be set to NULL if there is no header which is same as the key specified, otherwise the address of header value will be assigned to value parameter. This function must be called after <code class="docutils literal notranslate"><span class="pre">esp_http_client_init</span></code>. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_FAIL </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">key</span></code>: The header key </li>
+<li><code class="docutils literal notranslate"><span class="pre">value</span></code>: The header value</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428esp_http_client_get_username24esp_http_client_handle_tPPc">
+<span id="_CPPv328esp_http_client_get_username24esp_http_client_handle_tPPc"></span><span id="_CPPv228esp_http_client_get_username24esp_http_client_handle_tPPc"></span><span id="esp_http_client_get_username__esp_http_client_handle_t.cPP"></span><span class="target" id="esp__http__client_8h_1a6a1a50a5389ba531bc2cb65cf45cf3db"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_http_client_get_username</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em>, char **<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428esp_http_client_get_username24esp_http_client_handle_tPPc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get http request username. The address of username buffer will be assigned to value parameter. This function must be called after <code class="docutils literal notranslate"><span class="pre">esp_http_client_init</span></code>. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_ERR_INVALID_ARG </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">value</span></code>: The username value</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428esp_http_client_set_username24esp_http_client_handle_tPKc">
+<span id="_CPPv328esp_http_client_set_username24esp_http_client_handle_tPKc"></span><span id="_CPPv228esp_http_client_set_username24esp_http_client_handle_tPKc"></span><span id="esp_http_client_set_username__esp_http_client_handle_t.cCP"></span><span class="target" id="esp__http__client_8h_1a3e51a0310b2af4ceb5ed8190ca4b694a"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_http_client_set_username</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em>, <em class="property">const</em> char *<em>username</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428esp_http_client_set_username24esp_http_client_handle_tPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set http request username. The value of username parameter will be assigned to username buffer. If the username parameter is NULL then username buffer will be freed. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_ERR_INVALID_ARG </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">username</span></code>: The username value</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428esp_http_client_get_password24esp_http_client_handle_tPPc">
+<span id="_CPPv328esp_http_client_get_password24esp_http_client_handle_tPPc"></span><span id="_CPPv228esp_http_client_get_password24esp_http_client_handle_tPPc"></span><span id="esp_http_client_get_password__esp_http_client_handle_t.cPP"></span><span class="target" id="esp__http__client_8h_1a696b07855ccee9190e170ae2124b5436"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_http_client_get_password</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em>, char **<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428esp_http_client_get_password24esp_http_client_handle_tPPc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get http request password. The address of password buffer will be assigned to value parameter. This function must be called after <code class="docutils literal notranslate"><span class="pre">esp_http_client_init</span></code>. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_ERR_INVALID_ARG </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">value</span></code>: The password value</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428esp_http_client_set_password24esp_http_client_handle_tPc">
+<span id="_CPPv328esp_http_client_set_password24esp_http_client_handle_tPc"></span><span id="_CPPv228esp_http_client_set_password24esp_http_client_handle_tPc"></span><span id="esp_http_client_set_password__esp_http_client_handle_t.cP"></span><span class="target" id="esp__http__client_8h_1a480ab9aa90863fdc93ddbf407deb6254"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_http_client_set_password</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em>, char *<em>password</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428esp_http_client_set_password24esp_http_client_handle_tPc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set http request password. The value of password parameter will be assigned to password buffer. If the password parameter is NULL then password buffer will be freed. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_ERR_INVALID_ARG </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">password</span></code>: The password value</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428esp_http_client_set_authtype24esp_http_client_handle_t27esp_http_client_auth_type_t">
+<span id="_CPPv328esp_http_client_set_authtype24esp_http_client_handle_t27esp_http_client_auth_type_t"></span><span id="_CPPv228esp_http_client_set_authtype24esp_http_client_handle_t27esp_http_client_auth_type_t"></span><span id="esp_http_client_set_authtype__esp_http_client_handle_t.esp_http_client_auth_type_t"></span><span class="target" id="esp__http__client_8h_1a888c0539d6404d9c04630f0c89beed45"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_http_client_set_authtype</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em>, <a class="reference internal" href="#_CPPv427esp_http_client_auth_type_t" title="esp_http_client_auth_type_t">esp_http_client_auth_type_t</a> <em>auth_type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428esp_http_client_set_authtype24esp_http_client_handle_t27esp_http_client_auth_type_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set http request auth_type. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_ERR_INVALID_ARG </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">auth_type</span></code>: The esp_http_client auth type</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426esp_http_client_set_method24esp_http_client_handle_t24esp_http_client_method_t">
+<span id="_CPPv326esp_http_client_set_method24esp_http_client_handle_t24esp_http_client_method_t"></span><span id="_CPPv226esp_http_client_set_method24esp_http_client_handle_t24esp_http_client_method_t"></span><span id="esp_http_client_set_method__esp_http_client_handle_t.esp_http_client_method_t"></span><span class="target" id="esp__http__client_8h_1acde0021d9c2b2365f2b99393fc955d8d"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_http_client_set_method</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em>, <a class="reference internal" href="#_CPPv424esp_http_client_method_t" title="esp_http_client_method_t">esp_http_client_method_t</a> <em>method</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426esp_http_client_set_method24esp_http_client_handle_t24esp_http_client_method_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set http request method. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_ERR_INVALID_ARG </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">method</span></code>: The method</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv429esp_http_client_delete_header24esp_http_client_handle_tPKc">
+<span id="_CPPv329esp_http_client_delete_header24esp_http_client_handle_tPKc"></span><span id="_CPPv229esp_http_client_delete_header24esp_http_client_handle_tPKc"></span><span id="esp_http_client_delete_header__esp_http_client_handle_t.cCP"></span><span class="target" id="esp__http__client_8h_1aa625f5f60839cbbf85ec306df3c51a11"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_http_client_delete_header</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em>, <em class="property">const</em> char *<em>key</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv429esp_http_client_delete_header24esp_http_client_handle_tPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Delete http request header. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_FAIL </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">key</span></code>: The key</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420esp_http_client_open24esp_http_client_handle_ti">
+<span id="_CPPv320esp_http_client_open24esp_http_client_handle_ti"></span><span id="_CPPv220esp_http_client_open24esp_http_client_handle_ti"></span><span id="esp_http_client_open__esp_http_client_handle_t.i"></span><span class="target" id="esp__http__client_8h_1ae14d74a12470739d309b9454c39a42f0"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_http_client_open</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em>, int <em>write_len</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420esp_http_client_open24esp_http_client_handle_ti" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function will be open the connection, write all header strings and return. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_FAIL </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">write_len</span></code>: HTTP Content length need to write to the server</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421esp_http_client_write24esp_http_client_handle_tPKci">
+<span id="_CPPv321esp_http_client_write24esp_http_client_handle_tPKci"></span><span id="_CPPv221esp_http_client_write24esp_http_client_handle_tPKci"></span><span id="esp_http_client_write__esp_http_client_handle_t.cCP.i"></span><span class="target" id="esp__http__client_8h_1a03ba0834c13930007d10e76a3b988573"></span>int <code class="descname">esp_http_client_write</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em>, <em class="property">const</em> char *<em>buffer</em>, int <em>len</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421esp_http_client_write24esp_http_client_handle_tPKci" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function will write data to the HTTP connection previously opened by esp_http_client_open() </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>(-1) if any errors</li>
+<li>Length of data written </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">buffer</span></code>: The buffer </li>
+<li><code class="docutils literal notranslate"><span class="pre">len</span></code>: This value must not be larger than the write_len parameter provided to esp_http_client_open()</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv429esp_http_client_fetch_headers24esp_http_client_handle_t">
+<span id="_CPPv329esp_http_client_fetch_headers24esp_http_client_handle_t"></span><span id="_CPPv229esp_http_client_fetch_headers24esp_http_client_handle_t"></span><span id="esp_http_client_fetch_headers__esp_http_client_handle_t"></span><span class="target" id="esp__http__client_8h_1aa74972f6fd8cf9dc0b384223f3173ec1"></span>int <code class="descname">esp_http_client_fetch_headers</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv429esp_http_client_fetch_headers24esp_http_client_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function need to call after esp_http_client_open, it will read from http stream, process all receive headers. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>(0) if stream doesn’t contain content-length header, or chunked encoding (checked by <code class="docutils literal notranslate"><span class="pre">esp_http_client_is_chunked</span></code> response)</li>
+<li>(-1: ESP_FAIL) if any errors</li>
+<li>Download data length defined by content-length header </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv435esp_http_client_is_chunked_response24esp_http_client_handle_t">
+<span id="_CPPv335esp_http_client_is_chunked_response24esp_http_client_handle_t"></span><span id="_CPPv235esp_http_client_is_chunked_response24esp_http_client_handle_t"></span><span id="esp_http_client_is_chunked_response__esp_http_client_handle_t"></span><span class="target" id="esp__http__client_8h_1a6c03332b8b8fdc8925718e4cbaa152cc"></span>bool <code class="descname">esp_http_client_is_chunked_response</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv435esp_http_client_is_chunked_response24esp_http_client_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Check response data is chunked. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>true or false </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420esp_http_client_read24esp_http_client_handle_tPci">
+<span id="_CPPv320esp_http_client_read24esp_http_client_handle_tPci"></span><span id="_CPPv220esp_http_client_read24esp_http_client_handle_tPci"></span><span id="esp_http_client_read__esp_http_client_handle_t.cP.i"></span><span class="target" id="esp__http__client_8h_1ab1c4733976a1989e1b209551d62bf9fe"></span>int <code class="descname">esp_http_client_read</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em>, char *<em>buffer</em>, int <em>len</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420esp_http_client_read24esp_http_client_handle_tPci" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read data from http stream. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>(-1) if any errors</li>
+<li>Length of data was read </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">buffer</span></code>: The buffer </li>
+<li><code class="docutils literal notranslate"><span class="pre">len</span></code>: The length</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv431esp_http_client_get_status_code24esp_http_client_handle_t">
+<span id="_CPPv331esp_http_client_get_status_code24esp_http_client_handle_t"></span><span id="_CPPv231esp_http_client_get_status_code24esp_http_client_handle_t"></span><span id="esp_http_client_get_status_code__esp_http_client_handle_t"></span><span class="target" id="esp__http__client_8h_1a1b207369f6f4f1a6310d3c4b3e3b3d22"></span>int <code class="descname">esp_http_client_get_status_code</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv431esp_http_client_get_status_code24esp_http_client_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get http response status code, the valid value if this function invoke after <code class="docutils literal notranslate"><span class="pre">esp_http_client_perform</span></code> </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>Status code </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv434esp_http_client_get_content_length24esp_http_client_handle_t">
+<span id="_CPPv334esp_http_client_get_content_length24esp_http_client_handle_t"></span><span id="_CPPv234esp_http_client_get_content_length24esp_http_client_handle_t"></span><span id="esp_http_client_get_content_length__esp_http_client_handle_t"></span><span class="target" id="esp__http__client_8h_1af8ff421c7f8d772175da2825baa22cf2"></span>int <code class="descname">esp_http_client_get_content_length</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv434esp_http_client_get_content_length24esp_http_client_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get http response content length (from header Content-Length) the valid value if this function invoke after <code class="docutils literal notranslate"><span class="pre">esp_http_client_perform</span></code> </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>(-1) Chunked transfer</li>
+<li>Content-Length value as bytes </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421esp_http_client_close24esp_http_client_handle_t">
+<span id="_CPPv321esp_http_client_close24esp_http_client_handle_t"></span><span id="_CPPv221esp_http_client_close24esp_http_client_handle_t"></span><span id="esp_http_client_close__esp_http_client_handle_t"></span><span class="target" id="esp__http__client_8h_1aa3ae01202a01e9b77a1d84844e9e1e08"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_http_client_close</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421esp_http_client_close24esp_http_client_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Close http connection, still kept all http request resources. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_FAIL </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423esp_http_client_cleanup24esp_http_client_handle_t">
+<span id="_CPPv323esp_http_client_cleanup24esp_http_client_handle_t"></span><span id="_CPPv223esp_http_client_cleanup24esp_http_client_handle_t"></span><span id="esp_http_client_cleanup__esp_http_client_handle_t"></span><span class="target" id="esp__http__client_8h_1a41c141baeaf06bcdc634345a61f9cfa0"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_http_client_cleanup</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423esp_http_client_cleanup24esp_http_client_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function must be the last function to call for an session. It is the opposite of the esp_http_client_init function and must be called with the same handle as input that a esp_http_client_init call returned. This might close all connections this handle has used and possibly has kept open until now. Don’t call this function if you intend to transfer more files, re-using handles is a key to good performance with esp_http_client. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_FAIL </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv434esp_http_client_get_transport_type24esp_http_client_handle_t">
+<span id="_CPPv334esp_http_client_get_transport_type24esp_http_client_handle_t"></span><span id="_CPPv234esp_http_client_get_transport_type24esp_http_client_handle_t"></span><span id="esp_http_client_get_transport_type__esp_http_client_handle_t"></span><span class="target" id="esp__http__client_8h_1a2e054d0a2bd02059760f208d11cea21a"></span><a class="reference internal" href="#_CPPv427esp_http_client_transport_t" title="esp_http_client_transport_t">esp_http_client_transport_t</a> <code class="descname">esp_http_client_get_transport_type</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv434esp_http_client_get_transport_type24esp_http_client_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get transport type. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>HTTP_TRANSPORT_UNKNOWN</li>
+<li>HTTP_TRANSPORT_OVER_TCP</li>
+<li>HTTP_TRANSPORT_OVER_SSL </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv431esp_http_client_set_redirection24esp_http_client_handle_t">
+<span id="_CPPv331esp_http_client_set_redirection24esp_http_client_handle_t"></span><span id="_CPPv231esp_http_client_set_redirection24esp_http_client_handle_t"></span><span id="esp_http_client_set_redirection__esp_http_client_handle_t"></span><span class="target" id="esp__http__client_8h_1a704adf5b0fa4ffa8e853e3358fa21a46"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_http_client_set_redirection</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv431esp_http_client_set_redirection24esp_http_client_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set redirection URL. When received the 30x code from the server, the client stores the redirect URL provided by the server. This function will set the current URL to redirect to enable client to execute the redirection request. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_FAIL </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424esp_http_client_add_auth24esp_http_client_handle_t">
+<span id="_CPPv324esp_http_client_add_auth24esp_http_client_handle_t"></span><span id="_CPPv224esp_http_client_add_auth24esp_http_client_handle_t"></span><span id="esp_http_client_add_auth__esp_http_client_handle_t"></span><span class="target" id="esp__http__client_8h_1a2adfbeb86030802ecf1a4724968b8dff"></span>void <code class="descname">esp_http_client_add_auth</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424esp_http_client_add_auth24esp_http_client_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>On receiving HTTP Status code 401, this API can be invoked to add authorization information. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>There is a possibility of receiving body message with redirection status codes, thus make sure to flush off body data after calling this API.</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv441esp_http_client_is_complete_data_received24esp_http_client_handle_t">
+<span id="_CPPv341esp_http_client_is_complete_data_received24esp_http_client_handle_t"></span><span id="_CPPv241esp_http_client_is_complete_data_received24esp_http_client_handle_t"></span><span id="esp_http_client_is_complete_data_received__esp_http_client_handle_t"></span><span class="target" id="esp__http__client_8h_1a371910a44d223f31828bad126432c9fc"></span>bool <code class="descname">esp_http_client_is_complete_data_received</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <em>client</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv441esp_http_client_is_complete_data_received24esp_http_client_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Checks if entire data in the response has been read without any error. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>true</li>
+<li>false </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">client</span></code>: The esp_http_client handle</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv421esp_http_client_event">
+<span id="_CPPv321esp_http_client_event"></span><span id="_CPPv221esp_http_client_event"></span><span id="esp_http_client_event"></span><span class="target" id="structesp__http__client__event"></span><em class="property">struct </em><code class="descname">esp_http_client_event</code><a class="headerlink" href="#_CPPv421esp_http_client_event" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP Client events data. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N21esp_http_client_event8event_idE">
+<span id="_CPPv3N21esp_http_client_event8event_idE"></span><span id="_CPPv2N21esp_http_client_event8event_idE"></span><span id="esp_http_client_event::event_id__esp_http_client_event_id_t"></span><span class="target" id="structesp__http__client__event_1a01d268353cebeb5c902b731f13878c15"></span><a class="reference internal" href="#_CPPv426esp_http_client_event_id_t" title="esp_http_client_event_id_t">esp_http_client_event_id_t</a> <code class="descname">event_id</code><a class="headerlink" href="#_CPPv4N21esp_http_client_event8event_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>event_id, to know the cause of the event </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21esp_http_client_event6clientE">
+<span id="_CPPv3N21esp_http_client_event6clientE"></span><span id="_CPPv2N21esp_http_client_event6clientE"></span><span id="esp_http_client_event::client__esp_http_client_handle_t"></span><span class="target" id="structesp__http__client__event_1a2042791f98d0c6a43f33a1948090f8d2"></span><a class="reference internal" href="#_CPPv424esp_http_client_handle_t" title="esp_http_client_handle_t">esp_http_client_handle_t</a> <code class="descname">client</code><a class="headerlink" href="#_CPPv4N21esp_http_client_event6clientE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>esp_http_client_handle_t context </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21esp_http_client_event4dataE">
+<span id="_CPPv3N21esp_http_client_event4dataE"></span><span id="_CPPv2N21esp_http_client_event4dataE"></span><span id="esp_http_client_event::data__voidP"></span><span class="target" id="structesp__http__client__event_1a25e6333c46769ab63e7858d4eee5685d"></span>void *<code class="descname">data</code><a class="headerlink" href="#_CPPv4N21esp_http_client_event4dataE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>data of the event </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21esp_http_client_event8data_lenE">
+<span id="_CPPv3N21esp_http_client_event8data_lenE"></span><span id="_CPPv2N21esp_http_client_event8data_lenE"></span><span id="esp_http_client_event::data_len__i"></span><span class="target" id="structesp__http__client__event_1af0fb200538f6a8587c96bea233057dc1"></span>int <code class="descname">data_len</code><a class="headerlink" href="#_CPPv4N21esp_http_client_event8data_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>data length of data </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21esp_http_client_event9user_dataE">
+<span id="_CPPv3N21esp_http_client_event9user_dataE"></span><span id="_CPPv2N21esp_http_client_event9user_dataE"></span><span id="esp_http_client_event::user_data__voidP"></span><span class="target" id="structesp__http__client__event_1af6e6b5ec5b203614ad91136fe3ceaa6d"></span>void *<code class="descname">user_data</code><a class="headerlink" href="#_CPPv4N21esp_http_client_event9user_dataE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>user_data context, from <a class="reference internal" href="#structesp__http__client__config__t"><span class="std std-ref">esp_http_client_config_t</span></a> user_data </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21esp_http_client_event10header_keyE">
+<span id="_CPPv3N21esp_http_client_event10header_keyE"></span><span id="_CPPv2N21esp_http_client_event10header_keyE"></span><span id="esp_http_client_event::header_key__cP"></span><span class="target" id="structesp__http__client__event_1a778e11d28b6b3b47f469214001133a96"></span>char *<code class="descname">header_key</code><a class="headerlink" href="#_CPPv4N21esp_http_client_event10header_keyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For HTTP_EVENT_ON_HEADER event_id, it’s store current http header key </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21esp_http_client_event12header_valueE">
+<span id="_CPPv3N21esp_http_client_event12header_valueE"></span><span id="_CPPv2N21esp_http_client_event12header_valueE"></span><span id="esp_http_client_event::header_value__cP"></span><span class="target" id="structesp__http__client__event_1aab240fbad81358b76ed85cdcb7424bdb"></span>char *<code class="descname">header_value</code><a class="headerlink" href="#_CPPv4N21esp_http_client_event12header_valueE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For HTTP_EVENT_ON_HEADER event_id, it’s store current http header value </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv424esp_http_client_config_t">
+<span id="_CPPv324esp_http_client_config_t"></span><span id="_CPPv224esp_http_client_config_t"></span><span id="esp_http_client_config_t"></span><span class="target" id="structesp__http__client__config__t"></span><em class="property">struct </em><code class="descname">esp_http_client_config_t</code><a class="headerlink" href="#_CPPv424esp_http_client_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP configuration. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t3urlE">
+<span id="_CPPv3N24esp_http_client_config_t3urlE"></span><span id="_CPPv2N24esp_http_client_config_t3urlE"></span><span id="esp_http_client_config_t::url__cCP"></span><span class="target" id="structesp__http__client__config__t_1af118453e3f2bc8991c8b88ffd8fe566b"></span><em class="property">const</em> char *<code class="descname">url</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t3urlE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP URL, the information on the URL is most important, it overrides the other fields below, if any </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t4hostE">
+<span id="_CPPv3N24esp_http_client_config_t4hostE"></span><span id="_CPPv2N24esp_http_client_config_t4hostE"></span><span id="esp_http_client_config_t::host__cCP"></span><span class="target" id="structesp__http__client__config__t_1af73bc51fbb8fa550c38f37e9448e393c"></span><em class="property">const</em> char *<code class="descname">host</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t4hostE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Domain or IP as string </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t4portE">
+<span id="_CPPv3N24esp_http_client_config_t4portE"></span><span id="_CPPv2N24esp_http_client_config_t4portE"></span><span id="esp_http_client_config_t::port__i"></span><span class="target" id="structesp__http__client__config__t_1afbffb53695d09bf47335683245981fae"></span>int <code class="descname">port</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t4portE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Port to connect, default depend on esp_http_client_transport_t (80 or 443) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t8usernameE">
+<span id="_CPPv3N24esp_http_client_config_t8usernameE"></span><span id="_CPPv2N24esp_http_client_config_t8usernameE"></span><span id="esp_http_client_config_t::username__cCP"></span><span class="target" id="structesp__http__client__config__t_1a4f3d5dfe28c54d6c875e3fcd6bc2d333"></span><em class="property">const</em> char *<code class="descname">username</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t8usernameE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Using for Http authentication </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t8passwordE">
+<span id="_CPPv3N24esp_http_client_config_t8passwordE"></span><span id="_CPPv2N24esp_http_client_config_t8passwordE"></span><span id="esp_http_client_config_t::password__cCP"></span><span class="target" id="structesp__http__client__config__t_1a7aeaf35d556c130d14301df93b563929"></span><em class="property">const</em> char *<code class="descname">password</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t8passwordE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Using for Http authentication </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t9auth_typeE">
+<span id="_CPPv3N24esp_http_client_config_t9auth_typeE"></span><span id="_CPPv2N24esp_http_client_config_t9auth_typeE"></span><span id="esp_http_client_config_t::auth_type__esp_http_client_auth_type_t"></span><span class="target" id="structesp__http__client__config__t_1ac466160ce758a9c5ebb9bc99ea974c92"></span><a class="reference internal" href="#_CPPv427esp_http_client_auth_type_t" title="esp_http_client_auth_type_t">esp_http_client_auth_type_t</a> <code class="descname">auth_type</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t9auth_typeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Http authentication type, see <code class="docutils literal notranslate"><span class="pre">esp_http_client_auth_type_t</span></code> </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t4pathE">
+<span id="_CPPv3N24esp_http_client_config_t4pathE"></span><span id="_CPPv2N24esp_http_client_config_t4pathE"></span><span id="esp_http_client_config_t::path__cCP"></span><span class="target" id="structesp__http__client__config__t_1a9a0479646c9221fd9fa2ff5396bbae5c"></span><em class="property">const</em> char *<code class="descname">path</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t4pathE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP Path, if not set, default is <code class="docutils literal notranslate"><span class="pre">/</span></code> </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t5queryE">
+<span id="_CPPv3N24esp_http_client_config_t5queryE"></span><span id="_CPPv2N24esp_http_client_config_t5queryE"></span><span id="esp_http_client_config_t::query__cCP"></span><span class="target" id="structesp__http__client__config__t_1a98830d832c2a278ca66a394e01c0ccd9"></span><em class="property">const</em> char *<code class="descname">query</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t5queryE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP query </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t8cert_pemE">
+<span id="_CPPv3N24esp_http_client_config_t8cert_pemE"></span><span id="_CPPv2N24esp_http_client_config_t8cert_pemE"></span><span id="esp_http_client_config_t::cert_pem__cCP"></span><span class="target" id="structesp__http__client__config__t_1a4fc4018efc4cfbd50111651cf6c00dd7"></span><em class="property">const</em> char *<code class="descname">cert_pem</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t8cert_pemE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SSL server certification, PEM format as string, if the client requires to verify server </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t15client_cert_pemE">
+<span id="_CPPv3N24esp_http_client_config_t15client_cert_pemE"></span><span id="_CPPv2N24esp_http_client_config_t15client_cert_pemE"></span><span id="esp_http_client_config_t::client_cert_pem__cCP"></span><span class="target" id="structesp__http__client__config__t_1a5b788402447940787a1387ca504a030c"></span><em class="property">const</em> char *<code class="descname">client_cert_pem</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t15client_cert_pemE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SSL client certification, PEM format as string, if the server requires to verify client </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t14client_key_pemE">
+<span id="_CPPv3N24esp_http_client_config_t14client_key_pemE"></span><span id="_CPPv2N24esp_http_client_config_t14client_key_pemE"></span><span id="esp_http_client_config_t::client_key_pem__cCP"></span><span class="target" id="structesp__http__client__config__t_1a6405963ff1566dc20dc298c41132c5db"></span><em class="property">const</em> char *<code class="descname">client_key_pem</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t14client_key_pemE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SSL client key, PEM format as string, if the server requires to verify client </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t6methodE">
+<span id="_CPPv3N24esp_http_client_config_t6methodE"></span><span id="_CPPv2N24esp_http_client_config_t6methodE"></span><span id="esp_http_client_config_t::method__esp_http_client_method_t"></span><span class="target" id="structesp__http__client__config__t_1a824eddd7b888b714f9494a78d0a880a3"></span><a class="reference internal" href="#_CPPv424esp_http_client_method_t" title="esp_http_client_method_t">esp_http_client_method_t</a> <code class="descname">method</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t6methodE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP Method </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t10timeout_msE">
+<span id="_CPPv3N24esp_http_client_config_t10timeout_msE"></span><span id="_CPPv2N24esp_http_client_config_t10timeout_msE"></span><span id="esp_http_client_config_t::timeout_ms__i"></span><span class="target" id="structesp__http__client__config__t_1a087b1dfe3fae0de485e618751e727188"></span>int <code class="descname">timeout_ms</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t10timeout_msE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Network timeout in milliseconds </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t21disable_auto_redirectE">
+<span id="_CPPv3N24esp_http_client_config_t21disable_auto_redirectE"></span><span id="_CPPv2N24esp_http_client_config_t21disable_auto_redirectE"></span><span id="esp_http_client_config_t::disable_auto_redirect__b"></span><span class="target" id="structesp__http__client__config__t_1aa3e342806f5b454dd35730687c290f84"></span>bool <code class="descname">disable_auto_redirect</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t21disable_auto_redirectE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Disable HTTP automatic redirects </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t21max_redirection_countE">
+<span id="_CPPv3N24esp_http_client_config_t21max_redirection_countE"></span><span id="_CPPv2N24esp_http_client_config_t21max_redirection_countE"></span><span id="esp_http_client_config_t::max_redirection_count__i"></span><span class="target" id="structesp__http__client__config__t_1a4187a0e86892dc5c1de9590b28facbdf"></span>int <code class="descname">max_redirection_count</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t21max_redirection_countE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Max redirection number, using default value if zero </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t13event_handlerE">
+<span id="_CPPv3N24esp_http_client_config_t13event_handlerE"></span><span id="_CPPv2N24esp_http_client_config_t13event_handlerE"></span><span id="esp_http_client_config_t::event_handler__http_event_handle_cb"></span><span class="target" id="structesp__http__client__config__t_1a86fef11c357187832dc0c41b2afb1701"></span><a class="reference internal" href="#_CPPv420http_event_handle_cb" title="http_event_handle_cb">http_event_handle_cb</a> <code class="descname">event_handler</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t13event_handlerE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP Event Handle </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t14transport_typeE">
+<span id="_CPPv3N24esp_http_client_config_t14transport_typeE"></span><span id="_CPPv2N24esp_http_client_config_t14transport_typeE"></span><span id="esp_http_client_config_t::transport_type__esp_http_client_transport_t"></span><span class="target" id="structesp__http__client__config__t_1a00a2e2e3ac476ba7c8b48892abad273d"></span><a class="reference internal" href="#_CPPv427esp_http_client_transport_t" title="esp_http_client_transport_t">esp_http_client_transport_t</a> <code class="descname">transport_type</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t14transport_typeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP transport type, see <code class="docutils literal notranslate"><span class="pre">esp_http_client_transport_t</span></code> </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t11buffer_sizeE">
+<span id="_CPPv3N24esp_http_client_config_t11buffer_sizeE"></span><span id="_CPPv2N24esp_http_client_config_t11buffer_sizeE"></span><span id="esp_http_client_config_t::buffer_size__i"></span><span class="target" id="structesp__http__client__config__t_1adcb7ffe40aa2e73d72942644bcc69703"></span>int <code class="descname">buffer_size</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t11buffer_sizeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP receive buffer size </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t14buffer_size_txE">
+<span id="_CPPv3N24esp_http_client_config_t14buffer_size_txE"></span><span id="_CPPv2N24esp_http_client_config_t14buffer_size_txE"></span><span id="esp_http_client_config_t::buffer_size_tx__i"></span><span class="target" id="structesp__http__client__config__t_1a2856e7ba3f590478a3986fa8ab9ecb71"></span>int <code class="descname">buffer_size_tx</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t14buffer_size_txE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP transmit buffer size </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t9user_dataE">
+<span id="_CPPv3N24esp_http_client_config_t9user_dataE"></span><span id="_CPPv2N24esp_http_client_config_t9user_dataE"></span><span id="esp_http_client_config_t::user_data__voidP"></span><span class="target" id="structesp__http__client__config__t_1a28c4dc3f6e93f41187cdf0edd44ec0e5"></span>void *<code class="descname">user_data</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t9user_dataE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP user_data context </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t8is_asyncE">
+<span id="_CPPv3N24esp_http_client_config_t8is_asyncE"></span><span id="_CPPv2N24esp_http_client_config_t8is_asyncE"></span><span id="esp_http_client_config_t::is_async__b"></span><span class="target" id="structesp__http__client__config__t_1a238534d564dcafc691f72a5aaa29081e"></span>bool <code class="descname">is_async</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t8is_asyncE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set asynchronous mode, only supported with HTTPS for now </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t19use_global_ca_storeE">
+<span id="_CPPv3N24esp_http_client_config_t19use_global_ca_storeE"></span><span id="_CPPv2N24esp_http_client_config_t19use_global_ca_storeE"></span><span id="esp_http_client_config_t::use_global_ca_store__b"></span><span class="target" id="structesp__http__client__config__t_1a5fcf3d06e1a783fe6ecdd61183cbd019"></span>bool <code class="descname">use_global_ca_store</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t19use_global_ca_storeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Use a global ca_store for all the connections in which this bool is set. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_http_client_config_t27skip_cert_common_name_checkE">
+<span id="_CPPv3N24esp_http_client_config_t27skip_cert_common_name_checkE"></span><span id="_CPPv2N24esp_http_client_config_t27skip_cert_common_name_checkE"></span><span id="esp_http_client_config_t::skip_cert_common_name_check__b"></span><span class="target" id="structesp__http__client__config__t_1ad00379ceec9655701af1c4343b7cfd73"></span>bool <code class="descname">skip_cert_common_name_check</code><a class="headerlink" href="#_CPPv4N24esp_http_client_config_t27skip_cert_common_name_checkE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Skip any validation of server certificate CN field </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.DEFAULT_HTTP_BUF_SIZE">
+<span class="target" id="esp__http__client_8h_1a06911b03f8b29c67349ed8a9567a87cc"></span><code class="descname">DEFAULT_HTTP_BUF_SIZE</code><a class="headerlink" href="#c.DEFAULT_HTTP_BUF_SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_HTTP_BASE">
+<span class="target" id="esp__http__client_8h_1a84142b7b15d37f6b3f06d036ae80c8f0"></span><code class="descname">ESP_ERR_HTTP_BASE</code><a class="headerlink" href="#c.ESP_ERR_HTTP_BASE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starting number of HTTP error codes </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_HTTP_MAX_REDIRECT">
+<span class="target" id="esp__http__client_8h_1a4f01aee6918a84a8500f98eb4435fef7"></span><code class="descname">ESP_ERR_HTTP_MAX_REDIRECT</code><a class="headerlink" href="#c.ESP_ERR_HTTP_MAX_REDIRECT" title="Permalink to this definition">¶</a></dt>
+<dd><p>The error exceeds the number of HTTP redirects </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_HTTP_CONNECT">
+<span class="target" id="esp__http__client_8h_1a8db2d67ab520c92592f88515b85118d3"></span><code class="descname">ESP_ERR_HTTP_CONNECT</code><a class="headerlink" href="#c.ESP_ERR_HTTP_CONNECT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error open the HTTP connection </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_HTTP_WRITE_DATA">
+<span class="target" id="esp__http__client_8h_1a3097d4c0039efba09317472338498818"></span><code class="descname">ESP_ERR_HTTP_WRITE_DATA</code><a class="headerlink" href="#c.ESP_ERR_HTTP_WRITE_DATA" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error write HTTP data </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_HTTP_FETCH_HEADER">
+<span class="target" id="esp__http__client_8h_1a854d3fb74ff39e9d1946fde95c36c077"></span><code class="descname">ESP_ERR_HTTP_FETCH_HEADER</code><a class="headerlink" href="#c.ESP_ERR_HTTP_FETCH_HEADER" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error read HTTP header from server </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_HTTP_INVALID_TRANSPORT">
+<span class="target" id="esp__http__client_8h_1a25bf25748abc1c925a24ae8e747948ab"></span><code class="descname">ESP_ERR_HTTP_INVALID_TRANSPORT</code><a class="headerlink" href="#c.ESP_ERR_HTTP_INVALID_TRANSPORT" title="Permalink to this definition">¶</a></dt>
+<dd><p>There are no transport support for the input scheme </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_HTTP_CONNECTING">
+<span class="target" id="esp__http__client_8h_1a9d68d2a65eb6951c7d868d0926d4d96e"></span><code class="descname">ESP_ERR_HTTP_CONNECTING</code><a class="headerlink" href="#c.ESP_ERR_HTTP_CONNECTING" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTP connection hasn’t been established yet </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_HTTP_EAGAIN">
+<span class="target" id="esp__http__client_8h_1af14d142b6da5afa5f031a1d78c19e86b"></span><code class="descname">ESP_ERR_HTTP_EAGAIN</code><a class="headerlink" href="#c.ESP_ERR_HTTP_EAGAIN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mapping of errno EAGAIN to esp_err_t </p>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv424esp_http_client_handle_t">
+<span id="_CPPv324esp_http_client_handle_t"></span><span id="_CPPv224esp_http_client_handle_t"></span><span id="esp_http_client_handle_t"></span><span class="target" id="esp__http__client_8h_1a2711955a9fa159ba5ec6af0086febce7"></span><em class="property">typedef </em><em class="property">struct</em> esp_http_client *<code class="descname">esp_http_client_handle_t</code><a class="headerlink" href="#_CPPv424esp_http_client_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="type">
+<dt id="_CPPv430esp_http_client_event_handle_t">
+<span id="_CPPv330esp_http_client_event_handle_t"></span><span id="_CPPv230esp_http_client_event_handle_t"></span><span id="esp_http_client_event_handle_t"></span><span class="target" id="esp__http__client_8h_1acf80ff795156160f65893fb8411f372d"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv421esp_http_client_event" title="esp_http_client_event">esp_http_client_event</a> *<code class="descname">esp_http_client_event_handle_t</code><a class="headerlink" href="#_CPPv430esp_http_client_event_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="type">
+<dt id="_CPPv423esp_http_client_event_t">
+<span id="_CPPv323esp_http_client_event_t"></span><span id="_CPPv223esp_http_client_event_t"></span><span id="esp_http_client_event_t"></span><span class="target" id="esp__http__client_8h_1a7521a6ddbac33392d6f3fa9cb2afdaf1"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv421esp_http_client_event" title="esp_http_client_event">esp_http_client_event</a> <code class="descname">esp_http_client_event_t</code><a class="headerlink" href="#_CPPv423esp_http_client_event_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP Client events data. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv420http_event_handle_cb">
+<span id="_CPPv320http_event_handle_cb"></span><span id="_CPPv220http_event_handle_cb"></span><span id="http_event_handle_cb"></span><span class="target" id="esp__http__client_8h_1ae80c967b7aed491bb15dca05e93deab2"></span><em class="property">typedef </em><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">http_event_handle_cb</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv423esp_http_client_event_t" title="esp_http_client_event_t">esp_http_client_event_t</a> *evt<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420http_event_handle_cb" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv426esp_http_client_event_id_t">
+<span id="_CPPv326esp_http_client_event_id_t"></span><span id="_CPPv226esp_http_client_event_id_t"></span><span id="esp_http_client_event_id_t"></span><span class="target" id="esp__http__client_8h_1aff8029d712d7d4a2c73515bf310dd493"></span><em class="property">enum </em><code class="descname">esp_http_client_event_id_t</code><a class="headerlink" href="#_CPPv426esp_http_client_event_id_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP Client events id. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv416HTTP_EVENT_ERROR">
+<span id="_CPPv316HTTP_EVENT_ERROR"></span><span id="_CPPv216HTTP_EVENT_ERROR"></span><span class="target" id="esp__http__client_8h_1aff8029d712d7d4a2c73515bf310dd493aef10133a5ef996c6f5334b24775291b9"></span><code class="descname">HTTP_EVENT_ERROR</code> = 0<a class="headerlink" href="#_CPPv416HTTP_EVENT_ERROR" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This event occurs when there are any errors during execution </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423HTTP_EVENT_ON_CONNECTED">
+<span id="_CPPv323HTTP_EVENT_ON_CONNECTED"></span><span id="_CPPv223HTTP_EVENT_ON_CONNECTED"></span><span class="target" id="esp__http__client_8h_1aff8029d712d7d4a2c73515bf310dd493a4bf3bd6a38f88b178340ff00d6e0bae5"></span><code class="descname">HTTP_EVENT_ON_CONNECTED</code><a class="headerlink" href="#_CPPv423HTTP_EVENT_ON_CONNECTED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Once the HTTP has been connected to the server, no data exchange has been performed </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423HTTP_EVENT_HEADERS_SENT">
+<span id="_CPPv323HTTP_EVENT_HEADERS_SENT"></span><span id="_CPPv223HTTP_EVENT_HEADERS_SENT"></span><span class="target" id="esp__http__client_8h_1aff8029d712d7d4a2c73515bf310dd493a09f1c8900700d9b28ba2a4a87dde7c4c"></span><code class="descname">HTTP_EVENT_HEADERS_SENT</code><a class="headerlink" href="#_CPPv423HTTP_EVENT_HEADERS_SENT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>After sending all the headers to the server </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv422HTTP_EVENT_HEADER_SENT">
+<span id="_CPPv322HTTP_EVENT_HEADER_SENT"></span><span id="_CPPv222HTTP_EVENT_HEADER_SENT"></span><span class="target" id="esp__http__client_8h_1aff8029d712d7d4a2c73515bf310dd493ae98e7f3c31ff7f8aa646f507e131c49e"></span><code class="descname">HTTP_EVENT_HEADER_SENT</code> = HTTP_EVENT_HEADERS_SENT<a class="headerlink" href="#_CPPv422HTTP_EVENT_HEADER_SENT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This header has been kept for backward compatability and will be deprecated in future versions esp-idf </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv420HTTP_EVENT_ON_HEADER">
+<span id="_CPPv320HTTP_EVENT_ON_HEADER"></span><span id="_CPPv220HTTP_EVENT_ON_HEADER"></span><span class="target" id="esp__http__client_8h_1aff8029d712d7d4a2c73515bf310dd493a33f7ef1826cf45f536bc1892d4736cd1"></span><code class="descname">HTTP_EVENT_ON_HEADER</code><a class="headerlink" href="#_CPPv420HTTP_EVENT_ON_HEADER" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Occurs when receiving each header sent from the server </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv418HTTP_EVENT_ON_DATA">
+<span id="_CPPv318HTTP_EVENT_ON_DATA"></span><span id="_CPPv218HTTP_EVENT_ON_DATA"></span><span class="target" id="esp__http__client_8h_1aff8029d712d7d4a2c73515bf310dd493aff46ac62eb52923e10586994130990a0"></span><code class="descname">HTTP_EVENT_ON_DATA</code><a class="headerlink" href="#_CPPv418HTTP_EVENT_ON_DATA" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Occurs when receiving data from the server, possibly multiple portions of the packet </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv420HTTP_EVENT_ON_FINISH">
+<span id="_CPPv320HTTP_EVENT_ON_FINISH"></span><span id="_CPPv220HTTP_EVENT_ON_FINISH"></span><span class="target" id="esp__http__client_8h_1aff8029d712d7d4a2c73515bf310dd493add8f2647c4612401131a2e56041e8857"></span><code class="descname">HTTP_EVENT_ON_FINISH</code><a class="headerlink" href="#_CPPv420HTTP_EVENT_ON_FINISH" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Occurs when finish a HTTP session </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423HTTP_EVENT_DISCONNECTED">
+<span id="_CPPv323HTTP_EVENT_DISCONNECTED"></span><span id="_CPPv223HTTP_EVENT_DISCONNECTED"></span><span class="target" id="esp__http__client_8h_1aff8029d712d7d4a2c73515bf310dd493a6c36e7f2cff5d1057e9fb177f4951e03"></span><code class="descname">HTTP_EVENT_DISCONNECTED</code><a class="headerlink" href="#_CPPv423HTTP_EVENT_DISCONNECTED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The connection has been disconnected </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv427esp_http_client_transport_t">
+<span id="_CPPv327esp_http_client_transport_t"></span><span id="_CPPv227esp_http_client_transport_t"></span><span id="esp_http_client_transport_t"></span><span class="target" id="esp__http__client_8h_1a42a25ce98c6515fae39e0d1573cdd7df"></span><em class="property">enum </em><code class="descname">esp_http_client_transport_t</code><a class="headerlink" href="#_CPPv427esp_http_client_transport_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP Client transport. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv422HTTP_TRANSPORT_UNKNOWN">
+<span id="_CPPv322HTTP_TRANSPORT_UNKNOWN"></span><span id="_CPPv222HTTP_TRANSPORT_UNKNOWN"></span><span class="target" id="esp__http__client_8h_1a42a25ce98c6515fae39e0d1573cdd7dfaee182c59025595c82be2a4a4b4b0dde1"></span><code class="descname">HTTP_TRANSPORT_UNKNOWN</code> = 0x0<a class="headerlink" href="#_CPPv422HTTP_TRANSPORT_UNKNOWN" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Unknown </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423HTTP_TRANSPORT_OVER_TCP">
+<span id="_CPPv323HTTP_TRANSPORT_OVER_TCP"></span><span id="_CPPv223HTTP_TRANSPORT_OVER_TCP"></span><span class="target" id="esp__http__client_8h_1a42a25ce98c6515fae39e0d1573cdd7dfa87994a87945322cd222abcf93ef82a21"></span><code class="descname">HTTP_TRANSPORT_OVER_TCP</code><a class="headerlink" href="#_CPPv423HTTP_TRANSPORT_OVER_TCP" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Transport over tcp </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423HTTP_TRANSPORT_OVER_SSL">
+<span id="_CPPv323HTTP_TRANSPORT_OVER_SSL"></span><span id="_CPPv223HTTP_TRANSPORT_OVER_SSL"></span><span class="target" id="esp__http__client_8h_1a42a25ce98c6515fae39e0d1573cdd7dfa693e6e5d3884ee9d3635c30863e28f8f"></span><code class="descname">HTTP_TRANSPORT_OVER_SSL</code><a class="headerlink" href="#_CPPv423HTTP_TRANSPORT_OVER_SSL" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Transport over ssl </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv424esp_http_client_method_t">
+<span id="_CPPv324esp_http_client_method_t"></span><span id="_CPPv224esp_http_client_method_t"></span><span id="esp_http_client_method_t"></span><span class="target" id="esp__http__client_8h_1a322d8bc58a0877bd2e8d6c69840115e0"></span><em class="property">enum </em><code class="descname">esp_http_client_method_t</code><a class="headerlink" href="#_CPPv424esp_http_client_method_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP method. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv415HTTP_METHOD_GET">
+<span id="_CPPv315HTTP_METHOD_GET"></span><span id="_CPPv215HTTP_METHOD_GET"></span><span class="target" id="esp__http__client_8h_1a322d8bc58a0877bd2e8d6c69840115e0a90754abc55dbb76862fa50abee5af659"></span><code class="descname">HTTP_METHOD_GET</code> = 0<a class="headerlink" href="#_CPPv415HTTP_METHOD_GET" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP GET Method </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv416HTTP_METHOD_POST">
+<span id="_CPPv316HTTP_METHOD_POST"></span><span id="_CPPv216HTTP_METHOD_POST"></span><span class="target" id="esp__http__client_8h_1a322d8bc58a0877bd2e8d6c69840115e0a1944682922ac79b2e682312d8f3f71e2"></span><code class="descname">HTTP_METHOD_POST</code><a class="headerlink" href="#_CPPv416HTTP_METHOD_POST" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP POST Method </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv415HTTP_METHOD_PUT">
+<span id="_CPPv315HTTP_METHOD_PUT"></span><span id="_CPPv215HTTP_METHOD_PUT"></span><span class="target" id="esp__http__client_8h_1a322d8bc58a0877bd2e8d6c69840115e0af7557927b605c64f35f629b43823b1c9"></span><code class="descname">HTTP_METHOD_PUT</code><a class="headerlink" href="#_CPPv415HTTP_METHOD_PUT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP PUT Method </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv417HTTP_METHOD_PATCH">
+<span id="_CPPv317HTTP_METHOD_PATCH"></span><span id="_CPPv217HTTP_METHOD_PATCH"></span><span class="target" id="esp__http__client_8h_1a322d8bc58a0877bd2e8d6c69840115e0ac1adf0f44043552b637a6235ae3ff283"></span><code class="descname">HTTP_METHOD_PATCH</code><a class="headerlink" href="#_CPPv417HTTP_METHOD_PATCH" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP PATCH Method </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv418HTTP_METHOD_DELETE">
+<span id="_CPPv318HTTP_METHOD_DELETE"></span><span id="_CPPv218HTTP_METHOD_DELETE"></span><span class="target" id="esp__http__client_8h_1a322d8bc58a0877bd2e8d6c69840115e0a761371f7807255b7912afbac2f665ffe"></span><code class="descname">HTTP_METHOD_DELETE</code><a class="headerlink" href="#_CPPv418HTTP_METHOD_DELETE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP DELETE Method </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv416HTTP_METHOD_HEAD">
+<span id="_CPPv316HTTP_METHOD_HEAD"></span><span id="_CPPv216HTTP_METHOD_HEAD"></span><span class="target" id="esp__http__client_8h_1a322d8bc58a0877bd2e8d6c69840115e0a27e993d38ff6b43284014a10798b6223"></span><code class="descname">HTTP_METHOD_HEAD</code><a class="headerlink" href="#_CPPv416HTTP_METHOD_HEAD" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP HEAD Method </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv418HTTP_METHOD_NOTIFY">
+<span id="_CPPv318HTTP_METHOD_NOTIFY"></span><span id="_CPPv218HTTP_METHOD_NOTIFY"></span><span class="target" id="esp__http__client_8h_1a322d8bc58a0877bd2e8d6c69840115e0a01028fe0ca0f797afddf696b61e82e11"></span><code class="descname">HTTP_METHOD_NOTIFY</code><a class="headerlink" href="#_CPPv418HTTP_METHOD_NOTIFY" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP NOTIFY Method </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv421HTTP_METHOD_SUBSCRIBE">
+<span id="_CPPv321HTTP_METHOD_SUBSCRIBE"></span><span id="_CPPv221HTTP_METHOD_SUBSCRIBE"></span><span class="target" id="esp__http__client_8h_1a322d8bc58a0877bd2e8d6c69840115e0ae06313b08e81c4875c5fbbfb472928fa"></span><code class="descname">HTTP_METHOD_SUBSCRIBE</code><a class="headerlink" href="#_CPPv421HTTP_METHOD_SUBSCRIBE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP SUBSCRIBE Method </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423HTTP_METHOD_UNSUBSCRIBE">
+<span id="_CPPv323HTTP_METHOD_UNSUBSCRIBE"></span><span id="_CPPv223HTTP_METHOD_UNSUBSCRIBE"></span><span class="target" id="esp__http__client_8h_1a322d8bc58a0877bd2e8d6c69840115e0a310484dba043c97f161dd798d0d83f93"></span><code class="descname">HTTP_METHOD_UNSUBSCRIBE</code><a class="headerlink" href="#_CPPv423HTTP_METHOD_UNSUBSCRIBE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP UNSUBSCRIBE Method </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv419HTTP_METHOD_OPTIONS">
+<span id="_CPPv319HTTP_METHOD_OPTIONS"></span><span id="_CPPv219HTTP_METHOD_OPTIONS"></span><span class="target" id="esp__http__client_8h_1a322d8bc58a0877bd2e8d6c69840115e0af6b02f8ff0467dbdaebb24f0a996cdd4"></span><code class="descname">HTTP_METHOD_OPTIONS</code><a class="headerlink" href="#_CPPv419HTTP_METHOD_OPTIONS" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP OPTIONS Method </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv415HTTP_METHOD_MAX">
+<span id="_CPPv315HTTP_METHOD_MAX"></span><span id="_CPPv215HTTP_METHOD_MAX"></span><span class="target" id="esp__http__client_8h_1a322d8bc58a0877bd2e8d6c69840115e0aaa460dd94b991daa549c78680867612c"></span><code class="descname">HTTP_METHOD_MAX</code><a class="headerlink" href="#_CPPv415HTTP_METHOD_MAX" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv427esp_http_client_auth_type_t">
+<span id="_CPPv327esp_http_client_auth_type_t"></span><span id="_CPPv227esp_http_client_auth_type_t"></span><span id="esp_http_client_auth_type_t"></span><span class="target" id="esp__http__client_8h_1abe9a1a61570885ddb87793ff553f657d"></span><em class="property">enum </em><code class="descname">esp_http_client_auth_type_t</code><a class="headerlink" href="#_CPPv427esp_http_client_auth_type_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP Authentication type. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv419HTTP_AUTH_TYPE_NONE">
+<span id="_CPPv319HTTP_AUTH_TYPE_NONE"></span><span id="_CPPv219HTTP_AUTH_TYPE_NONE"></span><span class="target" id="esp__http__client_8h_1abe9a1a61570885ddb87793ff553f657da2f238725bbd9cda708d2eada5e8d46fd"></span><code class="descname">HTTP_AUTH_TYPE_NONE</code> = 0<a class="headerlink" href="#_CPPv419HTTP_AUTH_TYPE_NONE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>No authention </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv420HTTP_AUTH_TYPE_BASIC">
+<span id="_CPPv320HTTP_AUTH_TYPE_BASIC"></span><span id="_CPPv220HTTP_AUTH_TYPE_BASIC"></span><span class="target" id="esp__http__client_8h_1abe9a1a61570885ddb87793ff553f657dac46ce177422652bd718dad7e7de22c1a"></span><code class="descname">HTTP_AUTH_TYPE_BASIC</code><a class="headerlink" href="#_CPPv420HTTP_AUTH_TYPE_BASIC" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP Basic authentication </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv421HTTP_AUTH_TYPE_DIGEST">
+<span id="_CPPv321HTTP_AUTH_TYPE_DIGEST"></span><span id="_CPPv221HTTP_AUTH_TYPE_DIGEST"></span><span class="target" id="esp__http__client_8h_1abe9a1a61570885ddb87793ff553f657da45e5dcd2be1e43b502131956ff1e0ac6"></span><code class="descname">HTTP_AUTH_TYPE_DIGEST</code><a class="headerlink" href="#_CPPv421HTTP_AUTH_TYPE_DIGEST" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP Disgest authentication </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv415HttpStatus_Code">
+<span id="_CPPv315HttpStatus_Code"></span><span id="_CPPv215HttpStatus_Code"></span><span id="HttpStatus_Code"></span><span class="target" id="esp__http__client_8h_1aa4368623dd097b95b39b0463fc828e7b"></span><em class="property">enum </em><code class="descname">HttpStatus_Code</code><a class="headerlink" href="#_CPPv415HttpStatus_Code" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enum for the HTTP status codes. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv427HttpStatus_MovedPermanently">
+<span id="_CPPv327HttpStatus_MovedPermanently"></span><span id="_CPPv227HttpStatus_MovedPermanently"></span><span class="target" id="esp__http__client_8h_1aa4368623dd097b95b39b0463fc828e7bada3892ede8b9e35af49e5e8559259ff5"></span><code class="descname">HttpStatus_MovedPermanently</code> = 301<a class="headerlink" href="#_CPPv427HttpStatus_MovedPermanently" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv416HttpStatus_Found">
+<span id="_CPPv316HttpStatus_Found"></span><span id="_CPPv216HttpStatus_Found"></span><span class="target" id="esp__http__client_8h_1aa4368623dd097b95b39b0463fc828e7ba3bce8661a4e676ad0ba8a2ce4b32cce4"></span><code class="descname">HttpStatus_Found</code> = 302<a class="headerlink" href="#_CPPv416HttpStatus_Found" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv428HttpStatus_TemporaryRedirect">
+<span id="_CPPv328HttpStatus_TemporaryRedirect"></span><span id="_CPPv228HttpStatus_TemporaryRedirect"></span><span class="target" id="esp__http__client_8h_1aa4368623dd097b95b39b0463fc828e7baafef97ac32c24251e7db2c75a249d392"></span><code class="descname">HttpStatus_TemporaryRedirect</code> = 307<a class="headerlink" href="#_CPPv428HttpStatus_TemporaryRedirect" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423HttpStatus_Unauthorized">
+<span id="_CPPv323HttpStatus_Unauthorized"></span><span id="_CPPv223HttpStatus_Unauthorized"></span><span class="target" id="esp__http__client_8h_1aa4368623dd097b95b39b0463fc828e7ba0d44e15755098ca736f44282aae4fb31"></span><code class="descname">HttpStatus_Unauthorized</code> = 401<a class="headerlink" href="#_CPPv423HttpStatus_Unauthorized" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esp_http_server.html" class="btn btn-neutral float-right" title="HTTP Server" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="esp_tls.html" class="btn btn-neutral float-left" title="ESP-TLS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/protocols/esp_http_client.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:11 GMT -->
+</html>

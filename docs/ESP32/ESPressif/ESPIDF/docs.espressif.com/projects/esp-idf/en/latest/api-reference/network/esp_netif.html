@@ -1,0 +1,1577 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/network/esp_netif.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:26 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ESP-NETIF &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="TCP/IP Adapter Migration Guide" href="tcpip_adapter_migration.html" />
+    <link rel="prev" title="Ethernet" href="esp_eth.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="esp_netif.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/network/esp_netif"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Networking</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="index.html#wi-fi">Wi-Fi</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#ethernet">Ethernet</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#ip-network-layer">IP Network Layer</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">ESP-NETIF</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tcpip_adapter_migration.html">TCP/IP Adapter Migration Guide</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esp_netif_driver.html">ESP-NETIF Custom I/O Driver</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#application-layer">Application Layer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Networking APIs</a> &raquo;</li>
+        
+      <li>ESP-NETIF</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/network/esp_netif.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esp-netif">
+<h1>ESP-NETIF<a class="headerlink" href="#esp-netif" title="Permalink to this headline">¶</a></h1>
+<p>The purpose of ESP-NETIF library is twofold:</p>
+<ul class="simple">
+<li>It provides an abstraction layer for the application on top of the TCP/IP stack. This will allow applications to choose between IP stacks in the future.</li>
+<li>The APIs it provides are thread safe, even if the underlying TCP/IP stack APIs are not.</li>
+</ul>
+<p>ESP-IDF currently implements ESP-NETIF for the lwIP TCP/IP stack only. However, the adapter itself is TCP/IP implementation agnostic and different implementations are possible.</p>
+<p>Some ESP-NETIF API functions are intended to be called by application code, for example to get/set interface IP addresses, configure DHCP. Other functions are intended for internal ESP-IDF use by the network driver layer.</p>
+<p>In many cases, applications do not need to call ESP-NETIF APIs directly as they are called from the default network event handlers.</p>
+<p>ESP-NETIF component is a successor of the tcpip_adapter, former network interface abstraction, which has become deprecated since IDF v4.1.
+Please refer to the <a class="reference internal" href="tcpip_adapter_migration.html"><span class="doc">TCP/IP Adapter Migration Guide</span></a> section in case existing applications to be ported to use the esp-netif API instead.</p>
+<div class="section" id="esp-netif-architecture">
+<h2>ESP-NETIF architecture<a class="headerlink" href="#esp-netif-architecture" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>                 |          (A) USER CODE                 |
+                 |                                        |
+    .............| init          settings      events     |
+    .            +----------------------------------------+
+    .               .                |           *
+    .               .                |           *
+--------+        +===========================+   *     +-----------------------+
+        |        | new/config     get/set    |   *     |                       |
+        |        |                           |...*.....| init                  |
+        |        |---------------------------|   *     |                       |
+  init  |        |                           |****     |                       |
+  start |********|  event handler            |*********|  DHCP                 |
+  stop  |        |                           |         |                       |
+        |        |---------------------------|         |                       |
+        |        |                           |         |    NETIF              |
+  +-----|        |                           |         +-----------------+     |
+  | glue|----&lt;---|  esp_netif_transmit       |--&lt;------| netif_output    |     |
+  |     |        |                           |         |                 |     |
+  |     |----&gt;---|  esp_netif_receive        |--&gt;------| netif_input     |     |
+  |     |        |                           |         + ----------------+     |
+  |     |....&lt;...|  esp_netif_free_rx_buffer |...&lt;.....| packet buffer         |
+  +-----|        |                           |         |                       |
+        |        |                           |         |         (D)           |
+  (B)   |        |          (C)              |         +-----------------------+
+--------+        +===========================+
+communication                                                NETWORK STACK
+DRIVER                   ESP-NETIF
+</pre></div>
+</div>
+</div>
+<div class="section" id="data-and-event-flow-in-the-diagram">
+<h2>Data and event flow in the diagram<a class="headerlink" href="#data-and-event-flow-in-the-diagram" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">........</span></code>     Initialization line from user code to ESP-NETIF and communication driver</li>
+<li><code class="docutils literal notranslate"><span class="pre">--&lt;---&gt;--</span></code>    Data packets going from communication media to TCP/IP stack and back</li>
+<li><code class="docutils literal notranslate"><span class="pre">********</span></code>     Events aggregated in ESP-NETIF propagates to driver, user code and network stack</li>
+<li><code class="docutils literal notranslate"><span class="pre">|</span></code>           User settings and runtime configuration</li>
+</ul>
+</div>
+<div class="section" id="esp-netif-interaction">
+<h2>ESP-NETIF interaction<a class="headerlink" href="#esp-netif-interaction" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="a-user-code-boiler-plate">
+<h3>A) User code, boiler plate<a class="headerlink" href="#a-user-code-boiler-plate" title="Permalink to this headline">¶</a></h3>
+<p>Overall application interaction with a specific IO driver for communication media and configured TCP/IP network stack
+is abstracted using ESP-NETIF APIs and outlined as below:</p>
+<ol class="upperalpha simple">
+<li>Initialization code</li>
+</ol>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Initializes IO driver</li>
+<li>Creates a new instance of ESP-NETIF and configure with</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>ESP-NETIF specific options (flags, behaviour, name)</li>
+<li>Network stack options (netif init and input functions, not publicly available)</li>
+<li>IO driver specific options (transmit, free rx buffer functions, IO driver handle)</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="3">
+<li>Attaches the IO driver handle to the ESP-NETIF instance created in the above steps</li>
+<li>Configures event handlers</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>use default handlers for common interfaces defined in IO drivers; or define a specific handlers for customised behaviour/new interfaces</li>
+<li>register handlers for app related events (such as IP lost/acquired)</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+<ol class="upperalpha simple" start="2">
+<li>Interaction with network interfaces using ESP-NETIF API</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>Getting and setting TCP/IP related parameters (DHCP, IP, etc)</li>
+<li>Receiving IP events (connect/disconnect)</li>
+<li>Controlling application lifecycle (set interface up/down)</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="b-communication-driver-io-driver-media-driver">
+<h3>B) Communication driver, IO driver, media driver<a class="headerlink" href="#b-communication-driver-io-driver-media-driver" title="Permalink to this headline">¶</a></h3>
+<p>Communication driver plays these two important roles in relation with ESP-NETIF:</p>
+<ol class="arabic simple">
+<li>Event handlers: Define behaviour patterns of interaction with ESP-NETIF (for example: ethernet link-up -&gt; turn netif on)</li>
+<li>Glue IO layer: Adapts the input/output functions to use ESP-NETIF transmit, receive and free receive buffer</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>Installs driver_transmit to appropriate ESP-NETIF object, so that outgoing packets from network stack are passed to the IO driver</li>
+<li>Calls <a class="reference internal" href="#_CPPv417esp_netif_receiveP11esp_netif_tPv6size_tPv" title="esp_netif_receive"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_netif_receive()</span></code></a> to pass incoming data to network stack</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="c-esp-netif-former-tcpip-adapter">
+<h3>C) ESP-NETIF, former tcpip_adapter<a class="headerlink" href="#c-esp-netif-former-tcpip-adapter" title="Permalink to this headline">¶</a></h3>
+<p>ESP-NETIF is an intermediary between an IO driver and a network stack, connecting packet data path between these two.
+As that it provides a set of interfaces for attaching a driver to ESP-NETIF object (runtime) and
+configuring a network stack (compile time). In addition to that a set of API is provided to control network interface lifecycle
+and its TCP/IP properties. As an overview, the ESP-NETIF public interface could be divided into these 6 groups:</p>
+<ol class="arabic simple">
+<li>Initialization APIs (to create and configure ESP-NETIF instance)</li>
+<li>Input/Output API (for passing data between IO driver and network stack)</li>
+<li>Event or Action API</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>Used for network interface lifecycle management</li>
+<li>ESP-NETIF provides building blocks for designing event handlers</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="4">
+<li>Setters and Getters for basic network interface properties</li>
+<li>Network stack abstraction: enabling user interaction with TCP/IP stack</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>Set interface up or down</li>
+<li>DHCP server and client API</li>
+<li>DNS API</li>
+</ul>
+</div></blockquote>
+<ol class="arabic simple" start="6">
+<li>Driver conversion utilities</li>
+</ol>
+</div>
+<div class="section" id="d-network-stack">
+<h3>D) Network stack<a class="headerlink" href="#d-network-stack" title="Permalink to this headline">¶</a></h3>
+<p>Network stack has no public interaction with application code with regard to public interfaces and shall be fully abstracted by
+ESP-NETIF API.</p>
+</div>
+</div>
+<div class="section" id="esp-netif-programmer-s-manual">
+<h2>ESP-NETIF programmer’s manual<a class="headerlink" href="#esp-netif-programmer-s-manual" title="Permalink to this headline">¶</a></h2>
+<p>Please refer to the example section for basic initialization of default interfaces:</p>
+<ul class="simple">
+<li>WiFi Station: <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/wifi/getting_started/station/main/station_example_main.c">wifi/getting_started/station/main/station_example_main.c</a></li>
+<li>WiFi Access Point: <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/wifi/getting_started/softAP/main/softap_example_main.c">wifi/getting_started/softAP/main/softap_example_main.c</a></li>
+<li>Ethernet: <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/ethernet/basic/main/ethernet_example_main.c">ethernet/basic/main/ethernet_example_main.c</a></li>
+</ul>
+<p>For more specific cases please consult this guide: <a class="reference internal" href="esp_netif_driver.html"><span class="doc">ESP-NETIF Custom I/O Driver</span></a>.</p>
+<div class="section" id="wifi-default-initialization">
+<h3>WiFi default initialization<a class="headerlink" href="#wifi-default-initialization" title="Permalink to this headline">¶</a></h3>
+<p>The initialization code as well as registering event handlers for default interfaces,
+such as softAP and station, are provided in two separate APIs to facilitate simple startup code for most applications:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#_CPPv432esp_netif_create_default_wifi_apv" title="esp_netif_create_default_wifi_ap"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_netif_create_default_wifi_ap()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv433esp_netif_create_default_wifi_stav" title="esp_netif_create_default_wifi_sta"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_netif_create_default_wifi_sta()</span></code></a></li>
+</ul>
+<p>Please note that these functions return the <code class="docutils literal notranslate"><span class="pre">esp_netif</span></code> handle, i.e. a pointer to a network interface object allocated and
+configured with default settings, which as a consequence, means that:</p>
+<ul class="simple">
+<li>The created object has to be destroyed if a network de-initialization is provided by an application.</li>
+<li>These <em>default</em> interfaces must not be created multiple times, unless the created handle is deleted using <a class="reference internal" href="#_CPPv417esp_netif_destroyP11esp_netif_t" title="esp_netif_destroy"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_netif_destroy()</span></code></a>.</li>
+<li>When using Wifi in <code class="docutils literal notranslate"><span class="pre">AP+STA</span></code> mode, both these interfaces has to be created.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_netif/include/esp_netif.h">esp_netif/include/esp_netif.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv414esp_netif_initv">
+<span id="_CPPv314esp_netif_initv"></span><span id="_CPPv214esp_netif_initv"></span><span id="esp_netif_init__void"></span><span class="target" id="group__ESP__NETIF__INIT__API_1gae2a66efbc3181912e387af430fd265fc"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_init</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414esp_netif_initv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize the underlying TCP/IP stack. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_FAIL if initializing failed</li>
+</ul>
+</dd>
+<dt><strong>Note</strong></dt>
+<dd>This function should be called exactly once from application code, when the application starts up. </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416esp_netif_deinitv">
+<span id="_CPPv316esp_netif_deinitv"></span><span id="_CPPv216esp_netif_deinitv"></span><span id="esp_netif_deinit__void"></span><span class="target" id="group__ESP__NETIF__INIT__API_1ga46d1f03026902672e1cb8ea21f223011"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_deinit</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416esp_netif_deinitv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Deinitialize the esp-netif component (and the underlying TCP/IP stack) </p>
+<p>Note: Deinitialization is not supported yet</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_STATE if esp_netif not initialized</li>
+<li>ESP_ERR_NOT_SUPPORTED otherwise </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv413esp_netif_newPK18esp_netif_config_t">
+<span id="_CPPv313esp_netif_newPK18esp_netif_config_t"></span><span id="_CPPv213esp_netif_newPK18esp_netif_config_t"></span><span id="esp_netif_new__esp_netif_config_tCP"></span><span class="target" id="group__ESP__NETIF__INIT__API_1gaa9e6560f29c4cd701e51f8c317065469"></span>esp_netif_t *<code class="descname">esp_netif_new</code><span class="sig-paren">(</span><em class="property">const</em> esp_netif_config_t *<em>esp_netif_config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413esp_netif_newPK18esp_netif_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Creates an instance of new esp-netif object based on provided config. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>pointer to esp-netif object on success</li>
+<li>NULL otherwise </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif_config</span></code>: pointer esp-netif configuration</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417esp_netif_destroyP11esp_netif_t">
+<span id="_CPPv317esp_netif_destroyP11esp_netif_t"></span><span id="_CPPv217esp_netif_destroyP11esp_netif_t"></span><span id="esp_netif_destroy__esp_netif_tP"></span><span class="target" id="group__ESP__NETIF__INIT__API_1gac5f77d2d92bd63147bbb0f198f56910d"></span>void <code class="descname">esp_netif_destroy</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417esp_netif_destroyP11esp_netif_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Destroys the esp_netif object. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: pointer to the object to be deleted </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427esp_netif_set_driver_configP11esp_netif_tPK27esp_netif_driver_ifconfig_t">
+<span id="_CPPv327esp_netif_set_driver_configP11esp_netif_tPK27esp_netif_driver_ifconfig_t"></span><span id="_CPPv227esp_netif_set_driver_configP11esp_netif_tPK27esp_netif_driver_ifconfig_t"></span><span id="esp_netif_set_driver_config__esp_netif_tP.esp_netif_driver_ifconfig_tCP"></span><span class="target" id="group__ESP__NETIF__INIT__API_1ga26fa37421a7672d326d01363f83d95b7"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_set_driver_config</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em>, <em class="property">const</em> esp_netif_driver_ifconfig_t *<em>driver_config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427esp_netif_set_driver_configP11esp_netif_tPK27esp_netif_driver_ifconfig_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Configures driver related options of esp_netif object. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_ESP_NETIF_INVALID_PARAMS if invalid parameters provided </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: pointer to the object to be configured </li>
+<li><code class="docutils literal notranslate"><span class="pre">driver_config</span></code>: pointer esp-netif io driver related configuration </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416esp_netif_attachP11esp_netif_t25esp_netif_iodriver_handle">
+<span id="_CPPv316esp_netif_attachP11esp_netif_t25esp_netif_iodriver_handle"></span><span id="_CPPv216esp_netif_attachP11esp_netif_t25esp_netif_iodriver_handle"></span><span id="esp_netif_attach__esp_netif_tP.esp_netif_iodriver_handle"></span><span class="target" id="group__ESP__NETIF__INIT__API_1ga668507207483f053b818a01c86ed15b4"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_attach</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em>, esp_netif_iodriver_handle <em>driver_handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416esp_netif_attachP11esp_netif_t25esp_netif_iodriver_handle" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Attaches esp_netif instance to the io driver handle. </p>
+<p>Calling this function enables connecting specific esp_netif object with already initialized io driver to update esp_netif object with driver specific configuration (i.e. calls post_attach callback, which typically sets io driver callbacks to esp_netif instance and starts the driver)</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_ESP_NETIF_DRIVER_ATTACH_FAILED if driver’s pot_attach callback failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: pointer to esp_netif object to be attached </li>
+<li><code class="docutils literal notranslate"><span class="pre">driver_handle</span></code>: pointer to the driver handle </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417esp_netif_receiveP11esp_netif_tPv6size_tPv">
+<span id="_CPPv317esp_netif_receiveP11esp_netif_tPv6size_tPv"></span><span id="_CPPv217esp_netif_receiveP11esp_netif_tPv6size_tPv"></span><span id="esp_netif_receive__esp_netif_tP.voidP.s.voidP"></span><span class="target" id="group__ESP__NETIF__DATA__IO__API_1ga20afe818256546ce77f036f0e3cc0b80"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_receive</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em>, void *<em>buffer</em>, size_t <em>len</em>, void *<em>eb</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417esp_netif_receiveP11esp_netif_tPv6size_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Passes the raw packets from communication media to the appropriate TCP/IP stack. </p>
+<p>This function is called from the configured (peripheral) driver layer. The data are then forwarded as frames to the TCP/IP stack.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">buffer</span></code>: Received data </li>
+<li><code class="docutils literal notranslate"><span class="pre">len</span></code>: Length of the data frame </li>
+<li><code class="docutils literal notranslate"><span class="pre">eb</span></code>: Pointer to internal buffer (used in Wi-Fi driver)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422esp_netif_action_startPv16esp_event_base_t7int32_tPv">
+<span id="_CPPv322esp_netif_action_startPv16esp_event_base_t7int32_tPv"></span><span id="_CPPv222esp_netif_action_startPv16esp_event_base_t7int32_tPv"></span><span id="esp_netif_action_start__voidP.esp_event_base_t.int32_t.voidP"></span><span class="target" id="group__ESP__NETIF__LIFECYCLE_1ga7d5cdac96e0609ef8aac8006a3523a2a"></span>void <code class="descname">esp_netif_action_start</code><span class="sig-paren">(</span>void *<em>esp_netif</em>, <a class="reference internal" href="../system/esp_event.html#_CPPv416esp_event_base_t" title="esp_event_base_t">esp_event_base_t</a> <em>base</em>, int32_t <em>event_id</em>, void *<em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_netif_action_startPv16esp_event_base_t7int32_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Default building block for network interface action upon IO driver start event Creates network interface, if AUTOUP enabled turns the interface on, if DHCPS enabled starts dhcp server. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API can be directly used as event handler</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">base</span></code>: </li>
+<li><code class="docutils literal notranslate"><span class="pre">event_id</span></code>: </li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421esp_netif_action_stopPv16esp_event_base_t7int32_tPv">
+<span id="_CPPv321esp_netif_action_stopPv16esp_event_base_t7int32_tPv"></span><span id="_CPPv221esp_netif_action_stopPv16esp_event_base_t7int32_tPv"></span><span id="esp_netif_action_stop__voidP.esp_event_base_t.int32_t.voidP"></span><span class="target" id="group__ESP__NETIF__LIFECYCLE_1ga35578418530e03ce7b70a0b252fd9215"></span>void <code class="descname">esp_netif_action_stop</code><span class="sig-paren">(</span>void *<em>esp_netif</em>, <a class="reference internal" href="../system/esp_event.html#_CPPv416esp_event_base_t" title="esp_event_base_t">esp_event_base_t</a> <em>base</em>, int32_t <em>event_id</em>, void *<em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421esp_netif_action_stopPv16esp_event_base_t7int32_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Default building block for network interface action upon IO driver stop event. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API can be directly used as event handler</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">base</span></code>: </li>
+<li><code class="docutils literal notranslate"><span class="pre">event_id</span></code>: </li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426esp_netif_action_connectedPv16esp_event_base_t7int32_tPv">
+<span id="_CPPv326esp_netif_action_connectedPv16esp_event_base_t7int32_tPv"></span><span id="_CPPv226esp_netif_action_connectedPv16esp_event_base_t7int32_tPv"></span><span id="esp_netif_action_connected__voidP.esp_event_base_t.int32_t.voidP"></span><span class="target" id="group__ESP__NETIF__LIFECYCLE_1ga185026127f86db7c71cef9dda888f5d0"></span>void <code class="descname">esp_netif_action_connected</code><span class="sig-paren">(</span>void *<em>esp_netif</em>, <a class="reference internal" href="../system/esp_event.html#_CPPv416esp_event_base_t" title="esp_event_base_t">esp_event_base_t</a> <em>base</em>, int32_t <em>event_id</em>, void *<em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426esp_netif_action_connectedPv16esp_event_base_t7int32_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Default building block for network interface action upon IO driver connected event. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API can be directly used as event handler</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">base</span></code>: </li>
+<li><code class="docutils literal notranslate"><span class="pre">event_id</span></code>: </li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv429esp_netif_action_disconnectedPv16esp_event_base_t7int32_tPv">
+<span id="_CPPv329esp_netif_action_disconnectedPv16esp_event_base_t7int32_tPv"></span><span id="_CPPv229esp_netif_action_disconnectedPv16esp_event_base_t7int32_tPv"></span><span id="esp_netif_action_disconnected__voidP.esp_event_base_t.int32_t.voidP"></span><span class="target" id="group__ESP__NETIF__LIFECYCLE_1gab378a8e4cd8c1fe963db9eddd957d644"></span>void <code class="descname">esp_netif_action_disconnected</code><span class="sig-paren">(</span>void *<em>esp_netif</em>, <a class="reference internal" href="../system/esp_event.html#_CPPv416esp_event_base_t" title="esp_event_base_t">esp_event_base_t</a> <em>base</em>, int32_t <em>event_id</em>, void *<em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv429esp_netif_action_disconnectedPv16esp_event_base_t7int32_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Default building block for network interface action upon IO driver disconnected event. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API can be directly used as event handler</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">base</span></code>: </li>
+<li><code class="docutils literal notranslate"><span class="pre">event_id</span></code>: </li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423esp_netif_action_got_ipPv16esp_event_base_t7int32_tPv">
+<span id="_CPPv323esp_netif_action_got_ipPv16esp_event_base_t7int32_tPv"></span><span id="_CPPv223esp_netif_action_got_ipPv16esp_event_base_t7int32_tPv"></span><span id="esp_netif_action_got_ip__voidP.esp_event_base_t.int32_t.voidP"></span><span class="target" id="group__ESP__NETIF__LIFECYCLE_1gaa7a3e07aa7652c9ba0fa42667c641e70"></span>void <code class="descname">esp_netif_action_got_ip</code><span class="sig-paren">(</span>void *<em>esp_netif</em>, <a class="reference internal" href="../system/esp_event.html#_CPPv416esp_event_base_t" title="esp_event_base_t">esp_event_base_t</a> <em>base</em>, int32_t <em>event_id</em>, void *<em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423esp_netif_action_got_ipPv16esp_event_base_t7int32_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Default building block for network interface action upon network got IP event. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API can be directly used as event handler</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">base</span></code>: </li>
+<li><code class="docutils literal notranslate"><span class="pre">event_id</span></code>: </li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417esp_netif_set_macP11esp_netif_tA_7uint8_t">
+<span id="_CPPv317esp_netif_set_macP11esp_netif_tA_7uint8_t"></span><span id="_CPPv217esp_netif_set_macP11esp_netif_tA_7uint8_t"></span><span id="esp_netif_set_mac__esp_netif_tP.uint8_tA"></span><span class="target" id="group__ESP__NETIF__GET__SET_1gadb48468125f11adc59ab34284687073d"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_set_mac</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em>, uint8_t <em>mac</em>[]<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417esp_netif_set_macP11esp_netif_tA_7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the mac address for the interface instance. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">mac</span></code>: Desired mac address for the related network interface </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422esp_netif_set_hostnameP11esp_netif_tPKc">
+<span id="_CPPv322esp_netif_set_hostnameP11esp_netif_tPKc"></span><span id="_CPPv222esp_netif_set_hostnameP11esp_netif_tPKc"></span><span id="esp_netif_set_hostname__esp_netif_tP.cCP"></span><span class="target" id="group__ESP__NETIF__GET__SET_1ga847c1851abe4bcb7c7b5e44dd3c1e795"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_set_hostname</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em>, <em class="property">const</em> char *<em>hostname</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_netif_set_hostnameP11esp_netif_tPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the hostname of an interface. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK - success</li>
+<li>ESP_ERR_ESP_NETIF_IF_NOT_READY - interface status error</li>
+<li>ESP_ERR_ESP_NETIF_INVALID_PARAMS - parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">hostname</span></code>: New hostname for the interface. Maximum length 32 bytes.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422esp_netif_get_hostnameP11esp_netif_tPPKc">
+<span id="_CPPv322esp_netif_get_hostnameP11esp_netif_tPPKc"></span><span id="_CPPv222esp_netif_get_hostnameP11esp_netif_tPPKc"></span><span id="esp_netif_get_hostname__esp_netif_tP.cCPP"></span><span class="target" id="group__ESP__NETIF__GET__SET_1ga573ca7c9460a5562cf867c50e4717d08"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_get_hostname</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em>, <em class="property">const</em> char **<em>hostname</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_netif_get_hostnameP11esp_netif_tPPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get interface hostname. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK - success</li>
+<li>ESP_ERR_ESP_NETIF_IF_NOT_READY - interface status error</li>
+<li>ESP_ERR_ESP_NETIF_INVALID_PARAMS - parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">hostname</span></code>: Returns a pointer to the hostname. May be NULL if no hostname is set. If set non-NULL, pointer remains valid (and string may change if the hostname changes).</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421esp_netif_is_netif_upP11esp_netif_t">
+<span id="_CPPv321esp_netif_is_netif_upP11esp_netif_t"></span><span id="_CPPv221esp_netif_is_netif_upP11esp_netif_t"></span><span id="esp_netif_is_netif_up__esp_netif_tP"></span><span class="target" id="group__ESP__NETIF__GET__SET_1ga3c7db370faf7aa857d0b61be8372ca74"></span>bool <code class="descname">esp_netif_is_netif_up</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421esp_netif_is_netif_upP11esp_netif_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Test if supplied interface is up or down. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>true - Interface is up</li>
+<li>false - Interface is down </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421esp_netif_get_ip_infoP11esp_netif_tP19esp_netif_ip_info_t">
+<span id="_CPPv321esp_netif_get_ip_infoP11esp_netif_tP19esp_netif_ip_info_t"></span><span id="_CPPv221esp_netif_get_ip_infoP11esp_netif_tP19esp_netif_ip_info_t"></span><span id="esp_netif_get_ip_info__esp_netif_tP.esp_netif_ip_info_tP"></span><span class="target" id="group__ESP__NETIF__GET__SET_1gade9664fbe5ab22ad1d3f666baff8d528"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_get_ip_info</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em>, esp_netif_ip_info_t *<em>ip_info</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421esp_netif_get_ip_infoP11esp_netif_tP19esp_netif_ip_info_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get interface’s IP address information. </p>
+<p>If the interface is up, IP information is read directly from the TCP/IP stack. If the interface is down, IP information is read from a copy kept in the ESP-NETIF instance</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_ERR_ESP_NETIF_INVALID_PARAMS </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">ip_info</span></code>: If successful, IP information will be returned in this argument.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425esp_netif_get_old_ip_infoP11esp_netif_tP19esp_netif_ip_info_t">
+<span id="_CPPv325esp_netif_get_old_ip_infoP11esp_netif_tP19esp_netif_ip_info_t"></span><span id="_CPPv225esp_netif_get_old_ip_infoP11esp_netif_tP19esp_netif_ip_info_t"></span><span id="esp_netif_get_old_ip_info__esp_netif_tP.esp_netif_ip_info_tP"></span><span class="target" id="group__ESP__NETIF__GET__SET_1ga4d31b87b80845216eb35d571f1d4b0e6"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_get_old_ip_info</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em>, esp_netif_ip_info_t *<em>ip_info</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425esp_netif_get_old_ip_infoP11esp_netif_tP19esp_netif_ip_info_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get interface’s old IP information. </p>
+<p>Returns an “old” IP address previously stored for the interface when the valid IP changed.</p>
+<p>If the IP lost timer has expired (meaning the interface was down for longer than the configured interval) then the old IP information will be zero.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_ERR_ESP_NETIF_INVALID_PARAMS </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">ip_info</span></code>: If successful, IP information will be returned in this argument.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421esp_netif_set_ip_infoP11esp_netif_tPK19esp_netif_ip_info_t">
+<span id="_CPPv321esp_netif_set_ip_infoP11esp_netif_tPK19esp_netif_ip_info_t"></span><span id="_CPPv221esp_netif_set_ip_infoP11esp_netif_tPK19esp_netif_ip_info_t"></span><span id="esp_netif_set_ip_info__esp_netif_tP.esp_netif_ip_info_tCP"></span><span class="target" id="group__ESP__NETIF__GET__SET_1ga919da383c40cbac8a9f6e58f7596d713"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_set_ip_info</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em>, <em class="property">const</em> esp_netif_ip_info_t *<em>ip_info</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421esp_netif_set_ip_infoP11esp_netif_tPK19esp_netif_ip_info_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set interface’s IP address information. </p>
+<p>This function is mainly used to set a static IP on an interface.</p>
+<p>If the interface is up, the new IP information is set directly in the TCP/IP stack.</p>
+<p>The copy of IP information kept in the ESP-NETIF instance is also updated (this copy is returned if the IP is queried while the interface is still down.)</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>DHCP client/server must be stopped (if enabled for this interface) before setting new IP information.</dd>
+<dt><strong>Note</strong></dt>
+<dd>Calling this interface for may generate a SYSTEM_EVENT_STA_GOT_IP or SYSTEM_EVENT_ETH_GOT_IP event.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_ERR_ESP_NETIF_INVALID_PARAMS</li>
+<li>ESP_ERR_ESP_NETIF_DHCP_NOT_STOPPED If DHCP server or client is still running </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">ip_info</span></code>: IP information to set on the specified interface</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425esp_netif_set_old_ip_infoP11esp_netif_tPK19esp_netif_ip_info_t">
+<span id="_CPPv325esp_netif_set_old_ip_infoP11esp_netif_tPK19esp_netif_ip_info_t"></span><span id="_CPPv225esp_netif_set_old_ip_infoP11esp_netif_tPK19esp_netif_ip_info_t"></span><span id="esp_netif_set_old_ip_info__esp_netif_tP.esp_netif_ip_info_tCP"></span><span class="target" id="group__ESP__NETIF__GET__SET_1ga2fd617fe8cdc12ce078dba94da089bc3"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_set_old_ip_info</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em>, <em class="property">const</em> esp_netif_ip_info_t *<em>ip_info</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425esp_netif_set_old_ip_infoP11esp_netif_tPK19esp_netif_ip_info_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set interface old IP information. </p>
+<p>This function is called from the DHCP client (if enabled), before a new IP is set. It is also called from the default handlers for the SYSTEM_EVENT_STA_CONNECTED and SYSTEM_EVENT_ETH_CONNECTED events.</p>
+<p>Calling this function stores the previously configured IP, which can be used to determine if the IP changes in the future.</p>
+<p>If the interface is disconnected or down for too long, the “IP lost timer” will expire (after the configured interval) and set the old IP information to zero.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_ERR_ESP_NETIF_INVALID_PARAMS </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">ip_info</span></code>: Store the old IP information for the specified interface</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv430esp_netif_get_netif_impl_indexP11esp_netif_t">
+<span id="_CPPv330esp_netif_get_netif_impl_indexP11esp_netif_t"></span><span id="_CPPv230esp_netif_get_netif_impl_indexP11esp_netif_t"></span><span id="esp_netif_get_netif_impl_index__esp_netif_tP"></span><span class="target" id="group__ESP__NETIF__GET__SET_1gaf07d638c2041a56ba93b8f6a2968c86b"></span>int <code class="descname">esp_netif_get_netif_impl_index</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv430esp_netif_get_netif_impl_indexP11esp_netif_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get net interface index from network stack implementation. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This index could be used in <code class="docutils literal notranslate"><span class="pre">setsockopt()</span></code> to bind socket with multicast interface</dd>
+<dt><strong>Return</strong></dt>
+<dd>implementation specific index of interface represented with supplied esp_netif </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422esp_netif_dhcps_optionP11esp_netif_t28esp_netif_dhcp_option_mode_t26esp_netif_dhcp_option_id_tPv8uint32_t">
+<span id="_CPPv322esp_netif_dhcps_optionP11esp_netif_t28esp_netif_dhcp_option_mode_t26esp_netif_dhcp_option_id_tPv8uint32_t"></span><span id="_CPPv222esp_netif_dhcps_optionP11esp_netif_t28esp_netif_dhcp_option_mode_t26esp_netif_dhcp_option_id_tPv8uint32_t"></span><span id="esp_netif_dhcps_option__esp_netif_tP.esp_netif_dhcp_option_mode_t.esp_netif_dhcp_option_id_t.voidP.uint32_t"></span><span class="target" id="group__ESP__NETIF__NET__DHCP_1ga31d2d97e175faf284d2896d016b3daa3"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_dhcps_option</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em>, esp_netif_dhcp_option_mode_t <em>opt_op</em>, esp_netif_dhcp_option_id_t <em>opt_id</em>, void *<em>opt_val</em>, uint32_t <em>opt_len</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_netif_dhcps_optionP11esp_netif_t28esp_netif_dhcp_option_mode_t26esp_netif_dhcp_option_id_tPv8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set or Get DHCP server option. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_ERR_ESP_NETIF_INVALID_PARAMS</li>
+<li>ESP_ERR_ESP_NETIF_DHCP_ALREADY_STOPPED</li>
+<li>ESP_ERR_ESP_NETIF_DHCP_ALREADY_STARTED </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">opt_op</span></code>: ESP_NETIF_OP_SET to set an option, ESP_NETIF_OP_GET to get an option. </li>
+<li><code class="docutils literal notranslate"><span class="pre">opt_id</span></code>: Option index to get or set, must be one of the supported enum values. </li>
+<li><code class="docutils literal notranslate"><span class="pre">opt_val</span></code>: Pointer to the option parameter. </li>
+<li><code class="docutils literal notranslate"><span class="pre">opt_len</span></code>: Length of the option parameter.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422esp_netif_dhcpc_optionP11esp_netif_t28esp_netif_dhcp_option_mode_t26esp_netif_dhcp_option_id_tPv8uint32_t">
+<span id="_CPPv322esp_netif_dhcpc_optionP11esp_netif_t28esp_netif_dhcp_option_mode_t26esp_netif_dhcp_option_id_tPv8uint32_t"></span><span id="_CPPv222esp_netif_dhcpc_optionP11esp_netif_t28esp_netif_dhcp_option_mode_t26esp_netif_dhcp_option_id_tPv8uint32_t"></span><span id="esp_netif_dhcpc_option__esp_netif_tP.esp_netif_dhcp_option_mode_t.esp_netif_dhcp_option_id_t.voidP.uint32_t"></span><span class="target" id="group__ESP__NETIF__NET__DHCP_1gaacb8b2b551bc619c009506e6dfdd6ab5"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_dhcpc_option</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em>, esp_netif_dhcp_option_mode_t <em>opt_op</em>, esp_netif_dhcp_option_id_t <em>opt_id</em>, void *<em>opt_val</em>, uint32_t <em>opt_len</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_netif_dhcpc_optionP11esp_netif_t28esp_netif_dhcp_option_mode_t26esp_netif_dhcp_option_id_tPv8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set or Get DHCP client option. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_ERR_ESP_NETIF_INVALID_PARAMS</li>
+<li>ESP_ERR_ESP_NETIF_DHCP_ALREADY_STOPPED</li>
+<li>ESP_ERR_ESP_NETIF_DHCP_ALREADY_STARTED </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">opt_op</span></code>: ESP_NETIF_OP_SET to set an option, ESP_NETIF_OP_GET to get an option. </li>
+<li><code class="docutils literal notranslate"><span class="pre">opt_id</span></code>: Option index to get or set, must be one of the supported enum values. </li>
+<li><code class="docutils literal notranslate"><span class="pre">opt_val</span></code>: Pointer to the option parameter. </li>
+<li><code class="docutils literal notranslate"><span class="pre">opt_len</span></code>: Length of the option parameter.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421esp_netif_dhcpc_startP11esp_netif_t">
+<span id="_CPPv321esp_netif_dhcpc_startP11esp_netif_t"></span><span id="_CPPv221esp_netif_dhcpc_startP11esp_netif_t"></span><span id="esp_netif_dhcpc_start__esp_netif_tP"></span><span class="target" id="group__ESP__NETIF__NET__DHCP_1ga9d44750e705751bb30b0bdc1352f28bc"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_dhcpc_start</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421esp_netif_dhcpc_startP11esp_netif_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start DHCP client (only if enabled in interface object) </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>The default event handlers for the SYSTEM_EVENT_STA_CONNECTED and SYSTEM_EVENT_ETH_CONNECTED events call this function.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_ERR_ESP_NETIF_INVALID_PARAMS</li>
+<li>ESP_ERR_ESP_NETIF_DHCP_ALREADY_STARTED</li>
+<li>ESP_ERR_ESP_NETIF_DHCPC_START_FAILED </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420esp_netif_dhcpc_stopP11esp_netif_t">
+<span id="_CPPv320esp_netif_dhcpc_stopP11esp_netif_t"></span><span id="_CPPv220esp_netif_dhcpc_stopP11esp_netif_t"></span><span id="esp_netif_dhcpc_stop__esp_netif_tP"></span><span class="target" id="group__ESP__NETIF__NET__DHCP_1gaee5dde17bff1a47666c932405fa2f146"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_dhcpc_stop</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420esp_netif_dhcpc_stopP11esp_netif_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stop DHCP client (only if enabled in interface object) </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Calling action_netif_stop() will also stop the DHCP Client if it is running.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_ERR_ESP_NETIF_INVALID_PARAMS</li>
+<li>ESP_ERR_ESP_NETIF_DHCP_ALREADY_STOPPED</li>
+<li>ESP_ERR_ESP_NETIF_IF_NOT_READY </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426esp_netif_dhcpc_get_statusP11esp_netif_tP23esp_netif_dhcp_status_t">
+<span id="_CPPv326esp_netif_dhcpc_get_statusP11esp_netif_tP23esp_netif_dhcp_status_t"></span><span id="_CPPv226esp_netif_dhcpc_get_statusP11esp_netif_tP23esp_netif_dhcp_status_t"></span><span id="esp_netif_dhcpc_get_status__esp_netif_tP.esp_netif_dhcp_status_tP"></span><span class="target" id="group__ESP__NETIF__NET__DHCP_1ga229a2575fbe4f783b41bc31b3cd2e1ae"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_dhcpc_get_status</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em>, esp_netif_dhcp_status_t *<em>status</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426esp_netif_dhcpc_get_statusP11esp_netif_tP23esp_netif_dhcp_status_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get DHCP client status. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">status</span></code>: If successful, the status of DHCP client will be returned in this argument.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426esp_netif_dhcps_get_statusP11esp_netif_tP23esp_netif_dhcp_status_t">
+<span id="_CPPv326esp_netif_dhcps_get_statusP11esp_netif_tP23esp_netif_dhcp_status_t"></span><span id="_CPPv226esp_netif_dhcps_get_statusP11esp_netif_tP23esp_netif_dhcp_status_t"></span><span id="esp_netif_dhcps_get_status__esp_netif_tP.esp_netif_dhcp_status_tP"></span><span class="target" id="group__ESP__NETIF__NET__DHCP_1gaaf8fc0cc9ff0e452f6bfd36b5f1be83f"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_dhcps_get_status</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em>, esp_netif_dhcp_status_t *<em>status</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426esp_netif_dhcps_get_statusP11esp_netif_tP23esp_netif_dhcp_status_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get DHCP Server status. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">status</span></code>: If successful, the status of the DHCP server will be returned in this argument.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421esp_netif_dhcps_startP11esp_netif_t">
+<span id="_CPPv321esp_netif_dhcps_startP11esp_netif_t"></span><span id="_CPPv221esp_netif_dhcps_startP11esp_netif_t"></span><span id="esp_netif_dhcps_start__esp_netif_tP"></span><span class="target" id="group__ESP__NETIF__NET__DHCP_1gaf8706dbabba36e740114b1d4b5511a57"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_dhcps_start</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421esp_netif_dhcps_startP11esp_netif_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start DHCP server (only if enabled in interface object) </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_ERR_ESP_NETIF_INVALID_PARAMS</li>
+<li>ESP_ERR_ESP_NETIF_DHCP_ALREADY_STARTED </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420esp_netif_dhcps_stopP11esp_netif_t">
+<span id="_CPPv320esp_netif_dhcps_stopP11esp_netif_t"></span><span id="_CPPv220esp_netif_dhcps_stopP11esp_netif_t"></span><span id="esp_netif_dhcps_stop__esp_netif_tP"></span><span class="target" id="group__ESP__NETIF__NET__DHCP_1gaae03ee3a05bf4098370bb685d9bc0ee3"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_dhcps_stop</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420esp_netif_dhcps_stopP11esp_netif_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stop DHCP server (only if enabled in interface object) </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_ERR_ESP_NETIF_INVALID_PARAMS</li>
+<li>ESP_ERR_ESP_NETIF_DHCP_ALREADY_STOPPED</li>
+<li>ESP_ERR_ESP_NETIF_IF_NOT_READY </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422esp_netif_set_dns_infoP11esp_netif_t20esp_netif_dns_type_tP20esp_netif_dns_info_t">
+<span id="_CPPv322esp_netif_set_dns_infoP11esp_netif_t20esp_netif_dns_type_tP20esp_netif_dns_info_t"></span><span id="_CPPv222esp_netif_set_dns_infoP11esp_netif_t20esp_netif_dns_type_tP20esp_netif_dns_info_t"></span><span id="esp_netif_set_dns_info__esp_netif_tP.esp_netif_dns_type_t.esp_netif_dns_info_tP"></span><span class="target" id="group__ESP__NETIF__NET__DNS_1ga332be53becdcad5eb7be5c65afaf452e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_set_dns_info</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em>, esp_netif_dns_type_t <em>type</em>, esp_netif_dns_info_t *<em>dns</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_netif_set_dns_infoP11esp_netif_t20esp_netif_dns_type_tP20esp_netif_dns_info_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set DNS Server information. </p>
+<p>This function behaves differently if DHCP server or client is enabled</p>
+<p>If DHCP client is enabled, main and backup DNS servers will be updated automatically from the DHCP lease if the relevant DHCP options are set. Fallback DNS Server is never updated from the DHCP lease and is designed to be set via this API. If DHCP client is disabled, all DNS server types can be set via this API only.</p>
+<p>If DHCP server is enabled, the Main DNS Server setting is used by the DHCP server to provide a DNS Server option to DHCP clients (Wi-Fi stations).<ul class="simple">
+<li>The default Main DNS server is typically the IP of the Wi-Fi AP interface itself.</li>
+<li>This function can override it by setting server type ESP_NETIF_DNS_MAIN.</li>
+<li>Other DNS Server types are not supported for the Wi-Fi AP interface.</li>
+</ul>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_ESP_NETIF_INVALID_PARAMS invalid params </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">type</span></code>: Type of DNS Server to set: ESP_NETIF_DNS_MAIN, ESP_NETIF_DNS_BACKUP, ESP_NETIF_DNS_FALLBACK </li>
+<li><code class="docutils literal notranslate"><span class="pre">dns</span></code>: DNS Server address to set</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422esp_netif_get_dns_infoP11esp_netif_t20esp_netif_dns_type_tP20esp_netif_dns_info_t">
+<span id="_CPPv322esp_netif_get_dns_infoP11esp_netif_t20esp_netif_dns_type_tP20esp_netif_dns_info_t"></span><span id="_CPPv222esp_netif_get_dns_infoP11esp_netif_t20esp_netif_dns_type_tP20esp_netif_dns_info_t"></span><span id="esp_netif_get_dns_info__esp_netif_tP.esp_netif_dns_type_t.esp_netif_dns_info_tP"></span><span class="target" id="group__ESP__NETIF__NET__DNS_1gacd75d8d4a4bc566af0a5d745709bc30b"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_get_dns_info</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em>, esp_netif_dns_type_t <em>type</em>, esp_netif_dns_info_t *<em>dns</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_netif_get_dns_infoP11esp_netif_t20esp_netif_dns_type_tP20esp_netif_dns_info_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get DNS Server information. </p>
+<p>Return the currently configured DNS Server address for the specified interface and Server type.</p>
+<p>This may be result of a previous call to <a class="reference internal" href="#group__ESP__NETIF__NET__DNS_1ga332be53becdcad5eb7be5c65afaf452e"><span class="std std-ref">esp_netif_set_dns_info()</span></a>. If the interface’s DHCP client is enabled, the Main or Backup DNS Server may be set by the current DHCP lease.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_ESP_NETIF_INVALID_PARAMS invalid params </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">type</span></code>: Type of DNS Server to get: ESP_NETIF_DNS_MAIN, ESP_NETIF_DNS_BACKUP, ESP_NETIF_DNS_FALLBACK </li>
+<li><code class="docutils literal notranslate"><span class="pre">dns</span></code>: DNS Server result is written here on success</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv430esp_netif_create_ip6_linklocalP11esp_netif_t">
+<span id="_CPPv330esp_netif_create_ip6_linklocalP11esp_netif_t"></span><span id="_CPPv230esp_netif_create_ip6_linklocalP11esp_netif_t"></span><span id="esp_netif_create_ip6_linklocal__esp_netif_tP"></span><span class="target" id="group__ESP__NETIF__NET__IP_1ga6803ebb897c62e6c531687756db80b93"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_create_ip6_linklocal</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv430esp_netif_create_ip6_linklocalP11esp_netif_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create interface link-local IPv6 address. </p>
+<p>Cause the TCP/IP stack to create a link-local IPv6 address for the specified interface.</p>
+<p>This function also registers a callback for the specified interface, so that if the link-local address becomes verified as the preferred address then a SYSTEM_EVENT_GOT_IP6 event will be sent.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_ERR_ESP_NETIF_INVALID_PARAMS </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427esp_netif_get_ip6_linklocalP11esp_netif_tP14esp_ip6_addr_t">
+<span id="_CPPv327esp_netif_get_ip6_linklocalP11esp_netif_tP14esp_ip6_addr_t"></span><span id="_CPPv227esp_netif_get_ip6_linklocalP11esp_netif_tP14esp_ip6_addr_t"></span><span id="esp_netif_get_ip6_linklocal__esp_netif_tP.esp_ip6_addr_tP"></span><span class="target" id="group__ESP__NETIF__NET__IP_1ga727f7ccbdb7f6f393970373f8b9ca52f"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_get_ip6_linklocal</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em>, esp_ip6_addr_t *<em>if_ip6</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427esp_netif_get_ip6_linklocalP11esp_netif_tP14esp_ip6_addr_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get interface link-local IPv6 address. </p>
+<p>If the specified interface is up and a preferred link-local IPv6 address has been created for the interface, return a copy of it.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_FAIL If interface is down, does not have a link-local IPv6 address, or the link-local IPv6 address is not a preferred address. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">if_ip6</span></code>: IPv6 information will be returned in this argument if successful.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424esp_netif_get_ip6_globalP11esp_netif_tP14esp_ip6_addr_t">
+<span id="_CPPv324esp_netif_get_ip6_globalP11esp_netif_tP14esp_ip6_addr_t"></span><span id="_CPPv224esp_netif_get_ip6_globalP11esp_netif_tP14esp_ip6_addr_t"></span><span id="esp_netif_get_ip6_global__esp_netif_tP.esp_ip6_addr_tP"></span><span class="target" id="group__ESP__NETIF__NET__IP_1ga26cf7cb5eff95fda790d7ac7dc8db65c"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_get_ip6_global</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em>, esp_ip6_addr_t *<em>if_ip6</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424esp_netif_get_ip6_globalP11esp_netif_tP14esp_ip6_addr_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get interface global IPv6 address. </p>
+<p>If the specified interface is up and a preferred global IPv6 address has been created for the interface, return a copy of it.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK</li>
+<li>ESP_FAIL If interface is down, does not have a global IPv6 address, or the global IPv6 address is not a preferred address. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">if_ip6</span></code>: IPv6 information will be returned in this argument if successful.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422esp_netif_set_ip4_addrP14esp_ip4_addr_t7uint8_t7uint8_t7uint8_t7uint8_t">
+<span id="_CPPv322esp_netif_set_ip4_addrP14esp_ip4_addr_t7uint8_t7uint8_t7uint8_t7uint8_t"></span><span id="_CPPv222esp_netif_set_ip4_addrP14esp_ip4_addr_t7uint8_t7uint8_t7uint8_t7uint8_t"></span><span id="esp_netif_set_ip4_addr__esp_ip4_addr_tP.uint8_t.uint8_t.uint8_t.uint8_t"></span><span class="target" id="group__ESP__NETIF__NET__IP_1ga886921d552493c0d961038993ae564e3"></span>void <code class="descname">esp_netif_set_ip4_addr</code><span class="sig-paren">(</span>esp_ip4_addr_t *<em>addr</em>, uint8_t <em>a</em>, uint8_t <em>b</em>, uint8_t <em>c</em>, uint8_t <em>d</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_netif_set_ip4_addrP14esp_ip4_addr_t7uint8_t7uint8_t7uint8_t7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Sets IPv4 address to the specified octets. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">addr</span></code>: IP address to be set </li>
+<li><code class="docutils literal notranslate"><span class="pre">a</span></code>: the first octet (127 for IP 127.0.0.1) </li>
+<li><code class="docutils literal notranslate"><span class="pre">b</span></code>: </li>
+<li><code class="docutils literal notranslate"><span class="pre">c</span></code>: </li>
+<li><code class="docutils literal notranslate"><span class="pre">d</span></code>: </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416esp_ip4addr_ntoaPK14esp_ip4_addr_tPci">
+<span id="_CPPv316esp_ip4addr_ntoaPK14esp_ip4_addr_tPci"></span><span id="_CPPv216esp_ip4addr_ntoaPK14esp_ip4_addr_tPci"></span><span id="esp_ip4addr_ntoa__esp_ip4_addr_tCP.cP.i"></span><span class="target" id="group__ESP__NETIF__NET__IP_1ga17c3e1e1371679caa5d4f9863ac09754"></span>char *<code class="descname">esp_ip4addr_ntoa</code><span class="sig-paren">(</span><em class="property">const</em> esp_ip4_addr_t *<em>addr</em>, char *<em>buf</em>, int <em>buflen</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416esp_ip4addr_ntoaPK14esp_ip4_addr_tPci" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Converts numeric IP address into decimal dotted ASCII representation. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>either pointer to buf which now holds the ASCII representation of addr or NULL if buf was too small </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">addr</span></code>: ip address in network order to convert </li>
+<li><code class="docutils literal notranslate"><span class="pre">buf</span></code>: target buffer where the string is stored </li>
+<li><code class="docutils literal notranslate"><span class="pre">buflen</span></code>: length of buf </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416esp_ip4addr_atonPKc">
+<span id="_CPPv316esp_ip4addr_atonPKc"></span><span id="_CPPv216esp_ip4addr_atonPKc"></span><span id="esp_ip4addr_aton__cCP"></span><span class="target" id="group__ESP__NETIF__NET__IP_1gad86ddc35d72dabc90ec12ccd4690e8a5"></span>uint32_t <code class="descname">esp_ip4addr_aton</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>addr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416esp_ip4addr_atonPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Ascii internet address interpretation routine The value returned is in network order. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ip address in network order </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">addr</span></code>: IP address in ascii representation (e.g. “127.0.0.1”) </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423esp_netif_get_io_driverP11esp_netif_t">
+<span id="_CPPv323esp_netif_get_io_driverP11esp_netif_t"></span><span id="_CPPv223esp_netif_get_io_driverP11esp_netif_t"></span><span id="esp_netif_get_io_driver__esp_netif_tP"></span><span class="target" id="group__ESP__NETIF__CONVERT_1ga0bd37e3149878fdf1c219d59f3cd878b"></span>esp_netif_iodriver_handle <code class="descname">esp_netif_get_io_driver</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423esp_netif_get_io_driverP11esp_netif_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gets media driver handle for this esp-netif instance. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>opaque pointer of related IO driver </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv431esp_netif_get_handle_from_ifkeyPKc">
+<span id="_CPPv331esp_netif_get_handle_from_ifkeyPKc"></span><span id="_CPPv231esp_netif_get_handle_from_ifkeyPKc"></span><span id="esp_netif_get_handle_from_ifkey__cCP"></span><span class="target" id="group__ESP__NETIF__CONVERT_1ga196bc212f2c1e1f97765175a2759b54d"></span>esp_netif_t *<code class="descname">esp_netif_get_handle_from_ifkey</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>if_key</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv431esp_netif_get_handle_from_ifkeyPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Searches over a list of created objects to find an instance with supplied if key. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>Handle to esp-netif instance </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">if_key</span></code>: Textual description of network interface</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419esp_netif_get_flagsP11esp_netif_t">
+<span id="_CPPv319esp_netif_get_flagsP11esp_netif_t"></span><span id="_CPPv219esp_netif_get_flagsP11esp_netif_t"></span><span id="esp_netif_get_flags__esp_netif_tP"></span><span class="target" id="group__ESP__NETIF__CONVERT_1ga400852508f14d9f542cc9130880cd3e6"></span>esp_netif_flags_t <code class="descname">esp_netif_get_flags</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419esp_netif_get_flagsP11esp_netif_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Returns configured flags for this interface. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>Configuration flags </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419esp_netif_get_ifkeyP11esp_netif_t">
+<span id="_CPPv319esp_netif_get_ifkeyP11esp_netif_t"></span><span id="_CPPv219esp_netif_get_ifkeyP11esp_netif_t"></span><span id="esp_netif_get_ifkey__esp_netif_tP"></span><span class="target" id="group__ESP__NETIF__CONVERT_1ga1672d7f6270afca27229848892edc283"></span><em class="property">const</em> char *<code class="descname">esp_netif_get_ifkey</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419esp_netif_get_ifkeyP11esp_netif_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Returns configured interface key for this esp-netif instance. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>Textual description of related interface </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418esp_netif_get_descP11esp_netif_t">
+<span id="_CPPv318esp_netif_get_descP11esp_netif_t"></span><span id="_CPPv218esp_netif_get_descP11esp_netif_t"></span><span id="esp_netif_get_desc__esp_netif_tP"></span><span class="target" id="group__ESP__NETIF__CONVERT_1ga332d0f0ba88ea0dc04978fd76bcba02f"></span><em class="property">const</em> char *<code class="descname">esp_netif_get_desc</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418esp_netif_get_descP11esp_netif_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Returns configured interface type for this esp-netif instance. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>Enumerated type of this interface, such as station, AP, ethernet </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422esp_netif_get_event_idP11esp_netif_t25esp_netif_ip_event_type_t">
+<span id="_CPPv322esp_netif_get_event_idP11esp_netif_t25esp_netif_ip_event_type_t"></span><span id="_CPPv222esp_netif_get_event_idP11esp_netif_t25esp_netif_ip_event_type_t"></span><span id="esp_netif_get_event_id__esp_netif_tP.esp_netif_ip_event_type_t"></span><span class="target" id="group__ESP__NETIF__CONVERT_1gae5cce1a1085c45d8b0ec5931824e9fb6"></span>int32_t <code class="descname">esp_netif_get_event_id</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em>, esp_netif_ip_event_type_t <em>event_type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_netif_get_event_idP11esp_netif_t25esp_netif_ip_event_type_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Returns configured event for this esp-netif instance and supplied event type. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>specific event id which is configured to be raised if the interface lost or acquired IP address -1 if supplied event_type is not known </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance</li>
+<li><code class="docutils literal notranslate"><span class="pre">event_type</span></code>: (either get or lost IP)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414esp_netif_nextP11esp_netif_t">
+<span id="_CPPv314esp_netif_nextP11esp_netif_t"></span><span id="_CPPv214esp_netif_nextP11esp_netif_t"></span><span id="esp_netif_next__esp_netif_tP"></span><span class="target" id="group__ESP__NETIF__LIST_1gaca5a3cfa808e9f1f36b8df1decd6dbf8"></span>esp_netif_t *<code class="descname">esp_netif_next</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414esp_netif_nextP11esp_netif_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Iterates over list of interfaces. Returns first netif if NULL given as parameter. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>First netif from the list if supplied parameter is NULL, next one otherwise </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: Handle to esp-netif instance</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423esp_netif_get_nr_of_ifsv">
+<span id="_CPPv323esp_netif_get_nr_of_ifsv"></span><span id="_CPPv223esp_netif_get_nr_of_ifsv"></span><span id="esp_netif_get_nr_of_ifs__void"></span><span class="target" id="group__ESP__NETIF__LIST_1gadbfb940124293c4056cd61bf953fe215"></span>size_t <code class="descname">esp_netif_get_nr_of_ifs</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423esp_netif_get_nr_of_ifsv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Returns number of registered esp_netif objects. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>Number of esp_netifs </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="wifi-default-api-reference">
+<h3>WiFi default API reference<a class="headerlink" href="#wifi-default-api-reference" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="id1">
+<h3>Header File<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_wifi/include/esp_wifi_default.h">esp_wifi/include/esp_wifi_default.h</a></li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>Functions<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv429esp_netif_attach_wifi_stationP11esp_netif_t">
+<span id="_CPPv329esp_netif_attach_wifi_stationP11esp_netif_t"></span><span id="_CPPv229esp_netif_attach_wifi_stationP11esp_netif_t"></span><span id="esp_netif_attach_wifi_station__esp_netif_tP"></span><span class="target" id="esp__wifi__default_8h_1a720fc6eea0a976ed8de49a9aa52f52c7"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_attach_wifi_station</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv429esp_netif_attach_wifi_stationP11esp_netif_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Attaches wifi station interface to supplied netif. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_FAIL if attach failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: instance to attach the wifi station to</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424esp_netif_attach_wifi_apP11esp_netif_t">
+<span id="_CPPv324esp_netif_attach_wifi_apP11esp_netif_t"></span><span id="_CPPv224esp_netif_attach_wifi_apP11esp_netif_t"></span><span id="esp_netif_attach_wifi_ap__esp_netif_tP"></span><span class="target" id="esp__wifi__default_8h_1adefd1c5b142abc9eab65346774cad25d"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_attach_wifi_ap</code><span class="sig-paren">(</span>esp_netif_t *<em>esp_netif</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424esp_netif_attach_wifi_apP11esp_netif_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Attaches wifi soft AP interface to supplied netif. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_FAIL if attach failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: instance to attach the wifi AP to</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv438esp_wifi_set_default_wifi_sta_handlersv">
+<span id="_CPPv338esp_wifi_set_default_wifi_sta_handlersv"></span><span id="_CPPv238esp_wifi_set_default_wifi_sta_handlersv"></span><span id="esp_wifi_set_default_wifi_sta_handlers__void"></span><span class="target" id="esp__wifi__default_8h_1a307e340b74e32e7513bcc3806c02fc41"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_wifi_set_default_wifi_sta_handlers</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv438esp_wifi_set_default_wifi_sta_handlersv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Sets default wifi event handlers for STA interface. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success, error returned from esp_event_handler_register if failed </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv437esp_wifi_set_default_wifi_ap_handlersv">
+<span id="_CPPv337esp_wifi_set_default_wifi_ap_handlersv"></span><span id="_CPPv237esp_wifi_set_default_wifi_ap_handlersv"></span><span id="esp_wifi_set_default_wifi_ap_handlers__void"></span><span class="target" id="esp__wifi__default_8h_1a5dba1e1e15f97af4fcb30f1e68425650"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_wifi_set_default_wifi_ap_handlers</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv437esp_wifi_set_default_wifi_ap_handlersv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Sets default wifi event handlers for STA interface. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success, error returned from esp_event_handler_register if failed </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv447esp_wifi_clear_default_wifi_driver_and_handlersPv">
+<span id="_CPPv347esp_wifi_clear_default_wifi_driver_and_handlersPv"></span><span id="_CPPv247esp_wifi_clear_default_wifi_driver_and_handlersPv"></span><span id="esp_wifi_clear_default_wifi_driver_and_handlers__voidP"></span><span class="target" id="esp__wifi__default_8h_1a5b616e68b928a47de4b06c7747de72d7"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_wifi_clear_default_wifi_driver_and_handlers</code><span class="sig-paren">(</span>void *<em>esp_netif</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv447esp_wifi_clear_default_wifi_driver_and_handlersPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Clears default wifi event handlers for supplied network interface. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success, error returned from esp_event_handler_register if failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">esp_netif</span></code>: instance of corresponding if object</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv432esp_netif_create_default_wifi_apv">
+<span id="_CPPv332esp_netif_create_default_wifi_apv"></span><span id="_CPPv232esp_netif_create_default_wifi_apv"></span><span id="esp_netif_create_default_wifi_ap__void"></span><span class="target" id="esp__wifi__default_8h_1aaaeb5fcfbfd6ec4c5cf9947a34365aff"></span>esp_netif_t *<code class="descname">esp_netif_create_default_wifi_ap</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv432esp_netif_create_default_wifi_apv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Creates default WIFI AP. In case of any init error this API aborts. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>pointer to esp-netif instance </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv433esp_netif_create_default_wifi_stav">
+<span id="_CPPv333esp_netif_create_default_wifi_stav"></span><span id="_CPPv233esp_netif_create_default_wifi_stav"></span><span id="esp_netif_create_default_wifi_sta__void"></span><span class="target" id="esp__wifi__default_8h_1ab0ce29c4f066e8b17f8d2bf739105e8a"></span>esp_netif_t *<code class="descname">esp_netif_create_default_wifi_sta</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv433esp_netif_create_default_wifi_stav" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Creates default WIFI STA. In case of any init error this API aborts. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>pointer to esp-netif instance </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv441esp_netif_create_default_wifi_mesh_netifsPP11esp_netif_tPP11esp_netif_t">
+<span id="_CPPv341esp_netif_create_default_wifi_mesh_netifsPP11esp_netif_tPP11esp_netif_t"></span><span id="_CPPv241esp_netif_create_default_wifi_mesh_netifsPP11esp_netif_tPP11esp_netif_t"></span><span id="esp_netif_create_default_wifi_mesh_netifs__esp_netif_tPP.esp_netif_tPP"></span><span class="target" id="esp__wifi__default_8h_1acfcb672c06aa2291d62f61c380206870"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_netif_create_default_wifi_mesh_netifs</code><span class="sig-paren">(</span>esp_netif_t **<em>p_netif_sta</em>, esp_netif_t **<em>p_netif_ap</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv441esp_netif_create_default_wifi_mesh_netifsPP11esp_netif_tPP11esp_netif_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Creates default STA and AP network interfaces for esp-mesh. </p>
+<p>Both netifs are almost identical to the default station and softAP, but with DHCP client and server disabled. Please note that the DHCP client is typically enabled only if the device is promoted to a root node.</p>
+<p>Returns created interfaces which could be ignored setting parameters to NULL if an application code does not need to save the interface instances for further processing.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK on success </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">p_netif_sta</span></code>: pointer where the resultant STA interface is saved (if non NULL) </li>
+<li><code class="docutils literal notranslate"><span class="pre">p_netif_ap</span></code>: pointer where the resultant AP interface is saved (if non NULL)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tcpip_adapter_migration.html" class="btn btn-neutral float-right" title="TCP/IP Adapter Migration Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="esp_eth.html" class="btn btn-neutral float-left" title="Ethernet" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/network/esp_netif.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:27 GMT -->
+</html>

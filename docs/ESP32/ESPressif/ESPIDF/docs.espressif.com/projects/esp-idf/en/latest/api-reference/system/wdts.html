@@ -1,0 +1,599 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/system/wdts.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:26 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Watchdogs &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="System Time" href="system_time.html" />
+    <link rel="prev" title="Sleep Modes" href="sleep_modes.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="wdts.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/system/wdts"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">System</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="app_image_format.html">App image format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="app_trace.html">Application Level Tracing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="efuse.html">eFuse Manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_err.html">Error Codes and Helper Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_https_ota.html">ESP HTTPS OTA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_pthread.html">ESP pthread</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_event.html">Event Loop Library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freertos.html">FreeRTOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freertos_additions.html">FreeRTOS Additions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mem_alloc.html">Heap Memory Allocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="heap_debug.html">Heap Memory Debugging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_timer.html">High Resolution Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="himem.html">Himem (large external SPI RAM) API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipc.html">Inter-Processor Call</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_expression_with_stack.html">Call function with external stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="intr_alloc.html">Interrupt Allocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log.html">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system.html">Miscellaneous System APIs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ota.html">Over The Air Updates (OTA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="perfmon.html">Performance Monitor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="power_management.html">Power Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sleep_modes.html">Sleep Modes</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Watchdogs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#interrupt-watchdog-api-reference">Interrupt Watchdog API Reference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#functions">Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#task-watchdog-api-reference">Task Watchdog API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="system_time.html">System Time</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">System API</a> &raquo;</li>
+        
+      <li>Watchdogs</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/system/wdts.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="watchdogs">
+<h1>Watchdogs<a class="headerlink" href="#watchdogs" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The ESP-IDF has support for two types of watchdogs: The Interrupt Watchdog Timer
+and the Task Watchdog Timer (TWDT). The Interrupt Watchdog Timer and the TWDT
+can both be enabled using <a class="reference internal" href="../kconfig.html#project-configuration-menu"><span class="std std-ref">Project Configuration Menu</span></a>, however the TWDT can also be
+enabled during runtime. The Interrupt Watchdog is responsible for detecting
+instances where FreeRTOS task switching is blocked for a prolonged period of
+time. The TWDT is responsible for detecting instances of tasks running without
+yielding for a prolonged period.</p>
+<div class="section" id="interrupt-watchdog">
+<h3>Interrupt watchdog<a class="headerlink" href="#interrupt-watchdog" title="Permalink to this headline">¶</a></h3>
+<p>The interrupt watchdog makes sure the FreeRTOS task switching interrupt isn’t blocked for a long time. This
+is bad because no other tasks, including potentially important ones like the WiFi task and the idle task,
+can’t get any CPU runtime. A blocked task switching interrupt can happen because a program runs into an
+infinite loop with interrupts disabled or hangs in an interrupt.</p>
+<p>The default action of the interrupt watchdog is to invoke the panic handler. causing a register dump and an opportunity
+for the programmer to find out, using either OpenOCD or gdbstub, what bit of code is stuck with interrupts
+disabled. Depending on the configuration of the panic handler, it can also blindly reset the CPU, which may be
+preferred in a production environment.</p>
+<p>The interrupt watchdog is built around the hardware watchdog in timer group 1. If this watchdog for some reason
+cannot execute the NMI handler that invokes the panic handler (e.g. because IRAM is overwritten by garbage),
+it will hard-reset the SOC.</p>
+</div>
+<div class="section" id="task-watchdog-timer">
+<h3>Task Watchdog Timer<a class="headerlink" href="#task-watchdog-timer" title="Permalink to this headline">¶</a></h3>
+<p>The Task Watchdog Timer (TWDT) is responsible for detecting instances of tasks
+running for a prolonged period of time without yielding. This is a symptom of
+CPU starvation and is usually caused by a higher priority task looping without
+yielding to a lower-priority task thus starving the lower priority task from
+CPU time. This can be an indicator of poorly written code that spinloops on a
+peripheral, or a task that is stuck in an infinite loop.</p>
+<p>By default the TWDT will watch the Idle Tasks of each CPU, however any task can
+elect to be watched by the TWDT. Each watched task must ‘reset’ the TWDT
+periodically to indicate that they have been allocated CPU time. If a task does
+not reset within the TWDT timeout period, a warning will be printed with
+information about which tasks failed to reset the TWDT in time and which
+tasks are currently running on the ESP32 CPUs.
+And also there is a possibility to redefine the function <cite>esp_task_wdt_isr_user_handler</cite>
+in the user code to receive this event.</p>
+<p>The TWDT is built around the Hardware Watchdog Timer in Timer Group 0. The TWDT
+can be initialized by calling <a class="reference internal" href="#_CPPv417esp_task_wdt_init8uint32_tb" title="esp_task_wdt_init"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_task_wdt_init()</span></code></a> which will configure
+the hardware timer. A task can then subscribe to the TWDT using
+<a class="reference internal" href="#_CPPv416esp_task_wdt_add12TaskHandle_t" title="esp_task_wdt_add"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_task_wdt_add()</span></code></a> in order to be watched. Each subscribed task must
+periodically call <a class="reference internal" href="#_CPPv418esp_task_wdt_resetv" title="esp_task_wdt_reset"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_task_wdt_reset()</span></code></a> to reset the TWDT. Failure by
+any subscribed tasks to periodically call <a class="reference internal" href="#_CPPv418esp_task_wdt_resetv" title="esp_task_wdt_reset"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_task_wdt_reset()</span></code></a>
+indicates that one or more tasks have been starved of CPU time or are stuck in a
+loop somewhere.</p>
+<p>A watched task can be unsubscribed from the TWDT using
+<a class="reference internal" href="#_CPPv419esp_task_wdt_delete12TaskHandle_t" title="esp_task_wdt_delete"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_task_wdt_delete()</span></code></a>. A task that has been unsubscribed should no
+longer call <a class="reference internal" href="#_CPPv418esp_task_wdt_resetv" title="esp_task_wdt_reset"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_task_wdt_reset()</span></code></a>. Once all tasks have unsubscribed
+form the TWDT, the TWDT can be deinitialized by calling
+<a class="reference internal" href="#_CPPv419esp_task_wdt_deinitv" title="esp_task_wdt_deinit"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_task_wdt_deinit()</span></code></a>.</p>
+<p>By default <a class="reference internal" href="../kconfig.html#config-esp-task-wdt"><span class="std std-ref">CONFIG_ESP_TASK_WDT</span></a> in <a class="reference internal" href="../kconfig.html#project-configuration-menu"><span class="std std-ref">Project Configuration Menu</span></a> be enabled causing
+the TWDT to be initialized automatically during startup. Likewise
+<a class="reference internal" href="../kconfig.html#config-esp-task-wdt-check-idle-task-cpu0"><span class="std std-ref">CONFIG_ESP_TASK_WDT_CHECK_IDLE_TASK_CPU0</span></a> and
+<a class="reference internal" href="../kconfig.html#config-esp-task-wdt-check-idle-task-cpu1"><span class="std std-ref">CONFIG_ESP_TASK_WDT_CHECK_IDLE_TASK_CPU1</span></a> are also enabled by default causing
+the two Idle Tasks to be subscribed to the TWDT during startup.</p>
+</div>
+<div class="section" id="jtag-and-watchdogs">
+<h3>JTAG and watchdogs<a class="headerlink" href="#jtag-and-watchdogs" title="Permalink to this headline">¶</a></h3>
+<p>While debugging using OpenOCD, the CPUs will be halted every time a breakpoint
+is reached. However if the watchdog timers continue to run when a breakpoint is
+encountered, they will eventually trigger a reset making it very difficult to
+debug code. Therefore OpenOCD will disable the hardware timers of both the
+interrupt and task watchdogs at every breakpoint. Moreover, OpenOCD will not
+reenable them upon leaving the breakpoint. This means that interrupt watchdog
+and task watchdog functionality will essentially be disabled. No warnings or
+panics from either watchdogs will be generated when the ESP32 is connected to
+OpenOCD via JTAG.</p>
+</div>
+</div>
+<div class="section" id="interrupt-watchdog-api-reference">
+<h2>Interrupt Watchdog API Reference<a class="headerlink" href="#interrupt-watchdog-api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp32/include/esp_int_wdt.h">esp32/include/esp_int_wdt.h</a></li>
+</ul>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="_CPPv416esp_int_wdt_initv">
+<span id="_CPPv316esp_int_wdt_initv"></span><span id="_CPPv216esp_int_wdt_initv"></span><span id="esp_int_wdt_init__void"></span><span class="target" id="group__Watchdog__APIs_1ga4c844572e66bce11dedd3701e84ca320"></span>void <code class="descname">esp_int_wdt_init</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416esp_int_wdt_initv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize the non-CPU-specific parts of interrupt watchdog. This is called in the init code if the interrupt watchdog is enabled in menuconfig. </p>
+</dd></dl>
+
+</div>
+<div class="section" id="task-watchdog-api-reference">
+<h2>Task Watchdog API Reference<a class="headerlink" href="#task-watchdog-api-reference" title="Permalink to this headline">¶</a></h2>
+<p>A full example using the Task Watchdog is available in esp-idf: <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/system/task_watchdog">system/task_watchdog</a></p>
+<div class="section" id="id1">
+<h3>Header File<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_common/include/esp_task_wdt.h">esp_common/include/esp_task_wdt.h</a></li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>Functions<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv417esp_task_wdt_init8uint32_tb">
+<span id="_CPPv317esp_task_wdt_init8uint32_tb"></span><span id="_CPPv217esp_task_wdt_init8uint32_tb"></span><span id="esp_task_wdt_init__uint32_t.b"></span><span class="target" id="esp__task__wdt_8h_1a9f077423745d785e9b9c0421a8df77d9"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_task_wdt_init</code><span class="sig-paren">(</span>uint32_t <em>timeout</em>, bool <em>panic</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417esp_task_wdt_init8uint32_tb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize the Task Watchdog Timer (TWDT) </p>
+<p>This function configures and initializes the TWDT. If the TWDT is already initialized when this function is called, this function will update the TWDT’s timeout period and panic configurations instead. After initializing the TWDT, any task can elect to be watched by the TWDT by subscribing to it using esp_task_wdt_add().</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: Initialization was successful</li>
+<li>ESP_ERR_NO_MEM: Initialization failed due to lack of memory</li>
+</ul>
+</dd>
+<dt><strong>Note</strong></dt>
+<dd>esp_task_wdt_init() must only be called after the scheduler started </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">timeout</span></code>: Timeout period of TWDT in seconds </li>
+<li><code class="docutils literal notranslate"><span class="pre">panic</span></code>: Flag that controls whether the panic handler will be executed when the TWDT times out</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419esp_task_wdt_deinitv">
+<span id="_CPPv319esp_task_wdt_deinitv"></span><span id="_CPPv219esp_task_wdt_deinitv"></span><span id="esp_task_wdt_deinit__void"></span><span class="target" id="esp__task__wdt_8h_1a4bf2413059d861ef983cb78655ee849c"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_task_wdt_deinit</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419esp_task_wdt_deinitv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Deinitialize the Task Watchdog Timer (TWDT) </p>
+<p>This function will deinitialize the TWDT. Calling this function whilst tasks are still subscribed to the TWDT, or when the TWDT is already deinitialized, will result in an error code being returned.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: TWDT successfully deinitialized</li>
+<li>ESP_ERR_INVALID_STATE: Error, tasks are still subscribed to the TWDT</li>
+<li>ESP_ERR_NOT_FOUND: Error, TWDT has already been deinitialized </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416esp_task_wdt_add12TaskHandle_t">
+<span id="_CPPv316esp_task_wdt_add12TaskHandle_t"></span><span id="_CPPv216esp_task_wdt_add12TaskHandle_t"></span><span id="esp_task_wdt_add__TaskHandle_t"></span><span class="target" id="esp__task__wdt_8h_1af1b5fac1cacc2f12f2df9b335dc6e348"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_task_wdt_add</code><span class="sig-paren">(</span><a class="reference internal" href="freertos.html#_CPPv412TaskHandle_t" title="TaskHandle_t">TaskHandle_t</a> <em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416esp_task_wdt_add12TaskHandle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Subscribe a task to the Task Watchdog Timer (TWDT) </p>
+<p>This function subscribes a task to the TWDT. Each subscribed task must periodically call esp_task_wdt_reset() to prevent the TWDT from elapsing its timeout period. Failure to do so will result in a TWDT timeout. If the task being subscribed is one of the Idle Tasks, this function will automatically enable esp_task_wdt_reset() to called from the Idle Hook of the Idle Task. Calling this function whilst the TWDT is uninitialized or attempting to subscribe an already subscribed task will result in an error code being returned.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: Successfully subscribed the task to the TWDT</li>
+<li>ESP_ERR_INVALID_ARG: Error, the task is already subscribed</li>
+<li>ESP_ERR_NO_MEM: Error, could not subscribe the task due to lack of memory</li>
+<li>ESP_ERR_INVALID_STATE: Error, the TWDT has not been initialized yet </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Handle of the task. Input NULL to subscribe the current running task to the TWDT</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418esp_task_wdt_resetv">
+<span id="_CPPv318esp_task_wdt_resetv"></span><span id="_CPPv218esp_task_wdt_resetv"></span><span id="esp_task_wdt_reset__void"></span><span class="target" id="esp__task__wdt_8h_1a962752554e8ae7b53e3c8dbcec61f34d"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_task_wdt_reset</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418esp_task_wdt_resetv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reset the Task Watchdog Timer (TWDT) on behalf of the currently running task. </p>
+<p>This function will reset the TWDT on behalf of the currently running task. Each subscribed task must periodically call this function to prevent the TWDT from timing out. If one or more subscribed tasks fail to reset the TWDT on their own behalf, a TWDT timeout will occur. If the IDLE tasks have been subscribed to the TWDT, they will automatically call this function from their idle hooks. Calling this function from a task that has not subscribed to the TWDT, or when the TWDT is uninitialized will result in an error code being returned.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: Successfully reset the TWDT on behalf of the currently running task</li>
+<li>ESP_ERR_NOT_FOUND: Error, the current running task has not subscribed to the TWDT</li>
+<li>ESP_ERR_INVALID_STATE: Error, the TWDT has not been initialized yet </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419esp_task_wdt_delete12TaskHandle_t">
+<span id="_CPPv319esp_task_wdt_delete12TaskHandle_t"></span><span id="_CPPv219esp_task_wdt_delete12TaskHandle_t"></span><span id="esp_task_wdt_delete__TaskHandle_t"></span><span class="target" id="esp__task__wdt_8h_1a860afbd8584addbe913c671b0fdf6203"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_task_wdt_delete</code><span class="sig-paren">(</span><a class="reference internal" href="freertos.html#_CPPv412TaskHandle_t" title="TaskHandle_t">TaskHandle_t</a> <em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419esp_task_wdt_delete12TaskHandle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Unsubscribes a task from the Task Watchdog Timer (TWDT) </p>
+<p>This function will unsubscribe a task from the TWDT. After being unsubscribed, the task should no longer call esp_task_wdt_reset(). If the task is an IDLE task, this function will automatically disable the calling of esp_task_wdt_reset() from the Idle Hook. Calling this function whilst the TWDT is uninitialized or attempting to unsubscribe an already unsubscribed task from the TWDT will result in an error code being returned.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: Successfully unsubscribed the task from the TWDT</li>
+<li>ESP_ERR_INVALID_ARG: Error, the task is already unsubscribed</li>
+<li>ESP_ERR_INVALID_STATE: Error, the TWDT has not been initialized yet </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Handle of the task. Input NULL to unsubscribe the current running task.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419esp_task_wdt_status12TaskHandle_t">
+<span id="_CPPv319esp_task_wdt_status12TaskHandle_t"></span><span id="_CPPv219esp_task_wdt_status12TaskHandle_t"></span><span id="esp_task_wdt_status__TaskHandle_t"></span><span class="target" id="esp__task__wdt_8h_1a035e3b60e9ce36c4eb43332847e806b3"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_task_wdt_status</code><span class="sig-paren">(</span><a class="reference internal" href="freertos.html#_CPPv412TaskHandle_t" title="TaskHandle_t">TaskHandle_t</a> <em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419esp_task_wdt_status12TaskHandle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Query whether a task is subscribed to the Task Watchdog Timer (TWDT) </p>
+<p>This function will query whether a task is currently subscribed to the TWDT, or whether the TWDT is initialized.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>:<ul class="simple">
+<li>ESP_OK: The task is currently subscribed to the TWDT</li>
+<li>ESP_ERR_NOT_FOUND: The task is currently not subscribed to the TWDT</li>
+<li>ESP_ERR_INVALID_STATE: The TWDT is not initialized, therefore no tasks can be subscribed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Handle of the task. Input NULL to query the current running task.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="system_time.html" class="btn btn-neutral float-right" title="System Time" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="sleep_modes.html" class="btn btn-neutral float-left" title="Sleep Modes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/system/wdts.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:26 GMT -->
+</html>

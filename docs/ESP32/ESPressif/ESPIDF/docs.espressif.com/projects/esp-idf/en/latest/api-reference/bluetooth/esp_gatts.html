@@ -1,0 +1,1767 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/bluetooth/esp_gatts.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:12 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>GATT SERVER API &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="GATT CLIENT API" href="esp_gattc.html" />
+    <link rel="prev" title="GATT DEFINES" href="esp_gatt_defs.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="esp_gatts.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/bluetooth/esp_gatts"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Bluetooth</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="controller_vhci.html">Bluetooth Controller &amp;&amp; VHCI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bt_common.html">Bluetooth Common</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="bt_le.html">Bluetooth LE</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="esp_gap_ble.html">BLE GAP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esp_gatt_defs.html">BLE GATT DEFINE</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">BLE GATT SERVER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esp_gattc.html">BLE GATT CLIENT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esp_blufi.html">BLE BLUFI</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="classic_bt.html">Bluetooth Classic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nimble/index.html">NimBLE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp-ble-mesh.html">ESP-BLE-MESH</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Bluetooth API</a> &raquo;</li>
+        
+          <li><a href="bt_le.html">BT LE</a> &raquo;</li>
+        
+      <li>GATT SERVER API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/bluetooth/esp_gatts.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="gatt-server-api">
+<h1>GATT SERVER API<a class="headerlink" href="#gatt-server-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="../template.html">Instructions</a></p>
+</div>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<p>Check <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/bluetooth/bluedroid/ble">bluetooth/bluedroid/ble</a> folder in ESP-IDF examples, which contains the following demos and their tutorials:</p>
+<ul>
+<li><p class="first">This is a GATT sever demo and its tutorial. This demo creates a GATT service with an attribute table, which releases the user from adding attributes one by one. This is the recommended method of adding attributes.</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/bluetooth/bluedroid/ble/gatt_server_service_table">bluetooth/bluedroid/ble/gatt_server_service_table</a></li>
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/examples/bluetooth/bluedroid/ble/gatt_server_service_table/tutorial/Gatt_Server_Service_Table_Example_Walkthrough.md">GATT Server Service Table Example Walkthrough </a></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">This is a GATT server demo and its tutorial. This demo creates a GATT service by adding attributes one by one as defined by Bluedroid. The recommended method of adding attributes is presented in example above.</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/bluetooth/bluedroid/ble/gatt_server">bluetooth/bluedroid/ble/gatt_server</a></li>
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/examples/bluetooth/bluedroid/ble/gatt_server/tutorial/Gatt_Server_Example_Walkthrough.md">GATT Server Example Walkthrough </a></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">This is a BLE SPP-Like demo. This demo, which acts as a GATT server, can receive data from UART and then send the data to the peer device automatically.</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/bluetooth/bluedroid/ble/ble_spp_server">bluetooth/bluedroid/ble/ble_spp_server</a></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/bt/host/bluedroid/api/include/api/esp_gatts_api.h">bt/host/bluedroid/api/include/api/esp_gatts_api.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv431esp_ble_gatts_register_callback14esp_gatts_cb_t">
+<span id="_CPPv331esp_ble_gatts_register_callback14esp_gatts_cb_t"></span><span id="_CPPv231esp_ble_gatts_register_callback14esp_gatts_cb_t"></span><span id="esp_ble_gatts_register_callback__esp_gatts_cb_t"></span><span class="target" id="esp__gatts__api_8h_1ad706e07bc5bf11762c3ee488be0c2a51"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_ble_gatts_register_callback</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414esp_gatts_cb_t" title="esp_gatts_cb_t">esp_gatts_cb_t</a> <em>callback</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv431esp_ble_gatts_register_callback14esp_gatts_cb_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function is called to register application callbacks with BTA GATTS module. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426esp_ble_gatts_app_register8uint16_t">
+<span id="_CPPv326esp_ble_gatts_app_register8uint16_t"></span><span id="_CPPv226esp_ble_gatts_app_register8uint16_t"></span><span id="esp_ble_gatts_app_register__uint16_t"></span><span class="target" id="esp__gatts__api_8h_1a17bd786b88b60ed54888f3e807b9cd9f"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_ble_gatts_app_register</code><span class="sig-paren">(</span>uint16_t <em>app_id</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426esp_ble_gatts_app_register8uint16_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function is called to register application identifier. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428esp_ble_gatts_app_unregister13esp_gatt_if_t">
+<span id="_CPPv328esp_ble_gatts_app_unregister13esp_gatt_if_t"></span><span id="_CPPv228esp_ble_gatts_app_unregister13esp_gatt_if_t"></span><span id="esp_ble_gatts_app_unregister__esp_gatt_if_t"></span><span class="target" id="esp__gatts__api_8h_1aca0778e0d2c97ffc1d2eba4c8ca7701e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_ble_gatts_app_unregister</code><span class="sig-paren">(</span><a class="reference internal" href="esp_gatt_defs.html#_CPPv413esp_gatt_if_t" title="esp_gatt_if_t">esp_gatt_if_t</a> <em>gatts_if</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428esp_ble_gatts_app_unregister13esp_gatt_if_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>unregister with GATT Server. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gatts_if</span></code>: GATT server access interface </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428esp_ble_gatts_create_service13esp_gatt_if_tP18esp_gatt_srvc_id_t8uint16_t">
+<span id="_CPPv328esp_ble_gatts_create_service13esp_gatt_if_tP18esp_gatt_srvc_id_t8uint16_t"></span><span id="_CPPv228esp_ble_gatts_create_service13esp_gatt_if_tP18esp_gatt_srvc_id_t8uint16_t"></span><span id="esp_ble_gatts_create_service__esp_gatt_if_t.esp_gatt_srvc_id_tP.uint16_t"></span><span class="target" id="esp__gatts__api_8h_1a46eb7e7a7a8457d3d036ccdea61191fd"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_ble_gatts_create_service</code><span class="sig-paren">(</span><a class="reference internal" href="esp_gatt_defs.html#_CPPv413esp_gatt_if_t" title="esp_gatt_if_t">esp_gatt_if_t</a> <em>gatts_if</em>, <a class="reference internal" href="esp_gatt_defs.html#_CPPv418esp_gatt_srvc_id_t" title="esp_gatt_srvc_id_t">esp_gatt_srvc_id_t</a> *<em>service_id</em>, uint16_t <em>num_handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428esp_ble_gatts_create_service13esp_gatt_if_tP18esp_gatt_srvc_id_t8uint16_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a service. When service creation is done, a callback event BTA_GATTS_CREATE_SRVC_EVT is called to report status and service ID to the profile. The service ID obtained in the callback function needs to be used when adding included service and characteristics/descriptors into the service. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gatts_if</span></code>: GATT server access interface </li>
+<li><code class="docutils literal notranslate"><span class="pre">service_id</span></code>: service ID. </li>
+<li><code class="docutils literal notranslate"><span class="pre">num_handle</span></code>: number of handle requested for this service.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv429esp_ble_gatts_create_attr_tabPK19esp_gatts_attr_db_t13esp_gatt_if_t7uint8_t7uint8_t">
+<span id="_CPPv329esp_ble_gatts_create_attr_tabPK19esp_gatts_attr_db_t13esp_gatt_if_t7uint8_t7uint8_t"></span><span id="_CPPv229esp_ble_gatts_create_attr_tabPK19esp_gatts_attr_db_t13esp_gatt_if_t7uint8_t7uint8_t"></span><span id="esp_ble_gatts_create_attr_tab__esp_gatts_attr_db_tCP.esp_gatt_if_t.uint8_t.uint8_t"></span><span class="target" id="esp__gatts__api_8h_1a9d061d68818dc67ccceac28053113dda"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_ble_gatts_create_attr_tab</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="esp_gatt_defs.html#_CPPv419esp_gatts_attr_db_t" title="esp_gatts_attr_db_t">esp_gatts_attr_db_t</a> *<em>gatts_attr_db</em>, <a class="reference internal" href="esp_gatt_defs.html#_CPPv413esp_gatt_if_t" title="esp_gatt_if_t">esp_gatt_if_t</a> <em>gatts_if</em>, uint8_t <em>max_nb_attr</em>, uint8_t <em>srvc_inst_id</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv429esp_ble_gatts_create_attr_tabPK19esp_gatts_attr_db_t13esp_gatt_if_t7uint8_t7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a service attribute tab. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gatts_attr_db</span></code>: the pointer to the service attr tab </li>
+<li><code class="docutils literal notranslate"><span class="pre">gatts_if</span></code>: GATT server access interface </li>
+<li><code class="docutils literal notranslate"><span class="pre">max_nb_attr</span></code>: the number of attribute to be added to the service database. </li>
+<li><code class="docutils literal notranslate"><span class="pre">srvc_inst_id</span></code>: the instance id of the service</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv434esp_ble_gatts_add_included_service8uint16_t8uint16_t">
+<span id="_CPPv334esp_ble_gatts_add_included_service8uint16_t8uint16_t"></span><span id="_CPPv234esp_ble_gatts_add_included_service8uint16_t8uint16_t"></span><span id="esp_ble_gatts_add_included_service__uint16_t.uint16_t"></span><span class="target" id="esp__gatts__api_8h_1adc2b43ed6d50eea5647227a536284b7e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_ble_gatts_add_included_service</code><span class="sig-paren">(</span>uint16_t <em>service_handle</em>, uint16_t <em>included_service_handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv434esp_ble_gatts_add_included_service8uint16_t8uint16_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function is called to add an included service. This function have to be called between ‘esp_ble_gatts_create_service’ and ‘esp_ble_gatts_add_char’. After included service is included, a callback event BTA_GATTS_ADD_INCL_SRVC_EVT is reported the included service ID. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">service_handle</span></code>: service handle to which this included service is to be added. </li>
+<li><code class="docutils literal notranslate"><span class="pre">included_service_handle</span></code>: the service ID to be included.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422esp_ble_gatts_add_char8uint16_tP13esp_bt_uuid_t15esp_gatt_perm_t20esp_gatt_char_prop_tP16esp_attr_value_tP18esp_attr_control_t">
+<span id="_CPPv322esp_ble_gatts_add_char8uint16_tP13esp_bt_uuid_t15esp_gatt_perm_t20esp_gatt_char_prop_tP16esp_attr_value_tP18esp_attr_control_t"></span><span id="_CPPv222esp_ble_gatts_add_char8uint16_tP13esp_bt_uuid_t15esp_gatt_perm_t20esp_gatt_char_prop_tP16esp_attr_value_tP18esp_attr_control_t"></span><span id="esp_ble_gatts_add_char__uint16_t.esp_bt_uuid_tP.esp_gatt_perm_t.esp_gatt_char_prop_t.esp_attr_value_tP.esp_attr_control_tP"></span><span class="target" id="esp__gatts__api_8h_1ab6874c83bc627cd6ceb2813d46fe9981"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_ble_gatts_add_char</code><span class="sig-paren">(</span>uint16_t <em>service_handle</em>, <a class="reference internal" href="esp_bt_defs.html#_CPPv413esp_bt_uuid_t" title="esp_bt_uuid_t">esp_bt_uuid_t</a> *<em>char_uuid</em>, <a class="reference internal" href="esp_gatt_defs.html#_CPPv415esp_gatt_perm_t" title="esp_gatt_perm_t">esp_gatt_perm_t</a> <em>perm</em>, <a class="reference internal" href="esp_gatt_defs.html#_CPPv420esp_gatt_char_prop_t" title="esp_gatt_char_prop_t">esp_gatt_char_prop_t</a> <em>property</em>, <a class="reference internal" href="esp_gatt_defs.html#_CPPv416esp_attr_value_t" title="esp_attr_value_t">esp_attr_value_t</a> *<em>char_val</em>, <a class="reference internal" href="esp_gatt_defs.html#_CPPv418esp_attr_control_t" title="esp_attr_control_t">esp_attr_control_t</a> *<em>control</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_ble_gatts_add_char8uint16_tP13esp_bt_uuid_t15esp_gatt_perm_t20esp_gatt_char_prop_tP16esp_attr_value_tP18esp_attr_control_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function is called to add a characteristic into a service. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">service_handle</span></code>: service handle to which this included service is to be added. </li>
+<li><code class="docutils literal notranslate"><span class="pre">char_uuid</span></code>: : Characteristic UUID. </li>
+<li><code class="docutils literal notranslate"><span class="pre">perm</span></code>: : Characteristic value declaration attribute permission. </li>
+<li><code class="docutils literal notranslate"><span class="pre">property</span></code>: : Characteristic Properties </li>
+<li><code class="docutils literal notranslate"><span class="pre">char_val</span></code>: : Characteristic value </li>
+<li><code class="docutils literal notranslate"><span class="pre">control</span></code>: : attribute response control byte</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428esp_ble_gatts_add_char_descr8uint16_tP13esp_bt_uuid_t15esp_gatt_perm_tP16esp_attr_value_tP18esp_attr_control_t">
+<span id="_CPPv328esp_ble_gatts_add_char_descr8uint16_tP13esp_bt_uuid_t15esp_gatt_perm_tP16esp_attr_value_tP18esp_attr_control_t"></span><span id="_CPPv228esp_ble_gatts_add_char_descr8uint16_tP13esp_bt_uuid_t15esp_gatt_perm_tP16esp_attr_value_tP18esp_attr_control_t"></span><span id="esp_ble_gatts_add_char_descr__uint16_t.esp_bt_uuid_tP.esp_gatt_perm_t.esp_attr_value_tP.esp_attr_control_tP"></span><span class="target" id="esp__gatts__api_8h_1a1266ae08b53445a5d03e87c10f653fcd"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_ble_gatts_add_char_descr</code><span class="sig-paren">(</span>uint16_t <em>service_handle</em>, <a class="reference internal" href="esp_bt_defs.html#_CPPv413esp_bt_uuid_t" title="esp_bt_uuid_t">esp_bt_uuid_t</a> *<em>descr_uuid</em>, <a class="reference internal" href="esp_gatt_defs.html#_CPPv415esp_gatt_perm_t" title="esp_gatt_perm_t">esp_gatt_perm_t</a> <em>perm</em>, <a class="reference internal" href="esp_gatt_defs.html#_CPPv416esp_attr_value_t" title="esp_attr_value_t">esp_attr_value_t</a> *<em>char_descr_val</em>, <a class="reference internal" href="esp_gatt_defs.html#_CPPv418esp_attr_control_t" title="esp_attr_control_t">esp_attr_control_t</a> *<em>control</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428esp_ble_gatts_add_char_descr8uint16_tP13esp_bt_uuid_t15esp_gatt_perm_tP16esp_attr_value_tP18esp_attr_control_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function is called to add characteristic descriptor. When it’s done, a callback event BTA_GATTS_ADD_DESCR_EVT is called to report the status and an ID number for this descriptor. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">service_handle</span></code>: service handle to which this characteristic descriptor is to be added. </li>
+<li><code class="docutils literal notranslate"><span class="pre">perm</span></code>: descriptor access permission. </li>
+<li><code class="docutils literal notranslate"><span class="pre">descr_uuid</span></code>: descriptor UUID. </li>
+<li><code class="docutils literal notranslate"><span class="pre">char_descr_val</span></code>: : Characteristic descriptor value </li>
+<li><code class="docutils literal notranslate"><span class="pre">control</span></code>: : attribute response control byte </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428esp_ble_gatts_delete_service8uint16_t">
+<span id="_CPPv328esp_ble_gatts_delete_service8uint16_t"></span><span id="_CPPv228esp_ble_gatts_delete_service8uint16_t"></span><span id="esp_ble_gatts_delete_service__uint16_t"></span><span class="target" id="esp__gatts__api_8h_1a7ffe83854184d3fa837425ef00e8da67"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_ble_gatts_delete_service</code><span class="sig-paren">(</span>uint16_t <em>service_handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428esp_ble_gatts_delete_service8uint16_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function is called to delete a service. When this is done, a callback event BTA_GATTS_DELETE_EVT is report with the status. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">service_handle</span></code>: service_handle to be deleted.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427esp_ble_gatts_start_service8uint16_t">
+<span id="_CPPv327esp_ble_gatts_start_service8uint16_t"></span><span id="_CPPv227esp_ble_gatts_start_service8uint16_t"></span><span id="esp_ble_gatts_start_service__uint16_t"></span><span class="target" id="esp__gatts__api_8h_1a3398aa068a00e62c745dffbc17d95629"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_ble_gatts_start_service</code><span class="sig-paren">(</span>uint16_t <em>service_handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427esp_ble_gatts_start_service8uint16_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function is called to start a service. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">service_handle</span></code>: the service handle to be started.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426esp_ble_gatts_stop_service8uint16_t">
+<span id="_CPPv326esp_ble_gatts_stop_service8uint16_t"></span><span id="_CPPv226esp_ble_gatts_stop_service8uint16_t"></span><span id="esp_ble_gatts_stop_service__uint16_t"></span><span class="target" id="esp__gatts__api_8h_1ab035415706c0f387c58f1a97a459592a"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_ble_gatts_stop_service</code><span class="sig-paren">(</span>uint16_t <em>service_handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426esp_ble_gatts_stop_service8uint16_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function is called to stop a service. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">service_handle</span></code>: - service to be topped.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427esp_ble_gatts_send_indicate13esp_gatt_if_t8uint16_t8uint16_t8uint16_tP7uint8_tb">
+<span id="_CPPv327esp_ble_gatts_send_indicate13esp_gatt_if_t8uint16_t8uint16_t8uint16_tP7uint8_tb"></span><span id="_CPPv227esp_ble_gatts_send_indicate13esp_gatt_if_t8uint16_t8uint16_t8uint16_tP7uint8_tb"></span><span id="esp_ble_gatts_send_indicate__esp_gatt_if_t.uint16_t.uint16_t.uint16_t.uint8_tP.b"></span><span class="target" id="esp__gatts__api_8h_1a3ba96ab6391571f42f99038be49cb37c"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_ble_gatts_send_indicate</code><span class="sig-paren">(</span><a class="reference internal" href="esp_gatt_defs.html#_CPPv413esp_gatt_if_t" title="esp_gatt_if_t">esp_gatt_if_t</a> <em>gatts_if</em>, uint16_t <em>conn_id</em>, uint16_t <em>attr_handle</em>, uint16_t <em>value_len</em>, uint8_t *<em>value</em>, bool <em>need_confirm</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427esp_ble_gatts_send_indicate13esp_gatt_if_t8uint16_t8uint16_t8uint16_tP7uint8_tb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Send indicate or notify to GATT client. Set param need_confirm as false will send notification, otherwise indication. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gatts_if</span></code>: GATT server access interface </li>
+<li><code class="docutils literal notranslate"><span class="pre">conn_id</span></code>: - connection id to indicate. </li>
+<li><code class="docutils literal notranslate"><span class="pre">attr_handle</span></code>: - attribute handle to indicate. </li>
+<li><code class="docutils literal notranslate"><span class="pre">value_len</span></code>: - indicate value length. </li>
+<li><code class="docutils literal notranslate"><span class="pre">value</span></code>: value to indicate. </li>
+<li><code class="docutils literal notranslate"><span class="pre">need_confirm</span></code>: - Whether a confirmation is required. false sends a GATT notification, true sends a GATT indication.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427esp_ble_gatts_send_response13esp_gatt_if_t8uint16_t8uint32_t17esp_gatt_status_tP14esp_gatt_rsp_t">
+<span id="_CPPv327esp_ble_gatts_send_response13esp_gatt_if_t8uint16_t8uint32_t17esp_gatt_status_tP14esp_gatt_rsp_t"></span><span id="_CPPv227esp_ble_gatts_send_response13esp_gatt_if_t8uint16_t8uint32_t17esp_gatt_status_tP14esp_gatt_rsp_t"></span><span id="esp_ble_gatts_send_response__esp_gatt_if_t.uint16_t.uint32_t.esp_gatt_status_t.esp_gatt_rsp_tP"></span><span class="target" id="esp__gatts__api_8h_1a91c92e68dfff55ff34a42e63cc73a648"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_ble_gatts_send_response</code><span class="sig-paren">(</span><a class="reference internal" href="esp_gatt_defs.html#_CPPv413esp_gatt_if_t" title="esp_gatt_if_t">esp_gatt_if_t</a> <em>gatts_if</em>, uint16_t <em>conn_id</em>, uint32_t <em>trans_id</em>, <a class="reference internal" href="esp_gatt_defs.html#_CPPv417esp_gatt_status_t" title="esp_gatt_status_t">esp_gatt_status_t</a> <em>status</em>, <a class="reference internal" href="esp_gatt_defs.html#_CPPv414esp_gatt_rsp_t" title="esp_gatt_rsp_t">esp_gatt_rsp_t</a> *<em>rsp</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427esp_ble_gatts_send_response13esp_gatt_if_t8uint16_t8uint32_t17esp_gatt_status_tP14esp_gatt_rsp_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function is called to send a response to a request. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gatts_if</span></code>: GATT server access interface </li>
+<li><code class="docutils literal notranslate"><span class="pre">conn_id</span></code>: - connection identifier. </li>
+<li><code class="docutils literal notranslate"><span class="pre">trans_id</span></code>: - transfer id </li>
+<li><code class="docutils literal notranslate"><span class="pre">status</span></code>: - response status </li>
+<li><code class="docutils literal notranslate"><span class="pre">rsp</span></code>: - response data.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428esp_ble_gatts_set_attr_value8uint16_t8uint16_tPK7uint8_t">
+<span id="_CPPv328esp_ble_gatts_set_attr_value8uint16_t8uint16_tPK7uint8_t"></span><span id="_CPPv228esp_ble_gatts_set_attr_value8uint16_t8uint16_tPK7uint8_t"></span><span id="esp_ble_gatts_set_attr_value__uint16_t.uint16_t.uint8_tCP"></span><span class="target" id="esp__gatts__api_8h_1a2dc5dcc7d6bd4f5a7158568f55efa52e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_ble_gatts_set_attr_value</code><span class="sig-paren">(</span>uint16_t <em>attr_handle</em>, uint16_t <em>length</em>, <em class="property">const</em> uint8_t *<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428esp_ble_gatts_set_attr_value8uint16_t8uint16_tPK7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function is called to set the attribute value by the application. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">attr_handle</span></code>: the attribute handle which to be set </li>
+<li><code class="docutils literal notranslate"><span class="pre">length</span></code>: the value length </li>
+<li><code class="docutils literal notranslate"><span class="pre">value</span></code>: the pointer to the attribute value</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428esp_ble_gatts_get_attr_value8uint16_tP8uint16_tPPK7uint8_t">
+<span id="_CPPv328esp_ble_gatts_get_attr_value8uint16_tP8uint16_tPPK7uint8_t"></span><span id="_CPPv228esp_ble_gatts_get_attr_value8uint16_tP8uint16_tPPK7uint8_t"></span><span id="esp_ble_gatts_get_attr_value__uint16_t.uint16_tP.uint8_tCPP"></span><span class="target" id="esp__gatts__api_8h_1a5ac112ad72a94ac59122abe6986bf6ce"></span><a class="reference internal" href="esp_gatt_defs.html#_CPPv417esp_gatt_status_t" title="esp_gatt_status_t">esp_gatt_status_t</a> <code class="descname">esp_ble_gatts_get_attr_value</code><span class="sig-paren">(</span>uint16_t <em>attr_handle</em>, uint16_t *<em>length</em>, <em class="property">const</em> uint8_t **<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428esp_ble_gatts_get_attr_value8uint16_tP8uint16_tPPK7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Retrieve attribute value. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_GATT_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">attr_handle</span></code>: Attribute handle. </li>
+<li><code class="docutils literal notranslate"><span class="pre">length</span></code>: pointer to the attribute value length </li>
+<li><code class="docutils literal notranslate"><span class="pre">value</span></code>: Pointer to attribute value payload, the value cannot be modified by user</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418esp_ble_gatts_open13esp_gatt_if_t13esp_bd_addr_tb">
+<span id="_CPPv318esp_ble_gatts_open13esp_gatt_if_t13esp_bd_addr_tb"></span><span id="_CPPv218esp_ble_gatts_open13esp_gatt_if_t13esp_bd_addr_tb"></span><span id="esp_ble_gatts_open__esp_gatt_if_t.esp_bd_addr_t.b"></span><span class="target" id="esp__gatts__api_8h_1a3483a72c79f9a69b72da202bfa6d910b"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_ble_gatts_open</code><span class="sig-paren">(</span><a class="reference internal" href="esp_gatt_defs.html#_CPPv413esp_gatt_if_t" title="esp_gatt_if_t">esp_gatt_if_t</a> <em>gatts_if</em>, <a class="reference internal" href="esp_bt_defs.html#_CPPv413esp_bd_addr_t" title="esp_bd_addr_t">esp_bd_addr_t</a> <em>remote_bda</em>, bool <em>is_direct</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418esp_ble_gatts_open13esp_gatt_if_t13esp_bd_addr_tb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Open a direct open connection or add a background auto connection. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gatts_if</span></code>: GATT server access interface </li>
+<li><code class="docutils literal notranslate"><span class="pre">remote_bda</span></code>: remote device bluetooth device address. </li>
+<li><code class="docutils literal notranslate"><span class="pre">is_direct</span></code>: direct connection or background auto connection</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419esp_ble_gatts_close13esp_gatt_if_t8uint16_t">
+<span id="_CPPv319esp_ble_gatts_close13esp_gatt_if_t8uint16_t"></span><span id="_CPPv219esp_ble_gatts_close13esp_gatt_if_t8uint16_t"></span><span id="esp_ble_gatts_close__esp_gatt_if_t.uint16_t"></span><span class="target" id="esp__gatts__api_8h_1a6c5c53e666ad25c3c3d50493c3a29b0f"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_ble_gatts_close</code><span class="sig-paren">(</span><a class="reference internal" href="esp_gatt_defs.html#_CPPv413esp_gatt_if_t" title="esp_gatt_if_t">esp_gatt_if_t</a> <em>gatts_if</em>, uint16_t <em>conn_id</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419esp_ble_gatts_close13esp_gatt_if_t8uint16_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Close a connection a remote device. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gatts_if</span></code>: GATT server access interface </li>
+<li><code class="docutils literal notranslate"><span class="pre">conn_id</span></code>: connection ID to be closed.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv444esp_ble_gatts_send_service_change_indication13esp_gatt_if_t13esp_bd_addr_t">
+<span id="_CPPv344esp_ble_gatts_send_service_change_indication13esp_gatt_if_t13esp_bd_addr_t"></span><span id="_CPPv244esp_ble_gatts_send_service_change_indication13esp_gatt_if_t13esp_bd_addr_t"></span><span id="esp_ble_gatts_send_service_change_indication__esp_gatt_if_t.esp_bd_addr_t"></span><span class="target" id="esp__gatts__api_8h_1ae74eb17f8cb591aa6e00c53fbf9190bc"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_ble_gatts_send_service_change_indication</code><span class="sig-paren">(</span><a class="reference internal" href="esp_gatt_defs.html#_CPPv413esp_gatt_if_t" title="esp_gatt_if_t">esp_gatt_if_t</a> <em>gatts_if</em>, <a class="reference internal" href="esp_bt_defs.html#_CPPv413esp_bd_addr_t" title="esp_bd_addr_t">esp_bd_addr_t</a> <em>remote_bda</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv444esp_ble_gatts_send_service_change_indication13esp_gatt_if_t13esp_bd_addr_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Send service change indication. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gatts_if</span></code>: GATT server access interface </li>
+<li><code class="docutils literal notranslate"><span class="pre">remote_bda</span></code>: remote device bluetooth device address. If remote_bda is NULL then it will send service change indication to all the connected devices and if not then to a specific device</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="unions">
+<h3>Unions<a class="headerlink" href="#unions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv424esp_ble_gatts_cb_param_t">
+<span id="_CPPv324esp_ble_gatts_cb_param_t"></span><span id="_CPPv224esp_ble_gatts_cb_param_t"></span><span id="esp_ble_gatts_cb_param_t"></span><span class="target" id="unionesp__ble__gatts__cb__param__t"></span><em class="property">union </em><code class="descname">esp_ble_gatts_cb_param_t</code><a class="headerlink" href="#_CPPv424esp_ble_gatts_cb_param_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>Gatt server callback parameters union. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t3regE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t3regE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t3regE"></span><span id="esp_ble_gatts_cb_param_t::reg__esp_ble_gatts_cb_param_t::gatts_reg_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1a5a37be640298359fb5e1cb8977b59f0a"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t19gatts_reg_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_reg_evt_param">gatts_reg_evt_param</a> <code class="descname">reg</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t3regE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_REG_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t4readE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t4readE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t4readE"></span><span id="esp_ble_gatts_cb_param_t::read__esp_ble_gatts_cb_param_t::gatts_read_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1a888c5555a7e44adf65e58a1767e2dce4"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_read_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_read_evt_param">gatts_read_evt_param</a> <code class="descname">read</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t4readE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_READ_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t5writeE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t5writeE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t5writeE"></span><span id="esp_ble_gatts_cb_param_t::write__esp_ble_gatts_cb_param_t::gatts_write_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1a031e1c2b733cd14aacbabab4f2603e83"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_write_evt_param">gatts_write_evt_param</a> <code class="descname">write</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t5writeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_WRITE_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t10exec_writeE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t10exec_writeE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t10exec_writeE"></span><span id="esp_ble_gatts_cb_param_t::exec_write__esp_ble_gatts_cb_param_t::gatts_exec_write_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1a878ce77391746243263ef10d44c97a9c"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_exec_write_evt_param">gatts_exec_write_evt_param</a> <code class="descname">exec_write</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t10exec_writeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_EXEC_WRITE_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t3mtuE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t3mtuE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t3mtuE"></span><span id="esp_ble_gatts_cb_param_t::mtu__esp_ble_gatts_cb_param_t::gatts_mtu_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1ab4840a6841b5943194b5b7a19ae5b8c3"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t19gatts_mtu_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_mtu_evt_param">gatts_mtu_evt_param</a> <code class="descname">mtu</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t3mtuE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_MTU_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t4confE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t4confE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t4confE"></span><span id="esp_ble_gatts_cb_param_t::conf__esp_ble_gatts_cb_param_t::gatts_conf_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1a9ba8b476d228718c4264ee9de47eb7fb"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_conf_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_conf_evt_param">gatts_conf_evt_param</a> <code class="descname">conf</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t4confE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_CONF_EVT (confirm) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t6createE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t6createE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t6createE"></span><span id="esp_ble_gatts_cb_param_t::create__esp_ble_gatts_cb_param_t::gatts_create_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1a56400a7d17191fe84edb6b41e1d71fd7"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t22gatts_create_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_create_evt_param">gatts_create_evt_param</a> <code class="descname">create</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t6createE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_CREATE_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t13add_incl_srvcE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t13add_incl_srvcE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t13add_incl_srvcE"></span><span id="esp_ble_gatts_cb_param_t::add_incl_srvc__esp_ble_gatts_cb_param_t::gatts_add_incl_srvc_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1a26952129cdef73a09012f4fbb3c8312a"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t29gatts_add_incl_srvc_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_add_incl_srvc_evt_param">gatts_add_incl_srvc_evt_param</a> <code class="descname">add_incl_srvc</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t13add_incl_srvcE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_ADD_INCL_SRVC_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t8add_charE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t8add_charE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t8add_charE"></span><span id="esp_ble_gatts_cb_param_t::add_char__esp_ble_gatts_cb_param_t::gatts_add_char_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1aab3631fe4673d32517bfa021355fbfd4"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_add_char_evt_param">gatts_add_char_evt_param</a> <code class="descname">add_char</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t8add_charE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_ADD_CHAR_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t14add_char_descrE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t14add_char_descrE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t14add_char_descrE"></span><span id="esp_ble_gatts_cb_param_t::add_char_descr__esp_ble_gatts_cb_param_t::gatts_add_char_descr_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1aa6f4fda620eeec40c50b5e3fa7344fb1"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_add_char_descr_evt_param">gatts_add_char_descr_evt_param</a> <code class="descname">add_char_descr</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t14add_char_descrE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_ADD_CHAR_DESCR_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t3delE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t3delE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t3delE"></span><span id="esp_ble_gatts_cb_param_t::del__esp_ble_gatts_cb_param_t::gatts_delete_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1a94b181bf248185127e60e78de734fb40"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t22gatts_delete_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_delete_evt_param">gatts_delete_evt_param</a> <code class="descname">del</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t3delE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_DELETE_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t5startE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t5startE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t5startE"></span><span id="esp_ble_gatts_cb_param_t::start__esp_ble_gatts_cb_param_t::gatts_start_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1ae0033992efd484e0518225393ceec677"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t21gatts_start_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_start_evt_param">gatts_start_evt_param</a> <code class="descname">start</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t5startE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_START_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t4stopE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t4stopE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t4stopE"></span><span id="esp_ble_gatts_cb_param_t::stop__esp_ble_gatts_cb_param_t::gatts_stop_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1addfd808e31610aa1bf3b1d610d18b3dc"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_stop_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_stop_evt_param">gatts_stop_evt_param</a> <code class="descname">stop</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t4stopE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_STOP_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t7connectE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t7connectE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t7connectE"></span><span id="esp_ble_gatts_cb_param_t::connect__esp_ble_gatts_cb_param_t::gatts_connect_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1afb2e0677fb9edb1b72b96d6f488b791c"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t23gatts_connect_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_connect_evt_param">gatts_connect_evt_param</a> <code class="descname">connect</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t7connectE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_CONNECT_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t10disconnectE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t10disconnectE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t10disconnectE"></span><span id="esp_ble_gatts_cb_param_t::disconnect__esp_ble_gatts_cb_param_t::gatts_disconnect_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1a266cc040059a047f07f0c2ba608d8c5d"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t26gatts_disconnect_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_disconnect_evt_param">gatts_disconnect_evt_param</a> <code class="descname">disconnect</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t10disconnectE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_DISCONNECT_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t4openE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t4openE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t4openE"></span><span id="esp_ble_gatts_cb_param_t::open__esp_ble_gatts_cb_param_t::gatts_open_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1a37c43e84899f14bf489ea3c86905d993"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_open_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_open_evt_param">gatts_open_evt_param</a> <code class="descname">open</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t4openE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_OPEN_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t11cancel_openE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t11cancel_openE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t11cancel_openE"></span><span id="esp_ble_gatts_cb_param_t::cancel_open__esp_ble_gatts_cb_param_t::gatts_cancel_open_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1ab78bf3e1f5505fcbb5a4f1aa7383f8dd"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t27gatts_cancel_open_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_cancel_open_evt_param">gatts_cancel_open_evt_param</a> <code class="descname">cancel_open</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t11cancel_openE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_CANCEL_OPEN_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t5closeE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t5closeE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t5closeE"></span><span id="esp_ble_gatts_cb_param_t::close__esp_ble_gatts_cb_param_t::gatts_close_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1af441152ec216cdc26f373a1b41f20047"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t21gatts_close_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_close_evt_param">gatts_close_evt_param</a> <code class="descname">close</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t5closeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_CLOSE_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t7congestE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t7congestE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t7congestE"></span><span id="esp_ble_gatts_cb_param_t::congest__esp_ble_gatts_cb_param_t::gatts_congest_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1ad5f7303dc68d42660d30dd0c860f2e1b"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t23gatts_congest_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_congest_evt_param">gatts_congest_evt_param</a> <code class="descname">congest</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t7congestE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_CONGEST_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t3rspE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t3rspE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t3rspE"></span><span id="esp_ble_gatts_cb_param_t::rsp__esp_ble_gatts_cb_param_t::gatts_rsp_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1a969390434c7846c4a21c9cdb8e2ed3bc"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t19gatts_rsp_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_rsp_evt_param">gatts_rsp_evt_param</a> <code class="descname">rsp</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t3rspE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_RESPONSE_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t12add_attr_tabE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t12add_attr_tabE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t12add_attr_tabE"></span><span id="esp_ble_gatts_cb_param_t::add_attr_tab__esp_ble_gatts_cb_param_t::gatts_add_attr_tab_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1a1c01fa67667eab8514d9d6601c40e34f"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_add_attr_tab_evt_param">gatts_add_attr_tab_evt_param</a> <code class="descname">add_attr_tab</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t12add_attr_tabE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_CREAT_ATTR_TAB_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t12set_attr_valE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t12set_attr_valE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t12set_attr_valE"></span><span id="esp_ble_gatts_cb_param_t::set_attr_val__esp_ble_gatts_cb_param_t::gatts_set_attr_val_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1a651eefa9b9102443f964f3fc83fa5467"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t28gatts_set_attr_val_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_set_attr_val_evt_param">gatts_set_attr_val_evt_param</a> <code class="descname">set_attr_val</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t12set_attr_valE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_SET_ATTR_VAL_EVT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t14service_changeE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t14service_changeE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t14service_changeE"></span><span id="esp_ble_gatts_cb_param_t::service_change__esp_ble_gatts_cb_param_t::gatts_send_service_change_evt_param"></span><span class="target" id="unionesp__ble__gatts__cb__param__t_1aad9182650208c157c6f408142e8073ec"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N24esp_ble_gatts_cb_param_t35gatts_send_service_change_evt_paramE" title="esp_ble_gatts_cb_param_t::gatts_send_service_change_evt_param">gatts_send_service_change_evt_param</a> <code class="descname">service_change</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t14service_changeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Gatt server callback param of ESP_GATTS_SEND_SERVICE_CHANGE_EVT </p>
+</dd></dl>
+
+</div>
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_add_attr_tab_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__add__attr__tab__evt__param"></span><em class="property">struct </em><code class="descname">gatts_add_attr_tab_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_CREAT_ATTR_TAB_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_param6statusE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_param6statusE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_param6statusE"></span><span id="esp_ble_gatts_cb_param_t::gatts_add_attr_tab_evt_param::status__esp_gatt_status_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__add__attr__tab__evt__param_1ad14cbbc25353c9e4f1167d2954741995"></span><a class="reference internal" href="esp_gatt_defs.html#_CPPv417esp_gatt_status_t" title="esp_gatt_status_t">esp_gatt_status_t</a> <code class="descname">status</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_param6statusE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation status </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_param8svc_uuidE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_param8svc_uuidE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_param8svc_uuidE"></span><span id="esp_ble_gatts_cb_param_t::gatts_add_attr_tab_evt_param::svc_uuid__esp_bt_uuid_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__add__attr__tab__evt__param_1a5d96de5aea177c9c4ef64048d5dd2dd9"></span><a class="reference internal" href="esp_bt_defs.html#_CPPv413esp_bt_uuid_t" title="esp_bt_uuid_t">esp_bt_uuid_t</a> <code class="descname">svc_uuid</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_param8svc_uuidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Service uuid type </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_param11svc_inst_idE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_param11svc_inst_idE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_param11svc_inst_idE"></span><span id="esp_ble_gatts_cb_param_t::gatts_add_attr_tab_evt_param::svc_inst_id__uint8_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__add__attr__tab__evt__param_1a5ad6fa3757ed8528b41e79c5f95101f6"></span>uint8_t <code class="descname">svc_inst_id</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_param11svc_inst_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Service id </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_param10num_handleE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_param10num_handleE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_param10num_handleE"></span><span id="esp_ble_gatts_cb_param_t::gatts_add_attr_tab_evt_param::num_handle__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__add__attr__tab__evt__param_1aeb2777bca2e4dd8075eeee3ee31347b8"></span>uint16_t <code class="descname">num_handle</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_param10num_handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The number of the attribute handle to be added to the gatts database </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_param7handlesE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_param7handlesE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_param7handlesE"></span><span id="esp_ble_gatts_cb_param_t::gatts_add_attr_tab_evt_param::handles__uint16_tP"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__add__attr__tab__evt__param_1a3f9e6888fe4997cf9dfd4d1b7a682075"></span>uint16_t *<code class="descname">handles</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t28gatts_add_attr_tab_evt_param7handlesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The number to the handles </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_add_char_descr_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__add__char__descr__evt__param"></span><em class="property">struct </em><code class="descname">gatts_add_char_descr_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_ADD_CHAR_DESCR_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_param6statusE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_param6statusE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_param6statusE"></span><span id="esp_ble_gatts_cb_param_t::gatts_add_char_descr_evt_param::status__esp_gatt_status_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__add__char__descr__evt__param_1a6c82aaf4ba210153d8d34cc330e2adf9"></span><a class="reference internal" href="esp_gatt_defs.html#_CPPv417esp_gatt_status_t" title="esp_gatt_status_t">esp_gatt_status_t</a> <code class="descname">status</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_param6statusE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation status </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_param11attr_handleE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_param11attr_handleE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_param11attr_handleE"></span><span id="esp_ble_gatts_cb_param_t::gatts_add_char_descr_evt_param::attr_handle__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__add__char__descr__evt__param_1a69980ee61b223be61584b18fc8d12cdd"></span>uint16_t <code class="descname">attr_handle</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_param11attr_handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Descriptor attribute handle </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_param14service_handleE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_param14service_handleE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_param14service_handleE"></span><span id="esp_ble_gatts_cb_param_t::gatts_add_char_descr_evt_param::service_handle__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__add__char__descr__evt__param_1a1750977753b3365b869c96040dbc98ae"></span>uint16_t <code class="descname">service_handle</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_param14service_handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Service attribute handle </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_param10descr_uuidE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_param10descr_uuidE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_param10descr_uuidE"></span><span id="esp_ble_gatts_cb_param_t::gatts_add_char_descr_evt_param::descr_uuid__esp_bt_uuid_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__add__char__descr__evt__param_1ac385f6aa4a066eaafbaf03be5ca0c6b7"></span><a class="reference internal" href="esp_bt_defs.html#_CPPv413esp_bt_uuid_t" title="esp_bt_uuid_t">esp_bt_uuid_t</a> <code class="descname">descr_uuid</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t30gatts_add_char_descr_evt_param10descr_uuidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Characteristic descriptor uuid </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_add_char_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__add__char__evt__param"></span><em class="property">struct </em><code class="descname">gatts_add_char_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_ADD_CHAR_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_param6statusE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_param6statusE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_param6statusE"></span><span id="esp_ble_gatts_cb_param_t::gatts_add_char_evt_param::status__esp_gatt_status_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__add__char__evt__param_1a9ee407a28d7915c6f8597aa2ffbb273d"></span><a class="reference internal" href="esp_gatt_defs.html#_CPPv417esp_gatt_status_t" title="esp_gatt_status_t">esp_gatt_status_t</a> <code class="descname">status</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_param6statusE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation status </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_param11attr_handleE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_param11attr_handleE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_param11attr_handleE"></span><span id="esp_ble_gatts_cb_param_t::gatts_add_char_evt_param::attr_handle__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__add__char__evt__param_1ad2f9a9a20ed88631736968259a75f59d"></span>uint16_t <code class="descname">attr_handle</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_param11attr_handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Characteristic attribute handle </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_param14service_handleE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_param14service_handleE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_param14service_handleE"></span><span id="esp_ble_gatts_cb_param_t::gatts_add_char_evt_param::service_handle__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__add__char__evt__param_1af6110d387822d875a116506b3bfefa90"></span>uint16_t <code class="descname">service_handle</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_param14service_handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Service attribute handle </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_param9char_uuidE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_param9char_uuidE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_param9char_uuidE"></span><span id="esp_ble_gatts_cb_param_t::gatts_add_char_evt_param::char_uuid__esp_bt_uuid_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__add__char__evt__param_1a523024bf350affe53c4d6af6cdd951a7"></span><a class="reference internal" href="esp_bt_defs.html#_CPPv413esp_bt_uuid_t" title="esp_bt_uuid_t">esp_bt_uuid_t</a> <code class="descname">char_uuid</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t24gatts_add_char_evt_param9char_uuidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Characteristic uuid </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t29gatts_add_incl_srvc_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t29gatts_add_incl_srvc_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t29gatts_add_incl_srvc_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_add_incl_srvc_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__add__incl__srvc__evt__param"></span><em class="property">struct </em><code class="descname">gatts_add_incl_srvc_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t29gatts_add_incl_srvc_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_ADD_INCL_SRVC_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t29gatts_add_incl_srvc_evt_param6statusE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t29gatts_add_incl_srvc_evt_param6statusE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t29gatts_add_incl_srvc_evt_param6statusE"></span><span id="esp_ble_gatts_cb_param_t::gatts_add_incl_srvc_evt_param::status__esp_gatt_status_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__add__incl__srvc__evt__param_1a1782487fd7673ea1f47c16d0fd585dcf"></span><a class="reference internal" href="esp_gatt_defs.html#_CPPv417esp_gatt_status_t" title="esp_gatt_status_t">esp_gatt_status_t</a> <code class="descname">status</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t29gatts_add_incl_srvc_evt_param6statusE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation status </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t29gatts_add_incl_srvc_evt_param11attr_handleE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t29gatts_add_incl_srvc_evt_param11attr_handleE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t29gatts_add_incl_srvc_evt_param11attr_handleE"></span><span id="esp_ble_gatts_cb_param_t::gatts_add_incl_srvc_evt_param::attr_handle__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__add__incl__srvc__evt__param_1a91ba308cdc7f83d2f535d52acfd02a73"></span>uint16_t <code class="descname">attr_handle</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t29gatts_add_incl_srvc_evt_param11attr_handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Included service attribute handle </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t29gatts_add_incl_srvc_evt_param14service_handleE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t29gatts_add_incl_srvc_evt_param14service_handleE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t29gatts_add_incl_srvc_evt_param14service_handleE"></span><span id="esp_ble_gatts_cb_param_t::gatts_add_incl_srvc_evt_param::service_handle__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__add__incl__srvc__evt__param_1ace020aba951dccbc613b4fd47412fe6d"></span>uint16_t <code class="descname">service_handle</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t29gatts_add_incl_srvc_evt_param14service_handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Service attribute handle </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t27gatts_cancel_open_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t27gatts_cancel_open_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t27gatts_cancel_open_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_cancel_open_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__cancel__open__evt__param"></span><em class="property">struct </em><code class="descname">gatts_cancel_open_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t27gatts_cancel_open_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_CANCEL_OPEN_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t27gatts_cancel_open_evt_param6statusE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t27gatts_cancel_open_evt_param6statusE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t27gatts_cancel_open_evt_param6statusE"></span><span id="esp_ble_gatts_cb_param_t::gatts_cancel_open_evt_param::status__esp_gatt_status_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__cancel__open__evt__param_1af5572655aed172544cce4af9b62637e7"></span><a class="reference internal" href="esp_gatt_defs.html#_CPPv417esp_gatt_status_t" title="esp_gatt_status_t">esp_gatt_status_t</a> <code class="descname">status</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t27gatts_cancel_open_evt_param6statusE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation status </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t21gatts_close_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t21gatts_close_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t21gatts_close_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_close_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__close__evt__param"></span><em class="property">struct </em><code class="descname">gatts_close_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t21gatts_close_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_CLOSE_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t21gatts_close_evt_param6statusE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t21gatts_close_evt_param6statusE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t21gatts_close_evt_param6statusE"></span><span id="esp_ble_gatts_cb_param_t::gatts_close_evt_param::status__esp_gatt_status_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__close__evt__param_1a701edebabbf3694d70bd3ed4802059ae"></span><a class="reference internal" href="esp_gatt_defs.html#_CPPv417esp_gatt_status_t" title="esp_gatt_status_t">esp_gatt_status_t</a> <code class="descname">status</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t21gatts_close_evt_param6statusE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation status </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t21gatts_close_evt_param7conn_idE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t21gatts_close_evt_param7conn_idE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t21gatts_close_evt_param7conn_idE"></span><span id="esp_ble_gatts_cb_param_t::gatts_close_evt_param::conn_id__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__close__evt__param_1a16ae81d86625d77f5015c176cdf40f1a"></span>uint16_t <code class="descname">conn_id</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t21gatts_close_evt_param7conn_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Connection id </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t20gatts_conf_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t20gatts_conf_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t20gatts_conf_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_conf_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__conf__evt__param"></span><em class="property">struct </em><code class="descname">gatts_conf_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_conf_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_CONF_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t20gatts_conf_evt_param6statusE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t20gatts_conf_evt_param6statusE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t20gatts_conf_evt_param6statusE"></span><span id="esp_ble_gatts_cb_param_t::gatts_conf_evt_param::status__esp_gatt_status_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__conf__evt__param_1a741a9c6b0a09b2bd9bf89e4a295f9595"></span><a class="reference internal" href="esp_gatt_defs.html#_CPPv417esp_gatt_status_t" title="esp_gatt_status_t">esp_gatt_status_t</a> <code class="descname">status</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_conf_evt_param6statusE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation status </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t20gatts_conf_evt_param7conn_idE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t20gatts_conf_evt_param7conn_idE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t20gatts_conf_evt_param7conn_idE"></span><span id="esp_ble_gatts_cb_param_t::gatts_conf_evt_param::conn_id__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__conf__evt__param_1a6ca367317a54b6eb76a61334b27da492"></span>uint16_t <code class="descname">conn_id</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_conf_evt_param7conn_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Connection id </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t20gatts_conf_evt_param6handleE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t20gatts_conf_evt_param6handleE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t20gatts_conf_evt_param6handleE"></span><span id="esp_ble_gatts_cb_param_t::gatts_conf_evt_param::handle__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__conf__evt__param_1a993e4b6114f1881bf18fa98d1051a7ec"></span>uint16_t <code class="descname">handle</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_conf_evt_param6handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>attribute handle </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t20gatts_conf_evt_param3lenE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t20gatts_conf_evt_param3lenE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t20gatts_conf_evt_param3lenE"></span><span id="esp_ble_gatts_cb_param_t::gatts_conf_evt_param::len__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__conf__evt__param_1ac74f194fe0f1a0c7e71a03e052b61f83"></span>uint16_t <code class="descname">len</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_conf_evt_param3lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The indication or notification value length, len is valid when send notification or indication failed </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t20gatts_conf_evt_param5valueE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t20gatts_conf_evt_param5valueE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t20gatts_conf_evt_param5valueE"></span><span id="esp_ble_gatts_cb_param_t::gatts_conf_evt_param::value__uint8_tP"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__conf__evt__param_1ae6c98083d3ed6990e4c0d5e9ddeea736"></span>uint8_t *<code class="descname">value</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_conf_evt_param5valueE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The indication or notification value , value is valid when send notification or indication failed </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t23gatts_congest_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t23gatts_congest_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t23gatts_congest_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_congest_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__congest__evt__param"></span><em class="property">struct </em><code class="descname">gatts_congest_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t23gatts_congest_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_LISTEN_EVT. </p>
+<p>ESP_GATTS_CONGEST_EVT </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t23gatts_congest_evt_param7conn_idE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t23gatts_congest_evt_param7conn_idE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t23gatts_congest_evt_param7conn_idE"></span><span id="esp_ble_gatts_cb_param_t::gatts_congest_evt_param::conn_id__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__congest__evt__param_1aead2e4344a65e60424db1eaeafa7d739"></span>uint16_t <code class="descname">conn_id</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t23gatts_congest_evt_param7conn_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Connection id </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t23gatts_congest_evt_param9congestedE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t23gatts_congest_evt_param9congestedE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t23gatts_congest_evt_param9congestedE"></span><span id="esp_ble_gatts_cb_param_t::gatts_congest_evt_param::congested__b"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__congest__evt__param_1af370b0fa32f5dc7f473e5780ce4a6002"></span>bool <code class="descname">congested</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t23gatts_congest_evt_param9congestedE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Congested or not </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t23gatts_connect_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t23gatts_connect_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t23gatts_connect_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_connect_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__connect__evt__param"></span><em class="property">struct </em><code class="descname">gatts_connect_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t23gatts_connect_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_CONNECT_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t23gatts_connect_evt_param7conn_idE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t23gatts_connect_evt_param7conn_idE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t23gatts_connect_evt_param7conn_idE"></span><span id="esp_ble_gatts_cb_param_t::gatts_connect_evt_param::conn_id__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__connect__evt__param_1a9fdfd4e865d72ec861de726e7aa044fb"></span>uint16_t <code class="descname">conn_id</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t23gatts_connect_evt_param7conn_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Connection id </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t23gatts_connect_evt_param10remote_bdaE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t23gatts_connect_evt_param10remote_bdaE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t23gatts_connect_evt_param10remote_bdaE"></span><span id="esp_ble_gatts_cb_param_t::gatts_connect_evt_param::remote_bda__esp_bd_addr_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__connect__evt__param_1a8ce3f565f84ace5aef7b97f9663edbc2"></span><a class="reference internal" href="esp_bt_defs.html#_CPPv413esp_bd_addr_t" title="esp_bd_addr_t">esp_bd_addr_t</a> <code class="descname">remote_bda</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t23gatts_connect_evt_param10remote_bdaE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remote bluetooth device address </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t23gatts_connect_evt_param11conn_paramsE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t23gatts_connect_evt_param11conn_paramsE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t23gatts_connect_evt_param11conn_paramsE"></span><span id="esp_ble_gatts_cb_param_t::gatts_connect_evt_param::conn_params__esp_gatt_conn_params_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__connect__evt__param_1a6378d37bdb7756ee9d372b1c3441ebfa"></span><a class="reference internal" href="esp_gatt_defs.html#_CPPv422esp_gatt_conn_params_t" title="esp_gatt_conn_params_t">esp_gatt_conn_params_t</a> <code class="descname">conn_params</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t23gatts_connect_evt_param11conn_paramsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>current Connection parameters </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t22gatts_create_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t22gatts_create_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t22gatts_create_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_create_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__create__evt__param"></span><em class="property">struct </em><code class="descname">gatts_create_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t22gatts_create_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_UNREG_EVT. </p>
+<p>ESP_GATTS_CREATE_EVT </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t22gatts_create_evt_param6statusE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t22gatts_create_evt_param6statusE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t22gatts_create_evt_param6statusE"></span><span id="esp_ble_gatts_cb_param_t::gatts_create_evt_param::status__esp_gatt_status_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__create__evt__param_1a84bf9f18795bf2e111d3e0cda358cd24"></span><a class="reference internal" href="esp_gatt_defs.html#_CPPv417esp_gatt_status_t" title="esp_gatt_status_t">esp_gatt_status_t</a> <code class="descname">status</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t22gatts_create_evt_param6statusE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation status </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t22gatts_create_evt_param14service_handleE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t22gatts_create_evt_param14service_handleE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t22gatts_create_evt_param14service_handleE"></span><span id="esp_ble_gatts_cb_param_t::gatts_create_evt_param::service_handle__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__create__evt__param_1a0fb0606d0179fc0b6b9c8f9430560a83"></span>uint16_t <code class="descname">service_handle</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t22gatts_create_evt_param14service_handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Service attribute handle </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t22gatts_create_evt_param10service_idE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t22gatts_create_evt_param10service_idE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t22gatts_create_evt_param10service_idE"></span><span id="esp_ble_gatts_cb_param_t::gatts_create_evt_param::service_id__esp_gatt_srvc_id_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__create__evt__param_1a59ac332fc6860cc6ad2456828094d95b"></span><a class="reference internal" href="esp_gatt_defs.html#_CPPv418esp_gatt_srvc_id_t" title="esp_gatt_srvc_id_t">esp_gatt_srvc_id_t</a> <code class="descname">service_id</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t22gatts_create_evt_param10service_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Service id, include service uuid and other information </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t22gatts_delete_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t22gatts_delete_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t22gatts_delete_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_delete_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__delete__evt__param"></span><em class="property">struct </em><code class="descname">gatts_delete_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t22gatts_delete_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_DELETE_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t22gatts_delete_evt_param6statusE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t22gatts_delete_evt_param6statusE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t22gatts_delete_evt_param6statusE"></span><span id="esp_ble_gatts_cb_param_t::gatts_delete_evt_param::status__esp_gatt_status_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__delete__evt__param_1a9004a4dc2d47e5711c4dedf76cc9ba5a"></span><a class="reference internal" href="esp_gatt_defs.html#_CPPv417esp_gatt_status_t" title="esp_gatt_status_t">esp_gatt_status_t</a> <code class="descname">status</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t22gatts_delete_evt_param6statusE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation status </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t22gatts_delete_evt_param14service_handleE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t22gatts_delete_evt_param14service_handleE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t22gatts_delete_evt_param14service_handleE"></span><span id="esp_ble_gatts_cb_param_t::gatts_delete_evt_param::service_handle__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__delete__evt__param_1a7f5223480b8e897d6d72f3492164decc"></span>uint16_t <code class="descname">service_handle</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t22gatts_delete_evt_param14service_handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Service attribute handle </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t26gatts_disconnect_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t26gatts_disconnect_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t26gatts_disconnect_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_disconnect_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__disconnect__evt__param"></span><em class="property">struct </em><code class="descname">gatts_disconnect_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t26gatts_disconnect_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_DISCONNECT_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t26gatts_disconnect_evt_param7conn_idE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t26gatts_disconnect_evt_param7conn_idE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t26gatts_disconnect_evt_param7conn_idE"></span><span id="esp_ble_gatts_cb_param_t::gatts_disconnect_evt_param::conn_id__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__disconnect__evt__param_1a06229e09de57d21ccbf559abf28c9191"></span>uint16_t <code class="descname">conn_id</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t26gatts_disconnect_evt_param7conn_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Connection id </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t26gatts_disconnect_evt_param10remote_bdaE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t26gatts_disconnect_evt_param10remote_bdaE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t26gatts_disconnect_evt_param10remote_bdaE"></span><span id="esp_ble_gatts_cb_param_t::gatts_disconnect_evt_param::remote_bda__esp_bd_addr_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__disconnect__evt__param_1acf763222d5d6ed6b4980fb48edf40cd0"></span><a class="reference internal" href="esp_bt_defs.html#_CPPv413esp_bd_addr_t" title="esp_bd_addr_t">esp_bd_addr_t</a> <code class="descname">remote_bda</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t26gatts_disconnect_evt_param10remote_bdaE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remote bluetooth device address </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t26gatts_disconnect_evt_param6reasonE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t26gatts_disconnect_evt_param6reasonE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t26gatts_disconnect_evt_param6reasonE"></span><span id="esp_ble_gatts_cb_param_t::gatts_disconnect_evt_param::reason__esp_gatt_conn_reason_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__disconnect__evt__param_1ade91825fdeca228a7e6ac14b43b4f67c"></span><a class="reference internal" href="esp_gatt_defs.html#_CPPv422esp_gatt_conn_reason_t" title="esp_gatt_conn_reason_t">esp_gatt_conn_reason_t</a> <code class="descname">reason</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t26gatts_disconnect_evt_param6reasonE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Indicate the reason of disconnection </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_exec_write_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__exec__write__evt__param"></span><em class="property">struct </em><code class="descname">gatts_exec_write_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_EXEC_WRITE_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_param7conn_idE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_param7conn_idE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_param7conn_idE"></span><span id="esp_ble_gatts_cb_param_t::gatts_exec_write_evt_param::conn_id__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__exec__write__evt__param_1a0ef2c968cd01c34ed6da9d8d95204924"></span>uint16_t <code class="descname">conn_id</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_param7conn_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Connection id </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_param8trans_idE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_param8trans_idE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_param8trans_idE"></span><span id="esp_ble_gatts_cb_param_t::gatts_exec_write_evt_param::trans_id__uint32_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__exec__write__evt__param_1aa27977ae5c1bbd2914c91da691f518c9"></span>uint32_t <code class="descname">trans_id</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_param8trans_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Transfer id </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_param3bdaE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_param3bdaE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_param3bdaE"></span><span id="esp_ble_gatts_cb_param_t::gatts_exec_write_evt_param::bda__esp_bd_addr_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__exec__write__evt__param_1a0044511edfccff3c3688e26ddf8464df"></span><a class="reference internal" href="esp_bt_defs.html#_CPPv413esp_bd_addr_t" title="esp_bd_addr_t">esp_bd_addr_t</a> <code class="descname">bda</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_param3bdaE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The bluetooth device address which been written </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_param15exec_write_flagE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_param15exec_write_flagE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_param15exec_write_flagE"></span><span id="esp_ble_gatts_cb_param_t::gatts_exec_write_evt_param::exec_write_flag__uint8_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__exec__write__evt__param_1a934074bc815f68dcd2a88d871924eb19"></span>uint8_t <code class="descname">exec_write_flag</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t26gatts_exec_write_evt_param15exec_write_flagE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Execute write flag </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t19gatts_mtu_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t19gatts_mtu_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t19gatts_mtu_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_mtu_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__mtu__evt__param"></span><em class="property">struct </em><code class="descname">gatts_mtu_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t19gatts_mtu_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_MTU_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t19gatts_mtu_evt_param7conn_idE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t19gatts_mtu_evt_param7conn_idE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t19gatts_mtu_evt_param7conn_idE"></span><span id="esp_ble_gatts_cb_param_t::gatts_mtu_evt_param::conn_id__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__mtu__evt__param_1aa1debc0379e36e911656d51e2c4f45f3"></span>uint16_t <code class="descname">conn_id</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t19gatts_mtu_evt_param7conn_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Connection id </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t19gatts_mtu_evt_param3mtuE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t19gatts_mtu_evt_param3mtuE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t19gatts_mtu_evt_param3mtuE"></span><span id="esp_ble_gatts_cb_param_t::gatts_mtu_evt_param::mtu__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__mtu__evt__param_1ac754ebe83524cb17c73314ba2573ca20"></span>uint16_t <code class="descname">mtu</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t19gatts_mtu_evt_param3mtuE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MTU size </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t20gatts_open_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t20gatts_open_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t20gatts_open_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_open_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__open__evt__param"></span><em class="property">struct </em><code class="descname">gatts_open_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_open_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_OPEN_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t20gatts_open_evt_param6statusE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t20gatts_open_evt_param6statusE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t20gatts_open_evt_param6statusE"></span><span id="esp_ble_gatts_cb_param_t::gatts_open_evt_param::status__esp_gatt_status_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__open__evt__param_1a39fe38956a0fc62f05082a6d327236e4"></span><a class="reference internal" href="esp_gatt_defs.html#_CPPv417esp_gatt_status_t" title="esp_gatt_status_t">esp_gatt_status_t</a> <code class="descname">status</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_open_evt_param6statusE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation status </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t20gatts_read_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t20gatts_read_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t20gatts_read_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_read_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__read__evt__param"></span><em class="property">struct </em><code class="descname">gatts_read_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_read_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_READ_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t20gatts_read_evt_param7conn_idE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t20gatts_read_evt_param7conn_idE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t20gatts_read_evt_param7conn_idE"></span><span id="esp_ble_gatts_cb_param_t::gatts_read_evt_param::conn_id__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__read__evt__param_1abfa4e063aa436b31b8ea1aaad7c3610c"></span>uint16_t <code class="descname">conn_id</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_read_evt_param7conn_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Connection id </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t20gatts_read_evt_param8trans_idE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t20gatts_read_evt_param8trans_idE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t20gatts_read_evt_param8trans_idE"></span><span id="esp_ble_gatts_cb_param_t::gatts_read_evt_param::trans_id__uint32_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__read__evt__param_1a08826235b3fcfefa0a5dad609a752014"></span>uint32_t <code class="descname">trans_id</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_read_evt_param8trans_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Transfer id </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t20gatts_read_evt_param3bdaE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t20gatts_read_evt_param3bdaE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t20gatts_read_evt_param3bdaE"></span><span id="esp_ble_gatts_cb_param_t::gatts_read_evt_param::bda__esp_bd_addr_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__read__evt__param_1a33476e5bd4b88eb234508420fc54c3f2"></span><a class="reference internal" href="esp_bt_defs.html#_CPPv413esp_bd_addr_t" title="esp_bd_addr_t">esp_bd_addr_t</a> <code class="descname">bda</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_read_evt_param3bdaE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The bluetooth device address which been read </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t20gatts_read_evt_param6handleE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t20gatts_read_evt_param6handleE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t20gatts_read_evt_param6handleE"></span><span id="esp_ble_gatts_cb_param_t::gatts_read_evt_param::handle__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__read__evt__param_1a62a0662d021fba856a63ae9572d9307c"></span>uint16_t <code class="descname">handle</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_read_evt_param6handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The attribute handle </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t20gatts_read_evt_param6offsetE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t20gatts_read_evt_param6offsetE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t20gatts_read_evt_param6offsetE"></span><span id="esp_ble_gatts_cb_param_t::gatts_read_evt_param::offset__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__read__evt__param_1a85216693e18f379d0b7b17b6e069f8df"></span>uint16_t <code class="descname">offset</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_read_evt_param6offsetE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Offset of the value, if the value is too long </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t20gatts_read_evt_param7is_longE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t20gatts_read_evt_param7is_longE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t20gatts_read_evt_param7is_longE"></span><span id="esp_ble_gatts_cb_param_t::gatts_read_evt_param::is_long__b"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__read__evt__param_1a34009ed890a68dc3be93db7393e474d4"></span>bool <code class="descname">is_long</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_read_evt_param7is_longE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The value is too long or not </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t20gatts_read_evt_param8need_rspE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t20gatts_read_evt_param8need_rspE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t20gatts_read_evt_param8need_rspE"></span><span id="esp_ble_gatts_cb_param_t::gatts_read_evt_param::need_rsp__b"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__read__evt__param_1a5f816b3d3fa787cb972252edb6bcf62c"></span>bool <code class="descname">need_rsp</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_read_evt_param8need_rspE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The read operation need to do response </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t19gatts_reg_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t19gatts_reg_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t19gatts_reg_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_reg_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__reg__evt__param"></span><em class="property">struct </em><code class="descname">gatts_reg_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t19gatts_reg_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_REG_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t19gatts_reg_evt_param6statusE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t19gatts_reg_evt_param6statusE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t19gatts_reg_evt_param6statusE"></span><span id="esp_ble_gatts_cb_param_t::gatts_reg_evt_param::status__esp_gatt_status_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__reg__evt__param_1add457f90c1d9fa849ced438e9365112d"></span><a class="reference internal" href="esp_gatt_defs.html#_CPPv417esp_gatt_status_t" title="esp_gatt_status_t">esp_gatt_status_t</a> <code class="descname">status</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t19gatts_reg_evt_param6statusE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation status </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t19gatts_reg_evt_param6app_idE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t19gatts_reg_evt_param6app_idE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t19gatts_reg_evt_param6app_idE"></span><span id="esp_ble_gatts_cb_param_t::gatts_reg_evt_param::app_id__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__reg__evt__param_1a3184fe4d4b76647795b688a29d09f0a8"></span>uint16_t <code class="descname">app_id</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t19gatts_reg_evt_param6app_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Application id which input in register API </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t19gatts_rsp_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t19gatts_rsp_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t19gatts_rsp_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_rsp_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__rsp__evt__param"></span><em class="property">struct </em><code class="descname">gatts_rsp_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t19gatts_rsp_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_RESPONSE_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t19gatts_rsp_evt_param6statusE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t19gatts_rsp_evt_param6statusE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t19gatts_rsp_evt_param6statusE"></span><span id="esp_ble_gatts_cb_param_t::gatts_rsp_evt_param::status__esp_gatt_status_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__rsp__evt__param_1a347e27f6737e90fb0fee4480f190e82d"></span><a class="reference internal" href="esp_gatt_defs.html#_CPPv417esp_gatt_status_t" title="esp_gatt_status_t">esp_gatt_status_t</a> <code class="descname">status</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t19gatts_rsp_evt_param6statusE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation status </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t19gatts_rsp_evt_param6handleE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t19gatts_rsp_evt_param6handleE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t19gatts_rsp_evt_param6handleE"></span><span id="esp_ble_gatts_cb_param_t::gatts_rsp_evt_param::handle__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__rsp__evt__param_1a5968bc43e2a06da3ac545795d43ae6ec"></span>uint16_t <code class="descname">handle</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t19gatts_rsp_evt_param6handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Attribute handle which send response </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t35gatts_send_service_change_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t35gatts_send_service_change_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t35gatts_send_service_change_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_send_service_change_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__send__service__change__evt__param"></span><em class="property">struct </em><code class="descname">gatts_send_service_change_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t35gatts_send_service_change_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_SEND_SERVICE_CHANGE_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t35gatts_send_service_change_evt_param6statusE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t35gatts_send_service_change_evt_param6statusE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t35gatts_send_service_change_evt_param6statusE"></span><span id="esp_ble_gatts_cb_param_t::gatts_send_service_change_evt_param::status__esp_gatt_status_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__send__service__change__evt__param_1ac53790068788caee59a83d3730772135"></span><a class="reference internal" href="esp_gatt_defs.html#_CPPv417esp_gatt_status_t" title="esp_gatt_status_t">esp_gatt_status_t</a> <code class="descname">status</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t35gatts_send_service_change_evt_param6statusE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation status </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t28gatts_set_attr_val_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t28gatts_set_attr_val_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t28gatts_set_attr_val_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_set_attr_val_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__set__attr__val__evt__param"></span><em class="property">struct </em><code class="descname">gatts_set_attr_val_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t28gatts_set_attr_val_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_SET_ATTR_VAL_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t28gatts_set_attr_val_evt_param11srvc_handleE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t28gatts_set_attr_val_evt_param11srvc_handleE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t28gatts_set_attr_val_evt_param11srvc_handleE"></span><span id="esp_ble_gatts_cb_param_t::gatts_set_attr_val_evt_param::srvc_handle__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__set__attr__val__evt__param_1adc024cdfe1fd6b13792c306c44f6935b"></span>uint16_t <code class="descname">srvc_handle</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t28gatts_set_attr_val_evt_param11srvc_handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The service handle </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t28gatts_set_attr_val_evt_param11attr_handleE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t28gatts_set_attr_val_evt_param11attr_handleE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t28gatts_set_attr_val_evt_param11attr_handleE"></span><span id="esp_ble_gatts_cb_param_t::gatts_set_attr_val_evt_param::attr_handle__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__set__attr__val__evt__param_1af7bbd860bd603f84cf52a970c93bd752"></span>uint16_t <code class="descname">attr_handle</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t28gatts_set_attr_val_evt_param11attr_handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The attribute handle </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t28gatts_set_attr_val_evt_param6statusE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t28gatts_set_attr_val_evt_param6statusE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t28gatts_set_attr_val_evt_param6statusE"></span><span id="esp_ble_gatts_cb_param_t::gatts_set_attr_val_evt_param::status__esp_gatt_status_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__set__attr__val__evt__param_1a14908cfa7fc93c5eebdc65d244d80a24"></span><a class="reference internal" href="esp_gatt_defs.html#_CPPv417esp_gatt_status_t" title="esp_gatt_status_t">esp_gatt_status_t</a> <code class="descname">status</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t28gatts_set_attr_val_evt_param6statusE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation status </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t21gatts_start_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t21gatts_start_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t21gatts_start_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_start_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__start__evt__param"></span><em class="property">struct </em><code class="descname">gatts_start_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t21gatts_start_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_START_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t21gatts_start_evt_param6statusE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t21gatts_start_evt_param6statusE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t21gatts_start_evt_param6statusE"></span><span id="esp_ble_gatts_cb_param_t::gatts_start_evt_param::status__esp_gatt_status_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__start__evt__param_1a3ab653a00b07ea8cfd448ade73378979"></span><a class="reference internal" href="esp_gatt_defs.html#_CPPv417esp_gatt_status_t" title="esp_gatt_status_t">esp_gatt_status_t</a> <code class="descname">status</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t21gatts_start_evt_param6statusE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation status </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t21gatts_start_evt_param14service_handleE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t21gatts_start_evt_param14service_handleE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t21gatts_start_evt_param14service_handleE"></span><span id="esp_ble_gatts_cb_param_t::gatts_start_evt_param::service_handle__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__start__evt__param_1af6463ef829d7200e1a18cf629eb2b51e"></span>uint16_t <code class="descname">service_handle</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t21gatts_start_evt_param14service_handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Service attribute handle </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t20gatts_stop_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t20gatts_stop_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t20gatts_stop_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_stop_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__stop__evt__param"></span><em class="property">struct </em><code class="descname">gatts_stop_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_stop_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_STOP_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t20gatts_stop_evt_param6statusE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t20gatts_stop_evt_param6statusE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t20gatts_stop_evt_param6statusE"></span><span id="esp_ble_gatts_cb_param_t::gatts_stop_evt_param::status__esp_gatt_status_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__stop__evt__param_1a1f27cb9be1c55085200aab7494576136"></span><a class="reference internal" href="esp_gatt_defs.html#_CPPv417esp_gatt_status_t" title="esp_gatt_status_t">esp_gatt_status_t</a> <code class="descname">status</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_stop_evt_param6statusE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Operation status </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t20gatts_stop_evt_param14service_handleE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t20gatts_stop_evt_param14service_handleE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t20gatts_stop_evt_param14service_handleE"></span><span id="esp_ble_gatts_cb_param_t::gatts_stop_evt_param::service_handle__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__stop__evt__param_1a432ebbdc58de7f6b0c5aea4677dfb56e"></span>uint16_t <code class="descname">service_handle</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t20gatts_stop_evt_param14service_handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Service attribute handle </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_paramE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t21gatts_write_evt_paramE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t21gatts_write_evt_paramE"></span><span id="esp_ble_gatts_cb_param_t::gatts_write_evt_param"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__write__evt__param"></span><em class="property">struct </em><code class="descname">gatts_write_evt_param</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_gatts_api.h&gt;</em><p>ESP_GATTS_WRITE_EVT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_param7conn_idE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t21gatts_write_evt_param7conn_idE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t21gatts_write_evt_param7conn_idE"></span><span id="esp_ble_gatts_cb_param_t::gatts_write_evt_param::conn_id__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__write__evt__param_1a01f1a436c45710c3d9d816cc8f6f7d8b"></span>uint16_t <code class="descname">conn_id</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_param7conn_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Connection id </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_param8trans_idE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t21gatts_write_evt_param8trans_idE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t21gatts_write_evt_param8trans_idE"></span><span id="esp_ble_gatts_cb_param_t::gatts_write_evt_param::trans_id__uint32_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__write__evt__param_1a94131778929bde1891d9bb38de52989d"></span>uint32_t <code class="descname">trans_id</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_param8trans_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Transfer id </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_param3bdaE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t21gatts_write_evt_param3bdaE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t21gatts_write_evt_param3bdaE"></span><span id="esp_ble_gatts_cb_param_t::gatts_write_evt_param::bda__esp_bd_addr_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__write__evt__param_1ad85ac103538bb901a45beb56dda1af21"></span><a class="reference internal" href="esp_bt_defs.html#_CPPv413esp_bd_addr_t" title="esp_bd_addr_t">esp_bd_addr_t</a> <code class="descname">bda</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_param3bdaE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The bluetooth device address which been written </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_param6handleE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t21gatts_write_evt_param6handleE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t21gatts_write_evt_param6handleE"></span><span id="esp_ble_gatts_cb_param_t::gatts_write_evt_param::handle__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__write__evt__param_1a212491c1036934cbe370f94d15d0e5e8"></span>uint16_t <code class="descname">handle</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_param6handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The attribute handle </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_param6offsetE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t21gatts_write_evt_param6offsetE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t21gatts_write_evt_param6offsetE"></span><span id="esp_ble_gatts_cb_param_t::gatts_write_evt_param::offset__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__write__evt__param_1ae96a2924ee683a543d4effc752e9c234"></span>uint16_t <code class="descname">offset</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_param6offsetE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Offset of the value, if the value is too long </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_param8need_rspE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t21gatts_write_evt_param8need_rspE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t21gatts_write_evt_param8need_rspE"></span><span id="esp_ble_gatts_cb_param_t::gatts_write_evt_param::need_rsp__b"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__write__evt__param_1a7b6e55c2499a1839436b1e7d1f0e1254"></span>bool <code class="descname">need_rsp</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_param8need_rspE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The write operation need to do response </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_param7is_prepE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t21gatts_write_evt_param7is_prepE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t21gatts_write_evt_param7is_prepE"></span><span id="esp_ble_gatts_cb_param_t::gatts_write_evt_param::is_prep__b"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__write__evt__param_1a1bcfcf87593dbe312f7b3aaee3f983da"></span>bool <code class="descname">is_prep</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_param7is_prepE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This write operation is prepare write </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_param3lenE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t21gatts_write_evt_param3lenE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t21gatts_write_evt_param3lenE"></span><span id="esp_ble_gatts_cb_param_t::gatts_write_evt_param::len__uint16_t"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__write__evt__param_1ade1b3718ecfa5d4cedb581c85fe0a6a4"></span>uint16_t <code class="descname">len</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_param3lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The write attribute value length </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_param5valueE">
+<span id="_CPPv3N24esp_ble_gatts_cb_param_t21gatts_write_evt_param5valueE"></span><span id="_CPPv2N24esp_ble_gatts_cb_param_t21gatts_write_evt_param5valueE"></span><span id="esp_ble_gatts_cb_param_t::gatts_write_evt_param::value__uint8_tP"></span><span class="target" id="structesp__ble__gatts__cb__param__t_1_1gatts__write__evt__param_1a32dcd4210eb3c826b760be530de73bd8"></span>uint8_t *<code class="descname">value</code><a class="headerlink" href="#_CPPv4N24esp_ble_gatts_cb_param_t21gatts_write_evt_param5valueE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The write attribute value </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.ESP_GATT_PREP_WRITE_CANCEL">
+<span class="target" id="esp__gatts__api_8h_1ae534d0ce5edb521c300468f88bbef159"></span><code class="descname">ESP_GATT_PREP_WRITE_CANCEL</code><a class="headerlink" href="#c.ESP_GATT_PREP_WRITE_CANCEL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare write flag to indicate cancel prepare write </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_GATT_PREP_WRITE_EXEC">
+<span class="target" id="esp__gatts__api_8h_1a83ab1cde275856556a0b056c2e16f93e"></span><code class="descname">ESP_GATT_PREP_WRITE_EXEC</code><a class="headerlink" href="#c.ESP_GATT_PREP_WRITE_EXEC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prepare write flag to indicate execute prepare write </p>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv414esp_gatts_cb_t">
+<span id="_CPPv314esp_gatts_cb_t"></span><span id="_CPPv214esp_gatts_cb_t"></span><span id="esp_gatts_cb_t"></span><span class="target" id="esp__gatts__api_8h_1a5acdec26ab16bf8b0bd89cde82928fc8"></span><em class="property">typedef </em>void (*<code class="descname">esp_gatts_cb_t</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv420esp_gatts_cb_event_t" title="esp_gatts_cb_event_t">esp_gatts_cb_event_t</a> event, <a class="reference internal" href="esp_gatt_defs.html#_CPPv413esp_gatt_if_t" title="esp_gatt_if_t">esp_gatt_if_t</a> gatts_if, <a class="reference internal" href="#_CPPv424esp_ble_gatts_cb_param_t" title="esp_ble_gatts_cb_param_t">esp_ble_gatts_cb_param_t</a> *param<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414esp_gatts_cb_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>GATT Server callback function type. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">event</span></code>: : Event type </li>
+<li><code class="docutils literal notranslate"><span class="pre">gatts_if</span></code>: : GATT server access interface, normally different gatts_if correspond to different profile </li>
+<li><code class="docutils literal notranslate"><span class="pre">param</span></code>: : Point to callback parameter, currently is union type </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv420esp_gatts_cb_event_t">
+<span id="_CPPv320esp_gatts_cb_event_t"></span><span id="_CPPv220esp_gatts_cb_event_t"></span><span id="esp_gatts_cb_event_t"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7"></span><em class="property">enum </em><code class="descname">esp_gatts_cb_event_t</code><a class="headerlink" href="#_CPPv420esp_gatts_cb_event_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>GATT Server callback function events. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv417ESP_GATTS_REG_EVT">
+<span id="_CPPv317ESP_GATTS_REG_EVT"></span><span id="_CPPv217ESP_GATTS_REG_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7aa427ddec304ab420817691a93dd5409d"></span><code class="descname">ESP_GATTS_REG_EVT</code> = 0<a class="headerlink" href="#_CPPv417ESP_GATTS_REG_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When register application id, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv418ESP_GATTS_READ_EVT">
+<span id="_CPPv318ESP_GATTS_READ_EVT"></span><span id="_CPPv218ESP_GATTS_READ_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7a397760d0171849ad998bfc48f13afc37"></span><code class="descname">ESP_GATTS_READ_EVT</code> = 1<a class="headerlink" href="#_CPPv418ESP_GATTS_READ_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When gatt client request read operation, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv419ESP_GATTS_WRITE_EVT">
+<span id="_CPPv319ESP_GATTS_WRITE_EVT"></span><span id="_CPPv219ESP_GATTS_WRITE_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7a01f3b302428562a33f51b881c80d915e"></span><code class="descname">ESP_GATTS_WRITE_EVT</code> = 2<a class="headerlink" href="#_CPPv419ESP_GATTS_WRITE_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When gatt client request write operation, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv424ESP_GATTS_EXEC_WRITE_EVT">
+<span id="_CPPv324ESP_GATTS_EXEC_WRITE_EVT"></span><span id="_CPPv224ESP_GATTS_EXEC_WRITE_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7ad9d87516f752482aadb6e1780286c6f3"></span><code class="descname">ESP_GATTS_EXEC_WRITE_EVT</code> = 3<a class="headerlink" href="#_CPPv424ESP_GATTS_EXEC_WRITE_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When gatt client request execute write, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv417ESP_GATTS_MTU_EVT">
+<span id="_CPPv317ESP_GATTS_MTU_EVT"></span><span id="_CPPv217ESP_GATTS_MTU_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7ac2d2457372174cb666d144d73e8416d2"></span><code class="descname">ESP_GATTS_MTU_EVT</code> = 4<a class="headerlink" href="#_CPPv417ESP_GATTS_MTU_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When set mtu complete, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv418ESP_GATTS_CONF_EVT">
+<span id="_CPPv318ESP_GATTS_CONF_EVT"></span><span id="_CPPv218ESP_GATTS_CONF_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7a4b985813db56a4652e83d80759e13e47"></span><code class="descname">ESP_GATTS_CONF_EVT</code> = 5<a class="headerlink" href="#_CPPv418ESP_GATTS_CONF_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When receive confirm, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv419ESP_GATTS_UNREG_EVT">
+<span id="_CPPv319ESP_GATTS_UNREG_EVT"></span><span id="_CPPv219ESP_GATTS_UNREG_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7ab7bcb19d9d085e948ce8e7cdd2dcde7f"></span><code class="descname">ESP_GATTS_UNREG_EVT</code> = 6<a class="headerlink" href="#_CPPv419ESP_GATTS_UNREG_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When unregister application id, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv420ESP_GATTS_CREATE_EVT">
+<span id="_CPPv320ESP_GATTS_CREATE_EVT"></span><span id="_CPPv220ESP_GATTS_CREATE_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7a7786632f87c33abfe06e0da751514886"></span><code class="descname">ESP_GATTS_CREATE_EVT</code> = 7<a class="headerlink" href="#_CPPv420ESP_GATTS_CREATE_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When create service complete, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv427ESP_GATTS_ADD_INCL_SRVC_EVT">
+<span id="_CPPv327ESP_GATTS_ADD_INCL_SRVC_EVT"></span><span id="_CPPv227ESP_GATTS_ADD_INCL_SRVC_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7ac81cf5341baa0e608ecd303f7eaa2755"></span><code class="descname">ESP_GATTS_ADD_INCL_SRVC_EVT</code> = 8<a class="headerlink" href="#_CPPv427ESP_GATTS_ADD_INCL_SRVC_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When add included service complete, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv422ESP_GATTS_ADD_CHAR_EVT">
+<span id="_CPPv322ESP_GATTS_ADD_CHAR_EVT"></span><span id="_CPPv222ESP_GATTS_ADD_CHAR_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7a51490e359d1ed9d395d338b97b2808b9"></span><code class="descname">ESP_GATTS_ADD_CHAR_EVT</code> = 9<a class="headerlink" href="#_CPPv422ESP_GATTS_ADD_CHAR_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When add characteristic complete, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv428ESP_GATTS_ADD_CHAR_DESCR_EVT">
+<span id="_CPPv328ESP_GATTS_ADD_CHAR_DESCR_EVT"></span><span id="_CPPv228ESP_GATTS_ADD_CHAR_DESCR_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7af0c5469c4ad92c1a6051b690792452ff"></span><code class="descname">ESP_GATTS_ADD_CHAR_DESCR_EVT</code> = 10<a class="headerlink" href="#_CPPv428ESP_GATTS_ADD_CHAR_DESCR_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When add descriptor complete, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv420ESP_GATTS_DELETE_EVT">
+<span id="_CPPv320ESP_GATTS_DELETE_EVT"></span><span id="_CPPv220ESP_GATTS_DELETE_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7aefa6f615784d0c254ffc112bd1422990"></span><code class="descname">ESP_GATTS_DELETE_EVT</code> = 11<a class="headerlink" href="#_CPPv420ESP_GATTS_DELETE_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When delete service complete, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv419ESP_GATTS_START_EVT">
+<span id="_CPPv319ESP_GATTS_START_EVT"></span><span id="_CPPv219ESP_GATTS_START_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7a12b9e214ce43f3d50eedefba7ccab2da"></span><code class="descname">ESP_GATTS_START_EVT</code> = 12<a class="headerlink" href="#_CPPv419ESP_GATTS_START_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When start service complete, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv418ESP_GATTS_STOP_EVT">
+<span id="_CPPv318ESP_GATTS_STOP_EVT"></span><span id="_CPPv218ESP_GATTS_STOP_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7a91efeee831eb9e630481e58e226429ec"></span><code class="descname">ESP_GATTS_STOP_EVT</code> = 13<a class="headerlink" href="#_CPPv418ESP_GATTS_STOP_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When stop service complete, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv421ESP_GATTS_CONNECT_EVT">
+<span id="_CPPv321ESP_GATTS_CONNECT_EVT"></span><span id="_CPPv221ESP_GATTS_CONNECT_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7a6ca335f3c86d20e0524c296d8ac78b38"></span><code class="descname">ESP_GATTS_CONNECT_EVT</code> = 14<a class="headerlink" href="#_CPPv421ESP_GATTS_CONNECT_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When gatt client connect, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv424ESP_GATTS_DISCONNECT_EVT">
+<span id="_CPPv324ESP_GATTS_DISCONNECT_EVT"></span><span id="_CPPv224ESP_GATTS_DISCONNECT_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7a25e6c3dadd90a9538a0880723bfda97c"></span><code class="descname">ESP_GATTS_DISCONNECT_EVT</code> = 15<a class="headerlink" href="#_CPPv424ESP_GATTS_DISCONNECT_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When gatt client disconnect, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv418ESP_GATTS_OPEN_EVT">
+<span id="_CPPv318ESP_GATTS_OPEN_EVT"></span><span id="_CPPv218ESP_GATTS_OPEN_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7a5c2238bc473b76b7d7673ed675ef7c00"></span><code class="descname">ESP_GATTS_OPEN_EVT</code> = 16<a class="headerlink" href="#_CPPv418ESP_GATTS_OPEN_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When connect to peer, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv425ESP_GATTS_CANCEL_OPEN_EVT">
+<span id="_CPPv325ESP_GATTS_CANCEL_OPEN_EVT"></span><span id="_CPPv225ESP_GATTS_CANCEL_OPEN_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7a79576b458ed45f7814b0e8420f2646b1"></span><code class="descname">ESP_GATTS_CANCEL_OPEN_EVT</code> = 17<a class="headerlink" href="#_CPPv425ESP_GATTS_CANCEL_OPEN_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When disconnect from peer, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv419ESP_GATTS_CLOSE_EVT">
+<span id="_CPPv319ESP_GATTS_CLOSE_EVT"></span><span id="_CPPv219ESP_GATTS_CLOSE_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7a1c949c3ee98a2d6c0044cee860b7136e"></span><code class="descname">ESP_GATTS_CLOSE_EVT</code> = 18<a class="headerlink" href="#_CPPv419ESP_GATTS_CLOSE_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When gatt server close, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv420ESP_GATTS_LISTEN_EVT">
+<span id="_CPPv320ESP_GATTS_LISTEN_EVT"></span><span id="_CPPv220ESP_GATTS_LISTEN_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7a76ad4c0e8fa0a06ca9c83f272c30b08c"></span><code class="descname">ESP_GATTS_LISTEN_EVT</code> = 19<a class="headerlink" href="#_CPPv420ESP_GATTS_LISTEN_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When gatt listen to be connected the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv421ESP_GATTS_CONGEST_EVT">
+<span id="_CPPv321ESP_GATTS_CONGEST_EVT"></span><span id="_CPPv221ESP_GATTS_CONGEST_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7af07f25c9443aabe8940dc91705bbd96a"></span><code class="descname">ESP_GATTS_CONGEST_EVT</code> = 20<a class="headerlink" href="#_CPPv421ESP_GATTS_CONGEST_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When congest happen, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv422ESP_GATTS_RESPONSE_EVT">
+<span id="_CPPv322ESP_GATTS_RESPONSE_EVT"></span><span id="_CPPv222ESP_GATTS_RESPONSE_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7a84d812e1adb80c1c70f510fae48bd301"></span><code class="descname">ESP_GATTS_RESPONSE_EVT</code> = 21<a class="headerlink" href="#_CPPv422ESP_GATTS_RESPONSE_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When gatt send response complete, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv428ESP_GATTS_CREAT_ATTR_TAB_EVT">
+<span id="_CPPv328ESP_GATTS_CREAT_ATTR_TAB_EVT"></span><span id="_CPPv228ESP_GATTS_CREAT_ATTR_TAB_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7a282926562ccb06a46e86f588365f9a3e"></span><code class="descname">ESP_GATTS_CREAT_ATTR_TAB_EVT</code> = 22<a class="headerlink" href="#_CPPv428ESP_GATTS_CREAT_ATTR_TAB_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When gatt create table complete, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv426ESP_GATTS_SET_ATTR_VAL_EVT">
+<span id="_CPPv326ESP_GATTS_SET_ATTR_VAL_EVT"></span><span id="_CPPv226ESP_GATTS_SET_ATTR_VAL_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7a34d37c2f29fc334d83be2f20a5a75035"></span><code class="descname">ESP_GATTS_SET_ATTR_VAL_EVT</code> = 23<a class="headerlink" href="#_CPPv426ESP_GATTS_SET_ATTR_VAL_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When gatt set attr value complete, the event comes </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv433ESP_GATTS_SEND_SERVICE_CHANGE_EVT">
+<span id="_CPPv333ESP_GATTS_SEND_SERVICE_CHANGE_EVT"></span><span id="_CPPv233ESP_GATTS_SEND_SERVICE_CHANGE_EVT"></span><span class="target" id="esp__gatts__api_8h_1ad091344ef95358eee0393aa5850965b7ab274e8067583fc1e4ec7a4e8457c5e61"></span><code class="descname">ESP_GATTS_SEND_SERVICE_CHANGE_EVT</code> = 24<a class="headerlink" href="#_CPPv433ESP_GATTS_SEND_SERVICE_CHANGE_EVT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>When gatt send service change indication complete, the event comes </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esp_gattc.html" class="btn btn-neutral float-right" title="GATT CLIENT API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="esp_gatt_defs.html" class="btn btn-neutral float-left" title="GATT DEFINES" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/bluetooth/esp_gatts.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:12 GMT -->
+</html>

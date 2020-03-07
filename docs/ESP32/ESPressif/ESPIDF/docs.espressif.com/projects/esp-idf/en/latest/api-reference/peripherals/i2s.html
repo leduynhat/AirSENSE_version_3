@@ -1,0 +1,941 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/i2s.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:33 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>I2S &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="LED Control" href="ledc.html" />
+    <link rel="prev" title="I2C Driver" href="i2c.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="i2s.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/peripherals/i2s"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Peripherals</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="adc.html">ADC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="can.html">CAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html">DAC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html">GPIO (including RTC low power I/O)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html">I2C</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">I2S</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#functional-overview">Functional Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-example">Application Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ledc.html">LED Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcpwm.html">MCPWM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pcnt.html">Pulse Counter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rmt.html">Remote Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sd_pullup_requirements.html">SD Pull-up Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdmmc_host.html">SDMMC Host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdspi_host.html">SD SPI Host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdio_slave.html">SDIO Slave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sigmadelta.html">Sigma-delta Modulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html">SPI Master</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html">SPI Slave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="temp_sensor.html">Temp sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html">Touch Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uart.html">UART</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Peripherals API</a> &raquo;</li>
+        
+      <li>I2S</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/peripherals/i2s.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="i2s">
+<h1>I2S<a class="headerlink" href="#i2s" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>I2S (Inter-IC Sound) is a serial, synchronous communication protocol that is usually used for transmitting audio data between two digital audio devices.</p>
+<p>ESP32 integrates two I2S controllers, referred to as I2S0 and I2S1, both of which can be used for streaming audio and video digital data.</p>
+<p>An I2S bus consists of the following lines:</p>
+<ul class="simple">
+<li>Bit clock line</li>
+<li>Channel select line</li>
+<li>Serial data line</li>
+</ul>
+<p>Each I2S controller has the following features that can be configured using the I2S driver:</p>
+<ul class="simple">
+<li>Operation as system master or slave</li>
+<li>Capable of acting as transmitter or receiver</li>
+<li>Dedicated DMA controller that allows for streaming sample data without requiring the CPU to copy each data sample</li>
+</ul>
+<p>Each controller can operate in half-duplex communication mode. Thus, the two controllers can be combined to establish full-duplex communication.</p>
+<p>I2S0 output can be routed directly to the digital-to-analog converter’s (DAC) output channels (GPIO 25 &amp; GPIO 26) to produce direct analog output without involving any external I2S codecs. I2S0 can also be used for transmitting PDM (Pulse-density modulation) signals.</p>
+<p>The I2S peripherals also support LCD mode for communicating data over a parallel bus, as used by some LCD displays and camera modules. LCD mode has the following operational modes:</p>
+<ul class="simple">
+<li>LCD master transmitting mode</li>
+<li>Camera slave receiving mode</li>
+<li>ADC/DAC mode</li>
+</ul>
+<p>For more information, see the <a class="reference external" href="https://espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf#page=306">ESP32 Technical Reference Manual</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>For high accuracy clock applications, use the APLL_CLK clock source, which has the frequency range of 16 ~ 128 MHz. You can enable the APLL_CLK clock source by setting <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">i2s_config_t::use_apll</span></code> to <code class="docutils literal notranslate"><span class="pre">TRUE</span></code>.</p>
+<p>If <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">i2s_config_t::use_apll</span></code> = <code class="docutils literal notranslate"><span class="pre">TRUE</span></code> and <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">i2s_config_t::fixed_mclk</span></code> &gt; <code class="docutils literal notranslate"><span class="pre">0</span></code>, then the master clock output frequency for I2S will be equal to the value of <code class="xref cpp cpp-member docutils literal notranslate"><span class="pre">i2s_config_t::fixed_mclk</span></code>, which means that the mclk frequency is provided by the user, instead of being calculated by the driver.</p>
+<p class="last">The clock rate of the word select line, which is called audio left-right clock rate (LRCK) here, is always the divisor of the master clock output frequency and for which the following is always true: 0 &lt; MCLK/LRCK/channels/bits_per_sample &lt; 64.</p>
+</div>
+</div>
+<div class="section" id="functional-overview">
+<h2>Functional Overview<a class="headerlink" href="#functional-overview" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="installing-the-driver">
+<h3>Installing the Driver<a class="headerlink" href="#installing-the-driver" title="Permalink to this headline">¶</a></h3>
+<p>Install the I2S driver by calling the function :cpp:func`i2s_driver_install` and passing the following arguments:</p>
+<ul class="simple">
+<li>Port number</li>
+<li>The structure <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">i2s_config_t</span></code> with defined communication parameters</li>
+<li>Event queue size and handle</li>
+</ul>
+<p>Configuration example:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">i2s_num</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// i2s port number</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="n">i2s_config_t</span> <span class="n">i2s_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">I2S_MODE_MASTER</span> <span class="o">|</span> <span class="n">I2S_MODE_TX</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">sample_rate</span> <span class="o">=</span> <span class="mi">44100</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">bits_per_sample</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">channel_format</span> <span class="o">=</span> <span class="n">I2S_CHANNEL_FMT_RIGHT_LEFT</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">communication_format</span> <span class="o">=</span> <span class="n">I2S_COMM_FORMAT_I2S</span> <span class="o">|</span> <span class="n">I2S_COMM_FORMAT_I2S_MSB</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">intr_alloc_flags</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="c1">// default interrupt priority</span>
+    <span class="p">.</span><span class="n">dma_buf_count</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">dma_buf_len</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">use_apll</span> <span class="o">=</span> <span class="nb">false</span>
+<span class="p">};</span>
+
+<span class="n">i2s_driver_install</span><span class="p">(</span><span class="n">I2S_NUM</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">i2s_config</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="setting-communication-pins">
+<h3>Setting Communication Pins<a class="headerlink" href="#setting-communication-pins" title="Permalink to this headline">¶</a></h3>
+<p>Once the driver is installed, configure physical GPIO pins to which signals will be routed. For this, call the function :cpp:func`i2s_set_pin` and pass the following arguments to it:</p>
+<ul class="simple">
+<li>Port number</li>
+<li>The structure <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">i2s_pin_config_t</span></code> defining the GPIO pin numbers to which the driver should route the BCK, WS, DATA out, and DATA in signals. If you want to keep a currently allocated pin number for a specific signal, or if this signal is unused, then pass the macro <code class="xref c c-macro docutils literal notranslate"><span class="pre">I2S_PIN_NO_CHANGE</span></code>. See the example below.</li>
+</ul>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="k">const</span> <span class="n">i2s_pin_config_t</span> <span class="n">pin_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">.</span><span class="n">bck_io_num</span> <span class="o">=</span> <span class="mi">26</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">ws_io_num</span> <span class="o">=</span> <span class="mi">25</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">data_out_num</span> <span class="o">=</span> <span class="mi">22</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">data_in_num</span> <span class="o">=</span> <span class="n">I2S_PIN_NO_CHANGE</span>
+<span class="p">};</span>
+
+<span class="n">i2s_set_pin</span><span class="p">(</span><span class="n">i2s_num</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pin_config</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="running-i2s-communication">
+<h3>Running I2S Communication<a class="headerlink" href="#running-i2s-communication" title="Permalink to this headline">¶</a></h3>
+<p>To perform a transmission:</p>
+<ul class="simple">
+<li>Prepare the data for sending</li>
+<li>Call the function <a class="reference internal" href="#_CPPv49i2s_write10i2s_port_tPKv6size_tP6size_t10TickType_t" title="i2s_write"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2s_write()</span></code></a> and pass the data buffer address and data length to it</li>
+</ul>
+<p>The function will write the data to the I2S DMA Tx buffer, and then the data will be transmitted automatically.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">i2s_write</span><span class="p">(</span><span class="n">I2S_NUM</span><span class="p">,</span> <span class="n">samples_data</span><span class="p">,</span> <span class="p">((</span><span class="n">bits</span><span class="o">+</span><span class="mi">8</span><span class="p">)</span><span class="o">/</span><span class="mi">16</span><span class="p">)</span><span class="o">*</span><span class="n">SAMPLE_PER_CYCLE</span><span class="o">*</span><span class="mi">4</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">i2s_bytes_write</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>To retrieve received data, use the function <a class="reference internal" href="#_CPPv48i2s_read10i2s_port_tPv6size_tP6size_t10TickType_t" title="i2s_read"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2s_read()</span></code></a>. It will retrieve the data from the I2S DMA Rx buffer, once the data is received by the I2S controller.</p>
+<p>You can temporarily stop the I2S driver by calling the function <a class="reference internal" href="#_CPPv48i2s_stop10i2s_port_t" title="i2s_stop"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2s_stop()</span></code></a>, which will disable the I2S Tx/Rx units until the function <a class="reference internal" href="#_CPPv49i2s_start10i2s_port_t" title="i2s_start"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2s_start()</span></code></a> is called. If the function :cpp:func`i2s_driver_install` is used, the driver will start up automatically eliminating the need to call <a class="reference internal" href="#_CPPv49i2s_start10i2s_port_t" title="i2s_start"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2s_start()</span></code></a>.</p>
+</div>
+<div class="section" id="deleting-the-driver">
+<h3>Deleting the Driver<a class="headerlink" href="#deleting-the-driver" title="Permalink to this headline">¶</a></h3>
+<p>If the established communication is no longer required, the driver can be removed to free allocated resources by calling <a class="reference internal" href="#_CPPv420i2s_driver_uninstall10i2s_port_t" title="i2s_driver_uninstall"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2s_driver_uninstall()</span></code></a>.</p>
+</div>
+</div>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<p>A code example for the I2S driver can be found in the directory <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/i2s">peripherals/i2s</a>.</p>
+<p>In addition, there are two short configuration examples for the I2S driver.</p>
+<div class="section" id="i2s-configuration">
+<h3>I2S configuration<a class="headerlink" href="#i2s-configuration" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;driver/i2s.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;freertos/queue.h&quot;</span><span class="cp"></span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">i2s_num</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// i2s port number</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="n">i2s_config_t</span> <span class="n">i2s_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">I2S_MODE_MASTER</span> <span class="o">|</span> <span class="n">I2S_MODE_TX</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">sample_rate</span> <span class="o">=</span> <span class="mi">44100</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">bits_per_sample</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">channel_format</span> <span class="o">=</span> <span class="n">I2S_CHANNEL_FMT_RIGHT_LEFT</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">communication_format</span> <span class="o">=</span> <span class="n">I2S_COMM_FORMAT_I2S</span> <span class="o">|</span> <span class="n">I2S_COMM_FORMAT_I2S_MSB</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">intr_alloc_flags</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="c1">// default interrupt priority</span>
+    <span class="p">.</span><span class="n">dma_buf_count</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">dma_buf_len</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">use_apll</span> <span class="o">=</span> <span class="nb">false</span>
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="n">i2s_pin_config_t</span> <span class="n">pin_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">.</span><span class="n">bck_io_num</span> <span class="o">=</span> <span class="mi">26</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">ws_io_num</span> <span class="o">=</span> <span class="mi">25</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">data_out_num</span> <span class="o">=</span> <span class="mi">22</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">data_in_num</span> <span class="o">=</span> <span class="n">I2S_PIN_NO_CHANGE</span>
+<span class="p">};</span>
+
+<span class="p">...</span>
+
+    <span class="n">i2s_driver_install</span><span class="p">(</span><span class="n">i2s_num</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">i2s_config</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>   <span class="c1">//install and start i2s driver</span>
+
+    <span class="n">i2s_set_pin</span><span class="p">(</span><span class="n">i2s_num</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pin_config</span><span class="p">);</span>
+
+    <span class="n">i2s_set_sample_rates</span><span class="p">(</span><span class="n">i2s_num</span><span class="p">,</span> <span class="mi">22050</span><span class="p">);</span> <span class="c1">//set sample rates</span>
+
+    <span class="n">i2s_driver_uninstall</span><span class="p">(</span><span class="n">i2s_num</span><span class="p">);</span> <span class="c1">//stop &amp; destroy i2s driver</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="configuring-i2s-to-use-internal-dac-for-analog-output">
+<h3>Configuring I2S to use internal DAC for analog output<a class="headerlink" href="#configuring-i2s-to-use-internal-dac-for-analog-output" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;driver/i2s.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;freertos/queue.h&quot;</span><span class="cp"></span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="kt">int</span> <span class="n">i2s_num</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// i2s port number</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="n">i2s_config_t</span> <span class="n">i2s_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">I2S_MODE_MASTER</span> <span class="o">|</span> <span class="n">I2S_MODE_TX</span> <span class="o">|</span> <span class="n">I2S_MODE_DAC_BUILT_IN</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">sample_rate</span> <span class="o">=</span> <span class="mi">44100</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">bits_per_sample</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span> <span class="cm">/* the DAC module will only take the 8bits from MSB */</span>
+    <span class="p">.</span><span class="n">channel_format</span> <span class="o">=</span> <span class="n">I2S_CHANNEL_FMT_RIGHT_LEFT</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">communication_format</span> <span class="o">=</span> <span class="n">I2S_COMM_FORMAT_I2S_MSB</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">intr_alloc_flags</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="c1">// default interrupt priority</span>
+    <span class="p">.</span><span class="n">dma_buf_count</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">dma_buf_len</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">use_apll</span> <span class="o">=</span> <span class="nb">false</span>
+<span class="p">};</span>
+
+<span class="p">...</span>
+
+    <span class="n">i2s_driver_install</span><span class="p">(</span><span class="n">i2s_num</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">i2s_config</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>   <span class="c1">//install and start i2s driver</span>
+
+    <span class="n">i2s_set_pin</span><span class="p">(</span><span class="n">i2s_num</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span> <span class="c1">//for internal DAC, this will enable both of the internal channels</span>
+
+    <span class="c1">//You can call i2s_set_dac_mode to set built-in DAC output mode.</span>
+    <span class="c1">//i2s_set_dac_mode(I2S_DAC_CHANNEL_BOTH_EN);</span>
+
+    <span class="n">i2s_set_sample_rates</span><span class="p">(</span><span class="n">i2s_num</span><span class="p">,</span> <span class="mi">22050</span><span class="p">);</span> <span class="c1">//set sample rates</span>
+
+    <span class="n">i2s_driver_uninstall</span><span class="p">(</span><span class="n">i2s_num</span><span class="p">);</span> <span class="c1">//stop &amp; destroy i2s driver</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/driver/include/driver/i2s.h">driver/include/driver/i2s.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv411i2s_set_pin10i2s_port_tPK16i2s_pin_config_t">
+<span id="_CPPv311i2s_set_pin10i2s_port_tPK16i2s_pin_config_t"></span><span id="_CPPv211i2s_set_pin10i2s_port_tPK16i2s_pin_config_t"></span><span id="i2s_set_pin__i2s_port_t.i2s_pin_config_tCP"></span><span class="target" id="i2s_8h_1a2ce18d11da5504aeaf41fb63850e6966"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2s_set_pin</code><span class="sig-paren">(</span>i2s_port_t <em>i2s_num</em>, <em class="property">const</em> i2s_pin_config_t *<em>pin</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv411i2s_set_pin10i2s_port_tPK16i2s_pin_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set I2S pin number. </p>
+<p><p>Inside the pin configuration structure, set I2S_PIN_NO_CHANGE for any pin where the current configuration should not be changed.</p>
+<dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>The I2S peripheral output signals can be connected to multiple GPIO pads. However, the I2S peripheral input signal can only be connected to one GPIO pad.</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2s_num</span></code>: I2S_NUM_0 or I2S_NUM_1</li>
+<li><code class="docutils literal notranslate"><span class="pre">pin</span></code>: I2S Pin structure, or NULL to set 2-channel 8-bit internal DAC pin configuration (GPIO25 &amp; GPIO26)</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>if *pin is set as NULL, this function will initialize both of the built-in DAC channels by default. if you don’t want this to happen and you want to initialize only one of the DAC channels, you can call i2s_set_dac_mode instead.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error</li>
+<li>ESP_FAIL IO error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416i2s_set_dac_mode14i2s_dac_mode_t">
+<span id="_CPPv316i2s_set_dac_mode14i2s_dac_mode_t"></span><span id="_CPPv216i2s_set_dac_mode14i2s_dac_mode_t"></span><span id="i2s_set_dac_mode__i2s_dac_mode_t"></span><span class="target" id="i2s_8h_1a48a25f8b856386465b8d8805c3367ed1"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2s_set_dac_mode</code><span class="sig-paren">(</span>i2s_dac_mode_t <em>dac_mode</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416i2s_set_dac_mode14i2s_dac_mode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set I2S dac mode, I2S built-in DAC is disabled by default. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Built-in DAC functions are only supported on I2S0 for current ESP32 chip. If either of the built-in DAC channel are enabled, the other one can not be used as RTC DAC function at the same time.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">dac_mode</span></code>: DAC mode configurations - see i2s_dac_mode_t</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418i2s_driver_install10i2s_port_tPK12i2s_config_tiPv">
+<span id="_CPPv318i2s_driver_install10i2s_port_tPK12i2s_config_tiPv"></span><span id="_CPPv218i2s_driver_install10i2s_port_tPK12i2s_config_tiPv"></span><span id="i2s_driver_install__i2s_port_t.i2s_config_tCP.i.voidP"></span><span class="target" id="i2s_8h_1a197f725027015d3ce54b3c0885d7f301"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2s_driver_install</code><span class="sig-paren">(</span>i2s_port_t <em>i2s_num</em>, <em class="property">const</em> i2s_config_t *<em>i2s_config</em>, int <em>queue_size</em>, void *<em>i2s_queue</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418i2s_driver_install10i2s_port_tPK12i2s_config_tiPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Install and start I2S driver. </p>
+<p><p>This function must be called before any I2S driver read/write operations.</p>
+<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2s_num</span></code>: I2S_NUM_0, I2S_NUM_1</li>
+<li><code class="docutils literal notranslate"><span class="pre">i2s_config</span></code>: I2S configurations - see i2s_config_t struct</li>
+<li><code class="docutils literal notranslate"><span class="pre">queue_size</span></code>: I2S event queue size/depth.</li>
+<li><code class="docutils literal notranslate"><span class="pre">i2s_queue</span></code>: I2S event queue handle, if set NULL, driver will not use an event queue.</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error</li>
+<li>ESP_ERR_NO_MEM Out of memory </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420i2s_driver_uninstall10i2s_port_t">
+<span id="_CPPv320i2s_driver_uninstall10i2s_port_t"></span><span id="_CPPv220i2s_driver_uninstall10i2s_port_t"></span><span id="i2s_driver_uninstall__i2s_port_t"></span><span class="target" id="i2s_8h_1a91d6dc5f63e757a22134ad14368bf59e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2s_driver_uninstall</code><span class="sig-paren">(</span>i2s_port_t <em>i2s_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420i2s_driver_uninstall10i2s_port_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Uninstall I2S driver. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2s_num</span></code>: I2S_NUM_0, I2S_NUM_1</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv49i2s_write10i2s_port_tPKv6size_tP6size_t10TickType_t">
+<span id="_CPPv39i2s_write10i2s_port_tPKv6size_tP6size_t10TickType_t"></span><span id="_CPPv29i2s_write10i2s_port_tPKv6size_tP6size_t10TickType_t"></span><span id="i2s_write__i2s_port_t.voidCP.s.sP.TickType_t"></span><span class="target" id="i2s_8h_1aa7a2f49d7d727b868309785bd6091e78"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2s_write</code><span class="sig-paren">(</span>i2s_port_t <em>i2s_num</em>, <em class="property">const</em> void *<em>src</em>, size_t <em>size</em>, size_t *<em>bytes_written</em>, TickType_t <em>ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv49i2s_write10i2s_port_tPKv6size_tP6size_t10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write data to I2S DMA transmit buffer. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2s_num</span></code>: I2S_NUM_0, I2S_NUM_1</li>
+<li><code class="docutils literal notranslate"><span class="pre">src</span></code>: Source address to write from</li>
+<li><code class="docutils literal notranslate"><span class="pre">size</span></code>: Size of data in bytes</li>
+<li><code class="docutils literal notranslate"><span class="pre">bytes_written</span></code>: Number of bytes written, if timeout, the result will be less than the size passed in.</li>
+<li><code class="docutils literal notranslate"><span class="pre">ticks_to_wait</span></code>: TX buffer wait timeout in RTOS ticks. If this many ticks pass without space becoming available in the DMA transmit buffer, then the function will return (note that if the data is written to the DMA buffer in pieces, the overall operation may still take longer than this timeout.) Pass portMAX_DELAY for no timeout.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416i2s_write_expand10i2s_port_tPKv6size_t6size_t6size_tP6size_t10TickType_t">
+<span id="_CPPv316i2s_write_expand10i2s_port_tPKv6size_t6size_t6size_tP6size_t10TickType_t"></span><span id="_CPPv216i2s_write_expand10i2s_port_tPKv6size_t6size_t6size_tP6size_t10TickType_t"></span><span id="i2s_write_expand__i2s_port_t.voidCP.s.s.s.sP.TickType_t"></span><span class="target" id="i2s_8h_1a158cce57ef1e213d4a6df678c3f1c6f2"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2s_write_expand</code><span class="sig-paren">(</span>i2s_port_t <em>i2s_num</em>, <em class="property">const</em> void *<em>src</em>, size_t <em>size</em>, size_t <em>src_bits</em>, size_t <em>aim_bits</em>, size_t *<em>bytes_written</em>, TickType_t <em>ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416i2s_write_expand10i2s_port_tPKv6size_t6size_t6size_tP6size_t10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write data to I2S DMA transmit buffer while expanding the number of bits per sample. For example, expanding 16-bit PCM to 32-bit PCM. </p>
+<p><p>Format of the data in source buffer is determined by the I2S configuration (see </p>
+i2s_config_t).<dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2s_num</span></code>: I2S_NUM_0, I2S_NUM_1</li>
+<li><code class="docutils literal notranslate"><span class="pre">src</span></code>: Source address to write from</li>
+<li><code class="docutils literal notranslate"><span class="pre">size</span></code>: Size of data in bytes</li>
+<li><code class="docutils literal notranslate"><span class="pre">src_bits</span></code>: Source audio bit</li>
+<li><code class="docutils literal notranslate"><span class="pre">aim_bits</span></code>: Bit wanted, no more than 32, and must be greater than src_bits</li>
+<li><code class="docutils literal notranslate"><span class="pre">bytes_written</span></code>: Number of bytes written, if timeout, the result will be less than the size passed in.</li>
+<li><code class="docutils literal notranslate"><span class="pre">ticks_to_wait</span></code>: TX buffer wait timeout in RTOS ticks. If this many ticks pass without space becoming available in the DMA transmit buffer, then the function will return (note that if the data is written to the DMA buffer in pieces, the overall operation may still take longer than this timeout.) Pass portMAX_DELAY for no timeout.</li>
+</ul>
+</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv48i2s_read10i2s_port_tPv6size_tP6size_t10TickType_t">
+<span id="_CPPv38i2s_read10i2s_port_tPv6size_tP6size_t10TickType_t"></span><span id="_CPPv28i2s_read10i2s_port_tPv6size_tP6size_t10TickType_t"></span><span id="i2s_read__i2s_port_t.voidP.s.sP.TickType_t"></span><span class="target" id="i2s_8h_1a8bab083696294ab14ef0142699a251b2"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2s_read</code><span class="sig-paren">(</span>i2s_port_t <em>i2s_num</em>, void *<em>dest</em>, size_t <em>size</em>, size_t *<em>bytes_read</em>, TickType_t <em>ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv48i2s_read10i2s_port_tPv6size_tP6size_t10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read data from I2S DMA receive buffer. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>If the built-in ADC mode is enabled, we should call i2s_adc_start and i2s_adc_stop around the whole reading process, to prevent the data getting corrupted.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2s_num</span></code>: I2S_NUM_0, I2S_NUM_1</li>
+<li><code class="docutils literal notranslate"><span class="pre">dest</span></code>: Destination address to read into</li>
+<li><code class="docutils literal notranslate"><span class="pre">size</span></code>: Size of data in bytes</li>
+<li><code class="docutils literal notranslate"><span class="pre">bytes_read</span></code>: Number of bytes read, if timeout, bytes read will be less than the size passed in.</li>
+<li><code class="docutils literal notranslate"><span class="pre">ticks_to_wait</span></code>: RX buffer wait timeout in RTOS ticks. If this many ticks pass without bytes becoming available in the DMA receive buffer, then the function will return (note that if data is read from the DMA buffer in pieces, the overall operation may still take longer than this timeout.) Pass portMAX_DELAY for no timeout.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420i2s_set_sample_rates10i2s_port_t8uint32_t">
+<span id="_CPPv320i2s_set_sample_rates10i2s_port_t8uint32_t"></span><span id="_CPPv220i2s_set_sample_rates10i2s_port_t8uint32_t"></span><span id="i2s_set_sample_rates__i2s_port_t.uint32_t"></span><span class="target" id="i2s_8h_1a8a1008af1535b19d06f1e0114733ffde"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2s_set_sample_rates</code><span class="sig-paren">(</span>i2s_port_t <em>i2s_num</em>, uint32_t <em>rate</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420i2s_set_sample_rates10i2s_port_t8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set sample rate used for I2S RX and TX. </p>
+<p>The bit clock rate is determined by the sample rate and i2s_config_t configuration parameters (number of channels, bits_per_sample).</p>
+<p><code class="docutils literal notranslate"><span class="pre">bit_clock</span> <span class="pre">=</span> <span class="pre">rate</span> <span class="pre">*</span> <span class="pre">(number</span> <span class="pre">of</span> <span class="pre">channels)</span> <span class="pre">*</span> <span class="pre">bits_per_sample</span></code></p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error</li>
+<li>ESP_ERR_NO_MEM Out of memory </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2s_num</span></code>: I2S_NUM_0, I2S_NUM_1</li>
+<li><code class="docutils literal notranslate"><span class="pre">rate</span></code>: I2S sample rate (ex: 8000, 44100…)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv48i2s_stop10i2s_port_t">
+<span id="_CPPv38i2s_stop10i2s_port_t"></span><span id="_CPPv28i2s_stop10i2s_port_t"></span><span id="i2s_stop__i2s_port_t"></span><span class="target" id="i2s_8h_1abcb0ba25089037093623872c8b99e955"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2s_stop</code><span class="sig-paren">(</span>i2s_port_t <em>i2s_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv48i2s_stop10i2s_port_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stop I2S driver. </p>
+<p>There is no need to call i2s_stop() before calling i2s_driver_uninstall().</p>
+<p>Disables I2S TX/RX, until i2s_start() is called.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2s_num</span></code>: I2S_NUM_0, I2S_NUM_1</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv49i2s_start10i2s_port_t">
+<span id="_CPPv39i2s_start10i2s_port_t"></span><span id="_CPPv29i2s_start10i2s_port_t"></span><span id="i2s_start__i2s_port_t"></span><span class="target" id="i2s_8h_1a6106ae68d9633ea34af9437e6d5c6fc8"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2s_start</code><span class="sig-paren">(</span>i2s_port_t <em>i2s_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv49i2s_start10i2s_port_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start I2S driver. </p>
+<p>It is not necessary to call this function after i2s_driver_install() (it is started automatically), however it is necessary to call it after i2s_stop().</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2s_num</span></code>: I2S_NUM_0, I2S_NUM_1</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419i2s_zero_dma_buffer10i2s_port_t">
+<span id="_CPPv319i2s_zero_dma_buffer10i2s_port_t"></span><span id="_CPPv219i2s_zero_dma_buffer10i2s_port_t"></span><span id="i2s_zero_dma_buffer__i2s_port_t"></span><span class="target" id="i2s_8h_1a898dd58adaeaf93f34a22b82ab8de4d3"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2s_zero_dma_buffer</code><span class="sig-paren">(</span>i2s_port_t <em>i2s_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419i2s_zero_dma_buffer10i2s_port_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Zero the contents of the TX DMA buffer. </p>
+<p>Pushes zero-byte samples into the TX DMA buffer, until it is full.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2s_num</span></code>: I2S_NUM_0, I2S_NUM_1</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv411i2s_set_clk10i2s_port_t8uint32_t21i2s_bits_per_sample_t13i2s_channel_t">
+<span id="_CPPv311i2s_set_clk10i2s_port_t8uint32_t21i2s_bits_per_sample_t13i2s_channel_t"></span><span id="_CPPv211i2s_set_clk10i2s_port_t8uint32_t21i2s_bits_per_sample_t13i2s_channel_t"></span><span id="i2s_set_clk__i2s_port_t.uint32_t.i2s_bits_per_sample_t.i2s_channel_t"></span><span class="target" id="i2s_8h_1a4260acb96f9793aa86767424a03d1b87"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2s_set_clk</code><span class="sig-paren">(</span>i2s_port_t <em>i2s_num</em>, uint32_t <em>rate</em>, i2s_bits_per_sample_t <em>bits</em>, i2s_channel_t <em>ch</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv411i2s_set_clk10i2s_port_t8uint32_t21i2s_bits_per_sample_t13i2s_channel_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set clock &amp; bit width used for I2S RX and TX. </p>
+<p>Similar to i2s_set_sample_rates(), but also sets bit width.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error</li>
+<li>ESP_ERR_NO_MEM Out of memory </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2s_num</span></code>: I2S_NUM_0, I2S_NUM_1</li>
+<li><code class="docutils literal notranslate"><span class="pre">rate</span></code>: I2S sample rate (ex: 8000, 44100…)</li>
+<li><code class="docutils literal notranslate"><span class="pre">bits</span></code>: I2S bit width (I2S_BITS_PER_SAMPLE_16BIT, I2S_BITS_PER_SAMPLE_24BIT, I2S_BITS_PER_SAMPLE_32BIT)</li>
+<li><code class="docutils literal notranslate"><span class="pre">ch</span></code>: I2S channel, (I2S_CHANNEL_MONO, I2S_CHANNEL_STEREO)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv411i2s_get_clk10i2s_port_t">
+<span id="_CPPv311i2s_get_clk10i2s_port_t"></span><span id="_CPPv211i2s_get_clk10i2s_port_t"></span><span id="i2s_get_clk__i2s_port_t"></span><span class="target" id="i2s_8h_1aaee5b79812f8ba88b9645fc936f1267e"></span>float <code class="descname">i2s_get_clk</code><span class="sig-paren">(</span>i2s_port_t <em>i2s_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv411i2s_get_clk10i2s_port_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get clock set on particular port number. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>actual clock set by i2s driver </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2s_num</span></code>: I2S_NUM_0, I2S_NUM_1</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416i2s_set_adc_mode10adc_unit_t14adc1_channel_t">
+<span id="_CPPv316i2s_set_adc_mode10adc_unit_t14adc1_channel_t"></span><span id="_CPPv216i2s_set_adc_mode10adc_unit_t14adc1_channel_t"></span><span id="i2s_set_adc_mode__adc_unit_t.adc1_channel_t"></span><span class="target" id="i2s_8h_1aa29c9d2cea2716a583fefdf60e0373b9"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2s_set_adc_mode</code><span class="sig-paren">(</span><a class="reference internal" href="adc.html#_CPPv410adc_unit_t" title="adc_unit_t">adc_unit_t</a> <em>adc_unit</em>, <a class="reference internal" href="adc.html#_CPPv414adc1_channel_t" title="adc1_channel_t">adc1_channel_t</a> <em>adc_channel</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416i2s_set_adc_mode10adc_unit_t14adc1_channel_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set built-in ADC mode for I2S DMA, this function will initialize ADC pad, and set ADC parameters. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">adc_unit</span></code>: SAR ADC unit index </li>
+<li><code class="docutils literal notranslate"><span class="pre">adc_channel</span></code>: ADC channel index </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414i2s_adc_enable10i2s_port_t">
+<span id="_CPPv314i2s_adc_enable10i2s_port_t"></span><span id="_CPPv214i2s_adc_enable10i2s_port_t"></span><span id="i2s_adc_enable__i2s_port_t"></span><span class="target" id="i2s_8h_1aee95564f09194d81af8dc9f2ad50ac25"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2s_adc_enable</code><span class="sig-paren">(</span>i2s_port_t <em>i2s_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414i2s_adc_enable10i2s_port_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start to use I2S built-in ADC mode. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This function would acquire the lock of ADC to prevent the data getting corrupted during the I2S peripheral is being used to do fully continuous ADC sampling.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error</li>
+<li>ESP_ERR_INVALID_STATE Driver state error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2s_num</span></code>: i2s port index </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415i2s_adc_disable10i2s_port_t">
+<span id="_CPPv315i2s_adc_disable10i2s_port_t"></span><span id="_CPPv215i2s_adc_disable10i2s_port_t"></span><span id="i2s_adc_disable__i2s_port_t"></span><span class="target" id="i2s_8h_1a382c911e0f7d2f0ee862788958e99e82"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2s_adc_disable</code><span class="sig-paren">(</span>i2s_port_t <em>i2s_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415i2s_adc_disable10i2s_port_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stop to use I2S built-in ADC mode. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This function would release the lock of ADC so that other tasks can use ADC. </dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error</li>
+<li>ESP_ERR_INVALID_STATE Driver state error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2s_num</span></code>: i2s port index </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv416i2s_isr_handle_t">
+<span id="_CPPv316i2s_isr_handle_t"></span><span id="_CPPv216i2s_isr_handle_t"></span><span id="i2s_isr_handle_t"></span><span class="target" id="i2s_8h_1a722f160b2879ebc43a5ec2193f6cb323"></span><em class="property">typedef </em><a class="reference internal" href="../system/intr_alloc.html#_CPPv413intr_handle_t" title="intr_handle_t">intr_handle_t</a> <code class="descname">i2s_isr_handle_t</code><a class="headerlink" href="#_CPPv416i2s_isr_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ledc.html" class="btn btn-neutral float-right" title="LED Control" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="i2c.html" class="btn btn-neutral float-left" title="I2C Driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/i2s.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:33 GMT -->
+</html>

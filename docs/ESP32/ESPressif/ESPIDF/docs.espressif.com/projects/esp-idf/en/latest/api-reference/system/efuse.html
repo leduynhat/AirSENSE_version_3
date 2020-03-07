@@ -1,0 +1,1077 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/system/efuse.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:10 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>eFuse Manager &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Error Codes and Helper Functions" href="esp_err.html" />
+    <link rel="prev" title="Application Level Tracing" href="app_trace.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="efuse.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/system/efuse"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">System</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="app_image_format.html">App image format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="app_trace.html">Application Level Tracing</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">eFuse Manager</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hardware-description">Hardware description</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#efuse-manager-component">eFuse Manager component</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#description-csv-file">Description CSV file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#efuse-table-gen-py-tool">efuse_table_gen.py tool</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#support-coding-scheme">Support coding scheme</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#efuse-api">eFuse API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-add-a-new-field">How add a new field</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#debug-efuse-unit-tests">Debug eFuse &amp; Unit tests</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="esp_err.html">Error Codes and Helper Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_https_ota.html">ESP HTTPS OTA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_pthread.html">ESP pthread</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_event.html">Event Loop Library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freertos.html">FreeRTOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freertos_additions.html">FreeRTOS Additions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mem_alloc.html">Heap Memory Allocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="heap_debug.html">Heap Memory Debugging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_timer.html">High Resolution Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="himem.html">Himem (large external SPI RAM) API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipc.html">Inter-Processor Call</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_expression_with_stack.html">Call function with external stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="intr_alloc.html">Interrupt Allocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log.html">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system.html">Miscellaneous System APIs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ota.html">Over The Air Updates (OTA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="perfmon.html">Performance Monitor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="power_management.html">Power Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sleep_modes.html">Sleep Modes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wdts.html">Watchdogs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system_time.html">System Time</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">System API</a> &raquo;</li>
+        
+      <li>eFuse Manager</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/system/efuse.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="efuse-manager">
+<h1>eFuse Manager<a class="headerlink" href="#efuse-manager" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The eFuse Manager library is designed to structure access to eFuse bits and make using these easy. This library operates eFuse bits by a structure name wich assigned in eFuse table. This sections introduces some concepts used by eFuse Manager.</p>
+</div>
+<div class="section" id="hardware-description">
+<h2>Hardware description<a class="headerlink" href="#hardware-description" title="Permalink to this headline">¶</a></h2>
+<p>The ESP32 has a number of eFuses which can store system and user parameters. Each eFuse is a one-bit field which can be programmed to 1 after which it cannot be reverted back to 0.
+Some of system parameters are using these eFuse bits directly by hardware modules and have special place (for example EFUSE_BLK0). For more details see <a class="reference external" href="https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf">ESP32 Technical Reference Manual</a> in part 20 eFuse controller. Some eFuse bits are available for user applications.</p>
+<p>ESP32 has 4 eFuse blocks each of the size of 256 bits (not all bits are available):</p>
+<ul class="simple">
+<li>EFUSE_BLK0 is used entirely for system purposes;</li>
+<li>EFUSE_BLK1 is used for flash encrypt key. If not using that Flash Encryption feature, they can be used for another purpose;</li>
+<li>EFUSE_BLK2 is used for security boot key. If not using that Secure Boot feature, they can be used for another purpose;</li>
+<li>EFUSE_BLK3 can be partially reserved for the custom MAC address, or used entirely for user application. Note that some bits are already used in IDF.</li>
+</ul>
+<p>Each block is divided into 8 32-bits registers.</p>
+</div>
+<div class="section" id="efuse-manager-component">
+<h2>eFuse Manager component<a class="headerlink" href="#efuse-manager-component" title="Permalink to this headline">¶</a></h2>
+<p>The component has API functions for reading and writing fields. Access to the fields is carried out through the structures that describe the location of the eFuse bits in the blocks. The component provides the ability to form fields of any length and from any number of individual bits. The description of the fields is made in a CSV file in a table form. To generate from a tabular form (CSV file) in the C-source uses the tool <cite>efuse_table_gen.py</cite>. The tool checks the CSV file for uniqueness of field names and bit intersection, in case of using a <cite>custom</cite> file from the user’s project directory, the utility will check with the <cite>common</cite> CSV file.</p>
+<p>CSV files:</p>
+<ul class="simple">
+<li>common (<cite>esp_efuse_table.csv</cite>) - contains eFuse fields which are used inside the IDF. C-source generation should be done manually when changing this file (run command <code class="docutils literal notranslate"><span class="pre">idf.py</span> <span class="pre">efuse_common_table</span></code>). Note that changes in this file can lead to incorrect operation.</li>
+<li>custom - (optional and can be enabled by <span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">CONFIG_EFUSE_CUSTOM_TABLE</span></code>) contains eFuse fields that are used by the user in their application. C-source generation should be done manually when changing this file and running <code class="docutils literal notranslate"><span class="pre">idf.py</span> <span class="pre">efuse_custom_table</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="description-csv-file">
+<h2>Description CSV file<a class="headerlink" href="#description-csv-file" title="Permalink to this headline">¶</a></h2>
+<p>The CSV file contains a description of the eFuse fields. In the simple case, one field has one line of description.
+Table header:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># field_name,  efuse_block(EFUSE_BLK0..EFUSE_BLK3), bit_start(0..255),  bit_count(1..256),              comment</span>
+</pre></div>
+</div>
+<p>Individual params in CSV file the following meanings:</p>
+<dl class="docutils">
+<dt>field_name</dt>
+<dd>Name of field. The prefix <cite>ESP_EFUSE_</cite> will be added to the name, and this field name will be available in the code. This name will be used to access the fields. The name must be unique for all fields. If the line has an empty name, then this line is combined with the previous field. This allows you to set an arbitrary order of bits in the field, and expand the field as well (see <code class="docutils literal notranslate"><span class="pre">MAC_FACTORY</span></code> field in the common table).</dd>
+<dt>efuse_block</dt>
+<dd>Block number. It determines where the eFuse bits will be placed for this field. Available EFUSE_BLK0..EFUSE_BLK3.</dd>
+<dt>bit_start</dt>
+<dd>Start bit number (0..255). The bit_start field can be omitted. In this case, it will be set to bit_start + bit_count from the previous record, if it has the same efuse_block. Otherwise (if efuse_block is different, or this is the first entry), an error will be generated.</dd>
+<dt>bit_count</dt>
+<dd>The number of bits to use in this field (1..-). This parameter can not be omitted. This field also may be <code class="docutils literal notranslate"><span class="pre">MAX_BLK_LEN</span></code> in this case, the field length will have the maximum block length, taking into account the coding scheme (applicable for <code class="docutils literal notranslate"><span class="pre">ESP_EFUSE_SECURE_BOOT_KEY</span></code> and <code class="docutils literal notranslate"><span class="pre">ESP_EFUSE_ENCRYPT_FLASH_KEY</span></code> fields). The value <code class="docutils literal notranslate"><span class="pre">MAX_BLK_LEN</span></code> depends on <span class="target" id="index-1"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">CONFIG_EFUSE_MAX_BLK_LEN</span></code>, will be replaced with “None” - 256, “3/4” - 192, “REPEAT” - 128.</dd>
+<dt>comment</dt>
+<dd>This param is using for comment field, it also move to C-header file. The comment field can be omitted.</dd>
+</dl>
+<p>If a non-sequential bit order is required to describe a field, then the field description in the following lines should be continued without specifying a name, this will indicate that it belongs to one field. For example two fields MAC_FACTORY and MAC_FACTORY_CRC:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Factory MAC address #</span>
+<span class="c1">#######################</span>
+<span class="n">MAC_FACTORY</span><span class="p">,</span>            <span class="n">EFUSE_BLK0</span><span class="p">,</span>    <span class="mi">72</span><span class="p">,</span>    <span class="mi">8</span><span class="p">,</span>    <span class="n">Factory</span> <span class="n">MAC</span> <span class="n">addr</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="p">,</span>                       <span class="n">EFUSE_BLK0</span><span class="p">,</span>    <span class="mi">64</span><span class="p">,</span>    <span class="mi">8</span><span class="p">,</span>    <span class="n">Factory</span> <span class="n">MAC</span> <span class="n">addr</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="p">,</span>                       <span class="n">EFUSE_BLK0</span><span class="p">,</span>    <span class="mi">56</span><span class="p">,</span>    <span class="mi">8</span><span class="p">,</span>    <span class="n">Factory</span> <span class="n">MAC</span> <span class="n">addr</span> <span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="p">,</span>                       <span class="n">EFUSE_BLK0</span><span class="p">,</span>    <span class="mi">48</span><span class="p">,</span>    <span class="mi">8</span><span class="p">,</span>    <span class="n">Factory</span> <span class="n">MAC</span> <span class="n">addr</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="p">,</span>                       <span class="n">EFUSE_BLK0</span><span class="p">,</span>    <span class="mi">40</span><span class="p">,</span>    <span class="mi">8</span><span class="p">,</span>    <span class="n">Factory</span> <span class="n">MAC</span> <span class="n">addr</span> <span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+<span class="p">,</span>                       <span class="n">EFUSE_BLK0</span><span class="p">,</span>    <span class="mi">32</span><span class="p">,</span>    <span class="mi">8</span><span class="p">,</span>    <span class="n">Factory</span> <span class="n">MAC</span> <span class="n">addr</span> <span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">MAC_FACTORY_CRC</span><span class="p">,</span>        <span class="n">EFUSE_BLK0</span><span class="p">,</span>    <span class="mi">80</span><span class="p">,</span>    <span class="mi">8</span><span class="p">,</span>    <span class="n">CRC8</span> <span class="k">for</span> <span class="n">factory</span> <span class="n">MAC</span> <span class="n">address</span>
+</pre></div>
+</div>
+<p>This field will available in code as ESP_EFUSE_MAC_FACTORY and ESP_EFUSE_MAC_FACTORY_CRC.</p>
+</div>
+<div class="section" id="efuse-table-gen-py-tool">
+<h2>efuse_table_gen.py tool<a class="headerlink" href="#efuse-table-gen-py-tool" title="Permalink to this headline">¶</a></h2>
+<p>The tool is designed to generate C-source files from CSV file and validate fields. First of all, the check is carried out on the uniqueness of the names and overlaps of the field bits. If an additional <cite>custom</cite> file is used, it will be checked with the existing <cite>common</cite> file (esp_efuse_table.csv). In case of errors, a message will be displayed and the string that caused the error. C-source files contain structures of type <cite>esp_efuse_desc_t</cite>.</p>
+<p>To generate a <cite>common</cite> files, use the following command <code class="docutils literal notranslate"><span class="pre">idf.py</span> <span class="pre">efuse_common_table</span></code> or:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $IDF_PATH/components/efuse/
+./efuse_table_gen.py esp32/esp_efuse_table.csv
+</pre></div>
+</div>
+<p>After generation in the folder <cite>esp32</cite> create:</p>
+<ul class="simple">
+<li><cite>esp_efuse_table.c</cite> file.</li>
+<li>In <cite>include</cite> folder <cite>esp_efuse_table.c</cite> file.</li>
+</ul>
+<p>To generate a <cite>custom</cite> files, use the following command <code class="docutils literal notranslate"><span class="pre">idf.py</span> <span class="pre">efuse_custom_table</span></code> or:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $IDF_PATH/components/efuse/
+./efuse_table_gen.py esp32/esp_efuse_table.csv PROJECT_PATH/main/esp_efuse_custom_table.csv
+</pre></div>
+</div>
+<p>After generation in the folder PROJECT_PATH/main create:</p>
+<ul class="simple">
+<li><cite>esp_efuse_custom_table.c</cite> file.</li>
+<li>In <cite>include</cite> folder <cite>esp_efuse_custom_table.c</cite> file.</li>
+</ul>
+<p>To use the generated fields, you need to include two files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &quot;esp_efuse.h&quot;</span>
+<span class="c1">#include &quot;esp_efuse_table.h&quot; or &quot;esp_efuse_custom_table.h&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="support-coding-scheme">
+<h2>Support coding scheme<a class="headerlink" href="#support-coding-scheme" title="Permalink to this headline">¶</a></h2>
+<p>eFuse have three coding schemes:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">None</span></code> (value 0).</li>
+<li><code class="docutils literal notranslate"><span class="pre">3/4</span></code> (value 1).</li>
+<li><code class="docutils literal notranslate"><span class="pre">Repeat</span></code> (value 2).</li>
+</ul>
+<p>The coding scheme affects only EFUSE_BLK1, EFUSE_BLK2 and EFUSE_BLK3 blocks. EUSE_BLK0 block always has a coding scheme <code class="docutils literal notranslate"><span class="pre">None</span></code>.
+Coding changes the number of bits that can be written into a block, the block length is constant 256, some of these bits are used for encoding and are not used.</p>
+<p>When using a coding scheme, the length of the payload that can be written is limited (for more details <code class="docutils literal notranslate"><span class="pre">20.3.1.3</span> <span class="pre">System</span> <span class="pre">Parameter</span> <span class="pre">coding_scheme</span></code>):</p>
+<ul class="simple">
+<li>None 256 bits.</li>
+<li>3/4 192 bits.</li>
+<li>Repeat 128 bits.</li>
+</ul>
+<p>You can find out the coding scheme of your chip:</p>
+<ul class="simple">
+<li>run a <code class="docutils literal notranslate"><span class="pre">espefuse.py</span> <span class="pre">-p</span> <span class="pre">COM4</span> <span class="pre">summary</span></code> command.</li>
+<li>from <code class="docutils literal notranslate"><span class="pre">esptool</span></code> utility logs (during flashing).</li>
+<li>calling the function in the code <a class="reference internal" href="#_CPPv427esp_efuse_get_coding_scheme17esp_efuse_block_t" title="esp_efuse_get_coding_scheme"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_efuse_get_coding_scheme()</span></code></a> for the EFUSE_BLK3 block.</li>
+</ul>
+<p>eFuse tables must always comply with the coding scheme in the chip. There is an <span class="target" id="index-2"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">EFUSE_CODE_SCHEME_SELECTOR</span></code> option to select the coding type for tables in a Kconfig. When generating source files, if your tables do not follow the coding scheme, an error message will be displayed. Adjust the length or offset fields.
+If your program was compiled with <code class="docutils literal notranslate"><span class="pre">None</span></code> encoding and <code class="docutils literal notranslate"><span class="pre">3/4</span></code> is used in the chip, then the <code class="docutils literal notranslate"><span class="pre">ESP_ERR_CODING</span></code> error may occur when calling the eFuse API (the field is outside the block boundaries). If the field matches the new block boundaries, then the API will work without errors.</p>
+<p>Also, 3/4 coding scheme imposes restrictions on writing bits belonging to one coding unit. The whole block with a length of 256 bits is divided into 4 coding units, and in each coding unit there are 6 bytes of useful data and 2 service bytes. These 2 service bytes contain the checksum of the previous 6 data bytes.</p>
+<p>It turns out that only one field can be written into one coding unit. Repeated rewriting in one coding unit is prohibited. But if the record was made in advance or through a <a class="reference internal" href="#_CPPv421esp_efuse_write_block17esp_efuse_block_tPKv6size_t6size_t" title="esp_efuse_write_block"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_efuse_write_block()</span></code></a> function, then reading the fields belonging to one coding unit is possible.</p>
+<p>In case <code class="docutils literal notranslate"><span class="pre">3/4</span></code> coding scheme, the writing process is divided into the coding units and we can not use the usual mode of writing some fields. We can prepare all the data for writing and burn it in one time. You can also use this mode for <code class="docutils literal notranslate"><span class="pre">None</span></code> coding scheme but it is not necessary. It is important for <code class="docutils literal notranslate"><span class="pre">3/4</span></code> coding scheme.
+To write some fields in one time need to use <code class="docutils literal notranslate"><span class="pre">the</span> <span class="pre">batch</span> <span class="pre">writing</span> <span class="pre">mode</span></code>. Firstly set this mode through <a class="reference internal" href="#_CPPv427esp_efuse_batch_write_beginv" title="esp_efuse_batch_write_begin"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_efuse_batch_write_begin()</span></code></a> function then write some fields as usual use the <code class="docutils literal notranslate"><span class="pre">esp_efuse_write_...</span></code> functions. At the end to burn they, need to call the <a class="reference internal" href="#_CPPv428esp_efuse_batch_write_commitv" title="esp_efuse_batch_write_commit"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_efuse_batch_write_commit()</span></code></a> function. It burns prepared data to the efuse blocks and disable the <code class="docutils literal notranslate"><span class="pre">batch</span> <span class="pre">recording</span> <span class="pre">mode</span></code>.
+<code class="docutils literal notranslate"><span class="pre">The</span> <span class="pre">batch</span> <span class="pre">writing</span> <span class="pre">mode</span></code> blocks <code class="docutils literal notranslate"><span class="pre">esp_efuse_read_...</span></code> operations.</p>
+<p>After changing the coding scheme, run <code class="docutils literal notranslate"><span class="pre">efuse_common_table</span></code> and <code class="docutils literal notranslate"><span class="pre">efuse_custom_table</span></code> commands to check the tables of the new coding scheme.</p>
+</div>
+<div class="section" id="efuse-api">
+<h2>eFuse API<a class="headerlink" href="#efuse-api" title="Permalink to this headline">¶</a></h2>
+<p>Access to the fields is via a pointer to the description structure. API functions have some basic operation:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#_CPPv425esp_efuse_read_field_blobA_PK16esp_efuse_desc_tPv6size_t" title="esp_efuse_read_field_blob"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_efuse_read_field_blob()</span></code></a> - returns an array of read eFuse bits.</li>
+<li><a class="reference internal" href="#_CPPv424esp_efuse_read_field_cntA_PK16esp_efuse_desc_tP6size_t" title="esp_efuse_read_field_cnt"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_efuse_read_field_cnt()</span></code></a> - returns the number of bits programmed as “1”.</li>
+<li><a class="reference internal" href="#_CPPv426esp_efuse_write_field_blobA_PK16esp_efuse_desc_tPKv6size_t" title="esp_efuse_write_field_blob"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_efuse_write_field_blob()</span></code></a> - writes an array.</li>
+<li><a class="reference internal" href="#_CPPv425esp_efuse_write_field_cntA_PK16esp_efuse_desc_t6size_t" title="esp_efuse_write_field_cnt"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_efuse_write_field_cnt()</span></code></a> - writes a required count of bits as “1”.</li>
+<li><a class="reference internal" href="#_CPPv424esp_efuse_get_field_sizeA_PK16esp_efuse_desc_t" title="esp_efuse_get_field_size"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_efuse_get_field_size()</span></code></a> - returns the number of bits by the field name.</li>
+<li><a class="reference internal" href="#_CPPv418esp_efuse_read_reg17esp_efuse_block_tj" title="esp_efuse_read_reg"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_efuse_read_reg()</span></code></a> - returns value of eFuse register.</li>
+<li><a class="reference internal" href="#_CPPv419esp_efuse_write_reg17esp_efuse_block_tj8uint32_t" title="esp_efuse_write_reg"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_efuse_write_reg()</span></code></a> - writes value to eFuse register.</li>
+<li><a class="reference internal" href="#_CPPv427esp_efuse_get_coding_scheme17esp_efuse_block_t" title="esp_efuse_get_coding_scheme"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_efuse_get_coding_scheme()</span></code></a> - returns eFuse coding scheme for blocks.</li>
+<li><a class="reference internal" href="#_CPPv420esp_efuse_read_block17esp_efuse_block_tPv6size_t6size_t" title="esp_efuse_read_block"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_efuse_read_block()</span></code></a> - reads key to eFuse block starting at the offset and the required size.</li>
+<li><a class="reference internal" href="#_CPPv421esp_efuse_write_block17esp_efuse_block_tPKv6size_t6size_t" title="esp_efuse_write_block"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_efuse_write_block()</span></code></a> - writes key to eFuse block starting at the offset and the required size.</li>
+<li><a class="reference internal" href="#_CPPv427esp_efuse_batch_write_beginv" title="esp_efuse_batch_write_begin"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_efuse_batch_write_begin()</span></code></a> - set the batch mode of writing fields.</li>
+<li><a class="reference internal" href="#_CPPv428esp_efuse_batch_write_commitv" title="esp_efuse_batch_write_commit"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_efuse_batch_write_commit()</span></code></a> - writes all prepared data for batch writing mode and reset the batch writing mode.</li>
+<li><a class="reference internal" href="#_CPPv428esp_efuse_batch_write_cancelv" title="esp_efuse_batch_write_cancel"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_efuse_batch_write_cancel()</span></code></a> - reset the batch writing mode and prepared data.</li>
+</ul>
+<p>For frequently used fields, special functions are made, like this <a class="reference internal" href="#_CPPv422esp_efuse_get_chip_verv" title="esp_efuse_get_chip_ver"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_efuse_get_chip_ver()</span></code></a>, <a class="reference internal" href="#_CPPv421esp_efuse_get_pkg_verv" title="esp_efuse_get_pkg_ver"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_efuse_get_pkg_ver()</span></code></a>.</p>
+</div>
+<div class="section" id="how-add-a-new-field">
+<h2>How add a new field<a class="headerlink" href="#how-add-a-new-field" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Find a free bits for field. Show <cite>esp_efuse_table.csv</cite> file or run <code class="docutils literal notranslate"><span class="pre">idf.py</span> <span class="pre">show_efuse_table</span></code> or the next command:</li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ./efuse_table_gen.py esp32/esp_efuse_table.csv --info
+eFuse coding scheme: NONE
+#       field_name                      efuse_block     bit_start       bit_count
+1       WR_DIS_FLASH_CRYPT_CNT          EFUSE_BLK0         2               1
+2       WR_DIS_BLK1                     EFUSE_BLK0         7               1
+3       WR_DIS_BLK2                     EFUSE_BLK0         8               1
+4       WR_DIS_BLK3                     EFUSE_BLK0         9               1
+5       RD_DIS_BLK1                     EFUSE_BLK0         16              1
+6       RD_DIS_BLK2                     EFUSE_BLK0         17              1
+7       RD_DIS_BLK3                     EFUSE_BLK0         18              1
+8       FLASH_CRYPT_CNT                 EFUSE_BLK0         20              7
+9       MAC_FACTORY                     EFUSE_BLK0         32              8
+10      MAC_FACTORY                     EFUSE_BLK0         40              8
+11      MAC_FACTORY                     EFUSE_BLK0         48              8
+12      MAC_FACTORY                     EFUSE_BLK0         56              8
+13      MAC_FACTORY                     EFUSE_BLK0         64              8
+14      MAC_FACTORY                     EFUSE_BLK0         72              8
+15      MAC_FACTORY_CRC                 EFUSE_BLK0         80              8
+16      CHIP_VER_DIS_APP_CPU            EFUSE_BLK0         96              1
+17      CHIP_VER_DIS_BT                 EFUSE_BLK0         97              1
+18      CHIP_VER_PKG                    EFUSE_BLK0        105              3
+19      CHIP_CPU_FREQ_LOW               EFUSE_BLK0        108              1
+20      CHIP_CPU_FREQ_RATED             EFUSE_BLK0        109              1
+21      CHIP_VER_REV1                   EFUSE_BLK0        111              1
+22      ADC_VREF_AND_SDIO_DREF          EFUSE_BLK0        136              6
+23      XPD_SDIO_REG                    EFUSE_BLK0        142              1
+24      SDIO_TIEH                       EFUSE_BLK0        143              1
+25      SDIO_FORCE                      EFUSE_BLK0        144              1
+26      ENCRYPT_CONFIG                  EFUSE_BLK0        188              4
+27      CONSOLE_DEBUG_DISABLE           EFUSE_BLK0        194              1
+28      ABS_DONE_0                      EFUSE_BLK0        196              1
+29      DISABLE_JTAG                    EFUSE_BLK0        198              1
+30      DISABLE_DL_ENCRYPT              EFUSE_BLK0        199              1
+31      DISABLE_DL_DECRYPT              EFUSE_BLK0        200              1
+32      DISABLE_DL_CACHE                EFUSE_BLK0        201              1
+33      ENCRYPT_FLASH_KEY               EFUSE_BLK1         0              256
+34      SECURE_BOOT_KEY                 EFUSE_BLK2         0              256
+35      MAC_CUSTOM_CRC                  EFUSE_BLK3         0               8
+36      MAC_CUSTOM                      EFUSE_BLK3         8               48
+37      ADC1_TP_LOW                     EFUSE_BLK3         96              7
+38      ADC1_TP_HIGH                    EFUSE_BLK3        103              9
+39      ADC2_TP_LOW                     EFUSE_BLK3        112              7
+40      ADC2_TP_HIGH                    EFUSE_BLK3        119              9
+41      SECURE_VERSION                  EFUSE_BLK3        128              32
+42      MAC_CUSTOM_VER                  EFUSE_BLK3        184              8
+
+Used bits in eFuse table:
+EFUSE_BLK0
+[2 2] [7 9] [16 18] [20 27] [32 87] [96 97] [105 109] [111 111] [136 144] [188 191] [194 194] [196 196] [198 201]
+
+EFUSE_BLK1
+[0 255]
+
+EFUSE_BLK2
+[0 255]
+
+EFUSE_BLK3
+[0 55] [96 159] [184 191]
+
+Note: Not printed ranges are free for using. (bits in EFUSE_BLK0 are reserved for Espressif)
+
+Parsing eFuse CSV input file $IDF_PATH/components/efuse/esp32/esp_efuse_table.csv ...
+Verifying eFuse table...
+</pre></div>
+</div>
+<p>The number of bits not included in square brackets is free (bits in EFUSE_BLK0 are reserved for Espressif). All fields are checked for overlapping.</p>
+<ol class="arabic simple" start="2">
+<li>Fill a line for field: field_name, efuse_block, bit_start, bit_count, comment.</li>
+<li>Run a <code class="docutils literal notranslate"><span class="pre">show_efuse_table</span></code> command to check eFuse table. To generate source files run <code class="docutils literal notranslate"><span class="pre">efuse_common_table</span></code> or <code class="docutils literal notranslate"><span class="pre">efuse_custom_table</span></code> command.</li>
+</ol>
+</div>
+<div class="section" id="debug-efuse-unit-tests">
+<h2>Debug eFuse &amp; Unit tests<a class="headerlink" href="#debug-efuse-unit-tests" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="virtual-efuses">
+<h3>Virtual eFuses<a class="headerlink" href="#virtual-efuses" title="Permalink to this headline">¶</a></h3>
+<p>The Kconfig option <span class="target" id="index-3"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">CONFIG_EFUSE_VIRTUAL</span></code> will virtualize eFuse values inside the eFuse Manager, so writes are emulated and no eFuse values are permanently changed. This can be useful for debugging app and unit tests.</p>
+</div>
+<div class="section" id="espefuse-py">
+<h3>espefuse.py<a class="headerlink" href="#espefuse-py" title="Permalink to this headline">¶</a></h3>
+<p>esptool includes a useful tool for reading/writing ESP32 eFuse bits - <a class="reference external" href="https://github.com/espressif/esptool/wiki/espefuse">espefuse.py</a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">espefuse</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">p</span> <span class="n">COM4</span> <span class="n">summary</span>
+
+<span class="n">espefuse</span><span class="o">.</span><span class="n">py</span> <span class="n">v2</span><span class="o">.</span><span class="mf">3.1</span>
+<span class="n">Connecting</span><span class="o">........</span><span class="n">_</span>
+<span class="n">Security</span> <span class="n">fuses</span><span class="p">:</span>
+<span class="n">FLASH_CRYPT_CNT</span>        <span class="n">Flash</span> <span class="n">encryption</span> <span class="n">mode</span> <span class="n">counter</span>                     <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="n">FLASH_CRYPT_CONFIG</span>     <span class="n">Flash</span> <span class="n">encryption</span> <span class="n">config</span> <span class="p">(</span><span class="n">key</span> <span class="n">tweak</span> <span class="n">bits</span><span class="p">)</span>          <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="n">CONSOLE_DEBUG_DISABLE</span>  <span class="n">Disable</span> <span class="n">ROM</span> <span class="n">BASIC</span> <span class="n">interpreter</span> <span class="n">fallback</span>            <span class="o">=</span> <span class="mi">1</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x1</span><span class="p">)</span>
+<span class="n">ABS_DONE_0</span>             <span class="n">secure</span> <span class="n">boot</span> <span class="n">enabled</span> <span class="k">for</span> <span class="n">bootloader</span>                <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="n">ABS_DONE_1</span>             <span class="n">secure</span> <span class="n">boot</span> <span class="n">abstract</span> <span class="mi">1</span> <span class="n">locked</span>                     <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="n">JTAG_DISABLE</span>           <span class="n">Disable</span> <span class="n">JTAG</span>                                      <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="n">DISABLE_DL_ENCRYPT</span>     <span class="n">Disable</span> <span class="n">flash</span> <span class="n">encryption</span> <span class="ow">in</span> <span class="n">UART</span> <span class="n">bootloader</span>       <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="n">DISABLE_DL_DECRYPT</span>     <span class="n">Disable</span> <span class="n">flash</span> <span class="n">decryption</span> <span class="ow">in</span> <span class="n">UART</span> <span class="n">bootloader</span>       <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="n">DISABLE_DL_CACHE</span>       <span class="n">Disable</span> <span class="n">flash</span> <span class="n">cache</span> <span class="ow">in</span> <span class="n">UART</span> <span class="n">bootloader</span>            <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="n">BLK1</span>                   <span class="n">Flash</span> <span class="n">encryption</span> <span class="n">key</span>
+  <span class="o">=</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span>
+<span class="n">BLK2</span>                   <span class="n">Secure</span> <span class="n">boot</span> <span class="n">key</span>
+  <span class="o">=</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span>
+<span class="n">BLK3</span>                   <span class="n">Variable</span> <span class="n">Block</span> <span class="mi">3</span>
+  <span class="o">=</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="n">fa</span> <span class="mi">87</span> <span class="mi">02</span> <span class="mi">91</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="mi">00</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span>
+
+<span class="n">Efuse</span> <span class="n">fuses</span><span class="p">:</span>
+<span class="n">WR_DIS</span>                 <span class="n">Efuse</span> <span class="n">write</span> <span class="n">disable</span> <span class="n">mask</span>                          <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="n">RD_DIS</span>                 <span class="n">Efuse</span> <span class="n">read</span> <span class="n">disablemask</span>                            <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="n">CODING_SCHEME</span>          <span class="n">Efuse</span> <span class="n">variable</span> <span class="n">block</span> <span class="n">length</span> <span class="n">scheme</span>                <span class="o">=</span> <span class="mi">1</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x1</span><span class="p">)</span> <span class="p">(</span><span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">KEY_STATUS</span>             <span class="n">Usage</span> <span class="n">of</span> <span class="n">efuse</span> <span class="n">block</span> <span class="mi">3</span> <span class="p">(</span><span class="n">reserved</span><span class="p">)</span>                 <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+
+<span class="n">Config</span> <span class="n">fuses</span><span class="p">:</span>
+<span class="n">XPD_SDIO_FORCE</span>         <span class="n">Ignore</span> <span class="n">MTDI</span> <span class="n">pin</span> <span class="p">(</span><span class="n">GPIO12</span><span class="p">)</span> <span class="k">for</span> <span class="n">VDD_SDIO</span> <span class="n">on</span> <span class="n">reset</span>    <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="n">XPD_SDIO_REG</span>           <span class="n">If</span> <span class="n">XPD_SDIO_FORCE</span><span class="p">,</span> <span class="n">enable</span> <span class="n">VDD_SDIO</span> <span class="n">reg</span> <span class="n">on</span> <span class="n">reset</span>   <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="n">XPD_SDIO_TIEH</span>          <span class="n">If</span> <span class="n">XPD_SDIO_FORCE</span> <span class="o">&amp;</span> <span class="n">XPD_SDIO_REG</span><span class="p">,</span> <span class="mi">1</span><span class="o">=</span><span class="mf">3.3</span><span class="n">V</span> <span class="mi">0</span><span class="o">=</span><span class="mf">1.8</span><span class="n">V</span>   <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="n">SPI_PAD_CONFIG_CLK</span>     <span class="n">Override</span> <span class="n">SD_CLK</span> <span class="n">pad</span> <span class="p">(</span><span class="n">GPIO6</span><span class="o">/</span><span class="n">SPICLK</span><span class="p">)</span>                <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="n">SPI_PAD_CONFIG_Q</span>       <span class="n">Override</span> <span class="n">SD_DATA_0</span> <span class="n">pad</span> <span class="p">(</span><span class="n">GPIO7</span><span class="o">/</span><span class="n">SPIQ</span><span class="p">)</span>               <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="n">SPI_PAD_CONFIG_D</span>       <span class="n">Override</span> <span class="n">SD_DATA_1</span> <span class="n">pad</span> <span class="p">(</span><span class="n">GPIO8</span><span class="o">/</span><span class="n">SPID</span><span class="p">)</span>               <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="n">SPI_PAD_CONFIG_HD</span>      <span class="n">Override</span> <span class="n">SD_DATA_2</span> <span class="n">pad</span> <span class="p">(</span><span class="n">GPIO9</span><span class="o">/</span><span class="n">SPIHD</span><span class="p">)</span>              <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="n">SPI_PAD_CONFIG_CS0</span>     <span class="n">Override</span> <span class="n">SD_CMD</span> <span class="n">pad</span> <span class="p">(</span><span class="n">GPIO11</span><span class="o">/</span><span class="n">SPICS0</span><span class="p">)</span>               <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+<span class="n">DISABLE_SDIO_HOST</span>      <span class="n">Disable</span> <span class="n">SDIO</span> <span class="n">host</span>                                 <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+
+<span class="n">Identity</span> <span class="n">fuses</span><span class="p">:</span>
+<span class="n">MAC</span>                    <span class="n">MAC</span> <span class="n">Address</span>
+  <span class="o">=</span> <span class="mi">84</span><span class="p">:</span><span class="mi">0</span><span class="n">d</span><span class="p">:</span><span class="mi">8</span><span class="n">e</span><span class="p">:</span><span class="mi">18</span><span class="p">:</span><span class="mi">8</span><span class="n">e</span><span class="p">:</span><span class="mi">44</span> <span class="p">(</span><span class="n">CRC</span> <span class="n">ad</span> <span class="n">OK</span><span class="p">)</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span>
+<span class="n">CHIP_VER_REV1</span>          <span class="n">Silicon</span> <span class="n">Revision</span> <span class="mi">1</span>                                <span class="o">=</span> <span class="mi">1</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x1</span><span class="p">)</span>
+<span class="n">CHIP_VERSION</span>           <span class="n">Reserved</span> <span class="k">for</span> <span class="n">future</span> <span class="n">chip</span> <span class="n">versions</span>                 <span class="o">=</span> <span class="mi">2</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x2</span><span class="p">)</span>
+<span class="n">CHIP_PACKAGE</span>           <span class="n">Chip</span> <span class="n">package</span> <span class="n">identifier</span>                           <span class="o">=</span> <span class="mi">0</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x0</span><span class="p">)</span>
+
+<span class="n">Calibration</span> <span class="n">fuses</span><span class="p">:</span>
+<span class="n">BLK3_PART_RESERVE</span>      <span class="n">BLOCK3</span> <span class="n">partially</span> <span class="n">served</span> <span class="k">for</span> <span class="n">ADC</span> <span class="n">calibration</span> <span class="n">data</span>  <span class="o">=</span> <span class="mi">1</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x1</span><span class="p">)</span>
+<span class="n">ADC_VREF</span>               <span class="n">Voltage</span> <span class="n">reference</span> <span class="n">calibration</span>                     <span class="o">=</span> <span class="mi">1114</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x2</span><span class="p">)</span>
+<span class="n">ADC1_TP_LOW</span>            <span class="n">ADC1</span> <span class="mi">150</span><span class="n">mV</span> <span class="n">reading</span>                                <span class="o">=</span> <span class="mi">346</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x11</span><span class="p">)</span>
+<span class="n">ADC1_TP_HIGH</span>           <span class="n">ADC1</span> <span class="mi">850</span><span class="n">mV</span> <span class="n">reading</span>                                <span class="o">=</span> <span class="mi">3285</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x5</span><span class="p">)</span>
+<span class="n">ADC2_TP_LOW</span>            <span class="n">ADC2</span> <span class="mi">150</span><span class="n">mV</span> <span class="n">reading</span>                                <span class="o">=</span> <span class="mi">449</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x7</span><span class="p">)</span>
+<span class="n">ADC2_TP_HIGH</span>           <span class="n">ADC2</span> <span class="mi">850</span><span class="n">mV</span> <span class="n">reading</span>                                <span class="o">=</span> <span class="mi">3362</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span> <span class="p">(</span><span class="mh">0x1f5</span><span class="p">)</span>
+
+<span class="n">Flash</span> <span class="n">voltage</span> <span class="p">(</span><span class="n">VDD_SDIO</span><span class="p">)</span> <span class="n">determined</span> <span class="n">by</span> <span class="n">GPIO12</span> <span class="n">on</span> <span class="n">reset</span> <span class="p">(</span><span class="n">High</span> <span class="k">for</span> <span class="mf">1.8</span><span class="n">V</span><span class="p">,</span> <span class="n">Low</span><span class="o">/</span><span class="n">NC</span> <span class="k">for</span> <span class="mf">3.3</span><span class="n">V</span><span class="p">)</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>To get a dump for all eFuse registers.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>espefuse.py -p COM4 dump
+
+$ espefuse.py -p COM4 dump
+espefuse.py v2.3.1
+Connecting........__
+EFUSE block 0:
+00000000 c403bb68 0082240a 00000000 00000035 00000000 00000000
+EFUSE block 1:
+00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+EFUSE block 2:
+00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+EFUSE block 3:
+00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+</pre></div>
+</div>
+</div>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/efuse/include/esp_efuse.h">efuse/include/esp_efuse.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv425esp_efuse_read_field_blobA_PK16esp_efuse_desc_tPv6size_t">
+<span id="_CPPv325esp_efuse_read_field_blobA_PK16esp_efuse_desc_tPv6size_t"></span><span id="_CPPv225esp_efuse_read_field_blobA_PK16esp_efuse_desc_tPv6size_t"></span><span id="esp_efuse_read_field_blob__esp_efuse_desc_tCPA.voidP.s"></span><span class="target" id="esp__efuse_8h_1ab35f098da6963a917045c0db4d018bdb"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_efuse_read_field_blob</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv416esp_efuse_desc_t" title="esp_efuse_desc_t">esp_efuse_desc_t</a> *<em>field</em>[], void *<em>dst</em>, size_t <em>dst_size_bits</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425esp_efuse_read_field_blobA_PK16esp_efuse_desc_tPv6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reads bits from EFUSE field and writes it into an array. </p>
+<p>The number of read bits will be limited to the minimum value from the description of the bits in “field” structure or “dst_size_bits” required size. Use “esp_efuse_get_field_size()” function to determine the length of the field. <dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: The operation was successfully completed.</li>
+<li>ESP_ERR_INVALID_ARG: Error in the passed arguments. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">field</span></code>: A pointer to the structure describing the fields of efuse. </li>
+<li><code class="docutils literal notranslate"><span class="pre">dst</span></code>: A pointer to array that will contain the result of reading. </li>
+<li><code class="docutils literal notranslate"><span class="pre">dst_size_bits</span></code>: The number of bits required to read. If the requested number of bits is greater than the field, the number will be limited to the field size.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424esp_efuse_read_field_cntA_PK16esp_efuse_desc_tP6size_t">
+<span id="_CPPv324esp_efuse_read_field_cntA_PK16esp_efuse_desc_tP6size_t"></span><span id="_CPPv224esp_efuse_read_field_cntA_PK16esp_efuse_desc_tP6size_t"></span><span id="esp_efuse_read_field_cnt__esp_efuse_desc_tCPA.sP"></span><span class="target" id="esp__efuse_8h_1a65647081fd89b3e1c10cf1aaea3cc192"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_efuse_read_field_cnt</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv416esp_efuse_desc_t" title="esp_efuse_desc_t">esp_efuse_desc_t</a> *<em>field</em>[], size_t *<em>out_cnt</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424esp_efuse_read_field_cntA_PK16esp_efuse_desc_tP6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reads bits from EFUSE field and returns number of bits programmed as “1”. </p>
+<p>If the bits are set not sequentially, they will still be counted. <dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: The operation was successfully completed.</li>
+<li>ESP_ERR_INVALID_ARG: Error in the passed arguments. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">field</span></code>: A pointer to the structure describing the fields of efuse. </li>
+<li><code class="docutils literal notranslate"><span class="pre">out_cnt</span></code>: A pointer that will contain the number of programmed as “1” bits.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426esp_efuse_write_field_blobA_PK16esp_efuse_desc_tPKv6size_t">
+<span id="_CPPv326esp_efuse_write_field_blobA_PK16esp_efuse_desc_tPKv6size_t"></span><span id="_CPPv226esp_efuse_write_field_blobA_PK16esp_efuse_desc_tPKv6size_t"></span><span id="esp_efuse_write_field_blob__esp_efuse_desc_tCPA.voidCP.s"></span><span class="target" id="esp__efuse_8h_1a8a068ddea9cbd74986a27e9cf44097ff"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_efuse_write_field_blob</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv416esp_efuse_desc_t" title="esp_efuse_desc_t">esp_efuse_desc_t</a> *<em>field</em>[], <em class="property">const</em> void *<em>src</em>, size_t <em>src_size_bits</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426esp_efuse_write_field_blobA_PK16esp_efuse_desc_tPKv6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Writes array to EFUSE field. </p>
+<p>The number of write bits will be limited to the minimum value from the description of the bits in “field” structure or “src_size_bits” required size. Use “esp_efuse_get_field_size()” function to determine the length of the field. After the function is completed, the writing registers are cleared. <dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: The operation was successfully completed.</li>
+<li>ESP_ERR_INVALID_ARG: Error in the passed arguments.</li>
+<li>ESP_ERR_EFUSE_REPEATED_PROG: Error repeated programming of programmed bits is strictly forbidden.</li>
+<li>ESP_ERR_CODING: Error range of data does not match the coding scheme. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">field</span></code>: A pointer to the structure describing the fields of efuse. </li>
+<li><code class="docutils literal notranslate"><span class="pre">src</span></code>: A pointer to array that contains the data for writing. </li>
+<li><code class="docutils literal notranslate"><span class="pre">src_size_bits</span></code>: The number of bits required to write.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425esp_efuse_write_field_cntA_PK16esp_efuse_desc_t6size_t">
+<span id="_CPPv325esp_efuse_write_field_cntA_PK16esp_efuse_desc_t6size_t"></span><span id="_CPPv225esp_efuse_write_field_cntA_PK16esp_efuse_desc_t6size_t"></span><span id="esp_efuse_write_field_cnt__esp_efuse_desc_tCPA.s"></span><span class="target" id="esp__efuse_8h_1a8faaf20c7a791b90e106e632179c1294"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_efuse_write_field_cnt</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv416esp_efuse_desc_t" title="esp_efuse_desc_t">esp_efuse_desc_t</a> *<em>field</em>[], size_t <em>cnt</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425esp_efuse_write_field_cntA_PK16esp_efuse_desc_t6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Writes a required count of bits as “1” to EFUSE field. </p>
+<p>If there are no free bits in the field to set the required number of bits to “1”, ESP_ERR_EFUSE_CNT_IS_FULL error is returned, the field will not be partially recorded. After the function is completed, the writing registers are cleared. <dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: The operation was successfully completed.</li>
+<li>ESP_ERR_INVALID_ARG: Error in the passed arguments.</li>
+<li>ESP_ERR_EFUSE_CNT_IS_FULL: Not all requested cnt bits is set. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">field</span></code>: A pointer to the structure describing the fields of efuse. </li>
+<li><code class="docutils literal notranslate"><span class="pre">cnt</span></code>: Required number of programmed as “1” bits.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427esp_efuse_set_write_protect17esp_efuse_block_t">
+<span id="_CPPv327esp_efuse_set_write_protect17esp_efuse_block_t"></span><span id="_CPPv227esp_efuse_set_write_protect17esp_efuse_block_t"></span><span id="esp_efuse_set_write_protect__esp_efuse_block_t"></span><span class="target" id="esp__efuse_8h_1a7b12ebd1b6ae334e22538e6878182058"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_efuse_set_write_protect</code><span class="sig-paren">(</span>esp_efuse_block_t <em>blk</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427esp_efuse_set_write_protect17esp_efuse_block_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Sets a write protection for the whole block. </p>
+<p>After that, it is impossible to write to this block. The write protection does not apply to block 0. <dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: The operation was successfully completed.</li>
+<li>ESP_ERR_INVALID_ARG: Error in the passed arguments.</li>
+<li>ESP_ERR_EFUSE_CNT_IS_FULL: Not all requested cnt bits is set.</li>
+<li>ESP_ERR_NOT_SUPPORTED: The block does not support this command. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">blk</span></code>: Block number of eFuse. (EFUSE_BLK1, EFUSE_BLK2 and EFUSE_BLK3)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426esp_efuse_set_read_protect17esp_efuse_block_t">
+<span id="_CPPv326esp_efuse_set_read_protect17esp_efuse_block_t"></span><span id="_CPPv226esp_efuse_set_read_protect17esp_efuse_block_t"></span><span id="esp_efuse_set_read_protect__esp_efuse_block_t"></span><span class="target" id="esp__efuse_8h_1acc58dbcb97926797a2b9c5bf148fe193"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_efuse_set_read_protect</code><span class="sig-paren">(</span>esp_efuse_block_t <em>blk</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426esp_efuse_set_read_protect17esp_efuse_block_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Sets a read protection for the whole block. </p>
+<p>After that, it is impossible to read from this block. The read protection does not apply to block 0. <dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: The operation was successfully completed.</li>
+<li>ESP_ERR_INVALID_ARG: Error in the passed arguments.</li>
+<li>ESP_ERR_EFUSE_CNT_IS_FULL: Not all requested cnt bits is set.</li>
+<li>ESP_ERR_NOT_SUPPORTED: The block does not support this command. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">blk</span></code>: Block number of eFuse. (EFUSE_BLK1, EFUSE_BLK2 and EFUSE_BLK3)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424esp_efuse_get_field_sizeA_PK16esp_efuse_desc_t">
+<span id="_CPPv324esp_efuse_get_field_sizeA_PK16esp_efuse_desc_t"></span><span id="_CPPv224esp_efuse_get_field_sizeA_PK16esp_efuse_desc_t"></span><span id="esp_efuse_get_field_size__esp_efuse_desc_tCPA"></span><span class="target" id="esp__efuse_8h_1a8f4c68b8300425e1eca3bc1f622411e5"></span>int <code class="descname">esp_efuse_get_field_size</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv416esp_efuse_desc_t" title="esp_efuse_desc_t">esp_efuse_desc_t</a> *<em>field</em>[]<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424esp_efuse_get_field_sizeA_PK16esp_efuse_desc_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Returns the number of bits used by field. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>Returns the number of bits used by field. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">field</span></code>: A pointer to the structure describing the fields of efuse.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418esp_efuse_read_reg17esp_efuse_block_tj">
+<span id="_CPPv318esp_efuse_read_reg17esp_efuse_block_tj"></span><span id="_CPPv218esp_efuse_read_reg17esp_efuse_block_tj"></span><span id="esp_efuse_read_reg__esp_efuse_block_t.unsigned-i"></span><span class="target" id="esp__efuse_8h_1a2b6771b7fc03db678a6a0cd46dd978e7"></span>uint32_t <code class="descname">esp_efuse_read_reg</code><span class="sig-paren">(</span>esp_efuse_block_t <em>blk</em>, unsigned int <em>num_reg</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418esp_efuse_read_reg17esp_efuse_block_tj" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Returns value of efuse register. </p>
+<p>This is a thread-safe implementation. Example: EFUSE_BLK2_RDATA3_REG where (blk=2, num_reg=3) <dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>Value of register </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">blk</span></code>: Block number of eFuse. </li>
+<li><code class="docutils literal notranslate"><span class="pre">num_reg</span></code>: The register number in the block.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419esp_efuse_write_reg17esp_efuse_block_tj8uint32_t">
+<span id="_CPPv319esp_efuse_write_reg17esp_efuse_block_tj8uint32_t"></span><span id="_CPPv219esp_efuse_write_reg17esp_efuse_block_tj8uint32_t"></span><span id="esp_efuse_write_reg__esp_efuse_block_t.unsigned-i.uint32_t"></span><span class="target" id="esp__efuse_8h_1a7d7248578c5f9178306f8e064aebac68"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_efuse_write_reg</code><span class="sig-paren">(</span>esp_efuse_block_t <em>blk</em>, unsigned int <em>num_reg</em>, uint32_t <em>val</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419esp_efuse_write_reg17esp_efuse_block_tj8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write value to efuse register. </p>
+<p>Apply a coding scheme if necessary. This is a thread-safe implementation. Example: EFUSE_BLK3_WDATA0_REG where (blk=3, num_reg=0) <dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: The operation was successfully completed.</li>
+<li>ESP_ERR_EFUSE_REPEATED_PROG: Error repeated programming of programmed bits is strictly forbidden. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">blk</span></code>: Block number of eFuse. </li>
+<li><code class="docutils literal notranslate"><span class="pre">num_reg</span></code>: The register number in the block. </li>
+<li><code class="docutils literal notranslate"><span class="pre">val</span></code>: Value to write.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427esp_efuse_get_coding_scheme17esp_efuse_block_t">
+<span id="_CPPv327esp_efuse_get_coding_scheme17esp_efuse_block_t"></span><span id="_CPPv227esp_efuse_get_coding_scheme17esp_efuse_block_t"></span><span id="esp_efuse_get_coding_scheme__esp_efuse_block_t"></span><span class="target" id="esp__efuse_8h_1a880f60da0aef1b711f3908f67ae47f48"></span>esp_efuse_coding_scheme_t <code class="descname">esp_efuse_get_coding_scheme</code><span class="sig-paren">(</span>esp_efuse_block_t <em>blk</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427esp_efuse_get_coding_scheme17esp_efuse_block_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return efuse coding scheme for blocks. </p>
+<p>Note: The coding scheme is applicable only to 1, 2 and 3 blocks. For 0 block, the coding scheme is always <code class="docutils literal notranslate"><span class="pre">NONE</span></code>.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>Return efuse coding scheme for blocks </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">blk</span></code>: Block number of eFuse. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420esp_efuse_read_block17esp_efuse_block_tPv6size_t6size_t">
+<span id="_CPPv320esp_efuse_read_block17esp_efuse_block_tPv6size_t6size_t"></span><span id="_CPPv220esp_efuse_read_block17esp_efuse_block_tPv6size_t6size_t"></span><span id="esp_efuse_read_block__esp_efuse_block_t.voidP.s.s"></span><span class="target" id="esp__efuse_8h_1ac003d476b16051af8f9b181fef4533e1"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_efuse_read_block</code><span class="sig-paren">(</span>esp_efuse_block_t <em>blk</em>, void *<em>dst_key</em>, size_t <em>offset_in_bits</em>, size_t <em>size_bits</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420esp_efuse_read_block17esp_efuse_block_tPv6size_t6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read key to efuse block starting at the offset and the required size. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: The operation was successfully completed.</li>
+<li>ESP_ERR_INVALID_ARG: Error in the passed arguments.</li>
+<li>ESP_ERR_CODING: Error range of data does not match the coding scheme. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">blk</span></code>: Block number of eFuse. </li>
+<li><code class="docutils literal notranslate"><span class="pre">dst_key</span></code>: A pointer to array that will contain the result of reading. </li>
+<li><code class="docutils literal notranslate"><span class="pre">offset_in_bits</span></code>: Start bit in block. </li>
+<li><code class="docutils literal notranslate"><span class="pre">size_bits</span></code>: The number of bits required to read.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421esp_efuse_write_block17esp_efuse_block_tPKv6size_t6size_t">
+<span id="_CPPv321esp_efuse_write_block17esp_efuse_block_tPKv6size_t6size_t"></span><span id="_CPPv221esp_efuse_write_block17esp_efuse_block_tPKv6size_t6size_t"></span><span id="esp_efuse_write_block__esp_efuse_block_t.voidCP.s.s"></span><span class="target" id="esp__efuse_8h_1afe7789e02aab4db9b5f7132ac093aea5"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_efuse_write_block</code><span class="sig-paren">(</span>esp_efuse_block_t <em>blk</em>, <em class="property">const</em> void *<em>src_key</em>, size_t <em>offset_in_bits</em>, size_t <em>size_bits</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421esp_efuse_write_block17esp_efuse_block_tPKv6size_t6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write key to efuse block starting at the offset and the required size. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: The operation was successfully completed.</li>
+<li>ESP_ERR_INVALID_ARG: Error in the passed arguments.</li>
+<li>ESP_ERR_CODING: Error range of data does not match the coding scheme.</li>
+<li>ESP_ERR_EFUSE_REPEATED_PROG: Error repeated programming of programmed bits </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">blk</span></code>: Block number of eFuse. </li>
+<li><code class="docutils literal notranslate"><span class="pre">src_key</span></code>: A pointer to array that contains the key for writing. </li>
+<li><code class="docutils literal notranslate"><span class="pre">offset_in_bits</span></code>: Start bit in block. </li>
+<li><code class="docutils literal notranslate"><span class="pre">size_bits</span></code>: The number of bits required to write.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422esp_efuse_get_chip_verv">
+<span id="_CPPv322esp_efuse_get_chip_verv"></span><span id="_CPPv222esp_efuse_get_chip_verv"></span><span id="esp_efuse_get_chip_ver__void"></span><span class="target" id="esp__efuse_8h_1a8a7d6e7a99d5906970626ea98fc7a1c4"></span>uint8_t <code class="descname">esp_efuse_get_chip_ver</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_efuse_get_chip_verv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Returns chip version from efuse. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>chip version </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421esp_efuse_get_pkg_verv">
+<span id="_CPPv321esp_efuse_get_pkg_verv"></span><span id="_CPPv221esp_efuse_get_pkg_verv"></span><span id="esp_efuse_get_pkg_ver__void"></span><span class="target" id="esp__efuse_8h_1afa52f4f1e15eac6c3d0f109505d97a77"></span>uint32_t <code class="descname">esp_efuse_get_pkg_ver</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421esp_efuse_get_pkg_verv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Returns chip package from efuse. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>chip package </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425esp_efuse_burn_new_valuesv">
+<span id="_CPPv325esp_efuse_burn_new_valuesv"></span><span id="_CPPv225esp_efuse_burn_new_valuesv"></span><span id="esp_efuse_burn_new_values__void"></span><span class="target" id="esp__efuse_8h_1a1489eb1019ebe4114d5a5b998cd956c6"></span>void <code class="descname">esp_efuse_burn_new_values</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425esp_efuse_burn_new_valuesv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415esp_efuse_resetv">
+<span id="_CPPv315esp_efuse_resetv"></span><span id="_CPPv215esp_efuse_resetv"></span><span id="esp_efuse_reset__void"></span><span class="target" id="esp__efuse_8h_1ae255a8b5da57ffa295f27460a95050f1"></span>void <code class="descname">esp_efuse_reset</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415esp_efuse_resetv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv435esp_efuse_disable_basic_rom_consolev">
+<span id="_CPPv335esp_efuse_disable_basic_rom_consolev"></span><span id="_CPPv235esp_efuse_disable_basic_rom_consolev"></span><span id="esp_efuse_disable_basic_rom_console__void"></span><span class="target" id="esp__efuse_8h_1a2f9ad85c162139719fdd789f261eb12d"></span>void <code class="descname">esp_efuse_disable_basic_rom_console</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv435esp_efuse_disable_basic_rom_consolev" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426esp_efuse_write_random_key8uint32_t">
+<span id="_CPPv326esp_efuse_write_random_key8uint32_t"></span><span id="_CPPv226esp_efuse_write_random_key8uint32_t"></span><span id="esp_efuse_write_random_key__uint32_t"></span><span class="target" id="esp__efuse_8h_1aeb9516414a7af7ca8532756cfa216a8b"></span>void <code class="descname">esp_efuse_write_random_key</code><span class="sig-paren">(</span>uint32_t <em>blk_wdata0_reg</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426esp_efuse_write_random_key8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv429esp_efuse_read_secure_versionv">
+<span id="_CPPv329esp_efuse_read_secure_versionv"></span><span id="_CPPv229esp_efuse_read_secure_versionv"></span><span id="esp_efuse_read_secure_version__void"></span><span class="target" id="esp__efuse_8h_1a31852749e81ef58b42cafa977fa6fb2f"></span>uint32_t <code class="descname">esp_efuse_read_secure_version</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv429esp_efuse_read_secure_versionv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv430esp_efuse_check_secure_version8uint32_t">
+<span id="_CPPv330esp_efuse_check_secure_version8uint32_t"></span><span id="_CPPv230esp_efuse_check_secure_version8uint32_t"></span><span id="esp_efuse_check_secure_version__uint32_t"></span><span class="target" id="esp__efuse_8h_1aca752c5d18d7bf69a0181169d4994643"></span>bool <code class="descname">esp_efuse_check_secure_version</code><span class="sig-paren">(</span>uint32_t <em>secure_version</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv430esp_efuse_check_secure_version8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv431esp_efuse_update_secure_version8uint32_t">
+<span id="_CPPv331esp_efuse_update_secure_version8uint32_t"></span><span id="_CPPv231esp_efuse_update_secure_version8uint32_t"></span><span id="esp_efuse_update_secure_version__uint32_t"></span><span class="target" id="esp__efuse_8h_1a3b29f67252c3e50978f77a5a8201976c"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_efuse_update_secure_version</code><span class="sig-paren">(</span>uint32_t <em>secure_version</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv431esp_efuse_update_secure_version8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414esp_efuse_init8uint32_t8uint32_t">
+<span id="_CPPv314esp_efuse_init8uint32_t8uint32_t"></span><span id="_CPPv214esp_efuse_init8uint32_t8uint32_t"></span><span id="esp_efuse_init__uint32_t.uint32_t"></span><span class="target" id="esp__efuse_8h_1aedb3cf6eb3c35f1ae6a656fc1d3a75b3"></span>void <code class="descname">esp_efuse_init</code><span class="sig-paren">(</span>uint32_t <em>offset</em>, uint32_t <em>size</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414esp_efuse_init8uint32_t8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427esp_efuse_batch_write_beginv">
+<span id="_CPPv327esp_efuse_batch_write_beginv"></span><span id="_CPPv227esp_efuse_batch_write_beginv"></span><span id="esp_efuse_batch_write_begin__void"></span><span class="target" id="esp__efuse_8h_1aa89ab9ca7102181a603729bdc3c624c4"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_efuse_batch_write_begin</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427esp_efuse_batch_write_beginv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428esp_efuse_batch_write_cancelv">
+<span id="_CPPv328esp_efuse_batch_write_cancelv"></span><span id="_CPPv228esp_efuse_batch_write_cancelv"></span><span id="esp_efuse_batch_write_cancel__void"></span><span class="target" id="esp__efuse_8h_1accf5d790230366e1b0245b665d2dff00"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_efuse_batch_write_cancel</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428esp_efuse_batch_write_cancelv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428esp_efuse_batch_write_commitv">
+<span id="_CPPv328esp_efuse_batch_write_commitv"></span><span id="_CPPv228esp_efuse_batch_write_commitv"></span><span id="esp_efuse_batch_write_commit__void"></span><span class="target" id="esp__efuse_8h_1a663d6623253d8b03976967372311303d"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_efuse_batch_write_commit</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428esp_efuse_batch_write_commitv" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv416esp_efuse_desc_t">
+<span id="_CPPv316esp_efuse_desc_t"></span><span id="_CPPv216esp_efuse_desc_t"></span><span id="esp_efuse_desc_t"></span><span class="target" id="structesp__efuse__desc__t"></span><em class="property">struct </em><code class="descname">esp_efuse_desc_t</code><a class="headerlink" href="#_CPPv416esp_efuse_desc_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Structure eFuse field. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N16esp_efuse_desc_t11efuse_blockE">
+<span id="_CPPv3N16esp_efuse_desc_t11efuse_blockE"></span><span id="_CPPv2N16esp_efuse_desc_t11efuse_blockE"></span><span id="esp_efuse_desc_t::efuse_block__esp_efuse_block_t"></span><span class="target" id="structesp__efuse__desc__t_1ab2479dfecbb7b103f2d339f038d1af77"></span>esp_efuse_block_t <code class="descname">efuse_block</code><a class="headerlink" href="#_CPPv4N16esp_efuse_desc_t11efuse_blockE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Block of eFuse </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16esp_efuse_desc_t9bit_startE">
+<span id="_CPPv3N16esp_efuse_desc_t9bit_startE"></span><span id="_CPPv2N16esp_efuse_desc_t9bit_startE"></span><span id="esp_efuse_desc_t::bit_start__uint8_t"></span><span class="target" id="structesp__efuse__desc__t_1a864f09bd1526ea1bd253152d7a17cd63"></span>uint8_t <code class="descname">bit_start</code><a class="headerlink" href="#_CPPv4N16esp_efuse_desc_t9bit_startE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start bit [0..255] </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16esp_efuse_desc_t9bit_countE">
+<span id="_CPPv3N16esp_efuse_desc_t9bit_countE"></span><span id="_CPPv2N16esp_efuse_desc_t9bit_countE"></span><span id="esp_efuse_desc_t::bit_count__uint16_t"></span><span class="target" id="structesp__efuse__desc__t_1ac5756900c15e0cbe25f06aaa91fdeffe"></span>uint16_t <code class="descname">bit_count</code><a class="headerlink" href="#_CPPv4N16esp_efuse_desc_t9bit_countE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Length of bit field [1..-] </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.ESP_ERR_EFUSE">
+<span class="target" id="esp__efuse_8h_1ab2ba58b44c71baf2ce5bbc41825539cd"></span><code class="descname">ESP_ERR_EFUSE</code><a class="headerlink" href="#c.ESP_ERR_EFUSE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base error code for efuse api. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_OK_EFUSE_CNT">
+<span class="target" id="esp__efuse_8h_1a6cf3e753a7e05e36076f74631d31aacd"></span><code class="descname">ESP_OK_EFUSE_CNT</code><a class="headerlink" href="#c.ESP_OK_EFUSE_CNT" title="Permalink to this definition">¶</a></dt>
+<dd><p>OK the required number of bits is set. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_EFUSE_CNT_IS_FULL">
+<span class="target" id="esp__efuse_8h_1a4d466033c1b81ef3de54b82f09721eba"></span><code class="descname">ESP_ERR_EFUSE_CNT_IS_FULL</code><a class="headerlink" href="#c.ESP_ERR_EFUSE_CNT_IS_FULL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error field is full. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_EFUSE_REPEATED_PROG">
+<span class="target" id="esp__efuse_8h_1a1ccf71a2889ed1c214e4f34de221b8c4"></span><code class="descname">ESP_ERR_EFUSE_REPEATED_PROG</code><a class="headerlink" href="#c.ESP_ERR_EFUSE_REPEATED_PROG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error repeated programming of programmed bits is strictly forbidden. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_CODING">
+<span class="target" id="esp__efuse_8h_1ab21a4b218c1f01541e9b34e939706d5f"></span><code class="descname">ESP_ERR_CODING</code><a class="headerlink" href="#c.ESP_ERR_CODING" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error while a encoding operation. </p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esp_err.html" class="btn btn-neutral float-right" title="Error Codes and Helper Functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="app_trace.html" class="btn btn-neutral float-left" title="Application Level Tracing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/system/efuse.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:10 GMT -->
+</html>

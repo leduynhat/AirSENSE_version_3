@@ -1,0 +1,799 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/freertos-smp.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:24 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ESP-IDF FreeRTOS SMP Changes &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="General Notes About ESP-IDF Programming" href="general-notes.html" />
+    <link rel="prev" title="Flash Encryption" href="../security/flash-encryption.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="freertos-smp.html" />
+
+<link rel="stylesheet" href="../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-guides/freertos-smp"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="app_trace.html">Application Level Tracing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blufi.html">BluFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootloader.html">Bootloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-system.html">Build System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-system-legacy.html">Build System (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="console.html">Console Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deep-sleep-stub.html">Deep Sleep Wake Stubs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="error-handling.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="esp-ble-mesh/ble-mesh-index.html">ESP-BLE-MESH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh.html">ESP-MESH (Wi-Fi)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core_dump.html">ESP32 Core Dump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event-handling.html">Event Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="external-ram.html">External SPI-connected RAM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fatal-errors.html">Fatal Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/flash-encryption.html">Flash Encryption</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">FreeRTOS SMP Changes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#backported-features">Backported Features</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#static-alocation">Static Alocation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#other-features">Other Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#backporting-notes">Backporting Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#tasks-and-task-creation">Tasks and Task Creation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#scheduling">Scheduling</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#round-robin-scheduling">Round Robin Scheduling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#scheduler-suspension">Scheduler Suspension</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tick-interrupt-synchronicity">Tick Interrupt Synchronicity</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#critical-sections-disabling-interrupts">Critical Sections &amp; Disabling Interrupts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#floating-point-aritmetic">Floating Point Aritmetic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#task-deletion">Task Deletion</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#thread-local-storage-pointers-deletion-callbacks">Thread Local Storage Pointers &amp; Deletion Callbacks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuring-esp-idf-freertos">Configuring ESP-IDF FreeRTOS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="general-notes.html">General Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hlinterrupts.html">High Level Interrupts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jtag-debugging/index.html">JTAG Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker-script-generation.html">Linker Script Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lwip.html">lwIP TCP/IP Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="partition-tables.html">Partition Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RF_calibration.html">RF Calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="romconsole.html">ROM debug console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/secure-boot.html">Secure Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thread-local-storage.html">Thread Local Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ulp.html">ULP Coprocessor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ulp-legacy.html">ULP Coprocessor (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit-tests-legacy.html">Unit Testing (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit-tests.html">Unit Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wifi.html">WiFi Driver</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">API Guides</a> &raquo;</li>
+        
+      <li>ESP-IDF FreeRTOS SMP Changes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-guides/freertos-smp.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esp-idf-freertos-smp-changes">
+<h1>ESP-IDF FreeRTOS SMP Changes<a class="headerlink" href="#esp-idf-freertos-smp-changes" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The vanilla FreeRTOS is designed to run on a single core. However the ESP32 is
+dual core containing a Protocol CPU (known as <strong>CPU 0</strong> or <strong>PRO_CPU</strong>) and an
+Application CPU (known as <strong>CPU 1</strong> or <strong>APP_CPU</strong>). The two cores are
+identical in practice and share the same memory. This allows the two cores to
+run tasks interchangeably between them.</p>
+<p>The ESP-IDF FreeRTOS is a modified version of vanilla FreeRTOS which supports
+symmetric multiprocessing (SMP). ESP-IDF FreeRTOS is based on the Xtensa port
+of FreeRTOS v8.2.0. This guide outlines the major differences between vanilla
+FreeRTOS and ESP-IDF FreeRTOS. The API reference for vanilla FreeRTOS can be
+found via <a class="reference external" href="http://www.freertos.org/a00106.html">http://www.freertos.org/a00106.html</a></p>
+<p>For information regarding features that are exclusive to ESP-IDF FreeRTOS,
+see <a class="reference internal" href="../api-reference/system/freertos_additions.html"><span class="doc">ESP-IDF FreeRTOS Additions</span></a>.</p>
+<p><a class="reference internal" href="#backported-features"><span class="std std-ref">Backported Features</span></a>: Although ESP-IDF FreeRTOS is based on the Xtensa
+port of FreeRTOS v8.2.0, a number of FreeRTOS v9.0.0 features have been backported
+to ESP-IDF.</p>
+<p><a class="reference internal" href="#tasks-and-task-creation"><span class="std std-ref">Tasks and Task Creation</span></a>: Use <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv423xTaskCreatePinnedToCore14TaskFunction_tPCKcK8uint32_tPCv11UBaseType_tPC12TaskHandle_tK10BaseType_t" title="xTaskCreatePinnedToCore"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTaskCreatePinnedToCore()</span></code></a> or
+<a class="reference internal" href="../api-reference/system/freertos.html#_CPPv429xTaskCreateStaticPinnedToCore14TaskFunction_tPCKcK8uint32_tPCv11UBaseType_tPC11StackType_tPC12StaticTask_tK10BaseType_t" title="xTaskCreateStaticPinnedToCore"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTaskCreateStaticPinnedToCore()</span></code></a> to create tasks in ESP-IDF FreeRTOS. The
+last parameter of the two functions is <code class="docutils literal notranslate"><span class="pre">xCoreID</span></code>. This parameter specifies
+which core the task is pinned to. Acceptable values are <code class="docutils literal notranslate"><span class="pre">0</span></code> for <strong>PRO_CPU</strong>,
+<code class="docutils literal notranslate"><span class="pre">1</span></code> for <strong>APP_CPU</strong>, or <code class="docutils literal notranslate"><span class="pre">tskNO_AFFINITY</span></code> which allows the task to run on
+both.</p>
+<p><a class="reference internal" href="#round-robin-scheduling"><span class="std std-ref">Round Robin Scheduling</span></a>: The ESP-IDF FreeRTOS scheduler will skip tasks when
+implementing Round-Robin scheduling between multiple tasks in the Ready state
+that are of the same priority. To avoid this behavior, ensure that those tasks either
+enter a blocked state, or are distributed across a wider range of priorities.</p>
+<p><a class="reference internal" href="#scheduler-suspension"><span class="std std-ref">Scheduler Suspension</span></a>: Suspending the scheduler in ESP-IDF FreeRTOS will only
+affect the scheduler on the the calling core. In other words, calling
+<a class="reference internal" href="../api-reference/system/freertos.html#_CPPv415vTaskSuspendAllv" title="vTaskSuspendAll"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vTaskSuspendAll()</span></code></a> on <strong>PRO_CPU</strong> will not prevent <strong>APP_CPU</strong> from scheduling, and
+vice versa. Use critical sections or semaphores instead for simultaneous
+access protection.</p>
+<p><a class="reference internal" href="#tick-interrupt-synchronicity"><span class="std std-ref">Tick Interrupt Synchronicity</span></a>: Tick interrupts of <strong>PRO_CPU</strong> and <strong>APP_CPU</strong>
+are not synchronized. Do not expect to use <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv410vTaskDelayK10TickType_t" title="vTaskDelay"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vTaskDelay()</span></code></a> or
+<a class="reference internal" href="../api-reference/system/freertos.html#_CPPv415vTaskDelayUntilPC10TickType_tK10TickType_t" title="vTaskDelayUntil"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vTaskDelayUntil()</span></code></a> as an accurate method of synchronizing task execution
+between the two cores. Use a counting semaphore instead as their context
+switches are not tied to tick interrupts due to preemption.</p>
+<p><a class="reference internal" href="#critical-sections"><span class="std std-ref">Critical Sections &amp; Disabling Interrupts</span></a>: In ESP-IDF FreeRTOS, critical sections are implemented using
+mutexes. Entering critical sections involve taking a mutex, then disabling the
+scheduler and interrupts of the calling core. However the other core is left
+unaffected. If the other core attemps to take same mutex, it will spin until
+the calling core has released the mutex by exiting the critical section.</p>
+<p><a class="reference internal" href="#floating-points"><span class="std std-ref">Floating Point Aritmetic</span></a>: The ESP32 supports hardware acceleration of single
+precision floating point arithmetic (<code class="docutils literal notranslate"><span class="pre">float</span></code>). However the use of hardware
+acceleration leads to some behavioral restrictions in ESP-IDF FreeRTOS.
+Therefore, tasks that utilize <code class="docutils literal notranslate"><span class="pre">float</span></code> will automatically be pinned to a core if
+not done so already. Furthermore, <code class="docutils literal notranslate"><span class="pre">float</span></code> cannot be used in interrupt service
+routines.</p>
+<p><a class="reference internal" href="#task-deletion"><span class="std std-ref">Task Deletion</span></a>: Task deletion behavior has been backported from FreeRTOS
+v9.0.0 and modified to be SMP compatible. Task memory will be freed immediately
+when <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv411vTaskDelete12TaskHandle_t" title="vTaskDelete"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vTaskDelete()</span></code></a> is called to delete a task that is not currently running
+and not pinned to the other core. Otherwise, freeing of task memory will still
+be delegated to the Idle Task.</p>
+<p><a class="reference internal" href="#deletion-callbacks"><span class="std std-ref">Thread Local Storage Pointers &amp; Deletion Callbacks</span></a>: ESP-IDF FreeRTOS has backported the Thread Local
+Storage Pointers (TLSP) feature. However the extra feature of Deletion Callbacks has been
+added. Deletion callbacks are called automatically during task deletion and are
+used to free memory pointed to by TLSP. Call
+<a class="reference internal" href="../api-reference/system/freertos.html#_CPPv447vTaskSetThreadLocalStoragePointerAndDelCallback12TaskHandle_t10BaseType_tPv27TlsDeleteCallbackFunction_t" title="vTaskSetThreadLocalStoragePointerAndDelCallback"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vTaskSetThreadLocalStoragePointerAndDelCallback()</span></code></a> to set TLSP and Deletion
+Callbacks.</p>
+<p><a class="reference internal" href="#esp-idf-freertos-configuration"><span class="std std-ref">Configuring ESP-IDF FreeRTOS</span></a>: Several aspects of ESP-IDF FreeRTOS can be
+set in the project configuration (<code class="docutils literal notranslate"><span class="pre">idf.py</span> <span class="pre">menuconfig</span></code>) such as running ESP-IDF in
+Unicore (single core) Mode, or configuring the number of Thread Local Storage Pointers
+each task will have.</p>
+</div>
+<div class="section" id="backported-features">
+<span id="id1"></span><h2>Backported Features<a class="headerlink" href="#backported-features" title="Permalink to this headline">¶</a></h2>
+<p>The following features have been backported from FreeRTOS v9.0.0 to ESP-IDF.</p>
+<div class="section" id="static-alocation">
+<h3>Static Alocation<a class="headerlink" href="#static-alocation" title="Permalink to this headline">¶</a></h3>
+<p>This feature has been backported from FreeRTOS v9.0.0 to ESP-IDF. The
+<a class="reference internal" href="../api-reference/kconfig.html#config-freertos-support-static-allocation"><span class="std std-ref">CONFIG_FREERTOS_SUPPORT_STATIC_ALLOCATION</span></a> option must be enabled in <cite>menuconfig</cite>
+in order for static allocation functions to be available. Once enabled, the
+following functions can be called…</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="../api-reference/system/freertos.html#_CPPv417xTaskCreateStatic14TaskFunction_tPCKcK8uint32_tPCv11UBaseType_tPC11StackType_tPC12StaticTask_t" title="xTaskCreateStatic"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTaskCreateStatic()</span></code></a> (see <a class="reference internal" href="#backporting-notes"><span class="std std-ref">Backporting Notes</span></a> below)</li>
+<li><a class="reference internal" href="../api-reference/system/freertos.html#c.xQueueCreateStatic" title="xQueueCreateStatic"><code class="xref c c-macro docutils literal notranslate"><span class="pre">xQueueCreateStatic</span></code></a></li>
+<li><a class="reference internal" href="../api-reference/system/freertos.html#c.xSemaphoreCreateBinaryStatic" title="xSemaphoreCreateBinaryStatic"><code class="xref c c-macro docutils literal notranslate"><span class="pre">xSemaphoreCreateBinaryStatic</span></code></a></li>
+<li><a class="reference internal" href="../api-reference/system/freertos.html#c.xSemaphoreCreateCountingStatic" title="xSemaphoreCreateCountingStatic"><code class="xref c c-macro docutils literal notranslate"><span class="pre">xSemaphoreCreateCountingStatic</span></code></a></li>
+<li><a class="reference internal" href="../api-reference/system/freertos.html#c.xSemaphoreCreateMutexStatic" title="xSemaphoreCreateMutexStatic"><code class="xref c c-macro docutils literal notranslate"><span class="pre">xSemaphoreCreateMutexStatic</span></code></a></li>
+<li><a class="reference internal" href="../api-reference/system/freertos.html#c.xSemaphoreCreateRecursiveMutexStatic" title="xSemaphoreCreateRecursiveMutexStatic"><code class="xref c c-macro docutils literal notranslate"><span class="pre">xSemaphoreCreateRecursiveMutexStatic</span></code></a></li>
+<li><a class="reference internal" href="../api-reference/system/freertos.html#_CPPv418xTimerCreateStaticPCKcK10TickType_tK11UBaseType_tPCv23TimerCallbackFunction_tP13StaticTimer_t" title="xTimerCreateStatic"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTimerCreateStatic()</span></code></a>  (see <a class="reference internal" href="#backporting-notes"><span class="std std-ref">Backporting Notes</span></a> below)</li>
+<li><a class="reference internal" href="../api-reference/system/freertos.html#_CPPv423xEventGroupCreateStaticP18StaticEventGroup_t" title="xEventGroupCreateStatic"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xEventGroupCreateStatic()</span></code></a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="other-features">
+<h3>Other Features<a class="headerlink" href="#other-features" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="../api-reference/system/freertos.html#_CPPv433vTaskSetThreadLocalStoragePointer12TaskHandle_t10BaseType_tPv" title="vTaskSetThreadLocalStoragePointer"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vTaskSetThreadLocalStoragePointer()</span></code></a> (see <a class="reference internal" href="#backporting-notes"><span class="std std-ref">Backporting Notes</span></a> below)</li>
+<li><a class="reference internal" href="../api-reference/system/freertos.html#_CPPv434pvTaskGetThreadLocalStoragePointer12TaskHandle_t10BaseType_t" title="pvTaskGetThreadLocalStoragePointer"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">pvTaskGetThreadLocalStoragePointer()</span></code></a> (see <a class="reference internal" href="#backporting-notes"><span class="std std-ref">Backporting Notes</span></a> below)</li>
+<li><a class="reference internal" href="../api-reference/system/freertos.html#_CPPv416vTimerSetTimerID13TimerHandle_tPv" title="vTimerSetTimerID"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vTimerSetTimerID()</span></code></a></li>
+<li><a class="reference internal" href="../api-reference/system/freertos.html#_CPPv415xTimerGetPeriod13TimerHandle_t" title="xTimerGetPeriod"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTimerGetPeriod()</span></code></a></li>
+<li><a class="reference internal" href="../api-reference/system/freertos.html#_CPPv419xTimerGetExpiryTime13TimerHandle_t" title="xTimerGetExpiryTime"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTimerGetExpiryTime()</span></code></a></li>
+<li><a class="reference internal" href="../api-reference/system/freertos.html#_CPPv414pcQueueGetName13QueueHandle_t" title="pcQueueGetName"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">pcQueueGetName()</span></code></a></li>
+<li><a class="reference internal" href="../api-reference/system/freertos.html#c.uxSemaphoreGetCount" title="uxSemaphoreGetCount"><code class="xref c c-macro docutils literal notranslate"><span class="pre">uxSemaphoreGetCount</span></code></a></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="backporting-notes">
+<span id="id2"></span><h3>Backporting Notes<a class="headerlink" href="#backporting-notes" title="Permalink to this headline">¶</a></h3>
+<p><strong>1)</strong> <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv417xTaskCreateStatic14TaskFunction_tPCKcK8uint32_tPCv11UBaseType_tPC11StackType_tPC12StaticTask_t" title="xTaskCreateStatic"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTaskCreateStatic()</span></code></a> has been made SMP compatible in a similar
+fashion to <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv411xTaskCreate14TaskFunction_tPCKcK8uint32_tPCv11UBaseType_tPC12TaskHandle_t" title="xTaskCreate"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTaskCreate()</span></code></a> (see <a class="reference internal" href="#tasks-and-task-creation"><span class="std std-ref">Tasks and Task Creation</span></a>). Therefore
+<a class="reference internal" href="../api-reference/system/freertos.html#_CPPv429xTaskCreateStaticPinnedToCore14TaskFunction_tPCKcK8uint32_tPCv11UBaseType_tPC11StackType_tPC12StaticTask_tK10BaseType_t" title="xTaskCreateStaticPinnedToCore"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTaskCreateStaticPinnedToCore()</span></code></a> can also be called.</p>
+<p><strong>2)</strong> Although vanilla FreeRTOS allows the Timer feature’s daemon task to
+be statically allocated, the daemon task is always dynamically allocated in
+ESP-IDF. Therefore <code class="docutils literal notranslate"><span class="pre">vApplicationGetTimerTaskMemory</span></code> <strong>does not</strong> need to be
+defined when using statically allocated timers in ESP-IDF FreeRTOS.</p>
+<p><strong>3)</strong> The Thread Local Storage Pointer feature has been modified in ESP-IDF
+FreeRTOS to include Deletion Callbacks (see <a class="reference internal" href="#deletion-callbacks"><span class="std std-ref">Thread Local Storage Pointers &amp; Deletion Callbacks</span></a>). Therefore
+the function <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv447vTaskSetThreadLocalStoragePointerAndDelCallback12TaskHandle_t10BaseType_tPv27TlsDeleteCallbackFunction_t" title="vTaskSetThreadLocalStoragePointerAndDelCallback"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vTaskSetThreadLocalStoragePointerAndDelCallback()</span></code></a> can also be
+called.</p>
+</div>
+</div>
+<div class="section" id="tasks-and-task-creation">
+<span id="id3"></span><h2>Tasks and Task Creation<a class="headerlink" href="#tasks-and-task-creation" title="Permalink to this headline">¶</a></h2>
+<p>Tasks in ESP-IDF FreeRTOS are designed to run on a particular core, therefore
+two new task creation functions have been added to ESP-IDF FreeRTOS by
+appending <code class="docutils literal notranslate"><span class="pre">PinnedToCore</span></code> to the names of the task creation functions in
+vanilla FreeRTOS. The vanilla FreeRTOS functions of <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv411xTaskCreate14TaskFunction_tPCKcK8uint32_tPCv11UBaseType_tPC12TaskHandle_t" title="xTaskCreate"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTaskCreate()</span></code></a>
+and <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv417xTaskCreateStatic14TaskFunction_tPCKcK8uint32_tPCv11UBaseType_tPC11StackType_tPC12StaticTask_t" title="xTaskCreateStatic"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTaskCreateStatic()</span></code></a> have led to the addition of
+<a class="reference internal" href="../api-reference/system/freertos.html#_CPPv423xTaskCreatePinnedToCore14TaskFunction_tPCKcK8uint32_tPCv11UBaseType_tPC12TaskHandle_tK10BaseType_t" title="xTaskCreatePinnedToCore"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTaskCreatePinnedToCore()</span></code></a> and <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv429xTaskCreateStaticPinnedToCore14TaskFunction_tPCKcK8uint32_tPCv11UBaseType_tPC11StackType_tPC12StaticTask_tK10BaseType_t" title="xTaskCreateStaticPinnedToCore"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTaskCreateStaticPinnedToCore()</span></code></a> in
+ESP-IDF FreeRTOS (see <a class="reference internal" href="#backported-features"><span class="std std-ref">Backported Features</span></a>).</p>
+<p>For more details see <a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/freertos/task.c">freertos/task.c</a></p>
+<p>The ESP-IDF FreeRTOS task creation functions are nearly identical to their
+vanilla counterparts with the exception of the extra parameter known as
+<code class="docutils literal notranslate"><span class="pre">xCoreID</span></code>. This parameter specifies the core on which the task should run on
+and can be one of the following values.</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">0</span></code> pins the task to <strong>PRO_CPU</strong></li>
+<li><code class="docutils literal notranslate"><span class="pre">1</span></code> pins the task to <strong>APP_CPU</strong></li>
+<li><code class="docutils literal notranslate"><span class="pre">tskNO_AFFINITY</span></code> allows the task to be run on both CPUs</li>
+</ul>
+</div></blockquote>
+<p>For example <code class="docutils literal notranslate"><span class="pre">xTaskCreatePinnedToCore(tsk_callback,</span> <span class="pre">“APP_CPU</span> <span class="pre">Task”,</span> <span class="pre">1000,</span> <span class="pre">NULL,</span> <span class="pre">10,</span> <span class="pre">NULL,</span> <span class="pre">1)</span></code>
+creates a task of priority 10 that is pinned to <strong>APP_CPU</strong> with a stack size
+of 1000 bytes. It should be noted that the <code class="docutils literal notranslate"><span class="pre">uxStackDepth</span></code> parameter in
+vanilla FreeRTOS specifies a task’s stack depth in terms of the number of
+words, whereas ESP-IDF FreeRTOS specifies the stack depth in terms of bytes.</p>
+<p>Note that the vanilla FreeRTOS functions <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv411xTaskCreate14TaskFunction_tPCKcK8uint32_tPCv11UBaseType_tPC12TaskHandle_t" title="xTaskCreate"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTaskCreate()</span></code></a> and
+<a class="reference internal" href="../api-reference/system/freertos.html#_CPPv417xTaskCreateStatic14TaskFunction_tPCKcK8uint32_tPCv11UBaseType_tPC11StackType_tPC12StaticTask_t" title="xTaskCreateStatic"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTaskCreateStatic()</span></code></a> have been defined in ESP-IDF FreeRTOS as inline functions which call
+<a class="reference internal" href="../api-reference/system/freertos.html#_CPPv423xTaskCreatePinnedToCore14TaskFunction_tPCKcK8uint32_tPCv11UBaseType_tPC12TaskHandle_tK10BaseType_t" title="xTaskCreatePinnedToCore"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTaskCreatePinnedToCore()</span></code></a> and <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv429xTaskCreateStaticPinnedToCore14TaskFunction_tPCKcK8uint32_tPCv11UBaseType_tPC11StackType_tPC12StaticTask_tK10BaseType_t" title="xTaskCreateStaticPinnedToCore"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTaskCreateStaticPinnedToCore()</span></code></a>
+respectively with <code class="docutils literal notranslate"><span class="pre">tskNO_AFFINITY</span></code> as the <code class="docutils literal notranslate"><span class="pre">xCoreID</span></code> value.</p>
+<p>Each Task Control Block (TCB) in ESP-IDF stores the <code class="docutils literal notranslate"><span class="pre">xCoreID</span></code> as a member.
+Hence when each core calls the scheduler to select a task to run, the
+<code class="docutils literal notranslate"><span class="pre">xCoreID</span></code> member will allow the scheduler to determine if a given task is
+permitted to run on the core that called it.</p>
+</div>
+<div class="section" id="scheduling">
+<h2>Scheduling<a class="headerlink" href="#scheduling" title="Permalink to this headline">¶</a></h2>
+<p>The vanilla FreeRTOS implements scheduling in the <code class="docutils literal notranslate"><span class="pre">vTaskSwitchContext()</span></code>
+function. This function is responsible for selecting the highest priority task
+to run from a list of tasks in the Ready state known as the Ready Tasks List
+(described in the next section). In ESP-IDF FreeRTOS, each core will call
+<code class="docutils literal notranslate"><span class="pre">vTaskSwitchContext()</span></code> independently to select a task to run from the
+Ready Tasks List which is shared between both cores. There are several
+differences in scheduling behavior between vanilla and ESP-IDF FreeRTOS such as
+differences in Round Robin scheduling, scheduler suspension, and tick interrupt
+synchronicity.</p>
+<div class="section" id="round-robin-scheduling">
+<span id="id4"></span><h3>Round Robin Scheduling<a class="headerlink" href="#round-robin-scheduling" title="Permalink to this headline">¶</a></h3>
+<p>Given multiple tasks in the Ready state and of the same priority, vanilla
+FreeRTOS implements Round Robin scheduling between each task. This will result
+in running those tasks in turn each time the scheduler is called
+(e.g. every tick interrupt). On the other hand, the ESP-IDF FreeRTOS scheduler
+may skip tasks when Round Robin scheduling multiple Ready state tasks of the
+same priority.</p>
+<p>The issue of skipping tasks during Round Robin scheduling arises from the way
+the Ready Tasks List is implemented in FreeRTOS. In vanilla FreeRTOS,
+<code class="docutils literal notranslate"><span class="pre">pxReadyTasksList</span></code> is used to store a list of tasks that are in the Ready
+state. The list is implemented as an array of length <code class="docutils literal notranslate"><span class="pre">configMAX_PRIORITIES</span></code>
+where each element of the array is a linked list. Each linked list is of type
+<code class="docutils literal notranslate"><span class="pre">List_t</span></code> and contains TCBs of tasks of the same priority that are in the
+Ready state. The following diagram illustrates the <code class="docutils literal notranslate"><span class="pre">pxReadyTasksList</span></code>
+structure.</p>
+<div class="figure align-center" id="id8">
+<img alt="Vanilla FreeRTOS Ready Task List Structure" src="../_images/freertos-ready-task-list.png" />
+<p class="caption"><span class="caption-text">Illustration of FreeRTOS Ready Task List Data Structure</span></p>
+</div>
+<p>Each linked list also contains a <code class="docutils literal notranslate"><span class="pre">pxIndex</span></code> which points to the last TCB
+returned when the list was queried. This index allows the <code class="docutils literal notranslate"><span class="pre">vTaskSwitchContext()</span></code>
+to start traversing the list at the TCB immediately after <code class="docutils literal notranslate"><span class="pre">pxIndex</span></code> hence
+implementing Round Robin Scheduling between tasks of the same priority.</p>
+<p>In ESP-IDF FreeRTOS, the Ready Tasks List is shared between cores hence
+<code class="docutils literal notranslate"><span class="pre">pxReadyTasksList</span></code> will contain tasks pinned to different cores. When a core
+calls the scheduler, it is able to look at the <code class="docutils literal notranslate"><span class="pre">xCoreID</span></code> member of each TCB
+in the list to determine if a task is allowed to run on calling the core. The
+ESP-IDF FreeRTOS <code class="docutils literal notranslate"><span class="pre">pxReadyTasksList</span></code> is illustrated below.</p>
+<div class="figure align-center" id="id9">
+<img alt="ESP-IDF FreeRTOS Ready Task List Structure" src="../_images/freertos-ready-task-list-smp.png" />
+<p class="caption"><span class="caption-text">Illustration of FreeRTOS Ready Task List Data Structure in ESP-IDF</span></p>
+</div>
+<p>Therefore when <strong>PRO_CPU</strong> calls the scheduler, it will only consider the tasks
+in blue or purple. Whereas when <strong>APP_CPU</strong> calls the scheduler, it will only
+consider the tasks in orange or purple.</p>
+<p>Although each TCB has an <code class="docutils literal notranslate"><span class="pre">xCoreID</span></code> in ESP-IDF FreeRTOS, the linked list of
+each priority only has a single <code class="docutils literal notranslate"><span class="pre">pxIndex</span></code>. Therefore when the scheduler is
+called from a particular core and traverses the linked list, it will skip all
+TCBs pinned to the other core and point the pxIndex at the selected task. If
+the other core then calls the scheduler, it will traverse the linked list
+starting at the TCB immediately after <code class="docutils literal notranslate"><span class="pre">pxIndex</span></code>. Therefore, TCBs skipped on
+the previous scheduler call from the other core would not be considered on the
+current scheduler call. This issue is demonstrated in the following
+illustration.</p>
+<div class="figure align-center" id="id10">
+<img alt="ESP-IDF pxIndex Behavior" src="../_images/freertos-ready-task-list-smp-pxIndex.png" />
+<p class="caption"><span class="caption-text">Illustration of pxIndex behavior in ESP-IDF FreeRTOS</span></p>
+</div>
+<p>Referring to the illustration above, assume that priority 9 is the highest
+priority, and none of the tasks in priority 9 will block hence will always be
+either in the running or Ready state.</p>
+<p>1)      <strong>PRO_CPU</strong> calls the scheduler and selects Task A to run, hence moves
+<code class="docutils literal notranslate"><span class="pre">pxIndex</span></code> to point to Task A</p>
+<p>2)      <strong>APP_CPU</strong> calls the scheduler and starts traversing from the task after
+<code class="docutils literal notranslate"><span class="pre">pxIndex</span></code> which is Task B. However Task B is not selected to run as it is not
+pinned to <strong>APP_CPU</strong> hence it is skipped and Task C is selected instead.
+<code class="docutils literal notranslate"><span class="pre">pxIndex</span></code> now points to Task C</p>
+<p>3)      <strong>PRO_CPU</strong> calls the scheduler and starts traversing from Task D. It skips
+Task D and selects Task E to run and points <code class="docutils literal notranslate"><span class="pre">pxIndex</span></code> to Task E. Notice that
+Task B isn’t traversed because it was skipped the last time <strong>APP_CPU</strong> called
+the scheduler to traverse the list.</p>
+<p>4)      The same situation with Task D will occur if <strong>APP_CPU</strong> calls the
+scheduler again as <code class="docutils literal notranslate"><span class="pre">pxIndex</span></code> now points to Task E</p>
+<p>One solution to the issue of task skipping is to ensure that every task will
+enter a blocked state so that they are removed from the Ready Task List.
+Another solution is to distribute tasks across multiple priorities such that
+a given priority will not be assigned multiple tasks that are pinned to
+different cores.</p>
+</div>
+<div class="section" id="scheduler-suspension">
+<span id="id5"></span><h3>Scheduler Suspension<a class="headerlink" href="#scheduler-suspension" title="Permalink to this headline">¶</a></h3>
+<p>In vanilla FreeRTOS, suspending the scheduler via <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv415vTaskSuspendAllv" title="vTaskSuspendAll"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vTaskSuspendAll()</span></code></a> will
+prevent calls of <code class="docutils literal notranslate"><span class="pre">vTaskSwitchContext</span></code> from context switching until the
+scheduler has been resumed with <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv414xTaskResumeAllv" title="xTaskResumeAll"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTaskResumeAll()</span></code></a>. However servicing ISRs
+are still permitted. Therefore any changes in task states as a result from the
+current running task or ISRSs will not be executed until the scheduler is
+resumed. Scheduler suspension in vanilla FreeRTOS is a common protection method
+against simultaneous access of data shared between tasks, whilst still allowing
+ISRs to be serviced.</p>
+<p>In ESP-IDF FreeRTOS, <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTaskSuspendAll()</span></code> will only prevent calls of
+<code class="docutils literal notranslate"><span class="pre">vTaskSwitchContext()</span></code> from switching contexts on the core that called for the
+suspension. Hence if <strong>PRO_CPU</strong> calls <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv415vTaskSuspendAllv" title="vTaskSuspendAll"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vTaskSuspendAll()</span></code></a>, <strong>APP_CPU</strong> will
+still be able to switch contexts. If data is shared between tasks that are
+pinned to different cores, scheduler suspension is <strong>NOT</strong> a valid method of
+protection against simultaneous access. Consider using critical sections
+(disables interrupts) or semaphores (does not disable interrupts) instead when
+protecting shared resources in ESP-IDF FreeRTOS.</p>
+<p>In general, it’s better to use other RTOS primitives like mutex semaphores to protect
+against data shared between tasks, rather than <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv415vTaskSuspendAllv" title="vTaskSuspendAll"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vTaskSuspendAll()</span></code></a>.</p>
+</div>
+<div class="section" id="tick-interrupt-synchronicity">
+<span id="id6"></span><h3>Tick Interrupt Synchronicity<a class="headerlink" href="#tick-interrupt-synchronicity" title="Permalink to this headline">¶</a></h3>
+<p>In ESP-IDF FreeRTOS, tasks on different cores that unblock on the same tick
+count might not run at exactly the same time due to the scheduler calls from
+each core being independent, and the tick interrupts to each core being
+unsynchronized.</p>
+<p>In vanilla FreeRTOS the tick interrupt triggers a call to
+<code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTaskIncrementTick()</span></code> which is responsible for incrementing the tick
+counter, checking if tasks which have called <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv410vTaskDelayK10TickType_t" title="vTaskDelay"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vTaskDelay()</span></code></a> have fulfilled
+their delay period, and moving those tasks from the Delayed Task List to the
+Ready Task List. The tick interrupt will then call the scheduler if a context
+switch is necessary.</p>
+<p>In ESP-IDF FreeRTOS, delayed tasks are unblocked with reference to the tick
+interrupt on PRO_CPU as PRO_CPU is responsible for incrementing the shared tick
+count. However tick interrupts to each core might not be synchronized (same
+frequency but out of phase) hence when PRO_CPU receives a tick interrupt,
+APP_CPU might not have received it yet. Therefore if multiple tasks of the same
+priority are unblocked on the same tick count, the task pinned to PRO_CPU will
+run immediately whereas the task pinned to APP_CPU must wait until APP_CPU
+receives its out of sync tick interrupt. Upon receiving the tick interrupt,
+APP_CPU will then call for a context switch and finally switches contexts to
+the newly unblocked task.</p>
+<p>Therefore, task delays should <strong>NOT</strong> be used as a method of synchronization
+between tasks in ESP-IDF FreeRTOS. Instead, consider using a counting semaphore
+to unblock multiple tasks at the same time.</p>
+</div>
+</div>
+<div class="section" id="critical-sections-disabling-interrupts">
+<span id="critical-sections"></span><h2>Critical Sections &amp; Disabling Interrupts<a class="headerlink" href="#critical-sections-disabling-interrupts" title="Permalink to this headline">¶</a></h2>
+<p>Vanilla FreeRTOS implements critical sections in <code class="docutils literal notranslate"><span class="pre">vTaskEnterCritical</span></code> which
+disables the scheduler and calls <code class="docutils literal notranslate"><span class="pre">portDISABLE_INTERRUPTS</span></code>. This prevents
+context switches and servicing of ISRs during a critical section. Therefore,
+critical sections are used as a valid protection method against simultaneous
+access in vanilla FreeRTOS.</p>
+<p>On the other hand, the ESP32 has no hardware method for cores to disable each
+other’s interrupts. Calling <code class="docutils literal notranslate"><span class="pre">portDISABLE_INTERRUPTS()</span></code> will have no effect on
+the interrupts of the other core. Therefore, disabling interrupts is <strong>NOT</strong>
+a valid protection method against simultaneous access to shared data as it
+leaves the other core free to access the data even if the current core has
+disabled its own interrupts.</p>
+<p>For this reason, ESP-IDF FreeRTOS implements critical sections using special mutexes,
+referred by portMUX_Type objects on top of specific ESP32 spinlock component
+and calls to enter or exit a critical must provide a spinlock object that
+is associated with a shared resource requiring access protection.
+When entering a critical section in ESP-IDF FreeRTOS, the calling core will disable
+its scheduler and interrupts similar to the vanilla FreeRTOS implementation. However,
+the calling core will also take the locks whilst the other core is left unaffected during
+the critical section. If the other core attempts to take the spinlock, it
+will spin until the lock is released. Therefore, the ESP-IDF FreeRTOS
+implementation of critical sections allows a core to have protected access to a
+shared resource without disabling the other core. The other core will only be
+affected if it tries to concurrently access the same resource.</p>
+<p>The ESP-IDF FreeRTOS critical section functions have been modified as follows…</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">taskENTER_CRITICAL(mux)</span></code>, <code class="docutils literal notranslate"><span class="pre">taskENTER_CRITICAL_ISR(mux)</span></code>,
+<code class="docutils literal notranslate"><span class="pre">portENTER_CRITICAL(mux)</span></code>, <code class="docutils literal notranslate"><span class="pre">portENTER_CRITICAL_ISR(mux)</span></code> are all macro
+defined to call <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vTaskEnterCritical()</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">taskEXIT_CRITICAL(mux)</span></code>, <code class="docutils literal notranslate"><span class="pre">taskEXIT_CRITICAL_ISR(mux)</span></code>,
+<code class="docutils literal notranslate"><span class="pre">portEXIT_CRITICAL(mux)</span></code>, <code class="docutils literal notranslate"><span class="pre">portEXIT_CRITICAL_ISR(mux)</span></code> are all macro
+defined to call <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vTaskExitCritical()</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">portENTER_CRITICAL_SAFE(mux)</span></code>, <code class="docutils literal notranslate"><span class="pre">portEXIT_CRITICAL_SAFE(mux)</span></code> macro identifies
+the context of execution, i.e ISR or Non-ISR, and calls appropriate critical
+section functions (<code class="docutils literal notranslate"><span class="pre">port*_CRITICAL</span></code> in Non-ISR and <code class="docutils literal notranslate"><span class="pre">port*_CRITICAL_ISR</span></code> in ISR)
+in order to be in compliance with Vanilla FreeRTOS.</li>
+</ul>
+</div></blockquote>
+<p>For more details see <a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/freertos/include/freertos/portmacro.h">freertos/include/freertos/portmacro.h</a>
+and <a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/freertos/task.c">freertos/task.c</a></p>
+<p>It should be noted that when modifying vanilla FreeRTOS code to be ESP-IDF
+FreeRTOS compatible, it is trivial to modify the type of critical section
+called as they are all defined to call the same function. As long as the same
+spinlock is provided upon entering and exiting, the type of call should not
+matter.</p>
+</div>
+<div class="section" id="floating-point-aritmetic">
+<span id="floating-points"></span><h2>Floating Point Aritmetic<a class="headerlink" href="#floating-point-aritmetic" title="Permalink to this headline">¶</a></h2>
+<p>The ESP32 supports hardware acceleration of single precision floating point
+arithmetic (<code class="docutils literal notranslate"><span class="pre">float</span></code>) via Floating Point Units (FPU, also known as coprocessors)
+attached to each core. The use of the FPUs imposes some behavioral restrictions
+on ESP-IDF FreeRTOS.</p>
+<p>ESP-IDF FreeRTOS implements Lazy Context Switching for FPUs. In other words,
+the state of a core’s FPU registers are not immediately saved when a context
+switch occurs. Therefore, tasks that utilize <code class="docutils literal notranslate"><span class="pre">float</span></code> must be pinned to a
+particular core upon creation. If not, ESP-IDF FreeRTOS will automatically pin
+the task in question to whichever core the task was running on upon the task’s
+first use of <code class="docutils literal notranslate"><span class="pre">float</span></code>. Likewise due to Lazy Context Switching, only interrupt
+service routines of lowest priority (that is it the Level 1) can use <code class="docutils literal notranslate"><span class="pre">float</span></code>,
+higher priority interrupts do not support FPU usage.</p>
+<p>ESP32 does not support hardware acceleration for double precision floating point
+arithmetic (<code class="docutils literal notranslate"><span class="pre">double</span></code>). Instead <code class="docutils literal notranslate"><span class="pre">double</span></code> is implemented via software hence the
+behavioral restrictions with regards to <code class="docutils literal notranslate"><span class="pre">float</span></code> do not apply to <code class="docutils literal notranslate"><span class="pre">double</span></code>. Note
+that due to the lack of hardware acceleration, <code class="docutils literal notranslate"><span class="pre">double</span></code> operations may consume
+significantly larger amount of CPU time in comparison to <code class="docutils literal notranslate"><span class="pre">float</span></code>.</p>
+</div>
+<div class="section" id="task-deletion">
+<span id="id7"></span><h2>Task Deletion<a class="headerlink" href="#task-deletion" title="Permalink to this headline">¶</a></h2>
+<p>FreeRTOS task deletion prior to v9.0.0 delegated the freeing of task memory
+entirely to the Idle Task. Currently, the freeing of task memory will occur
+immediately (within <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv411vTaskDelete12TaskHandle_t" title="vTaskDelete"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vTaskDelete()</span></code></a>) if the task being deleted is not currently
+running or is not pinned to the other core (with respect to the core
+<a class="reference internal" href="../api-reference/system/freertos.html#_CPPv411vTaskDelete12TaskHandle_t" title="vTaskDelete"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vTaskDelete()</span></code></a> is called on). TLSP deletion callbacks will also run immediately
+if the same conditions are met.</p>
+<p>However, calling <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv411vTaskDelete12TaskHandle_t" title="vTaskDelete"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vTaskDelete()</span></code></a> to delete a task that is either currently
+running or pinned to the other core will still result in the freeing of memory
+being delegated to the Idle Task.</p>
+</div>
+<div class="section" id="thread-local-storage-pointers-deletion-callbacks">
+<span id="deletion-callbacks"></span><h2>Thread Local Storage Pointers &amp; Deletion Callbacks<a class="headerlink" href="#thread-local-storage-pointers-deletion-callbacks" title="Permalink to this headline">¶</a></h2>
+<p>Thread Local Storage Pointers (TLSP) are pointers stored directly in the TCB.
+TLSP allow each task to have its own unique set of pointers to data structures.
+However task deletion behavior in vanilla FreeRTOS does not automatically
+free the memory pointed to by TLSP. Therefore if the memory pointed to by
+TLSP is not explicitly freed by the user before task deletion, memory leak will
+occur.</p>
+<p>ESP-IDF FreeRTOS provides the added feature of Deletion Callbacks. Deletion
+Callbacks are called automatically during task deletion to free memory pointed
+to by TLSP. Each TLSP can have its own Deletion Callback. Note that due to the
+to <a class="reference internal" href="#task-deletion"><span class="std std-ref">Task Deletion</span></a> behavior, there can be instances where Deletion
+Callbacks are called in the context of the Idle Tasks. Therefore Deletion
+Callbacks <strong>should never attempt to block</strong> and critical sections should be kept
+as short as possible to minimize priority inversion.</p>
+<p>Deletion callbacks are of type
+<code class="docutils literal notranslate"><span class="pre">void</span> <span class="pre">(*TlsDeleteCallbackFunction_t)(</span> <span class="pre">int,</span> <span class="pre">void</span> <span class="pre">*</span> <span class="pre">)</span></code> where the first parameter
+is the index number of the associated TLSP, and the second parameter is the
+TLSP itself.</p>
+<p>Deletion callbacks are set alongside TLSP by calling
+<a class="reference internal" href="../api-reference/system/freertos.html#_CPPv447vTaskSetThreadLocalStoragePointerAndDelCallback12TaskHandle_t10BaseType_tPv27TlsDeleteCallbackFunction_t" title="vTaskSetThreadLocalStoragePointerAndDelCallback"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vTaskSetThreadLocalStoragePointerAndDelCallback()</span></code></a>. Calling the vanilla
+FreeRTOS function <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv433vTaskSetThreadLocalStoragePointer12TaskHandle_t10BaseType_tPv" title="vTaskSetThreadLocalStoragePointer"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vTaskSetThreadLocalStoragePointer()</span></code></a> will simply set the
+TLSP’s associated Deletion Callback to <cite>NULL</cite> meaning that no callback will be
+called for that TLSP during task deletion. If a deletion callback is <cite>NULL</cite>,
+users should manually free the memory pointed to by the associated TLSP before
+task deletion in order to avoid memory leak.</p>
+<p><a class="reference internal" href="../api-reference/kconfig.html#config-freertos-thread-local-storage-pointers"><span class="std std-ref">CONFIG_FREERTOS_THREAD_LOCAL_STORAGE_POINTERS</span></a> in menuconfig can be used
+to configure the number TLSP and Deletion Callbacks a TCB will have.</p>
+<p>For more details see <a class="reference internal" href="../api-reference/system/freertos.html"><span class="doc">FreeRTOS API reference</span></a>.</p>
+</div>
+<div class="section" id="configuring-esp-idf-freertos">
+<span id="esp-idf-freertos-configuration"></span><h2>Configuring ESP-IDF FreeRTOS<a class="headerlink" href="#configuring-esp-idf-freertos" title="Permalink to this headline">¶</a></h2>
+<p>The ESP-IDF FreeRTOS can be configured in the project configuration menu
+(<code class="docutils literal notranslate"><span class="pre">idf.py</span> <span class="pre">menuconfig</span></code>) under <code class="docutils literal notranslate"><span class="pre">Component</span> <span class="pre">Config/FreeRTOS</span></code>. The following section
+highlights some of the ESP-IDF FreeRTOS configuration options. For a full list of
+ESP-IDF FreeRTOS configurations, see <a class="reference internal" href="../api-reference/kconfig.html"><span class="doc">FreeRTOS</span></a></p>
+<p><a class="reference internal" href="../api-reference/kconfig.html#config-freertos-unicore"><span class="std std-ref">CONFIG_FREERTOS_UNICORE</span></a> will run ESP-IDF FreeRTOS only
+on <strong>PRO_CPU</strong>. Note that this is <strong>not equivalent to running vanilla
+FreeRTOS</strong>. Behaviors of multiple components in ESP-IDF will be modified such
+as <a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp32/cpu_start.c">esp32/cpu_start.c</a>. For more details regarding the
+effects of running ESP-IDF FreeRTOS on a single core, search for
+occurences of <code class="docutils literal notranslate"><span class="pre">CONFIG_FREERTOS_UNICORE</span></code> in the ESP-IDF components.</p>
+<p><a class="reference internal" href="../api-reference/kconfig.html#config-freertos-thread-local-storage-pointers"><span class="std std-ref">CONFIG_FREERTOS_THREAD_LOCAL_STORAGE_POINTERS</span></a> will define the
+number of Thread Local Storage Pointers each task will have in ESP-IDF
+FreeRTOS.</p>
+<p><a class="reference internal" href="../api-reference/kconfig.html#config-freertos-support-static-allocation"><span class="std std-ref">CONFIG_FREERTOS_SUPPORT_STATIC_ALLOCATION</span></a> will enable the backported
+functionality of <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv429xTaskCreateStaticPinnedToCore14TaskFunction_tPCKcK8uint32_tPCv11UBaseType_tPC11StackType_tPC12StaticTask_tK10BaseType_t" title="xTaskCreateStaticPinnedToCore"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTaskCreateStaticPinnedToCore()</span></code></a> in ESP-IDF FreeRTOS</p>
+<p><a class="reference internal" href="../api-reference/kconfig.html#config-freertos-assert-on-untested-function"><span class="std std-ref">CONFIG_FREERTOS_ASSERT_ON_UNTESTED_FUNCTION</span></a> will trigger a halt in
+particular functions in ESP-IDF FreeRTOS which have not been fully tested
+in an SMP context.</p>
+<p><a class="reference internal" href="../api-reference/kconfig.html#config-freertos-task-function-wrapper"><span class="std std-ref">CONFIG_FREERTOS_TASK_FUNCTION_WRAPPER</span></a> will enclose all task functions
+within a wrapper function. In the case that a task function mistakenly returns
+(i.e. does not call <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv411vTaskDelete12TaskHandle_t" title="vTaskDelete"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vTaskDelete()</span></code></a>), the call flow will return to the
+wrapper function. The wrapper function will then log an error and abort the
+application, as illustrated below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>E (25) FreeRTOS: FreeRTOS task should not return. Aborting now!
+abort() was called at PC 0x40085c53 on core 0
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="general-notes.html" class="btn btn-neutral float-right" title="General Notes About ESP-IDF Programming" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../security/flash-encryption.html" class="btn btn-neutral float-left" title="Flash Encryption" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/freertos-smp.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:27 GMT -->
+</html>

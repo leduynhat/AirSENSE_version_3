@@ -1,0 +1,2292 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/protocols/esp_http_server.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:17 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>HTTP Server &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="HTTPS server" href="esp_https_server.html" />
+    <link rel="prev" title="ESP HTTP Client" href="esp_http_client.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="esp_http_server.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/protocols/esp_http_server"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Protocols</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="asio.html">ASIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mqtt.html">ESP-MQTT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_tls.html">ESP-TLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_http_client.html">HTTP Client</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">HTTP Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-example">Application Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#persistent-connections">Persistent Connections</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="esp_https_server.html">HTTPS Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="icmp_echo.html">ICMP Echo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_local_ctrl.html">Local Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modbus.html">Modbus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_websocket_client.html">Websocket Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_serial_slave_link.html">ESP Serial Slave Link</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#ip-network-layer">IP Network Layer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Application Protocols</a> &raquo;</li>
+        
+      <li>HTTP Server</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/protocols/esp_http_server.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="http-server">
+<h1>HTTP Server<a class="headerlink" href="#http-server" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/api-reference/protocols/esp_http_server.html">[中文]</a></p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The HTTP Server component provides an ability for running a lightweight web server on ESP32. Following are detailed steps to use the API exposed by HTTP Server:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#_CPPv411httpd_startP14httpd_handle_tPK14httpd_config_t" title="httpd_start"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">httpd_start()</span></code></a>: Creates an instance of HTTP server, allocate memory/resources for it depending upon the specified configuration and outputs a handle to the server instance. The server has both, a listening socket (TCP) for HTTP traffic, and a control socket (UDP) for control signals, which are selected in a round robin fashion in the server task loop. The task priority and stack size are configurable during server instance creation by passing httpd_config_t structure to httpd_start(). TCP traffic is parsed as HTTP requests and, depending on the requested URI, user registered handlers are invoked which are supposed to send back HTTP response packets.</li>
+<li><a class="reference internal" href="#_CPPv410httpd_stop14httpd_handle_t" title="httpd_stop"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">httpd_stop()</span></code></a>: This stops the server with the provided handle and frees up any associated memory/resources. This is a blocking function that first signals a halt to the server task and then waits for the task to terminate. While stopping, the task will close all open connections, remove registered URI handlers and reset all session context data to empty.</li>
+<li><a class="reference internal" href="#_CPPv426httpd_register_uri_handler14httpd_handle_tPK11httpd_uri_t" title="httpd_register_uri_handler"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">httpd_register_uri_handler()</span></code></a>: A URI handler is registered by passing object of type <code class="docutils literal notranslate"><span class="pre">httpd_uri_t</span></code> structure which has members including <code class="docutils literal notranslate"><span class="pre">uri</span></code> name, <code class="docutils literal notranslate"><span class="pre">method</span></code> type (eg. <code class="docutils literal notranslate"><span class="pre">HTTPD_GET/HTTPD_POST/HTTPD_PUT</span></code> etc.), function pointer of type <code class="docutils literal notranslate"><span class="pre">esp_err_t</span> <span class="pre">*handler</span> <span class="pre">(httpd_req_t</span> <span class="pre">*req)</span></code> and <code class="docutils literal notranslate"><span class="pre">user_ctx</span></code> pointer to user context data.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Our URI handler function to be called during GET /uri request */</span>
+<span class="n">esp_err_t</span> <span class="nf">get_handler</span><span class="p">(</span><span class="n">httpd_req_t</span> <span class="o">*</span><span class="n">req</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="cm">/* Send a simple response */</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="n">resp</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;URI GET Response&quot;</span><span class="p">;</span>
+    <span class="n">httpd_resp_send</span><span class="p">(</span><span class="n">req</span><span class="p">,</span> <span class="n">resp</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">resp</span><span class="p">));</span>
+    <span class="k">return</span> <span class="n">ESP_OK</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* Our URI handler function to be called during POST /uri request */</span>
+<span class="n">esp_err_t</span> <span class="nf">post_handler</span><span class="p">(</span><span class="n">httpd_req_t</span> <span class="o">*</span><span class="n">req</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="cm">/* Destination buffer for content of HTTP POST request.</span>
+<span class="cm">     * httpd_req_recv() accepts char* only, but content could</span>
+<span class="cm">     * as well be any binary data (needs type casting).</span>
+<span class="cm">     * In case of string data, null termination will be absent, and</span>
+<span class="cm">     * content length would give length of string */</span>
+    <span class="kt">char</span><span class="p">[</span><span class="mi">100</span><span class="p">]</span> <span class="n">content</span><span class="p">;</span>
+
+    <span class="cm">/* Truncate if content length larger than the buffer */</span>
+    <span class="kt">size_t</span> <span class="n">recv_size</span> <span class="o">=</span> <span class="n">MIN</span><span class="p">(</span><span class="n">req</span><span class="o">-&gt;</span><span class="n">content_len</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">content</span><span class="p">));</span>
+
+    <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">httpd_req_recv</span><span class="p">(</span><span class="n">req</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">recv_size</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>  <span class="cm">/* 0 return value indicates connection closed */</span>
+        <span class="cm">/* Check if timeout occurred */</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">==</span> <span class="n">HTTPD_SOCK_ERR_TIMEOUT</span><span class="p">)</span> <span class="p">{</span>
+            <span class="cm">/* In case of timeout one can choose to retry calling</span>
+<span class="cm">             * httpd_req_recv(), but to keep it simple, here we</span>
+<span class="cm">             * respond with an HTTP 408 (Request Timeout) error */</span>
+            <span class="n">httpd_resp_send_408</span><span class="p">(</span><span class="n">req</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="cm">/* In case of error, returning ESP_FAIL will</span>
+<span class="cm">         * ensure that the underlying socket is closed */</span>
+        <span class="k">return</span> <span class="n">ESP_FAIL</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="cm">/* Send a simple response */</span>
+    <span class="k">const</span> <span class="kt">char</span> <span class="n">resp</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;URI POST Response&quot;</span><span class="p">;</span>
+    <span class="n">httpd_resp_send</span><span class="p">(</span><span class="n">req</span><span class="p">,</span> <span class="n">resp</span><span class="p">,</span> <span class="n">strlen</span><span class="p">(</span><span class="n">resp</span><span class="p">));</span>
+    <span class="k">return</span> <span class="n">ESP_OK</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* URI handler structure for GET /uri */</span>
+<span class="n">httpd_uri_t</span> <span class="n">uri_get</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">.</span><span class="n">uri</span>      <span class="o">=</span> <span class="s">&quot;/uri&quot;</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">method</span>   <span class="o">=</span> <span class="n">HTTP_GET</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">handler</span>  <span class="o">=</span> <span class="n">get_handler</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">user_ctx</span> <span class="o">=</span> <span class="nb">NULL</span>
+<span class="p">};</span>
+
+<span class="cm">/* URI handler structure for POST /uri */</span>
+<span class="n">httpd_uri_t</span> <span class="n">uri_post</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">.</span><span class="n">uri</span>      <span class="o">=</span> <span class="s">&quot;/uri&quot;</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">method</span>   <span class="o">=</span> <span class="n">HTTP_POST</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">handler</span>  <span class="o">=</span> <span class="n">post_handler</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">user_ctx</span> <span class="o">=</span> <span class="nb">NULL</span>
+<span class="p">};</span>
+
+<span class="cm">/* Function for starting the webserver */</span>
+<span class="n">httpd_handle_t</span> <span class="nf">start_webserver</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="cm">/* Generate default configuration */</span>
+    <span class="n">httpd_config_t</span> <span class="n">config</span> <span class="o">=</span> <span class="n">HTTPD_DEFAULT_CONFIG</span><span class="p">();</span>
+
+    <span class="cm">/* Empty handle to esp_http_server */</span>
+    <span class="n">httpd_handle_t</span> <span class="n">server</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+    <span class="cm">/* Start the httpd server */</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">httpd_start</span><span class="p">(</span><span class="o">&amp;</span><span class="n">server</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">config</span><span class="p">)</span> <span class="o">==</span> <span class="n">ESP_OK</span><span class="p">)</span> <span class="p">{</span>
+        <span class="cm">/* Register URI handlers */</span>
+        <span class="n">httpd_register_uri_handler</span><span class="p">(</span><span class="n">server</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">uri_get</span><span class="p">);</span>
+        <span class="n">httpd_register_uri_handler</span><span class="p">(</span><span class="n">server</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">uri_post</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="cm">/* If server failed to start, handle will be NULL */</span>
+    <span class="k">return</span> <span class="n">server</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* Function for stopping the webserver */</span>
+<span class="kt">void</span> <span class="nf">stop_webserver</span><span class="p">(</span><span class="n">httpd_handle_t</span> <span class="n">server</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">server</span><span class="p">)</span> <span class="p">{</span>
+        <span class="cm">/* Stop the httpd server */</span>
+        <span class="n">httpd_stop</span><span class="p">(</span><span class="n">server</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="section" id="simple-http-server-example">
+<h3>Simple HTTP server example<a class="headerlink" href="#simple-http-server-example" title="Permalink to this headline">¶</a></h3>
+<p>Check HTTP server example under <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/http_server/simple">protocols/http_server/simple</a> where handling of arbitrary content lengths, reading request headers and URL query parameters, and setting response headers is demonstrated.</p>
+</div>
+</div>
+<div class="section" id="persistent-connections">
+<h2>Persistent Connections<a class="headerlink" href="#persistent-connections" title="Permalink to this headline">¶</a></h2>
+<p>HTTP server features persistent connections, allowing for the re-use of the same connection (session) for several transfers, all the while maintaining context specific data for the session. Context data may be allocated dynamically by the handler in which case a custom function may need to be specified for freeing this data when the connection/session is closed.</p>
+<div class="section" id="persistent-connections-example">
+<h3>Persistent Connections Example<a class="headerlink" href="#persistent-connections-example" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Custom function to free context */</span>
+<span class="kt">void</span> <span class="nf">free_ctx_func</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">ctx</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="cm">/* Could be something other than free */</span>
+    <span class="n">free</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">esp_err_t</span> <span class="nf">adder_post_handler</span><span class="p">(</span><span class="n">httpd_req_t</span> <span class="o">*</span><span class="n">req</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="cm">/* Create session&#39;s context if not already available */</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="n">req</span><span class="o">-&gt;</span><span class="n">sess_ctx</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">req</span><span class="o">-&gt;</span><span class="n">sess_ctx</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">ANY_DATA_TYPE</span><span class="p">));</span>  <span class="cm">/*!&lt; Pointer to context data */</span>
+        <span class="n">req</span><span class="o">-&gt;</span><span class="n">free_ctx</span> <span class="o">=</span> <span class="n">free_ctx_func</span><span class="p">;</span>                  <span class="cm">/*!&lt; Function to free context data */</span>
+    <span class="p">}</span>
+
+    <span class="cm">/* Access context data */</span>
+    <span class="n">ANY_DATA_TYPE</span> <span class="o">*</span><span class="n">ctx_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">ANY_DATA_TYPE</span> <span class="o">*</span><span class="p">)</span><span class="n">req</span><span class="o">-&gt;</span><span class="n">sess_ctx</span><span class="p">;</span>
+
+    <span class="cm">/* Respond */</span>
+    <span class="p">...............</span>
+    <span class="p">...............</span>
+    <span class="p">...............</span>
+
+    <span class="k">return</span> <span class="n">ESP_OK</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Check the example under <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/http_server/persistent_sockets">protocols/http_server/persistent_sockets</a>.</p>
+</div>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_http_server/include/esp_http_server.h">esp_http_server/include/esp_http_server.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv426httpd_register_uri_handler14httpd_handle_tPK11httpd_uri_t">
+<span id="_CPPv326httpd_register_uri_handler14httpd_handle_tPK11httpd_uri_t"></span><span id="_CPPv226httpd_register_uri_handler14httpd_handle_tPK11httpd_uri_t"></span><span id="httpd_register_uri_handler__httpd_handle_t.httpd_uri_tCP"></span><span class="target" id="esp__http__server_8h_1a76040cbeebdd3fea67c15842c9713cc8"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_register_uri_handler</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> <em>handle</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv411httpd_uri_t" title="httpd_uri_t">httpd_uri_t</a> *<em>uri_handler</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426httpd_register_uri_handler14httpd_handle_tPK11httpd_uri_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Registers a URI handler. </p>
+<p><p>Example usage: </p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">esp_err_t</span> <span class="nf">my_uri_handler</span><span class="p">(</span><span class="n">httpd_req_t</span><span class="o">*</span> <span class="n">req</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// Recv , Process and Send</span>
+    <span class="p">....</span>
+    <span class="p">....</span>
+    <span class="p">....</span>
+
+    <span class="c1">// Fail condition</span>
+    <span class="k">if</span> <span class="p">(....)</span> <span class="p">{</span>
+        <span class="c1">// Return fail to close session //</span>
+        <span class="k">return</span> <span class="n">ESP_FAIL</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// On success</span>
+    <span class="k">return</span> <span class="n">ESP_OK</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// URI handler structure</span>
+<span class="n">httpd_uri_t</span> <span class="n">my_uri</span> <span class="p">{</span>
+    <span class="p">.</span><span class="n">uri</span>      <span class="o">=</span> <span class="s">&quot;/my_uri/path/xyz&quot;</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">method</span>   <span class="o">=</span> <span class="n">HTTPD_GET</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">handler</span>  <span class="o">=</span> <span class="n">my_uri_handler</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">user_ctx</span> <span class="o">=</span> <span class="nb">NULL</span>
+<span class="p">};</span>
+
+<span class="c1">// Register handler</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">httpd_register_uri_handler</span><span class="p">(</span><span class="n">server_handle</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">my_uri</span><span class="p">)</span> <span class="o">!=</span> <span class="n">ESP_OK</span><span class="p">)</span> <span class="p">{</span>
+   <span class="c1">// If failed to register handler</span>
+   <span class="p">....</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>URI handlers can be registered in real time as long as the server handle is valid.</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : On successfully registering the handler</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments</li>
+<li>ESP_ERR_HTTPD_HANDLERS_FULL : If no slots left for new handler</li>
+<li>ESP_ERR_HTTPD_HANDLER_EXISTS : If handler with same URI and method is already registered </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: handle to HTTPD server instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">uri_handler</span></code>: pointer to handler that needs to be registered</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428httpd_unregister_uri_handler14httpd_handle_tPKc14httpd_method_t">
+<span id="_CPPv328httpd_unregister_uri_handler14httpd_handle_tPKc14httpd_method_t"></span><span id="_CPPv228httpd_unregister_uri_handler14httpd_handle_tPKc14httpd_method_t"></span><span id="httpd_unregister_uri_handler__httpd_handle_t.cCP.httpd_method_t"></span><span class="target" id="esp__http__server_8h_1a823ded023502a5583078a858716e827c"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_unregister_uri_handler</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> <em>handle</em>, <em class="property">const</em> char *<em>uri</em>, <a class="reference internal" href="#_CPPv414httpd_method_t" title="httpd_method_t">httpd_method_t</a> <em>method</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428httpd_unregister_uri_handler14httpd_handle_tPKc14httpd_method_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Unregister a URI handler. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : On successfully deregistering the handler</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments</li>
+<li>ESP_ERR_NOT_FOUND : Handler with specified URI and method not found </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: handle to HTTPD server instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">uri</span></code>: URI string </li>
+<li><code class="docutils literal notranslate"><span class="pre">method</span></code>: HTTP method</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420httpd_unregister_uri14httpd_handle_tPKc">
+<span id="_CPPv320httpd_unregister_uri14httpd_handle_tPKc"></span><span id="_CPPv220httpd_unregister_uri14httpd_handle_tPKc"></span><span id="httpd_unregister_uri__httpd_handle_t.cCP"></span><span class="target" id="esp__http__server_8h_1aed1d3370c4ec6b7360d075620b40edd7"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_unregister_uri</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> <em>handle</em>, <em class="property">const</em> char *<em>uri</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420httpd_unregister_uri14httpd_handle_tPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Unregister all URI handlers with the specified uri string. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : On successfully deregistering all such handlers</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments</li>
+<li>ESP_ERR_NOT_FOUND : No handler registered with specified uri string </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: handle to HTTPD server instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">uri</span></code>: uri string specifying all handlers that need to be deregisterd</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428httpd_sess_set_recv_override14httpd_handle_ti17httpd_recv_func_t">
+<span id="_CPPv328httpd_sess_set_recv_override14httpd_handle_ti17httpd_recv_func_t"></span><span id="_CPPv228httpd_sess_set_recv_override14httpd_handle_ti17httpd_recv_func_t"></span><span id="httpd_sess_set_recv_override__httpd_handle_t.i.httpd_recv_func_t"></span><span class="target" id="esp__http__server_8h_1a4d51098ce8661dfd93816ec5d8310f0d"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_sess_set_recv_override</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> <em>hd</em>, int <em>sockfd</em>, <a class="reference internal" href="#_CPPv417httpd_recv_func_t" title="httpd_recv_func_t">httpd_recv_func_t</a> <em>recv_func</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428httpd_sess_set_recv_override14httpd_handle_ti17httpd_recv_func_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Override web server’s receive function (by session FD) </p>
+<p>This function overrides the web server’s receive function. This same function is used to read HTTP request packets.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API is supposed to be called either from the context of<ul class="simple">
+<li>an http session APIs where sockfd is a valid parameter</li>
+<li>a URI handler where sockfd is obtained using httpd_req_to_sockfd()</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : On successfully registering override</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">hd</span></code>: HTTPD instance handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">sockfd</span></code>: Session socket FD </li>
+<li><code class="docutils literal notranslate"><span class="pre">recv_func</span></code>: The receive function to be set for this session</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428httpd_sess_set_send_override14httpd_handle_ti17httpd_send_func_t">
+<span id="_CPPv328httpd_sess_set_send_override14httpd_handle_ti17httpd_send_func_t"></span><span id="_CPPv228httpd_sess_set_send_override14httpd_handle_ti17httpd_send_func_t"></span><span id="httpd_sess_set_send_override__httpd_handle_t.i.httpd_send_func_t"></span><span class="target" id="esp__http__server_8h_1afe2d648fb39d8cf575a8fbd2ca2629ce"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_sess_set_send_override</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> <em>hd</em>, int <em>sockfd</em>, <a class="reference internal" href="#_CPPv417httpd_send_func_t" title="httpd_send_func_t">httpd_send_func_t</a> <em>send_func</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428httpd_sess_set_send_override14httpd_handle_ti17httpd_send_func_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Override web server’s send function (by session FD) </p>
+<p>This function overrides the web server’s send function. This same function is used to send out any response to any HTTP request.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API is supposed to be called either from the context of<ul class="simple">
+<li>an http session APIs where sockfd is a valid parameter</li>
+<li>a URI handler where sockfd is obtained using httpd_req_to_sockfd()</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : On successfully registering override</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">hd</span></code>: HTTPD instance handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">sockfd</span></code>: Session socket FD </li>
+<li><code class="docutils literal notranslate"><span class="pre">send_func</span></code>: The send function to be set for this session</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv431httpd_sess_set_pending_override14httpd_handle_ti20httpd_pending_func_t">
+<span id="_CPPv331httpd_sess_set_pending_override14httpd_handle_ti20httpd_pending_func_t"></span><span id="_CPPv231httpd_sess_set_pending_override14httpd_handle_ti20httpd_pending_func_t"></span><span id="httpd_sess_set_pending_override__httpd_handle_t.i.httpd_pending_func_t"></span><span class="target" id="esp__http__server_8h_1ae2fb7dfdecf5c94bbc9a54d23b3dce32"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_sess_set_pending_override</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> <em>hd</em>, int <em>sockfd</em>, <a class="reference internal" href="#_CPPv420httpd_pending_func_t" title="httpd_pending_func_t">httpd_pending_func_t</a> <em>pending_func</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv431httpd_sess_set_pending_override14httpd_handle_ti20httpd_pending_func_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Override web server’s pending function (by session FD) </p>
+<p>This function overrides the web server’s pending function. This function is used to test for pending bytes in a socket.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API is supposed to be called either from the context of<ul class="simple">
+<li>an http session APIs where sockfd is a valid parameter</li>
+<li>a URI handler where sockfd is obtained using httpd_req_to_sockfd()</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : On successfully registering override</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">hd</span></code>: HTTPD instance handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">sockfd</span></code>: Session socket FD </li>
+<li><code class="docutils literal notranslate"><span class="pre">pending_func</span></code>: The receive function to be set for this session</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419httpd_req_to_sockfdP11httpd_req_t">
+<span id="_CPPv319httpd_req_to_sockfdP11httpd_req_t"></span><span id="_CPPv219httpd_req_to_sockfdP11httpd_req_t"></span><span id="httpd_req_to_sockfd__httpd_req_tP"></span><span class="target" id="esp__http__server_8h_1a7850d45e4ad7b33d21b6425f66559104"></span>int <code class="descname">httpd_req_to_sockfd</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411httpd_req_t" title="httpd_req_t">httpd_req_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419httpd_req_to_sockfdP11httpd_req_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the Socket Descriptor from the HTTP request. </p>
+<p>This API will return the socket descriptor of the session for which URI handler was executed on reception of HTTP request. This is useful when user wants to call functions that require session socket fd, from within a URI handler, ie. : httpd_sess_get_ctx(), httpd_sess_trigger_close(), httpd_sess_update_lru_counter().</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API is supposed to be called only from the context of a URI handler where httpd_req_t* request pointer is valid.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>Socket descriptor : The socket descriptor for this request</li>
+<li>-1 : Invalid/NULL request pointer </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: The request whose socket descriptor should be found</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414httpd_req_recvP11httpd_req_tPc6size_t">
+<span id="_CPPv314httpd_req_recvP11httpd_req_tPc6size_t"></span><span id="_CPPv214httpd_req_recvP11httpd_req_tPc6size_t"></span><span id="httpd_req_recv__httpd_req_tP.cP.s"></span><span class="target" id="esp__http__server_8h_1a1affc56473cfe5caa1791101f138c620"></span>int <code class="descname">httpd_req_recv</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411httpd_req_t" title="httpd_req_t">httpd_req_t</a> *<em>r</em>, char *<em>buf</em>, size_t <em>buf_len</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414httpd_req_recvP11httpd_req_tPc6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>API to read content data from the HTTP request. </p>
+<p>This API will read HTTP content data from the HTTP request into provided buffer. Use content_len provided in httpd_req_t structure to know the length of data to be fetched. If content_len is too large for the buffer then user may have to make multiple calls to this function, each time fetching ‘buf_len’ number of bytes, while the pointer to content data is incremented internally by the same number.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>This API is supposed to be called only from the context of a URI handler where httpd_req_t* request pointer is valid.</li>
+<li>If an error is returned, the URI handler must further return an error. This will ensure that the erroneous socket is closed and cleaned up by the web server.</li>
+<li>Presently Chunked Encoding is not supported</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>Bytes : Number of bytes read into the buffer successfully</li>
+<li>0 : Buffer length parameter is zero / connection closed by peer</li>
+<li>HTTPD_SOCK_ERR_INVALID : Invalid arguments</li>
+<li>HTTPD_SOCK_ERR_TIMEOUT : Timeout/interrupted while calling socket recv()</li>
+<li>HTTPD_SOCK_ERR_FAIL : Unrecoverable error while calling socket recv() </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: The request being responded to </li>
+<li><code class="docutils literal notranslate"><span class="pre">buf</span></code>: Pointer to a buffer that the data will be read into </li>
+<li><code class="docutils literal notranslate"><span class="pre">buf_len</span></code>: Length of the buffer</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427httpd_req_get_hdr_value_lenP11httpd_req_tPKc">
+<span id="_CPPv327httpd_req_get_hdr_value_lenP11httpd_req_tPKc"></span><span id="_CPPv227httpd_req_get_hdr_value_lenP11httpd_req_tPKc"></span><span id="httpd_req_get_hdr_value_len__httpd_req_tP.cCP"></span><span class="target" id="esp__http__server_8h_1a6e2c3ada748e3f3cc1f6ecdfb33a461b"></span>size_t <code class="descname">httpd_req_get_hdr_value_len</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411httpd_req_t" title="httpd_req_t">httpd_req_t</a> *<em>r</em>, <em class="property">const</em> char *<em>field</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427httpd_req_get_hdr_value_lenP11httpd_req_tPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Search for a field in request headers and return the string length of it’s value. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>This API is supposed to be called only from the context of a URI handler where httpd_req_t* request pointer is valid.</li>
+<li>Once httpd_resp_send() API is called all request headers are purged, so request headers need be copied into separate buffers if they are required later.</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>Length : If field is found in the request URL</li>
+<li>Zero : Field not found / Invalid request / Null arguments </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: The request being responded to </li>
+<li><code class="docutils literal notranslate"><span class="pre">field</span></code>: The header field to be searched in the request</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427httpd_req_get_hdr_value_strP11httpd_req_tPKcPc6size_t">
+<span id="_CPPv327httpd_req_get_hdr_value_strP11httpd_req_tPKcPc6size_t"></span><span id="_CPPv227httpd_req_get_hdr_value_strP11httpd_req_tPKcPc6size_t"></span><span id="httpd_req_get_hdr_value_str__httpd_req_tP.cCP.cP.s"></span><span class="target" id="esp__http__server_8h_1ae87429602dfbdeb641edbe115853caa6"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_req_get_hdr_value_str</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411httpd_req_t" title="httpd_req_t">httpd_req_t</a> *<em>r</em>, <em class="property">const</em> char *<em>field</em>, char *<em>val</em>, size_t <em>val_size</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427httpd_req_get_hdr_value_strP11httpd_req_tPKcPc6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the value string of a field from the request headers. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>This API is supposed to be called only from the context of a URI handler where httpd_req_t* request pointer is valid.</li>
+<li>Once httpd_resp_send() API is called all request headers are purged, so request headers need be copied into separate buffers if they are required later.</li>
+<li>If output size is greater than input, then the value is truncated, accompanied by truncation error as return value.</li>
+<li>Use httpd_req_get_hdr_value_len() to know the right buffer length</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Field found in the request header and value string copied</li>
+<li>ESP_ERR_NOT_FOUND : Key not found</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments</li>
+<li>ESP_ERR_HTTPD_INVALID_REQ : Invalid HTTP request pointer</li>
+<li>ESP_ERR_HTTPD_RESULT_TRUNC : Value string truncated </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: The request being responded to </li>
+<li><code class="docutils literal notranslate"><span class="pre">field</span></code>: The field to be searched in the header </li>
+<li><code class="docutils literal notranslate"><span class="pre">val</span></code>: Pointer to the buffer into which the value will be copied if the field is found </li>
+<li><code class="docutils literal notranslate"><span class="pre">val_size</span></code>: Size of the user buffer “val”</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427httpd_req_get_url_query_lenP11httpd_req_t">
+<span id="_CPPv327httpd_req_get_url_query_lenP11httpd_req_t"></span><span id="_CPPv227httpd_req_get_url_query_lenP11httpd_req_t"></span><span id="httpd_req_get_url_query_len__httpd_req_tP"></span><span class="target" id="esp__http__server_8h_1aefda761de0e657b96247964ce738d5c0"></span>size_t <code class="descname">httpd_req_get_url_query_len</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411httpd_req_t" title="httpd_req_t">httpd_req_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427httpd_req_get_url_query_lenP11httpd_req_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get Query string length from the request URL. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API is supposed to be called only from the context of a URI handler where httpd_req_t* request pointer is valid</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>Length : Query is found in the request URL</li>
+<li>Zero : Query not found / Null arguments / Invalid request </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: The request being responded to</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427httpd_req_get_url_query_strP11httpd_req_tPc6size_t">
+<span id="_CPPv327httpd_req_get_url_query_strP11httpd_req_tPc6size_t"></span><span id="_CPPv227httpd_req_get_url_query_strP11httpd_req_tPc6size_t"></span><span id="httpd_req_get_url_query_str__httpd_req_tP.cP.s"></span><span class="target" id="esp__http__server_8h_1a9bc4e30aee549df5519de6a13829c264"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_req_get_url_query_str</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411httpd_req_t" title="httpd_req_t">httpd_req_t</a> *<em>r</em>, char *<em>buf</em>, size_t <em>buf_len</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427httpd_req_get_url_query_strP11httpd_req_tPc6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get Query string from the request URL. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>Presently, the user can fetch the full URL query string, but decoding will have to be performed by the user. Request headers can be read using httpd_req_get_hdr_value_str() to know the ‘Content-Type’ (eg. Content-Type: application/x-www-form-urlencoded) and then the appropriate decoding algorithm needs to be applied.</li>
+<li>This API is supposed to be called only from the context of a URI handler where httpd_req_t* request pointer is valid</li>
+<li>If output size is greater than input, then the value is truncated, accompanied by truncation error as return value</li>
+<li>Prior to calling this function, one can use httpd_req_get_url_query_len() to know the query string length beforehand and hence allocate the buffer of right size (usually query string length + 1 for null termination) for storing the query string</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Query is found in the request URL and copied to buffer</li>
+<li>ESP_ERR_NOT_FOUND : Query not found</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments</li>
+<li>ESP_ERR_HTTPD_INVALID_REQ : Invalid HTTP request pointer</li>
+<li>ESP_ERR_HTTPD_RESULT_TRUNC : Query string truncated </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: The request being responded to </li>
+<li><code class="docutils literal notranslate"><span class="pre">buf</span></code>: Pointer to the buffer into which the query string will be copied (if found) </li>
+<li><code class="docutils literal notranslate"><span class="pre">buf_len</span></code>: Length of output buffer</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421httpd_query_key_valuePKcPKcPc6size_t">
+<span id="_CPPv321httpd_query_key_valuePKcPKcPc6size_t"></span><span id="_CPPv221httpd_query_key_valuePKcPKcPc6size_t"></span><span id="httpd_query_key_value__cCP.cCP.cP.s"></span><span class="target" id="esp__http__server_8h_1a843cd2cb098fdfd374c20e784a994670"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_query_key_value</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>qry</em>, <em class="property">const</em> char *<em>key</em>, char *<em>val</em>, size_t <em>val_size</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421httpd_query_key_valuePKcPKcPc6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Helper function to get a URL query tag from a query string of the type param1=val1&amp;param2=val2. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>The components of URL query string (keys and values) are not URLdecoded. The user must check for ‘Content-Type’ field in the request headers and then depending upon the specified encoding (URLencoded or otherwise) apply the appropriate decoding algorithm.</li>
+<li>If actual value size is greater than val_size, then the value is truncated, accompanied by truncation error as return value.</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Key is found in the URL query string and copied to buffer</li>
+<li>ESP_ERR_NOT_FOUND : Key not found</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments</li>
+<li>ESP_ERR_HTTPD_RESULT_TRUNC : Value string truncated </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">qry</span></code>: Pointer to query string </li>
+<li><code class="docutils literal notranslate"><span class="pre">key</span></code>: The key to be searched in the query string </li>
+<li><code class="docutils literal notranslate"><span class="pre">val</span></code>: Pointer to the buffer into which the value will be copied if the key is found </li>
+<li><code class="docutils literal notranslate"><span class="pre">val_size</span></code>: Size of the user buffer “val”</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424httpd_uri_match_wildcardPKcPKc6size_t">
+<span id="_CPPv324httpd_uri_match_wildcardPKcPKc6size_t"></span><span id="_CPPv224httpd_uri_match_wildcardPKcPKc6size_t"></span><span id="httpd_uri_match_wildcard__cCP.cCP.s"></span><span class="target" id="esp__http__server_8h_1a3e19d9337e2b96428246e2e73d0f900c"></span>bool <code class="descname">httpd_uri_match_wildcard</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>uri_template</em>, <em class="property">const</em> char *<em>uri_to_match</em>, size_t <em>match_upto</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424httpd_uri_match_wildcardPKcPKc6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Test if a URI matches the given wildcard template. </p>
+<p>Template may end with “?” to make the previous character optional (typically a slash), “*” for a wildcard match, and “?*” to make the previous character optional, and if present, allow anything to follow.</p>
+<p>Example:<ul class="simple">
+<li>* matches everything</li>
+<li>/foo/? matches /foo and /foo/</li>
+<li>/foo/* (sans the backslash) matches /foo/ and /foo/bar, but not /foo or /fo</li>
+<li>/foo/?* or /foo/*? (sans the backslash) matches /foo/, /foo/bar, and also /foo, but not /foox or /fo</li>
+</ul>
+</p>
+<p>The special characters “?” and “*” anywhere else in the template will be taken literally.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>true if a match was found </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">uri_template</span></code>: URI template (pattern) </li>
+<li><code class="docutils literal notranslate"><span class="pre">uri_to_match</span></code>: URI to be matched </li>
+<li><code class="docutils literal notranslate"><span class="pre">match_upto</span></code>: how many characters of the URI buffer to test (there may be trailing query string etc.)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415httpd_resp_sendP11httpd_req_tPKc7ssize_t">
+<span id="_CPPv315httpd_resp_sendP11httpd_req_tPKc7ssize_t"></span><span id="_CPPv215httpd_resp_sendP11httpd_req_tPKc7ssize_t"></span><span id="httpd_resp_send__httpd_req_tP.cCP.ssize_t"></span><span class="target" id="esp__http__server_8h_1a67aa037d44f178a47f3fadca5ac34c1a"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_resp_send</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411httpd_req_t" title="httpd_req_t">httpd_req_t</a> *<em>r</em>, <em class="property">const</em> char *<em>buf</em>, ssize_t <em>buf_len</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415httpd_resp_sendP11httpd_req_tPKc7ssize_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>API to send a complete HTTP response. </p>
+<p>This API will send the data as an HTTP response to the request. This assumes that you have the entire response ready in a single buffer. If you wish to send response in incremental chunks use httpd_resp_send_chunk() instead.</p>
+<p>If no status code and content-type were set, by default this will send 200 OK status code and content type as text/html. You may call the following functions before this API to configure the response headers : httpd_resp_set_status() - for setting the HTTP status string, httpd_resp_set_type() - for setting the Content Type, httpd_resp_set_hdr() - for appending any additional field value entries in the response header</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>This API is supposed to be called only from the context of a URI handler where httpd_req_t* request pointer is valid.</li>
+<li>Once this API is called, the request has been responded to.</li>
+<li>No additional data can then be sent for the request.</li>
+<li>Once this API is called, all request headers are purged, so request headers need be copied into separate buffers if they are required later.</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : On successfully sending the response packet</li>
+<li>ESP_ERR_INVALID_ARG : Null request pointer</li>
+<li>ESP_ERR_HTTPD_RESP_HDR : Essential headers are too large for internal buffer</li>
+<li>ESP_ERR_HTTPD_RESP_SEND : Error in raw send</li>
+<li>ESP_ERR_HTTPD_INVALID_REQ : Invalid request </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: The request being responded to </li>
+<li><code class="docutils literal notranslate"><span class="pre">buf</span></code>: Buffer from where the content is to be fetched </li>
+<li><code class="docutils literal notranslate"><span class="pre">buf_len</span></code>: Length of the buffer, HTTPD_RESP_USE_STRLEN to use strlen()</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421httpd_resp_send_chunkP11httpd_req_tPKc7ssize_t">
+<span id="_CPPv321httpd_resp_send_chunkP11httpd_req_tPKc7ssize_t"></span><span id="_CPPv221httpd_resp_send_chunkP11httpd_req_tPKc7ssize_t"></span><span id="httpd_resp_send_chunk__httpd_req_tP.cCP.ssize_t"></span><span class="target" id="esp__http__server_8h_1a4c6e0465b3c09f5a997043b46ec99186"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_resp_send_chunk</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411httpd_req_t" title="httpd_req_t">httpd_req_t</a> *<em>r</em>, <em class="property">const</em> char *<em>buf</em>, ssize_t <em>buf_len</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421httpd_resp_send_chunkP11httpd_req_tPKc7ssize_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>API to send one HTTP chunk. </p>
+<p>This API will send the data as an HTTP response to the request. This API will use chunked-encoding and send the response in the form of chunks. If you have the entire response contained in a single buffer, please use httpd_resp_send() instead.</p>
+<p>If no status code and content-type were set, by default this will send 200 OK status code and content type as text/html. You may call the following functions before this API to configure the response headers httpd_resp_set_status() - for setting the HTTP status string, httpd_resp_set_type() - for setting the Content Type, httpd_resp_set_hdr() - for appending any additional field value entries in the response header</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>This API is supposed to be called only from the context of a URI handler where httpd_req_t* request pointer is valid.</li>
+<li>When you are finished sending all your chunks, you must call this function with buf_len as 0.</li>
+<li>Once this API is called, all request headers are purged, so request headers need be copied into separate buffers if they are required later.</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : On successfully sending the response packet chunk</li>
+<li>ESP_ERR_INVALID_ARG : Null request pointer</li>
+<li>ESP_ERR_HTTPD_RESP_HDR : Essential headers are too large for internal buffer</li>
+<li>ESP_ERR_HTTPD_RESP_SEND : Error in raw send</li>
+<li>ESP_ERR_HTTPD_INVALID_REQ : Invalid request pointer </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: The request being responded to </li>
+<li><code class="docutils literal notranslate"><span class="pre">buf</span></code>: Pointer to a buffer that stores the data </li>
+<li><code class="docutils literal notranslate"><span class="pre">buf_len</span></code>: Length of the buffer, HTTPD_RESP_USE_STRLEN to use strlen()</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418httpd_resp_sendstrP11httpd_req_tPKc">
+<span id="_CPPv318httpd_resp_sendstrP11httpd_req_tPKc"></span><span id="_CPPv218httpd_resp_sendstrP11httpd_req_tPKc"></span><span id="httpd_resp_sendstr__httpd_req_tP.cCP"></span><span class="target" id="esp__http__server_8h_1ac0f1d5954afe37cac630155250b3d676"></span><em class="property">static</em> <a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_resp_sendstr</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411httpd_req_t" title="httpd_req_t">httpd_req_t</a> *<em>r</em>, <em class="property">const</em> char *<em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418httpd_resp_sendstrP11httpd_req_tPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>API to send a complete string as HTTP response. </p>
+<p>This API simply calls http_resp_send with buffer length set to string length assuming the buffer contains a null terminated string</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : On successfully sending the response packet</li>
+<li>ESP_ERR_INVALID_ARG : Null request pointer</li>
+<li>ESP_ERR_HTTPD_RESP_HDR : Essential headers are too large for internal buffer</li>
+<li>ESP_ERR_HTTPD_RESP_SEND : Error in raw send</li>
+<li>ESP_ERR_HTTPD_INVALID_REQ : Invalid request </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: The request being responded to </li>
+<li><code class="docutils literal notranslate"><span class="pre">str</span></code>: String to be sent as response body</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424httpd_resp_sendstr_chunkP11httpd_req_tPKc">
+<span id="_CPPv324httpd_resp_sendstr_chunkP11httpd_req_tPKc"></span><span id="_CPPv224httpd_resp_sendstr_chunkP11httpd_req_tPKc"></span><span id="httpd_resp_sendstr_chunk__httpd_req_tP.cCP"></span><span class="target" id="esp__http__server_8h_1a6a8d3c2c7136fbeda19d6cabeec36e78"></span><em class="property">static</em> <a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_resp_sendstr_chunk</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411httpd_req_t" title="httpd_req_t">httpd_req_t</a> *<em>r</em>, <em class="property">const</em> char *<em>str</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424httpd_resp_sendstr_chunkP11httpd_req_tPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>API to send a string as an HTTP response chunk. </p>
+<p>This API simply calls http_resp_send_chunk with buffer length set to string length assuming the buffer contains a null terminated string</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : On successfully sending the response packet</li>
+<li>ESP_ERR_INVALID_ARG : Null request pointer</li>
+<li>ESP_ERR_HTTPD_RESP_HDR : Essential headers are too large for internal buffer</li>
+<li>ESP_ERR_HTTPD_RESP_SEND : Error in raw send</li>
+<li>ESP_ERR_HTTPD_INVALID_REQ : Invalid request </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: The request being responded to </li>
+<li><code class="docutils literal notranslate"><span class="pre">str</span></code>: String to be sent as response body (NULL to finish response packet)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421httpd_resp_set_statusP11httpd_req_tPKc">
+<span id="_CPPv321httpd_resp_set_statusP11httpd_req_tPKc"></span><span id="_CPPv221httpd_resp_set_statusP11httpd_req_tPKc"></span><span id="httpd_resp_set_status__httpd_req_tP.cCP"></span><span class="target" id="esp__http__server_8h_1a88021fd722954631f1dbf63da43cad28"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_resp_set_status</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411httpd_req_t" title="httpd_req_t">httpd_req_t</a> *<em>r</em>, <em class="property">const</em> char *<em>status</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421httpd_resp_set_statusP11httpd_req_tPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>API to set the HTTP status code. </p>
+<p>This API sets the status of the HTTP response to the value specified. By default, the ‘200 OK’ response is sent as the response.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>This API is supposed to be called only from the context of a URI handler where httpd_req_t* request pointer is valid.</li>
+<li>This API only sets the status to this value. The status isn’t sent out until any of the send APIs is executed.</li>
+<li>Make sure that the lifetime of the status string is valid till send function is called.</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : On success</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments</li>
+<li>ESP_ERR_HTTPD_INVALID_REQ : Invalid request pointer </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: The request being responded to </li>
+<li><code class="docutils literal notranslate"><span class="pre">status</span></code>: The HTTP status code of this response</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419httpd_resp_set_typeP11httpd_req_tPKc">
+<span id="_CPPv319httpd_resp_set_typeP11httpd_req_tPKc"></span><span id="_CPPv219httpd_resp_set_typeP11httpd_req_tPKc"></span><span id="httpd_resp_set_type__httpd_req_tP.cCP"></span><span class="target" id="esp__http__server_8h_1afe6f7650c67454ccbe85bb470f166de2"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_resp_set_type</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411httpd_req_t" title="httpd_req_t">httpd_req_t</a> *<em>r</em>, <em class="property">const</em> char *<em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419httpd_resp_set_typeP11httpd_req_tPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>API to set the HTTP content type. </p>
+<p>This API sets the ‘Content Type’ field of the response. The default content type is ‘text/html’.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>This API is supposed to be called only from the context of a URI handler where httpd_req_t* request pointer is valid.</li>
+<li>This API only sets the content type to this value. The type isn’t sent out until any of the send APIs is executed.</li>
+<li>Make sure that the lifetime of the type string is valid till send function is called.</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : On success</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments</li>
+<li>ESP_ERR_HTTPD_INVALID_REQ : Invalid request pointer </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: The request being responded to </li>
+<li><code class="docutils literal notranslate"><span class="pre">type</span></code>: The Content Type of the response</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418httpd_resp_set_hdrP11httpd_req_tPKcPKc">
+<span id="_CPPv318httpd_resp_set_hdrP11httpd_req_tPKcPKc"></span><span id="_CPPv218httpd_resp_set_hdrP11httpd_req_tPKcPKc"></span><span id="httpd_resp_set_hdr__httpd_req_tP.cCP.cCP"></span><span class="target" id="esp__http__server_8h_1af9fe08829da872bed237cb17b577b1bb"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_resp_set_hdr</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411httpd_req_t" title="httpd_req_t">httpd_req_t</a> *<em>r</em>, <em class="property">const</em> char *<em>field</em>, <em class="property">const</em> char *<em>value</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418httpd_resp_set_hdrP11httpd_req_tPKcPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>API to append any additional headers. </p>
+<p>This API sets any additional header fields that need to be sent in the response.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>This API is supposed to be called only from the context of a URI handler where httpd_req_t* request pointer is valid.</li>
+<li>The header isn’t sent out until any of the send APIs is executed.</li>
+<li>The maximum allowed number of additional headers is limited to value of max_resp_headers in config structure.</li>
+<li>Make sure that the lifetime of the field value strings are valid till send function is called.</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : On successfully appending new header</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments</li>
+<li>ESP_ERR_HTTPD_RESP_HDR : Total additional headers exceed max allowed</li>
+<li>ESP_ERR_HTTPD_INVALID_REQ : Invalid request pointer </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: The request being responded to </li>
+<li><code class="docutils literal notranslate"><span class="pre">field</span></code>: The field name of the HTTP header </li>
+<li><code class="docutils literal notranslate"><span class="pre">value</span></code>: The value of this HTTP header</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419httpd_resp_send_errP11httpd_req_t16httpd_err_code_tPKc">
+<span id="_CPPv319httpd_resp_send_errP11httpd_req_t16httpd_err_code_tPKc"></span><span id="_CPPv219httpd_resp_send_errP11httpd_req_t16httpd_err_code_tPKc"></span><span id="httpd_resp_send_err__httpd_req_tP.httpd_err_code_t.cCP"></span><span class="target" id="esp__http__server_8h_1aaa98f32909f0c925d2f4b097c6b11213"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_resp_send_err</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411httpd_req_t" title="httpd_req_t">httpd_req_t</a> *<em>req</em>, <a class="reference internal" href="#_CPPv416httpd_err_code_t" title="httpd_err_code_t">httpd_err_code_t</a> <em>error</em>, <em class="property">const</em> char *<em>msg</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419httpd_resp_send_errP11httpd_req_t16httpd_err_code_tPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>For sending out error code in response to HTTP request. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>This API is supposed to be called only from the context of a URI handler where httpd_req_t* request pointer is valid.</li>
+<li>Once this API is called, all request headers are purged, so request headers need be copied into separate buffers if they are required later.</li>
+<li>If you wish to send additional data in the body of the response, please use the lower-level functions directly.</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : On successfully sending the response packet</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments</li>
+<li>ESP_ERR_HTTPD_RESP_SEND : Error in raw send</li>
+<li>ESP_ERR_HTTPD_INVALID_REQ : Invalid request pointer </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">req</span></code>: Pointer to the HTTP request for which the response needs to be sent </li>
+<li><code class="docutils literal notranslate"><span class="pre">error</span></code>: Error type to send </li>
+<li><code class="docutils literal notranslate"><span class="pre">msg</span></code>: Error message string (pass NULL for default message)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419httpd_resp_send_404P11httpd_req_t">
+<span id="_CPPv319httpd_resp_send_404P11httpd_req_t"></span><span id="_CPPv219httpd_resp_send_404P11httpd_req_t"></span><span id="httpd_resp_send_404__httpd_req_tP"></span><span class="target" id="esp__http__server_8h_1a6d94e8ca3981df3427b7c4ae680f07e2"></span><em class="property">static</em> <a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_resp_send_404</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411httpd_req_t" title="httpd_req_t">httpd_req_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419httpd_resp_send_404P11httpd_req_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Helper function for HTTP 404. </p>
+<p>Send HTTP 404 message. If you wish to send additional data in the body of the response, please use the lower-level functions directly.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>This API is supposed to be called only from the context of a URI handler where httpd_req_t* request pointer is valid.</li>
+<li>Once this API is called, all request headers are purged, so request headers need be copied into separate buffers if they are required later.</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : On successfully sending the response packet</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments</li>
+<li>ESP_ERR_HTTPD_RESP_SEND : Error in raw send</li>
+<li>ESP_ERR_HTTPD_INVALID_REQ : Invalid request pointer </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: The request being responded to</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419httpd_resp_send_408P11httpd_req_t">
+<span id="_CPPv319httpd_resp_send_408P11httpd_req_t"></span><span id="_CPPv219httpd_resp_send_408P11httpd_req_t"></span><span id="httpd_resp_send_408__httpd_req_tP"></span><span class="target" id="esp__http__server_8h_1ae22aff0dd981380d05812d3a0f8b2095"></span><em class="property">static</em> <a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_resp_send_408</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411httpd_req_t" title="httpd_req_t">httpd_req_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419httpd_resp_send_408P11httpd_req_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Helper function for HTTP 408. </p>
+<p>Send HTTP 408 message. If you wish to send additional data in the body of the response, please use the lower-level functions directly.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>This API is supposed to be called only from the context of a URI handler where httpd_req_t* request pointer is valid.</li>
+<li>Once this API is called, all request headers are purged, so request headers need be copied into separate buffers if they are required later.</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : On successfully sending the response packet</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments</li>
+<li>ESP_ERR_HTTPD_RESP_SEND : Error in raw send</li>
+<li>ESP_ERR_HTTPD_INVALID_REQ : Invalid request pointer </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: The request being responded to</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419httpd_resp_send_500P11httpd_req_t">
+<span id="_CPPv319httpd_resp_send_500P11httpd_req_t"></span><span id="_CPPv219httpd_resp_send_500P11httpd_req_t"></span><span id="httpd_resp_send_500__httpd_req_tP"></span><span class="target" id="esp__http__server_8h_1adc611ab182c3fb310cd32876e7a50079"></span><em class="property">static</em> <a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_resp_send_500</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411httpd_req_t" title="httpd_req_t">httpd_req_t</a> *<em>r</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419httpd_resp_send_500P11httpd_req_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Helper function for HTTP 500. </p>
+<p>Send HTTP 500 message. If you wish to send additional data in the body of the response, please use the lower-level functions directly.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>This API is supposed to be called only from the context of a URI handler where httpd_req_t* request pointer is valid.</li>
+<li>Once this API is called, all request headers are purged, so request headers need be copied into separate buffers if they are required later.</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : On successfully sending the response packet</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments</li>
+<li>ESP_ERR_HTTPD_RESP_SEND : Error in raw send</li>
+<li>ESP_ERR_HTTPD_INVALID_REQ : Invalid request pointer </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: The request being responded to</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv410httpd_sendP11httpd_req_tPKc6size_t">
+<span id="_CPPv310httpd_sendP11httpd_req_tPKc6size_t"></span><span id="_CPPv210httpd_sendP11httpd_req_tPKc6size_t"></span><span id="httpd_send__httpd_req_tP.cCP.s"></span><span class="target" id="esp__http__server_8h_1ab5136d22ec4def6e24eb31bdb67e2240"></span>int <code class="descname">httpd_send</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411httpd_req_t" title="httpd_req_t">httpd_req_t</a> *<em>r</em>, <em class="property">const</em> char *<em>buf</em>, size_t <em>buf_len</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv410httpd_sendP11httpd_req_tPKc6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Raw HTTP send. </p>
+<p>Call this API if you wish to construct your custom response packet. When using this, all essential header, eg. HTTP version, Status Code, Content Type and Length, Encoding, etc. will have to be constructed manually, and HTTP delimeters (CRLF) will need to be placed correctly for separating sub-sections of the HTTP response packet.</p>
+<p>If the send override function is set, this API will end up calling that function eventually to send data out.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>This API is supposed to be called only from the context of a URI handler where httpd_req_t* request pointer is valid.</li>
+<li>Unless the response has the correct HTTP structure (which the user must now ensure) it is not guaranteed that it will be recognized by the client. For most cases, you wouldn’t have to call this API, but you would rather use either of : httpd_resp_send(), httpd_resp_send_chunk()</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>Bytes : Number of bytes that were sent successfully</li>
+<li>HTTPD_SOCK_ERR_INVALID : Invalid arguments</li>
+<li>HTTPD_SOCK_ERR_TIMEOUT : Timeout/interrupted while calling socket send()</li>
+<li>HTTPD_SOCK_ERR_FAIL : Unrecoverable error while calling socket send() </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">r</span></code>: The request being responded to </li>
+<li><code class="docutils literal notranslate"><span class="pre">buf</span></code>: Buffer from where the fully constructed packet is to be read </li>
+<li><code class="docutils literal notranslate"><span class="pre">buf_len</span></code>: Length of the buffer</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426httpd_register_err_handler14httpd_handle_t16httpd_err_code_t24httpd_err_handler_func_t">
+<span id="_CPPv326httpd_register_err_handler14httpd_handle_t16httpd_err_code_t24httpd_err_handler_func_t"></span><span id="_CPPv226httpd_register_err_handler14httpd_handle_t16httpd_err_code_t24httpd_err_handler_func_t"></span><span id="httpd_register_err_handler__httpd_handle_t.httpd_err_code_t.httpd_err_handler_func_t"></span><span class="target" id="esp__http__server_8h_1a77882a50b8f07e4f667887bac6294bd2"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_register_err_handler</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> <em>handle</em>, <a class="reference internal" href="#_CPPv416httpd_err_code_t" title="httpd_err_code_t">httpd_err_code_t</a> <em>error</em>, <a class="reference internal" href="#_CPPv424httpd_err_handler_func_t" title="httpd_err_handler_func_t">httpd_err_handler_func_t</a> <em>handler_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426httpd_register_err_handler14httpd_handle_t16httpd_err_code_t24httpd_err_handler_func_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function for registering HTTP error handlers. </p>
+<p>This function maps a handler function to any supported error code given by <code class="docutils literal notranslate"><span class="pre">httpd_err_code_t</span></code>. See prototype <code class="docutils literal notranslate"><span class="pre">httpd_err_handler_func_t</span></code> above for details.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : handler registered successfully</li>
+<li>ESP_ERR_INVALID_ARG : invalid error code or server handle </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: HTTP server handle </li>
+<li><code class="docutils literal notranslate"><span class="pre">error</span></code>: Error type </li>
+<li><code class="docutils literal notranslate"><span class="pre">handler_fn</span></code>: User implemented handler function (Pass NULL to unset any previously set handler)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv411httpd_startP14httpd_handle_tPK14httpd_config_t">
+<span id="_CPPv311httpd_startP14httpd_handle_tPK14httpd_config_t"></span><span id="_CPPv211httpd_startP14httpd_handle_tPK14httpd_config_t"></span><span id="httpd_start__httpd_handle_tP.httpd_config_tCP"></span><span class="target" id="esp__http__server_8h_1a67fc09a6f8b438d55f8277f0112fe2d2"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_start</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> *<em>handle</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv414httpd_config_t" title="httpd_config_t">httpd_config_t</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv411httpd_startP14httpd_handle_tPK14httpd_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Starts the web server. </p>
+<p>Create an instance of HTTP server and allocate memory/resources for it depending upon the specified configuration.</p>
+<p>Example usage: <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">//Function for starting the webserver</span>
+<span class="n">httpd_handle_t</span> <span class="nf">start_webserver</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+     <span class="c1">// Generate default configuration</span>
+     <span class="n">httpd_config_t</span> <span class="n">config</span> <span class="o">=</span> <span class="n">HTTPD_DEFAULT_CONFIG</span><span class="p">();</span>
+
+     <span class="c1">// Empty handle to http_server</span>
+     <span class="n">httpd_handle_t</span> <span class="n">server</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+     <span class="c1">// Start the httpd server</span>
+     <span class="k">if</span> <span class="p">(</span><span class="n">httpd_start</span><span class="p">(</span><span class="o">&amp;</span><span class="n">server</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">config</span><span class="p">)</span> <span class="o">==</span> <span class="n">ESP_OK</span><span class="p">)</span> <span class="p">{</span>
+         <span class="c1">// Register URI handlers</span>
+         <span class="n">httpd_register_uri_handler</span><span class="p">(</span><span class="n">server</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">uri_get</span><span class="p">);</span>
+         <span class="n">httpd_register_uri_handler</span><span class="p">(</span><span class="n">server</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">uri_post</span><span class="p">);</span>
+     <span class="p">}</span>
+     <span class="c1">// If server failed to start, handle will be NULL</span>
+     <span class="k">return</span> <span class="n">server</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Instance created successfully</li>
+<li>ESP_ERR_INVALID_ARG : Null argument(s)</li>
+<li>ESP_ERR_HTTPD_ALLOC_MEM : Failed to allocate memory for instance</li>
+<li>ESP_ERR_HTTPD_TASK : Failed to launch server task </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">config</span></code>: Configuration for new instance of the server </li>
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Handle to newly created instance of the server. NULL on error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv410httpd_stop14httpd_handle_t">
+<span id="_CPPv310httpd_stop14httpd_handle_t"></span><span id="_CPPv210httpd_stop14httpd_handle_t"></span><span id="httpd_stop__httpd_handle_t"></span><span class="target" id="esp__http__server_8h_1acbb0acc68fa2da437c041d06f35fb861"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_stop</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> <em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv410httpd_stop14httpd_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stops the web server. </p>
+<p>Deallocates memory/resources used by an HTTP server instance and deletes it. Once deleted the handle can no longer be used for accessing the instance.</p>
+<p>Example usage: <div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// Function for stopping the webserver</span>
+<span class="kt">void</span> <span class="nf">stop_webserver</span><span class="p">(</span><span class="n">httpd_handle_t</span> <span class="n">server</span><span class="p">)</span>
+<span class="p">{</span>
+     <span class="c1">// Ensure handle is non NULL</span>
+     <span class="k">if</span> <span class="p">(</span><span class="n">server</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+         <span class="c1">// Stop the httpd server</span>
+         <span class="n">httpd_stop</span><span class="p">(</span><span class="n">server</span><span class="p">);</span>
+     <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Server stopped successfully</li>
+<li>ESP_ERR_INVALID_ARG : Handle argument is Null </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Handle to server returned by httpd_start </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416httpd_queue_work14httpd_handle_t15httpd_work_fn_tPv">
+<span id="_CPPv316httpd_queue_work14httpd_handle_t15httpd_work_fn_tPv"></span><span id="_CPPv216httpd_queue_work14httpd_handle_t15httpd_work_fn_tPv"></span><span id="httpd_queue_work__httpd_handle_t.httpd_work_fn_t.voidP"></span><span class="target" id="esp__http__server_8h_1a1f87a6588d7b73e22e3be710015ce5ef"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_queue_work</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> <em>handle</em>, <a class="reference internal" href="#_CPPv415httpd_work_fn_t" title="httpd_work_fn_t">httpd_work_fn_t</a> <em>work</em>, void *<em>arg</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416httpd_queue_work14httpd_handle_t15httpd_work_fn_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Queue execution of a function in HTTPD’s context. </p>
+<p>This API queues a work function for asynchronous execution</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Some protocols require that the web server generate some asynchronous data and send it to the persistently opened connection. This facility is for use by such protocols.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : On successfully queueing the work</li>
+<li>ESP_FAIL : Failure in ctrl socket</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Handle to server returned by httpd_start </li>
+<li><code class="docutils literal notranslate"><span class="pre">work</span></code>: Pointer to the function to be executed in the HTTPD’s context </li>
+<li><code class="docutils literal notranslate"><span class="pre">arg</span></code>: Pointer to the arguments that should be passed to this function</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418httpd_sess_get_ctx14httpd_handle_ti">
+<span id="_CPPv318httpd_sess_get_ctx14httpd_handle_ti"></span><span id="_CPPv218httpd_sess_get_ctx14httpd_handle_ti"></span><span id="httpd_sess_get_ctx__httpd_handle_t.i"></span><span class="target" id="esp__http__server_8h_1ab5424b2d46f2809b3155d38c00d6f422"></span>void *<code class="descname">httpd_sess_get_ctx</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> <em>handle</em>, int <em>sockfd</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418httpd_sess_get_ctx14httpd_handle_ti" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get session context from socket descriptor. </p>
+<p>Typically if a session context is created, it is available to URI handlers through the httpd_req_t structure. But, there are cases where the web server’s send/receive functions may require the context (for example, for accessing keying information etc). Since the send/receive function only have the socket descriptor at their disposal, this API provides them with a way to retrieve the session context.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>void* : Pointer to the context associated with this session</li>
+<li>NULL : Empty context / Invalid handle / Invalid socket fd </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Handle to server returned by httpd_start </li>
+<li><code class="docutils literal notranslate"><span class="pre">sockfd</span></code>: The socket descriptor for which the context should be extracted.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418httpd_sess_set_ctx14httpd_handle_tiPv19httpd_free_ctx_fn_t">
+<span id="_CPPv318httpd_sess_set_ctx14httpd_handle_tiPv19httpd_free_ctx_fn_t"></span><span id="_CPPv218httpd_sess_set_ctx14httpd_handle_tiPv19httpd_free_ctx_fn_t"></span><span id="httpd_sess_set_ctx__httpd_handle_t.i.voidP.httpd_free_ctx_fn_t"></span><span class="target" id="esp__http__server_8h_1a757e67695bcea509774cf8627a58c73b"></span>void <code class="descname">httpd_sess_set_ctx</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> <em>handle</em>, int <em>sockfd</em>, void *<em>ctx</em>, <a class="reference internal" href="#_CPPv419httpd_free_ctx_fn_t" title="httpd_free_ctx_fn_t">httpd_free_ctx_fn_t</a> <em>free_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418httpd_sess_set_ctx14httpd_handle_tiPv19httpd_free_ctx_fn_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set session context by socket descriptor. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Handle to server returned by httpd_start </li>
+<li><code class="docutils literal notranslate"><span class="pre">sockfd</span></code>: The socket descriptor for which the context should be extracted. </li>
+<li><code class="docutils literal notranslate"><span class="pre">ctx</span></code>: Context object to assign to the session </li>
+<li><code class="docutils literal notranslate"><span class="pre">free_fn</span></code>: Function that should be called to free the context </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428httpd_sess_get_transport_ctx14httpd_handle_ti">
+<span id="_CPPv328httpd_sess_get_transport_ctx14httpd_handle_ti"></span><span id="_CPPv228httpd_sess_get_transport_ctx14httpd_handle_ti"></span><span id="httpd_sess_get_transport_ctx__httpd_handle_t.i"></span><span class="target" id="esp__http__server_8h_1aebaa93d38fb678bee7c913f35631d985"></span>void *<code class="descname">httpd_sess_get_transport_ctx</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> <em>handle</em>, int <em>sockfd</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428httpd_sess_get_transport_ctx14httpd_handle_ti" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get session ‘transport’ context by socket descriptor. </p>
+<p><p>This context is used by the send/receive functions, for example to manage SSL context.</p>
+<dl class="docutils">
+<dt><strong>See</strong></dt>
+<dd>httpd_sess_get_ctx()</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>void* : Pointer to the transport context associated with this session</li>
+<li>NULL : Empty context / Invalid handle / Invalid socket fd </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Handle to server returned by httpd_start </li>
+<li><code class="docutils literal notranslate"><span class="pre">sockfd</span></code>: The socket descriptor for which the context should be extracted. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428httpd_sess_set_transport_ctx14httpd_handle_tiPv19httpd_free_ctx_fn_t">
+<span id="_CPPv328httpd_sess_set_transport_ctx14httpd_handle_tiPv19httpd_free_ctx_fn_t"></span><span id="_CPPv228httpd_sess_set_transport_ctx14httpd_handle_tiPv19httpd_free_ctx_fn_t"></span><span id="httpd_sess_set_transport_ctx__httpd_handle_t.i.voidP.httpd_free_ctx_fn_t"></span><span class="target" id="esp__http__server_8h_1a04274a7e095da7be8d6c16ab51822907"></span>void <code class="descname">httpd_sess_set_transport_ctx</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> <em>handle</em>, int <em>sockfd</em>, void *<em>ctx</em>, <a class="reference internal" href="#_CPPv419httpd_free_ctx_fn_t" title="httpd_free_ctx_fn_t">httpd_free_ctx_fn_t</a> <em>free_fn</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428httpd_sess_set_transport_ctx14httpd_handle_tiPv19httpd_free_ctx_fn_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set session ‘transport’ context by socket descriptor. </p>
+<p><dl class="docutils">
+<dt><strong>See</strong></dt>
+<dd>httpd_sess_set_ctx()</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Handle to server returned by httpd_start </li>
+<li><code class="docutils literal notranslate"><span class="pre">sockfd</span></code>: The socket descriptor for which the context should be extracted. </li>
+<li><code class="docutils literal notranslate"><span class="pre">ctx</span></code>: Transport context object to assign to the session </li>
+<li><code class="docutils literal notranslate"><span class="pre">free_fn</span></code>: Function that should be called to free the transport context </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425httpd_get_global_user_ctx14httpd_handle_t">
+<span id="_CPPv325httpd_get_global_user_ctx14httpd_handle_t"></span><span id="_CPPv225httpd_get_global_user_ctx14httpd_handle_t"></span><span id="httpd_get_global_user_ctx__httpd_handle_t"></span><span class="target" id="esp__http__server_8h_1a0d7e7fe410fc5dbc42c619fec5600ea9"></span>void *<code class="descname">httpd_get_global_user_ctx</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> <em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425httpd_get_global_user_ctx14httpd_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get HTTPD global user context (it was set in the server config struct) </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>global user context </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Handle to server returned by httpd_start </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv430httpd_get_global_transport_ctx14httpd_handle_t">
+<span id="_CPPv330httpd_get_global_transport_ctx14httpd_handle_t"></span><span id="_CPPv230httpd_get_global_transport_ctx14httpd_handle_t"></span><span id="httpd_get_global_transport_ctx__httpd_handle_t"></span><span class="target" id="esp__http__server_8h_1a5623fb12d1be87bf5370ff08470fcead"></span>void *<code class="descname">httpd_get_global_transport_ctx</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> <em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv430httpd_get_global_transport_ctx14httpd_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get HTTPD global transport context (it was set in the server config struct) </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>global transport context </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Handle to server returned by httpd_start </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424httpd_sess_trigger_close14httpd_handle_ti">
+<span id="_CPPv324httpd_sess_trigger_close14httpd_handle_ti"></span><span id="_CPPv224httpd_sess_trigger_close14httpd_handle_ti"></span><span id="httpd_sess_trigger_close__httpd_handle_t.i"></span><span class="target" id="esp__http__server_8h_1a575055bada874d254b42ccf913351793"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_sess_trigger_close</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> <em>handle</em>, int <em>sockfd</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424httpd_sess_trigger_close14httpd_handle_ti" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Trigger an httpd session close externally. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Calling this API is only required in special circumstances wherein some application requires to close an httpd client session asynchronously.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : On successfully initiating closure</li>
+<li>ESP_FAIL : Failure to queue work</li>
+<li>ESP_ERR_NOT_FOUND : Socket fd not found</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Handle to server returned by httpd_start </li>
+<li><code class="docutils literal notranslate"><span class="pre">sockfd</span></code>: The socket descriptor of the session to be closed</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv429httpd_sess_update_lru_counter14httpd_handle_ti">
+<span id="_CPPv329httpd_sess_update_lru_counter14httpd_handle_ti"></span><span id="_CPPv229httpd_sess_update_lru_counter14httpd_handle_ti"></span><span id="httpd_sess_update_lru_counter__httpd_handle_t.i"></span><span class="target" id="esp__http__server_8h_1ab47bc683db586f4e8deb53a4dbf6b531"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">httpd_sess_update_lru_counter</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> <em>handle</em>, int <em>sockfd</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv429httpd_sess_update_lru_counter14httpd_handle_ti" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Update LRU counter for a given socket. </p>
+<p>LRU Counters are internally associated with each session to monitor how recently a session exchanged traffic. When LRU purge is enabled, if a client is requesting for connection but maximum number of sockets/sessions is reached, then the session having the earliest LRU counter is closed automatically.</p>
+<p>Updating the LRU counter manually prevents the socket from being purged due to the Least Recently Used (LRU) logic, even though it might not have received traffic for some time. This is useful when all open sockets/session are frequently exchanging traffic but the user specifically wants one of the sessions to be kept open, irrespective of when it last exchanged a packet.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Calling this API is only necessary if the LRU Purge Enable option is enabled.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Socket found and LRU counter updated</li>
+<li>ESP_ERR_NOT_FOUND : Socket not found</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Handle to server returned by httpd_start </li>
+<li><code class="docutils literal notranslate"><span class="pre">sockfd</span></code>: The socket descriptor of the session for which LRU counter is to be updated</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv412httpd_config">
+<span id="_CPPv312httpd_config"></span><span id="_CPPv212httpd_config"></span><span id="httpd_config"></span><span class="target" id="structhttpd__config"></span><em class="property">struct </em><code class="descname">httpd_config</code><a class="headerlink" href="#_CPPv412httpd_config" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP Server Configuration Structure. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Use HTTPD_DEFAULT_CONFIG() to initialize the configuration to a default value and then modify only those fields that are specifically determined by the use case. </dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N12httpd_config13task_priorityE">
+<span id="_CPPv3N12httpd_config13task_priorityE"></span><span id="_CPPv2N12httpd_config13task_priorityE"></span><span id="httpd_config::task_priority__unsigned"></span><span class="target" id="structhttpd__config_1ac7328969561f39489efb0e4560abb2c7"></span>unsigned <code class="descname">task_priority</code><a class="headerlink" href="#_CPPv4N12httpd_config13task_priorityE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Priority of FreeRTOS task which runs the server </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12httpd_config10stack_sizeE">
+<span id="_CPPv3N12httpd_config10stack_sizeE"></span><span id="_CPPv2N12httpd_config10stack_sizeE"></span><span id="httpd_config::stack_size__s"></span><span class="target" id="structhttpd__config_1a1e977af1b803de9fe819e2c82929211e"></span>size_t <code class="descname">stack_size</code><a class="headerlink" href="#_CPPv4N12httpd_config10stack_sizeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The maximum stack size allowed for the server task </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12httpd_config7core_idE">
+<span id="_CPPv3N12httpd_config7core_idE"></span><span id="_CPPv2N12httpd_config7core_idE"></span><span id="httpd_config::core_id__BaseType_t"></span><span class="target" id="structhttpd__config_1af53f7d5fb25119c65fac16f4a09dc062"></span>BaseType_t <code class="descname">core_id</code><a class="headerlink" href="#_CPPv4N12httpd_config7core_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The core the HTTP server task will run on </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12httpd_config11server_portE">
+<span id="_CPPv3N12httpd_config11server_portE"></span><span id="_CPPv2N12httpd_config11server_portE"></span><span id="httpd_config::server_port__uint16_t"></span><span class="target" id="structhttpd__config_1a6c40d3061485bc6c7d34d73a63e42e15"></span>uint16_t <code class="descname">server_port</code><a class="headerlink" href="#_CPPv4N12httpd_config11server_portE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>TCP Port number for receiving and transmitting HTTP traffic </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12httpd_config9ctrl_portE">
+<span id="_CPPv3N12httpd_config9ctrl_portE"></span><span id="_CPPv2N12httpd_config9ctrl_portE"></span><span id="httpd_config::ctrl_port__uint16_t"></span><span class="target" id="structhttpd__config_1aaa92748cfcf99d5d6f0d2c94d7d1d237"></span>uint16_t <code class="descname">ctrl_port</code><a class="headerlink" href="#_CPPv4N12httpd_config9ctrl_portE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>UDP Port number for asynchronously exchanging control signals between various components of the server </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12httpd_config16max_open_socketsE">
+<span id="_CPPv3N12httpd_config16max_open_socketsE"></span><span id="_CPPv2N12httpd_config16max_open_socketsE"></span><span id="httpd_config::max_open_sockets__uint16_t"></span><span class="target" id="structhttpd__config_1a8c4371992c7e8371a0b768da135fc15b"></span>uint16_t <code class="descname">max_open_sockets</code><a class="headerlink" href="#_CPPv4N12httpd_config16max_open_socketsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Max number of sockets/clients connected at any time </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12httpd_config16max_uri_handlersE">
+<span id="_CPPv3N12httpd_config16max_uri_handlersE"></span><span id="_CPPv2N12httpd_config16max_uri_handlersE"></span><span id="httpd_config::max_uri_handlers__uint16_t"></span><span class="target" id="structhttpd__config_1a0d98832efc16246a49b2225c01cce218"></span>uint16_t <code class="descname">max_uri_handlers</code><a class="headerlink" href="#_CPPv4N12httpd_config16max_uri_handlersE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Maximum allowed uri handlers </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12httpd_config16max_resp_headersE">
+<span id="_CPPv3N12httpd_config16max_resp_headersE"></span><span id="_CPPv2N12httpd_config16max_resp_headersE"></span><span id="httpd_config::max_resp_headers__uint16_t"></span><span class="target" id="structhttpd__config_1ae18633b07f2416b8d32f286262b0265b"></span>uint16_t <code class="descname">max_resp_headers</code><a class="headerlink" href="#_CPPv4N12httpd_config16max_resp_headersE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Maximum allowed additional headers in HTTP response </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12httpd_config12backlog_connE">
+<span id="_CPPv3N12httpd_config12backlog_connE"></span><span id="_CPPv2N12httpd_config12backlog_connE"></span><span id="httpd_config::backlog_conn__uint16_t"></span><span class="target" id="structhttpd__config_1a7ef094fb09dc0b05871e07f84e95431e"></span>uint16_t <code class="descname">backlog_conn</code><a class="headerlink" href="#_CPPv4N12httpd_config12backlog_connE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Number of backlog connections </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12httpd_config16lru_purge_enableE">
+<span id="_CPPv3N12httpd_config16lru_purge_enableE"></span><span id="_CPPv2N12httpd_config16lru_purge_enableE"></span><span id="httpd_config::lru_purge_enable__b"></span><span class="target" id="structhttpd__config_1a2b023b5100ece33cabe1aa3d559a6ecb"></span>bool <code class="descname">lru_purge_enable</code><a class="headerlink" href="#_CPPv4N12httpd_config16lru_purge_enableE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Purge “Least Recently Used” connection </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12httpd_config17recv_wait_timeoutE">
+<span id="_CPPv3N12httpd_config17recv_wait_timeoutE"></span><span id="_CPPv2N12httpd_config17recv_wait_timeoutE"></span><span id="httpd_config::recv_wait_timeout__uint16_t"></span><span class="target" id="structhttpd__config_1aadd39fd10004e75265beba4d74475f5b"></span>uint16_t <code class="descname">recv_wait_timeout</code><a class="headerlink" href="#_CPPv4N12httpd_config17recv_wait_timeoutE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Timeout for recv function (in seconds) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12httpd_config17send_wait_timeoutE">
+<span id="_CPPv3N12httpd_config17send_wait_timeoutE"></span><span id="_CPPv2N12httpd_config17send_wait_timeoutE"></span><span id="httpd_config::send_wait_timeout__uint16_t"></span><span class="target" id="structhttpd__config_1a58c934b33248b2c72225642198f1f0c3"></span>uint16_t <code class="descname">send_wait_timeout</code><a class="headerlink" href="#_CPPv4N12httpd_config17send_wait_timeoutE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Timeout for send function (in seconds) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12httpd_config15global_user_ctxE">
+<span id="_CPPv3N12httpd_config15global_user_ctxE"></span><span id="_CPPv2N12httpd_config15global_user_ctxE"></span><span id="httpd_config::global_user_ctx__voidP"></span><span class="target" id="structhttpd__config_1aea07d602712387ee9177842d46bd2a5b"></span>void *<code class="descname">global_user_ctx</code><a class="headerlink" href="#_CPPv4N12httpd_config15global_user_ctxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Global user context.</p>
+<p>This field can be used to store arbitrary user data within the server context. The value can be retrieved using the server handle, available e.g. in the httpd_req_t struct.</p>
+<p>When shutting down, the server frees up the user context by calling free() on the global_user_ctx field. If you wish to use a custom function for freeing the global user context, please specify that here. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12httpd_config23global_user_ctx_free_fnE">
+<span id="_CPPv3N12httpd_config23global_user_ctx_free_fnE"></span><span id="_CPPv2N12httpd_config23global_user_ctx_free_fnE"></span><span id="httpd_config::global_user_ctx_free_fn__httpd_free_ctx_fn_t"></span><span class="target" id="structhttpd__config_1aa339887ac82ffdd3a077ce094da3375b"></span><a class="reference internal" href="#_CPPv419httpd_free_ctx_fn_t" title="httpd_free_ctx_fn_t">httpd_free_ctx_fn_t</a> <code class="descname">global_user_ctx_free_fn</code><a class="headerlink" href="#_CPPv4N12httpd_config23global_user_ctx_free_fnE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Free function for global user context </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12httpd_config20global_transport_ctxE">
+<span id="_CPPv3N12httpd_config20global_transport_ctxE"></span><span id="_CPPv2N12httpd_config20global_transport_ctxE"></span><span id="httpd_config::global_transport_ctx__voidP"></span><span class="target" id="structhttpd__config_1a9c4d467429af5680ec99368e37ab8db8"></span>void *<code class="descname">global_transport_ctx</code><a class="headerlink" href="#_CPPv4N12httpd_config20global_transport_ctxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Global transport context.</p>
+<p>Similar to global_user_ctx, but used for session encoding or encryption (e.g. to hold the SSL context). It will be freed using free(), unless global_transport_ctx_free_fn is specified. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12httpd_config28global_transport_ctx_free_fnE">
+<span id="_CPPv3N12httpd_config28global_transport_ctx_free_fnE"></span><span id="_CPPv2N12httpd_config28global_transport_ctx_free_fnE"></span><span id="httpd_config::global_transport_ctx_free_fn__httpd_free_ctx_fn_t"></span><span class="target" id="structhttpd__config_1ada620729da1376fc7dd383b8e8c532b6"></span><a class="reference internal" href="#_CPPv419httpd_free_ctx_fn_t" title="httpd_free_ctx_fn_t">httpd_free_ctx_fn_t</a> <code class="descname">global_transport_ctx_free_fn</code><a class="headerlink" href="#_CPPv4N12httpd_config28global_transport_ctx_free_fnE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Free function for global transport context </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12httpd_config7open_fnE">
+<span id="_CPPv3N12httpd_config7open_fnE"></span><span id="_CPPv2N12httpd_config7open_fnE"></span><span id="httpd_config::open_fn__httpd_open_func_t"></span><span class="target" id="structhttpd__config_1a6b5675925c6d4c7b99bebb744b4dd047"></span><a class="reference internal" href="#_CPPv417httpd_open_func_t" title="httpd_open_func_t">httpd_open_func_t</a> <code class="descname">open_fn</code><a class="headerlink" href="#_CPPv4N12httpd_config7open_fnE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Custom session opening callback.</p>
+<p>Called on a new session socket just after accept(), but before reading any data.</p>
+<p>This is an opportunity to set up e.g. SSL encryption using global_transport_ctx and the send/recv/pending session overrides.</p>
+<p>If a context needs to be maintained between these functions, store it in the session using httpd_sess_set_transport_ctx() and retrieve it later with httpd_sess_get_transport_ctx()</p>
+<p>Returning a value other than ESP_OK will immediately close the new socket. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12httpd_config8close_fnE">
+<span id="_CPPv3N12httpd_config8close_fnE"></span><span id="_CPPv2N12httpd_config8close_fnE"></span><span id="httpd_config::close_fn__httpd_close_func_t"></span><span class="target" id="structhttpd__config_1af511dedbbbd18af2ae8d256ead200e42"></span><a class="reference internal" href="#_CPPv418httpd_close_func_t" title="httpd_close_func_t">httpd_close_func_t</a> <code class="descname">close_fn</code><a class="headerlink" href="#_CPPv4N12httpd_config8close_fnE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Custom session closing callback.</p>
+<p>Called when a session is deleted, before freeing user and transport contexts and before closing the socket. This is a place for custom de-init code common to all sockets.</p>
+<p>Set the user or transport context to NULL if it was freed here, so the server does not try to free it again.</p>
+<p>This function is run for all terminated sessions, including sessions where the socket was closed by the network stack - that is, the file descriptor may not be valid anymore. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12httpd_config12uri_match_fnE">
+<span id="_CPPv3N12httpd_config12uri_match_fnE"></span><span id="_CPPv2N12httpd_config12uri_match_fnE"></span><span id="httpd_config::uri_match_fn__httpd_uri_match_func_t"></span><span class="target" id="structhttpd__config_1a4e65d59846d22f07daefa6898c351e1b"></span><a class="reference internal" href="#_CPPv422httpd_uri_match_func_t" title="httpd_uri_match_func_t">httpd_uri_match_func_t</a> <code class="descname">uri_match_fn</code><a class="headerlink" href="#_CPPv4N12httpd_config12uri_match_fnE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>URI matcher function.</p>
+<p>Called when searching for a matching URI: 1) whose request handler is to be executed right after an HTTP request is successfully parsed 2) in order to prevent duplication while registering a new URI handler using <code class="docutils literal notranslate"><span class="pre">httpd_register_uri_handler()</span></code></p>
+<p>Available options are: 1) NULL : Internally do basic matching using <code class="docutils literal notranslate"><span class="pre">strncmp()</span></code> 2) <code class="docutils literal notranslate"><span class="pre">httpd_uri_match_wildcard()</span></code> : URI wildcard matcher</p>
+<p>Users can implement their own matching functions (See description of the <code class="docutils literal notranslate"><span class="pre">httpd_uri_match_func_t</span></code> function prototype) </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv49httpd_req">
+<span id="_CPPv39httpd_req"></span><span id="_CPPv29httpd_req"></span><span id="httpd_req"></span><span class="target" id="structhttpd__req"></span><em class="property">struct </em><code class="descname">httpd_req</code><a class="headerlink" href="#_CPPv49httpd_req" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP Request Data Structure. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N9httpd_req6handleE">
+<span id="_CPPv3N9httpd_req6handleE"></span><span id="_CPPv2N9httpd_req6handleE"></span><span id="httpd_req::handle__httpd_handle_t"></span><span class="target" id="structhttpd__req_1a5670d530fb005f7f78dbf18ba0a941bc"></span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> <code class="descname">handle</code><a class="headerlink" href="#_CPPv4N9httpd_req6handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Handle to server instance </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N9httpd_req6methodE">
+<span id="_CPPv3N9httpd_req6methodE"></span><span id="_CPPv2N9httpd_req6methodE"></span><span id="httpd_req::method__i"></span><span class="target" id="structhttpd__req_1a77cbca0e01e71a96a729f2fc117db48a"></span>int <code class="descname">method</code><a class="headerlink" href="#_CPPv4N9httpd_req6methodE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The type of HTTP request, -1 if unsupported method </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N9httpd_req3uriE">
+<span id="_CPPv3N9httpd_req3uriE"></span><span id="_CPPv2N9httpd_req3uriE"></span><span id="httpd_req::uri__cCA"></span><span class="target" id="structhttpd__req_1a5ae765ff59f36e0c32b5ec286e3aba29"></span><em class="property">const</em> char <code class="descname">uri</code>[<code class="descname">HTTPD_MAX_URI_LEN</code> + 1]<a class="headerlink" href="#_CPPv4N9httpd_req3uriE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The URI of this request (1 byte extra for null termination) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N9httpd_req11content_lenE">
+<span id="_CPPv3N9httpd_req11content_lenE"></span><span id="_CPPv2N9httpd_req11content_lenE"></span><span id="httpd_req::content_len__s"></span><span class="target" id="structhttpd__req_1a4cd9652d0d9b375b7a0feea20e03750b"></span>size_t <code class="descname">content_len</code><a class="headerlink" href="#_CPPv4N9httpd_req11content_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Length of the request body </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N9httpd_req3auxE">
+<span id="_CPPv3N9httpd_req3auxE"></span><span id="_CPPv2N9httpd_req3auxE"></span><span id="httpd_req::aux__voidP"></span><span class="target" id="structhttpd__req_1a15bca00d10d1a5f37dd7023188461506"></span>void *<code class="descname">aux</code><a class="headerlink" href="#_CPPv4N9httpd_req3auxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Internally used members </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N9httpd_req8user_ctxE">
+<span id="_CPPv3N9httpd_req8user_ctxE"></span><span id="_CPPv2N9httpd_req8user_ctxE"></span><span id="httpd_req::user_ctx__voidP"></span><span class="target" id="structhttpd__req_1afded762b2e37bc6f1c2ffadb98a82e36"></span>void *<code class="descname">user_ctx</code><a class="headerlink" href="#_CPPv4N9httpd_req8user_ctxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>User context pointer passed during URI registration. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N9httpd_req8sess_ctxE">
+<span id="_CPPv3N9httpd_req8sess_ctxE"></span><span id="_CPPv2N9httpd_req8sess_ctxE"></span><span id="httpd_req::sess_ctx__voidP"></span><span class="target" id="structhttpd__req_1a3cef09c79f06250ba7968d29b833c583"></span>void *<code class="descname">sess_ctx</code><a class="headerlink" href="#_CPPv4N9httpd_req8sess_ctxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Session Context Pointer</p>
+<p>A session context. Contexts are maintained across ‘sessions’ for a given open TCP connection. One session could have multiple request responses. The web server will ensure that the context persists across all these request and responses.</p>
+<p>By default, this is NULL. URI Handlers can set this to any meaningful value.</p>
+<p>If the underlying socket gets closed, and this pointer is non-NULL, the web server will free up the context by calling free(), unless free_ctx function is set. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N9httpd_req8free_ctxE">
+<span id="_CPPv3N9httpd_req8free_ctxE"></span><span id="_CPPv2N9httpd_req8free_ctxE"></span><span id="httpd_req::free_ctx__httpd_free_ctx_fn_t"></span><span class="target" id="structhttpd__req_1a5b66775ebd3defc861c0dcb21c56bcb3"></span><a class="reference internal" href="#_CPPv419httpd_free_ctx_fn_t" title="httpd_free_ctx_fn_t">httpd_free_ctx_fn_t</a> <code class="descname">free_ctx</code><a class="headerlink" href="#_CPPv4N9httpd_req8free_ctxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Pointer to free context hook</p>
+<p>Function to free session context</p>
+<p>If the web server’s socket closes, it frees up the session context by calling free() on the sess_ctx member. If you wish to use a custom function for freeing the session context, please specify that here. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N9httpd_req23ignore_sess_ctx_changesE">
+<span id="_CPPv3N9httpd_req23ignore_sess_ctx_changesE"></span><span id="_CPPv2N9httpd_req23ignore_sess_ctx_changesE"></span><span id="httpd_req::ignore_sess_ctx_changes__b"></span><span class="target" id="structhttpd__req_1a61a20805f21529592c6d2d28aab43bbf"></span>bool <code class="descname">ignore_sess_ctx_changes</code><a class="headerlink" href="#_CPPv4N9httpd_req23ignore_sess_ctx_changesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Flag indicating if Session Context changes should be ignored</p>
+<p>By default, if you change the sess_ctx in some URI handler, the http server will internally free the earlier context (if non NULL), after the URI handler returns. If you want to manage the allocation/reallocation/freeing of sess_ctx yourself, set this flag to true, so that the server will not perform any checks on it. The context will be cleared by the server (by calling free_ctx or free()) only if the socket gets closed. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv49httpd_uri">
+<span id="_CPPv39httpd_uri"></span><span id="_CPPv29httpd_uri"></span><span id="httpd_uri"></span><span class="target" id="structhttpd__uri"></span><em class="property">struct </em><code class="descname">httpd_uri</code><a class="headerlink" href="#_CPPv49httpd_uri" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Structure for URI handler. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N9httpd_uri3uriE">
+<span id="_CPPv3N9httpd_uri3uriE"></span><span id="_CPPv2N9httpd_uri3uriE"></span><span id="httpd_uri::uri__cCP"></span><span class="target" id="structhttpd__uri_1a6d96b7c861b635d1e75cb5ea784fa904"></span><em class="property">const</em> char *<code class="descname">uri</code><a class="headerlink" href="#_CPPv4N9httpd_uri3uriE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The URI to handle </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N9httpd_uri6methodE">
+<span id="_CPPv3N9httpd_uri6methodE"></span><span id="_CPPv2N9httpd_uri6methodE"></span><span id="httpd_uri::method__httpd_method_t"></span><span class="target" id="structhttpd__uri_1adcedc9988c787dc88a94854986c63a7a"></span><a class="reference internal" href="#_CPPv414httpd_method_t" title="httpd_method_t">httpd_method_t</a> <code class="descname">method</code><a class="headerlink" href="#_CPPv4N9httpd_uri6methodE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Method supported by the URI </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N9httpd_uri7handlerE">
+<span id="_CPPv3N9httpd_uri7handlerE"></span><span id="_CPPv2N9httpd_uri7handlerE"></span><span class="target" id="structhttpd__uri_1a63129cc7f59cd1bef6b3753733d560a4"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">handler</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411httpd_req_t" title="httpd_req_t">httpd_req_t</a> *r<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9httpd_uri7handlerE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Handler to call for supported request method. This must return ESP_OK, or else the underlying socket will be closed. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N9httpd_uri8user_ctxE">
+<span id="_CPPv3N9httpd_uri8user_ctxE"></span><span id="_CPPv2N9httpd_uri8user_ctxE"></span><span id="httpd_uri::user_ctx__voidP"></span><span class="target" id="structhttpd__uri_1ac1e1599092f7338cc1121a0225de8fb0"></span>void *<code class="descname">user_ctx</code><a class="headerlink" href="#_CPPv4N9httpd_uri8user_ctxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Pointer to user context data which will be available to handler </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.HTTPD_MAX_REQ_HDR_LEN">
+<span class="target" id="esp__http__server_8h_1a980514fd5ea0e5df13b61a610a533568"></span><code class="descname">HTTPD_MAX_REQ_HDR_LEN</code><a class="headerlink" href="#c.HTTPD_MAX_REQ_HDR_LEN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.HTTPD_MAX_URI_LEN">
+<span class="target" id="esp__http__server_8h_1a53353c97ec079bbb67d11063c61485a0"></span><code class="descname">HTTPD_MAX_URI_LEN</code><a class="headerlink" href="#c.HTTPD_MAX_URI_LEN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.HTTPD_SOCK_ERR_FAIL">
+<span class="target" id="esp__http__server_8h_1a414de2603c84063bf192beb538302ba2"></span><code class="descname">HTTPD_SOCK_ERR_FAIL</code><a class="headerlink" href="#c.HTTPD_SOCK_ERR_FAIL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.HTTPD_SOCK_ERR_INVALID">
+<span class="target" id="esp__http__server_8h_1ac5b0fdf08a0e847fa27a72b5c0441ef7"></span><code class="descname">HTTPD_SOCK_ERR_INVALID</code><a class="headerlink" href="#c.HTTPD_SOCK_ERR_INVALID" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.HTTPD_SOCK_ERR_TIMEOUT">
+<span class="target" id="esp__http__server_8h_1abcf644caeaa90f795a8752d2751ca446"></span><code class="descname">HTTPD_SOCK_ERR_TIMEOUT</code><a class="headerlink" href="#c.HTTPD_SOCK_ERR_TIMEOUT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.HTTPD_200">
+<span class="target" id="esp__http__server_8h_1af4b127c140f541d4de6656df5a3ab752"></span><code class="descname">HTTPD_200</code><a class="headerlink" href="#c.HTTPD_200" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTP Response 200 </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.HTTPD_204">
+<span class="target" id="esp__http__server_8h_1a598f51d2105e087602fc64ee90ebb1db"></span><code class="descname">HTTPD_204</code><a class="headerlink" href="#c.HTTPD_204" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTP Response 204 </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.HTTPD_207">
+<span class="target" id="esp__http__server_8h_1a1556a6addae5a1471f7ab4601e9be72b"></span><code class="descname">HTTPD_207</code><a class="headerlink" href="#c.HTTPD_207" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTP Response 207 </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.HTTPD_400">
+<span class="target" id="esp__http__server_8h_1a82175e01e1ac389a7cbc3be38a6b1672"></span><code class="descname">HTTPD_400</code><a class="headerlink" href="#c.HTTPD_400" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTP Response 400 </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.HTTPD_404">
+<span class="target" id="esp__http__server_8h_1a64bf9043ddaedbc26c68e73f0b2a1383"></span><code class="descname">HTTPD_404</code><a class="headerlink" href="#c.HTTPD_404" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTP Response 404 </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.HTTPD_408">
+<span class="target" id="esp__http__server_8h_1a70636571ca355db1bbd768455b8b74e0"></span><code class="descname">HTTPD_408</code><a class="headerlink" href="#c.HTTPD_408" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTP Response 408 </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.HTTPD_500">
+<span class="target" id="esp__http__server_8h_1a5b7c2b05b58226436e813169ab50b4ab"></span><code class="descname">HTTPD_500</code><a class="headerlink" href="#c.HTTPD_500" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTP Response 500 </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.HTTPD_TYPE_JSON">
+<span class="target" id="esp__http__server_8h_1a75c55e059a80ffcb3ce67e3481ee2cba"></span><code class="descname">HTTPD_TYPE_JSON</code><a class="headerlink" href="#c.HTTPD_TYPE_JSON" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTP Content type JSON </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.HTTPD_TYPE_TEXT">
+<span class="target" id="esp__http__server_8h_1af2f51b0354458b875ea529841cee89e4"></span><code class="descname">HTTPD_TYPE_TEXT</code><a class="headerlink" href="#c.HTTPD_TYPE_TEXT" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTP Content type text/HTML </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.HTTPD_TYPE_OCTET">
+<span class="target" id="esp__http__server_8h_1a910be1054243530a5060e475f1bb29e1"></span><code class="descname">HTTPD_TYPE_OCTET</code><a class="headerlink" href="#c.HTTPD_TYPE_OCTET" title="Permalink to this definition">¶</a></dt>
+<dd><p>HTTP Content type octext-stream </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.HTTPD_DEFAULT_CONFIG">
+<span class="target" id="esp__http__server_8h_1a16f21d93351c7b2a7d0fff7e52cb84ce"></span><code class="descname">HTTPD_DEFAULT_CONFIG</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.HTTPD_DEFAULT_CONFIG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_HTTPD_BASE">
+<span class="target" id="esp__http__server_8h_1ab4eee198c51a07a2bd1faecf1ba8d30f"></span><code class="descname">ESP_ERR_HTTPD_BASE</code><a class="headerlink" href="#c.ESP_ERR_HTTPD_BASE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starting number of HTTPD error codes </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_HTTPD_HANDLERS_FULL">
+<span class="target" id="esp__http__server_8h_1a57b81d1e32ef1d0ea49399f76764d8d4"></span><code class="descname">ESP_ERR_HTTPD_HANDLERS_FULL</code><a class="headerlink" href="#c.ESP_ERR_HTTPD_HANDLERS_FULL" title="Permalink to this definition">¶</a></dt>
+<dd><p>All slots for registering URI handlers have been consumed </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_HTTPD_HANDLER_EXISTS">
+<span class="target" id="esp__http__server_8h_1a58812cc89d323555abbb502f6500d216"></span><code class="descname">ESP_ERR_HTTPD_HANDLER_EXISTS</code><a class="headerlink" href="#c.ESP_ERR_HTTPD_HANDLER_EXISTS" title="Permalink to this definition">¶</a></dt>
+<dd><p>URI handler with same method and target URI already registered </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_HTTPD_INVALID_REQ">
+<span class="target" id="esp__http__server_8h_1a392df95876df9639d29fa1b46e50d33e"></span><code class="descname">ESP_ERR_HTTPD_INVALID_REQ</code><a class="headerlink" href="#c.ESP_ERR_HTTPD_INVALID_REQ" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invalid request pointer </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_HTTPD_RESULT_TRUNC">
+<span class="target" id="esp__http__server_8h_1a7764c1b5ad6bac4b70394d447ea6ed64"></span><code class="descname">ESP_ERR_HTTPD_RESULT_TRUNC</code><a class="headerlink" href="#c.ESP_ERR_HTTPD_RESULT_TRUNC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Result string truncated </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_HTTPD_RESP_HDR">
+<span class="target" id="esp__http__server_8h_1a2cf09e6ed46b1594e2562f693917b2ef"></span><code class="descname">ESP_ERR_HTTPD_RESP_HDR</code><a class="headerlink" href="#c.ESP_ERR_HTTPD_RESP_HDR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Response header field larger than supported </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_HTTPD_RESP_SEND">
+<span class="target" id="esp__http__server_8h_1a940dfdeafef71bbf1b446ee0d95f7155"></span><code class="descname">ESP_ERR_HTTPD_RESP_SEND</code><a class="headerlink" href="#c.ESP_ERR_HTTPD_RESP_SEND" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error occured while sending response packet </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_HTTPD_ALLOC_MEM">
+<span class="target" id="esp__http__server_8h_1ad4a0e90d6743bc2879683e0594157abd"></span><code class="descname">ESP_ERR_HTTPD_ALLOC_MEM</code><a class="headerlink" href="#c.ESP_ERR_HTTPD_ALLOC_MEM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Failed to dynamically allocate memory for resource </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_HTTPD_TASK">
+<span class="target" id="esp__http__server_8h_1ae5a79bfd921716071ca381f0ac776326"></span><code class="descname">ESP_ERR_HTTPD_TASK</code><a class="headerlink" href="#c.ESP_ERR_HTTPD_TASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Failed to launch server task/thread </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.HTTPD_RESP_USE_STRLEN">
+<span class="target" id="esp__http__server_8h_1a8d5f8ff1f607c5dd9c4c9b1df89d6a13"></span><code class="descname">HTTPD_RESP_USE_STRLEN</code><a class="headerlink" href="#c.HTTPD_RESP_USE_STRLEN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv411httpd_req_t">
+<span id="_CPPv311httpd_req_t"></span><span id="_CPPv211httpd_req_t"></span><span id="httpd_req_t"></span><span class="target" id="esp__http__server_8h_1ad12589c93ef767e054480196040a3865"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv49httpd_req" title="httpd_req">httpd_req</a> <code class="descname">httpd_req_t</code><a class="headerlink" href="#_CPPv411httpd_req_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP Request Data Structure. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv411httpd_uri_t">
+<span id="_CPPv311httpd_uri_t"></span><span id="_CPPv211httpd_uri_t"></span><span id="httpd_uri_t"></span><span class="target" id="esp__http__server_8h_1a1d7e19083d4529ffd4e8cd541ae10898"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv49httpd_uri" title="httpd_uri">httpd_uri</a> <code class="descname">httpd_uri_t</code><a class="headerlink" href="#_CPPv411httpd_uri_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Structure for URI handler. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv417httpd_send_func_t">
+<span id="_CPPv317httpd_send_func_t"></span><span id="_CPPv217httpd_send_func_t"></span><span id="httpd_send_func_t"></span><span class="target" id="esp__http__server_8h_1ab38425810ec83d8b318d61be15c12dae"></span><em class="property">typedef </em>int (*<code class="descname">httpd_send_func_t</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> hd, int sockfd, <em class="property">const</em> char *buf, size_t buf_len, int flags<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417httpd_send_func_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Prototype for HTTPDs low-level send function. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>User specified send function must handle errors internally, depending upon the set value of errno, and return specific HTTPD_SOCK_ERR_ codes, which will eventually be conveyed as return value of httpd_send() function</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>Bytes : The number of bytes sent successfully</li>
+<li>HTTPD_SOCK_ERR_INVALID : Invalid arguments</li>
+<li>HTTPD_SOCK_ERR_TIMEOUT : Timeout/interrupted while calling socket send()</li>
+<li>HTTPD_SOCK_ERR_FAIL : Unrecoverable error while calling socket send() </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">hd</span></code>: server instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">sockfd</span></code>: session socket file descriptor </li>
+<li><code class="docutils literal notranslate"><span class="pre">buf</span></code>: buffer with bytes to send </li>
+<li><code class="docutils literal notranslate"><span class="pre">buf_len</span></code>: data size </li>
+<li><code class="docutils literal notranslate"><span class="pre">flags</span></code>: flags for the send() function </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv417httpd_recv_func_t">
+<span id="_CPPv317httpd_recv_func_t"></span><span id="_CPPv217httpd_recv_func_t"></span><span id="httpd_recv_func_t"></span><span class="target" id="esp__http__server_8h_1ad58908b819a0d55fbbb42439f3e0c7fe"></span><em class="property">typedef </em>int (*<code class="descname">httpd_recv_func_t</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> hd, int sockfd, char *buf, size_t buf_len, int flags<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417httpd_recv_func_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Prototype for HTTPDs low-level recv function. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>User specified recv function must handle errors internally, depending upon the set value of errno, and return specific HTTPD_SOCK_ERR_ codes, which will eventually be conveyed as return value of httpd_req_recv() function</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>Bytes : The number of bytes received successfully</li>
+<li>0 : Buffer length parameter is zero / connection closed by peer</li>
+<li>HTTPD_SOCK_ERR_INVALID : Invalid arguments</li>
+<li>HTTPD_SOCK_ERR_TIMEOUT : Timeout/interrupted while calling socket recv()</li>
+<li>HTTPD_SOCK_ERR_FAIL : Unrecoverable error while calling socket recv() </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">hd</span></code>: server instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">sockfd</span></code>: session socket file descriptor </li>
+<li><code class="docutils literal notranslate"><span class="pre">buf</span></code>: buffer with bytes to send </li>
+<li><code class="docutils literal notranslate"><span class="pre">buf_len</span></code>: data size </li>
+<li><code class="docutils literal notranslate"><span class="pre">flags</span></code>: flags for the send() function </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv420httpd_pending_func_t">
+<span id="_CPPv320httpd_pending_func_t"></span><span id="_CPPv220httpd_pending_func_t"></span><span id="httpd_pending_func_t"></span><span class="target" id="esp__http__server_8h_1adc228570871c545d9678d8bca486b3f4"></span><em class="property">typedef </em>int (*<code class="descname">httpd_pending_func_t</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> hd, int sockfd<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420httpd_pending_func_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Prototype for HTTPDs low-level “get pending bytes” function. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>User specified pending function must handle errors internally, depending upon the set value of errno, and return specific HTTPD_SOCK_ERR_ codes, which will be handled accordingly in the server task.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>Bytes : The number of bytes waiting to be received</li>
+<li>HTTPD_SOCK_ERR_INVALID : Invalid arguments</li>
+<li>HTTPD_SOCK_ERR_TIMEOUT : Timeout/interrupted while calling socket pending()</li>
+<li>HTTPD_SOCK_ERR_FAIL : Unrecoverable error while calling socket pending() </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">hd</span></code>: server instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">sockfd</span></code>: session socket file descriptor </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv424httpd_err_handler_func_t">
+<span id="_CPPv324httpd_err_handler_func_t"></span><span id="_CPPv224httpd_err_handler_func_t"></span><span id="httpd_err_handler_func_t"></span><span class="target" id="esp__http__server_8h_1ac979a05a4c3198df1720350468824680"></span><em class="property">typedef </em><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">httpd_err_handler_func_t</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411httpd_req_t" title="httpd_req_t">httpd_req_t</a> *req, <a class="reference internal" href="#_CPPv416httpd_err_code_t" title="httpd_err_code_t">httpd_err_code_t</a> error<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424httpd_err_handler_func_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function prototype for HTTP error handling. </p>
+<p>This function is executed upon HTTP errors generated during internal processing of an HTTP request. This is used to override the default behavior on error, which is to send HTTP error response and close the underlying socket.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>If implemented, the server will not automatically send out HTTP error response codes, therefore, httpd_resp_send_err() must be invoked inside this function if user wishes to generate HTTP error responses.</li>
+<li>When invoked, the validity of <code class="docutils literal notranslate"><span class="pre">uri</span></code>, <code class="docutils literal notranslate"><span class="pre">method</span></code>, <code class="docutils literal notranslate"><span class="pre">content_len</span></code> and <code class="docutils literal notranslate"><span class="pre">user_ctx</span></code> fields of the httpd_req_t parameter is not guaranteed as the HTTP request may be partially received/parsed.</li>
+<li>The function must return ESP_OK if underlying socket needs to be kept open. Any other value will ensure that the socket is closed. The return value is ignored when error is of type <code class="docutils literal notranslate"><span class="pre">HTTPD_500_INTERNAL_SERVER_ERROR</span></code> and the socket closed anyway.</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : error handled successful</li>
+<li>ESP_FAIL : failure indicates that the underlying socket needs to be closed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">req</span></code>: HTTP request for which the error needs to be handled </li>
+<li><code class="docutils literal notranslate"><span class="pre">error</span></code>: Error type</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv414httpd_handle_t">
+<span id="_CPPv314httpd_handle_t"></span><span id="_CPPv214httpd_handle_t"></span><span id="httpd_handle_t"></span><span class="target" id="esp__http__server_8h_1a660bc64ded0fb1c7ad498180fc22a7a7"></span><em class="property">typedef </em>void *<code class="descname">httpd_handle_t</code><a class="headerlink" href="#_CPPv414httpd_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP Server Instance Handle. </p>
+<p>Every instance of the server will have a unique handle. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv414httpd_method_t">
+<span id="_CPPv314httpd_method_t"></span><span id="_CPPv214httpd_method_t"></span><span id="httpd_method_t"></span><span class="target" id="esp__http__server_8h_1a48f01108b44767258a00ec2c40f42d12"></span><em class="property">typedef </em><em class="property">enum</em> http_method <code class="descname">httpd_method_t</code><a class="headerlink" href="#_CPPv414httpd_method_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP Method Type wrapper over “enum http_method” available in “http_parser” library. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv419httpd_free_ctx_fn_t">
+<span id="_CPPv319httpd_free_ctx_fn_t"></span><span id="_CPPv219httpd_free_ctx_fn_t"></span><span id="httpd_free_ctx_fn_t"></span><span class="target" id="esp__http__server_8h_1abc71bfd1ba65ffa759e2dba202871586"></span><em class="property">typedef </em>void (*<code class="descname">httpd_free_ctx_fn_t</code>)<span class="sig-paren">(</span>void *ctx<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419httpd_free_ctx_fn_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Prototype for freeing context data (if any) </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">ctx</span></code>: object to free </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv417httpd_open_func_t">
+<span id="_CPPv317httpd_open_func_t"></span><span id="_CPPv217httpd_open_func_t"></span><span id="httpd_open_func_t"></span><span class="target" id="esp__http__server_8h_1abe958987e22db532298d01f263cf7d1c"></span><em class="property">typedef </em><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">httpd_open_func_t</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> hd, int sockfd<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417httpd_open_func_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function prototype for opening a session. </p>
+<p>Called immediately after the socket was opened to set up the send/recv functions and other parameters of the socket.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : On success</li>
+<li>Any value other than ESP_OK will signal the server to close the socket immediately </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">hd</span></code>: server instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">sockfd</span></code>: session socket file descriptor </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv418httpd_close_func_t">
+<span id="_CPPv318httpd_close_func_t"></span><span id="_CPPv218httpd_close_func_t"></span><span id="httpd_close_func_t"></span><span class="target" id="esp__http__server_8h_1a2295b14a01e3819e39c715ad673b0211"></span><em class="property">typedef </em>void (*<code class="descname">httpd_close_func_t</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414httpd_handle_t" title="httpd_handle_t">httpd_handle_t</a> hd, int sockfd<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418httpd_close_func_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function prototype for closing a session. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>It’s possible that the socket descriptor is invalid at this point, the function is called for all terminated sessions. Ensure proper handling of return codes.</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">hd</span></code>: server instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">sockfd</span></code>: session socket file descriptor </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv422httpd_uri_match_func_t">
+<span id="_CPPv322httpd_uri_match_func_t"></span><span id="_CPPv222httpd_uri_match_func_t"></span><span id="httpd_uri_match_func_t"></span><span class="target" id="esp__http__server_8h_1a7d5f3758d08181893f3f015070696df5"></span><em class="property">typedef </em>bool (*<code class="descname">httpd_uri_match_func_t</code>)<span class="sig-paren">(</span><em class="property">const</em> char *reference_uri, <em class="property">const</em> char *uri_to_match, size_t match_upto<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422httpd_uri_match_func_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function prototype for URI matching. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>true on match </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">reference_uri</span></code>: URI/template with respect to which the other URI is matched </li>
+<li><code class="docutils literal notranslate"><span class="pre">uri_to_match</span></code>: URI/template being matched to the reference URI/template </li>
+<li><code class="docutils literal notranslate"><span class="pre">match_upto</span></code>: For specifying the actual length of <code class="docutils literal notranslate"><span class="pre">uri_to_match</span></code> up to which the matching algorithm is to be applied (The maximum value is <code class="docutils literal notranslate"><span class="pre">strlen(uri_to_match)</span></code>, independent of the length of <code class="docutils literal notranslate"><span class="pre">reference_uri</span></code>) </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv414httpd_config_t">
+<span id="_CPPv314httpd_config_t"></span><span id="_CPPv214httpd_config_t"></span><span id="httpd_config_t"></span><span class="target" id="esp__http__server_8h_1a32fb9a0ded89899369b326c52114f752"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv412httpd_config" title="httpd_config">httpd_config</a> <code class="descname">httpd_config_t</code><a class="headerlink" href="#_CPPv414httpd_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP Server Configuration Structure. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Use HTTPD_DEFAULT_CONFIG() to initialize the configuration to a default value and then modify only those fields that are specifically determined by the use case. </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv415httpd_work_fn_t">
+<span id="_CPPv315httpd_work_fn_t"></span><span id="_CPPv215httpd_work_fn_t"></span><span id="httpd_work_fn_t"></span><span class="target" id="esp__http__server_8h_1aa53afee68778845f971b93e0bf3d2012"></span><em class="property">typedef </em>void (*<code class="descname">httpd_work_fn_t</code>)<span class="sig-paren">(</span>void *arg<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415httpd_work_fn_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Prototype of the HTTPD work function Please refer to httpd_queue_work() for more details. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">arg</span></code>: The arguments for this work function </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv416httpd_err_code_t">
+<span id="_CPPv316httpd_err_code_t"></span><span id="_CPPv216httpd_err_code_t"></span><span id="httpd_err_code_t"></span><span class="target" id="esp__http__server_8h_1a89a81467f18d6004ce5d7699274f07bb"></span><em class="property">enum </em><code class="descname">httpd_err_code_t</code><a class="headerlink" href="#_CPPv416httpd_err_code_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Error codes sent as HTTP response in case of errors encountered during processing of an HTTP request. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv431HTTPD_500_INTERNAL_SERVER_ERROR">
+<span id="_CPPv331HTTPD_500_INTERNAL_SERVER_ERROR"></span><span id="_CPPv231HTTPD_500_INTERNAL_SERVER_ERROR"></span><span class="target" id="esp__http__server_8h_1a89a81467f18d6004ce5d7699274f07bbac2fce676e79452122e0ac5befa12330d"></span><code class="descname">HTTPD_500_INTERNAL_SERVER_ERROR</code> = 0<a class="headerlink" href="#_CPPv431HTTPD_500_INTERNAL_SERVER_ERROR" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv432HTTPD_501_METHOD_NOT_IMPLEMENTED">
+<span id="_CPPv332HTTPD_501_METHOD_NOT_IMPLEMENTED"></span><span id="_CPPv232HTTPD_501_METHOD_NOT_IMPLEMENTED"></span><span class="target" id="esp__http__server_8h_1a89a81467f18d6004ce5d7699274f07bba5eaade3086caf0f15bf85cada1fe54a9"></span><code class="descname">HTTPD_501_METHOD_NOT_IMPLEMENTED</code><a class="headerlink" href="#_CPPv432HTTPD_501_METHOD_NOT_IMPLEMENTED" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv431HTTPD_505_VERSION_NOT_SUPPORTED">
+<span id="_CPPv331HTTPD_505_VERSION_NOT_SUPPORTED"></span><span id="_CPPv231HTTPD_505_VERSION_NOT_SUPPORTED"></span><span class="target" id="esp__http__server_8h_1a89a81467f18d6004ce5d7699274f07bba46a51d6064db6a13282a145cc3200bda"></span><code class="descname">HTTPD_505_VERSION_NOT_SUPPORTED</code><a class="headerlink" href="#_CPPv431HTTPD_505_VERSION_NOT_SUPPORTED" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv421HTTPD_400_BAD_REQUEST">
+<span id="_CPPv321HTTPD_400_BAD_REQUEST"></span><span id="_CPPv221HTTPD_400_BAD_REQUEST"></span><span class="target" id="esp__http__server_8h_1a89a81467f18d6004ce5d7699274f07bba21e30e1cbc863556208f550e393aa5db"></span><code class="descname">HTTPD_400_BAD_REQUEST</code><a class="headerlink" href="#_CPPv421HTTPD_400_BAD_REQUEST" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv419HTTPD_404_NOT_FOUND">
+<span id="_CPPv319HTTPD_404_NOT_FOUND"></span><span id="_CPPv219HTTPD_404_NOT_FOUND"></span><span class="target" id="esp__http__server_8h_1a89a81467f18d6004ce5d7699274f07bbaea8d168586950bcd6984ff60b9ffc779"></span><code class="descname">HTTPD_404_NOT_FOUND</code><a class="headerlink" href="#_CPPv419HTTPD_404_NOT_FOUND" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv428HTTPD_405_METHOD_NOT_ALLOWED">
+<span id="_CPPv328HTTPD_405_METHOD_NOT_ALLOWED"></span><span id="_CPPv228HTTPD_405_METHOD_NOT_ALLOWED"></span><span class="target" id="esp__http__server_8h_1a89a81467f18d6004ce5d7699274f07bbac29057d13636a77f26ff3b9d2702d2f3"></span><code class="descname">HTTPD_405_METHOD_NOT_ALLOWED</code><a class="headerlink" href="#_CPPv428HTTPD_405_METHOD_NOT_ALLOWED" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv421HTTPD_408_REQ_TIMEOUT">
+<span id="_CPPv321HTTPD_408_REQ_TIMEOUT"></span><span id="_CPPv221HTTPD_408_REQ_TIMEOUT"></span><span class="target" id="esp__http__server_8h_1a89a81467f18d6004ce5d7699274f07bba577186482d20ac7b5771d33ac99bd963"></span><code class="descname">HTTPD_408_REQ_TIMEOUT</code><a class="headerlink" href="#_CPPv421HTTPD_408_REQ_TIMEOUT" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv425HTTPD_411_LENGTH_REQUIRED">
+<span id="_CPPv325HTTPD_411_LENGTH_REQUIRED"></span><span id="_CPPv225HTTPD_411_LENGTH_REQUIRED"></span><span class="target" id="esp__http__server_8h_1a89a81467f18d6004ce5d7699274f07bbadc801175fffe20233552300f15878c3f"></span><code class="descname">HTTPD_411_LENGTH_REQUIRED</code><a class="headerlink" href="#_CPPv425HTTPD_411_LENGTH_REQUIRED" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv422HTTPD_414_URI_TOO_LONG">
+<span id="_CPPv322HTTPD_414_URI_TOO_LONG"></span><span id="_CPPv222HTTPD_414_URI_TOO_LONG"></span><span class="target" id="esp__http__server_8h_1a89a81467f18d6004ce5d7699274f07bba6915ffbd7332b53b59e0be4831352ab1"></span><code class="descname">HTTPD_414_URI_TOO_LONG</code><a class="headerlink" href="#_CPPv422HTTPD_414_URI_TOO_LONG" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv434HTTPD_431_REQ_HDR_FIELDS_TOO_LARGE">
+<span id="_CPPv334HTTPD_431_REQ_HDR_FIELDS_TOO_LARGE"></span><span id="_CPPv234HTTPD_431_REQ_HDR_FIELDS_TOO_LARGE"></span><span class="target" id="esp__http__server_8h_1a89a81467f18d6004ce5d7699274f07bbaa84bd581b872c635f16f7cd479933582"></span><code class="descname">HTTPD_431_REQ_HDR_FIELDS_TOO_LARGE</code><a class="headerlink" href="#_CPPv434HTTPD_431_REQ_HDR_FIELDS_TOO_LARGE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv418HTTPD_ERR_CODE_MAX">
+<span id="_CPPv318HTTPD_ERR_CODE_MAX"></span><span id="_CPPv218HTTPD_ERR_CODE_MAX"></span><span class="target" id="esp__http__server_8h_1a89a81467f18d6004ce5d7699274f07bbace83878b6c0f76bf734bd2ffca75cc9e"></span><code class="descname">HTTPD_ERR_CODE_MAX</code><a class="headerlink" href="#_CPPv418HTTPD_ERR_CODE_MAX" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esp_https_server.html" class="btn btn-neutral float-right" title="HTTPS server" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="esp_http_client.html" class="btn btn-neutral float-left" title="ESP HTTP Client" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/protocols/esp_http_server.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:17 GMT -->
+</html>

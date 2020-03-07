@@ -1,0 +1,1074 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/storage/vfs.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:10 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Virtual filesystem component &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Wear Levelling API" href="wear-levelling.html" />
+    <link rel="prev" title="SPIFFS Filesystem" href="spiffs.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="vfs.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/storage/vfs"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Storage</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="fatfs.html">FAT Filesystem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mass_mfg.html">Mass Manufacturing Utility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nvs_flash.html">Non-Volatile Storage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nvs_partition_gen.html">NVS Partition Generation Utility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdmmc.html">SD/SDIO/MMC Driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_flash.html">SPI Flash and Partition APIs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spiffs.html">SPIFFS Filesystem</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Virtual Filesystem</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fs-registration">FS registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#paths">Paths</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#file-descriptors">File descriptors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#standard-io-streams-stdin-stdout-stderr">Standard IO streams (stdin, stdout, stderr)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-example">Application Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="wear-levelling.html">Wear Levelling</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Storage API</a> &raquo;</li>
+        
+      <li>Virtual filesystem component</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/storage/vfs.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="virtual-filesystem-component">
+<h1>Virtual filesystem component<a class="headerlink" href="#virtual-filesystem-component" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/api-reference/storage/vfs.html">[中文]</a></p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Virtual filesystem (VFS) component provides a unified interface for drivers which can perform operations on file-like objects. These can be real filesystems (FAT, SPIFFS, etc.) or device drivers which provide a file-like interface.</p>
+<p>This component allows C library functions, such as fopen and fprintf, to work with FS drivers. At a high level, each FS driver is associated with some path prefix. When one of C library functions needs to open a file, the VFS component searches for the FS driver associated with the file path and forwards the call to that driver. VFS also forwards read, write, and other calls for the given file to the same FS driver.</p>
+<p>For example, one can register a FAT filesystem driver with the <code class="docutils literal notranslate"><span class="pre">/fat</span></code> prefix and call <code class="docutils literal notranslate"><span class="pre">fopen(&quot;/fat/file.txt&quot;,</span> <span class="pre">&quot;w&quot;)</span></code>. The VFS component will then call the function <code class="docutils literal notranslate"><span class="pre">open</span></code> of the FAT driver and pass the argument <code class="docutils literal notranslate"><span class="pre">/file.txt</span></code> to it together with appropriate mode flags. All subsequent calls to C library functions for the returned <code class="docutils literal notranslate"><span class="pre">FILE*</span></code> stream will also be forwarded to the FAT driver.</p>
+</div>
+<div class="section" id="fs-registration">
+<h2>FS registration<a class="headerlink" href="#fs-registration" title="Permalink to this headline">¶</a></h2>
+<p>To register an FS driver, an application needs to define an instance of the <a class="reference internal" href="#_CPPv49esp_vfs_t" title="esp_vfs_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">esp_vfs_t</span></code></a> structure and populate it with function pointers to FS APIs:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">esp_vfs_t</span> <span class="n">myfs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">ESP_VFS_FLAG_DEFAULT</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">write</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">myfs_write</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">open</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">myfs_open</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">fstat</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">myfs_fstat</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">close</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">myfs_close</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">read</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">myfs_read</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="n">ESP_ERROR_CHECK</span><span class="p">(</span><span class="n">esp_vfs_register</span><span class="p">(</span><span class="s">&quot;/data&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">myfs</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Depending on the way how the FS driver declares its API functions, either <code class="docutils literal notranslate"><span class="pre">read</span></code>, <code class="docutils literal notranslate"><span class="pre">write</span></code>, etc., or <code class="docutils literal notranslate"><span class="pre">read_p</span></code>, <code class="docutils literal notranslate"><span class="pre">write_p</span></code>, etc., should be used.</p>
+<p>Case 1: API functions are declared without an extra context pointer (the FS driver is a singleton):</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">ssize_t</span> <span class="nf">myfs_write</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span> <span class="n">data</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">);</span>
+
+<span class="c1">// In definition of esp_vfs_t:</span>
+    <span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">ESP_VFS_FLAG_DEFAULT</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">write</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">myfs_write</span><span class="p">,</span>
+<span class="c1">// ... other members initialized</span>
+
+<span class="c1">// When registering FS, context pointer (third argument) is NULL:</span>
+<span class="n">ESP_ERROR_CHECK</span><span class="p">(</span><span class="n">esp_vfs_register</span><span class="p">(</span><span class="s">&quot;/data&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">myfs</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Case 2: API functions are declared with an extra context pointer (the FS driver supports multiple instances):</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">ssize_t</span> <span class="nf">myfs_write</span><span class="p">(</span><span class="n">myfs_t</span><span class="o">*</span> <span class="n">fs</span><span class="p">,</span> <span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="k">const</span> <span class="kt">void</span> <span class="o">*</span> <span class="n">data</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">size</span><span class="p">);</span>
+
+<span class="c1">// In definition of esp_vfs_t:</span>
+    <span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">ESP_VFS_FLAG_CONTEXT_PTR</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">write_p</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">myfs_write</span><span class="p">,</span>
+<span class="c1">// ... other members initialized</span>
+
+<span class="c1">// When registering FS, pass the FS context pointer into the third argument</span>
+<span class="c1">// (hypothetical myfs_mount function is used for illustrative purposes)</span>
+<span class="n">myfs_t</span><span class="o">*</span> <span class="n">myfs_inst1</span> <span class="o">=</span> <span class="n">myfs_mount</span><span class="p">(</span><span class="n">partition1</span><span class="o">-&gt;</span><span class="n">offset</span><span class="p">,</span> <span class="n">partition1</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">);</span>
+<span class="n">ESP_ERROR_CHECK</span><span class="p">(</span><span class="n">esp_vfs_register</span><span class="p">(</span><span class="s">&quot;/data1&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">myfs</span><span class="p">,</span> <span class="n">myfs_inst1</span><span class="p">));</span>
+
+<span class="c1">// Can register another instance:</span>
+<span class="n">myfs_t</span><span class="o">*</span> <span class="n">myfs_inst2</span> <span class="o">=</span> <span class="n">myfs_mount</span><span class="p">(</span><span class="n">partition2</span><span class="o">-&gt;</span><span class="n">offset</span><span class="p">,</span> <span class="n">partition2</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">);</span>
+<span class="n">ESP_ERROR_CHECK</span><span class="p">(</span><span class="n">esp_vfs_register</span><span class="p">(</span><span class="s">&quot;/data2&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">myfs</span><span class="p">,</span> <span class="n">myfs_inst2</span><span class="p">));</span>
+</pre></div>
+</div>
+<div class="section" id="synchronous-input-output-multiplexing">
+<h3>Synchronous input/output multiplexing<a class="headerlink" href="#synchronous-input-output-multiplexing" title="Permalink to this headline">¶</a></h3>
+<p>Synchronous input/output multiplexing by <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">select()</span></code> is supported in the VFS component. The implementation
+works in the following way.</p>
+<ol class="arabic simple">
+<li><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">select()</span></code> is called with file descriptors which could belong to various VFS drivers.</li>
+<li>The file descriptors are divided into groups each belonging to one VFS driver.</li>
+<li>The file descriptors belonging to non-socket VFS drivers are handed over to the given VFS drivers by <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">start_select()</span></code>
+described later on this page. This function represents the driver-specific implementation of <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">select()</span></code> for
+the given driver. This should be a non-blocking call which means the function should immediately return after setting up
+the environment for checking events related to the given file descriptors.</li>
+<li>The file descriptors belonging to the socket VFS driver are handed over to the socket driver by
+<code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">socket_select()</span></code> described later on this page. This is a blocking call which means that it will return only
+if there is an event related to socket file descriptors or a non-socket driver signals <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">socket_select()</span></code>
+to exit.</li>
+<li>Results are collected from each VFS driver and all drivers are stopped by deinitiazation
+of the environment for checking events.</li>
+<li>The <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">select()</span></code> call ends and returns the appropriate results.</li>
+</ol>
+<div class="section" id="non-socket-vfs-drivers">
+<h4>Non-socket VFS drivers<a class="headerlink" href="#non-socket-vfs-drivers" title="Permalink to this headline">¶</a></h4>
+<p>If you want to use <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">select()</span></code> with a file descriptor belonging to a non-socket VFS driver
+then you need to register the driver with functions <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">start_select()</span></code> and
+<code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">end_select()</span></code> similarly to the following example:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// In definition of esp_vfs_t:</span>
+    <span class="p">.</span><span class="n">start_select</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">uart_start_select</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">end_select</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">uart_end_select</span><span class="p">,</span>
+<span class="c1">// ... other members initialized</span>
+</pre></div>
+</div>
+<p><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">start_select()</span></code> is called for setting up the environment for
+detection of read/write/error conditions on file descriptors belonging to the
+given VFS driver.</p>
+<p><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">end_select()</span></code> is called to stop/deinitialize/free the
+environment which was setup by <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">start_select()</span></code>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">end_select()</span></code> might be called without a previous <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">start_select()</span></code> call in some rare
+circumstances. <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">end_select()</span></code> should fail gracefully if this is the case.</p>
+</div>
+<p>Please refer to the
+reference implementation for the UART peripheral in
+<a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/vfs/vfs_uart.c">vfs/vfs_uart.c</a> and most particularly to the functions
+<a class="reference internal" href="#_CPPv425esp_vfs_dev_uart_registerv" title="esp_vfs_dev_uart_register"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_vfs_dev_uart_register()</span></code></a>, <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">uart_start_select()</span></code>, and
+<code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">uart_end_select()</span></code> for more information.</p>
+<dl class="docutils">
+<dt>Please check the following examples that demonstrate the use of <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">select()</span></code> with VFS file descriptors:</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/uart/uart_select">peripherals/uart/uart_select</a></li>
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/system/select">system/select</a></li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="socket-vfs-drivers">
+<h4>Socket VFS drivers<a class="headerlink" href="#socket-vfs-drivers" title="Permalink to this headline">¶</a></h4>
+<p>A socket VFS driver is using its own internal implementation of <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">select()</span></code> and non-socket VFS drivers notify
+it upon read/write/error conditions.</p>
+<p>A socket VFS driver needs to be registered with the following functions defined:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="c1">// In definition of esp_vfs_t:</span>
+    <span class="p">.</span><span class="n">socket_select</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">lwip_select</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">get_socket_select_semaphore</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">lwip_get_socket_select_semaphore</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">stop_socket_select</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">lwip_stop_socket_select</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">stop_socket_select_isr</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">lwip_stop_socket_select_isr</span><span class="p">,</span>
+<span class="c1">// ... other members initialized</span>
+</pre></div>
+</div>
+<p><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">socket_select()</span></code> is the internal implementation of <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">select()</span></code> for the socket driver. It works only
+with file descriptors belonging to the socket VFS.</p>
+<p><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">get_socket_select_semaphore()</span></code> returns the signalization object (semaphore) which will be used in non-socket
+drivers to stop the waiting in <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">socket_select()</span></code>.</p>
+<p><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">stop_socket_select()</span></code> call is used to stop the waiting in <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">socket_select()</span></code> by passing the object
+returned by <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">get_socket_select_semaphore()</span></code>.</p>
+<p><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">stop_socket_select_isr()</span></code> has the same functionality as <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">stop_socket_select()</span></code> but it can be used
+from ISR.</p>
+<p>Please see <a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/lwip/port/esp32/vfs_lwip.c">lwip/port/esp32/vfs_lwip.c</a> for a reference socket driver implementation using LWIP.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If you use <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">select()</span></code> for socket file descriptors only then you can enable the
+<span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">CONFIG_LWIP_USE_ONLY_LWIP_SELECT</span></code> option to reduce the code size and improve performance.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Don’t change the socket driver during an active <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">select()</span></code> call or you might experience some undefined
+behavior.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="paths">
+<h2>Paths<a class="headerlink" href="#paths" title="Permalink to this headline">¶</a></h2>
+<p>Each registered FS has a path prefix associated with it. This prefix can be considered as a “mount point” of this partition.</p>
+<p>In case when mount points are nested, the mount point with the longest matching path prefix is used when opening the file. For instance, suppose that the following filesystems are registered in VFS:</p>
+<ul class="simple">
+<li>FS 1 on /data</li>
+<li>FS 2 on /data/static</li>
+</ul>
+<p>Then:</p>
+<ul class="simple">
+<li>FS 1 will be used when opening a file called <code class="docutils literal notranslate"><span class="pre">/data/log.txt</span></code></li>
+<li>FS 2 will be used when opening a file called <code class="docutils literal notranslate"><span class="pre">/data/static/index.html</span></code></li>
+<li>Even if <code class="docutils literal notranslate"><span class="pre">/index.html&quot;</span></code> does not exist in FS 2, FS 1 will <em>not</em> be searched for <code class="docutils literal notranslate"><span class="pre">/static/index.html</span></code>.</li>
+</ul>
+<p>As a general rule, mount point names must start with the path separator (<code class="docutils literal notranslate"><span class="pre">/</span></code>) and must contain at least one character after path separator. However, an empty mount point name is also supported and might be used in cases when an application needs to provide a “fallback” filesystem or to override VFS functionality altogether. Such filesystem will be used if no prefix matches the path given.</p>
+<p>VFS does not handle dots (<code class="docutils literal notranslate"><span class="pre">.</span></code>) in path names in any special way. VFS does not treat <code class="docutils literal notranslate"><span class="pre">..</span></code> as a reference to the parent directory. In the above example, using a path <code class="docutils literal notranslate"><span class="pre">/data/static/../log.txt</span></code> will not result in a call to FS 1 to open <code class="docutils literal notranslate"><span class="pre">/log.txt</span></code>. Specific FS drivers (such as FATFS) might handle dots in file names differently.</p>
+<p>When opening files, the FS driver receives only relative paths to files. For example:</p>
+<ol class="arabic simple">
+<li>The <code class="docutils literal notranslate"><span class="pre">myfs</span></code> driver is registered with <code class="docutils literal notranslate"><span class="pre">/data</span></code> as a path prefix.</li>
+<li>The application calls <code class="docutils literal notranslate"><span class="pre">fopen(&quot;/data/config.json&quot;,</span> <span class="pre">...)</span></code>.</li>
+<li>The VFS component calls <code class="docutils literal notranslate"><span class="pre">myfs_open(&quot;/config.json&quot;,</span> <span class="pre">...)</span></code>.</li>
+<li>The <code class="docutils literal notranslate"><span class="pre">myfs</span></code> driver opens the <code class="docutils literal notranslate"><span class="pre">/config.json</span></code> file.</li>
+</ol>
+<p>VFS does not impose any limit on total file path length, but it does limit the FS path prefix to <code class="docutils literal notranslate"><span class="pre">ESP_VFS_PATH_MAX</span></code> characters. Individual FS drivers may have their own filename length limitations.</p>
+</div>
+<div class="section" id="file-descriptors">
+<h2>File descriptors<a class="headerlink" href="#file-descriptors" title="Permalink to this headline">¶</a></h2>
+<p>File descriptors are small positive integers from <code class="docutils literal notranslate"><span class="pre">0</span></code> to <code class="docutils literal notranslate"><span class="pre">FD_SETSIZE</span> <span class="pre">-</span> <span class="pre">1</span></code>, where <code class="docutils literal notranslate"><span class="pre">FD_SETSIZE</span></code> is defined in newlib’s <code class="docutils literal notranslate"><span class="pre">sys/types.h</span></code>. The largest file descriptors (configured by <code class="docutils literal notranslate"><span class="pre">CONFIG_LWIP_MAX_SOCKETS</span></code>) are reserved for sockets. The VFS component contains a lookup-table called <code class="docutils literal notranslate"><span class="pre">s_fd_table</span></code> for mapping global file descriptors to VFS driver indexes registered in the <code class="docutils literal notranslate"><span class="pre">s_vfs</span></code> array.</p>
+</div>
+<div class="section" id="standard-io-streams-stdin-stdout-stderr">
+<h2>Standard IO streams (stdin, stdout, stderr)<a class="headerlink" href="#standard-io-streams-stdin-stdout-stderr" title="Permalink to this headline">¶</a></h2>
+<p>If the menuconfig option <code class="docutils literal notranslate"><span class="pre">UART</span> <span class="pre">for</span> <span class="pre">console</span> <span class="pre">output</span></code> is not set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, then <code class="docutils literal notranslate"><span class="pre">stdin</span></code>, <code class="docutils literal notranslate"><span class="pre">stdout</span></code>, and <code class="docutils literal notranslate"><span class="pre">stderr</span></code> are configured to read from, and write to, a UART. It is possible to use UART0 or UART1 for standard IO. By default, UART0 is used with 115200 baud rate; TX pin is GPIO1; RX pin is GPIO3. These parameters can be changed in menuconfig.</p>
+<p>Writing to <code class="docutils literal notranslate"><span class="pre">stdout</span></code> or <code class="docutils literal notranslate"><span class="pre">stderr</span></code> will send characters to the UART transmit FIFO. Reading from <code class="docutils literal notranslate"><span class="pre">stdin</span></code> will retrieve characters from the UART receive FIFO.</p>
+<p>By default, VFS uses simple functions for reading from and writing to UART. Writes busy-wait until all data is put into UART FIFO, and reads are non-blocking, returning only the data present in the FIFO. Due to this non-blocking read behavior, higher level C library calls, such as <code class="docutils literal notranslate"><span class="pre">fscanf(&quot;%d\n&quot;,</span> <span class="pre">&amp;var);</span></code>, might not have desired results.</p>
+<p>Applications which use the UART driver can instruct VFS to use the driver’s interrupt driven, blocking read and write functions instead. This can be done using a call to the <code class="docutils literal notranslate"><span class="pre">esp_vfs_dev_uart_use_driver</span></code> function. It is also possible to revert to the basic non-blocking functions using a call to <code class="docutils literal notranslate"><span class="pre">esp_vfs_dev_uart_use_nonblocking</span></code>.</p>
+<p>VFS also provides an optional newline conversion feature for input and output. Internally, most applications send and receive lines terminated by the LF (‘’n’‘) character. Different terminal programs may require different line termination, such as CR or CRLF. Applications can configure this separately for input and output either via menuconfig, or by calls to the functions <code class="docutils literal notranslate"><span class="pre">esp_vfs_dev_uart_set_rx_line_endings</span></code> and <code class="docutils literal notranslate"><span class="pre">esp_vfs_dev_uart_set_tx_line_endings</span></code>.</p>
+<div class="section" id="standard-streams-and-freertos-tasks">
+<h3>Standard streams and FreeRTOS tasks<a class="headerlink" href="#standard-streams-and-freertos-tasks" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">FILE</span></code> objects for <code class="docutils literal notranslate"><span class="pre">stdin</span></code>, <code class="docutils literal notranslate"><span class="pre">stdout</span></code>, and <code class="docutils literal notranslate"><span class="pre">stderr</span></code> are shared between all FreeRTOS tasks, but the pointers to these objects are stored in per-task <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">_reent</span></code>.</p>
+<p>The following code is transferred to <code class="docutils literal notranslate"><span class="pre">fprintf(__getreent()-&gt;_stderr,</span> <span class="pre">&quot;42\n&quot;);</span></code> by the preprocessor:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;42</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">__getreent()</span></code> function returns a per-task pointer to <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">_reent</span></code> (<a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/newlib/include/sys/reent.h#L370-L417">newlib/include/sys/reent.h#L370-L417</a>). This structure is allocated on the TCB of each task. When a task is initialized, <code class="docutils literal notranslate"><span class="pre">_stdin</span></code>, <code class="docutils literal notranslate"><span class="pre">_stdout</span></code>, and <code class="docutils literal notranslate"><span class="pre">_stderr</span></code> members of <code class="docutils literal notranslate"><span class="pre">struct</span> <span class="pre">_reent</span></code> are set to the values of <code class="docutils literal notranslate"><span class="pre">_stdin</span></code>, <code class="docutils literal notranslate"><span class="pre">_stdout</span></code>, and <code class="docutils literal notranslate"><span class="pre">_stderr</span></code> of <code class="docutils literal notranslate"><span class="pre">_GLOBAL_REENT</span></code> (i.e., the structure which is used before FreeRTOS is started).</p>
+<p>Such a design has the following consequences:</p>
+<ul class="simple">
+<li>It is possible to set <code class="docutils literal notranslate"><span class="pre">stdin</span></code>, <code class="docutils literal notranslate"><span class="pre">stdout</span></code>, and <code class="docutils literal notranslate"><span class="pre">stderr</span></code> for any given task without affecting other tasks, e.g., by doing <code class="docutils literal notranslate"><span class="pre">stdin</span> <span class="pre">=</span> <span class="pre">fopen(&quot;/dev/uart/1&quot;,</span> <span class="pre">&quot;r&quot;)</span></code>.</li>
+<li>Closing default <code class="docutils literal notranslate"><span class="pre">stdin</span></code>, <code class="docutils literal notranslate"><span class="pre">stdout</span></code>, or <code class="docutils literal notranslate"><span class="pre">stderr</span></code> using <code class="docutils literal notranslate"><span class="pre">fclose</span></code> will close the <code class="docutils literal notranslate"><span class="pre">FILE</span></code> stream object, which will affect all other tasks.</li>
+<li>To change the default <code class="docutils literal notranslate"><span class="pre">stdin</span></code>, <code class="docutils literal notranslate"><span class="pre">stdout</span></code>, <code class="docutils literal notranslate"><span class="pre">stderr</span></code> streams for new tasks, modify <code class="docutils literal notranslate"><span class="pre">_GLOBAL_REENT-&gt;_stdin</span></code> (<code class="docutils literal notranslate"><span class="pre">_stdout</span></code>, <code class="docutils literal notranslate"><span class="pre">_stderr</span></code>) before creating the task.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="../../template.html">Instructions</a></p>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/vfs/include/esp_vfs.h">vfs/include/esp_vfs.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv413esp_vfs_writeP6_reentiPKv6size_t">
+<span id="_CPPv313esp_vfs_writeP6_reentiPKv6size_t"></span><span id="_CPPv213esp_vfs_writeP6_reentiPKv6size_t"></span><span id="esp_vfs_write___reentP.i.voidCP.s"></span><span class="target" id="esp__vfs_8h_1a3a2e3e1bf108c6e7984912f5f6e60259"></span>ssize_t <code class="descname">esp_vfs_write</code><span class="sig-paren">(</span><em class="property">struct</em> _reent *<em>r</em>, int <em>fd</em>, <em class="property">const</em> void *<em>data</em>, size_t <em>size</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413esp_vfs_writeP6_reentiPKv6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>These functions are to be used in newlib syscall table. They will be called by newlib when it needs to use any of the syscalls. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv413esp_vfs_lseekP6_reenti5off_ti">
+<span id="_CPPv313esp_vfs_lseekP6_reenti5off_ti"></span><span id="_CPPv213esp_vfs_lseekP6_reenti5off_ti"></span><span id="esp_vfs_lseek___reentP.i.off_t.i"></span><span class="target" id="esp__vfs_8h_1a4745673c71fa8df4e2863c93c8d3de59"></span>off_t <code class="descname">esp_vfs_lseek</code><span class="sig-paren">(</span><em class="property">struct</em> _reent *<em>r</em>, int <em>fd</em>, off_t <em>size</em>, int <em>mode</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413esp_vfs_lseekP6_reenti5off_ti" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv412esp_vfs_readP6_reentiPv6size_t">
+<span id="_CPPv312esp_vfs_readP6_reentiPv6size_t"></span><span id="_CPPv212esp_vfs_readP6_reentiPv6size_t"></span><span id="esp_vfs_read___reentP.i.voidP.s"></span><span class="target" id="esp__vfs_8h_1a884f29cef422f25fdea6cd372de4c6b6"></span>ssize_t <code class="descname">esp_vfs_read</code><span class="sig-paren">(</span><em class="property">struct</em> _reent *<em>r</em>, int <em>fd</em>, void *<em>dst</em>, size_t <em>size</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv412esp_vfs_readP6_reentiPv6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv412esp_vfs_openP6_reentPKcii">
+<span id="_CPPv312esp_vfs_openP6_reentPKcii"></span><span id="_CPPv212esp_vfs_openP6_reentPKcii"></span><span id="esp_vfs_open___reentP.cCP.i.i"></span><span class="target" id="esp__vfs_8h_1a5f4b2b4e6427cdaff417b3dd89cd021c"></span>int <code class="descname">esp_vfs_open</code><span class="sig-paren">(</span><em class="property">struct</em> _reent *<em>r</em>, <em class="property">const</em> char *<em>path</em>, int <em>flags</em>, int <em>mode</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv412esp_vfs_openP6_reentPKcii" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv413esp_vfs_closeP6_reenti">
+<span id="_CPPv313esp_vfs_closeP6_reenti"></span><span id="_CPPv213esp_vfs_closeP6_reenti"></span><span id="esp_vfs_close___reentP.i"></span><span class="target" id="esp__vfs_8h_1af1e87f8a6cf7278ec4c53834010a4b6b"></span>int <code class="descname">esp_vfs_close</code><span class="sig-paren">(</span><em class="property">struct</em> _reent *<em>r</em>, int <em>fd</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413esp_vfs_closeP6_reenti" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv413esp_vfs_fstatP6_reentiP4stat">
+<span id="_CPPv313esp_vfs_fstatP6_reentiP4stat"></span><span id="_CPPv213esp_vfs_fstatP6_reentiP4stat"></span><span id="esp_vfs_fstat___reentP.i.statP"></span><span class="target" id="esp__vfs_8h_1a7a66a9415e2ad2e48e61dc96f36b4908"></span>int <code class="descname">esp_vfs_fstat</code><span class="sig-paren">(</span><em class="property">struct</em> _reent *<em>r</em>, int <em>fd</em>, <em class="property">struct</em> stat *<em>st</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413esp_vfs_fstatP6_reentiP4stat" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv412esp_vfs_statP6_reentPKcP4stat">
+<span id="_CPPv312esp_vfs_statP6_reentPKcP4stat"></span><span id="_CPPv212esp_vfs_statP6_reentPKcP4stat"></span><span id="esp_vfs_stat___reentP.cCP.statP"></span><span class="target" id="esp__vfs_8h_1a0635dc938339f8f1400e09ab1f134b6d"></span>int <code class="descname">esp_vfs_stat</code><span class="sig-paren">(</span><em class="property">struct</em> _reent *<em>r</em>, <em class="property">const</em> char *<em>path</em>, <em class="property">struct</em> stat *<em>st</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv412esp_vfs_statP6_reentPKcP4stat" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv412esp_vfs_linkP6_reentPKcPKc">
+<span id="_CPPv312esp_vfs_linkP6_reentPKcPKc"></span><span id="_CPPv212esp_vfs_linkP6_reentPKcPKc"></span><span id="esp_vfs_link___reentP.cCP.cCP"></span><span class="target" id="esp__vfs_8h_1a62cd80733cae312790d3c8197947af5b"></span>int <code class="descname">esp_vfs_link</code><span class="sig-paren">(</span><em class="property">struct</em> _reent *<em>r</em>, <em class="property">const</em> char *<em>n1</em>, <em class="property">const</em> char *<em>n2</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv412esp_vfs_linkP6_reentPKcPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414esp_vfs_unlinkP6_reentPKc">
+<span id="_CPPv314esp_vfs_unlinkP6_reentPKc"></span><span id="_CPPv214esp_vfs_unlinkP6_reentPKc"></span><span id="esp_vfs_unlink___reentP.cCP"></span><span class="target" id="esp__vfs_8h_1ae66ff057997b607c2cafc3250163985e"></span>int <code class="descname">esp_vfs_unlink</code><span class="sig-paren">(</span><em class="property">struct</em> _reent *<em>r</em>, <em class="property">const</em> char *<em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414esp_vfs_unlinkP6_reentPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414esp_vfs_renameP6_reentPKcPKc">
+<span id="_CPPv314esp_vfs_renameP6_reentPKcPKc"></span><span id="_CPPv214esp_vfs_renameP6_reentPKcPKc"></span><span id="esp_vfs_rename___reentP.cCP.cCP"></span><span class="target" id="esp__vfs_8h_1abca72e5d3a37e9269cbe888de867ea1f"></span>int <code class="descname">esp_vfs_rename</code><span class="sig-paren">(</span><em class="property">struct</em> _reent *<em>r</em>, <em class="property">const</em> char *<em>src</em>, <em class="property">const</em> char *<em>dst</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414esp_vfs_renameP6_reentPKcPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv413esp_vfs_utimePKcPK7utimbuf">
+<span id="_CPPv313esp_vfs_utimePKcPK7utimbuf"></span><span id="_CPPv213esp_vfs_utimePKcPK7utimbuf"></span><span id="esp_vfs_utime__cCP.utimbufCP"></span><span class="target" id="esp__vfs_8h_1a0be295b88b71c7e7dcfd35762d942c13"></span>int <code class="descname">esp_vfs_utime</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>path</em>, <em class="property">const</em> <em class="property">struct</em> utimbuf *<em>times</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413esp_vfs_utimePKcPK7utimbuf" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416esp_vfs_registerPKcPK9esp_vfs_tPv">
+<span id="_CPPv316esp_vfs_registerPKcPK9esp_vfs_tPv"></span><span id="_CPPv216esp_vfs_registerPKcPK9esp_vfs_tPv"></span><span id="esp_vfs_register__cCP.esp_vfs_tCP.voidP"></span><span class="target" id="esp__vfs_8h_1a732fcf8679e84bc69c9477e326877a2c"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_vfs_register</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>base_path</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv49esp_vfs_t" title="esp_vfs_t">esp_vfs_t</a> *<em>vfs</em>, void *<em>ctx</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416esp_vfs_registerPKcPK9esp_vfs_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Register a virtual filesystem for given path prefix.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK if successful, ESP_ERR_NO_MEM if too many VFSes are registered. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">base_path</span></code>: file path prefix associated with the filesystem. Must be a zero-terminated C string, up to ESP_VFS_PATH_MAX characters long, and at least 2 characters long. Name must start with a “/” and must not end with “/”. For example, “/data” or “/dev/spi” are valid. These VFSes would then be called to handle file paths such as “/data/myfile.txt” or “/dev/spi/0”. </li>
+<li><code class="docutils literal notranslate"><span class="pre">vfs</span></code>: Pointer to <a class="reference internal" href="#structesp__vfs__t"><span class="std std-ref">esp_vfs_t</span></a>, a structure which maps syscalls to the filesystem driver functions. VFS component doesn’t assume ownership of this pointer. </li>
+<li><code class="docutils literal notranslate"><span class="pre">ctx</span></code>: If vfs-&gt;flags has ESP_VFS_FLAG_CONTEXT_PTR set, a pointer which should be passed to VFS functions. Otherwise, NULL.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425esp_vfs_register_fd_rangePK9esp_vfs_tPvii">
+<span id="_CPPv325esp_vfs_register_fd_rangePK9esp_vfs_tPvii"></span><span id="_CPPv225esp_vfs_register_fd_rangePK9esp_vfs_tPvii"></span><span id="esp_vfs_register_fd_range__esp_vfs_tCP.voidP.i.i"></span><span class="target" id="esp__vfs_8h_1a6c6723ef8863d26af3e0d1ffb4822723"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_vfs_register_fd_range</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv49esp_vfs_t" title="esp_vfs_t">esp_vfs_t</a> *<em>vfs</em>, void *<em>ctx</em>, int <em>min_fd</em>, int <em>max_fd</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425esp_vfs_register_fd_rangePK9esp_vfs_tPvii" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Special case function for registering a VFS that uses a method other than open() to open new file descriptors from the interval &lt;min_fd; max_fd).</p>
+<p>This is a special-purpose function intended for registering LWIP sockets to VFS.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK if successful, ESP_ERR_NO_MEM if too many VFSes are registered, ESP_ERR_INVALID_ARG if the file descriptor boundaries are incorrect. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">vfs</span></code>: Pointer to <a class="reference internal" href="#structesp__vfs__t"><span class="std std-ref">esp_vfs_t</span></a>. Meaning is the same as for esp_vfs_register(). </li>
+<li><code class="docutils literal notranslate"><span class="pre">ctx</span></code>: Pointer to context structure. Meaning is the same as for esp_vfs_register(). </li>
+<li><code class="docutils literal notranslate"><span class="pre">min_fd</span></code>: The smallest file descriptor this VFS will use. </li>
+<li><code class="docutils literal notranslate"><span class="pre">max_fd</span></code>: Upper boundary for file descriptors this VFS will use (the biggest file descriptor plus one).</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424esp_vfs_register_with_idPK9esp_vfs_tPvP12esp_vfs_id_t">
+<span id="_CPPv324esp_vfs_register_with_idPK9esp_vfs_tPvP12esp_vfs_id_t"></span><span id="_CPPv224esp_vfs_register_with_idPK9esp_vfs_tPvP12esp_vfs_id_t"></span><span id="esp_vfs_register_with_id__esp_vfs_tCP.voidP.esp_vfs_id_tP"></span><span class="target" id="esp__vfs_8h_1a7ffeba44d124631d0ec8227c84f4a9ba"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_vfs_register_with_id</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv49esp_vfs_t" title="esp_vfs_t">esp_vfs_t</a> *<em>vfs</em>, void *<em>ctx</em>, <a class="reference internal" href="#_CPPv412esp_vfs_id_t" title="esp_vfs_id_t">esp_vfs_id_t</a> *<em>vfs_id</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424esp_vfs_register_with_idPK9esp_vfs_tPvP12esp_vfs_id_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Special case function for registering a VFS that uses a method other than open() to open new file descriptors. In comparison with esp_vfs_register_fd_range, this function doesn’t pre-registers an interval of file descriptors. File descriptors can be registered later, by using esp_vfs_register_fd.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK if successful, ESP_ERR_NO_MEM if too many VFSes are registered, ESP_ERR_INVALID_ARG if the file descriptor boundaries are incorrect. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">vfs</span></code>: Pointer to <a class="reference internal" href="#structesp__vfs__t"><span class="std std-ref">esp_vfs_t</span></a>. Meaning is the same as for esp_vfs_register(). </li>
+<li><code class="docutils literal notranslate"><span class="pre">ctx</span></code>: Pointer to context structure. Meaning is the same as for esp_vfs_register(). </li>
+<li><code class="docutils literal notranslate"><span class="pre">vfs_id</span></code>: Here will be written the VFS ID which can be passed to esp_vfs_register_fd for registering file descriptors.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418esp_vfs_unregisterPKc">
+<span id="_CPPv318esp_vfs_unregisterPKc"></span><span id="_CPPv218esp_vfs_unregisterPKc"></span><span id="esp_vfs_unregister__cCP"></span><span class="target" id="esp__vfs_8h_1a0d1f4219100762f93da1ba6f7a45a737"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_vfs_unregister</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>base_path</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418esp_vfs_unregisterPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Unregister a virtual filesystem for given path prefix</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK if successful, ESP_ERR_INVALID_STATE if VFS for given prefix hasn’t been registered </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">base_path</span></code>: file prefix previously used in esp_vfs_register call </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419esp_vfs_register_fd12esp_vfs_id_tPi">
+<span id="_CPPv319esp_vfs_register_fd12esp_vfs_id_tPi"></span><span id="_CPPv219esp_vfs_register_fd12esp_vfs_id_tPi"></span><span id="esp_vfs_register_fd__esp_vfs_id_t.iP"></span><span class="target" id="esp__vfs_8h_1afe94c9ad16195f1c83936a8f57a83462"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_vfs_register_fd</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412esp_vfs_id_t" title="esp_vfs_id_t">esp_vfs_id_t</a> <em>vfs_id</em>, int *<em>fd</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419esp_vfs_register_fd12esp_vfs_id_tPi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Special function for registering another file descriptor for a VFS registered by esp_vfs_register_with_id.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK if the registration is successful, ESP_ERR_NO_MEM if too many file descriptors are registered, ESP_ERR_INVALID_ARG if the arguments are incorrect. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">vfs_id</span></code>: VFS identificator returned by esp_vfs_register_with_id. </li>
+<li><code class="docutils literal notranslate"><span class="pre">fd</span></code>: The registered file descriptor will be written to this address.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421esp_vfs_unregister_fd12esp_vfs_id_ti">
+<span id="_CPPv321esp_vfs_unregister_fd12esp_vfs_id_ti"></span><span id="_CPPv221esp_vfs_unregister_fd12esp_vfs_id_ti"></span><span id="esp_vfs_unregister_fd__esp_vfs_id_t.i"></span><span class="target" id="esp__vfs_8h_1a8b697a5ecf593a78b9e164d8859d11a2"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_vfs_unregister_fd</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412esp_vfs_id_t" title="esp_vfs_id_t">esp_vfs_id_t</a> <em>vfs_id</em>, int <em>fd</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421esp_vfs_unregister_fd12esp_vfs_id_ti" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Special function for unregistering a file descriptor belonging to a VFS registered by esp_vfs_register_with_id.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK if the registration is successful, ESP_ERR_INVALID_ARG if the arguments are incorrect. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">vfs_id</span></code>: VFS identificator returned by esp_vfs_register_with_id. </li>
+<li><code class="docutils literal notranslate"><span class="pre">fd</span></code>: File descriptor which should be unregistered.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414esp_vfs_selectiP6fd_setP6fd_setP6fd_setP7timeval">
+<span id="_CPPv314esp_vfs_selectiP6fd_setP6fd_setP6fd_setP7timeval"></span><span id="_CPPv214esp_vfs_selectiP6fd_setP6fd_setP6fd_setP7timeval"></span><span id="esp_vfs_select__i.fd_setP.fd_setP.fd_setP.timevalP"></span><span class="target" id="esp__vfs_8h_1a29b7501ddf5027ed24f0a3869bf35043"></span>int <code class="descname">esp_vfs_select</code><span class="sig-paren">(</span>int <em>nfds</em>, fd_set *<em>readfds</em>, fd_set *<em>writefds</em>, fd_set *<em>errorfds</em>, <em class="property">struct</em> timeval *<em>timeout</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414esp_vfs_selectiP6fd_setP6fd_setP6fd_setP7timeval" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Synchronous I/O multiplexing which implements the functionality of POSIX select() for VFS. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>The number of descriptors set in the descriptor sets, or -1 when an error (specified by errno) have occurred. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">nfds</span></code>: Specifies the range of descriptors which should be checked. The first nfds descriptors will be checked in each set. </li>
+<li><code class="docutils literal notranslate"><span class="pre">readfds</span></code>: If not NULL, then points to a descriptor set that on input specifies which descriptors should be checked for being ready to read, and on output indicates which descriptors are ready to read. </li>
+<li><code class="docutils literal notranslate"><span class="pre">writefds</span></code>: If not NULL, then points to a descriptor set that on input specifies which descriptors should be checked for being ready to write, and on output indicates which descriptors are ready to write. </li>
+<li><code class="docutils literal notranslate"><span class="pre">errorfds</span></code>: If not NULL, then points to a descriptor set that on input specifies which descriptors should be checked for error conditions, and on output indicates which descriptors have error conditions. </li>
+<li><code class="docutils literal notranslate"><span class="pre">timeout</span></code>: If not NULL, then points to timeval structure which specifies the time period after which the functions should time-out and return. If it is NULL, then the function will not time-out.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424esp_vfs_select_triggered20esp_vfs_select_sem_t">
+<span id="_CPPv324esp_vfs_select_triggered20esp_vfs_select_sem_t"></span><span id="_CPPv224esp_vfs_select_triggered20esp_vfs_select_sem_t"></span><span id="esp_vfs_select_triggered__esp_vfs_select_sem_t"></span><span class="target" id="esp__vfs_8h_1aceeb367936ed4a827707210bb332e761"></span>void <code class="descname">esp_vfs_select_triggered</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv420esp_vfs_select_sem_t" title="esp_vfs_select_sem_t">esp_vfs_select_sem_t</a> <em>sem</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424esp_vfs_select_triggered20esp_vfs_select_sem_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Notification from a VFS driver about a read/write/error condition. </p>
+<p>This function is called when the VFS driver detects a read/write/error condition as it was requested by the previous call to start_select.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">sem</span></code>: semaphore structure which was passed to the driver by the start_select call </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428esp_vfs_select_triggered_isr20esp_vfs_select_sem_tP10BaseType_t">
+<span id="_CPPv328esp_vfs_select_triggered_isr20esp_vfs_select_sem_tP10BaseType_t"></span><span id="_CPPv228esp_vfs_select_triggered_isr20esp_vfs_select_sem_tP10BaseType_t"></span><span id="esp_vfs_select_triggered_isr__esp_vfs_select_sem_t.BaseType_tP"></span><span class="target" id="esp__vfs_8h_1ad5f6a513785744dcaac55094e9a3ae8d"></span>void <code class="descname">esp_vfs_select_triggered_isr</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv420esp_vfs_select_sem_t" title="esp_vfs_select_sem_t">esp_vfs_select_sem_t</a> <em>sem</em>, BaseType_t *<em>woken</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428esp_vfs_select_triggered_isr20esp_vfs_select_sem_tP10BaseType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Notification from a VFS driver about a read/write/error condition (ISR version) </p>
+<p>This function is called when the VFS driver detects a read/write/error condition as it was requested by the previous call to start_select.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">sem</span></code>: semaphore structure which was passed to the driver by the start_select call </li>
+<li><code class="docutils literal notranslate"><span class="pre">woken</span></code>: is set to pdTRUE if the function wakes up a task with higher priority </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv412esp_vfs_pollP6pollfd6nfds_ti">
+<span id="_CPPv312esp_vfs_pollP6pollfd6nfds_ti"></span><span id="_CPPv212esp_vfs_pollP6pollfd6nfds_ti"></span><span id="esp_vfs_poll__pollfdP.nfds_t.i"></span><span class="target" id="esp__vfs_8h_1a39459decbdb16effa1b61e32af067648"></span>int <code class="descname">esp_vfs_poll</code><span class="sig-paren">(</span><em class="property">struct</em> pollfd *<em>fds</em>, nfds_t <em>nfds</em>, int <em>timeout</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv412esp_vfs_pollP6pollfd6nfds_ti" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Implements the VFS layer for synchronous I/O multiplexing by poll() </p>
+<p>The implementation is based on esp_vfs_select. The parameters and return values are compatible with POSIX poll().</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>A positive return value indicates the number of file descriptors that have been selected. The 0 return value indicates a timed-out poll. -1 is return on failure and errno is set accordingly. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">fds</span></code>: Pointer to the array containing file descriptors and events poll() should consider. </li>
+<li><code class="docutils literal notranslate"><span class="pre">nfds</span></code>: Number of items in the array fds. </li>
+<li><code class="docutils literal notranslate"><span class="pre">timeout</span></code>: Poll() should wait at least timeout milliseconds. If the value is 0 then it should return immediately. If the value is -1 then it should wait (block) until the event occurs.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv413esp_vfs_preadiPv6size_t5off_t">
+<span id="_CPPv313esp_vfs_preadiPv6size_t5off_t"></span><span id="_CPPv213esp_vfs_preadiPv6size_t5off_t"></span><span id="esp_vfs_pread__i.voidP.s.off_t"></span><span class="target" id="esp__vfs_8h_1a18730cf0872e6ce7e9b6429f370e7713"></span>ssize_t <code class="descname">esp_vfs_pread</code><span class="sig-paren">(</span>int <em>fd</em>, void *<em>dst</em>, size_t <em>size</em>, off_t <em>offset</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413esp_vfs_preadiPv6size_t5off_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Implements the VFS layer of POSIX pread() </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>A positive return value indicates the number of bytes read. -1 is return on failure and errno is set accordingly. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">fd</span></code>: File descriptor used for read </li>
+<li><code class="docutils literal notranslate"><span class="pre">dst</span></code>: Pointer to the buffer where the output will be written </li>
+<li><code class="docutils literal notranslate"><span class="pre">size</span></code>: Number of bytes to be read </li>
+<li><code class="docutils literal notranslate"><span class="pre">offset</span></code>: Starting offset of the read</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414esp_vfs_pwriteiPKv6size_t5off_t">
+<span id="_CPPv314esp_vfs_pwriteiPKv6size_t5off_t"></span><span id="_CPPv214esp_vfs_pwriteiPKv6size_t5off_t"></span><span id="esp_vfs_pwrite__i.voidCP.s.off_t"></span><span class="target" id="esp__vfs_8h_1a90328829e6856258ac4b6bfbb30ed49c"></span>ssize_t <code class="descname">esp_vfs_pwrite</code><span class="sig-paren">(</span>int <em>fd</em>, <em class="property">const</em> void *<em>src</em>, size_t <em>size</em>, off_t <em>offset</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414esp_vfs_pwriteiPKv6size_t5off_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Implements the VFS layer of POSIX pwrite() </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>A positive return value indicates the number of bytes written. -1 is return on failure and errno is set accordingly. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">fd</span></code>: File descriptor used for write </li>
+<li><code class="docutils literal notranslate"><span class="pre">src</span></code>: Pointer to the buffer from where the output will be read </li>
+<li><code class="docutils literal notranslate"><span class="pre">size</span></code>: Number of bytes to write </li>
+<li><code class="docutils literal notranslate"><span class="pre">offset</span></code>: Starting offset of the write</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv420esp_vfs_select_sem_t">
+<span id="_CPPv320esp_vfs_select_sem_t"></span><span id="_CPPv220esp_vfs_select_sem_t"></span><span id="esp_vfs_select_sem_t"></span><span class="target" id="structesp__vfs__select__sem__t"></span><em class="property">struct </em><code class="descname">esp_vfs_select_sem_t</code><a class="headerlink" href="#_CPPv420esp_vfs_select_sem_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>VFS semaphore type for select() </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_vfs_select_sem_t12is_sem_localE">
+<span id="_CPPv3N20esp_vfs_select_sem_t12is_sem_localE"></span><span id="_CPPv2N20esp_vfs_select_sem_t12is_sem_localE"></span><span id="esp_vfs_select_sem_t::is_sem_local__b"></span><span class="target" id="structesp__vfs__select__sem__t_1adac059708bba965eb7d9690d1b5a30d9"></span>bool <code class="descname">is_sem_local</code><a class="headerlink" href="#_CPPv4N20esp_vfs_select_sem_t12is_sem_localE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>type of “sem” is SemaphoreHandle_t when true, defined by socket driver otherwise </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_vfs_select_sem_t3semE">
+<span id="_CPPv3N20esp_vfs_select_sem_t3semE"></span><span id="_CPPv2N20esp_vfs_select_sem_t3semE"></span><span id="esp_vfs_select_sem_t::sem__voidP"></span><span class="target" id="structesp__vfs__select__sem__t_1a49002b47d65bf464568436841f7fd04a"></span>void *<code class="descname">sem</code><a class="headerlink" href="#_CPPv4N20esp_vfs_select_sem_t3semE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>semaphore instance </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv49esp_vfs_t">
+<span id="_CPPv39esp_vfs_t"></span><span id="_CPPv29esp_vfs_t"></span><span id="esp_vfs_t"></span><span class="target" id="structesp__vfs__t"></span><em class="property">struct </em><code class="descname">esp_vfs_t</code><a class="headerlink" href="#_CPPv49esp_vfs_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>VFS definition structure. </p>
+<p>This structure should be filled with pointers to corresponding FS driver functions.</p>
+<p>VFS component will translate all FDs so that the filesystem implementation sees them starting at zero. The caller sees a global FD which is prefixed with an pre-filesystem-implementation.</p>
+<p>Some FS implementations expect some state (e.g. pointer to some structure) to be passed in as a first argument. For these implementations, populate the members of this structure which have _p suffix, set flags member to ESP_VFS_FLAG_CONTEXT_PTR and provide the context pointer to esp_vfs_register function. If the implementation doesn’t use this extra argument, populate the members without _p suffix and set flags member to ESP_VFS_FLAG_DEFAULT.</p>
+<p>If the FS driver doesn’t provide some of the functions, set corresponding members to NULL. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N9esp_vfs_t5flagsE">
+<span id="_CPPv3N9esp_vfs_t5flagsE"></span><span id="_CPPv2N9esp_vfs_t5flagsE"></span><span id="esp_vfs_t::flags__i"></span><span class="target" id="structesp__vfs__t_1a12d8a41bee2fd76b18e205efb40cc460"></span>int <code class="descname">flags</code><a class="headerlink" href="#_CPPv4N9esp_vfs_t5flagsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP_VFS_FLAG_CONTEXT_PTR or ESP_VFS_FLAG_DEFAULT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N9esp_vfs_t12start_selectE">
+<span id="_CPPv3N9esp_vfs_t12start_selectE"></span><span id="_CPPv2N9esp_vfs_t12start_selectE"></span><span class="target" id="structesp__vfs__t_1a36974d0cfb1e9e6a4fd179e21abf7e84"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">start_select</code>)<span class="sig-paren">(</span>int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, <a class="reference internal" href="#_CPPv420esp_vfs_select_sem_t" title="esp_vfs_select_sem_t">esp_vfs_select_sem_t</a> sem, void **end_select_args<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9esp_vfs_t12start_selectE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>start_select is called for setting up synchronous I/O multiplexing of the desired file descriptors in the given VFS </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N9esp_vfs_t13socket_selectE">
+<span id="_CPPv3N9esp_vfs_t13socket_selectE"></span><span id="_CPPv2N9esp_vfs_t13socket_selectE"></span><span class="target" id="structesp__vfs__t_1a4fb6134a0a5fb7855307f13e2468dd52"></span>int (*<code class="descname">socket_select</code>)<span class="sig-paren">(</span>int nfds, fd_set *readfds, fd_set *writefds, fd_set *errorfds, <em class="property">struct</em> timeval *timeout<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9esp_vfs_t13socket_selectE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>socket select function for socket FDs with the functionality of POSIX select(); this should be set only for the socket VFS </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N9esp_vfs_t18stop_socket_selectE">
+<span id="_CPPv3N9esp_vfs_t18stop_socket_selectE"></span><span id="_CPPv2N9esp_vfs_t18stop_socket_selectE"></span><span class="target" id="structesp__vfs__t_1ab2fe6938dcee77b3a5a7816f64f26363"></span>void (*<code class="descname">stop_socket_select</code>)<span class="sig-paren">(</span>void *sem<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9esp_vfs_t18stop_socket_selectE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>called by VFS to interrupt the socket_select call when select is activated from a non-socket VFS driver; set only for the socket driver </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N9esp_vfs_t22stop_socket_select_isrE">
+<span id="_CPPv3N9esp_vfs_t22stop_socket_select_isrE"></span><span id="_CPPv2N9esp_vfs_t22stop_socket_select_isrE"></span><span class="target" id="structesp__vfs__t_1a5e65df7575724b3aa36c48ddf5288bba"></span>void (*<code class="descname">stop_socket_select_isr</code>)<span class="sig-paren">(</span>void *sem, BaseType_t *woken<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9esp_vfs_t22stop_socket_select_isrE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>stop_socket_select which can be called from ISR; set only for the socket driver </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N9esp_vfs_t27get_socket_select_semaphoreE">
+<span id="_CPPv3N9esp_vfs_t27get_socket_select_semaphoreE"></span><span id="_CPPv2N9esp_vfs_t27get_socket_select_semaphoreE"></span><span class="target" id="structesp__vfs__t_1a7d42f3b077981132d7bde54625814412"></span>void *(*<code class="descname">get_socket_select_semaphore</code>)<span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9esp_vfs_t27get_socket_select_semaphoreE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>end_select is called to stop the I/O multiplexing and deinitialize the environment created by start_select for the given VFS </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N9esp_vfs_t10end_selectE">
+<span id="_CPPv3N9esp_vfs_t10end_selectE"></span><span id="_CPPv2N9esp_vfs_t10end_selectE"></span><span class="target" id="structesp__vfs__t_1a3f8c00dc86604b7c6b3b0cddc2f27027"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">end_select</code>)<span class="sig-paren">(</span>void *end_select_args<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9esp_vfs_t10end_selectE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get_socket_select_semaphore returns semaphore allocated in the socket driver; set only for the socket driver </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.MAX_FDS">
+<span class="target" id="esp__vfs_8h_1a816ccaf3e5e64cc98f2b5613cc177398"></span><code class="descname">MAX_FDS</code><a class="headerlink" href="#c.MAX_FDS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum number of (global) file descriptors. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_VFS_PATH_MAX">
+<span class="target" id="esp__vfs_8h_1a627b235f37e74d5852546f228484e93a"></span><code class="descname">ESP_VFS_PATH_MAX</code><a class="headerlink" href="#c.ESP_VFS_PATH_MAX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum length of path prefix (not including zero terminator) </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_VFS_FLAG_DEFAULT">
+<span class="target" id="esp__vfs_8h_1a12d4f495ac0b2513c069f9f6c809ab9b"></span><code class="descname">ESP_VFS_FLAG_DEFAULT</code><a class="headerlink" href="#c.ESP_VFS_FLAG_DEFAULT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default value of flags member in <a class="reference internal" href="#structesp__vfs__t"><span class="std std-ref">esp_vfs_t</span></a> structure. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_VFS_FLAG_CONTEXT_PTR">
+<span class="target" id="esp__vfs_8h_1ac145ec9b3f732b1f3a8b71cf3db349b5"></span><code class="descname">ESP_VFS_FLAG_CONTEXT_PTR</code><a class="headerlink" href="#c.ESP_VFS_FLAG_CONTEXT_PTR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flag which indicates that FS needs extra context pointer in syscalls. </p>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv412esp_vfs_id_t">
+<span id="_CPPv312esp_vfs_id_t"></span><span id="_CPPv212esp_vfs_id_t"></span><span id="esp_vfs_id_t"></span><span class="target" id="esp__vfs_8h_1a82e0aff0fff000942b566e66a78e7375"></span><em class="property">typedef </em>int <code class="descname">esp_vfs_id_t</code><a class="headerlink" href="#_CPPv412esp_vfs_id_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="id1">
+<h3>Header File<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/vfs/include/esp_vfs_dev.h">vfs/include/esp_vfs_dev.h</a></li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>Functions<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv425esp_vfs_dev_uart_registerv">
+<span id="_CPPv325esp_vfs_dev_uart_registerv"></span><span id="_CPPv225esp_vfs_dev_uart_registerv"></span><span id="esp_vfs_dev_uart_register__void"></span><span class="target" id="esp__vfs__dev_8h_1a5e4aa2120ee2c9c4bf73c0e1dc7f16a9"></span>void <code class="descname">esp_vfs_dev_uart_register</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425esp_vfs_dev_uart_registerv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>add /dev/uart virtual filesystem driver </p>
+<p>This function is called from startup code to enable serial output </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv436esp_vfs_dev_uart_set_rx_line_endings18esp_line_endings_t">
+<span id="_CPPv336esp_vfs_dev_uart_set_rx_line_endings18esp_line_endings_t"></span><span id="_CPPv236esp_vfs_dev_uart_set_rx_line_endings18esp_line_endings_t"></span><span id="esp_vfs_dev_uart_set_rx_line_endings__esp_line_endings_t"></span><span class="target" id="esp__vfs__dev_8h_1af1367db500cd5aff1ecd13fdd6db2c41"></span>void <code class="descname">esp_vfs_dev_uart_set_rx_line_endings</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv418esp_line_endings_t" title="esp_line_endings_t">esp_line_endings_t</a> <em>mode</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv436esp_vfs_dev_uart_set_rx_line_endings18esp_line_endings_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the line endings expected to be received on UART. </p>
+<p>This specifies the conversion between line endings received on UART and newlines (‘<p>’, LF) passed into stdin:</p>
+</p>
+<p><ul class="simple">
+<li>ESP_LINE_ENDINGS_CRLF: convert CRLF to LF</li>
+<li>ESP_LINE_ENDINGS_CR: convert CR to LF</li>
+<li>ESP_LINE_ENDINGS_LF: no modification</li>
+</ul>
+</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>this function is not thread safe w.r.t. reading from UART</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mode</span></code>: line endings expected on UART </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv436esp_vfs_dev_uart_set_tx_line_endings18esp_line_endings_t">
+<span id="_CPPv336esp_vfs_dev_uart_set_tx_line_endings18esp_line_endings_t"></span><span id="_CPPv236esp_vfs_dev_uart_set_tx_line_endings18esp_line_endings_t"></span><span id="esp_vfs_dev_uart_set_tx_line_endings__esp_line_endings_t"></span><span class="target" id="esp__vfs__dev_8h_1a1f9628b1b7802ebe30c6bc153a8dbec2"></span>void <code class="descname">esp_vfs_dev_uart_set_tx_line_endings</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv418esp_line_endings_t" title="esp_line_endings_t">esp_line_endings_t</a> <em>mode</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv436esp_vfs_dev_uart_set_tx_line_endings18esp_line_endings_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the line endings to sent to UART. </p>
+<p>This specifies the conversion between newlines (‘<p>’, LF) on stdout and line endings sent over UART:</p>
+</p>
+<p><ul class="simple">
+<li>ESP_LINE_ENDINGS_CRLF: convert LF to CRLF</li>
+<li>ESP_LINE_ENDINGS_CR: convert LF to CR</li>
+<li>ESP_LINE_ENDINGS_LF: no modification</li>
+</ul>
+</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>this function is not thread safe w.r.t. writing to UART</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mode</span></code>: line endings to send to UART </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv432esp_vfs_dev_uart_use_nonblockingi">
+<span id="_CPPv332esp_vfs_dev_uart_use_nonblockingi"></span><span id="_CPPv232esp_vfs_dev_uart_use_nonblockingi"></span><span id="esp_vfs_dev_uart_use_nonblocking__i"></span><span class="target" id="esp__vfs__dev_8h_1a018841872464e2d2a79cdf8157efafb5"></span>void <code class="descname">esp_vfs_dev_uart_use_nonblocking</code><span class="sig-paren">(</span>int <em>uart_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv432esp_vfs_dev_uart_use_nonblockingi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set VFS to use simple functions for reading and writing UART Read is non-blocking, write is busy waiting until TX FIFO has enough space. These functions are used by default. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">uart_num</span></code>: UART peripheral number </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427esp_vfs_dev_uart_use_driveri">
+<span id="_CPPv327esp_vfs_dev_uart_use_driveri"></span><span id="_CPPv227esp_vfs_dev_uart_use_driveri"></span><span id="esp_vfs_dev_uart_use_driver__i"></span><span class="target" id="esp__vfs__dev_8h_1a3c6c34c20a967574b779166ad6bfdf3c"></span>void <code class="descname">esp_vfs_dev_uart_use_driver</code><span class="sig-paren">(</span>int <em>uart_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427esp_vfs_dev_uart_use_driveri" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set VFS to use UART driver for reading and writing </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>application must configure UART driver before calling these functions With these functions, read and write are blocking and interrupt-driven. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">uart_num</span></code>: UART peripheral number </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv418esp_line_endings_t">
+<span id="_CPPv318esp_line_endings_t"></span><span id="_CPPv218esp_line_endings_t"></span><span id="esp_line_endings_t"></span><span class="target" id="esp__vfs__dev_8h_1a01e0eb6622c4b3717282875c4effdf16"></span><em class="property">enum </em><code class="descname">esp_line_endings_t</code><a class="headerlink" href="#_CPPv418esp_line_endings_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Line ending settings. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv421ESP_LINE_ENDINGS_CRLF">
+<span id="_CPPv321ESP_LINE_ENDINGS_CRLF"></span><span id="_CPPv221ESP_LINE_ENDINGS_CRLF"></span><span class="target" id="esp__vfs__dev_8h_1a01e0eb6622c4b3717282875c4effdf16a812df487e1b1214d2ae1ef1631b67880"></span><code class="descname">ESP_LINE_ENDINGS_CRLF</code><a class="headerlink" href="#_CPPv421ESP_LINE_ENDINGS_CRLF" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CR + LF. </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv419ESP_LINE_ENDINGS_CR">
+<span id="_CPPv319ESP_LINE_ENDINGS_CR"></span><span id="_CPPv219ESP_LINE_ENDINGS_CR"></span><span class="target" id="esp__vfs__dev_8h_1a01e0eb6622c4b3717282875c4effdf16afba5656982f4c111803912a37579f75d"></span><code class="descname">ESP_LINE_ENDINGS_CR</code><a class="headerlink" href="#_CPPv419ESP_LINE_ENDINGS_CR" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CR. </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv419ESP_LINE_ENDINGS_LF">
+<span id="_CPPv319ESP_LINE_ENDINGS_LF"></span><span id="_CPPv219ESP_LINE_ENDINGS_LF"></span><span class="target" id="esp__vfs__dev_8h_1a01e0eb6622c4b3717282875c4effdf16a3525702b9521dd82991163b5a7067b0e"></span><code class="descname">ESP_LINE_ENDINGS_LF</code><a class="headerlink" href="#_CPPv419ESP_LINE_ENDINGS_LF" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>LF. </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="wear-levelling.html" class="btn btn-neutral float-right" title="Wear Levelling API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="spiffs.html" class="btn btn-neutral float-left" title="SPIFFS Filesystem" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/storage/vfs.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:11 GMT -->
+</html>

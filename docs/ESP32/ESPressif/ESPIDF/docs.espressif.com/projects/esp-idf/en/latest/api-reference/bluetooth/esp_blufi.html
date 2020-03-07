@@ -1,0 +1,1554 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/bluetooth/esp_blufi.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:12 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>BLUFI API &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="CLASSIC BT" href="classic_bt.html" />
+    <link rel="prev" title="GATT CLIENT API" href="esp_gattc.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="esp_blufi.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/bluetooth/esp_blufi"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Bluetooth</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="controller_vhci.html">Bluetooth Controller &amp;&amp; VHCI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="bt_common.html">Bluetooth Common</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="bt_le.html">Bluetooth LE</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="esp_gap_ble.html">BLE GAP</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esp_gatt_defs.html">BLE GATT DEFINE</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esp_gatts.html">BLE GATT SERVER</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esp_gattc.html">BLE GATT CLIENT</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">BLE BLUFI</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="classic_bt.html">Bluetooth Classic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nimble/index.html">NimBLE</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp-ble-mesh.html">ESP-BLE-MESH</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Bluetooth API</a> &raquo;</li>
+        
+          <li><a href="bt_le.html">BT LE</a> &raquo;</li>
+        
+      <li>BLUFI API</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/bluetooth/esp_blufi.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="blufi-api">
+<h1>BLUFI API<a class="headerlink" href="#blufi-api" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>BLUFI is a profile based GATT to config ESP32 WIFI to connect/disconnect AP or setup a softap and etc.
+Use should concern these things:</p>
+<ol class="arabic simple">
+<li>The event sent from profile. Then you need to do something as the event indicate.</li>
+<li>Security reference. You can write your own Security functions such as symmetrical encryption/decryption and checksum functions. Even you can define the “Key Exchange/Negotiation” procedure.</li>
+</ol>
+</div>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<p>Check <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/bluetooth/bluedroid/ble">bluetooth/bluedroid/ble</a> folder in ESP-IDF examples, which contains the following application:</p>
+<ul class="simple">
+<li>This is the BLUFI demo. This demo can set ESP32’s wifi to softap/station/softap&amp;station mode and config wifi connections - <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/bluetooth/bluedroid/ble/blufi">bluetooth/bluedroid/ble/blufi</a></li>
+</ul>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/bt/host/bluedroid/api/include/api/esp_blufi_api.h">bt/host/bluedroid/api/include/api/esp_blufi_api.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv428esp_blufi_register_callbacksP21esp_blufi_callbacks_t">
+<span id="_CPPv328esp_blufi_register_callbacksP21esp_blufi_callbacks_t"></span><span id="_CPPv228esp_blufi_register_callbacksP21esp_blufi_callbacks_t"></span><span id="esp_blufi_register_callbacks__esp_blufi_callbacks_tP"></span><span class="target" id="esp__blufi__api_8h_1adeccf2c2704fa5f20d71fbf82fbb8f58"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_blufi_register_callbacks</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv421esp_blufi_callbacks_t" title="esp_blufi_callbacks_t">esp_blufi_callbacks_t</a> *<em>callbacks</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428esp_blufi_register_callbacksP21esp_blufi_callbacks_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function is called to receive blufi callback event. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK - success, other - failed </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">callbacks</span></code>: callback functions</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422esp_blufi_profile_initv">
+<span id="_CPPv322esp_blufi_profile_initv"></span><span id="_CPPv222esp_blufi_profile_initv"></span><span id="esp_blufi_profile_init__void"></span><span class="target" id="esp__blufi__api_8h_1ab82db13311c6c90dd98ff972583e740e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_blufi_profile_init</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_blufi_profile_initv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function is called to initialize blufi_profile. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK - success, other - failed </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424esp_blufi_profile_deinitv">
+<span id="_CPPv324esp_blufi_profile_deinitv"></span><span id="_CPPv224esp_blufi_profile_deinitv"></span><span id="esp_blufi_profile_deinit__void"></span><span class="target" id="esp__blufi__api_8h_1ac632c454396e4323a4d3c0f5db34cb49"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_blufi_profile_deinit</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424esp_blufi_profile_deinitv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function is called to de-initialize blufi_profile. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK - success, other - failed </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv431esp_blufi_send_wifi_conn_report11wifi_mode_t26esp_blufi_sta_conn_state_t7uint8_tP22esp_blufi_extra_info_t">
+<span id="_CPPv331esp_blufi_send_wifi_conn_report11wifi_mode_t26esp_blufi_sta_conn_state_t7uint8_tP22esp_blufi_extra_info_t"></span><span id="_CPPv231esp_blufi_send_wifi_conn_report11wifi_mode_t26esp_blufi_sta_conn_state_t7uint8_tP22esp_blufi_extra_info_t"></span><span id="esp_blufi_send_wifi_conn_report__wifi_mode_t.esp_blufi_sta_conn_state_t.uint8_t.esp_blufi_extra_info_tP"></span><span class="target" id="esp__blufi__api_8h_1aaba4a32b1c542efbfdb8e282a687d46f"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_blufi_send_wifi_conn_report</code><span class="sig-paren">(</span><a class="reference internal" href="../network/esp_wifi.html#_CPPv411wifi_mode_t" title="wifi_mode_t">wifi_mode_t</a> <em>opmode</em>, <a class="reference internal" href="#_CPPv426esp_blufi_sta_conn_state_t" title="esp_blufi_sta_conn_state_t">esp_blufi_sta_conn_state_t</a> <em>sta_conn_state</em>, uint8_t <em>softap_conn_num</em>, <a class="reference internal" href="#_CPPv422esp_blufi_extra_info_t" title="esp_blufi_extra_info_t">esp_blufi_extra_info_t</a> *<em>extra_info</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv431esp_blufi_send_wifi_conn_report11wifi_mode_t26esp_blufi_sta_conn_state_t7uint8_tP22esp_blufi_extra_info_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function is called to send wifi connection report. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK - success, other - failed </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">opmode</span></code>: : wifi opmode </li>
+<li><code class="docutils literal notranslate"><span class="pre">sta_conn_state</span></code>: : station is already in connection or not </li>
+<li><code class="docutils literal notranslate"><span class="pre">softap_conn_num</span></code>: : softap connection number </li>
+<li><code class="docutils literal notranslate"><span class="pre">extra_info</span></code>: : extra information, such as sta_ssid, softap_ssid and etc.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424esp_blufi_send_wifi_list8uint16_tP21esp_blufi_ap_record_t">
+<span id="_CPPv324esp_blufi_send_wifi_list8uint16_tP21esp_blufi_ap_record_t"></span><span id="_CPPv224esp_blufi_send_wifi_list8uint16_tP21esp_blufi_ap_record_t"></span><span id="esp_blufi_send_wifi_list__uint16_t.esp_blufi_ap_record_tP"></span><span class="target" id="esp__blufi__api_8h_1a5d0fc11457e8260996630405a370f6fb"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_blufi_send_wifi_list</code><span class="sig-paren">(</span>uint16_t <em>apCount</em>, <a class="reference internal" href="#_CPPv421esp_blufi_ap_record_t" title="esp_blufi_ap_record_t">esp_blufi_ap_record_t</a> *<em>list</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424esp_blufi_send_wifi_list8uint16_tP21esp_blufi_ap_record_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function is called to send wifi list. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK - success, other - failed </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">apCount</span></code>: : wifi list count </li>
+<li><code class="docutils literal notranslate"><span class="pre">list</span></code>: : wifi list</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421esp_blufi_get_versionv">
+<span id="_CPPv321esp_blufi_get_versionv"></span><span id="_CPPv221esp_blufi_get_versionv"></span><span id="esp_blufi_get_version__void"></span><span class="target" id="esp__blufi__api_8h_1a130bdb3ea485eb3f9867b502bb1b665a"></span>uint16_t <code class="descname">esp_blufi_get_version</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421esp_blufi_get_versionv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get BLUFI profile version. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>Most 8bit significant is Great version, Least 8bit is Sub version </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415esp_blufi_close13esp_gatt_if_t8uint16_t">
+<span id="_CPPv315esp_blufi_close13esp_gatt_if_t8uint16_t"></span><span id="_CPPv215esp_blufi_close13esp_gatt_if_t8uint16_t"></span><span id="esp_blufi_close__esp_gatt_if_t.uint16_t"></span><span class="target" id="esp__blufi__api_8h_1a5ccf527a2e948a7a86eb3f7785103f7b"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_blufi_close</code><span class="sig-paren">(</span><a class="reference internal" href="esp_gatt_defs.html#_CPPv413esp_gatt_if_t" title="esp_gatt_if_t">esp_gatt_if_t</a> <em>gatts_if</em>, uint16_t <em>conn_id</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415esp_blufi_close13esp_gatt_if_t8uint16_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Close a connection a remote device. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : success</li>
+<li>other : failed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">gatts_if</span></code>: GATT server access interface </li>
+<li><code class="docutils literal notranslate"><span class="pre">conn_id</span></code>: connection ID to be closed.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425esp_blufi_send_error_info23esp_blufi_error_state_t">
+<span id="_CPPv325esp_blufi_send_error_info23esp_blufi_error_state_t"></span><span id="_CPPv225esp_blufi_send_error_info23esp_blufi_error_state_t"></span><span id="esp_blufi_send_error_info__esp_blufi_error_state_t"></span><span class="target" id="esp__blufi__api_8h_1aa8680bd121aa4352831095eec1d1ae3e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_blufi_send_error_info</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv423esp_blufi_error_state_t" title="esp_blufi_error_state_t">esp_blufi_error_state_t</a> <em>state</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425esp_blufi_send_error_info23esp_blufi_error_state_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function is called to send blufi error information. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK - success, other - failed </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">state</span></code>: : error state</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426esp_blufi_send_custom_dataP7uint8_t8uint32_t">
+<span id="_CPPv326esp_blufi_send_custom_dataP7uint8_t8uint32_t"></span><span id="_CPPv226esp_blufi_send_custom_dataP7uint8_t8uint32_t"></span><span id="esp_blufi_send_custom_data__uint8_tP.uint32_t"></span><span class="target" id="esp__blufi__api_8h_1ab196d3762bb947a1b393d53070a2d9ba"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_blufi_send_custom_data</code><span class="sig-paren">(</span>uint8_t *<em>data</em>, uint32_t <em>data_len</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426esp_blufi_send_custom_dataP7uint8_t8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This function is called to custom data. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK - success, other - failed </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: : custom data value </li>
+<li><code class="docutils literal notranslate"><span class="pre">data_len</span></code>: : the length of custom data</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="unions">
+<h3>Unions<a class="headerlink" href="#unions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv420esp_blufi_cb_param_t">
+<span id="_CPPv320esp_blufi_cb_param_t"></span><span id="_CPPv220esp_blufi_cb_param_t"></span><span id="esp_blufi_cb_param_t"></span><span class="target" id="unionesp__blufi__cb__param__t"></span><em class="property">union </em><code class="descname">esp_blufi_cb_param_t</code><a class="headerlink" href="#_CPPv420esp_blufi_cb_param_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>BLUFI callback parameters union. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t11init_finishE">
+<span id="_CPPv3N20esp_blufi_cb_param_t11init_finishE"></span><span id="_CPPv2N20esp_blufi_cb_param_t11init_finishE"></span><span id="esp_blufi_cb_param_t::init_finish__esp_blufi_cb_param_t::blufi_init_finish_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1acde95010c619ef22e2809910e53cbf60"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t27blufi_init_finish_evt_paramE" title="esp_blufi_cb_param_t::blufi_init_finish_evt_param">blufi_init_finish_evt_param</a> <code class="descname">init_finish</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t11init_finishE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_INIT_FINISH </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t13deinit_finishE">
+<span id="_CPPv3N20esp_blufi_cb_param_t13deinit_finishE"></span><span id="_CPPv2N20esp_blufi_cb_param_t13deinit_finishE"></span><span id="esp_blufi_cb_param_t::deinit_finish__esp_blufi_cb_param_t::blufi_deinit_finish_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1a9fceb196c80952ede6dce8484aedb7ee"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t29blufi_deinit_finish_evt_paramE" title="esp_blufi_cb_param_t::blufi_deinit_finish_evt_param">blufi_deinit_finish_evt_param</a> <code class="descname">deinit_finish</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t13deinit_finishE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_DEINIT_FINISH </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t9wifi_modeE">
+<span id="_CPPv3N20esp_blufi_cb_param_t9wifi_modeE"></span><span id="_CPPv2N20esp_blufi_cb_param_t9wifi_modeE"></span><span id="esp_blufi_cb_param_t::wifi_mode__esp_blufi_cb_param_t::blufi_set_wifi_mode_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1a65414dab640533e2fc7aa6d97e85181d"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t29blufi_set_wifi_mode_evt_paramE" title="esp_blufi_cb_param_t::blufi_set_wifi_mode_evt_param">blufi_set_wifi_mode_evt_param</a> <code class="descname">wifi_mode</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t9wifi_modeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_INIT_FINISH </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t7connectE">
+<span id="_CPPv3N20esp_blufi_cb_param_t7connectE"></span><span id="_CPPv2N20esp_blufi_cb_param_t7connectE"></span><span id="esp_blufi_cb_param_t::connect__esp_blufi_cb_param_t::blufi_connect_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1a5a1777dbd9419b7b321aba0af62e202e"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t23blufi_connect_evt_paramE" title="esp_blufi_cb_param_t::blufi_connect_evt_param">blufi_connect_evt_param</a> <code class="descname">connect</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t7connectE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_CONNECT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t10disconnectE">
+<span id="_CPPv3N20esp_blufi_cb_param_t10disconnectE"></span><span id="_CPPv2N20esp_blufi_cb_param_t10disconnectE"></span><span id="esp_blufi_cb_param_t::disconnect__esp_blufi_cb_param_t::blufi_disconnect_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1a78ffecf55100ce4786a9578b716ecb2a"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t26blufi_disconnect_evt_paramE" title="esp_blufi_cb_param_t::blufi_disconnect_evt_param">blufi_disconnect_evt_param</a> <code class="descname">disconnect</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t10disconnectE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_DISCONNECT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t9sta_bssidE">
+<span id="_CPPv3N20esp_blufi_cb_param_t9sta_bssidE"></span><span id="_CPPv2N20esp_blufi_cb_param_t9sta_bssidE"></span><span id="esp_blufi_cb_param_t::sta_bssid__esp_blufi_cb_param_t::blufi_recv_sta_bssid_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1adfaa769b9da441a189d3b4857a282422"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t30blufi_recv_sta_bssid_evt_paramE" title="esp_blufi_cb_param_t::blufi_recv_sta_bssid_evt_param">blufi_recv_sta_bssid_evt_param</a> <code class="descname">sta_bssid</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t9sta_bssidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_RECV_STA_BSSID </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t8sta_ssidE">
+<span id="_CPPv3N20esp_blufi_cb_param_t8sta_ssidE"></span><span id="_CPPv2N20esp_blufi_cb_param_t8sta_ssidE"></span><span id="esp_blufi_cb_param_t::sta_ssid__esp_blufi_cb_param_t::blufi_recv_sta_ssid_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1ac899462ce19e761b09eed5e30116a2fd"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t29blufi_recv_sta_ssid_evt_paramE" title="esp_blufi_cb_param_t::blufi_recv_sta_ssid_evt_param">blufi_recv_sta_ssid_evt_param</a> <code class="descname">sta_ssid</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t8sta_ssidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_RECV_STA_SSID </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t10sta_passwdE">
+<span id="_CPPv3N20esp_blufi_cb_param_t10sta_passwdE"></span><span id="_CPPv2N20esp_blufi_cb_param_t10sta_passwdE"></span><span id="esp_blufi_cb_param_t::sta_passwd__esp_blufi_cb_param_t::blufi_recv_sta_passwd_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1aa51d99b2d0e5e55edb2e1b3aa154d052"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t31blufi_recv_sta_passwd_evt_paramE" title="esp_blufi_cb_param_t::blufi_recv_sta_passwd_evt_param">blufi_recv_sta_passwd_evt_param</a> <code class="descname">sta_passwd</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t10sta_passwdE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_RECV_STA_PASSWD </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t11softap_ssidE">
+<span id="_CPPv3N20esp_blufi_cb_param_t11softap_ssidE"></span><span id="_CPPv2N20esp_blufi_cb_param_t11softap_ssidE"></span><span id="esp_blufi_cb_param_t::softap_ssid__esp_blufi_cb_param_t::blufi_recv_softap_ssid_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1a22b248cb0a148b88b364df1baefd88f8"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_softap_ssid_evt_paramE" title="esp_blufi_cb_param_t::blufi_recv_softap_ssid_evt_param">blufi_recv_softap_ssid_evt_param</a> <code class="descname">softap_ssid</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t11softap_ssidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_RECV_SOFTAP_SSID </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t13softap_passwdE">
+<span id="_CPPv3N20esp_blufi_cb_param_t13softap_passwdE"></span><span id="_CPPv2N20esp_blufi_cb_param_t13softap_passwdE"></span><span id="esp_blufi_cb_param_t::softap_passwd__esp_blufi_cb_param_t::blufi_recv_softap_passwd_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1ad4a8e65358bd3a90d2deeac7ad890e10"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t34blufi_recv_softap_passwd_evt_paramE" title="esp_blufi_cb_param_t::blufi_recv_softap_passwd_evt_param">blufi_recv_softap_passwd_evt_param</a> <code class="descname">softap_passwd</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t13softap_passwdE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_RECV_SOFTAP_PASSWD </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t19softap_max_conn_numE">
+<span id="_CPPv3N20esp_blufi_cb_param_t19softap_max_conn_numE"></span><span id="_CPPv2N20esp_blufi_cb_param_t19softap_max_conn_numE"></span><span id="esp_blufi_cb_param_t::softap_max_conn_num__esp_blufi_cb_param_t::blufi_recv_softap_max_conn_num_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1ad08117c385a34838056c979f7325938b"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t40blufi_recv_softap_max_conn_num_evt_paramE" title="esp_blufi_cb_param_t::blufi_recv_softap_max_conn_num_evt_param">blufi_recv_softap_max_conn_num_evt_param</a> <code class="descname">softap_max_conn_num</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t19softap_max_conn_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_RECV_SOFTAP_MAX_CONN_NUM </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t16softap_auth_modeE">
+<span id="_CPPv3N20esp_blufi_cb_param_t16softap_auth_modeE"></span><span id="_CPPv2N20esp_blufi_cb_param_t16softap_auth_modeE"></span><span id="esp_blufi_cb_param_t::softap_auth_mode__esp_blufi_cb_param_t::blufi_recv_softap_auth_mode_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1abe94aaa5f8b6d2e9e01859b06df2193a"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t37blufi_recv_softap_auth_mode_evt_paramE" title="esp_blufi_cb_param_t::blufi_recv_softap_auth_mode_evt_param">blufi_recv_softap_auth_mode_evt_param</a> <code class="descname">softap_auth_mode</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t16softap_auth_modeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_RECV_SOFTAP_AUTH_MODE </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t14softap_channelE">
+<span id="_CPPv3N20esp_blufi_cb_param_t14softap_channelE"></span><span id="_CPPv2N20esp_blufi_cb_param_t14softap_channelE"></span><span id="esp_blufi_cb_param_t::softap_channel__esp_blufi_cb_param_t::blufi_recv_softap_channel_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1a8209412881cf9f0b38083317a27a07aa"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t35blufi_recv_softap_channel_evt_paramE" title="esp_blufi_cb_param_t::blufi_recv_softap_channel_evt_param">blufi_recv_softap_channel_evt_param</a> <code class="descname">softap_channel</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t14softap_channelE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_RECV_SOFTAP_CHANNEL </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t8usernameE">
+<span id="_CPPv3N20esp_blufi_cb_param_t8usernameE"></span><span id="_CPPv2N20esp_blufi_cb_param_t8usernameE"></span><span id="esp_blufi_cb_param_t::username__esp_blufi_cb_param_t::blufi_recv_username_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1a18b5fb6ad54ceee5fe7cc9ac8537e049"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t29blufi_recv_username_evt_paramE" title="esp_blufi_cb_param_t::blufi_recv_username_evt_param">blufi_recv_username_evt_param</a> <code class="descname">username</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t8usernameE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_RECV_USERNAME </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t2caE">
+<span id="_CPPv3N20esp_blufi_cb_param_t2caE"></span><span id="_CPPv2N20esp_blufi_cb_param_t2caE"></span><span id="esp_blufi_cb_param_t::ca__esp_blufi_cb_param_t::blufi_recv_ca_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1a82e329d83449e5c9b0935f739bd40aaa"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t23blufi_recv_ca_evt_paramE" title="esp_blufi_cb_param_t::blufi_recv_ca_evt_param">blufi_recv_ca_evt_param</a> <code class="descname">ca</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t2caE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_RECV_CA_CERT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t11client_certE">
+<span id="_CPPv3N20esp_blufi_cb_param_t11client_certE"></span><span id="_CPPv2N20esp_blufi_cb_param_t11client_certE"></span><span id="esp_blufi_cb_param_t::client_cert__esp_blufi_cb_param_t::blufi_recv_client_cert_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1a48be0bf800db9676ffab8f030ed658a1"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_client_cert_evt_paramE" title="esp_blufi_cb_param_t::blufi_recv_client_cert_evt_param">blufi_recv_client_cert_evt_param</a> <code class="descname">client_cert</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t11client_certE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_RECV_CLIENT_CERT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t11server_certE">
+<span id="_CPPv3N20esp_blufi_cb_param_t11server_certE"></span><span id="_CPPv2N20esp_blufi_cb_param_t11server_certE"></span><span id="esp_blufi_cb_param_t::server_cert__esp_blufi_cb_param_t::blufi_recv_server_cert_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1aa2cc492700f8fb7d238983cbd0ec9c9c"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_server_cert_evt_paramE" title="esp_blufi_cb_param_t::blufi_recv_server_cert_evt_param">blufi_recv_server_cert_evt_param</a> <code class="descname">server_cert</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t11server_certE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_RECV_SERVER_CERT </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t11client_pkeyE">
+<span id="_CPPv3N20esp_blufi_cb_param_t11client_pkeyE"></span><span id="_CPPv2N20esp_blufi_cb_param_t11client_pkeyE"></span><span id="esp_blufi_cb_param_t::client_pkey__esp_blufi_cb_param_t::blufi_recv_client_pkey_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1a78bd68637e748e78204075e8688b510b"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_client_pkey_evt_paramE" title="esp_blufi_cb_param_t::blufi_recv_client_pkey_evt_param">blufi_recv_client_pkey_evt_param</a> <code class="descname">client_pkey</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t11client_pkeyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_RECV_CLIENT_PRIV_KEY </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t11server_pkeyE">
+<span id="_CPPv3N20esp_blufi_cb_param_t11server_pkeyE"></span><span id="_CPPv2N20esp_blufi_cb_param_t11server_pkeyE"></span><span id="esp_blufi_cb_param_t::server_pkey__esp_blufi_cb_param_t::blufi_recv_server_pkey_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1abc2a5448609b78257a5c9c57b9464a87"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_server_pkey_evt_paramE" title="esp_blufi_cb_param_t::blufi_recv_server_pkey_evt_param">blufi_recv_server_pkey_evt_param</a> <code class="descname">server_pkey</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t11server_pkeyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_RECV_SERVER_PRIV_KEY </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t12report_errorE">
+<span id="_CPPv3N20esp_blufi_cb_param_t12report_errorE"></span><span id="_CPPv2N20esp_blufi_cb_param_t12report_errorE"></span><span id="esp_blufi_cb_param_t::report_error__esp_blufi_cb_param_t::blufi_get_error_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1a11b18e601cbc3a6d7a17ef530affd7c8"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t25blufi_get_error_evt_paramE" title="esp_blufi_cb_param_t::blufi_get_error_evt_param">blufi_get_error_evt_param</a> <code class="descname">report_error</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t12report_errorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_REPORT_ERROR </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t11custom_dataE">
+<span id="_CPPv3N20esp_blufi_cb_param_t11custom_dataE"></span><span id="_CPPv2N20esp_blufi_cb_param_t11custom_dataE"></span><span id="esp_blufi_cb_param_t::custom_data__esp_blufi_cb_param_t::blufi_recv_custom_data_evt_param"></span><span class="target" id="unionesp__blufi__cb__param__t_1a29926b0d52b185278d6bd5fbe94bc4ff"></span><em class="property">struct</em> <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a>::<a class="reference internal" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_custom_data_evt_paramE" title="esp_blufi_cb_param_t::blufi_recv_custom_data_evt_param">blufi_recv_custom_data_evt_param</a> <code class="descname">custom_data</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t11custom_dataE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi callback param of ESP_BLUFI_EVENT_RECV_CUSTOM_DATA </p>
+</dd></dl>
+
+</div>
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t23blufi_connect_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t23blufi_connect_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t23blufi_connect_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_connect_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__connect__evt__param"></span><em class="property">struct </em><code class="descname">blufi_connect_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t23blufi_connect_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_CONNECT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t23blufi_connect_evt_param10remote_bdaE">
+<span id="_CPPv3N20esp_blufi_cb_param_t23blufi_connect_evt_param10remote_bdaE"></span><span id="_CPPv2N20esp_blufi_cb_param_t23blufi_connect_evt_param10remote_bdaE"></span><span id="esp_blufi_cb_param_t::blufi_connect_evt_param::remote_bda__esp_bd_addr_t"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__connect__evt__param_1a61a2270775e44fd3dd32f5d1ab236f15"></span><a class="reference internal" href="esp_bt_defs.html#_CPPv413esp_bd_addr_t" title="esp_bd_addr_t">esp_bd_addr_t</a> <code class="descname">remote_bda</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t23blufi_connect_evt_param10remote_bdaE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi Remote bluetooth device address </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t23blufi_connect_evt_param9server_ifE">
+<span id="_CPPv3N20esp_blufi_cb_param_t23blufi_connect_evt_param9server_ifE"></span><span id="_CPPv2N20esp_blufi_cb_param_t23blufi_connect_evt_param9server_ifE"></span><span id="esp_blufi_cb_param_t::blufi_connect_evt_param::server_if__uint8_t"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__connect__evt__param_1ad3c9ed20da411e7af324c3257c4d2a48"></span>uint8_t <code class="descname">server_if</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t23blufi_connect_evt_param9server_ifE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>server interface </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t23blufi_connect_evt_param7conn_idE">
+<span id="_CPPv3N20esp_blufi_cb_param_t23blufi_connect_evt_param7conn_idE"></span><span id="_CPPv2N20esp_blufi_cb_param_t23blufi_connect_evt_param7conn_idE"></span><span id="esp_blufi_cb_param_t::blufi_connect_evt_param::conn_id__uint16_t"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__connect__evt__param_1af56235f498e0d1b9f7f709cc01ac0d75"></span>uint16_t <code class="descname">conn_id</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t23blufi_connect_evt_param7conn_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Connection id </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t29blufi_deinit_finish_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t29blufi_deinit_finish_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t29blufi_deinit_finish_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_deinit_finish_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__deinit__finish__evt__param"></span><em class="property">struct </em><code class="descname">blufi_deinit_finish_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t29blufi_deinit_finish_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_DEINIT_FINISH. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t29blufi_deinit_finish_evt_param5stateE">
+<span id="_CPPv3N20esp_blufi_cb_param_t29blufi_deinit_finish_evt_param5stateE"></span><span id="_CPPv2N20esp_blufi_cb_param_t29blufi_deinit_finish_evt_param5stateE"></span><span id="esp_blufi_cb_param_t::blufi_deinit_finish_evt_param::state__esp_blufi_deinit_state_t"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__deinit__finish__evt__param_1a6a09edc85f9b437216c97764daa1dcf8"></span><a class="reference internal" href="#_CPPv424esp_blufi_deinit_state_t" title="esp_blufi_deinit_state_t">esp_blufi_deinit_state_t</a> <code class="descname">state</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t29blufi_deinit_finish_evt_param5stateE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>De-initial status </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t26blufi_disconnect_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t26blufi_disconnect_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t26blufi_disconnect_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_disconnect_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__disconnect__evt__param"></span><em class="property">struct </em><code class="descname">blufi_disconnect_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t26blufi_disconnect_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_DISCONNECT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t26blufi_disconnect_evt_param10remote_bdaE">
+<span id="_CPPv3N20esp_blufi_cb_param_t26blufi_disconnect_evt_param10remote_bdaE"></span><span id="_CPPv2N20esp_blufi_cb_param_t26blufi_disconnect_evt_param10remote_bdaE"></span><span id="esp_blufi_cb_param_t::blufi_disconnect_evt_param::remote_bda__esp_bd_addr_t"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__disconnect__evt__param_1add6e8dc714dae79f427a0d856845954b"></span><a class="reference internal" href="esp_bt_defs.html#_CPPv413esp_bd_addr_t" title="esp_bd_addr_t">esp_bd_addr_t</a> <code class="descname">remote_bda</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t26blufi_disconnect_evt_param10remote_bdaE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi Remote bluetooth device address </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t25blufi_get_error_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t25blufi_get_error_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t25blufi_get_error_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_get_error_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__get__error__evt__param"></span><em class="property">struct </em><code class="descname">blufi_get_error_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t25blufi_get_error_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_REPORT_ERROR. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t25blufi_get_error_evt_param5stateE">
+<span id="_CPPv3N20esp_blufi_cb_param_t25blufi_get_error_evt_param5stateE"></span><span id="_CPPv2N20esp_blufi_cb_param_t25blufi_get_error_evt_param5stateE"></span><span id="esp_blufi_cb_param_t::blufi_get_error_evt_param::state__esp_blufi_error_state_t"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__get__error__evt__param_1a95bda17380014f2bb99ad38b31b45be8"></span><a class="reference internal" href="#_CPPv423esp_blufi_error_state_t" title="esp_blufi_error_state_t">esp_blufi_error_state_t</a> <code class="descname">state</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t25blufi_get_error_evt_param5stateE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Blufi error state </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t27blufi_init_finish_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t27blufi_init_finish_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t27blufi_init_finish_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_init_finish_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__init__finish__evt__param"></span><em class="property">struct </em><code class="descname">blufi_init_finish_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t27blufi_init_finish_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_INIT_FINISH. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t27blufi_init_finish_evt_param5stateE">
+<span id="_CPPv3N20esp_blufi_cb_param_t27blufi_init_finish_evt_param5stateE"></span><span id="_CPPv2N20esp_blufi_cb_param_t27blufi_init_finish_evt_param5stateE"></span><span id="esp_blufi_cb_param_t::blufi_init_finish_evt_param::state__esp_blufi_init_state_t"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__init__finish__evt__param_1a7ffa698ea90d50318505fc4f9a850ea4"></span><a class="reference internal" href="#_CPPv422esp_blufi_init_state_t" title="esp_blufi_init_state_t">esp_blufi_init_state_t</a> <code class="descname">state</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t27blufi_init_finish_evt_param5stateE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initial status </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t23blufi_recv_ca_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t23blufi_recv_ca_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t23blufi_recv_ca_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_recv_ca_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__ca__evt__param"></span><em class="property">struct </em><code class="descname">blufi_recv_ca_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t23blufi_recv_ca_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_RECV_CA_CERT. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t23blufi_recv_ca_evt_param4certE">
+<span id="_CPPv3N20esp_blufi_cb_param_t23blufi_recv_ca_evt_param4certE"></span><span id="_CPPv2N20esp_blufi_cb_param_t23blufi_recv_ca_evt_param4certE"></span><span id="esp_blufi_cb_param_t::blufi_recv_ca_evt_param::cert__uint8_tP"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__ca__evt__param_1a8051656a41e6a8001320f4596512c3ae"></span>uint8_t *<code class="descname">cert</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t23blufi_recv_ca_evt_param4certE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CA certificate point </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t23blufi_recv_ca_evt_param8cert_lenE">
+<span id="_CPPv3N20esp_blufi_cb_param_t23blufi_recv_ca_evt_param8cert_lenE"></span><span id="_CPPv2N20esp_blufi_cb_param_t23blufi_recv_ca_evt_param8cert_lenE"></span><span id="esp_blufi_cb_param_t::blufi_recv_ca_evt_param::cert_len__i"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__ca__evt__param_1af9671901e28add83f49385408ed9b7ef"></span>int <code class="descname">cert_len</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t23blufi_recv_ca_evt_param8cert_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CA certificate length </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t32blufi_recv_client_cert_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t32blufi_recv_client_cert_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t32blufi_recv_client_cert_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_recv_client_cert_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__client__cert__evt__param"></span><em class="property">struct </em><code class="descname">blufi_recv_client_cert_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_client_cert_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_RECV_CLIENT_CERT </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t32blufi_recv_client_cert_evt_param4certE">
+<span id="_CPPv3N20esp_blufi_cb_param_t32blufi_recv_client_cert_evt_param4certE"></span><span id="_CPPv2N20esp_blufi_cb_param_t32blufi_recv_client_cert_evt_param4certE"></span><span id="esp_blufi_cb_param_t::blufi_recv_client_cert_evt_param::cert__uint8_tP"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__client__cert__evt__param_1a53fa2e23fae64d3fc2ccb731e81f4afd"></span>uint8_t *<code class="descname">cert</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_client_cert_evt_param4certE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Client certificate point </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t32blufi_recv_client_cert_evt_param8cert_lenE">
+<span id="_CPPv3N20esp_blufi_cb_param_t32blufi_recv_client_cert_evt_param8cert_lenE"></span><span id="_CPPv2N20esp_blufi_cb_param_t32blufi_recv_client_cert_evt_param8cert_lenE"></span><span id="esp_blufi_cb_param_t::blufi_recv_client_cert_evt_param::cert_len__i"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__client__cert__evt__param_1a29dbdbfd74b8f5be45ca28fcc5230f35"></span>int <code class="descname">cert_len</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_client_cert_evt_param8cert_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Client certificate length </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t32blufi_recv_client_pkey_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t32blufi_recv_client_pkey_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t32blufi_recv_client_pkey_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_recv_client_pkey_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__client__pkey__evt__param"></span><em class="property">struct </em><code class="descname">blufi_recv_client_pkey_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_client_pkey_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_RECV_CLIENT_PRIV_KEY </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t32blufi_recv_client_pkey_evt_param4pkeyE">
+<span id="_CPPv3N20esp_blufi_cb_param_t32blufi_recv_client_pkey_evt_param4pkeyE"></span><span id="_CPPv2N20esp_blufi_cb_param_t32blufi_recv_client_pkey_evt_param4pkeyE"></span><span id="esp_blufi_cb_param_t::blufi_recv_client_pkey_evt_param::pkey__uint8_tP"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__client__pkey__evt__param_1acae97198313c070d8d4289c2db22da81"></span>uint8_t *<code class="descname">pkey</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_client_pkey_evt_param4pkeyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Client Private Key point, if Client certificate not contain Key </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t32blufi_recv_client_pkey_evt_param8pkey_lenE">
+<span id="_CPPv3N20esp_blufi_cb_param_t32blufi_recv_client_pkey_evt_param8pkey_lenE"></span><span id="_CPPv2N20esp_blufi_cb_param_t32blufi_recv_client_pkey_evt_param8pkey_lenE"></span><span id="esp_blufi_cb_param_t::blufi_recv_client_pkey_evt_param::pkey_len__i"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__client__pkey__evt__param_1ad4567bb8648140a0372c06b16422b070"></span>int <code class="descname">pkey_len</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_client_pkey_evt_param8pkey_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Client Private key length </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t32blufi_recv_custom_data_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t32blufi_recv_custom_data_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t32blufi_recv_custom_data_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_recv_custom_data_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__custom__data__evt__param"></span><em class="property">struct </em><code class="descname">blufi_recv_custom_data_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_custom_data_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_RECV_CUSTOM_DATA. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t32blufi_recv_custom_data_evt_param4dataE">
+<span id="_CPPv3N20esp_blufi_cb_param_t32blufi_recv_custom_data_evt_param4dataE"></span><span id="_CPPv2N20esp_blufi_cb_param_t32blufi_recv_custom_data_evt_param4dataE"></span><span id="esp_blufi_cb_param_t::blufi_recv_custom_data_evt_param::data__uint8_tP"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__custom__data__evt__param_1afdf836293df2042ecce4283d674326cd"></span>uint8_t *<code class="descname">data</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_custom_data_evt_param4dataE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Custom data </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t32blufi_recv_custom_data_evt_param8data_lenE">
+<span id="_CPPv3N20esp_blufi_cb_param_t32blufi_recv_custom_data_evt_param8data_lenE"></span><span id="_CPPv2N20esp_blufi_cb_param_t32blufi_recv_custom_data_evt_param8data_lenE"></span><span id="esp_blufi_cb_param_t::blufi_recv_custom_data_evt_param::data_len__uint32_t"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__custom__data__evt__param_1abb5867f988f1157b53e1193bede48808"></span>uint32_t <code class="descname">data_len</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_custom_data_evt_param8data_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Custom data Length </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t32blufi_recv_server_cert_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t32blufi_recv_server_cert_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t32blufi_recv_server_cert_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_recv_server_cert_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__server__cert__evt__param"></span><em class="property">struct </em><code class="descname">blufi_recv_server_cert_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_server_cert_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_RECV_SERVER_CERT </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t32blufi_recv_server_cert_evt_param4certE">
+<span id="_CPPv3N20esp_blufi_cb_param_t32blufi_recv_server_cert_evt_param4certE"></span><span id="_CPPv2N20esp_blufi_cb_param_t32blufi_recv_server_cert_evt_param4certE"></span><span id="esp_blufi_cb_param_t::blufi_recv_server_cert_evt_param::cert__uint8_tP"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__server__cert__evt__param_1a8ab00e61ec41aa63f149e4c26acdc5dc"></span>uint8_t *<code class="descname">cert</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_server_cert_evt_param4certE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Client certificate point </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t32blufi_recv_server_cert_evt_param8cert_lenE">
+<span id="_CPPv3N20esp_blufi_cb_param_t32blufi_recv_server_cert_evt_param8cert_lenE"></span><span id="_CPPv2N20esp_blufi_cb_param_t32blufi_recv_server_cert_evt_param8cert_lenE"></span><span id="esp_blufi_cb_param_t::blufi_recv_server_cert_evt_param::cert_len__i"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__server__cert__evt__param_1a43c3eaaf95f19e9fe42272bfc6cc5106"></span>int <code class="descname">cert_len</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_server_cert_evt_param8cert_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Client certificate length </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t32blufi_recv_server_pkey_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t32blufi_recv_server_pkey_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t32blufi_recv_server_pkey_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_recv_server_pkey_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__server__pkey__evt__param"></span><em class="property">struct </em><code class="descname">blufi_recv_server_pkey_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_server_pkey_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_RECV_SERVER_PRIV_KEY </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t32blufi_recv_server_pkey_evt_param4pkeyE">
+<span id="_CPPv3N20esp_blufi_cb_param_t32blufi_recv_server_pkey_evt_param4pkeyE"></span><span id="_CPPv2N20esp_blufi_cb_param_t32blufi_recv_server_pkey_evt_param4pkeyE"></span><span id="esp_blufi_cb_param_t::blufi_recv_server_pkey_evt_param::pkey__uint8_tP"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__server__pkey__evt__param_1a5b92b058f71e83adf2cb6c4f0dfe388b"></span>uint8_t *<code class="descname">pkey</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_server_pkey_evt_param4pkeyE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Client Private Key point, if Client certificate not contain Key </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t32blufi_recv_server_pkey_evt_param8pkey_lenE">
+<span id="_CPPv3N20esp_blufi_cb_param_t32blufi_recv_server_pkey_evt_param8pkey_lenE"></span><span id="_CPPv2N20esp_blufi_cb_param_t32blufi_recv_server_pkey_evt_param8pkey_lenE"></span><span id="esp_blufi_cb_param_t::blufi_recv_server_pkey_evt_param::pkey_len__i"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__server__pkey__evt__param_1a8363b70856c9f0d0ab512868fa186d43"></span>int <code class="descname">pkey_len</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_server_pkey_evt_param8pkey_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Client Private key length </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t37blufi_recv_softap_auth_mode_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t37blufi_recv_softap_auth_mode_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t37blufi_recv_softap_auth_mode_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_recv_softap_auth_mode_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__softap__auth__mode__evt__param"></span><em class="property">struct </em><code class="descname">blufi_recv_softap_auth_mode_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t37blufi_recv_softap_auth_mode_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_RECV_SOFTAP_AUTH_MODE. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t37blufi_recv_softap_auth_mode_evt_param9auth_modeE">
+<span id="_CPPv3N20esp_blufi_cb_param_t37blufi_recv_softap_auth_mode_evt_param9auth_modeE"></span><span id="_CPPv2N20esp_blufi_cb_param_t37blufi_recv_softap_auth_mode_evt_param9auth_modeE"></span><span id="esp_blufi_cb_param_t::blufi_recv_softap_auth_mode_evt_param::auth_mode__wifi_auth_mode_t"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__softap__auth__mode__evt__param_1aef386f05d52a84618b46910e14418bde"></span><a class="reference internal" href="../network/esp_wifi.html#_CPPv416wifi_auth_mode_t" title="wifi_auth_mode_t">wifi_auth_mode_t</a> <code class="descname">auth_mode</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t37blufi_recv_softap_auth_mode_evt_param9auth_modeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Authentication mode </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t35blufi_recv_softap_channel_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t35blufi_recv_softap_channel_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t35blufi_recv_softap_channel_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_recv_softap_channel_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__softap__channel__evt__param"></span><em class="property">struct </em><code class="descname">blufi_recv_softap_channel_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t35blufi_recv_softap_channel_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_RECV_SOFTAP_CHANNEL. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t35blufi_recv_softap_channel_evt_param7channelE">
+<span id="_CPPv3N20esp_blufi_cb_param_t35blufi_recv_softap_channel_evt_param7channelE"></span><span id="_CPPv2N20esp_blufi_cb_param_t35blufi_recv_softap_channel_evt_param7channelE"></span><span id="esp_blufi_cb_param_t::blufi_recv_softap_channel_evt_param::channel__uint8_t"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__softap__channel__evt__param_1ad4e48a73a86c45468a6783b5168e7e34"></span>uint8_t <code class="descname">channel</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t35blufi_recv_softap_channel_evt_param7channelE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Authentication mode </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t40blufi_recv_softap_max_conn_num_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t40blufi_recv_softap_max_conn_num_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t40blufi_recv_softap_max_conn_num_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_recv_softap_max_conn_num_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__softap__max__conn__num__evt__param"></span><em class="property">struct </em><code class="descname">blufi_recv_softap_max_conn_num_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t40blufi_recv_softap_max_conn_num_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_RECV_SOFTAP_MAX_CONN_NUM. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t40blufi_recv_softap_max_conn_num_evt_param12max_conn_numE">
+<span id="_CPPv3N20esp_blufi_cb_param_t40blufi_recv_softap_max_conn_num_evt_param12max_conn_numE"></span><span id="_CPPv2N20esp_blufi_cb_param_t40blufi_recv_softap_max_conn_num_evt_param12max_conn_numE"></span><span id="esp_blufi_cb_param_t::blufi_recv_softap_max_conn_num_evt_param::max_conn_num__i"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__softap__max__conn__num__evt__param_1a22b878e58009eb21b644397d10836784"></span>int <code class="descname">max_conn_num</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t40blufi_recv_softap_max_conn_num_evt_param12max_conn_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SSID </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t34blufi_recv_softap_passwd_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t34blufi_recv_softap_passwd_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t34blufi_recv_softap_passwd_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_recv_softap_passwd_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__softap__passwd__evt__param"></span><em class="property">struct </em><code class="descname">blufi_recv_softap_passwd_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t34blufi_recv_softap_passwd_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_RECV_SOFTAP_PASSWD. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t34blufi_recv_softap_passwd_evt_param6passwdE">
+<span id="_CPPv3N20esp_blufi_cb_param_t34blufi_recv_softap_passwd_evt_param6passwdE"></span><span id="_CPPv2N20esp_blufi_cb_param_t34blufi_recv_softap_passwd_evt_param6passwdE"></span><span id="esp_blufi_cb_param_t::blufi_recv_softap_passwd_evt_param::passwd__uint8_tP"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__softap__passwd__evt__param_1acc9d2efb2b1ff613d796777a318ccd07"></span>uint8_t *<code class="descname">passwd</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t34blufi_recv_softap_passwd_evt_param6passwdE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Password </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t34blufi_recv_softap_passwd_evt_param10passwd_lenE">
+<span id="_CPPv3N20esp_blufi_cb_param_t34blufi_recv_softap_passwd_evt_param10passwd_lenE"></span><span id="_CPPv2N20esp_blufi_cb_param_t34blufi_recv_softap_passwd_evt_param10passwd_lenE"></span><span id="esp_blufi_cb_param_t::blufi_recv_softap_passwd_evt_param::passwd_len__i"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__softap__passwd__evt__param_1a7236de3b4d6a5b49afa1d41e2372f0fe"></span>int <code class="descname">passwd_len</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t34blufi_recv_softap_passwd_evt_param10passwd_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Password Length </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t32blufi_recv_softap_ssid_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t32blufi_recv_softap_ssid_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t32blufi_recv_softap_ssid_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_recv_softap_ssid_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__softap__ssid__evt__param"></span><em class="property">struct </em><code class="descname">blufi_recv_softap_ssid_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_softap_ssid_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_RECV_SOFTAP_SSID. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t32blufi_recv_softap_ssid_evt_param4ssidE">
+<span id="_CPPv3N20esp_blufi_cb_param_t32blufi_recv_softap_ssid_evt_param4ssidE"></span><span id="_CPPv2N20esp_blufi_cb_param_t32blufi_recv_softap_ssid_evt_param4ssidE"></span><span id="esp_blufi_cb_param_t::blufi_recv_softap_ssid_evt_param::ssid__uint8_tP"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__softap__ssid__evt__param_1a13607a6e361994644e8528cd16a5c278"></span>uint8_t *<code class="descname">ssid</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_softap_ssid_evt_param4ssidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SSID </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t32blufi_recv_softap_ssid_evt_param8ssid_lenE">
+<span id="_CPPv3N20esp_blufi_cb_param_t32blufi_recv_softap_ssid_evt_param8ssid_lenE"></span><span id="_CPPv2N20esp_blufi_cb_param_t32blufi_recv_softap_ssid_evt_param8ssid_lenE"></span><span id="esp_blufi_cb_param_t::blufi_recv_softap_ssid_evt_param::ssid_len__i"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__softap__ssid__evt__param_1a40fb57ce1395146e287020ed66c34384"></span>int <code class="descname">ssid_len</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t32blufi_recv_softap_ssid_evt_param8ssid_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SSID length </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t30blufi_recv_sta_bssid_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t30blufi_recv_sta_bssid_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t30blufi_recv_sta_bssid_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_recv_sta_bssid_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__sta__bssid__evt__param"></span><em class="property">struct </em><code class="descname">blufi_recv_sta_bssid_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t30blufi_recv_sta_bssid_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_RECV_STA_BSSID. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t30blufi_recv_sta_bssid_evt_param5bssidE">
+<span id="_CPPv3N20esp_blufi_cb_param_t30blufi_recv_sta_bssid_evt_param5bssidE"></span><span id="_CPPv2N20esp_blufi_cb_param_t30blufi_recv_sta_bssid_evt_param5bssidE"></span><span id="esp_blufi_cb_param_t::blufi_recv_sta_bssid_evt_param::bssid__uint8_tA"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__sta__bssid__evt__param_1a2226cc94fd7794e720205a68b7bc74ac"></span>uint8_t <code class="descname">bssid</code>[6]<a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t30blufi_recv_sta_bssid_evt_param5bssidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BSSID </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t31blufi_recv_sta_passwd_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t31blufi_recv_sta_passwd_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t31blufi_recv_sta_passwd_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_recv_sta_passwd_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__sta__passwd__evt__param"></span><em class="property">struct </em><code class="descname">blufi_recv_sta_passwd_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t31blufi_recv_sta_passwd_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_RECV_STA_PASSWD. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t31blufi_recv_sta_passwd_evt_param6passwdE">
+<span id="_CPPv3N20esp_blufi_cb_param_t31blufi_recv_sta_passwd_evt_param6passwdE"></span><span id="_CPPv2N20esp_blufi_cb_param_t31blufi_recv_sta_passwd_evt_param6passwdE"></span><span id="esp_blufi_cb_param_t::blufi_recv_sta_passwd_evt_param::passwd__uint8_tP"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__sta__passwd__evt__param_1aea5636b8daaf4efad2798bf820e65f16"></span>uint8_t *<code class="descname">passwd</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t31blufi_recv_sta_passwd_evt_param6passwdE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Password </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t31blufi_recv_sta_passwd_evt_param10passwd_lenE">
+<span id="_CPPv3N20esp_blufi_cb_param_t31blufi_recv_sta_passwd_evt_param10passwd_lenE"></span><span id="_CPPv2N20esp_blufi_cb_param_t31blufi_recv_sta_passwd_evt_param10passwd_lenE"></span><span id="esp_blufi_cb_param_t::blufi_recv_sta_passwd_evt_param::passwd_len__i"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__sta__passwd__evt__param_1ab4c6cf7bfae029465a3391a374eed24c"></span>int <code class="descname">passwd_len</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t31blufi_recv_sta_passwd_evt_param10passwd_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Password Length </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t29blufi_recv_sta_ssid_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t29blufi_recv_sta_ssid_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t29blufi_recv_sta_ssid_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_recv_sta_ssid_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__sta__ssid__evt__param"></span><em class="property">struct </em><code class="descname">blufi_recv_sta_ssid_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t29blufi_recv_sta_ssid_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_RECV_STA_SSID. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t29blufi_recv_sta_ssid_evt_param4ssidE">
+<span id="_CPPv3N20esp_blufi_cb_param_t29blufi_recv_sta_ssid_evt_param4ssidE"></span><span id="_CPPv2N20esp_blufi_cb_param_t29blufi_recv_sta_ssid_evt_param4ssidE"></span><span id="esp_blufi_cb_param_t::blufi_recv_sta_ssid_evt_param::ssid__uint8_tP"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__sta__ssid__evt__param_1af6c4313bd014a0364d9d607777a7882c"></span>uint8_t *<code class="descname">ssid</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t29blufi_recv_sta_ssid_evt_param4ssidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SSID </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t29blufi_recv_sta_ssid_evt_param8ssid_lenE">
+<span id="_CPPv3N20esp_blufi_cb_param_t29blufi_recv_sta_ssid_evt_param8ssid_lenE"></span><span id="_CPPv2N20esp_blufi_cb_param_t29blufi_recv_sta_ssid_evt_param8ssid_lenE"></span><span id="esp_blufi_cb_param_t::blufi_recv_sta_ssid_evt_param::ssid_len__i"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__sta__ssid__evt__param_1a22772bbb1d68f95226e4ccc9b55ddc14"></span>int <code class="descname">ssid_len</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t29blufi_recv_sta_ssid_evt_param8ssid_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SSID length </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t29blufi_recv_username_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t29blufi_recv_username_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t29blufi_recv_username_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_recv_username_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__username__evt__param"></span><em class="property">struct </em><code class="descname">blufi_recv_username_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t29blufi_recv_username_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_RECV_USERNAME. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t29blufi_recv_username_evt_param4nameE">
+<span id="_CPPv3N20esp_blufi_cb_param_t29blufi_recv_username_evt_param4nameE"></span><span id="_CPPv2N20esp_blufi_cb_param_t29blufi_recv_username_evt_param4nameE"></span><span id="esp_blufi_cb_param_t::blufi_recv_username_evt_param::name__uint8_tP"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__username__evt__param_1ad80d35eb0090bd562643801ca9f963f5"></span>uint8_t *<code class="descname">name</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t29blufi_recv_username_evt_param4nameE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Username point </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t29blufi_recv_username_evt_param8name_lenE">
+<span id="_CPPv3N20esp_blufi_cb_param_t29blufi_recv_username_evt_param8name_lenE"></span><span id="_CPPv2N20esp_blufi_cb_param_t29blufi_recv_username_evt_param8name_lenE"></span><span id="esp_blufi_cb_param_t::blufi_recv_username_evt_param::name_len__i"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__recv__username__evt__param_1afe4dec253ecaeea13d7a103e22128f4d"></span>int <code class="descname">name_len</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t29blufi_recv_username_evt_param8name_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Username length </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv4N20esp_blufi_cb_param_t29blufi_set_wifi_mode_evt_paramE">
+<span id="_CPPv3N20esp_blufi_cb_param_t29blufi_set_wifi_mode_evt_paramE"></span><span id="_CPPv2N20esp_blufi_cb_param_t29blufi_set_wifi_mode_evt_paramE"></span><span id="esp_blufi_cb_param_t::blufi_set_wifi_mode_evt_param"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__set__wifi__mode__evt__param"></span><em class="property">struct </em><code class="descname">blufi_set_wifi_mode_evt_param</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t29blufi_set_wifi_mode_evt_paramE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_blufi_api.h&gt;</em><p>ESP_BLUFI_EVENT_SET_WIFI_MODE. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20esp_blufi_cb_param_t29blufi_set_wifi_mode_evt_param7op_modeE">
+<span id="_CPPv3N20esp_blufi_cb_param_t29blufi_set_wifi_mode_evt_param7op_modeE"></span><span id="_CPPv2N20esp_blufi_cb_param_t29blufi_set_wifi_mode_evt_param7op_modeE"></span><span id="esp_blufi_cb_param_t::blufi_set_wifi_mode_evt_param::op_mode__wifi_mode_t"></span><span class="target" id="structesp__blufi__cb__param__t_1_1blufi__set__wifi__mode__evt__param_1aaf46dd237f1b32b000f9f4b222044474"></span><a class="reference internal" href="../network/esp_wifi.html#_CPPv411wifi_mode_t" title="wifi_mode_t">wifi_mode_t</a> <code class="descname">op_mode</code><a class="headerlink" href="#_CPPv4N20esp_blufi_cb_param_t29blufi_set_wifi_mode_evt_param7op_modeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Wifi operation mode </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv422esp_blufi_extra_info_t">
+<span id="_CPPv322esp_blufi_extra_info_t"></span><span id="_CPPv222esp_blufi_extra_info_t"></span><span id="esp_blufi_extra_info_t"></span><span class="target" id="structesp__blufi__extra__info__t"></span><em class="property">struct </em><code class="descname">esp_blufi_extra_info_t</code><a class="headerlink" href="#_CPPv422esp_blufi_extra_info_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLUFI extra information structure. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N22esp_blufi_extra_info_t9sta_bssidE">
+<span id="_CPPv3N22esp_blufi_extra_info_t9sta_bssidE"></span><span id="_CPPv2N22esp_blufi_extra_info_t9sta_bssidE"></span><span id="esp_blufi_extra_info_t::sta_bssid__uint8_tA"></span><span class="target" id="structesp__blufi__extra__info__t_1a5381b2d822cb18ecc24dff463e1e786d"></span>uint8_t <code class="descname">sta_bssid</code>[6]<a class="headerlink" href="#_CPPv4N22esp_blufi_extra_info_t9sta_bssidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BSSID of station interface </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22esp_blufi_extra_info_t13sta_bssid_setE">
+<span id="_CPPv3N22esp_blufi_extra_info_t13sta_bssid_setE"></span><span id="_CPPv2N22esp_blufi_extra_info_t13sta_bssid_setE"></span><span id="esp_blufi_extra_info_t::sta_bssid_set__b"></span><span class="target" id="structesp__blufi__extra__info__t_1a32ca2451c74b73e40437ad56bb53ecd8"></span>bool <code class="descname">sta_bssid_set</code><a class="headerlink" href="#_CPPv4N22esp_blufi_extra_info_t13sta_bssid_setE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>is BSSID of station interface set </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22esp_blufi_extra_info_t8sta_ssidE">
+<span id="_CPPv3N22esp_blufi_extra_info_t8sta_ssidE"></span><span id="_CPPv2N22esp_blufi_extra_info_t8sta_ssidE"></span><span id="esp_blufi_extra_info_t::sta_ssid__uint8_tP"></span><span class="target" id="structesp__blufi__extra__info__t_1aa7df9a2acb6ff4330dbf87b9c592e40a"></span>uint8_t *<code class="descname">sta_ssid</code><a class="headerlink" href="#_CPPv4N22esp_blufi_extra_info_t8sta_ssidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SSID of station interface </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22esp_blufi_extra_info_t12sta_ssid_lenE">
+<span id="_CPPv3N22esp_blufi_extra_info_t12sta_ssid_lenE"></span><span id="_CPPv2N22esp_blufi_extra_info_t12sta_ssid_lenE"></span><span id="esp_blufi_extra_info_t::sta_ssid_len__i"></span><span class="target" id="structesp__blufi__extra__info__t_1a38cf23d39a59b52f897736593d71ff74"></span>int <code class="descname">sta_ssid_len</code><a class="headerlink" href="#_CPPv4N22esp_blufi_extra_info_t12sta_ssid_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>length of SSID of station interface </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22esp_blufi_extra_info_t10sta_passwdE">
+<span id="_CPPv3N22esp_blufi_extra_info_t10sta_passwdE"></span><span id="_CPPv2N22esp_blufi_extra_info_t10sta_passwdE"></span><span id="esp_blufi_extra_info_t::sta_passwd__uint8_tP"></span><span class="target" id="structesp__blufi__extra__info__t_1acc642a5452c72e375b959b0022e5e882"></span>uint8_t *<code class="descname">sta_passwd</code><a class="headerlink" href="#_CPPv4N22esp_blufi_extra_info_t10sta_passwdE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>password of station interface </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22esp_blufi_extra_info_t14sta_passwd_lenE">
+<span id="_CPPv3N22esp_blufi_extra_info_t14sta_passwd_lenE"></span><span id="_CPPv2N22esp_blufi_extra_info_t14sta_passwd_lenE"></span><span id="esp_blufi_extra_info_t::sta_passwd_len__i"></span><span class="target" id="structesp__blufi__extra__info__t_1a91c5e3b1b24d2a0748d239cb384643c4"></span>int <code class="descname">sta_passwd_len</code><a class="headerlink" href="#_CPPv4N22esp_blufi_extra_info_t14sta_passwd_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>length of password of station interface </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22esp_blufi_extra_info_t11softap_ssidE">
+<span id="_CPPv3N22esp_blufi_extra_info_t11softap_ssidE"></span><span id="_CPPv2N22esp_blufi_extra_info_t11softap_ssidE"></span><span id="esp_blufi_extra_info_t::softap_ssid__uint8_tP"></span><span class="target" id="structesp__blufi__extra__info__t_1a2c88cf181f1c1d4c17ded70701393efd"></span>uint8_t *<code class="descname">softap_ssid</code><a class="headerlink" href="#_CPPv4N22esp_blufi_extra_info_t11softap_ssidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SSID of softap interface </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22esp_blufi_extra_info_t15softap_ssid_lenE">
+<span id="_CPPv3N22esp_blufi_extra_info_t15softap_ssid_lenE"></span><span id="_CPPv2N22esp_blufi_extra_info_t15softap_ssid_lenE"></span><span id="esp_blufi_extra_info_t::softap_ssid_len__i"></span><span class="target" id="structesp__blufi__extra__info__t_1ac72e1257b336b24eb2f113c078495b42"></span>int <code class="descname">softap_ssid_len</code><a class="headerlink" href="#_CPPv4N22esp_blufi_extra_info_t15softap_ssid_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>length of SSID of softap interface </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22esp_blufi_extra_info_t13softap_passwdE">
+<span id="_CPPv3N22esp_blufi_extra_info_t13softap_passwdE"></span><span id="_CPPv2N22esp_blufi_extra_info_t13softap_passwdE"></span><span id="esp_blufi_extra_info_t::softap_passwd__uint8_tP"></span><span class="target" id="structesp__blufi__extra__info__t_1aec0f82a603505a4cbd93509c1f25931c"></span>uint8_t *<code class="descname">softap_passwd</code><a class="headerlink" href="#_CPPv4N22esp_blufi_extra_info_t13softap_passwdE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>password of station interface </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22esp_blufi_extra_info_t17softap_passwd_lenE">
+<span id="_CPPv3N22esp_blufi_extra_info_t17softap_passwd_lenE"></span><span id="_CPPv2N22esp_blufi_extra_info_t17softap_passwd_lenE"></span><span id="esp_blufi_extra_info_t::softap_passwd_len__i"></span><span class="target" id="structesp__blufi__extra__info__t_1a8103d558314c434410671a752f5cbafb"></span>int <code class="descname">softap_passwd_len</code><a class="headerlink" href="#_CPPv4N22esp_blufi_extra_info_t17softap_passwd_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>length of password of station interface </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22esp_blufi_extra_info_t15softap_authmodeE">
+<span id="_CPPv3N22esp_blufi_extra_info_t15softap_authmodeE"></span><span id="_CPPv2N22esp_blufi_extra_info_t15softap_authmodeE"></span><span id="esp_blufi_extra_info_t::softap_authmode__uint8_t"></span><span class="target" id="structesp__blufi__extra__info__t_1a6fcbd34f537ec284f252252b94ba4d37"></span>uint8_t <code class="descname">softap_authmode</code><a class="headerlink" href="#_CPPv4N22esp_blufi_extra_info_t15softap_authmodeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>authentication mode of softap interface </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22esp_blufi_extra_info_t19softap_authmode_setE">
+<span id="_CPPv3N22esp_blufi_extra_info_t19softap_authmode_setE"></span><span id="_CPPv2N22esp_blufi_extra_info_t19softap_authmode_setE"></span><span id="esp_blufi_extra_info_t::softap_authmode_set__b"></span><span class="target" id="structesp__blufi__extra__info__t_1ac49a59056b09f924a6c8bdb46a8fd724"></span>bool <code class="descname">softap_authmode_set</code><a class="headerlink" href="#_CPPv4N22esp_blufi_extra_info_t19softap_authmode_setE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>is authentication mode of softap interface set </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22esp_blufi_extra_info_t19softap_max_conn_numE">
+<span id="_CPPv3N22esp_blufi_extra_info_t19softap_max_conn_numE"></span><span id="_CPPv2N22esp_blufi_extra_info_t19softap_max_conn_numE"></span><span id="esp_blufi_extra_info_t::softap_max_conn_num__uint8_t"></span><span class="target" id="structesp__blufi__extra__info__t_1a27890132ee919007b37992314716f1fa"></span>uint8_t <code class="descname">softap_max_conn_num</code><a class="headerlink" href="#_CPPv4N22esp_blufi_extra_info_t19softap_max_conn_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>max connection number of softap interface </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22esp_blufi_extra_info_t23softap_max_conn_num_setE">
+<span id="_CPPv3N22esp_blufi_extra_info_t23softap_max_conn_num_setE"></span><span id="_CPPv2N22esp_blufi_extra_info_t23softap_max_conn_num_setE"></span><span id="esp_blufi_extra_info_t::softap_max_conn_num_set__b"></span><span class="target" id="structesp__blufi__extra__info__t_1acc0aa606f17d92b932e0c4a8fc1e98b4"></span>bool <code class="descname">softap_max_conn_num_set</code><a class="headerlink" href="#_CPPv4N22esp_blufi_extra_info_t23softap_max_conn_num_setE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>is max connection number of softap interface set </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22esp_blufi_extra_info_t14softap_channelE">
+<span id="_CPPv3N22esp_blufi_extra_info_t14softap_channelE"></span><span id="_CPPv2N22esp_blufi_extra_info_t14softap_channelE"></span><span id="esp_blufi_extra_info_t::softap_channel__uint8_t"></span><span class="target" id="structesp__blufi__extra__info__t_1aa88adf0e019139694094cc69c05cee0c"></span>uint8_t <code class="descname">softap_channel</code><a class="headerlink" href="#_CPPv4N22esp_blufi_extra_info_t14softap_channelE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>channel of softap interface </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22esp_blufi_extra_info_t18softap_channel_setE">
+<span id="_CPPv3N22esp_blufi_extra_info_t18softap_channel_setE"></span><span id="_CPPv2N22esp_blufi_extra_info_t18softap_channel_setE"></span><span id="esp_blufi_extra_info_t::softap_channel_set__b"></span><span class="target" id="structesp__blufi__extra__info__t_1afe2321fcb434b5bd07bd04cdb22bf990"></span>bool <code class="descname">softap_channel_set</code><a class="headerlink" href="#_CPPv4N22esp_blufi_extra_info_t18softap_channel_setE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>is channel of softap interface set </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv421esp_blufi_ap_record_t">
+<span id="_CPPv321esp_blufi_ap_record_t"></span><span id="_CPPv221esp_blufi_ap_record_t"></span><span id="esp_blufi_ap_record_t"></span><span class="target" id="structesp__blufi__ap__record__t"></span><em class="property">struct </em><code class="descname">esp_blufi_ap_record_t</code><a class="headerlink" href="#_CPPv421esp_blufi_ap_record_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Description of an WiFi AP. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N21esp_blufi_ap_record_t4ssidE">
+<span id="_CPPv3N21esp_blufi_ap_record_t4ssidE"></span><span id="_CPPv2N21esp_blufi_ap_record_t4ssidE"></span><span id="esp_blufi_ap_record_t::ssid__uint8_tA"></span><span class="target" id="structesp__blufi__ap__record__t_1ac3adb4599ae6230f65ba670afbf79d23"></span>uint8_t <code class="descname">ssid</code>[33]<a class="headerlink" href="#_CPPv4N21esp_blufi_ap_record_t4ssidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SSID of AP </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21esp_blufi_ap_record_t4rssiE">
+<span id="_CPPv3N21esp_blufi_ap_record_t4rssiE"></span><span id="_CPPv2N21esp_blufi_ap_record_t4rssiE"></span><span id="esp_blufi_ap_record_t::rssi__int8_t"></span><span class="target" id="structesp__blufi__ap__record__t_1a9de8628bee4a6941652b9c009a74abe9"></span>int8_t <code class="descname">rssi</code><a class="headerlink" href="#_CPPv4N21esp_blufi_ap_record_t4rssiE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>signal strength of AP </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv421esp_blufi_callbacks_t">
+<span id="_CPPv321esp_blufi_callbacks_t"></span><span id="_CPPv221esp_blufi_callbacks_t"></span><span id="esp_blufi_callbacks_t"></span><span class="target" id="structesp__blufi__callbacks__t"></span><em class="property">struct </em><code class="descname">esp_blufi_callbacks_t</code><a class="headerlink" href="#_CPPv421esp_blufi_callbacks_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLUFI callback functions type. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N21esp_blufi_callbacks_t8event_cbE">
+<span id="_CPPv3N21esp_blufi_callbacks_t8event_cbE"></span><span id="_CPPv2N21esp_blufi_callbacks_t8event_cbE"></span><span id="esp_blufi_callbacks_t::event_cb__esp_blufi_event_cb_t"></span><span class="target" id="structesp__blufi__callbacks__t_1a5a0072a27292d25222704abbc9108ce9"></span><a class="reference internal" href="#_CPPv420esp_blufi_event_cb_t" title="esp_blufi_event_cb_t">esp_blufi_event_cb_t</a> <code class="descname">event_cb</code><a class="headerlink" href="#_CPPv4N21esp_blufi_callbacks_t8event_cbE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLUFI event callback </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21esp_blufi_callbacks_t22negotiate_data_handlerE">
+<span id="_CPPv3N21esp_blufi_callbacks_t22negotiate_data_handlerE"></span><span id="_CPPv2N21esp_blufi_callbacks_t22negotiate_data_handlerE"></span><span id="esp_blufi_callbacks_t::negotiate_data_handler__esp_blufi_negotiate_data_handler_t"></span><span class="target" id="structesp__blufi__callbacks__t_1ae14cbe8adffb124adec248df908e860c"></span><a class="reference internal" href="#_CPPv434esp_blufi_negotiate_data_handler_t" title="esp_blufi_negotiate_data_handler_t">esp_blufi_negotiate_data_handler_t</a> <code class="descname">negotiate_data_handler</code><a class="headerlink" href="#_CPPv4N21esp_blufi_callbacks_t22negotiate_data_handlerE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLUFI negotiate data function for negotiate share key </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21esp_blufi_callbacks_t12encrypt_funcE">
+<span id="_CPPv3N21esp_blufi_callbacks_t12encrypt_funcE"></span><span id="_CPPv2N21esp_blufi_callbacks_t12encrypt_funcE"></span><span id="esp_blufi_callbacks_t::encrypt_func__esp_blufi_encrypt_func_t"></span><span class="target" id="structesp__blufi__callbacks__t_1a61670d67d03c8a25083d9e291d23a0a1"></span><a class="reference internal" href="#_CPPv424esp_blufi_encrypt_func_t" title="esp_blufi_encrypt_func_t">esp_blufi_encrypt_func_t</a> <code class="descname">encrypt_func</code><a class="headerlink" href="#_CPPv4N21esp_blufi_callbacks_t12encrypt_funcE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLUFI encrypt data function with share key generated by negotiate_data_handler </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21esp_blufi_callbacks_t12decrypt_funcE">
+<span id="_CPPv3N21esp_blufi_callbacks_t12decrypt_funcE"></span><span id="_CPPv2N21esp_blufi_callbacks_t12decrypt_funcE"></span><span id="esp_blufi_callbacks_t::decrypt_func__esp_blufi_decrypt_func_t"></span><span class="target" id="structesp__blufi__callbacks__t_1a6c211f45453d21874464ed5b1d33e229"></span><a class="reference internal" href="#_CPPv424esp_blufi_decrypt_func_t" title="esp_blufi_decrypt_func_t">esp_blufi_decrypt_func_t</a> <code class="descname">decrypt_func</code><a class="headerlink" href="#_CPPv4N21esp_blufi_callbacks_t12decrypt_funcE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLUFI decrypt data function with share key generated by negotiate_data_handler </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21esp_blufi_callbacks_t13checksum_funcE">
+<span id="_CPPv3N21esp_blufi_callbacks_t13checksum_funcE"></span><span id="_CPPv2N21esp_blufi_callbacks_t13checksum_funcE"></span><span id="esp_blufi_callbacks_t::checksum_func__esp_blufi_checksum_func_t"></span><span class="target" id="structesp__blufi__callbacks__t_1afcbdfc475785c12d4b67492fb882e93a"></span><a class="reference internal" href="#_CPPv425esp_blufi_checksum_func_t" title="esp_blufi_checksum_func_t">esp_blufi_checksum_func_t</a> <code class="descname">checksum_func</code><a class="headerlink" href="#_CPPv4N21esp_blufi_callbacks_t13checksum_funcE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLUFI check sum function (FCS) </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv420esp_blufi_event_cb_t">
+<span id="_CPPv320esp_blufi_event_cb_t"></span><span id="_CPPv220esp_blufi_event_cb_t"></span><span id="esp_blufi_event_cb_t"></span><span class="target" id="esp__blufi__api_8h_1af9daf6745c3c574c5d77b65816ce2eec"></span><em class="property">typedef </em>void (*<code class="descname">esp_blufi_event_cb_t</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv420esp_blufi_cb_event_t" title="esp_blufi_cb_event_t">esp_blufi_cb_event_t</a> event, <a class="reference internal" href="#_CPPv420esp_blufi_cb_param_t" title="esp_blufi_cb_param_t">esp_blufi_cb_param_t</a> *param<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420esp_blufi_event_cb_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLUFI event callback function type. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">event</span></code>: : Event type </li>
+<li><code class="docutils literal notranslate"><span class="pre">param</span></code>: : Point to callback parameter, currently is union type </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv434esp_blufi_negotiate_data_handler_t">
+<span id="_CPPv334esp_blufi_negotiate_data_handler_t"></span><span id="_CPPv234esp_blufi_negotiate_data_handler_t"></span><span id="esp_blufi_negotiate_data_handler_t"></span><span class="target" id="esp__blufi__api_8h_1ab996949ffe9248b7ac5d4010b24928bb"></span><em class="property">typedef </em>void (*<code class="descname">esp_blufi_negotiate_data_handler_t</code>)<span class="sig-paren">(</span>uint8_t *data, int len, uint8_t **output_data, int *output_len, bool *need_free<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv434esp_blufi_negotiate_data_handler_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLUFI negotiate data handler. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: : data from phone </li>
+<li><code class="docutils literal notranslate"><span class="pre">len</span></code>: : length of data from phone </li>
+<li><code class="docutils literal notranslate"><span class="pre">output_data</span></code>: : data want to send to phone </li>
+<li><code class="docutils literal notranslate"><span class="pre">output_len</span></code>: : length of data want to send to phone </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv424esp_blufi_encrypt_func_t">
+<span id="_CPPv324esp_blufi_encrypt_func_t"></span><span id="_CPPv224esp_blufi_encrypt_func_t"></span><span id="esp_blufi_encrypt_func_t"></span><span class="target" id="esp__blufi__api_8h_1a3ca86f25bf2b15f6f5cd5a132fda3b5b"></span><em class="property">typedef </em>int (*<code class="descname">esp_blufi_encrypt_func_t</code>)<span class="sig-paren">(</span>uint8_t iv8, uint8_t *crypt_data, int cyprt_len<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424esp_blufi_encrypt_func_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLUFI encrypt the data after negotiate a share key. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>Nonnegative number is encrypted length, if error, return negative number; </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">iv8</span></code>: : initial vector(8bit), normally, blufi core will input packet sequence number </li>
+<li><code class="docutils literal notranslate"><span class="pre">crypt_data</span></code>: : plain text and encrypted data, the encrypt function must support autochthonous encrypt </li>
+<li><code class="docutils literal notranslate"><span class="pre">crypt_len</span></code>: : length of plain text </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv424esp_blufi_decrypt_func_t">
+<span id="_CPPv324esp_blufi_decrypt_func_t"></span><span id="_CPPv224esp_blufi_decrypt_func_t"></span><span id="esp_blufi_decrypt_func_t"></span><span class="target" id="esp__blufi__api_8h_1a06d515ab8b96613ca390a2faccfa56d9"></span><em class="property">typedef </em>int (*<code class="descname">esp_blufi_decrypt_func_t</code>)<span class="sig-paren">(</span>uint8_t iv8, uint8_t *crypt_data, int crypt_len<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424esp_blufi_decrypt_func_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLUFI decrypt the data after negotiate a share key. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>Nonnegative number is decrypted length, if error, return negative number; </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">iv8</span></code>: : initial vector(8bit), normally, blufi core will input packet sequence number </li>
+<li><code class="docutils literal notranslate"><span class="pre">crypt_data</span></code>: : encrypted data and plain text, the encrypt function must support autochthonous decrypt </li>
+<li><code class="docutils literal notranslate"><span class="pre">crypt_len</span></code>: : length of encrypted text </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv425esp_blufi_checksum_func_t">
+<span id="_CPPv325esp_blufi_checksum_func_t"></span><span id="_CPPv225esp_blufi_checksum_func_t"></span><span id="esp_blufi_checksum_func_t"></span><span class="target" id="esp__blufi__api_8h_1add6fd222337cd43ee7b5827fbc7c3fa3"></span><em class="property">typedef </em>uint16_t (*<code class="descname">esp_blufi_checksum_func_t</code>)<span class="sig-paren">(</span>uint8_t iv8, uint8_t *data, int len<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425esp_blufi_checksum_func_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLUFI checksum. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">iv8</span></code>: : initial vector(8bit), normally, blufi core will input packet sequence number </li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: : data need to checksum </li>
+<li><code class="docutils literal notranslate"><span class="pre">len</span></code>: : length of data </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv420esp_blufi_cb_event_t">
+<span id="_CPPv320esp_blufi_cb_event_t"></span><span id="_CPPv220esp_blufi_cb_event_t"></span><span id="esp_blufi_cb_event_t"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612"></span><em class="property">enum </em><code class="descname">esp_blufi_cb_event_t</code><a class="headerlink" href="#_CPPv420esp_blufi_cb_event_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv427ESP_BLUFI_EVENT_INIT_FINISH">
+<span id="_CPPv327ESP_BLUFI_EVENT_INIT_FINISH"></span><span id="_CPPv227ESP_BLUFI_EVENT_INIT_FINISH"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612aad5a949596576362caf623d36b10ab19"></span><code class="descname">ESP_BLUFI_EVENT_INIT_FINISH</code> = 0<a class="headerlink" href="#_CPPv427ESP_BLUFI_EVENT_INIT_FINISH" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv429ESP_BLUFI_EVENT_DEINIT_FINISH">
+<span id="_CPPv329ESP_BLUFI_EVENT_DEINIT_FINISH"></span><span id="_CPPv229ESP_BLUFI_EVENT_DEINIT_FINISH"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612a307cb11b75a65eb3c56bcd3d2386b806"></span><code class="descname">ESP_BLUFI_EVENT_DEINIT_FINISH</code><a class="headerlink" href="#_CPPv429ESP_BLUFI_EVENT_DEINIT_FINISH" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv431ESP_BLUFI_EVENT_SET_WIFI_OPMODE">
+<span id="_CPPv331ESP_BLUFI_EVENT_SET_WIFI_OPMODE"></span><span id="_CPPv231ESP_BLUFI_EVENT_SET_WIFI_OPMODE"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612ab6604e5b3178a8d331c64d292116a24a"></span><code class="descname">ESP_BLUFI_EVENT_SET_WIFI_OPMODE</code><a class="headerlink" href="#_CPPv431ESP_BLUFI_EVENT_SET_WIFI_OPMODE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv427ESP_BLUFI_EVENT_BLE_CONNECT">
+<span id="_CPPv327ESP_BLUFI_EVENT_BLE_CONNECT"></span><span id="_CPPv227ESP_BLUFI_EVENT_BLE_CONNECT"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612a1245947a3e445ceb2f15677569c62c44"></span><code class="descname">ESP_BLUFI_EVENT_BLE_CONNECT</code><a class="headerlink" href="#_CPPv427ESP_BLUFI_EVENT_BLE_CONNECT" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv430ESP_BLUFI_EVENT_BLE_DISCONNECT">
+<span id="_CPPv330ESP_BLUFI_EVENT_BLE_DISCONNECT"></span><span id="_CPPv230ESP_BLUFI_EVENT_BLE_DISCONNECT"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612ac455e576cb6a559ca83b6ba90c41368a"></span><code class="descname">ESP_BLUFI_EVENT_BLE_DISCONNECT</code><a class="headerlink" href="#_CPPv430ESP_BLUFI_EVENT_BLE_DISCONNECT" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv433ESP_BLUFI_EVENT_REQ_CONNECT_TO_AP">
+<span id="_CPPv333ESP_BLUFI_EVENT_REQ_CONNECT_TO_AP"></span><span id="_CPPv233ESP_BLUFI_EVENT_REQ_CONNECT_TO_AP"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612aa4fed7d42696b1d59ee5370ca31ee756"></span><code class="descname">ESP_BLUFI_EVENT_REQ_CONNECT_TO_AP</code><a class="headerlink" href="#_CPPv433ESP_BLUFI_EVENT_REQ_CONNECT_TO_AP" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv438ESP_BLUFI_EVENT_REQ_DISCONNECT_FROM_AP">
+<span id="_CPPv338ESP_BLUFI_EVENT_REQ_DISCONNECT_FROM_AP"></span><span id="_CPPv238ESP_BLUFI_EVENT_REQ_DISCONNECT_FROM_AP"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612a07bb366d9483df0b1519a04a69799652"></span><code class="descname">ESP_BLUFI_EVENT_REQ_DISCONNECT_FROM_AP</code><a class="headerlink" href="#_CPPv438ESP_BLUFI_EVENT_REQ_DISCONNECT_FROM_AP" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv431ESP_BLUFI_EVENT_GET_WIFI_STATUS">
+<span id="_CPPv331ESP_BLUFI_EVENT_GET_WIFI_STATUS"></span><span id="_CPPv231ESP_BLUFI_EVENT_GET_WIFI_STATUS"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612a4641d4113a8d35520d6889e27f832a44"></span><code class="descname">ESP_BLUFI_EVENT_GET_WIFI_STATUS</code><a class="headerlink" href="#_CPPv431ESP_BLUFI_EVENT_GET_WIFI_STATUS" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv434ESP_BLUFI_EVENT_DEAUTHENTICATE_STA">
+<span id="_CPPv334ESP_BLUFI_EVENT_DEAUTHENTICATE_STA"></span><span id="_CPPv234ESP_BLUFI_EVENT_DEAUTHENTICATE_STA"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612ad6a71f7543bae37db26ccb9c52e032b3"></span><code class="descname">ESP_BLUFI_EVENT_DEAUTHENTICATE_STA</code><a class="headerlink" href="#_CPPv434ESP_BLUFI_EVENT_DEAUTHENTICATE_STA" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv430ESP_BLUFI_EVENT_RECV_STA_BSSID">
+<span id="_CPPv330ESP_BLUFI_EVENT_RECV_STA_BSSID"></span><span id="_CPPv230ESP_BLUFI_EVENT_RECV_STA_BSSID"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612a062d0e14b0faab757510c9139f063b17"></span><code class="descname">ESP_BLUFI_EVENT_RECV_STA_BSSID</code><a class="headerlink" href="#_CPPv430ESP_BLUFI_EVENT_RECV_STA_BSSID" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv429ESP_BLUFI_EVENT_RECV_STA_SSID">
+<span id="_CPPv329ESP_BLUFI_EVENT_RECV_STA_SSID"></span><span id="_CPPv229ESP_BLUFI_EVENT_RECV_STA_SSID"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612a694476eb2ae3024a4bbdface8e577d37"></span><code class="descname">ESP_BLUFI_EVENT_RECV_STA_SSID</code><a class="headerlink" href="#_CPPv429ESP_BLUFI_EVENT_RECV_STA_SSID" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv431ESP_BLUFI_EVENT_RECV_STA_PASSWD">
+<span id="_CPPv331ESP_BLUFI_EVENT_RECV_STA_PASSWD"></span><span id="_CPPv231ESP_BLUFI_EVENT_RECV_STA_PASSWD"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612adaf81bdf86fa65a225de58a3522dd085"></span><code class="descname">ESP_BLUFI_EVENT_RECV_STA_PASSWD</code><a class="headerlink" href="#_CPPv431ESP_BLUFI_EVENT_RECV_STA_PASSWD" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv432ESP_BLUFI_EVENT_RECV_SOFTAP_SSID">
+<span id="_CPPv332ESP_BLUFI_EVENT_RECV_SOFTAP_SSID"></span><span id="_CPPv232ESP_BLUFI_EVENT_RECV_SOFTAP_SSID"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612ad7c14b6a6927977a2d61e7a996e2aaea"></span><code class="descname">ESP_BLUFI_EVENT_RECV_SOFTAP_SSID</code><a class="headerlink" href="#_CPPv432ESP_BLUFI_EVENT_RECV_SOFTAP_SSID" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv434ESP_BLUFI_EVENT_RECV_SOFTAP_PASSWD">
+<span id="_CPPv334ESP_BLUFI_EVENT_RECV_SOFTAP_PASSWD"></span><span id="_CPPv234ESP_BLUFI_EVENT_RECV_SOFTAP_PASSWD"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612afb5a1d1623acf12f4a1be2fac6370cbb"></span><code class="descname">ESP_BLUFI_EVENT_RECV_SOFTAP_PASSWD</code><a class="headerlink" href="#_CPPv434ESP_BLUFI_EVENT_RECV_SOFTAP_PASSWD" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv440ESP_BLUFI_EVENT_RECV_SOFTAP_MAX_CONN_NUM">
+<span id="_CPPv340ESP_BLUFI_EVENT_RECV_SOFTAP_MAX_CONN_NUM"></span><span id="_CPPv240ESP_BLUFI_EVENT_RECV_SOFTAP_MAX_CONN_NUM"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612a1ec1a6d5765c4b5cf518a20da57505a8"></span><code class="descname">ESP_BLUFI_EVENT_RECV_SOFTAP_MAX_CONN_NUM</code><a class="headerlink" href="#_CPPv440ESP_BLUFI_EVENT_RECV_SOFTAP_MAX_CONN_NUM" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv437ESP_BLUFI_EVENT_RECV_SOFTAP_AUTH_MODE">
+<span id="_CPPv337ESP_BLUFI_EVENT_RECV_SOFTAP_AUTH_MODE"></span><span id="_CPPv237ESP_BLUFI_EVENT_RECV_SOFTAP_AUTH_MODE"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612a3afff89328053ad00610995409ac2bc0"></span><code class="descname">ESP_BLUFI_EVENT_RECV_SOFTAP_AUTH_MODE</code><a class="headerlink" href="#_CPPv437ESP_BLUFI_EVENT_RECV_SOFTAP_AUTH_MODE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv435ESP_BLUFI_EVENT_RECV_SOFTAP_CHANNEL">
+<span id="_CPPv335ESP_BLUFI_EVENT_RECV_SOFTAP_CHANNEL"></span><span id="_CPPv235ESP_BLUFI_EVENT_RECV_SOFTAP_CHANNEL"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612a8a53685ddabbcbae43805ea4ff115b1f"></span><code class="descname">ESP_BLUFI_EVENT_RECV_SOFTAP_CHANNEL</code><a class="headerlink" href="#_CPPv435ESP_BLUFI_EVENT_RECV_SOFTAP_CHANNEL" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv429ESP_BLUFI_EVENT_RECV_USERNAME">
+<span id="_CPPv329ESP_BLUFI_EVENT_RECV_USERNAME"></span><span id="_CPPv229ESP_BLUFI_EVENT_RECV_USERNAME"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612a996c3c76dc6c13b24b8f92bdbd8b85b0"></span><code class="descname">ESP_BLUFI_EVENT_RECV_USERNAME</code><a class="headerlink" href="#_CPPv429ESP_BLUFI_EVENT_RECV_USERNAME" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv428ESP_BLUFI_EVENT_RECV_CA_CERT">
+<span id="_CPPv328ESP_BLUFI_EVENT_RECV_CA_CERT"></span><span id="_CPPv228ESP_BLUFI_EVENT_RECV_CA_CERT"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612a9a22049eca0c09fb6447ebdfd74df911"></span><code class="descname">ESP_BLUFI_EVENT_RECV_CA_CERT</code><a class="headerlink" href="#_CPPv428ESP_BLUFI_EVENT_RECV_CA_CERT" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv432ESP_BLUFI_EVENT_RECV_CLIENT_CERT">
+<span id="_CPPv332ESP_BLUFI_EVENT_RECV_CLIENT_CERT"></span><span id="_CPPv232ESP_BLUFI_EVENT_RECV_CLIENT_CERT"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612a2cb9e8fce7e4567a443e623818fba129"></span><code class="descname">ESP_BLUFI_EVENT_RECV_CLIENT_CERT</code><a class="headerlink" href="#_CPPv432ESP_BLUFI_EVENT_RECV_CLIENT_CERT" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv432ESP_BLUFI_EVENT_RECV_SERVER_CERT">
+<span id="_CPPv332ESP_BLUFI_EVENT_RECV_SERVER_CERT"></span><span id="_CPPv232ESP_BLUFI_EVENT_RECV_SERVER_CERT"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612a8ff714f1565a61de6a42f1a5e908644d"></span><code class="descname">ESP_BLUFI_EVENT_RECV_SERVER_CERT</code><a class="headerlink" href="#_CPPv432ESP_BLUFI_EVENT_RECV_SERVER_CERT" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv436ESP_BLUFI_EVENT_RECV_CLIENT_PRIV_KEY">
+<span id="_CPPv336ESP_BLUFI_EVENT_RECV_CLIENT_PRIV_KEY"></span><span id="_CPPv236ESP_BLUFI_EVENT_RECV_CLIENT_PRIV_KEY"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612aba8fde738351e3d3f8fde3805f7d3b6b"></span><code class="descname">ESP_BLUFI_EVENT_RECV_CLIENT_PRIV_KEY</code><a class="headerlink" href="#_CPPv436ESP_BLUFI_EVENT_RECV_CLIENT_PRIV_KEY" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv436ESP_BLUFI_EVENT_RECV_SERVER_PRIV_KEY">
+<span id="_CPPv336ESP_BLUFI_EVENT_RECV_SERVER_PRIV_KEY"></span><span id="_CPPv236ESP_BLUFI_EVENT_RECV_SERVER_PRIV_KEY"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612a12e077be1709d3ed9c94d40644648773"></span><code class="descname">ESP_BLUFI_EVENT_RECV_SERVER_PRIV_KEY</code><a class="headerlink" href="#_CPPv436ESP_BLUFI_EVENT_RECV_SERVER_PRIV_KEY" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv441ESP_BLUFI_EVENT_RECV_SLAVE_DISCONNECT_BLE">
+<span id="_CPPv341ESP_BLUFI_EVENT_RECV_SLAVE_DISCONNECT_BLE"></span><span id="_CPPv241ESP_BLUFI_EVENT_RECV_SLAVE_DISCONNECT_BLE"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612a24e99de146b0a3cbafc13fdb79376527"></span><code class="descname">ESP_BLUFI_EVENT_RECV_SLAVE_DISCONNECT_BLE</code><a class="headerlink" href="#_CPPv441ESP_BLUFI_EVENT_RECV_SLAVE_DISCONNECT_BLE" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv429ESP_BLUFI_EVENT_GET_WIFI_LIST">
+<span id="_CPPv329ESP_BLUFI_EVENT_GET_WIFI_LIST"></span><span id="_CPPv229ESP_BLUFI_EVENT_GET_WIFI_LIST"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612a004c5b5185c5a8fbd193f2d47648ad4f"></span><code class="descname">ESP_BLUFI_EVENT_GET_WIFI_LIST</code><a class="headerlink" href="#_CPPv429ESP_BLUFI_EVENT_GET_WIFI_LIST" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv428ESP_BLUFI_EVENT_REPORT_ERROR">
+<span id="_CPPv328ESP_BLUFI_EVENT_REPORT_ERROR"></span><span id="_CPPv228ESP_BLUFI_EVENT_REPORT_ERROR"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612a58b87272b8cf374487fe96e5ab93ed75"></span><code class="descname">ESP_BLUFI_EVENT_REPORT_ERROR</code><a class="headerlink" href="#_CPPv428ESP_BLUFI_EVENT_REPORT_ERROR" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv432ESP_BLUFI_EVENT_RECV_CUSTOM_DATA">
+<span id="_CPPv332ESP_BLUFI_EVENT_RECV_CUSTOM_DATA"></span><span id="_CPPv232ESP_BLUFI_EVENT_RECV_CUSTOM_DATA"></span><span class="target" id="esp__blufi__api_8h_1a99643b4cd37db470546a5928e517a612afa888b3d7094b582ccd163c8c3f7684b"></span><code class="descname">ESP_BLUFI_EVENT_RECV_CUSTOM_DATA</code><a class="headerlink" href="#_CPPv432ESP_BLUFI_EVENT_RECV_CUSTOM_DATA" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv426esp_blufi_sta_conn_state_t">
+<span id="_CPPv326esp_blufi_sta_conn_state_t"></span><span id="_CPPv226esp_blufi_sta_conn_state_t"></span><span id="esp_blufi_sta_conn_state_t"></span><span class="target" id="esp__blufi__api_8h_1a7ce0e9beb53937455c21c56b350cfea9"></span><em class="property">enum </em><code class="descname">esp_blufi_sta_conn_state_t</code><a class="headerlink" href="#_CPPv426esp_blufi_sta_conn_state_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLUFI config status. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv426ESP_BLUFI_STA_CONN_SUCCESS">
+<span id="_CPPv326ESP_BLUFI_STA_CONN_SUCCESS"></span><span id="_CPPv226ESP_BLUFI_STA_CONN_SUCCESS"></span><span class="target" id="esp__blufi__api_8h_1a7ce0e9beb53937455c21c56b350cfea9ad91eccddca0af4e04e3a3ef6f323ae8c"></span><code class="descname">ESP_BLUFI_STA_CONN_SUCCESS</code> = 0x00<a class="headerlink" href="#_CPPv426ESP_BLUFI_STA_CONN_SUCCESS" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423ESP_BLUFI_STA_CONN_FAIL">
+<span id="_CPPv323ESP_BLUFI_STA_CONN_FAIL"></span><span id="_CPPv223ESP_BLUFI_STA_CONN_FAIL"></span><span class="target" id="esp__blufi__api_8h_1a7ce0e9beb53937455c21c56b350cfea9affd6f0dd41177f6b9e3e887c8fe2b9a9"></span><code class="descname">ESP_BLUFI_STA_CONN_FAIL</code> = 0x01<a class="headerlink" href="#_CPPv423ESP_BLUFI_STA_CONN_FAIL" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv422esp_blufi_init_state_t">
+<span id="_CPPv322esp_blufi_init_state_t"></span><span id="_CPPv222esp_blufi_init_state_t"></span><span id="esp_blufi_init_state_t"></span><span class="target" id="esp__blufi__api_8h_1ab31836b7864145c4517aac7a67264146"></span><em class="property">enum </em><code class="descname">esp_blufi_init_state_t</code><a class="headerlink" href="#_CPPv422esp_blufi_init_state_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLUFI init status. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv417ESP_BLUFI_INIT_OK">
+<span id="_CPPv317ESP_BLUFI_INIT_OK"></span><span id="_CPPv217ESP_BLUFI_INIT_OK"></span><span class="target" id="esp__blufi__api_8h_1ab31836b7864145c4517aac7a67264146af42c8e968140c3d6d0e37785411390d4"></span><code class="descname">ESP_BLUFI_INIT_OK</code> = 0<a class="headerlink" href="#_CPPv417ESP_BLUFI_INIT_OK" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv421ESP_BLUFI_INIT_FAILED">
+<span id="_CPPv321ESP_BLUFI_INIT_FAILED"></span><span id="_CPPv221ESP_BLUFI_INIT_FAILED"></span><span class="target" id="esp__blufi__api_8h_1ab31836b7864145c4517aac7a67264146a300bc78a88e9683b1f3ea14c24caf709"></span><code class="descname">ESP_BLUFI_INIT_FAILED</code><a class="headerlink" href="#_CPPv421ESP_BLUFI_INIT_FAILED" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv424esp_blufi_deinit_state_t">
+<span id="_CPPv324esp_blufi_deinit_state_t"></span><span id="_CPPv224esp_blufi_deinit_state_t"></span><span id="esp_blufi_deinit_state_t"></span><span class="target" id="esp__blufi__api_8h_1af87a751b8e9b2da46103dc030bbc86f3"></span><em class="property">enum </em><code class="descname">esp_blufi_deinit_state_t</code><a class="headerlink" href="#_CPPv424esp_blufi_deinit_state_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLUFI deinit status. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv419ESP_BLUFI_DEINIT_OK">
+<span id="_CPPv319ESP_BLUFI_DEINIT_OK"></span><span id="_CPPv219ESP_BLUFI_DEINIT_OK"></span><span class="target" id="esp__blufi__api_8h_1af87a751b8e9b2da46103dc030bbc86f3ac926db6f8bb2d56316a1ec495ad50c71"></span><code class="descname">ESP_BLUFI_DEINIT_OK</code> = 0<a class="headerlink" href="#_CPPv419ESP_BLUFI_DEINIT_OK" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423ESP_BLUFI_DEINIT_FAILED">
+<span id="_CPPv323ESP_BLUFI_DEINIT_FAILED"></span><span id="_CPPv223ESP_BLUFI_DEINIT_FAILED"></span><span class="target" id="esp__blufi__api_8h_1af87a751b8e9b2da46103dc030bbc86f3aa47786d363ea831490242aa93dc1243e"></span><code class="descname">ESP_BLUFI_DEINIT_FAILED</code><a class="headerlink" href="#_CPPv423ESP_BLUFI_DEINIT_FAILED" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv423esp_blufi_error_state_t">
+<span id="_CPPv323esp_blufi_error_state_t"></span><span id="_CPPv223esp_blufi_error_state_t"></span><span id="esp_blufi_error_state_t"></span><span class="target" id="esp__blufi__api_8h_1a4f4e3a03e9969358e3927913be1190bc"></span><em class="property">enum </em><code class="descname">esp_blufi_error_state_t</code><a class="headerlink" href="#_CPPv423esp_blufi_error_state_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv424ESP_BLUFI_SEQUENCE_ERROR">
+<span id="_CPPv324ESP_BLUFI_SEQUENCE_ERROR"></span><span id="_CPPv224ESP_BLUFI_SEQUENCE_ERROR"></span><span class="target" id="esp__blufi__api_8h_1a4f4e3a03e9969358e3927913be1190bcac80a4708cbeba0c615949d7db04678c5"></span><code class="descname">ESP_BLUFI_SEQUENCE_ERROR</code> = 0<a class="headerlink" href="#_CPPv424ESP_BLUFI_SEQUENCE_ERROR" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv424ESP_BLUFI_CHECKSUM_ERROR">
+<span id="_CPPv324ESP_BLUFI_CHECKSUM_ERROR"></span><span id="_CPPv224ESP_BLUFI_CHECKSUM_ERROR"></span><span class="target" id="esp__blufi__api_8h_1a4f4e3a03e9969358e3927913be1190bca6a8616be6aa3e212451e57324c5458db"></span><code class="descname">ESP_BLUFI_CHECKSUM_ERROR</code><a class="headerlink" href="#_CPPv424ESP_BLUFI_CHECKSUM_ERROR" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423ESP_BLUFI_DECRYPT_ERROR">
+<span id="_CPPv323ESP_BLUFI_DECRYPT_ERROR"></span><span id="_CPPv223ESP_BLUFI_DECRYPT_ERROR"></span><span class="target" id="esp__blufi__api_8h_1a4f4e3a03e9969358e3927913be1190bca56e34fd2e8bd767701465e1955ae1678"></span><code class="descname">ESP_BLUFI_DECRYPT_ERROR</code><a class="headerlink" href="#_CPPv423ESP_BLUFI_DECRYPT_ERROR" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423ESP_BLUFI_ENCRYPT_ERROR">
+<span id="_CPPv323ESP_BLUFI_ENCRYPT_ERROR"></span><span id="_CPPv223ESP_BLUFI_ENCRYPT_ERROR"></span><span class="target" id="esp__blufi__api_8h_1a4f4e3a03e9969358e3927913be1190bcada952673063e74b971661779d1596d70"></span><code class="descname">ESP_BLUFI_ENCRYPT_ERROR</code><a class="headerlink" href="#_CPPv423ESP_BLUFI_ENCRYPT_ERROR" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv429ESP_BLUFI_INIT_SECURITY_ERROR">
+<span id="_CPPv329ESP_BLUFI_INIT_SECURITY_ERROR"></span><span id="_CPPv229ESP_BLUFI_INIT_SECURITY_ERROR"></span><span class="target" id="esp__blufi__api_8h_1a4f4e3a03e9969358e3927913be1190bca79c7f0408de8dd10c7a374fb7b93fb78"></span><code class="descname">ESP_BLUFI_INIT_SECURITY_ERROR</code><a class="headerlink" href="#_CPPv429ESP_BLUFI_INIT_SECURITY_ERROR" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv425ESP_BLUFI_DH_MALLOC_ERROR">
+<span id="_CPPv325ESP_BLUFI_DH_MALLOC_ERROR"></span><span id="_CPPv225ESP_BLUFI_DH_MALLOC_ERROR"></span><span class="target" id="esp__blufi__api_8h_1a4f4e3a03e9969358e3927913be1190bca1e8a21a25b28b047ffb2978a90826177"></span><code class="descname">ESP_BLUFI_DH_MALLOC_ERROR</code><a class="headerlink" href="#_CPPv425ESP_BLUFI_DH_MALLOC_ERROR" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv424ESP_BLUFI_DH_PARAM_ERROR">
+<span id="_CPPv324ESP_BLUFI_DH_PARAM_ERROR"></span><span id="_CPPv224ESP_BLUFI_DH_PARAM_ERROR"></span><span class="target" id="esp__blufi__api_8h_1a4f4e3a03e9969358e3927913be1190bcaeebc73609e50c7c555b420b5764f10a4"></span><code class="descname">ESP_BLUFI_DH_PARAM_ERROR</code><a class="headerlink" href="#_CPPv424ESP_BLUFI_DH_PARAM_ERROR" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv426ESP_BLUFI_READ_PARAM_ERROR">
+<span id="_CPPv326ESP_BLUFI_READ_PARAM_ERROR"></span><span id="_CPPv226ESP_BLUFI_READ_PARAM_ERROR"></span><span class="target" id="esp__blufi__api_8h_1a4f4e3a03e9969358e3927913be1190bcaec88b5d8580b0b62eabedfb8d7c955d4"></span><code class="descname">ESP_BLUFI_READ_PARAM_ERROR</code><a class="headerlink" href="#_CPPv426ESP_BLUFI_READ_PARAM_ERROR" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv427ESP_BLUFI_MAKE_PUBLIC_ERROR">
+<span id="_CPPv327ESP_BLUFI_MAKE_PUBLIC_ERROR"></span><span id="_CPPv227ESP_BLUFI_MAKE_PUBLIC_ERROR"></span><span class="target" id="esp__blufi__api_8h_1a4f4e3a03e9969358e3927913be1190bca951bc18d6900d9ef31a9954c158276b8"></span><code class="descname">ESP_BLUFI_MAKE_PUBLIC_ERROR</code><a class="headerlink" href="#_CPPv427ESP_BLUFI_MAKE_PUBLIC_ERROR" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="classic_bt.html" class="btn btn-neutral float-right" title="CLASSIC BT" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="esp_gattc.html" class="btn btn-neutral float-left" title="GATT CLIENT API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/bluetooth/esp_blufi.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:12 GMT -->
+</html>

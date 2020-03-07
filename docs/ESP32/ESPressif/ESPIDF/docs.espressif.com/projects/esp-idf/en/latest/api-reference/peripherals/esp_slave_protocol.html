@@ -1,0 +1,562 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/esp_slave_protocol.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:55 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Communication with ESP SDIO Slave &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Sigma-delta Modulation" href="sigmadelta.html" />
+    <link rel="prev" title="SDIO Card Slave Driver" href="sdio_slave.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="esp_slave_protocol.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/peripherals/esp_slave_protocol"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Peripherals</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="adc.html">ADC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="can.html">CAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html">DAC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html">GPIO (including RTC low power I/O)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html">I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html">I2S</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ledc.html">LED Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcpwm.html">MCPWM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pcnt.html">Pulse Counter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rmt.html">Remote Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sd_pullup_requirements.html">SD Pull-up Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdmmc_host.html">SDMMC Host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdspi_host.html">SD SPI Host</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="sdio_slave.html">SDIO Slave</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="sdio_slave.html#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sdio_slave.html#application-example">Application Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sdio_slave.html#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="sigmadelta.html">Sigma-delta Modulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html">SPI Master</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html">SPI Slave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="temp_sensor.html">Temp sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html">Touch Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uart.html">UART</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Peripherals API</a> &raquo;</li>
+        
+          <li><a href="sdio_slave.html">SDIO Card Slave Driver</a> &raquo;</li>
+        
+      <li>Communication with ESP SDIO Slave</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/peripherals/esp_slave_protocol.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="communication-with-esp-sdio-slave">
+<h1>Communication with ESP SDIO Slave<a class="headerlink" href="#communication-with-esp-sdio-slave" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="esp-sdio-slave-initialization">
+<span id="esp-slave-init"></span><h2>ESP SDIO slave initialization<a class="headerlink" href="#esp-sdio-slave-initialization" title="Permalink to this headline">¶</a></h2>
+<p>The host should initialize the ESP32 SDIO slave according to the standard
+SDIO initialization process (Sector 3.1.2 of <a class="reference external" href="https://www.sdcard.org/downloads/pls/">SDIO Simplified
+Specification</a>). In this specification
+and below, the SDIO slave is also called an (SD)IO card. All the
+initialization CMD52 and CMD53 are sent to Func 0 (CIA region). Here is an
+brief example on how to do this:</p>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt>SDIO reset</dt>
+<dd><p class="first last">CMD52 (Write 0x6=0x8)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>SD reset</dt>
+<dd><p class="first last">CMD0</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Check whether IO card (optional)</dt>
+<dd><p class="first last">CMD8</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Send SDIO op cond and wait for card ready</dt>
+<dd><p class="first">CMD5 arg = 0x00000000</p>
+<p>CMD5 arg = 0x00ff8000 (according to the response above, poll until ready)</p>
+<dl class="last docutils">
+<dt><strong>Example:</strong></dt>
+<dd><p class="first">Arg of R4 after first CMD5 (arg=0x00000000) is 0xXXFFFF00.</p>
+<p class="last">Keep sending CMD5 with arg=0x00FFFF00 until the R4 shows card ready (arg bit 31=1).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Set address</dt>
+<dd><p class="first last">CMD3</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Select card</dt>
+<dd><p class="first">CMD7 (arg address according to CMD3 response)</p>
+<dl class="last docutils">
+<dt><strong>Example:</strong></dt>
+<dd><p class="first">Arg of R6 after CMD3 is 0x0001xxxx.</p>
+<p class="last">Arg of CMD7 should be 0x00010000.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Select 4-bit mode (optional)</dt>
+<dd><p class="first last">CMD52 (Write 0x07=0x02)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Enable func1</dt>
+<dd><p class="first last">CMD52 (Write 0x02=0x02)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Enable SDIO interrupt (required if interrupt line (DAT1) is used)</dt>
+<dd><p class="first last">CMD52 (Write 0x04=0x03)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Set Func0 blocksize (optional, default value is 512 (0x200))</dt>
+<dd><p class="first">CMD52/53 (Read 0x10~0x11)</p>
+<p>CMD52/53 (Write 0x10=0x00)</p>
+<p>CMD52/53 (Write 0x11=0x02)</p>
+<p class="last">CMD52/53 (Read 0x10~0x11, read to check the final value)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Set Func1 blocksize (optional, default value is 512 (0x200))</dt>
+<dd><p class="first">CMD52/53 (Read 0x110~0x111)</p>
+<p>CMD52/53 (Write 0x110=0x00)</p>
+<p>CMD52/53 (Write 0x111=0x02)</p>
+<p class="last">CMD52/53 (Read 0x110~0x111, read to check the final value)</p>
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+<div class="section" id="esp-sdio-slave-protocol">
+<span id="esp-slave-protocol-layer"></span><h2>ESP SDIO slave protocol<a class="headerlink" href="#esp-sdio-slave-protocol" title="Permalink to this headline">¶</a></h2>
+<p>The protocol is based on Function 1 access by CMD52 and CMD53, offering 3 services: (1) sending and receiving FIFO, (2) 52 8-bit R/W
+register shared by host and slave, (3) 8 general purpose interrupt sources from host to slave and 8 in the opposite direction.</p>
+<p>There is a component <cite>esp_serial_slave_link</cite> implementing the logic of this protocol for
+ESP32 master to communicate with the ESP32 slave. See <a class="reference internal" href="../protocols/esp_serial_slave_link.html"><span class="doc">ESP Serial Slave Link</span></a>.</p>
+<p>The host should access the registers below as described to communicate with slave.</p>
+<div class="section" id="slave-register-table">
+<h3>Slave register table<a class="headerlink" href="#slave-register-table" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="bit">
+<h4>32-bit<a class="headerlink" href="#bit" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>0x044 (TOKEN_RDATA): in which bit 27-16 holds the receiving buffer number.</li>
+<li>0x058 (INT_ST): holds the interrupt source bits from slave to host.</li>
+<li>0x060 (PKT_LEN): holds the accumulated length (by byte) to be sent from slave to host.</li>
+<li>0x0D4 (INT_CLR): write 1 to clear interrupt bits corresponding to INT_ST.</li>
+<li>0x0DC (INT_ENA): mask bits for interrupts from slave to host.</li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h4>8-bit<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<p>Shared general purpose registers:</p>
+<ul class="simple">
+<li>0x06C-0x077: R/W registers 0-11 shared by slave and host.</li>
+<li>0x07A-0x07B: R/W registers 14-15 shared by slave and host.</li>
+<li>0x07E-0x07F: R/W registers 18-19 shared by slave and host.</li>
+<li>0x088-0x08B: R/W registers 24-27 shared by slave and host.</li>
+<li>0x09C-0x0BB: R/W registers 32-63 shared by slave and host.</li>
+</ul>
+<p>Interrupt Registers:
+- 0x08D (SLAVE_INT): bits for host to interrupt slave. auto clear.</p>
+</div>
+<div class="section" id="fifo-sending-and-receiving">
+<h4>FIFO (sending and receiving)<a class="headerlink" href="#fifo-sending-and-receiving" title="Permalink to this headline">¶</a></h4>
+<p>0x090 - 0x1F7FF are reserved for FIFOs.</p>
+<p>The address of CMD53 is related to the length requested to read from/write to
+the slave in a single transfer:</p>
+<blockquote>
+<div><em>requested length = 0x1F800-address</em></div></blockquote>
+<p>The slave will respond with the length according to the length field in
+CMD53, with the data longer than <em>requested length</em> filled with 0 (sending)
+or discard (receiving).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>This includes both the block and the byte mode of CMD53.</p>
+<p>The function number should be set to 1, OP Code should be set to 1 (for CMD53).</p>
+<p>It is allowed to use CMD53 mode combination of block+byte to get higher
+effeciency when accessing the FIFO by arbitrary length. E.g. The block
+size is set to 512 by default, you can write/get 1031 bytes of data
+to/from the FIFO by:</p>
+<ol class="last arabic simple">
+<li>Send CMD53 in block mode, block count=2 (1024 bytes) to address
+0x1F3F9=0x1F800-<strong>1031</strong>.</li>
+<li>Then send CMD53 in byte mode, byte count=8 (or 7 if your controller
+supports that) to address 0x1F7F9=0x1F800-<strong>7</strong>.</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="section" id="interrupts">
+<h3>Interrupts<a class="headerlink" href="#interrupts" title="Permalink to this headline">¶</a></h3>
+<p>For the host interrupts, the slave raise the interrupt by pulling DAT1 line down at a proper time (level sensitive).
+The host detect this and read the INT_ST register to see the source. Then the host can clear it by writing the INT_CLR
+register and do something with the interrupt. The host can also mask unneeded sources by clearing the bits in INT_ENA
+register corresponding to the sources. If all the sources are cleared (or masked), the DAT1 line goes inactive.</p>
+<p><code class="docutils literal notranslate"><span class="pre">sdio_slave_hostint_t</span></code> (<a class="reference internal" href="sdio_slave.html"><span class="doc">SDIO Card Slave Driver</span></a>) shows the bit definition corresponding to host interrupt sources.</p>
+<p>For the slave interrupts, the host send transfers to write the SLAVE_INT register. Once a bit is written from 0 to 1,
+the slave hardware and driver will detect it and inform the app.</p>
+</div>
+<div class="section" id="receiving-fifo">
+<h3>Receiving FIFO<a class="headerlink" href="#receiving-fifo" title="Permalink to this headline">¶</a></h3>
+<p>To write the receiving FIFO in the slave, host should work in the following steps:</p>
+<ol class="arabic simple">
+<li>Read the TOKEN1 field (bits 27-16) of TOKEN_RDATA (0x044) register. The buffer number remaining is TOKEN1 minus
+the number of buffers used by host.</li>
+<li>Make sure the buffer number is sufficient (<em>recv_buffer_size</em> * <em>buffer_num</em> is greater than data to write, <em>recv_buffer_size</em>
+is pre-defined between the host and the slave before the communication starts). Or go back to step 1 until the buffer
+is enough.</li>
+<li>Write to the FIFO address with CMD53. Note that the <em>requested length</em> should not be larger than calculated in step 2,
+and the FIFO address is related to <em>rquested length</em>.</li>
+<li>Calculate used buffers, note that non-full buffer at the tail should be seen as one that is used.</li>
+</ol>
+</div>
+<div class="section" id="sending-fifo">
+<h3>Sending FIFO<a class="headerlink" href="#sending-fifo" title="Permalink to this headline">¶</a></h3>
+<p>To read the sending FIFO in the slave, host should work in the following steps:</p>
+<ol class="arabic simple">
+<li>Wait for the interrupt line to be active (optional, low by default).</li>
+<li>Read (poll) the interrupt bits in INT_ST register to see whether new packets exists.</li>
+<li>If new packets are ready, reads the PKT_LEN reg. The data length to read from slave is PKT_LEN minuses the length
+that has been read from the host. If the PKT_LEN is not larger than used, wait and poll until the slave is ready and
+update the PKT_LEN.</li>
+<li>Read from the FIFO with CMD53. Note that the <em>requested length</em> should not be larger than calculated in step3, and
+the FIFO address is related to <em>requested length</em>.</li>
+<li>Recored read length.</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="sigmadelta.html" class="btn btn-neutral float-right" title="Sigma-delta Modulation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="sdio_slave.html" class="btn btn-neutral float-left" title="SDIO Card Slave Driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/esp_slave_protocol.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:55 GMT -->
+</html>

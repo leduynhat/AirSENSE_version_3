@@ -1,0 +1,956 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/protocols/esp_local_ctrl.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:27 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ESP Local Control &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="mDNS Service" href="mdns.html" />
+    <link rel="prev" title="ICMP Echo" href="icmp_echo.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="esp_local_ctrl.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/protocols/esp_local_ctrl"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Protocols</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="asio.html">ASIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mqtt.html">ESP-MQTT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_tls.html">ESP-TLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_http_client.html">HTTP Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_http_server.html">HTTP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_https_server.html">HTTPS Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="icmp_echo.html">ICMP Echo</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Local Control</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#creating-a-property">Creating a property</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#client-side-implementation">Client Side Implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="modbus.html">Modbus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_websocket_client.html">Websocket Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_serial_slave_link.html">ESP Serial Slave Link</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#ip-network-layer">IP Network Layer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Application Protocols</a> &raquo;</li>
+        
+      <li>ESP Local Control</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/protocols/esp_local_ctrl.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esp-local-control">
+<h1>ESP Local Control<a class="headerlink" href="#esp-local-control" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>ESP Local Control (<strong>esp_local_ctrl</strong>) component in  ESP-IDF provides capability to control an ESP device over Wi-Fi + HTTPS or BLE. It provides access to application defined <strong>properties</strong> that are available for reading / writing via a set of configurable handlers.</p>
+<p>Initialization of the <strong>esp_local_ctrl</strong> service over BLE transport is performed as follows:</p>
+<blockquote>
+<div><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">esp_local_ctrl_config_t</span> <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">.</span><span class="n">transport</span> <span class="o">=</span> <span class="n">ESP_LOCAL_CTRL_TRANSPORT_BLE</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">transport_config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="p">.</span><span class="n">ble</span> <span class="o">=</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">protocomm_ble_config_t</span><span class="p">)</span> <span class="p">{</span>
+            <span class="p">.</span><span class="n">device_name</span>  <span class="o">=</span> <span class="n">SERVICE_NAME</span><span class="p">,</span>
+            <span class="p">.</span><span class="n">service_uuid</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="cm">/* LSB &lt;---------------------------------------</span>
+<span class="cm">                * ---------------------------------------&gt; MSB */</span>
+                <span class="mh">0x21</span><span class="p">,</span> <span class="mh">0xd5</span><span class="p">,</span> <span class="mh">0x3b</span><span class="p">,</span> <span class="mh">0x8d</span><span class="p">,</span> <span class="mh">0xbd</span><span class="p">,</span> <span class="mh">0x75</span><span class="p">,</span> <span class="mh">0x68</span><span class="p">,</span> <span class="mh">0x8a</span><span class="p">,</span>
+                <span class="mh">0xb4</span><span class="p">,</span> <span class="mh">0x42</span><span class="p">,</span> <span class="mh">0xeb</span><span class="p">,</span> <span class="mh">0x31</span><span class="p">,</span> <span class="mh">0x4a</span><span class="p">,</span> <span class="mh">0x1e</span><span class="p">,</span> <span class="mh">0x98</span><span class="p">,</span> <span class="mh">0x3d</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="p">.</span><span class="n">handlers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="cm">/* User defined handler functions */</span>
+        <span class="p">.</span><span class="n">get_prop_values</span> <span class="o">=</span> <span class="n">get_property_values</span><span class="p">,</span>
+        <span class="p">.</span><span class="n">set_prop_values</span> <span class="o">=</span> <span class="n">set_property_values</span><span class="p">,</span>
+        <span class="p">.</span><span class="n">usr_ctx</span>         <span class="o">=</span> <span class="nb">NULL</span><span class="p">,</span>
+        <span class="p">.</span><span class="n">usr_ctx_free_fn</span> <span class="o">=</span> <span class="nb">NULL</span>
+    <span class="p">},</span>
+    <span class="cm">/* Maximum number of properties that may be set */</span>
+    <span class="p">.</span><span class="n">max_properties</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="p">};</span>
+
+<span class="cm">/* Start esp_local_ctrl service */</span>
+<span class="n">ESP_ERROR_CHECK</span><span class="p">(</span><span class="n">esp_local_ctrl_start</span><span class="p">(</span><span class="o">&amp;</span><span class="n">config</span><span class="p">));</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Similarly for HTTPS transport:</p>
+<blockquote>
+<div><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Set the configuration */</span>
+<span class="n">httpd_ssl_config_t</span> <span class="n">https_conf</span> <span class="o">=</span> <span class="n">HTTPD_SSL_CONFIG_DEFAULT</span><span class="p">();</span>
+
+<span class="cm">/* Load server certificate */</span>
+<span class="k">extern</span> <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">cacert_pem_start</span><span class="p">[]</span> <span class="k">asm</span><span class="p">(</span><span class="s">&quot;_binary_cacert_pem_start&quot;</span><span class="p">);</span>
+<span class="k">extern</span> <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">cacert_pem_end</span><span class="p">[]</span>   <span class="k">asm</span><span class="p">(</span><span class="s">&quot;_binary_cacert_pem_end&quot;</span><span class="p">);</span>
+<span class="n">https_conf</span><span class="p">.</span><span class="n">cacert_pem</span> <span class="o">=</span> <span class="n">cacert_pem_start</span><span class="p">;</span>
+<span class="n">https_conf</span><span class="p">.</span><span class="n">cacert_len</span> <span class="o">=</span> <span class="n">cacert_pem_end</span> <span class="o">-</span> <span class="n">cacert_pem_start</span><span class="p">;</span>
+
+<span class="cm">/* Load server private key */</span>
+<span class="k">extern</span> <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">prvtkey_pem_start</span><span class="p">[]</span> <span class="k">asm</span><span class="p">(</span><span class="s">&quot;_binary_prvtkey_pem_start&quot;</span><span class="p">);</span>
+<span class="k">extern</span> <span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">prvtkey_pem_end</span><span class="p">[]</span>   <span class="k">asm</span><span class="p">(</span><span class="s">&quot;_binary_prvtkey_pem_end&quot;</span><span class="p">);</span>
+<span class="n">https_conf</span><span class="p">.</span><span class="n">prvtkey_pem</span> <span class="o">=</span> <span class="n">prvtkey_pem_start</span><span class="p">;</span>
+<span class="n">https_conf</span><span class="p">.</span><span class="n">prvtkey_len</span> <span class="o">=</span> <span class="n">prvtkey_pem_end</span> <span class="o">-</span> <span class="n">prvtkey_pem_start</span><span class="p">;</span>
+
+<span class="n">esp_local_ctrl_config_t</span> <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">.</span><span class="n">transport</span> <span class="o">=</span> <span class="n">ESP_LOCAL_CTRL_TRANSPORT_HTTPD</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">transport_config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="p">.</span><span class="n">httpd</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">https_conf</span>
+    <span class="p">},</span>
+    <span class="p">.</span><span class="n">handlers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="cm">/* User defined handler functions */</span>
+        <span class="p">.</span><span class="n">get_prop_values</span> <span class="o">=</span> <span class="n">get_property_values</span><span class="p">,</span>
+        <span class="p">.</span><span class="n">set_prop_values</span> <span class="o">=</span> <span class="n">set_property_values</span><span class="p">,</span>
+        <span class="p">.</span><span class="n">usr_ctx</span>         <span class="o">=</span> <span class="nb">NULL</span><span class="p">,</span>
+        <span class="p">.</span><span class="n">usr_ctx_free_fn</span> <span class="o">=</span> <span class="nb">NULL</span>
+    <span class="p">},</span>
+    <span class="cm">/* Maximum number of properties that may be set */</span>
+    <span class="p">.</span><span class="n">max_properties</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="p">};</span>
+
+<span class="cm">/* Start esp_local_ctrl service */</span>
+<span class="n">ESP_ERROR_CHECK</span><span class="p">(</span><span class="n">esp_local_ctrl_start</span><span class="p">(</span><span class="o">&amp;</span><span class="n">config</span><span class="p">));</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="creating-a-property">
+<h2>Creating a property<a class="headerlink" href="#creating-a-property" title="Permalink to this headline">¶</a></h2>
+<p>Now that we know how to start the <strong>esp_local_ctrl</strong> service, let’s add a property to it. Each property must have a unique <cite>name</cite> (string), a <cite>type</cite> (e.g. enum), <cite>flags</cite> (bit fields) and <cite>size</cite>.</p>
+<p>The <cite>size</cite> is to be kept 0, if we want our property value to be of variable length (e.g. if its a string or bytestream). For fixed length property value data-types, like int, float, etc., setting the <cite>size</cite> field to the right value, helps <strong>esp_local_ctrl</strong> to perform internal checks on arguments received with write requests.</p>
+<p>The interpretation of <cite>type</cite> and <cite>flags</cite> fields is totally upto the application, hence they may be used as enumerations, bitfields, or even simple integers. One way is to use <cite>type</cite> values to classify properties, while <cite>flags</cite> to specify characteristics of a property.</p>
+<p>Here is an example property which is to function as a timestamp. It is assumed that the application defines <cite>TYPE_TIMESTAMP</cite> and <cite>READONLY</cite>, which are used for setting the <cite>type</cite> and <cite>flags</cite> fields here.</p>
+<blockquote>
+<div><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Create a timestamp property */</span>
+<span class="n">esp_local_ctrl_prop_t</span> <span class="n">timestamp</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">.</span><span class="n">name</span>        <span class="o">=</span> <span class="s">&quot;timestamp&quot;</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">type</span>        <span class="o">=</span> <span class="n">TYPE_TIMESTAMP</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">size</span>        <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int32_t</span><span class="p">),</span>
+    <span class="p">.</span><span class="n">flags</span>       <span class="o">=</span> <span class="n">READONLY</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">ctx</span>         <span class="o">=</span> <span class="n">func_get_time</span><span class="p">,</span>
+    <span class="p">.</span><span class="n">ctx_free_fn</span> <span class="o">=</span> <span class="nb">NULL</span>
+<span class="p">};</span>
+
+<span class="cm">/* Now register the property */</span>
+<span class="n">esp_local_ctrl_add_property</span><span class="p">(</span><span class="o">&amp;</span><span class="n">timestamp</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Also notice that there is a ctx field, which is set to point to some custom <cite>func_get_time()</cite>. This can be used inside the property get / set handlers to retrieve timestamp.</p>
+<p>Here is an example of <cite>get_prop_values()</cite> handler, which is used for retrieving the timestamp.</p>
+<blockquote>
+<div><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="n">esp_err_t</span> <span class="nf">get_property_values</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">props_count</span><span class="p">,</span>
+                                     <span class="k">const</span> <span class="n">esp_local_ctrl_prop_t</span> <span class="o">*</span><span class="n">props</span><span class="p">,</span>
+                                     <span class="n">esp_local_ctrl_prop_val_t</span> <span class="o">*</span><span class="n">prop_values</span><span class="p">,</span>
+                                     <span class="kt">void</span> <span class="o">*</span><span class="n">usr_ctx</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">uint32_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">props_count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">ESP_LOGI</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s">&quot;Reading %s&quot;</span><span class="p">,</span> <span class="n">props</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">name</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">props</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">type</span> <span class="o">==</span> <span class="n">TYPE_TIMESTAMP</span><span class="p">)</span> <span class="p">{</span>
+            <span class="cm">/* Obtain the timer function from ctx */</span>
+            <span class="kt">int32_t</span> <span class="p">(</span><span class="o">*</span><span class="n">func_get_time</span><span class="p">)(</span><span class="kt">void</span><span class="p">)</span> <span class="o">=</span> <span class="n">props</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">ctx</span><span class="p">;</span>
+
+            <span class="cm">/* Use static variable for saving the value.</span>
+<span class="cm">             * This is essential because the value has to be</span>
+<span class="cm">             * valid even after this function returns.</span>
+<span class="cm">             * Alternative is to use dynamic allocation</span>
+<span class="cm">             * and set the free_fn field */</span>
+            <span class="k">static</span> <span class="kt">int32_t</span> <span class="n">ts</span> <span class="o">=</span> <span class="n">func_get_time</span><span class="p">();</span>
+            <span class="n">prop_values</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ts</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">ESP_OK</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Here is an example of <cite>set_prop_values()</cite> handler. Notice how we restrict from writing to read-only properties.</p>
+<blockquote>
+<div><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="n">esp_err_t</span> <span class="nf">set_property_values</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">props_count</span><span class="p">,</span>
+                                     <span class="k">const</span> <span class="n">esp_local_ctrl_prop_t</span> <span class="o">*</span><span class="n">props</span><span class="p">,</span>
+                                     <span class="k">const</span> <span class="n">esp_local_ctrl_prop_val_t</span> <span class="o">*</span><span class="n">prop_values</span><span class="p">,</span>
+                                     <span class="kt">void</span> <span class="o">*</span><span class="n">usr_ctx</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">uint32_t</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">props_count</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">props</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">READONLY</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">ESP_LOGE</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s">&quot;Cannot write to read-only property %s&quot;</span><span class="p">,</span> <span class="n">props</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">name</span><span class="p">);</span>
+            <span class="k">return</span> <span class="n">ESP_ERR_INVALID_ARG</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="n">ESP_LOGI</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s">&quot;Setting %s&quot;</span><span class="p">,</span> <span class="n">props</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">name</span><span class="p">);</span>
+
+            <span class="cm">/* For keeping it simple, lets only log the incoming data */</span>
+            <span class="n">ESP_LOG_BUFFER_HEX_LEVEL</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="n">prop_values</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">data</span><span class="p">,</span>
+                                     <span class="n">prop_values</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">size</span><span class="p">,</span> <span class="n">ESP_LOG_INFO</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">ESP_OK</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>For complete example see <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/esp_local_ctrl">protocols/esp_local_ctrl</a></p>
+</div>
+<div class="section" id="client-side-implementation">
+<h2>Client Side Implementation<a class="headerlink" href="#client-side-implementation" title="Permalink to this headline">¶</a></h2>
+<p>The client side implementation will have establish a protocomm session with the device first, over the supported mode of transport, and then send and receive protobuf messages understood by the <strong>esp_local_ctrl</strong> service. The service will translate these messages into requests and then call the appropriate handlers (set / get). Then, the generated response for each handler is again packed into a protobuf message and transmitted back to the client.</p>
+<p>See below the various protobuf messages understood by the <strong>esp_local_ctrl</strong> service:</p>
+<ol class="arabic simple">
+<li><cite>get_prop_count</cite> : This should simply return the total number of properties supported by the service</li>
+<li><cite>get_prop_values</cite> : This accepts an array of indices and should return the information (name, type, flags) and values of the properties corresponding to those indices</li>
+<li><cite>set_prop_values</cite> : This accepts an array of indices and an array of new values, which are used for setting the values of the properties corresponding to the indices</li>
+</ol>
+<p>Note that indices may or may not be the same for a property, across multiple sessions. Therefore, the client must only use the names of the properties to uniquely identify them. So, every time a new session is established, the client should first call <cite>get_prop_count</cite> and then <cite>get_prop_values</cite>, hence form an index to name mapping for all properties. Now when calling <cite>set_prop_values</cite> for a set of properties, it must first convert the names to indexes, using the created mapping. As emphasized earlier, the client must refresh the index to name mapping every time a new session is established with the same device.</p>
+<p>The various protocomm endpoints provided by <strong>esp_local_ctrl</strong> are listed below:</p>
+<table border="1" class="colwidths-given docutils" id="id1">
+<caption><span class="caption-text">Endpoints provided by ESP Local Control</span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="12%" />
+<col width="29%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Endpoint Name (BLE + GATT Server)</th>
+<th class="head">URI (HTTPS Server + mDNS)</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>esp_local_ctrl/version</td>
+<td><a class="reference external" href="https://docs.espressif.com/">https:/</a>/&lt;mdns-hostname&gt;.local/esp_local_ctrl/version</td>
+<td>Endpoint used for retrieving version string</td>
+</tr>
+<tr class="row-odd"><td>esp_local_ctrl/control</td>
+<td><a class="reference external" href="https://docs.espressif.com/">https:/</a>/&lt;mdns-hostname&gt;.local/esp_local_ctrl/control</td>
+<td>Endpoint used for sending / receiving control messages</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_local_ctrl/include/esp_local_ctrl.h">esp_local_ctrl/include/esp_local_ctrl.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv432esp_local_ctrl_get_transport_blev">
+<span id="_CPPv332esp_local_ctrl_get_transport_blev"></span><span id="_CPPv232esp_local_ctrl_get_transport_blev"></span><span id="esp_local_ctrl_get_transport_ble__void"></span><span class="target" id="esp__local__ctrl_8h_1a6154e03a59e8d4aad6e3558da817db58"></span><em class="property">const</em> <a class="reference internal" href="#_CPPv426esp_local_ctrl_transport_t" title="esp_local_ctrl_transport_t">esp_local_ctrl_transport_t</a> *<code class="descname">esp_local_ctrl_get_transport_ble</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv432esp_local_ctrl_get_transport_blev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function for obtaining BLE transport mode. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv434esp_local_ctrl_get_transport_httpdv">
+<span id="_CPPv334esp_local_ctrl_get_transport_httpdv"></span><span id="_CPPv234esp_local_ctrl_get_transport_httpdv"></span><span id="esp_local_ctrl_get_transport_httpd__void"></span><span class="target" id="esp__local__ctrl_8h_1a92b90b50f7326d061e08c7633f0fd53d"></span><em class="property">const</em> <a class="reference internal" href="#_CPPv426esp_local_ctrl_transport_t" title="esp_local_ctrl_transport_t">esp_local_ctrl_transport_t</a> *<code class="descname">esp_local_ctrl_get_transport_httpd</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv434esp_local_ctrl_get_transport_httpdv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function for obtaining HTTPD transport mode. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420esp_local_ctrl_startPK23esp_local_ctrl_config_t">
+<span id="_CPPv320esp_local_ctrl_startPK23esp_local_ctrl_config_t"></span><span id="_CPPv220esp_local_ctrl_startPK23esp_local_ctrl_config_t"></span><span id="esp_local_ctrl_start__esp_local_ctrl_config_tCP"></span><span class="target" id="esp__local__ctrl_8h_1a5da45432dd35dc2b4b89d2c55303195c"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_local_ctrl_start</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv423esp_local_ctrl_config_t" title="esp_local_ctrl_config_t">esp_local_ctrl_config_t</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420esp_local_ctrl_startPK23esp_local_ctrl_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start local control service. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_FAIL : Failure </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">config</span></code>: Pointer to configuration structure</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419esp_local_ctrl_stopv">
+<span id="_CPPv319esp_local_ctrl_stopv"></span><span id="_CPPv219esp_local_ctrl_stopv"></span><span id="esp_local_ctrl_stop__void"></span><span class="target" id="esp__local__ctrl_8h_1a93066a9712cf1d21ba002e171fdd4bb0"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_local_ctrl_stop</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419esp_local_ctrl_stopv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stop local control service. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427esp_local_ctrl_add_propertyPK21esp_local_ctrl_prop_t">
+<span id="_CPPv327esp_local_ctrl_add_propertyPK21esp_local_ctrl_prop_t"></span><span id="_CPPv227esp_local_ctrl_add_propertyPK21esp_local_ctrl_prop_t"></span><span id="esp_local_ctrl_add_property__esp_local_ctrl_prop_tCP"></span><span class="target" id="esp__local__ctrl_8h_1a461e859ee281e95f7ea0e7a7561e7460"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_local_ctrl_add_property</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv421esp_local_ctrl_prop_t" title="esp_local_ctrl_prop_t">esp_local_ctrl_prop_t</a> *<em>prop</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427esp_local_ctrl_add_propertyPK21esp_local_ctrl_prop_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a new property. </p>
+<p>This adds a new property and allocates internal resources for it. The total number of properties that could be added is limited by configuration option <code class="docutils literal notranslate"><span class="pre">max_properties</span></code></p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_FAIL : Failure </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">prop</span></code>: Property description structure</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv430esp_local_ctrl_remove_propertyPKc">
+<span id="_CPPv330esp_local_ctrl_remove_propertyPKc"></span><span id="_CPPv230esp_local_ctrl_remove_propertyPKc"></span><span id="esp_local_ctrl_remove_property__cCP"></span><span class="target" id="esp__local__ctrl_8h_1a3cb044f5af0717190b95c9e66cf52ab4"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_local_ctrl_remove_property</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv430esp_local_ctrl_remove_propertyPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remove a property. </p>
+<p>This finds a property by name, and releases the internal resources which are associated with it.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_ERR_NOT_FOUND : Failure </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">name</span></code>: Name of the property to remove</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv427esp_local_ctrl_get_propertyPKc">
+<span id="_CPPv327esp_local_ctrl_get_propertyPKc"></span><span id="_CPPv227esp_local_ctrl_get_propertyPKc"></span><span id="esp_local_ctrl_get_property__cCP"></span><span class="target" id="esp__local__ctrl_8h_1a2064fe341436bc40254707fa95244d8b"></span><em class="property">const</em> <a class="reference internal" href="#_CPPv421esp_local_ctrl_prop_t" title="esp_local_ctrl_prop_t">esp_local_ctrl_prop_t</a> *<code class="descname">esp_local_ctrl_get_property</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv427esp_local_ctrl_get_propertyPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get property description structure by name. </p>
+<p>This API may be used to get a property’s context structure <code class="docutils literal notranslate"><span class="pre">esp_local_ctrl_prop_t</span></code> when its name is known</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>Pointer to property</li>
+<li>NULL if not found </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">name</span></code>: Name of the property to find</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426esp_local_ctrl_set_handlerPKc23protocomm_req_handler_tPv">
+<span id="_CPPv326esp_local_ctrl_set_handlerPKc23protocomm_req_handler_tPv"></span><span id="_CPPv226esp_local_ctrl_set_handlerPKc23protocomm_req_handler_tPv"></span><span id="esp_local_ctrl_set_handler__cCP.protocomm_req_handler_t.voidP"></span><span class="target" id="esp__local__ctrl_8h_1aabdbaff4a1b9d413c023d062f3af9006"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_local_ctrl_set_handler</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>ep_name</em>, <a class="reference internal" href="../provisioning/protocomm.html#_CPPv423protocomm_req_handler_t" title="protocomm_req_handler_t">protocomm_req_handler_t</a> <em>handler</em>, void *<em>user_ctx</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426esp_local_ctrl_set_handlerPKc23protocomm_req_handler_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Register protocomm handler for a custom endpoint. </p>
+<p>This API can be called by the application to register a protocomm handler for an endpoint after the local control service has started.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>In case of BLE transport the names and uuids of all custom endpoints must be provided beforehand as a part of the <code class="docutils literal notranslate"><span class="pre">protocomm_ble_config_t</span></code> structure set in <code class="docutils literal notranslate"><span class="pre">esp_local_ctrl_config_t</span></code>, and passed to <code class="docutils literal notranslate"><span class="pre">esp_local_ctrl_start()</span></code>.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_FAIL : Failure </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">ep_name</span></code>: Name of the endpoint </li>
+<li><code class="docutils literal notranslate"><span class="pre">handler</span></code>: Endpoint handler function </li>
+<li><code class="docutils literal notranslate"><span class="pre">user_ctx</span></code>: User data</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="unions">
+<h3>Unions<a class="headerlink" href="#unions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv433esp_local_ctrl_transport_config_t">
+<span id="_CPPv333esp_local_ctrl_transport_config_t"></span><span id="_CPPv233esp_local_ctrl_transport_config_t"></span><span id="esp_local_ctrl_transport_config_t"></span><span class="target" id="unionesp__local__ctrl__transport__config__t"></span><em class="property">union </em><code class="descname">esp_local_ctrl_transport_config_t</code><a class="headerlink" href="#_CPPv433esp_local_ctrl_transport_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_local_ctrl.h&gt;</em><p>Transport mode (BLE / HTTPD) configuration. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N33esp_local_ctrl_transport_config_t3bleE">
+<span id="_CPPv3N33esp_local_ctrl_transport_config_t3bleE"></span><span id="_CPPv2N33esp_local_ctrl_transport_config_t3bleE"></span><span id="esp_local_ctrl_transport_config_t::ble__esp_local_ctrl_transport_config_ble_tP"></span><span class="target" id="unionesp__local__ctrl__transport__config__t_1aa508d02943cd941d7636ebe922d14a29"></span><a class="reference internal" href="#_CPPv437esp_local_ctrl_transport_config_ble_t" title="esp_local_ctrl_transport_config_ble_t">esp_local_ctrl_transport_config_ble_t</a> *<code class="descname">ble</code><a class="headerlink" href="#_CPPv4N33esp_local_ctrl_transport_config_t3bleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This is same as <code class="docutils literal notranslate"><span class="pre">protocomm_ble_config_t</span></code>. See <code class="docutils literal notranslate"><span class="pre">protocomm_ble.h</span></code> for available configuration parameters. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N33esp_local_ctrl_transport_config_t5httpdE">
+<span id="_CPPv3N33esp_local_ctrl_transport_config_t5httpdE"></span><span id="_CPPv2N33esp_local_ctrl_transport_config_t5httpdE"></span><span id="esp_local_ctrl_transport_config_t::httpd__esp_local_ctrl_transport_config_httpd_tP"></span><span class="target" id="unionesp__local__ctrl__transport__config__t_1a05be86115e24344d5863765d1b3846bb"></span><a class="reference internal" href="#_CPPv439esp_local_ctrl_transport_config_httpd_t" title="esp_local_ctrl_transport_config_httpd_t">esp_local_ctrl_transport_config_httpd_t</a> *<code class="descname">httpd</code><a class="headerlink" href="#_CPPv4N33esp_local_ctrl_transport_config_t5httpdE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This is same as <code class="docutils literal notranslate"><span class="pre">httpd_ssl_config_t</span></code>. See <code class="docutils literal notranslate"><span class="pre">esp_https_server.h</span></code> for available configuration parameters. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv419esp_local_ctrl_prop">
+<span id="_CPPv319esp_local_ctrl_prop"></span><span id="_CPPv219esp_local_ctrl_prop"></span><span id="esp_local_ctrl_prop"></span><span class="target" id="structesp__local__ctrl__prop"></span><em class="property">struct </em><code class="descname">esp_local_ctrl_prop</code><a class="headerlink" href="#_CPPv419esp_local_ctrl_prop" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Property description data structure, which is to be populated and passed to the <code class="docutils literal notranslate"><span class="pre">esp_local_ctrl_add_property()</span></code> function. </p>
+<p>Once a property is added, its structure is available for read-only access inside <code class="docutils literal notranslate"><span class="pre">get_prop_values()</span></code> and <code class="docutils literal notranslate"><span class="pre">set_prop_values()</span></code> handlers. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N19esp_local_ctrl_prop4nameE">
+<span id="_CPPv3N19esp_local_ctrl_prop4nameE"></span><span id="_CPPv2N19esp_local_ctrl_prop4nameE"></span><span id="esp_local_ctrl_prop::name__cP"></span><span class="target" id="structesp__local__ctrl__prop_1a593afc83ba4dd13f140af5665fd51a71"></span>char *<code class="descname">name</code><a class="headerlink" href="#_CPPv4N19esp_local_ctrl_prop4nameE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Unique name of property </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19esp_local_ctrl_prop4typeE">
+<span id="_CPPv3N19esp_local_ctrl_prop4typeE"></span><span id="_CPPv2N19esp_local_ctrl_prop4typeE"></span><span id="esp_local_ctrl_prop::type__uint32_t"></span><span class="target" id="structesp__local__ctrl__prop_1af45189667e728b8df77f849dc775b9c7"></span>uint32_t <code class="descname">type</code><a class="headerlink" href="#_CPPv4N19esp_local_ctrl_prop4typeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Type of property. This may be set to application defined enums </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19esp_local_ctrl_prop4sizeE">
+<span id="_CPPv3N19esp_local_ctrl_prop4sizeE"></span><span id="_CPPv2N19esp_local_ctrl_prop4sizeE"></span><span id="esp_local_ctrl_prop::size__s"></span><span class="target" id="structesp__local__ctrl__prop_1a3b0123caa857f8ec723d76e7944e9387"></span>size_t <code class="descname">size</code><a class="headerlink" href="#_CPPv4N19esp_local_ctrl_prop4sizeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Size of the property value, which:<ul class="simple">
+<li>if zero, the property can have values of variable size</li>
+<li>if non-zero, the property can have values of fixed size only, therefore, checks are performed internally by esp_local_ctrl when setting the value of such a property </li>
+</ul>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19esp_local_ctrl_prop5flagsE">
+<span id="_CPPv3N19esp_local_ctrl_prop5flagsE"></span><span id="_CPPv2N19esp_local_ctrl_prop5flagsE"></span><span id="esp_local_ctrl_prop::flags__uint32_t"></span><span class="target" id="structesp__local__ctrl__prop_1af6c3aea6879d49219bd1cf7c25342ff7"></span>uint32_t <code class="descname">flags</code><a class="headerlink" href="#_CPPv4N19esp_local_ctrl_prop5flagsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Flags set for this property. This could be a bit field. A flag may indicate property behavior, e.g. read-only / constant </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19esp_local_ctrl_prop3ctxE">
+<span id="_CPPv3N19esp_local_ctrl_prop3ctxE"></span><span id="_CPPv2N19esp_local_ctrl_prop3ctxE"></span><span id="esp_local_ctrl_prop::ctx__voidP"></span><span class="target" id="structesp__local__ctrl__prop_1a10871b43e8135e1f7ca2a4f8b18f938e"></span>void *<code class="descname">ctx</code><a class="headerlink" href="#_CPPv4N19esp_local_ctrl_prop3ctxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Pointer to some context data relevant for this property. This will be available for use inside the <code class="docutils literal notranslate"><span class="pre">get_prop_values</span></code> and <code class="docutils literal notranslate"><span class="pre">set_prop_values</span></code> handlers as a part of this property structure. When set, this is valid throughout the lifetime of a property, till either the property is removed or the esp_local_ctrl service is stopped. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19esp_local_ctrl_prop11ctx_free_fnE">
+<span id="_CPPv3N19esp_local_ctrl_prop11ctx_free_fnE"></span><span id="_CPPv2N19esp_local_ctrl_prop11ctx_free_fnE"></span><span class="target" id="structesp__local__ctrl__prop_1abed1f47eb8b3e5cfd600dc1ec903364f"></span>void (*<code class="descname">ctx_free_fn</code>)<span class="sig-paren">(</span>void *ctx<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N19esp_local_ctrl_prop11ctx_free_fnE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function used by esp_local_ctrl to internally free the property context when <code class="docutils literal notranslate"><span class="pre">esp_local_ctrl_remove_property()</span></code> or <code class="docutils literal notranslate"><span class="pre">esp_local_ctrl_stop()</span></code> is called. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv423esp_local_ctrl_prop_val">
+<span id="_CPPv323esp_local_ctrl_prop_val"></span><span id="_CPPv223esp_local_ctrl_prop_val"></span><span id="esp_local_ctrl_prop_val"></span><span class="target" id="structesp__local__ctrl__prop__val"></span><em class="property">struct </em><code class="descname">esp_local_ctrl_prop_val</code><a class="headerlink" href="#_CPPv423esp_local_ctrl_prop_val" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Property value data structure. This gets passed to the <code class="docutils literal notranslate"><span class="pre">get_prop_values()</span></code> and <code class="docutils literal notranslate"><span class="pre">set_prop_values()</span></code> handlers for the purpose of retrieving or setting the present value of a property. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N23esp_local_ctrl_prop_val4dataE">
+<span id="_CPPv3N23esp_local_ctrl_prop_val4dataE"></span><span id="_CPPv2N23esp_local_ctrl_prop_val4dataE"></span><span id="esp_local_ctrl_prop_val::data__voidP"></span><span class="target" id="structesp__local__ctrl__prop__val_1a9973594582305bdaff3f6f4821eaf2e2"></span>void *<code class="descname">data</code><a class="headerlink" href="#_CPPv4N23esp_local_ctrl_prop_val4dataE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Pointer to memory holding property value </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N23esp_local_ctrl_prop_val4sizeE">
+<span id="_CPPv3N23esp_local_ctrl_prop_val4sizeE"></span><span id="_CPPv2N23esp_local_ctrl_prop_val4sizeE"></span><span id="esp_local_ctrl_prop_val::size__s"></span><span class="target" id="structesp__local__ctrl__prop__val_1a33fcac26a78881ae41d29cef5af10660"></span>size_t <code class="descname">size</code><a class="headerlink" href="#_CPPv4N23esp_local_ctrl_prop_val4sizeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Size of property value </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N23esp_local_ctrl_prop_val7free_fnE">
+<span id="_CPPv3N23esp_local_ctrl_prop_val7free_fnE"></span><span id="_CPPv2N23esp_local_ctrl_prop_val7free_fnE"></span><span class="target" id="structesp__local__ctrl__prop__val_1a7012e59a9ff5763f7f64c64efccf94df"></span>void (*<code class="descname">free_fn</code>)<span class="sig-paren">(</span>void *data<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N23esp_local_ctrl_prop_val7free_fnE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This may be set by the application in <code class="docutils literal notranslate"><span class="pre">get_prop_values()</span></code> handler to tell <code class="docutils literal notranslate"><span class="pre">esp_local_ctrl</span></code> to call this function on the data pointer above, for freeing its resources after sending the <code class="docutils literal notranslate"><span class="pre">get_prop_values</span></code> response. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv423esp_local_ctrl_handlers">
+<span id="_CPPv323esp_local_ctrl_handlers"></span><span id="_CPPv223esp_local_ctrl_handlers"></span><span id="esp_local_ctrl_handlers"></span><span class="target" id="structesp__local__ctrl__handlers"></span><em class="property">struct </em><code class="descname">esp_local_ctrl_handlers</code><a class="headerlink" href="#_CPPv423esp_local_ctrl_handlers" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Handlers for receiving and responding to local control commands for getting and setting properties. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N23esp_local_ctrl_handlers15get_prop_valuesE">
+<span id="_CPPv3N23esp_local_ctrl_handlers15get_prop_valuesE"></span><span id="_CPPv2N23esp_local_ctrl_handlers15get_prop_valuesE"></span><span class="target" id="structesp__local__ctrl__handlers_1a29b439f71a094968b63aa1edaa96ba67"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">get_prop_values</code>)<span class="sig-paren">(</span>size_t props_count, <em class="property">const</em> <a class="reference internal" href="#_CPPv421esp_local_ctrl_prop_t" title="esp_local_ctrl_prop_t">esp_local_ctrl_prop_t</a> props[], <a class="reference internal" href="#_CPPv425esp_local_ctrl_prop_val_t" title="esp_local_ctrl_prop_val_t">esp_local_ctrl_prop_val_t</a> prop_values[], void *usr_ctx<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N23esp_local_ctrl_handlers15get_prop_valuesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Handler function to be implemented for retrieving current values of properties. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>If any of the properties have fixed sizes, the size field of corresponding element in <code class="docutils literal notranslate"><span class="pre">prop_values</span></code> need to be set</dd>
+<dt><strong>Return</strong></dt>
+<dd>Returning different error codes will convey the corresponding protocol level errors to the client :<ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_ERR_INVALID_ARG : InvalidArgument</li>
+<li>ESP_ERR_INVALID_STATE : InvalidProto</li>
+<li>All other error codes : InternalError </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">props_count</span></code>: Total elements in the props array </li>
+<li><code class="docutils literal notranslate"><span class="pre">props</span></code>: Array of properties, the current values for which have been requested by the client </li>
+<li><code class="docutils literal notranslate"><span class="pre">prop_values</span></code>: Array of empty property values, the elements of which need to be populated with the current values of those properties specified by props argument </li>
+<li><code class="docutils literal notranslate"><span class="pre">usr_ctx</span></code>: This provides value of the <code class="docutils literal notranslate"><span class="pre">usr_ctx</span></code> field of <code class="docutils literal notranslate"><span class="pre">esp_local_ctrl_handlers_t</span></code> structure</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N23esp_local_ctrl_handlers15set_prop_valuesE">
+<span id="_CPPv3N23esp_local_ctrl_handlers15set_prop_valuesE"></span><span id="_CPPv2N23esp_local_ctrl_handlers15set_prop_valuesE"></span><span class="target" id="structesp__local__ctrl__handlers_1ad9335213ca09b50fcbaf442f937b2604"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">set_prop_values</code>)<span class="sig-paren">(</span>size_t props_count, <em class="property">const</em> <a class="reference internal" href="#_CPPv421esp_local_ctrl_prop_t" title="esp_local_ctrl_prop_t">esp_local_ctrl_prop_t</a> props[], <em class="property">const</em> <a class="reference internal" href="#_CPPv425esp_local_ctrl_prop_val_t" title="esp_local_ctrl_prop_val_t">esp_local_ctrl_prop_val_t</a> prop_values[], void *usr_ctx<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N23esp_local_ctrl_handlers15set_prop_valuesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Handler function to be implemented for changing values of properties. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>If any of the properties have variable sizes, the size field of the corresponding element in <code class="docutils literal notranslate"><span class="pre">prop_values</span></code> must be checked explicitly before making any assumptions on the size.</dd>
+<dt><strong>Return</strong></dt>
+<dd>Returning different error codes will convey the corresponding protocol level errors to the client :<ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_ERR_INVALID_ARG : InvalidArgument</li>
+<li>ESP_ERR_INVALID_STATE : InvalidProto</li>
+<li>All other error codes : InternalError </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">props_count</span></code>: Total elements in the props array </li>
+<li><code class="docutils literal notranslate"><span class="pre">props</span></code>: Array of properties, the values for which the client requests to change </li>
+<li><code class="docutils literal notranslate"><span class="pre">prop_values</span></code>: Array of property values, the elements of which need to be used for updating those properties specified by props argument </li>
+<li><code class="docutils literal notranslate"><span class="pre">usr_ctx</span></code>: This provides value of the <code class="docutils literal notranslate"><span class="pre">usr_ctx</span></code> field of <code class="docutils literal notranslate"><span class="pre">esp_local_ctrl_handlers_t</span></code> structure</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N23esp_local_ctrl_handlers7usr_ctxE">
+<span id="_CPPv3N23esp_local_ctrl_handlers7usr_ctxE"></span><span id="_CPPv2N23esp_local_ctrl_handlers7usr_ctxE"></span><span id="esp_local_ctrl_handlers::usr_ctx__voidP"></span><span class="target" id="structesp__local__ctrl__handlers_1a24f9e599a02f0428f39ddb90c69df805"></span>void *<code class="descname">usr_ctx</code><a class="headerlink" href="#_CPPv4N23esp_local_ctrl_handlers7usr_ctxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Context pointer to be passed to above handler functions upon invocation. This is different from the property level context, as this is valid throughout the lifetime of the <code class="docutils literal notranslate"><span class="pre">esp_local_ctrl</span></code> service, and freed only when the service is stopped. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N23esp_local_ctrl_handlers15usr_ctx_free_fnE">
+<span id="_CPPv3N23esp_local_ctrl_handlers15usr_ctx_free_fnE"></span><span id="_CPPv2N23esp_local_ctrl_handlers15usr_ctx_free_fnE"></span><span class="target" id="structesp__local__ctrl__handlers_1aa4fed470f66cd5e17e6c3f3654c5ddb3"></span>void (*<code class="descname">usr_ctx_free_fn</code>)<span class="sig-paren">(</span>void *usr_ctx<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N23esp_local_ctrl_handlers15usr_ctx_free_fnE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Pointer to function which will be internally invoked on <code class="docutils literal notranslate"><span class="pre">usr_ctx</span></code> for freeing the context resources when <code class="docutils literal notranslate"><span class="pre">esp_local_ctrl_stop()</span></code> is called. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv421esp_local_ctrl_config">
+<span id="_CPPv321esp_local_ctrl_config"></span><span id="_CPPv221esp_local_ctrl_config"></span><span id="esp_local_ctrl_config"></span><span class="target" id="structesp__local__ctrl__config"></span><em class="property">struct </em><code class="descname">esp_local_ctrl_config</code><a class="headerlink" href="#_CPPv421esp_local_ctrl_config" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Configuration structure to pass to <code class="docutils literal notranslate"><span class="pre">esp_local_ctrl_start()</span></code> </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N21esp_local_ctrl_config9transportE">
+<span id="_CPPv3N21esp_local_ctrl_config9transportE"></span><span id="_CPPv2N21esp_local_ctrl_config9transportE"></span><span id="esp_local_ctrl_config::transport__esp_local_ctrl_transport_tCP"></span><span class="target" id="structesp__local__ctrl__config_1ac867e91fd18e1dc13e30ef10fabeadb0"></span><em class="property">const</em> <a class="reference internal" href="#_CPPv426esp_local_ctrl_transport_t" title="esp_local_ctrl_transport_t">esp_local_ctrl_transport_t</a> *<code class="descname">transport</code><a class="headerlink" href="#_CPPv4N21esp_local_ctrl_config9transportE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Transport layer over which service will be provided </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21esp_local_ctrl_config16transport_configE">
+<span id="_CPPv3N21esp_local_ctrl_config16transport_configE"></span><span id="_CPPv2N21esp_local_ctrl_config16transport_configE"></span><span id="esp_local_ctrl_config::transport_config__esp_local_ctrl_transport_config_t"></span><span class="target" id="structesp__local__ctrl__config_1ae470cbf58995a5ffdf0c8fb84a7d0b97"></span><a class="reference internal" href="#_CPPv433esp_local_ctrl_transport_config_t" title="esp_local_ctrl_transport_config_t">esp_local_ctrl_transport_config_t</a> <code class="descname">transport_config</code><a class="headerlink" href="#_CPPv4N21esp_local_ctrl_config16transport_configE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Transport layer over which service will be provided </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21esp_local_ctrl_config8handlersE">
+<span id="_CPPv3N21esp_local_ctrl_config8handlersE"></span><span id="_CPPv2N21esp_local_ctrl_config8handlersE"></span><span id="esp_local_ctrl_config::handlers__esp_local_ctrl_handlers_t"></span><span class="target" id="structesp__local__ctrl__config_1ae027e1a9e99bc953ad4d42c230f8310a"></span><a class="reference internal" href="#_CPPv425esp_local_ctrl_handlers_t" title="esp_local_ctrl_handlers_t">esp_local_ctrl_handlers_t</a> <code class="descname">handlers</code><a class="headerlink" href="#_CPPv4N21esp_local_ctrl_config8handlersE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Register handlers for responding to get/set requests on properties </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N21esp_local_ctrl_config14max_propertiesE">
+<span id="_CPPv3N21esp_local_ctrl_config14max_propertiesE"></span><span id="_CPPv2N21esp_local_ctrl_config14max_propertiesE"></span><span id="esp_local_ctrl_config::max_properties__s"></span><span class="target" id="structesp__local__ctrl__config_1acd2bbbf4a6094d79133b48ad3a8dee06"></span>size_t <code class="descname">max_properties</code><a class="headerlink" href="#_CPPv4N21esp_local_ctrl_config14max_propertiesE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This limits the number of properties that are available at a time </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.ESP_LOCAL_CTRL_TRANSPORT_BLE">
+<span class="target" id="esp__local__ctrl_8h_1ae616a8fee40d0ddbf1999d71de4183e1"></span><code class="descname">ESP_LOCAL_CTRL_TRANSPORT_BLE</code><a class="headerlink" href="#c.ESP_LOCAL_CTRL_TRANSPORT_BLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_LOCAL_CTRL_TRANSPORT_HTTPD">
+<span class="target" id="esp__local__ctrl_8h_1aae943479a3a093cd2072742dce703a02"></span><code class="descname">ESP_LOCAL_CTRL_TRANSPORT_HTTPD</code><a class="headerlink" href="#c.ESP_LOCAL_CTRL_TRANSPORT_HTTPD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv421esp_local_ctrl_prop_t">
+<span id="_CPPv321esp_local_ctrl_prop_t"></span><span id="_CPPv221esp_local_ctrl_prop_t"></span><span id="esp_local_ctrl_prop_t"></span><span class="target" id="esp__local__ctrl_8h_1afd01e6a63dcbee3a5c18e2e61bf5f34c"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv419esp_local_ctrl_prop" title="esp_local_ctrl_prop">esp_local_ctrl_prop</a> <code class="descname">esp_local_ctrl_prop_t</code><a class="headerlink" href="#_CPPv421esp_local_ctrl_prop_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Property description data structure, which is to be populated and passed to the <code class="docutils literal notranslate"><span class="pre">esp_local_ctrl_add_property()</span></code> function. </p>
+<p>Once a property is added, its structure is available for read-only access inside <code class="docutils literal notranslate"><span class="pre">get_prop_values()</span></code> and <code class="docutils literal notranslate"><span class="pre">set_prop_values()</span></code> handlers. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv425esp_local_ctrl_prop_val_t">
+<span id="_CPPv325esp_local_ctrl_prop_val_t"></span><span id="_CPPv225esp_local_ctrl_prop_val_t"></span><span id="esp_local_ctrl_prop_val_t"></span><span class="target" id="esp__local__ctrl_8h_1a5b4cc4ac93e606744e182405f7205ae4"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv423esp_local_ctrl_prop_val" title="esp_local_ctrl_prop_val">esp_local_ctrl_prop_val</a> <code class="descname">esp_local_ctrl_prop_val_t</code><a class="headerlink" href="#_CPPv425esp_local_ctrl_prop_val_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Property value data structure. This gets passed to the <code class="docutils literal notranslate"><span class="pre">get_prop_values()</span></code> and <code class="docutils literal notranslate"><span class="pre">set_prop_values()</span></code> handlers for the purpose of retrieving or setting the present value of a property. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv425esp_local_ctrl_handlers_t">
+<span id="_CPPv325esp_local_ctrl_handlers_t"></span><span id="_CPPv225esp_local_ctrl_handlers_t"></span><span id="esp_local_ctrl_handlers_t"></span><span class="target" id="esp__local__ctrl_8h_1a59910cc1189c15010c0af763c7cb4083"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv423esp_local_ctrl_handlers" title="esp_local_ctrl_handlers">esp_local_ctrl_handlers</a> <code class="descname">esp_local_ctrl_handlers_t</code><a class="headerlink" href="#_CPPv425esp_local_ctrl_handlers_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Handlers for receiving and responding to local control commands for getting and setting properties. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv426esp_local_ctrl_transport_t">
+<span id="_CPPv326esp_local_ctrl_transport_t"></span><span id="_CPPv226esp_local_ctrl_transport_t"></span><span id="esp_local_ctrl_transport_t"></span><span class="target" id="esp__local__ctrl_8h_1a4d8f60a6abee20e32ec59db390563329"></span><em class="property">typedef </em><em class="property">struct</em> esp_local_ctrl_transport <code class="descname">esp_local_ctrl_transport_t</code><a class="headerlink" href="#_CPPv426esp_local_ctrl_transport_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Transport mode (BLE / HTTPD) over which the service will be provided. </p>
+<p>This is forward declaration of a private structure, implemented internally by <code class="docutils literal notranslate"><span class="pre">esp_local_ctrl</span></code>. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv437esp_local_ctrl_transport_config_ble_t">
+<span id="_CPPv337esp_local_ctrl_transport_config_ble_t"></span><span id="_CPPv237esp_local_ctrl_transport_config_ble_t"></span><span id="esp_local_ctrl_transport_config_ble_t"></span><span class="target" id="esp__local__ctrl_8h_1a9f5467d013afbc9ac84b2d3bf524b727"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="../provisioning/protocomm.html#_CPPv420protocomm_ble_config" title="protocomm_ble_config">protocomm_ble_config</a> <code class="descname">esp_local_ctrl_transport_config_ble_t</code><a class="headerlink" href="#_CPPv437esp_local_ctrl_transport_config_ble_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Configuration for transport mode BLE. </p>
+<p>This is a forward declaration for <code class="docutils literal notranslate"><span class="pre">protocomm_ble_config_t</span></code>. To use this, application must set CONFIG_BT_BLUEDROID_ENABLED and include <code class="docutils literal notranslate"><span class="pre">protocomm_ble.h</span></code>. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv439esp_local_ctrl_transport_config_httpd_t">
+<span id="_CPPv339esp_local_ctrl_transport_config_httpd_t"></span><span id="_CPPv239esp_local_ctrl_transport_config_httpd_t"></span><span id="esp_local_ctrl_transport_config_httpd_t"></span><span class="target" id="esp__local__ctrl_8h_1af2b1d409e6217a1f196ffdc61c291dfe"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="esp_https_server.html#_CPPv416httpd_ssl_config" title="httpd_ssl_config">httpd_ssl_config</a> <code class="descname">esp_local_ctrl_transport_config_httpd_t</code><a class="headerlink" href="#_CPPv439esp_local_ctrl_transport_config_httpd_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Configuration for transport mode HTTPD. </p>
+<p>This is a forward declaration for <code class="docutils literal notranslate"><span class="pre">httpd_ssl_config_t</span></code>. To use this, application must set CONFIG_ESP_HTTPS_SERVER_ENABLE and include <code class="docutils literal notranslate"><span class="pre">esp_https_server.h</span></code> </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv423esp_local_ctrl_config_t">
+<span id="_CPPv323esp_local_ctrl_config_t"></span><span id="_CPPv223esp_local_ctrl_config_t"></span><span id="esp_local_ctrl_config_t"></span><span class="target" id="esp__local__ctrl_8h_1a05a4d618c666ae948620f9e1141855ce"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv421esp_local_ctrl_config" title="esp_local_ctrl_config">esp_local_ctrl_config</a> <code class="descname">esp_local_ctrl_config_t</code><a class="headerlink" href="#_CPPv423esp_local_ctrl_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Configuration structure to pass to <code class="docutils literal notranslate"><span class="pre">esp_local_ctrl_start()</span></code> </p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="mdns.html" class="btn btn-neutral float-right" title="mDNS Service" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="icmp_echo.html" class="btn btn-neutral float-left" title="ICMP Echo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/protocols/esp_local_ctrl.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:27 GMT -->
+</html>

@@ -1,0 +1,615 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from esp32.vn/idf/hello-world.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:15:59 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Lập trình &#34;Hello World&#34; với ESP32 IDF &mdash; Tài liệu ESP32 1.0</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Tìm Kiếm" href="../search.html"/>
+    <link rel="top" title="Tài liệu ESP32 1.0" href="../index-2.html"/>
+        <link rel="up" title="ESP32 IDF" href="index.html"/>
+        <link rel="next" title="Lập trình chớp tắt LED với ESP32 bằng ESP-IDF" href="blink-idf.html"/>
+        <link rel="prev" title="Cài đặt" href="install.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> ESP32
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://esp32.vn/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Phần cứng</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">Phần cứng</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../hardware/board.html">Board ESP32vn IoT Uno</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hardware/connection.html">Kết nối máy tính</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../hardware/connection.html#ket-noi-phan-cung">Kết nối phần cứng</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hardware/connection.html#cai-dat-usb-driver">Cài đặt USB Driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hardware/connection.html#cau-hinh-ket-noi">Cấu hình kết nối</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">ESP32 Arduino</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arduino/index.html">Arduino cơ bản</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../arduino/install.html">Cài đặt Arduino IDE</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/install.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/install.html#huong-dan">Hướng dẫn</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../arduino/library.html">Cài đặt thư viện</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../arduino/blink.html">Blink</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#gioi-thieu">Giới thiệu.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#chuan-bi">Chuẩn bị.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#ket-noi">Kết nối.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#chuong-trinh">Chương trình.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#nap-chuong-trinh">Nạp chương trình.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#ket-luan">Kết luận.</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../arduino/i2c_oled.html">I2C/OLED</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/i2c_oled.html#oled-la-gi">OLED là gì?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/i2c_oled.html#i2c">I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/i2c_oled.html#demo">Demo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">ESP32 IDF</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">ESP-IDF cơ bản</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="install.html">Cài đặt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="install.html#cai-dat-toolchain">Cài đặt Toolchain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#tai-esp-idf">Tải ESP-IDF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#add-idf-path">ADD IDF_PATH</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Hello World</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#gioi-thieu">Giới thiệu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#demo">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blink-idf.html">Blink</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#gioi-thieu">Giới thiệu.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#chuan-bi">Chuẩn bị.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#ket-noi">Kết nối.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#demo">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="button.html">Nút nhấn</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="button.html#gioi-thieu">Giới thiệu.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#chuan-bi">Chuẩn bị.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#ket-noi">Kết nối.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#demo">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="adc.html">ADC</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="adc.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adc.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adc.html#vi-du">Ví dụ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adc.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dac.html">DAC</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dac.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html#vi-du-minh-hoa">Ví dụ minh họa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="spi_master.html">SPI master</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html#application-example">Application Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html#api-reference-spi-common">API Reference - SPI Common</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html#api-reference-spi-master">API Reference - SPI Master</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="spi_slave.html">SPI slave</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html#application-example">Application Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="i2s.html">I2S</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html#tong-quan">TỔNG QUAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html#vi-du">Ví dụ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="i2c.html">I2C</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html#vi-du-minh-hoa">Ví dụ minh họa:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html">GPIO &amp; RTC GPIO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html#tong-quan">Tổng Quan</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html#vi-du-minh-hoa">Ví dụ minh họa:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html#application-example">Application Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html#api-reference-normal-gpio">API Reference - Normal GPIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html#api-reference-rtc-gpio">API Reference - RTC GPIO</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html#luu-y">Lưu ý</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RMT.html">Remote Control</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#vi-du-minh-hoa">Ví dụ minh họa:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="touch_pad.html">Touch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#gioi-thieu">Giới thiệu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wifi.html">Wifi</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#vi-du">Ví dụ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#api-reference">API Reference</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sdcard.html">Thẻ nhớ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sdcard.html#bien-dich-du-an-mau">Biên dịch dự án mẫu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sdcard.html#code">Code</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Hướng dẫn đóng góp</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#cai-dat-cong-cu-can-thiet">Cài đặt công cụ cần thiết</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#viet-bai">Viết bài</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#mot-so-luu-y-khac">Một số lưu ý khác</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#danh-sach-cac-thanh-vien-da-dong-gop">Danh sách các thành viên đã đóng góp</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index-2.html">ESP32</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">ESP32 IDF</a> &raquo;</li>
+        
+      <li>Lập trình &quot;Hello World&quot; với ESP32 IDF</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/idf/hello-world.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="lap-trinh-hello-world-voi-esp32-idf">
+<h1>Lập trình &quot;Hello World&quot; với ESP32 IDF<a class="headerlink" href="#lap-trinh-hello-world-voi-esp32-idf" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="gioi-thieu">
+<h2>Giới thiệu<a class="headerlink" href="#gioi-thieu" title="Permalink to this headline">¶</a></h2>
+<p>Espressif Internet Development Framework (ESP-IDF) sử dụng FreeRTOS để tận dụng tốt hơn hai bộ xử lý tốc độ cao và quản lý nhiều thiết bị ngoại vi được cài sẵn. Nó được thực hiện bằng cách tạo các tác vụ. Hãy bắt đầu bằng chương trình &quot;Hello world&quot; để hiểu rõ hơn.</p>
+<p>Chương trình Hello world sau mỗi 10 giây in ra một chuỗi &quot;Hello world&quot; và hiển thị trên terminal máy tính xuất từ cổng UART của ESP32.</p>
+</div>
+<div class="section" id="demo">
+<h2>Demo<a class="headerlink" href="#demo" title="Permalink to this headline">¶</a></h2>
+<iframe width="640" height="360" src="http://www.youtube.com/embed/SxPDVPu8tug?feature=player_detailpage" frameborder="0" allowfullscreen="1">&nbsp;</iframe></div>
+<div class="section" id="chuan-bi">
+<h2>Chuẩn bị<a class="headerlink" href="#chuan-bi" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Phần cứng</strong></th>
+<th class="head"><strong>Link</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Board ESP32-Wifi-Uno</td>
+<td><a class="reference external" href="https://github.com/esp32vn/esp32-iot-uno">https://github.com/esp32vn/esp32-iot-uno</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="huong-dan">
+<h2>Hướng dẫn<a class="headerlink" href="#huong-dan" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="tai-du-an-mau">
+<h3>Tải dự án mẫu:<a class="headerlink" href="#tai-du-an-mau" title="Permalink to this headline">¶</a></h3>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">espressif</span><span class="o">/</span><span class="n">esp</span><span class="o">-</span><span class="n">idf</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="include-thu-vien">
+<h3>Include thư viện<a class="headerlink" href="#include-thu-vien" title="Permalink to this headline">¶</a></h3>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="c1">#include &lt;stdio.h&gt;</span>
+<span class="c1">#include &quot;freertos/FreeRTOS.h&quot;</span>
+<span class="c1">#include &quot;freertos/task.h&quot;</span>
+<span class="c1">#include &quot;esp_system.h&quot;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">stdio.h</span></code>: Cung cấp cốt lõi của những khả năng nhập trong C. Tập tin này bao gồm họ hàm printf.</li>
+<li><code class="docutils literal"><span class="pre">freertos/FreeRTOS.h</span></code>: Thư viện này bao gồm các thiết lập cấu hình yêu cầu để chạy freeRTOS trên ESP32.</li>
+<li><code class="docutils literal"><span class="pre">freertos/task.h</span></code>: Cung cấp chức năng đa nhiệm. (Chúng tôi sẽ làm đa nhiệm ở các ví dụ sau)</li>
+<li><code class="docutils literal"><span class="pre">esp_system.h</span></code>: Bao gồm cấu hình các thiết bị ngoại vi trong hệ thống ESP. Chức năng của nó như là hệ thống khởi tạo.</li>
+</ul>
+<p>Một dự án trông như thế này:</p>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="n">myProject</span><span class="o">/</span>
+                 <span class="o">-</span> <span class="n">Makefile</span>
+                 <span class="o">-</span> <span class="n">sdkconfig</span>
+                 <span class="o">-</span> <span class="n">components</span><span class="o">/</span> <span class="o">-</span> <span class="n">component1</span><span class="o">/</span> <span class="o">-</span> <span class="n">component</span><span class="o">.</span><span class="n">mk</span>
+                                             <span class="o">-</span> <span class="n">Kconfig</span>
+                                             <span class="o">-</span> <span class="n">src1</span><span class="o">.</span><span class="n">c</span>
+                               <span class="o">-</span> <span class="n">component2</span><span class="o">/</span> <span class="o">-</span> <span class="n">component</span><span class="o">.</span><span class="n">mk</span>
+                                             <span class="o">-</span> <span class="n">Kconfig</span>
+                                             <span class="o">-</span> <span class="n">src1</span><span class="o">.</span><span class="n">c</span>
+                                             <span class="o">-</span> <span class="n">include</span><span class="o">/</span> <span class="o">-</span> <span class="n">component2</span><span class="o">.</span><span class="n">h</span>
+                 <span class="o">-</span> <span class="n">main</span><span class="o">/</span>       <span class="o">-</span> <span class="n">src1</span><span class="o">.</span><span class="n">c</span>
+                               <span class="o">-</span> <span class="n">src2</span><span class="o">.</span><span class="n">c</span>
+                               <span class="o">-</span> <span class="n">component</span><span class="o">.</span><span class="n">mk</span>
+
+                 <span class="o">-</span> <span class="n">build</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>Ví dụ &quot;myProject&quot; chứa các yếu tố sau:</p>
+<ul class="simple">
+<li>Một Makefile dự án cấp cao nhất. Makefile này thiết lập biến PROJECT_NAME và (tùy ý) xác định các biến tạo khác trên toàn dự án. Nó bao gồm cốt lõi $(IDF_PATH)/make/project.mk makefile mà thực hiện phần còn lại của hệ thống xây dựng ESP-IDF.</li>
+<li>&quot;Sdkconfig&quot; tập tin cấu hình dự án. Tập tin này được tạo ra / cập nhật khi &quot;make menuconfig&quot; chạy, và giữ cấu hình cho tất cả các thành phần trong dự án (bao gồm esp-idf). Tập tin &quot;sdkconfig&quot; có thể hoặc không thể được thêm vào hệ thống kiểm soát nguồn của dự án.</li>
+<li>Tùy chọn &quot;components&quot; thư mục chứa các thành phần là một phần của dự án. Một dự án không phải chứa các thành phần tùy chỉnh của loại này, nhưng có thể hữu ích cho việc cấu trúc mã tái sử dụng hoặc bao gồm các thành phần bên thứ ba không thuộc ESP-IDF.</li>
+<li>&quot;Main&quot; thư mục là một đặc biệt &quot;pseudo-component&quot; có chứa mã nguồn cho dự án chính nó. &quot;Main&quot; là một tên mặc định, biến SRCDIRS Makefile mặc định này nhưng có thể được đặt để tìm các thành phần giả trong các thư mục khác.</li>
+<li>&quot;build&quot; thư mục là nơi sản xuất xây dựng được tạo ra. Sau khi chạy quá trình make, thư mục này sẽ chứa các tệp đối tượng tạm thời và các thư viện cũng như tệp tin đầu ra nhị phân cuối cùng. Thư mục này thường không được thêm vào kiểm soát nguồn hoặc phân phối với mã nguồn dự án.</li>
+</ul>
+</div>
+<div class="section" id="huong-dan-sua-va-tao-make-file">
+<h3>Hướng dẫn sửa và tạo make file:<a class="headerlink" href="#huong-dan-sua-va-tao-make-file" title="Permalink to this headline">¶</a></h3>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>PROJECT_NAME := myProject
+include $(IDF_PATH)/make/project.mk
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">PROJECT_NAME</span> <span class="pre">:=</span> <span class="pre">myProject</span></code> : Tạo ra một mã nhị phân với tên này tức là - myProject.bin, myProject.elf.</li>
+</ul>
+</div>
+<div class="section" id="huong-dan-config-nap-va-debug-chuong-trinh">
+<h3>Hướng dẫn config, nạp và debug chương trình:<a class="headerlink" href="#huong-dan-config-nap-va-debug-chuong-trinh" title="Permalink to this headline">¶</a></h3>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~/</span><span class="n">esp</span><span class="o">-</span><span class="n">idf</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">get</span><span class="o">-</span><span class="n">started</span><span class="o">/</span><span class="n">hello_world</span>
+<span class="n">make</span> <span class="n">menuconfig</span>
+<span class="n">make</span> <span class="n">flash</span>
+<span class="n">make</span> <span class="n">moniter</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">make</span> <span class="pre">menuconfig</span></code>: Câu lệnh này sẽ hiển hiện ra một menu để cấu hình ESP32 như: Lựa chọn com port, lựa chọn tốc độ baud rate, ...</li>
+<li><code class="docutils literal"><span class="pre">make</span> <span class="pre">flash</span></code>: Câu lệnh này biên dịch và đổ chương trình xuống esp32</li>
+<li><code class="docutils literal"><span class="pre">make</span> <span class="pre">monitor</span></code>: Câu lệnh này cho phép nạp và debug chương trình</li>
+<li><code class="docutils literal"><span class="pre">make</span> <span class="pre">simple_monitor</span></code>: Câu lệnh này cho phép debug chương trình</li>
+<li><code class="docutils literal"><span class="pre">make</span> <span class="pre">help</span></code>: Còn nhiều lệnh khác xem trong đây.</li>
+</ul>
+</div>
+<div class="section" id="ham-app-main">
+<h3>Hàm app_main()<a class="headerlink" href="#ham-app-main" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">app_main()</span></code> được thực thi sau khi hoàn tất quá trình khởi động chip ESP32.</p>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">app_main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">xTaskCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">hello_task</span><span class="p">,</span> <span class="s2">&quot;hello_task&quot;</span><span class="p">,</span> <span class="mi">2048</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">NULL</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">xTaskCreate()</span></code> để khởi tạo Task, Khi gọi hàm này thì Task mới thực sự được tạo ra.</p>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">xTaskCreate</span><span class="p">(</span><span class="n">TaskFunction_t</span> <span class="n">pxTaskCode</span><span class="p">,</span> <span class="n">const</span> <span class="n">char</span> <span class="o">*</span> <span class="n">pcName</span><span class="p">,</span> <span class="n">const</span> <span class="n">uint16_t</span> <span class="n">usStackDepth</span><span class="p">,</span> <span class="n">void</span> <span class="o">*</span><span class="n">pvParameters</span><span class="p">,</span> <span class="n">UBaseType_t</span> <span class="n">uxPriority</span><span class="p">,</span> <span class="n">TaskHandle_t</span> <span class="o">*</span><span class="n">pxCreatedTask</span><span class="p">);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">pvTaskCode</span></code>: con trỏ tới hàm task.</li>
+<li><code class="docutils literal"><span class="pre">pcName</span></code>: là tên đặt cho task.</li>
+<li><code class="docutils literal"><span class="pre">usStackDepth</span></code>: Bộ nhớ stack sẽ được cấp phát cho task, phụ thuộc vào bộ nhớ biến cục bộ định nghĩa trong task và số lần gọi hàm.</li>
+<li><code class="docutils literal"><span class="pre">pvParameters</span></code>: Context đưa vào argument của task.</li>
+<li><code class="docutils literal"><span class="pre">uxPriority</span></code>: giá trị ưu tiên của Task.</li>
+<li><code class="docutils literal"><span class="pre">pxCreatedTask</span></code>: Reference để điều khiển task.</li>
+</ul>
+<p>Ngoài ra chúng ta cũng có thể sử dụng hàm này:</p>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">xTaskCreatePinnedToCore</span><span class="p">(</span><span class="n">TaskFunction_t</span> <span class="n">pxTaskCode</span><span class="p">,</span> <span class="n">const</span> <span class="n">char</span> <span class="o">*</span> <span class="n">pcName</span><span class="p">,</span> <span class="n">const</span> <span class="n">uint16_t</span> <span class="n">usStackDepth</span><span class="p">,</span> <span class="n">void</span> <span class="o">*</span><span class="n">pvParameters</span><span class="p">,</span> <span class="n">UBaseType_t</span> <span class="n">uxPriority</span><span class="p">,</span> <span class="n">TaskHandle_t</span> <span class="o">*</span><span class="n">pxCreatedTask</span><span class="p">,</span> <span class="n">const</span> <span class="n">BasType_t</span> <span class="n">xCoreID</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Hàm <code class="docutils literal"><span class="pre">xTaskCreatePinnedToCore()</span></code> hoạt động giống như xTaskCreate() nhưng có thêm một đối số xCoreID cho phép lựa chọn core vì ESP32 có 2 core.</p>
+<p>Ví dụ: Khởi tạo task hoạt động ở core 0</p>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">app_main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">xTaskCreatePinnedToCore</span><span class="p">(</span><span class="o">&amp;</span><span class="n">hello_task</span><span class="p">,</span> <span class="s2">&quot;hello_task&quot;</span><span class="p">,</span> <span class="mi">2048</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tac-vu">
+<h3>Tác vụ<a class="headerlink" href="#tac-vu" title="Permalink to this headline">¶</a></h3>
+<p>Các chức năng được gọi là từ nhiệm vụ tạo ra ở trên là một chức năng đơn giản như hình dưới đây. Nó chỉ đơn giản là in chuỗi để UART. Dòng in được cấu hình để UART0 ESP32.</p>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">hello_task</span><span class="p">(</span><span class="n">void</span> <span class="o">*</span><span class="n">pvParameter</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;Hello world!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;Restarting in </span><span class="si">%d</span><span class="s2"> seconds...</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+        <span class="n">vTaskDelay</span><span class="p">(</span><span class="mi">1000</span> <span class="o">/</span> <span class="n">portTICK_RATE_MS</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;Restarting now.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+    <span class="n">esp_restart</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="lap-trinh">
+<h2>Lập trình<a class="headerlink" href="#lap-trinh" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>Bây giờ, bạn có thể xem code hoàn chỉnh.</div></blockquote>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="o">/*</span> <span class="n">Hello</span> <span class="n">World</span> <span class="n">Example</span>
+
+   <span class="n">This</span> <span class="n">example</span> <span class="n">code</span> <span class="ow">is</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">Public</span> <span class="n">Domain</span> <span class="p">(</span><span class="ow">or</span> <span class="n">CC0</span> <span class="n">licensed</span><span class="p">,</span> <span class="n">at</span> <span class="n">your</span> <span class="n">option</span><span class="o">.</span><span class="p">)</span>
+
+   <span class="n">Unless</span> <span class="n">required</span> <span class="n">by</span> <span class="n">applicable</span> <span class="n">law</span> <span class="ow">or</span> <span class="n">agreed</span> <span class="n">to</span> <span class="ow">in</span> <span class="n">writing</span><span class="p">,</span> <span class="n">this</span>
+   <span class="n">software</span> <span class="ow">is</span> <span class="n">distributed</span> <span class="n">on</span> <span class="n">an</span> <span class="s2">&quot;AS IS&quot;</span> <span class="n">BASIS</span><span class="p">,</span> <span class="n">WITHOUT</span> <span class="n">WARRANTIES</span> <span class="n">OR</span>
+   <span class="n">CONDITIONS</span> <span class="n">OF</span> <span class="n">ANY</span> <span class="n">KIND</span><span class="p">,</span> <span class="n">either</span> <span class="n">express</span> <span class="ow">or</span> <span class="n">implied</span><span class="o">.</span>
+<span class="o">*/</span>
+<span class="c1">#include &lt;stdio.h&gt;</span>
+<span class="c1">#include &quot;freertos/FreeRTOS.h&quot;</span>
+<span class="c1">#include &quot;freertos/task.h&quot;</span>
+<span class="c1">#include &quot;esp_system.h&quot;</span>
+
+<span class="n">void</span> <span class="n">hello_task</span><span class="p">(</span><span class="n">void</span> <span class="o">*</span><span class="n">pvParameter</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;Hello world!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+    <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;Restarting in </span><span class="si">%d</span><span class="s2"> seconds...</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">);</span>
+        <span class="n">vTaskDelay</span><span class="p">(</span><span class="mi">1000</span> <span class="o">/</span> <span class="n">portTICK_RATE_MS</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s2">&quot;Restarting now.</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
+    <span class="n">fflush</span><span class="p">(</span><span class="n">stdout</span><span class="p">);</span>
+    <span class="n">esp_restart</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">app_main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">xTaskCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">hello_task</span><span class="p">,</span> <span class="s2">&quot;hello_task&quot;</span><span class="p">,</span> <span class="mi">2048</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">NULL</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="luu-y">
+<h2>Lưu ý<a class="headerlink" href="#luu-y" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Hướng dẫn cài đặt <a class="reference external" href="https://esp-idf.readthedocs.io/en/latest/index.html">ESP-IDF</a></li>
+<li>Nạp và Debug chương trình <a class="reference external" href="https://esp-idf.readthedocs.io/en/latest/index.html">xem tại đây</a></li>
+<li>Tài nguyên hệ thống xem <a class="reference external" href="https://github.com/espressif/esp-idf">tại đây</a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="blink-idf.html" class="btn btn-neutral float-right" title="Lập trình chớp tắt LED với ESP32 bằng ESP-IDF" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="install.html" class="btn btn-neutral" title="Cài đặt" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, TuanPM.
+
+    </p>
+  </div>
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            LANGUAGE:'vi',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+      <script type="text/javascript" src="../../cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+ 
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-60470603-07");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+
+</body>
+
+<!-- Mirrored from esp32.vn/idf/hello-world.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:16:00 GMT -->
+</html>

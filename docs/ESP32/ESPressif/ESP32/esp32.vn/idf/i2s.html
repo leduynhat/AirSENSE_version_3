@@ -1,0 +1,1222 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from esp32.vn/idf/i2s.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:16:11 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>I2S &mdash; Tài liệu ESP32 1.0</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Tìm Kiếm" href="../search.html"/>
+    <link rel="top" title="Tài liệu ESP32 1.0" href="../index-2.html"/>
+        <link rel="up" title="ESP32 IDF" href="index.html"/>
+        <link rel="next" title="Giao tiếp I2C" href="i2c.html"/>
+        <link rel="prev" title="SPI Slave driver" href="spi_slave.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> ESP32
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://esp32.vn/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Phần cứng</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">Phần cứng</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../hardware/board.html">Board ESP32vn IoT Uno</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hardware/connection.html">Kết nối máy tính</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../hardware/connection.html#ket-noi-phan-cung">Kết nối phần cứng</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hardware/connection.html#cai-dat-usb-driver">Cài đặt USB Driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hardware/connection.html#cau-hinh-ket-noi">Cấu hình kết nối</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">ESP32 Arduino</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arduino/index.html">Arduino cơ bản</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../arduino/install.html">Cài đặt Arduino IDE</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/install.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/install.html#huong-dan">Hướng dẫn</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../arduino/library.html">Cài đặt thư viện</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../arduino/blink.html">Blink</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#gioi-thieu">Giới thiệu.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#chuan-bi">Chuẩn bị.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#ket-noi">Kết nối.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#chuong-trinh">Chương trình.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#nap-chuong-trinh">Nạp chương trình.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#ket-luan">Kết luận.</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../arduino/i2c_oled.html">I2C/OLED</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/i2c_oled.html#oled-la-gi">OLED là gì?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/i2c_oled.html#i2c">I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/i2c_oled.html#demo">Demo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">ESP32 IDF</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">ESP-IDF cơ bản</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="install.html">Cài đặt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="install.html#cai-dat-toolchain">Cài đặt Toolchain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#tai-esp-idf">Tải ESP-IDF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#add-idf-path">ADD IDF_PATH</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="hello-world.html">Hello World</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#gioi-thieu">Giới thiệu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#demo">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blink-idf.html">Blink</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#gioi-thieu">Giới thiệu.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#chuan-bi">Chuẩn bị.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#ket-noi">Kết nối.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#demo">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="button.html">Nút nhấn</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="button.html#gioi-thieu">Giới thiệu.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#chuan-bi">Chuẩn bị.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#ket-noi">Kết nối.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#demo">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="adc.html">ADC</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="adc.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adc.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adc.html#vi-du">Ví dụ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adc.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dac.html">DAC</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dac.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html#vi-du-minh-hoa">Ví dụ minh họa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="spi_master.html">SPI master</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html#application-example">Application Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html#api-reference-spi-common">API Reference - SPI Common</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html#api-reference-spi-master">API Reference - SPI Master</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="spi_slave.html">SPI slave</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html#application-example">Application Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">I2S</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tong-quan">TỔNG QUAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vi-du">Ví dụ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="i2c.html">I2C</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html#vi-du-minh-hoa">Ví dụ minh họa:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html">GPIO &amp; RTC GPIO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html#tong-quan">Tổng Quan</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html#vi-du-minh-hoa">Ví dụ minh họa:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html#application-example">Application Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html#api-reference-normal-gpio">API Reference - Normal GPIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html#api-reference-rtc-gpio">API Reference - RTC GPIO</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html#luu-y">Lưu ý</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RMT.html">Remote Control</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#vi-du-minh-hoa">Ví dụ minh họa:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="touch_pad.html">Touch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#gioi-thieu">Giới thiệu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wifi.html">Wifi</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#vi-du">Ví dụ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#api-reference">API Reference</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sdcard.html">Thẻ nhớ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sdcard.html#bien-dich-du-an-mau">Biên dịch dự án mẫu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sdcard.html#code">Code</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Hướng dẫn đóng góp</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#cai-dat-cong-cu-can-thiet">Cài đặt công cụ cần thiết</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#viet-bai">Viết bài</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#mot-so-luu-y-khac">Một số lưu ý khác</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#danh-sach-cac-thanh-vien-da-dong-gop">Danh sách các thành viên đã đóng góp</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index-2.html">ESP32</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">ESP32 IDF</a> &raquo;</li>
+        
+      <li>I2S</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/idf/i2s.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="i2s">
+<h1>I2S<a class="headerlink" href="#i2s" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tong-quan">
+<h2>TỔNG QUAN<a class="headerlink" href="#tong-quan" title="Permalink to this headline">¶</a></h2>
+<p>ESP32 bao gồm hai thiết bị ngoại vi I2S . Các thiết bị ngoại vi này có thể được khai báo dữ liệu ngõ vào, ngõ ra thông qua <code class="docutils literal"><span class="pre">I2S</span> <span class="pre">Driver</span></code>.
+Thiết bị ngoại vi I2S hỗ trợ DMA nghĩa là nó có thể truyền dữ liệu mẫu liên tục mà không yêu cầu mỗi mẫu phải được đọc hoặc viết bởi CPU.
+Ngõ ra I2S cũng có thể được định tuyến trực tiếp bởi DAC ( Bộ chuyển đổi số sang tương tự  - GPIO25/GPIO26) để tạo ngõ ra tương tự trực tiếp chứ không cần thông qua bộ giải mã I2S bên ngoại.</p>
+<hr class="docutils" />
+<p><strong>MỘT SỐ VÍ DỤ VỀ I2S</strong></p>
+<p>Các ví dụ về I2S đều có ở esp-idf: <a class="reference external" href="https://github.com/espressif/esp-idf/tree/master/examples/peripherals/i2s">peripherals/i2s</a></p>
+<p>Ví dụ ngắn về khai báo I2S:</p>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="c1">#include &quot;driver/i2s.h&quot;</span>
+<span class="c1">#include &quot;freertos/queue.h&quot;</span>
+
+<span class="n">static</span> <span class="n">const</span> <span class="nb">int</span> <span class="n">i2s_num</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="o">//</span> <span class="n">i2s</span> <span class="n">port</span> <span class="n">number</span>
+
+<span class="n">static</span> <span class="n">const</span> <span class="n">i2s_config_t</span> <span class="n">i2s_config</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">I2S_MODE_MASTER</span> <span class="o">|</span> <span class="n">I2S_MODE_TX</span><span class="p">,</span>
+     <span class="o">.</span><span class="n">sample_rate</span> <span class="o">=</span> <span class="mi">44100</span><span class="p">,</span>
+     <span class="o">.</span><span class="n">bits_per_sample</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
+     <span class="o">.</span><span class="n">channel_format</span> <span class="o">=</span> <span class="n">I2S_CHANNEL_FMT_RIGHT_LEFT</span><span class="p">,</span>
+     <span class="o">.</span><span class="n">communication_format</span> <span class="o">=</span> <span class="n">I2S_COMM_FORMAT_I2S</span> <span class="o">|</span> <span class="n">I2S_COMM_FORMAT_I2S_MSB</span><span class="p">,</span>
+     <span class="o">.</span><span class="n">intr_alloc_flags</span> <span class="o">=</span> <span class="n">ESP_INTR_FLAG_LEVEL1</span><span class="p">,</span> <span class="o">//</span> <span class="n">high</span> <span class="n">interrupt</span> <span class="n">priority</span>
+     <span class="o">.</span><span class="n">dma_buf_count</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+     <span class="o">.</span><span class="n">dma_buf_len</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="p">};</span>
+
+<span class="n">static</span> <span class="n">const</span> <span class="n">i2s_pin_config_t</span> <span class="n">pin_config</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="o">.</span><span class="n">bck_io_num</span> <span class="o">=</span> <span class="mi">26</span><span class="p">,</span>
+    <span class="o">.</span><span class="n">ws_io_num</span> <span class="o">=</span> <span class="mi">25</span><span class="p">,</span>
+    <span class="o">.</span><span class="n">data_out_num</span> <span class="o">=</span> <span class="mi">22</span><span class="p">,</span>
+    <span class="o">.</span><span class="n">data_in_num</span> <span class="o">=</span> <span class="n">I2S_PIN_NO_CHANGE</span>
+<span class="p">};</span>
+
+<span class="o">...</span>
+
+    <span class="n">i2s_driver_install</span><span class="p">(</span><span class="n">i2s_num</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">i2s_config</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">NULL</span><span class="p">);</span>   <span class="o">//</span><span class="n">install</span> <span class="ow">and</span> <span class="n">start</span> <span class="n">i2s</span> <span class="n">driver</span>
+
+    <span class="n">i2s_set_pin</span><span class="p">(</span><span class="n">i2s_num</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pin_config</span><span class="p">);</span>
+
+    <span class="n">i2s_set_sample_rates</span><span class="p">(</span><span class="n">i2s_num</span><span class="p">,</span> <span class="mi">22050</span><span class="p">);</span> <span class="o">//</span><span class="nb">set</span> <span class="n">sample</span> <span class="n">rates</span>
+
+    <span class="n">i2s_driver_uninstall</span><span class="p">(</span><span class="n">i2s_num</span><span class="p">);</span> <span class="o">//</span><span class="n">stop</span> <span class="o">&amp;</span> <span class="n">destroy</span> <span class="n">i2s</span> <span class="n">driver</span>
+</pre></div>
+</div>
+<p>Ví dụ ngắn về khai báo I2S để sử dụng DAC nội cho ngõ ra tương tự</p>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="c1">#include &quot;driver/i2s.h&quot;</span>
+<span class="c1">#include &quot;freertos/queue.h&quot;</span>
+
+<span class="n">static</span> <span class="n">const</span> <span class="nb">int</span> <span class="n">i2s_num</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="o">//</span> <span class="n">i2s</span> <span class="n">port</span> <span class="n">number</span>
+
+<span class="n">static</span> <span class="n">const</span> <span class="n">i2s_config_t</span> <span class="n">i2s_config</span> <span class="o">=</span> <span class="p">{</span>
+     <span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">I2S_MODE_MASTER</span> <span class="o">|</span> <span class="n">I2S_MODE_TX</span> <span class="o">|</span> <span class="n">I2S_MODE_DAC_BUILT_IN</span><span class="p">,</span>
+     <span class="o">.</span><span class="n">sample_rate</span> <span class="o">=</span> <span class="mi">44100</span><span class="p">,</span>
+     <span class="o">.</span><span class="n">bits_per_sample</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span> <span class="o">/*</span> <span class="n">the</span> <span class="n">DAC</span> <span class="n">module</span> <span class="n">will</span> <span class="n">only</span> <span class="n">take</span> <span class="n">the</span> <span class="mi">8</span><span class="n">bits</span> <span class="kn">from</span> <span class="nn">MSB</span> <span class="o">*/</span>
+     <span class="o">.</span><span class="n">channel_format</span> <span class="o">=</span> <span class="n">I2S_CHANNEL_FMT_RIGHT_LEFT</span><span class="p">,</span>
+     <span class="o">.</span><span class="n">communication_format</span> <span class="o">=</span> <span class="n">I2S_COMM_FORMAT_I2S_MSB</span><span class="p">,</span>
+     <span class="o">.</span><span class="n">intr_alloc_flags</span> <span class="o">=</span> <span class="n">ESP_INTR_FLAG_LEVEL1</span><span class="p">,</span> <span class="o">//</span> <span class="n">high</span> <span class="n">interrupt</span> <span class="n">priority</span>
+     <span class="o">.</span><span class="n">dma_buf_count</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+     <span class="o">.</span><span class="n">dma_buf_len</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="p">};</span>
+
+<span class="o">...</span>
+
+    <span class="n">i2s_driver_install</span><span class="p">(</span><span class="n">i2s_num</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">i2s_config</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">NULL</span><span class="p">);</span>   <span class="o">//</span><span class="n">install</span> <span class="ow">and</span> <span class="n">start</span> <span class="n">i2s</span> <span class="n">driver</span>
+
+    <span class="n">i2s_set_pin</span><span class="p">(</span><span class="n">i2s_num</span><span class="p">,</span> <span class="n">NULL</span><span class="p">);</span> <span class="o">//</span><span class="k">for</span> <span class="n">internal</span> <span class="n">DAC</span><span class="p">,</span> <span class="n">this</span> <span class="n">will</span> <span class="n">enable</span> <span class="n">both</span> <span class="n">of</span> <span class="n">the</span> <span class="n">internal</span> <span class="n">channels</span>
+
+    <span class="o">//</span><span class="n">You</span> <span class="n">can</span> <span class="n">call</span> <span class="n">i2s_set_dac_mode</span> <span class="n">to</span> <span class="nb">set</span> <span class="n">built</span><span class="o">-</span><span class="ow">in</span> <span class="n">DAC</span> <span class="n">output</span> <span class="n">mode</span><span class="o">.</span>
+    <span class="o">//</span><span class="n">i2s_set_dac_mode</span><span class="p">(</span><span class="n">I2S_DAC_CHANNEL_BOTH_EN</span><span class="p">);</span>
+
+    <span class="n">i2s_set_sample_rates</span><span class="p">(</span><span class="n">i2s_num</span><span class="p">,</span> <span class="mi">22050</span><span class="p">);</span> <span class="o">//</span><span class="nb">set</span> <span class="n">sample</span> <span class="n">rates</span>
+
+    <span class="n">i2s_driver_uninstall</span><span class="p">(</span><span class="n">i2s_num</span><span class="p">);</span> <span class="o">//</span><span class="n">stop</span> <span class="o">&amp;</span> <span class="n">destroy</span> <span class="n">i2s</span> <span class="n">driver</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<p>Thư viện : <a class="reference external" href="https://github.com/espressif/esp-idf/blob/fa7d53e/components/driver/include/driver/i2s.h">driver/include/driver/i2s.h</a></p>
+<p><strong>CÁC HÀM TRONG THƯ VIỆN I2S</strong></p>
+<dl class="function">
+<dt id="c.i2s_set_pin">
+esp_err_t <code class="descname">i2s_set_pin</code><span class="sig-paren">(</span><a class="reference internal" href="#c.i2s_port_t" title="i2s_port_t">i2s_port_t</a><em>&nbsp;i2s_num</em>, const <a class="reference internal" href="#c.i2s_pin_config_t" title="i2s_pin_config_t">i2s_pin_config_t</a><em>&nbsp;*pin</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_set_pin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Cấu hình số chân I2S</p>
+<p>Trong cấu trúc khai báo cấu hình chân, đặt <code class="docutils literal"><span class="pre">I2S_PIN_NO_CHANGE</span></code> cho bất kỳ chân nào không nên thay đổi cấu hình hiện tại.</p>
+<p><strong>Chú ý :</strong>
+Các tín hiệu ngõ ra ngoại vi I2S có thể kết nối tới nhiều GPIO nhưng tín hiệu ngõ vào ngoại vi I2S chỉ có thể kết nối với một GPIO</p>
+<p><strong>Các đối số</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">i2s_num</span></code> : <strong>I2S_NUM_0</strong> hoặc <strong>I2S_NUM_1</strong></li>
+<li><code class="docutils literal"><span class="pre">pin</span></code> : Cấu trúc chân I2S hoặc <strong>NULL</strong> để cấu hình chân DAC nội 2 kênh 8 bit (GPIO 25 và GPIO26)</li>
+</ul>
+</div></blockquote>
+<p><strong>Chú ý:</strong> Nếu chân được cấu hình là <strong>NULL</strong> thì hàm này sẽ khởi tạo mặc định cả hai kênh DAC. Nếu bạn chỉ muốn khởi tạo một trong 2 kênh DAC thì bạn có thể thay thế bằng hàm <code class="docutils literal"><span class="pre">i2s_set_dac_mode</span></code> .</p>
+<p><strong>Giá trị trả về</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">ESP_OK</span></code> :thành công.</li>
+<li><code class="docutils literal"><span class="pre">ESP_FAIL</span></code> : lỗi đối số.</li>
+</ul>
+</div></blockquote>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_set_dac_mode">
+esp_err_t <code class="descname">i2s_set_dac_mode</code><span class="sig-paren">(</span><a class="reference internal" href="#c.i2s_dac_mode_t" title="i2s_dac_mode_t">i2s_dac_mode_t</a><em>&nbsp;dac_mode</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_set_dac_mode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Cấu hình chế độ DAC I2S. Mặc định thì chế độ DAC tích hợp I2S bị vô hiệu hóa.</p>
+<p><strong>Chú ý</strong></p>
+<p>Chức năng DAC tích hợp này chỉ hỗ trợ trên I2S0 cho cho chip ESP32. Nếu một trong 2 kênh DAC tích hợp được kích hoạt thì kênh còn lại không thể sử dụng chức năng RTC DAC tại thời điểm đó.</p>
+<p><strong>Giá trị trả về</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">ESP_OK</span></code> :Thành công.</li>
+<li><code class="docutils literal"><span class="pre">ESP_ERR_INVALID_ARG</span></code> : Lỗi đối số.</li>
+</ul>
+</div></blockquote>
+<p><strong>Các đối số</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">Dac_mode</span></code> : Cấu hình chế độ DAC (xem <strong>i2s_dac_mode_t</strong> )</li>
+</ul>
+</div></blockquote>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_driver_install">
+esp_err_t <code class="descname">i2s_driver_install</code><span class="sig-paren">(</span><a class="reference internal" href="#c.i2s_port_t" title="i2s_port_t">i2s_port_t</a><em>&nbsp;i2s_num</em>, const <a class="reference internal" href="#c.i2s_config_t" title="i2s_config_t">i2s_config_t</a><em>&nbsp;*i2s_config</em>, int<em>&nbsp;queue_size</em>, void<em>&nbsp;*i2s_queue</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_driver_install" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Cài đặt và khởi động Bộ điều khiển I2S.</p>
+<p>Hàm này sẽ được gọi trước khi các bộ điều khiển I2S thực hiện việc đọc hoặc ghi.</p>
+<p><strong>Các đối số</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">i2s_num</span></code>: <strong>I2S_NUM_0</strong> , <strong>I2S_NUM_1</strong> ``</li>
+<li><code class="docutils literal"><span class="pre">i2s_config</span></code> : Các cấu hình I2S, (xem cấu trúc i2s_config_t <a class="footnote-reference" href="#id7" id="id1">[1]</a> )</li>
+<li><code class="docutils literal"><span class="pre">queue_size</span></code> :Độ lớn/Độ sâu của hàng chờ sự kiện I2S.</li>
+<li><code class="docutils literal"><span class="pre">i2s_queue</span></code> sử lý hàng chờ sự kiện I2S, Nếu đặt là <strong>NULL</strong> thì trình điều khiển sẽ không sử dụng hàng chờ sự kiện.</li>
+</ul>
+</div></blockquote>
+<p><strong>Giá trị trả về</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">ESP_OK</span></code> : Thành công.</li>
+<li><code class="docutils literal"><span class="pre">ESP_FAIL</span></code> : Lỗi đối số.</li>
+</ul>
+</div></blockquote>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_driver_uninstall">
+esp_err_t <code class="descname">i2s_driver_uninstall</code><span class="sig-paren">(</span><a class="reference internal" href="#c.i2s_port_t" title="i2s_port_t">i2s_port_t</a><em>&nbsp;i2s_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_driver_uninstall" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Gỡ cài đặt bộ điều khiển I2S</p>
+<p><strong>Giá trị trả về</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">ESP_OK</span></code> :Thành công.</li>
+<li><code class="docutils literal"><span class="pre">ESP_FAIL</span></code> : Lỗi đối số.</li>
+</ul>
+</div></blockquote>
+<p><strong>Các đối số</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">i2s_num</span></code> : I2S_NUM_0, I2S_NUM_1</li>
+</ul>
+</div></blockquote>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_write_bytes">
+int <code class="descname">i2s_write_bytes</code><span class="sig-paren">(</span><a class="reference internal" href="#c.i2s_port_t" title="i2s_port_t">i2s_port_t</a><em>&nbsp;i2s_num</em>, const char<em>&nbsp;*src</em>, size_t<em>&nbsp;size</em>, TickType_t<em>&nbsp;ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_write_bytes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Ghi dữ liệu vào bộ đệm truyền I2S DMA.</p>
+<div class="admonition note">
+<p class="first admonition-title">Ghi chú</p>
+<p class="last">DMA (Direct Memory Access) là cơ chế chuyển dữ liệu trực tiếp từ I/O vào RAM mà không cần thông qua CPU. Giúp dữ liệu được truyền đi nhanh hơn đặc biệt là các dữ liệu lớn và có tính liên tục.</p>
+</div>
+<p>Định dạng dữ liệu trong bộ đệm nguồn được xác định bởi khai báo I2S (Xem i2s_config_t <a class="footnote-reference" href="#id7" id="id2">[1]</a> )</p>
+<p><strong>Các đối số</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">i2s_num</span></code> : I2S_NUM_0, I2S_NUM_1</li>
+<li><code class="docutils literal"><span class="pre">src</span></code> : Lựa chọn địa chỉ nguồn bắt đầu ghi.</li>
+<li><code class="docutils literal"><span class="pre">size</span></code> : Kích thướt dữ liệu (Byte)</li>
+<li><code class="docutils literal"><span class="pre">ticks_to_wait</span></code> : Bộ đệm TX sẽ đợi thời gian của các RTOS tick kết thúc.Nếu các tick này vượt quá không gian có sẵn trong bộ đệm truyền DMA thì hàm này sẽ được gọi lại. ( Lưu ý rằng nếu dữ liệu được ghi vào bộ đệm DMA thành từng phần thì thời gian thực hiện sẽ lâu hơn  việc đợi thời gian các RTOS tick kết thúc).</li>
+</ul>
+</div></blockquote>
+<p><strong>Giá trị trả về</strong></p>
+<p>Số Byte được ghi hoặc ESP_FAIL (-1) nếu bị lỗi đối số.
+Nếu xuất hiện thời gian đợi thì số Byte được ghi sẽ ít hơn tổng kích thướt dữ liệu.</p>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_read_bytes">
+int <code class="descname">i2s_read_bytes</code><span class="sig-paren">(</span><a class="reference internal" href="#c.i2s_port_t" title="i2s_port_t">i2s_port_t</a><em>&nbsp;i2s_num</em>, char<em>&nbsp;*dest</em>, size_t<em>&nbsp;size</em>, TickType_t<em>&nbsp;ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_read_bytes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Đọc dữ liệu từ bộ đềm nhận I2S DMA.
+Định dạng dữ liệu trong bộ đệm nguồn được xác định bởi khai báo I2S (Xem i2S_config_t <a class="footnote-reference" href="#id7" id="id3">[1]</a> )</p>
+<p><strong>Các đối số</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">i2s_num</span></code> : I2S_NUM_0, I2S_NUM_1</li>
+<li><code class="docutils literal"><span class="pre">dest</span></code> : Địa chỉ đích để đọc</li>
+<li><code class="docutils literal"><span class="pre">size</span></code> : Kích thướt dữ liệu (Byte)</li>
+<li><code class="docutils literal"><span class="pre">ticks_to_wait</span></code> : Bộ đệm RX sẽ đợi thời gian của các RTOS tick kết thúc.Nếu các tick này vượt quá không gian có sẵn trong bộ đệm nhận DMA thì hàm này sẽ được gọi lại. ( Lưu ý rằng nếu dữ liệu được đọc từng phần từ bộ đệm DMA thì thời gian thực hiện sẽ lâu hơn  việc đợi thời gian các RTOS tick kết thúc).</li>
+</ul>
+</div></blockquote>
+<p><strong>Giá trị trả về</strong></p>
+<p>Số lượng Byte đọc được, hoặc là ESP_FAIL (-1) nếu bị lỗi đối số.
+Nếu xuất hiện thời gian đợi thì số Byte đọc được sẽ ít hơn tổng kích thướt dữ liệu.</p>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_push_sample">
+int <code class="descname">i2s_push_sample</code><span class="sig-paren">(</span><a class="reference internal" href="#c.i2s_port_t" title="i2s_port_t">i2s_port_t</a><em>&nbsp;i2s_num</em>, const char<em>&nbsp;*sample</em>, TickType_t<em>&nbsp;ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_push_sample" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Đẩy ( viết ) một mẫu vào bộ đệm I2S DMA TX.
+Kích thướt của mẫu sẽ được xác định bởi <strong>channel_format</strong> (mono hay stereo) và khai báo <strong>bit_per_sample</strong> (xem i2s_config_t <a class="footnote-reference" href="#id7" id="id4">[1]</a>)</p>
+<p><strong>Giá trị trả về</strong></p>
+<p>Số Byte đã đẫy thành công vào bộ đệm DMA. Hoặc ESP_FAIL(-1) khi lỗi đối số. Giá trị trả về sẽ là không hoặc kích thướt của bộ đệm mẫu được cấu hình.</p>
+<p><strong>Các đối số</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">i2s_num</span></code> : I2S_NUM_0, I2S_NUM_1</li>
+<li><code class="docutils literal"><span class="pre">sample</span></code> : Con trỏ trỏ đến bộ đệm có mẫu để ghi. kích thướt của bộ mẫu (byte)= số kênh * (số bit trên 1 mẫu) / 8</li>
+<li><code class="docutils literal"><span class="pre">ticks_to_wait</span></code> : thời gian đợi đẩy trong RTOS tick. Nếu trong thời gian này mà không có khoản trống nào tồn tại trong bộ đệm DMA TX thì không có dữ liệu nào được ghi và hàm sẽ trả về 0.</li>
+</ul>
+</div></blockquote>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_pop_sample">
+int <code class="descname">i2s_pop_sample</code><span class="sig-paren">(</span><a class="reference internal" href="#c.i2s_port_t" title="i2s_port_t">i2s_port_t</a><em>&nbsp;i2s_num</em>, char<em>&nbsp;*sample</em>, TickType_t<em>&nbsp;ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_pop_sample" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Pop (đọc) một mẫu từ bộ đệm I2S DMA RX.
+Kích thướt của mẫu được xác định bởi <strong>channel_format</strong> (mono hay stereo) và khai báo <strong>bit_per_sample</strong> (xem i2s_config_t <a class="footnote-reference" href="#id7" id="id5">[1]</a>).</p>
+<p><strong>Giá trị trả về</strong></p>
+<p>Số Byte đọc thành công từ bộ đệm DMA. Hoặc là ESP_FAIL (-1) khi lỗi đối số. Số Byte đếm được sẽ là 0 hoặc kích thướt của bộ đệm mẫu được khai báo.</p>
+<p><strong>Các đối số</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">i2s_num</span></code> : I2S_NUM_0, I2S_NUM_1</li>
+<li><code class="docutils literal"><span class="pre">sample</span></code> : Bộ đệm dữ liệu mẫu sẽ được đọc. Kích thướt của bộ đệm (Byte)=Số kênh * bit_per_sample / 8</li>
+<li><code class="docutils literal"><span class="pre">ticks_to_wait</span></code> : thời gian đợi đọc trong RTOS tick. Nếu trong thời gian này mà không có mẫu nào tồn tại trong bộ đệm DMA thì không có dữ liệu nào được đọc và hàm sẽ trả về không.</li>
+</ul>
+</div></blockquote>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_set_sample_rates">
+esp_err_t <code class="descname">i2s_set_sample_rates</code><span class="sig-paren">(</span><a class="reference internal" href="#c.i2s_port_t" title="i2s_port_t">i2s_port_t</a><em>&nbsp;i2s_num</em>, uint32_t<em>&nbsp;rate</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_set_sample_rates" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Thiết lập tốc độ mẫu được sử dụng cho I2S RX và TX.</p>
+<p>Xung nhịp bit (bit clock rate) được xác định bởi tốc độ lấy mẫu và các đối số trong khai báo i2s_config_t <a class="footnote-reference" href="#id7" id="id6">[1]</a> (number of channels, bits_per_sample).</p>
+<p><code class="docutils literal"><span class="pre">bit_clock</span> <span class="pre">=</span> <span class="pre">rate</span> <span class="pre">*</span> <span class="pre">(number</span> <span class="pre">of</span> <span class="pre">channels)</span> <span class="pre">*</span> <span class="pre">bits_per_sample</span></code></p>
+<p><strong>Giá trị trả về</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">ESP_OK</span></code> : Thành công</li>
+<li><code class="docutils literal"><span class="pre">ESP_FAIL</span></code> : Lỗi đối số</li>
+</ul>
+</div></blockquote>
+<p><strong>Các đối số</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">i2s_num</span></code>: I2S_NUM_0, I2S_NUM_1</li>
+<li><code class="docutils literal"><span class="pre">rate</span></code> : Tốc độ lấy mẫu I2S (ví dụ 8000, 44100...)</li>
+</ul>
+</div></blockquote>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_stop">
+esp_err_t <code class="descname">i2s_stop</code><span class="sig-paren">(</span><a class="reference internal" href="#c.i2s_port_t" title="i2s_port_t">i2s_port_t</a><em>&nbsp;i2s_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_stop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Dừng bộ điều khiển I2S</p>
+<p>Vô hiệu hóa I2S TX/RX cho tới khi i2s_star() được gọi.</p>
+<p><strong>Giá trị tải về</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">ESP_OK</span></code> : Thành công</li>
+<li><code class="docutils literal"><span class="pre">ESP_FAIL</span></code> : Lỗi đối số</li>
+</ul>
+</div></blockquote>
+<p><strong>Các đối số</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">i2s_num</span></code> : I2S_NUM_0, I2S_NUM_1</li>
+</ul>
+</div></blockquote>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_start">
+esp_err_t <code class="descname">i2s_start</code><span class="sig-paren">(</span><a class="reference internal" href="#c.i2s_port_t" title="i2s_port_t">i2s_port_t</a><em>&nbsp;i2s_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Khởi động bộ điều khiển I2S.</p>
+<p>Không nhất thiết phải gọi hàm này nếu như bạn đã gọi hàm <strong>i2s_driver_install()</strong> (vì nó sẽ tự khởi động bộ điều khiển I2S).</p>
+<p>Bạn cần phải gọi hàm này để khởi động lại bộ điều khiển I2S sau khi gọi hàm <strong>i2s_stop()</strong> .</p>
+<p><strong>Giá trị trả về</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">ESP_OK</span></code> : Thành công</li>
+<li><code class="docutils literal"><span class="pre">ESP_FAIL</span></code> : Lỗi đối số.</li>
+</ul>
+</div></blockquote>
+<p><strong>Các đối số</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">i2s_num</span></code> : I2S_NUM_0, I2S_NUM_1</li>
+</ul>
+</div></blockquote>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_zero_dma_buffer">
+esp_err_t <code class="descname">i2s_zero_dma_buffer</code><span class="sig-paren">(</span><a class="reference internal" href="#c.i2s_port_t" title="i2s_port_t">i2s_port_t</a><em>&nbsp;i2s_num</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_zero_dma_buffer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Làm trống nội dung của bộ đệm TX DMA.</p>
+<p>Đẫy các mẫu trống (zero-byte sample) vào bộ đệm TX DMA cho đến khi đầy.</p>
+<p><strong>Giá trị trả về</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">ESP_OK</span></code> : Thành công</li>
+<li><code class="docutils literal"><span class="pre">ESP_FAIL</span></code> : Lỗi đối số.</li>
+</ul>
+</div></blockquote>
+<p><strong>Các đối số</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">i2s_num</span></code> : I2S_NUM_0, I2S_NUM_1</li>
+</ul>
+</div></blockquote>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_set_clk">
+esp_err_t <code class="descname">i2s_set_clk</code><span class="sig-paren">(</span><a class="reference internal" href="#c.i2s_port_t" title="i2s_port_t">i2s_port_t</a><em>&nbsp;i2s_num</em>, uint32_t<em>&nbsp;rate</em>, <a class="reference internal" href="#c.i2s_bits_per_sample_t" title="i2s_bits_per_sample_t">i2s_bits_per_sample_t</a><em>&nbsp;bits</em>, <a class="reference internal" href="#c.i2s_channel_t" title="i2s_channel_t">i2s_channel_t</a><em>&nbsp;ch</em><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_set_clk" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Thiết lập độ rộng bit và xung clock được sử dụng trong I2S TX và RX.
+Ngoài việc thiết lập tốc độ lấy mẫu như i2s_set_sample_rates() , hàm này còn thiết lập thêm độ rộng bit.</p>
+<p><strong>Giá trị trả về</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">ESP_OK</span></code> : Thành công</li>
+<li><code class="docutils literal"><span class="pre">ESP_FAIL</span></code> : Lỗi đối số.</li>
+</ul>
+</div></blockquote>
+<p><strong>Các đối số</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">i2s_num</span></code> : I2S_NUM_0, I2S_NUM_1</li>
+<li><code class="docutils literal"><span class="pre">rate</span></code> : Tốc độ lấy mẫu I2S (ví dụ :8000, 44100...)</li>
+<li><code class="docutils literal"><span class="pre">bits</span></code> : Độ rộng bit I2S (I2S_BITS_PER_SAMPLE_16BIT, I2S_BITS_PER_SAMPLE_24BIT, I2S_BITS_PER_SAMPLE_32BIT)</li>
+<li><code class="docutils literal"><span class="pre">ch</span></code> : Kênh I2S, (I2S_CHANNEL_MONO, I2S_CHANNEL_STEREO)</li>
+</ul>
+</div></blockquote>
+<p><strong>CÁC CẤU TRÚC</strong></p>
+<table class="docutils footnote" frame="void" id="id7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id1">1</a>, <a class="fn-backref" href="#id2">2</a>, <a class="fn-backref" href="#id3">3</a>, <a class="fn-backref" href="#id4">4</a>, <a class="fn-backref" href="#id5">5</a>, <a class="fn-backref" href="#id6">6</a>)</em> </td></tr>
+</tbody>
+</table>
+<dl class="function">
+<dt id="c.i2s_config_t">
+struct <code class="descname">i2s_config_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_config_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Các đối số cấu hình I2S được dùng trong hàm i2s_param_config</p>
+<p><strong>Các thành phần</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="first docutils">
+<dt>i2s_mode_t <cite>mode</cite></dt>
+<dd>Chế độ làm việc của I2S</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>int <cite>sample_rate</cite></dt>
+<dd>Tốc độ lấy mẫu I2S</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>i2s_bits_per_sample_t <cite>bits_per_sample</cite></dt>
+<dd>Số bit trên mỗi mẫu I2S.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>i2s_channel_fmt_t <cite>channel_format</cite></dt>
+<dd>Định dạng kênh I2S</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>i2s_comm_format_t <cite>communication_format</cite></dt>
+<dd>Định dạng giao tiếp I2S</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>int <cite>intr_alloc_flags</cite></dt>
+<dd>Các cờ này được dùng để chỉ định ngắt. Đơn hoặc đa (ORred) ESP_INTR_FLAG_* values. (Xem esp_intr_alloc.h để biết thêm thông tin)</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>int <cite>dma_buf_count</cite></dt>
+<dd>Số lượng bộ đệm I2S DMA.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>int <cite>dma_buf_len</cite></dt>
+<dd>Độ dài bộ đệm I2S DMA.</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_event_t">
+struct <code class="descname">i2s_event_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_event_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Cấu trúc các sự kiện trong hàng chờ sự kiện I2S</p>
+<p><strong>Các thành phần</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="first docutils">
+<dt>i2s_event_type_t <cite>type</cite></dt>
+<dd>Kiểu sự kiện I2S</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>size_t <cite>size</cite></dt>
+<dd>Kích thướt dữ liệu I2S cho sự kiên I2S_DATA</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_pin_config_t">
+struct <code class="descname">i2s_pin_config_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_pin_config_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Số chân I2S cho hàm <strong>i2s_set_pin</strong>.</p>
+<p><strong>Các thành phần</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="first docutils">
+<dt>int <cite>bck_io_num</cite></dt>
+<dd>Chân BCK</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>int <cite>ws_io_num</cite></dt>
+<dd>Chân WS</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>int <cite>data_out_num</cite></dt>
+<dd>Ngõ ra dữ liệu</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>int <cite>data_in_num</cite></dt>
+<dd>Ngõ vào dữ liệu</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p><strong>CÁC MACRO</strong></p>
+<dl class="function">
+<dt id="c.I2S_PIN_NO_CHANGE">
+<code class="descname">I2S_PIN_NO_CHANGE</code><span class="sig-paren">(</span>-1<span class="sig-paren">)</span><a class="headerlink" href="#c.I2S_PIN_NO_CHANGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Sử dụng trong hàm i2s_pin_config_t. Macro này được dùng để cố định các chân không nên thay đổi.</p>
+<p><strong>CÁC ĐỊNH NGHĨA KIỂU DỮ LIỆU</strong></p>
+<dl class="function">
+<dt id="c.i2s_isr_handle_t">
+typedef intr_handle_t <code class="descname">i2s_isr_handle_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_isr_handle_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p><strong>GIÁ TRỊ CÁC ĐỐI SỐ</strong></p>
+<dl class="function">
+<dt id="c.i2s_bits_per_sample_t">
+enum <code class="descname">i2s_bits_per_sample_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_bits_per_sample_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Độ rộng bit trên mỗi mẫu I2S</p>
+<dl class="docutils">
+<dt>Giá trị:</dt>
+<dd><ul class="first last simple">
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_BITS_PER_SAMPLE_8BIT</span> <span class="pre">=</span> <span class="pre">8</span></code></dt>
+<dd>Số bit trên một mẫu I2S bằng 8bit.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_BITS_PER_SAMPLE_8BIT</span> <span class="pre">=</span> <span class="pre">16</span></code></dt>
+<dd>Số bit trên một mẫu I2S bằng 16bit.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_BITS_PER_SAMPLE_8BIT</span> <span class="pre">=</span> <span class="pre">24</span></code></dt>
+<dd>Số bit trên một mẫu I2S bằng 24bit.</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_BITS_PER_SAMPLE_8BIT</span> <span class="pre">=</span> <span class="pre">32</span></code></dt>
+<dd>Số bit trên một mẫu I2S bằng 32bit.</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_channel_t">
+enum <code class="descname">i2s_channel_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_channel_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Kênh I2S</p>
+<dl class="docutils">
+<dt>Giá trị:</dt>
+<dd><ul class="first last simple">
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_CHANNEL_MONO</span> <span class="pre">=</span> <span class="pre">1</span></code></dt>
+<dd>I2S kênh 1 (mono)</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_CHANNEL_STEREO</span> <span class="pre">=</span> <span class="pre">2</span></code></dt>
+<dd>I2S kênh 2 (stereo)</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_comm_format_t">
+enum <code class="descname">i2s_comm_format_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_comm_format_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Định dạng chuẩn giao tiếp I2S</p>
+<dl class="docutils">
+<dt>Giá trị:</dt>
+<dd><ul class="first last simple">
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_COMM_FORMAT_I2S</span> <span class="pre">=</span> <span class="pre">0x01</span></code></dt>
+<dd>Định dạng theo chuẩn I2S</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_COMM_FORMAT_I2S_MSB</span> <span class="pre">=</span> <span class="pre">0x02</span></code></dt>
+<dd>ĐỊnh dạng I2S MSB</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_COMM_FORMAT_I2S_LSB</span> <span class="pre">=</span> <span class="pre">0x04</span></code></dt>
+<dd>ĐỊnh dạng I2S LSB</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_COMM_FORMAT_PCM</span> <span class="pre">=</span> <span class="pre">0x08</span></code></dt>
+<dd>Định dạng giao tiếp I2S PCM</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_COMM_FORMAT_PCM_SHORT</span> <span class="pre">=</span> <span class="pre">0x10</span></code></dt>
+<dd>PCM ngắn</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_COMM_FORMAT_PCM_LONG</span> <span class="pre">=</span> <span class="pre">0x20</span></code></dt>
+<dd>PCM dài</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_channel_fmt_t">
+enum <code class="descname">i2s_channel_fmt_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_channel_fmt_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Kiểu định dạng kênh I2S</p>
+<dl class="docutils">
+<dt>Giá trị:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">I2S_CHANNEL_FMT_RIGHT_LEFT</span> <span class="pre">=</span> <span class="pre">0x00</span></code></li>
+<li><code class="docutils literal"><span class="pre">I2S_CHANNEL_FMT_ALL_RIGHT</span></code></li>
+<li><code class="docutils literal"><span class="pre">I2S_CHANNEL_FMT_ALL_LEFT</span></code></li>
+<li><code class="docutils literal"><span class="pre">I2S_CHANNEL_FMT_ONLY_RIGHT</span></code></li>
+<li><code class="docutils literal"><span class="pre">I2S_CHANNEL_FMT_ONLY_LEFT</span></code></li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.pdm_sample_rate_ratio_t">
+enum <code class="descname">pdm_sample_rate_ratio_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.pdm_sample_rate_ratio_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Tỉ lệ tốc độ lấy mẫu PDM (Hz)</p>
+<div class="admonition note">
+<p class="first admonition-title">Ghi chú</p>
+<p>PDM-Pulse Density Modulated (Điều chế mật độ xung).</p>
+<p class="last">PCM-Pulse code modulation (Biến điệu mã xung).</p>
+</div>
+<dl class="docutils">
+<dt>Giá trị:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">PDM_SAMPLE_RATE_RATIO_64</span></code></li>
+<li><code class="docutils literal"><span class="pre">PDM_SAMPLE_RATE_RATIO_128</span></code></li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.pdm_pcm_conv_t">
+enum <code class="descname">pdm_pcm_conv_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.pdm_pcm_conv_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Cho phép/vô hiệu hóa bộ chuyển đổi PDM PCM</p>
+<dl class="docutils">
+<dt>Giá trị:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">PDM_PCM_CONV_ENABLE</span></code></li>
+<li><code class="docutils literal"><span class="pre">PDM_PCM_CONV_DISABLE</span></code></li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_port_t">
+enum <code class="descname">i2s_port_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_port_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Ngoại vi I2S, O hoặc 1</p>
+<dl class="docutils">
+<dt>Giá trị:</dt>
+<dd><ul class="first last simple">
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_NUM_0</span> <span class="pre">=</span> <span class="pre">0x0</span></code></dt>
+<dd>I2S 0</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_NUM_1</span> <span class="pre">=</span> <span class="pre">0x1</span></code></dt>
+<dd>I2S 1</dd>
+</dl>
+</li>
+<li><code class="docutils literal"><span class="pre">I2S_NUM_MAX</span></code></li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_mode_t">
+enum <code class="descname">i2s_mode_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_mode_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Chế độ I2S. Mặc định là I2S_MODE_MASTER | I2S_MODE_TX.</p>
+<p>Chức năng PDM và tích hợp DAC chỉ được hỗ trợ trên I2S 0 cho chip ESP32 hiện tại.</p>
+<dl class="docutils">
+<dt>Giá trị:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">I2S_MODE_MASTER</span> <span class="pre">=</span> <span class="pre">1</span></code></li>
+<li><code class="docutils literal"><span class="pre">I2S_MODE_SLAVE</span> <span class="pre">=</span> <span class="pre">2</span></code></li>
+<li><code class="docutils literal"><span class="pre">I2S_MODE_TX</span> <span class="pre">=</span> <span class="pre">4</span></code></li>
+<li><code class="docutils literal"><span class="pre">I2S_MODE_RX</span> <span class="pre">=</span> <span class="pre">8</span></code></li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_MODE_DAC_BUILT_IN</span> <span class="pre">=</span> <span class="pre">16</span></code></dt>
+<dd>Xuất dữ liệu I2S sang bộ tích hợp DAC. Cho dù định dạng dữ liệu là 16 hay 32 bit thì Module DAC chỉ lấy 8bit từ MSB.</dd>
+</dl>
+</li>
+<li><code class="docutils literal"><span class="pre">I2S_MODE_PDM</span> <span class="pre">=</span> <span class="pre">64</span></code></li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_event_type_t">
+enum <code class="descname">i2s_event_type_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_event_type_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Các kiểu sự kiện I2S</p>
+<dl class="docutils">
+<dt>Giá trị:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal"><span class="pre">I2S_EVENT_DMA_ERROR</span></code></li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_EVENT_TX_DONE</span></code></dt>
+<dd>I2S DMA kết thúc việc gửi một bộ đệm (buffer)</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_EVENT_RX_DONE</span></code></dt>
+<dd>I2S DMA kết thúc việc nhận một bộ đệm (buffer)</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_EVENT_MAX</span></code></dt>
+<dd>Chỉ số tối đa sự kiện I2S</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
+<dl class="function">
+<dt id="c.i2s_dac_mode_t">
+enum <code class="descname">i2s_dac_mode_t</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.i2s_dac_mode_t" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>Thiết lập chế độ I2S DAC cho hàm <strong>i2s_set_dac_mode</strong> .</p>
+<p><strong>Chú ý :</strong> Chức năng PDM và tích hợp DAC chỉ được hỗ trợ trên I2S 0 cho chip ESP32 hiện tại.</p>
+<dl class="docutils">
+<dt>Giá trị:</dt>
+<dd><ul class="first last simple">
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_DAC_CHANNEL_DISABLE</span> <span class="pre">=</span> <span class="pre">0</span></code></dt>
+<dd>Vô hiệu hóa tín hiệu I2S được tích hợp trong DAC</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_DAC_CHANNEL_RIGHT_EN</span> <span class="pre">=</span> <span class="pre">1</span></code></dt>
+<dd>Cho phép DAC kênh phải tích hợp I2S, ánh xạ đến kênh DAC 1 ( chân GPIO25)</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_DAC_CHANNEL_LEFT_EN</span> <span class="pre">=</span> <span class="pre">2</span></code></dt>
+<dd>Cho phép DAC kênh trái tích hợp I2S, ánh xạ đến kênh DAC 2 ( chân GPIO 26)</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_DAC_CHANNEL_BOTH_EN</span> <span class="pre">=</span> <span class="pre">0x3</span></code></dt>
+<dd>Cho phép cả hai kênh DAC tích hợp I2S</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal"><span class="pre">I2S_DAC_CHANNEL_MAX</span> <span class="pre">=</span> <span class="pre">0x4</span></code></dt>
+<dd>Chỉ số tối đa chế độ DAC tích hợp I2S</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="vi-du">
+<h2>Ví dụ<a class="headerlink" href="#vi-du" title="Permalink to this headline">¶</a></h2>
+<p>Chúng ta sẽ thực hiện Demo một dự án mẫu trong thư mục <code class="docutils literal"><span class="pre">esp-idf/examples/peripherals/i2s</span></code> hoặc bạn có thể download <a class="reference external" href="https://github.com/espressif/esp-idf/tree/master/examples/peripherals/i2s">Tại đây</a></p>
+<p>Trong ứng dụng này, chúng ta sẽ thiết lập giao thức i2s để gửi dữ liệu ( từ ESP32) là tín hiệu xung tam giác 100Hz với tốc độ lấy mẫu là 36kHz. Số bit trên một mẫu thay đổi lần lượt là 16 , 24 ,32 bit trên một mẫu mỗi 5 giây.</p>
+<p><strong>CHUẨN BỊ</strong></p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="74%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Tên board mạch</strong></th>
+<th class="head"><strong>Link</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Board IoT Wifi Uno</td>
+<td><a class="reference external" href="https://github.com/esp32vn/esp32-iot-uno">https://github.com/esp32vn/esp32-iot-uno</a></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>ĐẤU NỐI</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><strong>GPIO 22</strong> nối với chân <strong>Data</strong></li>
+<li><strong>GPIO 26</strong> nối với chân <strong>BCK</strong></li>
+<li><strong>GPIO 25</strong> nối với chân <strong>WS</strong></li>
+</ul>
+</div></blockquote>
+<p><strong>CODE</strong></p>
+<p>Tham khảo <a class="reference external" href="https://github.com/espressif/esp-idf/blob/master/examples/peripherals/i2s/main/i2s_example_main.c">Tài Đây</a></p>
+<p><strong>Hướng dẫn config, nạp và debug chương trình</strong></p>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="p">(</span><span class="n">đường</span> <span class="n">dẫn</span> <span class="n">đến</span> <span class="n">thư</span> <span class="n">mục</span> <span class="n">chứa</span> <span class="n">project</span><span class="p">)</span>  <span class="n">vd</span><span class="p">:</span><span class="n">cd</span> <span class="o">~/</span><span class="n">esp</span><span class="o">/</span><span class="n">esp</span><span class="o">-</span><span class="n">idf</span><span class="o">/</span><span class="n">exambles</span><span class="o">/</span><span class="n">peripherals</span><span class="o">/</span><span class="n">i2s</span>
+<span class="n">make</span> <span class="n">menuconfig</span>
+<span class="n">make</span> <span class="n">flash</span>
+<span class="n">make</span> <span class="n">moniter</span>
+</pre></div>
+</div>
+<p><strong>DEMO</strong></p>
+</div>
+<div class="section" id="luu-y">
+<h2>Lưu ý<a class="headerlink" href="#luu-y" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Hướng dẫn cài đặt <a class="reference external" href="https://esp-idf.readthedocs.io/en/latest/index.html">ESP-IDF</a></li>
+<li>Nạp và Debug chương trình <a class="reference external" href="https://esp-idf.readthedocs.io/en/latest/index.html">xem tại đây</a></li>
+<li>Tài nguyên hệ thống xem <a class="reference external" href="https://github.com/espressif/esp-idf">tại đây</a></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="i2c.html" class="btn btn-neutral float-right" title="Giao tiếp I2C" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="spi_slave.html" class="btn btn-neutral" title="SPI Slave driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, TuanPM.
+
+    </p>
+  </div>
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            LANGUAGE:'vi',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+      <script type="text/javascript" src="../../cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+ 
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-60470603-07");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+
+</body>
+
+<!-- Mirrored from esp32.vn/idf/i2s.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:16:14 GMT -->
+</html>

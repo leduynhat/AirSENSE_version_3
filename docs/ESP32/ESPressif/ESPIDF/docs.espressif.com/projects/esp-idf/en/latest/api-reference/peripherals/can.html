@@ -1,0 +1,1520 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/can.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:08 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Controller Area Network (CAN) &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Digital To Analog Converter" href="dac.html" />
+    <link rel="prev" title="Analog to Digital Converter" href="adc.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="can.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/peripherals/can"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Peripherals</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="adc.html">ADC</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">CAN</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#basic-can-concepts">Basic CAN Concepts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#signals-lines-and-transceiver">Signals Lines and Transceiver</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#driver-operation">Driver Operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html">DAC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html">GPIO (including RTC low power I/O)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html">I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html">I2S</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ledc.html">LED Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcpwm.html">MCPWM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pcnt.html">Pulse Counter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rmt.html">Remote Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sd_pullup_requirements.html">SD Pull-up Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdmmc_host.html">SDMMC Host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdspi_host.html">SD SPI Host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdio_slave.html">SDIO Slave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sigmadelta.html">Sigma-delta Modulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html">SPI Master</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html">SPI Slave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="temp_sensor.html">Temp sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html">Touch Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uart.html">UART</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Peripherals API</a> &raquo;</li>
+        
+      <li>Controller Area Network (CAN)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/peripherals/can.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="controller-area-network-can">
+<h1>Controller Area Network (CAN)<a class="headerlink" href="#controller-area-network-can" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The ESP32’s peripherals contains a CAN Controller that supports Standard Frame Format (11-bit ID) and Extended Frame Format (29-bit ID) of the CAN2.0B specification.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The ESP32 CAN controller is not compatible with CAN FD frames and will interpret such frames as errors.</p>
+</div>
+<p>This programming guide is split into the following sections:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><a class="reference internal" href="#basic-can-concepts"><span class="std std-ref">Basic CAN Concepts</span></a></li>
+<li><a class="reference internal" href="#signals-lines-and-transceiver"><span class="std std-ref">Signals Lines and Transceiver</span></a></li>
+<li><a class="reference internal" href="#configuration"><span class="std std-ref">Configuration</span></a></li>
+<li><a class="reference internal" href="#driver-operation"><span class="std std-ref">Driver Operation</span></a></li>
+<li><a class="reference internal" href="#examples"><span class="std std-ref">Examples</span></a></li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="basic-can-concepts">
+<span id="id1"></span><h2>Basic CAN Concepts<a class="headerlink" href="#basic-can-concepts" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The following section only covers the basic aspects of CAN. For full details, see the CAN2.0B specification</p>
+</div>
+<p>The CAN protocol is a multi-master, multi-cast communication protocol with error detection/signalling and inbuilt message prioritization. The CAN protocol is commonly used as a communication bus in automotive applications.</p>
+<p><strong>Multi-master:</strong> Any node in a CAN bus is allowed initiate the transfer of data.</p>
+<p><strong>Multi-cast:</strong> When a node transmits a message, all nodes are able to receive the message (broadcast). However some nodes can selective choose which messages to accept via the use of acceptance filtering (multi-cast).</p>
+<p><strong>Error Detection and Signalling:</strong> Every CAN node will constantly monitor the CAN bus. When any node detects an error, it will signal the error by transmitting an error frame. Other nodes will receive the error frame and transmit their own error frames in response. This will result in an error detection being propagated to all nodes on the bus.</p>
+<p><strong>Message Priorities:</strong> If two nodes attempt to transmit simultaneously, the node transmitting the message with the lower ID will win arbitration. All other nodes will become receivers ensuring there is at most one transmitter at any time.</p>
+<div class="section" id="can-message-frames">
+<h3>CAN Message Frames<a class="headerlink" href="#can-message-frames" title="Permalink to this headline">¶</a></h3>
+<p>The CAN2.0B specification contains two frame formats known as <strong>Extended Frame</strong> and <strong>Standard Frame</strong> which contain 29-bit IDs and 11-bit IDs respectively. A CAN message consists of the following components</p>
+<blockquote>
+<div><ul class="simple">
+<li>29-bit or 11-bit ID</li>
+<li>Data Length Code (DLC) between 0 to 8</li>
+<li>Up to 8 bytes of data (should match DLC)</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="error-states-and-counters">
+<h3>Error States and Counters<a class="headerlink" href="#error-states-and-counters" title="Permalink to this headline">¶</a></h3>
+<p>The CAN2.0B specification implements fault confinement by requiring every CAN node to maintain two internal error counters known as the <strong>Transmit Error Counter (TEC)</strong> and the <strong>Receive Error Counter (REC)</strong>. The two error counters are used to determine a CAN node’s <strong>error state</strong>, and the counters are incremented and decremented following a set of rules (see CAN2.0B specification). These error states are known as <strong>Error Active</strong>, <strong>Error Passive</strong>, and <strong>Bus-Off</strong>.</p>
+<p><strong>Error Active:</strong> A CAN node is Error Active when <strong>both TEC and REC are less than 128</strong> and indicates a CAN node is operating normally. Error Active nodes are allowed to participate in CAN bus activities, and will actively signal any error conditions it detects by transmitting an <strong>Active Error Flag</strong> over the CAN bus.</p>
+<p><strong>Error Passive:</strong> A CAN node is Error Passive when <strong>either the TEC or REC becomes greater than or equal to 128</strong>. Error Passive nodes are still able to take part in CAN bus activities, but will instead transmit a <strong>Passive Error Flag</strong> upon detection of an error.</p>
+<p><strong>Bus-Off:</strong> A CAN node becomes Bus-Off when the <strong>TEC becomes greater than or equal to 256</strong>. A Bus-Off node is unable take part in CAN bus activity and will remain so until it undergoes bus recovery.</p>
+</div>
+</div>
+<div class="section" id="signals-lines-and-transceiver">
+<span id="id2"></span><h2>Signals Lines and Transceiver<a class="headerlink" href="#signals-lines-and-transceiver" title="Permalink to this headline">¶</a></h2>
+<p>The CAN controller does not contain a internal transceiver and therefore <strong>requires an external transceiver</strong> to operate. The type of external transceiver will depend on the application’s physical layer specification (e.g. using SN65HVD23X transceivers for ISO 11898-2 compatibility).</p>
+<p>The CAN controller’s interface consists of 4 signal lines known as <strong>TX, RX, BUS-OFF, and CLKOUT</strong>. These four signal lines can be routed through the GPIO Matrix to GPIOs.</p>
+<div class="figure align-center" id="id10">
+<div><img height="360" src="../../_images/blockdiag-053fad20a7ef694a42329cbbcaf0d2fe799053d1.png" width="704" /></div><p class="caption"><span class="caption-text">Signal lines of the CAN controller</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+</div>
+<p><strong>TX and RX:</strong> The TX and RX signal lines are required to interface with an external CAN transceiver. Both signal lines represent/interpret a dominant bit as a low logic level (0V), and a recessive bit as a high logic level (3.3V).</p>
+<p><strong>BUS-OFF:</strong> The BUS-OFF signal line is <strong>optional</strong> and is set to a low logic level (0V) whenever the CAN controller reaches a bus-off state. The BUS-OFF signal line is set to a high logic level (3.3V) otherwise.</p>
+<p><strong>CLKOUT:</strong> The CLKOUT signal line is <strong>optional</strong> and outputs a prescaled version of the CAN controller’s source clock (APB Clock).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">An external transceiver <strong>must internally tie the TX input and the RX output</strong> such that a change in logic level to the TX signal line can be observed on the RX line. Failing to do so will cause the CAN controller to interpret differences in logic levels between the two signal lines as a lost in arbitration or a bit error.</p>
+</div>
+</div>
+<div class="section" id="configuration">
+<span id="id3"></span><h2>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="operating-modes">
+<h3>Operating Modes<a class="headerlink" href="#operating-modes" title="Permalink to this headline">¶</a></h3>
+<p>The CAN driver supports the following modes of operations:</p>
+<p><strong>Normal Mode:</strong> The normal operating mode allows the CAN controller to take part in bus activities such as transmitting and receiving messages/error frames. Acknowledgement from another CAN node is required when transmitting message frames.</p>
+<p><strong>No Ack Mode:</strong> The No Acknowledgement mode is similar to normal mode, however acknowledgements are not required when transmitting message frames. This mode is useful when self testing the CAN controller.</p>
+<p><strong>Listen Only Mode:</strong> This mode will prevent the CAN controller from taking part in bus activities. Therefore transmissions of messages/acknowledgement/error frames will be disabled. However the the CAN controller will still be able to receive messages (without acknowledging). This mode is suited for applications such as CAN bus monitoring.</p>
+</div>
+<div class="section" id="alerts">
+<h3>Alerts<a class="headerlink" href="#alerts" title="Permalink to this headline">¶</a></h3>
+<p>The CAN driver contains an alert feature which is used to notify the application level of certain CAN driver events. Alerts are selectively enabled when the CAN driver is installed, but can be reconfigured during runtime by calling <a class="reference internal" href="#_CPPv422can_reconfigure_alerts8uint32_tP8uint32_t" title="can_reconfigure_alerts"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">can_reconfigure_alerts()</span></code></a>. The application can then wait for any enabled alerts to occur by calling <a class="reference internal" href="#_CPPv415can_read_alertsP8uint32_t10TickType_t" title="can_read_alerts"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">can_read_alerts()</span></code></a>. The CAN driver supports the following alerts:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="47%" />
+<col width="53%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Alert</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">CAN_ALERT_TX_IDLE</span></code></td>
+<td>No more messages queued for
+transmission</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">CAN_ALERT_TX_SUCCESS</span></code></td>
+<td>The previous transmission was
+successful</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">CAN_ALERT_BELOW_ERR_WARN</span></code></td>
+<td>Both error counters have dropped below
+error warning limit</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">CAN_ALERT_ERR_ACTIVE</span></code></td>
+<td>CAN controller has become error active</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">CAN_ALERT_RECOVERY_IN_PROGRESS</span></code></td>
+<td>CAN controller is undergoing bus
+recovery</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">CAN_ALERT_BUS_RECOVERED</span></code></td>
+<td>CAN controller has successfully
+completed bus recovery</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">CAN_ALERT_ARB_LOST</span></code></td>
+<td>The previous transmission lost
+arbitration</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">CAN_ALERT_ABOVE_ERR_WARN</span></code></td>
+<td>One of the error counters have exceeded
+the error warning limit</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">CAN_ALERT_BUS_ERROR</span></code></td>
+<td>A (Bit, Stuff, CRC, Form, ACK) error
+has occurred on the bus</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">CAN_ALERT_TX_FAILED</span></code></td>
+<td>The previous transmission has failed</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">CAN_ALERT_RX_QUEUE_FULL</span></code></td>
+<td>The RX queue is full causing a received
+frame to be lost</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">CAN_ALERT_ERR_PASS</span></code></td>
+<td>CAN controller has become error passive</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">CAN_ALERT_BUS_OFF</span></code></td>
+<td>Bus-off condition occurred. CAN
+controller can no longer influence bus</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <strong>error warning limit</strong> can be used to preemptively warn the application of bus errors before the error passive state is reached. By default the CAN driver sets the <strong>error warning limit</strong> to <strong>96</strong>. The <code class="docutils literal notranslate"><span class="pre">CAN_ALERT_ABOVE_ERR_WARN</span></code> is raised when the TEC or REC becomes larger then or equal to the error warning limit. The <code class="docutils literal notranslate"><span class="pre">CAN_ALERT_BELOW_ERR_WARN</span></code> is raised when both TEC and REC return back to values below <strong>96</strong>.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When enabling alerts, the <code class="docutils literal notranslate"><span class="pre">CAN_ALERT_AND_LOG</span></code> flag can be used to cause the CAN driver to log any raised alerts to UART. The <code class="docutils literal notranslate"><span class="pre">CAN_ALERT_ALL</span></code> and <code class="docutils literal notranslate"><span class="pre">CAN_ALERT_NONE</span></code> macros can also be used to enable/disable all alerts during configuration/reconfiguration.</p>
+</div>
+</div>
+<div class="section" id="bit-timing">
+<h3>Bit Timing<a class="headerlink" href="#bit-timing" title="Permalink to this headline">¶</a></h3>
+<p>The operating bit rate of the CAN controller is configured using the <a class="reference internal" href="#_CPPv419can_timing_config_t" title="can_timing_config_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">can_timing_config_t</span></code></a> structure. The period of each bit is made up of multiple <strong>time quanta</strong>, and the period of a <strong>time quanta</strong> is determined by a prescaled version of the CAN controller’s source clock. A single bit contains the following segments in the following order:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>The <strong>Synchronization Segment</strong> consists of a single time quanta</li>
+<li><strong>Timing Segment 1</strong> consists of 1 to 16 time quanta before sample point</li>
+<li><strong>Timing Segment 2</strong> consists of 1 to 8 time quanta after sample point</li>
+</ol>
+</div></blockquote>
+<p>The <strong>Baudrate Prescaler</strong> is used to determine the period of each time quanta by dividing the CAN controller’s source clock (80 MHz APB clock). The <code class="docutils literal notranslate"><span class="pre">brp</span></code> can be <strong>any even number from 2 to 128</strong>. If the ESP32 is a revision 2 or later chip, the <code class="docutils literal notranslate"><span class="pre">brp</span></code> will also support <strong>any multiple of 4 from 132 to 256</strong>, and can be enabled by setting the <a class="reference internal" href="../kconfig.html#config-esp32-rev-min"><span class="std std-ref">CONFIG_ESP32_REV_MIN</span></a> to revision 2 or higher.</p>
+<div class="figure align-center" id="id11">
+<div><img height="155" src="../../_images/packetdiag-264d6ce62e3b5940d8fe4e56087c1c4dc5c2ec36.png" width="928" /></div><p class="caption"><span class="caption-text">Bit timing configuration for 500kbit/s given BRP = 8</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
+</div>
+<p>The sample point of a bit is located on the intersection of Timing Segment 1 and 2. Enabling <strong>Triple Sampling</strong> will cause 3 time quanta to be sampled per bit instead of 1 (extra samples are located at the tail end of Timing Segment 1).</p>
+<p>The <strong>Synchronization Jump Width</strong> is used to determined the maximum number of time quanta a single bit time can be lengthened/shortened for synchronization purposes. <code class="docutils literal notranslate"><span class="pre">sjw</span></code> can <strong>range from 1 to 4</strong>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Multiple combinations of <code class="docutils literal notranslate"><span class="pre">brp</span></code>, <code class="docutils literal notranslate"><span class="pre">tseg_1</span></code>, <code class="docutils literal notranslate"><span class="pre">tseg_2</span></code>, and <code class="docutils literal notranslate"><span class="pre">sjw</span></code> can achieve the same bit rate. Users should tune these values to the physical characteristics of their CAN bus by taking into account factors such as <strong>propagation delay, node information processing time, and phase errors</strong>.</p>
+</div>
+<p>Bit timing <strong>macro initializers</strong> are also available for commonly used CAN bus bit rates. The following macro initializers are provided by the CAN driver.</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">CAN_TIMING_CONFIG_12_5KBITS()</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">CAN_TIMING_CONFIG_16KBITS()</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">CAN_TIMING_CONFIG_20KBITS()</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">CAN_TIMING_CONFIG_25KBITS()</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">CAN_TIMING_CONFIG_50KBITS()</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">CAN_TIMING_CONFIG_100KBITS()</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">CAN_TIMING_CONFIG_125KBITS()</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">CAN_TIMING_CONFIG_250KBITS()</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">CAN_TIMING_CONFIG_500KBITS()</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">CAN_TIMING_CONFIG_800KBITS()</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">CAN_TIMING_CONFIG_1MBITS()</span></code></li>
+</ul>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The macro initializers for 12.5K, 16K, and 20K bit rates are only available
+for ESP32 revision 2 or later.</p>
+</div>
+</div>
+<div class="section" id="acceptance-filter">
+<h3>Acceptance Filter<a class="headerlink" href="#acceptance-filter" title="Permalink to this headline">¶</a></h3>
+<p>The CAN controller contains a hardware acceptance filter which can be used to filter CAN messages of a particular ID. A node that filters out a message <strong>will not receive the message, but will still acknowledge it</strong>. Acceptances filters can make a node more efficient by filtering out messages sent over the CAN bus that are irrelevant to the CAN node in question. The CAN controller’s acceptance filter is configured using two 32-bit values within <a class="reference internal" href="#_CPPv419can_filter_config_t" title="can_filter_config_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">can_filter_config_t</span></code></a> known as the <strong>acceptance code</strong> and the <strong>acceptance mask</strong>.</p>
+<p>The <strong>acceptance code</strong> specifies the bit sequence which a message’s ID, RTR, and data bytes must match in order for the message to be received by the CAN controller. The <strong>acceptance mask</strong> is a bit sequence specifying which bits of the acceptance code can be ignored. This allows for a messages of different IDs to be accepted by a single acceptance code.</p>
+<p>The acceptance filter can be used under <strong>Single or Dual Filter Mode</strong>. Single Filter Mode will use the acceptance code and mask to define a single filter. This allows for the first two data bytes of a standard frame to be filtered, or the entirety of an extended frame’s 29-bit ID. The following diagram illustrates how the 32-bit acceptance code and mask will be interpreted under Single Filter Mode (Note: The yellow and blue fields represent standard and extended CAN frames respectively).</p>
+<div class="figure align-center" id="id12">
+<div><img height="190" src="../../_images/packetdiag-117e79378d15c5fb2cf97e29f2c59fbcd88760dc.png" width="1088" /></div><p class="caption"><span class="caption-text">Bit layout of single filter mode (Right side MSBit)</span><a class="headerlink" href="#id12" title="Permalink to this image">¶</a></p>
+</div>
+<p><strong>Dual Filter Mode</strong> will use the acceptance code and mask to define two separate filters allowing for increased flexibility of ID’s to accept, but does not allow for all 29-bits of an extended ID to be filtered. The following diagram illustrates how the 32-bit acceptance code and mask will be interpreted under <strong>Dual Filter Mode</strong> (Note: The yellow and blue fields represent standard and extended CAN frames respectively).</p>
+<div class="figure align-center" id="id13">
+<div><img height="190" src="../../_images/packetdiag-3af0649128b63028a2c309525e7dc995fc7e9698.png" width="1088" /></div><p class="caption"><span class="caption-text">Bit layout of dual filter mode (Right side MSBit)</span><a class="headerlink" href="#id13" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+<div class="section" id="disabling-tx-queue">
+<h3>Disabling TX Queue<a class="headerlink" href="#disabling-tx-queue" title="Permalink to this headline">¶</a></h3>
+<p>The TX queue can be disabled during configuration by setting the <code class="docutils literal notranslate"><span class="pre">tx_queue_len</span></code> member of <a class="reference internal" href="#_CPPv420can_general_config_t" title="can_general_config_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">can_general_config_t</span></code></a> to <code class="docutils literal notranslate"><span class="pre">0</span></code>. This will allow applications that do not require message transmission to save a small amount of memory when using the CAN driver.</p>
+</div>
+</div>
+<div class="section" id="driver-operation">
+<span id="id4"></span><h2>Driver Operation<a class="headerlink" href="#driver-operation" title="Permalink to this headline">¶</a></h2>
+<p>The CAN driver is designed with distinct states and strict rules regarding the functions or conditions that trigger a state transition. The following diagram illustrates the various states and their transitions.</p>
+<div class="figure align-center" id="id14">
+<div><img height="280" src="../../_images/blockdiag-ba6d016828f4ed968ed275f17e009cf3e11a1e8f.png" width="940" /></div><p class="caption"><span class="caption-text">State transition diagram of the CAN driver (see table below)</span><a class="headerlink" href="#id14" title="Permalink to this image">¶</a></p>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="36%" />
+<col width="54%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Label</th>
+<th class="head">Transition</th>
+<th class="head">Action/Condition</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>A</td>
+<td>Uninstalled -&gt; Stopped</td>
+<td><a class="reference internal" href="#_CPPv418can_driver_installPK20can_general_config_tPK19can_timing_config_tPK19can_filter_config_t" title="can_driver_install"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">can_driver_install()</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>B</td>
+<td>Stopped -&gt; Uninstalled</td>
+<td><a class="reference internal" href="#_CPPv420can_driver_uninstallv" title="can_driver_uninstall"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">can_driver_uninstall()</span></code></a></td>
+</tr>
+<tr class="row-even"><td>C</td>
+<td>Stopped -&gt; Running</td>
+<td><a class="reference internal" href="#_CPPv49can_startv" title="can_start"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">can_start()</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>D</td>
+<td>Running -&gt; Stopped</td>
+<td><a class="reference internal" href="#_CPPv48can_stopv" title="can_stop"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">can_stop()</span></code></a></td>
+</tr>
+<tr class="row-even"><td>E</td>
+<td>Running -&gt; Bus-Off</td>
+<td>Transmit Error Counter &gt;= 256</td>
+</tr>
+<tr class="row-odd"><td>F</td>
+<td>Bus-Off -&gt; Uninstalled</td>
+<td><a class="reference internal" href="#_CPPv420can_driver_uninstallv" title="can_driver_uninstall"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">can_driver_uninstall()</span></code></a></td>
+</tr>
+<tr class="row-even"><td>G</td>
+<td>Bus-Off -&gt; Recovering</td>
+<td><a class="reference internal" href="#_CPPv421can_initiate_recoveryv" title="can_initiate_recovery"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">can_initiate_recovery()</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>H</td>
+<td>Recovering -&gt; Stopped</td>
+<td>128 occurrences of bus-free signal</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="driver-states">
+<h3>Driver States<a class="headerlink" href="#driver-states" title="Permalink to this headline">¶</a></h3>
+<p><strong>Uninstalled</strong>: In the uninstalled state, no memory is allocated for the driver and the CAN controller is powered OFF.</p>
+<p><strong>Stopped</strong>: In this state, the CAN controller is powered ON and the CAN driver has been installed. However the CAN controller will be unable to take part in any CAN bus activities such as transmitting, receiving, or acknowledging messages.</p>
+<p><strong>Running</strong>: In the running state, the CAN controller is able to take part in bus activities. Therefore messages can be transmitted/received/acknowledged. Furthermore the CAN controller will be able to transmit error frames upon detection of errors on the CAN bus.</p>
+<p><strong>Bus-Off</strong>: The bus-off state is automatically entered when the CAN controller’s Transmit Error Counter becomes greater than or equal to 256 (see CAN2.0B specification regarding error counter rules). The bus-off state indicates the occurrence of severe errors on the CAN bus or in the CAN controller. Whilst in the bus-off state, the CAN controller will be unable to take part in any CAN bus activities. To exit the bus-off state, the CAN controller must undergo the bus recovery process.</p>
+<p><strong>Recovering</strong>: The recovering state is entered when the CAN driver undergoes bus recovery. The CAN driver/controller will remain in the recovering state until the 128 occurrences of the bus-free signal (see CAN2.0B specification) is observed on the CAN bus.</p>
+</div>
+<div class="section" id="message-flags">
+<h3>Message Flags<a class="headerlink" href="#message-flags" title="Permalink to this headline">¶</a></h3>
+<p>The CAN driver distinguishes different types of CAN messages by using the various bit field members of the <a class="reference internal" href="#_CPPv413can_message_t" title="can_message_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">can_message_t</span></code></a> structure. These bit field members help distinguish whether a message is in standard or extended format, an RTR, and the type of transmission to use when transmitting such a message. These bit field members can also be toggled using the the <cite>flags</cite> member of <a class="reference internal" href="#_CPPv413can_message_t" title="can_message_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">can_message_t</span></code></a> and the following message flags:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Flag</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">CAN_MSG_FLAG_EXTD</span></code></td>
+<td>Message is in Extended Frame Format
+(29bit ID)</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">CAN_MSG_FLAG_RTR</span></code></td>
+<td>Message is a Remote Transmit Request</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">CAN_MSG_FLAG_SS</span></code></td>
+<td>Transmit message using Single Shot
+Transmission (Message will not be
+retransmitted upon error or loss of
+arbitration). Unused for received message.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">CAN_MSG_FLAG_SELF</span></code></td>
+<td>Transmit message using Self Reception
+Request (Transmitted message will also
+received by the same node). Unused for
+received message.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">CAN_MSG_FLAG_DLC_NON_COMP</span></code></td>
+<td>Message’s Data length code is larger than 8.
+This will break compliance with CAN2.0B</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">CAN_MSG_FLAG_NONE</span></code></td>
+<td>Clears all bit fields. Equivalent to a
+Standard Frame Format (11bit ID) Data Frame.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="examples">
+<span id="id5"></span><h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="configuration-installation">
+<h3>Configuration &amp; Installation<a class="headerlink" href="#configuration-installation" title="Permalink to this headline">¶</a></h3>
+<p>The following code snippet demonstrates how to configure, install, and start the CAN driver via the use of the various configuration structures, macro initializers, the <a class="reference internal" href="#_CPPv418can_driver_installPK20can_general_config_tPK19can_timing_config_tPK19can_filter_config_t" title="can_driver_install"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">can_driver_install()</span></code></a> function, and the <a class="reference internal" href="#_CPPv49can_startv" title="can_start"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">can_start()</span></code></a> function.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;driver/gpio.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;driver/can.h&quot;</span><span class="cp"></span>
+
+<span class="kt">void</span> <span class="nf">app_main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">//Initialize configuration structures using macro initializers</span>
+    <span class="n">can_general_config_t</span> <span class="n">g_config</span> <span class="o">=</span> <span class="n">CAN_GENERAL_CONFIG_DEFAULT</span><span class="p">(</span><span class="n">GPIO_NUM_21</span><span class="p">,</span> <span class="n">GPIO_NUM_22</span><span class="p">,</span> <span class="n">CAN_MODE_NORMAL</span><span class="p">);</span>
+    <span class="n">can_timing_config_t</span> <span class="n">t_config</span> <span class="o">=</span> <span class="n">CAN_TIMING_CONFIG_500KBITS</span><span class="p">();</span>
+    <span class="n">can_filter_config_t</span> <span class="n">f_config</span> <span class="o">=</span> <span class="n">CAN_FILTER_CONFIG_ACCEPT_ALL</span><span class="p">();</span>
+
+    <span class="c1">//Install CAN driver</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">can_driver_install</span><span class="p">(</span><span class="o">&amp;</span><span class="n">g_config</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">t_config</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">f_config</span><span class="p">)</span> <span class="o">==</span> <span class="n">ESP_OK</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Driver installed</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to install driver</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">//Start CAN driver</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">can_start</span><span class="p">()</span> <span class="o">==</span> <span class="n">ESP_OK</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Driver started</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to start driver</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="p">...</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The usage of macro initializers are not mandatory and each of the configuration structures can be manually.</p>
+</div>
+<div class="section" id="message-transmission">
+<h3>Message Transmission<a class="headerlink" href="#message-transmission" title="Permalink to this headline">¶</a></h3>
+<p>The following code snippet demonstrates how to transmit a message via the usage of the <a class="reference internal" href="#_CPPv413can_message_t" title="can_message_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">can_message_t</span></code></a> type and <a class="reference internal" href="#_CPPv412can_transmitPK13can_message_t10TickType_t" title="can_transmit"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">can_transmit()</span></code></a> function.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;driver/can.h&quot;</span><span class="cp"></span>
+
+<span class="p">...</span>
+
+<span class="c1">//Configure message to transmit</span>
+<span class="n">can_message_t</span> <span class="n">message</span><span class="p">;</span>
+<span class="n">message</span><span class="p">.</span><span class="n">identifier</span> <span class="o">=</span> <span class="mh">0xAAAA</span><span class="p">;</span>
+<span class="n">message</span><span class="p">.</span><span class="n">extd</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">message</span><span class="p">.</span><span class="n">data_length_code</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">message</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">//Queue message for transmission</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">can_transmit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">message</span><span class="p">,</span> <span class="n">pdMS_TO_TICKS</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span> <span class="o">==</span> <span class="n">ESP_OK</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Message queued for transmission</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to queue message for transmission</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="message-reception">
+<h3>Message Reception<a class="headerlink" href="#message-reception" title="Permalink to this headline">¶</a></h3>
+<p>The following code snippet demonstrates how to receive a message via the usage of the <a class="reference internal" href="#_CPPv413can_message_t" title="can_message_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">can_message_t</span></code></a> type and <a class="reference internal" href="#_CPPv411can_receiveP13can_message_t10TickType_t" title="can_receive"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">can_receive()</span></code></a> function.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;driver/can.h&quot;</span><span class="cp"></span>
+
+<span class="p">...</span>
+
+<span class="c1">//Wait for message to be received</span>
+<span class="n">can_message_t</span> <span class="n">message</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">can_receive</span><span class="p">(</span><span class="o">&amp;</span><span class="n">message</span><span class="p">,</span> <span class="n">pdMS_TO_TICKS</span><span class="p">(</span><span class="mi">10000</span><span class="p">))</span> <span class="o">==</span> <span class="n">ESP_OK</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Message received</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to receive message</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">//Process received message</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">message</span><span class="p">.</span><span class="n">extd</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Message is in Extended Format</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Message is in Standard Format</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">printf</span><span class="p">(</span><span class="s">&quot;ID is %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">.</span><span class="n">identifier</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">message</span><span class="p">.</span><span class="n">rtr</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">message</span><span class="p">.</span><span class="n">data_length_code</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Data byte %d = %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">message</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="reconfiguring-and-reading-alerts">
+<h3>Reconfiguring and Reading Alerts<a class="headerlink" href="#reconfiguring-and-reading-alerts" title="Permalink to this headline">¶</a></h3>
+<p>The following code snippet demonstrates how to reconfigure and read CAN driver alerts via the use of the <a class="reference internal" href="#_CPPv422can_reconfigure_alerts8uint32_tP8uint32_t" title="can_reconfigure_alerts"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">can_reconfigure_alerts()</span></code></a> and <a class="reference internal" href="#_CPPv415can_read_alertsP8uint32_t10TickType_t" title="can_read_alerts"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">can_read_alerts()</span></code></a> functions.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;driver/can.h&quot;</span><span class="cp"></span>
+
+<span class="p">...</span>
+
+<span class="c1">//Reconfigure alerts to detect Error Passive and Bus-Off error states</span>
+<span class="kt">uint32_t</span> <span class="n">alerts_to_enable</span> <span class="o">=</span> <span class="n">CAN_ALERT_ERR_PASS</span> <span class="o">|</span> <span class="n">CAN_ALERT_BUS_OFF</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">can_reconfigure_alerts</span><span class="p">(</span><span class="n">alerts_to_enable</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">)</span> <span class="o">==</span> <span class="n">ESP_OK</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Alerts reconfigured</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to reconfigure alerts&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">//Block indefinitely until an alert occurs</span>
+<span class="kt">uint32_t</span> <span class="n">alerts_triggered</span><span class="p">;</span>
+<span class="n">can_read_alerts</span><span class="p">(</span><span class="o">&amp;</span><span class="n">alerts_triggered</span><span class="p">,</span> <span class="n">portMAX_DELAY</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="stop-and-uninstall">
+<h3>Stop and Uninstall<a class="headerlink" href="#stop-and-uninstall" title="Permalink to this headline">¶</a></h3>
+<p>The following code demonstrates how to stop and uninstall the CAN driver via the use of the <a class="reference internal" href="#_CPPv48can_stopv" title="can_stop"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">can_stop()</span></code></a> and <a class="reference internal" href="#_CPPv420can_driver_uninstallv" title="can_driver_uninstall"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">can_driver_uninstall()</span></code></a> functions.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;driver/can.h&quot;</span><span class="cp"></span>
+
+<span class="p">...</span>
+
+<span class="c1">//Stop the CAN driver</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">can_stop</span><span class="p">()</span> <span class="o">==</span> <span class="n">ESP_OK</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Driver stopped</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to stop driver</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">//Uninstall the CAN driver</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">can_driver_uninstall</span><span class="p">()</span> <span class="o">==</span> <span class="n">ESP_OK</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Driver uninstalled</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to uninstall driver</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="multiple-id-filter-configuration">
+<h3>Multiple ID Filter Configuration<a class="headerlink" href="#multiple-id-filter-configuration" title="Permalink to this headline">¶</a></h3>
+<p>The acceptance mask in <a class="reference internal" href="#_CPPv419can_filter_config_t" title="can_filter_config_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">can_filter_config_t</span></code></a> can be configured such that two or more IDs will be accepted for a single filter. For a particular filter to accept multiple IDs, the conflicting bit positions amongst the IDs must be set in the acceptance mask. The acceptance code can be set to any one of the IDs.</p>
+<p>The following example shows how the calculate the acceptance mask given multiple IDs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ID1</span> <span class="o">=</span>  <span class="mi">11</span><span class="s1">&#39;b101 1010 0000</span>
+<span class="n">ID2</span> <span class="o">=</span>  <span class="mi">11</span><span class="s1">&#39;b101 1010 0001</span>
+<span class="n">ID3</span> <span class="o">=</span>  <span class="mi">11</span><span class="s1">&#39;b101 1010 0100</span>
+<span class="n">ID4</span> <span class="o">=</span>  <span class="mi">11</span><span class="s1">&#39;b101 1010 1000</span>
+<span class="o">//</span><span class="n">Acceptance</span> <span class="n">Mask</span>
+<span class="n">MASK</span> <span class="o">=</span> <span class="mi">11</span><span class="s1">&#39;b000 0000 1101</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="application-examples">
+<h3>Application Examples<a class="headerlink" href="#application-examples" title="Permalink to this headline">¶</a></h3>
+<p><strong>Network Example:</strong> The CAN Network example demonstrates communication between two ESP32s using the CAN driver API. One CAN node acts as a network master initiate and ceasing the transfer of a data from another CAN node acting as a network slave. The example can be found via <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/can/can_network">peripherals/can/can_network</a>.</p>
+<p><strong>Alert and Recovery Example:</strong> This example demonstrates how to use the CAN driver’s alert and bus recovery API. The example purposely introduces errors on the CAN bus to put the CAN controller into the Bus-Off state. An alert is used to detect the Bus-Off state and trigger the bus recovery process. The example can be found via <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/can/can_alert_and_recovery">peripherals/can/can_alert_and_recovery</a>.</p>
+<p><strong>Self Test Example:</strong> This example uses the No Acknowledge Mode and Self Reception Request to cause the CAN controller to send and simultaneously receive a series of messages. This example can be used to verify if the connections between the CAN controller and the external transceiver are working correctly. The example can be found via <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/can/can_self_test">peripherals/can/can_self_test</a>.</p>
+</div>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/soc/include/hal/can_types.h">soc/include/hal/can_types.h</a></li>
+</ul>
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv413can_message_t">
+<span id="_CPPv313can_message_t"></span><span id="_CPPv213can_message_t"></span><span id="can_message_t"></span><span class="target" id="structcan__message__t"></span><em class="property">struct </em><code class="descname">can_message_t</code><a class="headerlink" href="#_CPPv413can_message_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Structure to store a CAN message. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd></dd>
+<dt><strong>Note</strong></dt>
+<dd>The flags member is deprecated </dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N13can_message_t4extdE">
+<span id="_CPPv3N13can_message_t4extdE"></span><span id="_CPPv2N13can_message_t4extdE"></span><span id="can_message_t::extd__uint32_t"></span><span class="target" id="structcan__message__t_1a873a6fb3688bfad00dd42a629dd08ad1"></span>uint32_t <code class="descname">extd</code><a class="headerlink" href="#_CPPv4N13can_message_t4extdE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Extended Frame Format (29bit ID) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13can_message_t3rtrE">
+<span id="_CPPv3N13can_message_t3rtrE"></span><span id="_CPPv2N13can_message_t3rtrE"></span><span id="can_message_t::rtr__uint32_t"></span><span class="target" id="structcan__message__t_1a2535cc52d099268ad1ec48498473f2eb"></span>uint32_t <code class="descname">rtr</code><a class="headerlink" href="#_CPPv4N13can_message_t3rtrE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Message is a Remote Transmit Request </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13can_message_t2ssE">
+<span id="_CPPv3N13can_message_t2ssE"></span><span id="_CPPv2N13can_message_t2ssE"></span><span id="can_message_t::ss__uint32_t"></span><span class="target" id="structcan__message__t_1a139f96177d664db87994819505b76652"></span>uint32_t <code class="descname">ss</code><a class="headerlink" href="#_CPPv4N13can_message_t2ssE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Transmit as a Single Shot Transmission. Unused for received. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13can_message_t4selfE">
+<span id="_CPPv3N13can_message_t4selfE"></span><span id="_CPPv2N13can_message_t4selfE"></span><span id="can_message_t::self__uint32_t"></span><span class="target" id="structcan__message__t_1ae2f72f53d378ac8812c4692cfc5e8da1"></span>uint32_t <code class="descname">self</code><a class="headerlink" href="#_CPPv4N13can_message_t4selfE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Transmit as a Self Reception Request. Unused for received. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13can_message_t12dlc_non_compE">
+<span id="_CPPv3N13can_message_t12dlc_non_compE"></span><span id="_CPPv2N13can_message_t12dlc_non_compE"></span><span id="can_message_t::dlc_non_comp__uint32_t"></span><span class="target" id="structcan__message__t_1ae9fd8ccf3bbcf5f57a24878637bce366"></span>uint32_t <code class="descname">dlc_non_comp</code><a class="headerlink" href="#_CPPv4N13can_message_t12dlc_non_compE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Message’s Data length code is larger than 8. This will break compliance with CAN2.0B. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13can_message_t8reservedE">
+<span id="_CPPv3N13can_message_t8reservedE"></span><span id="_CPPv2N13can_message_t8reservedE"></span><span id="can_message_t::reserved__uint32_t"></span><span class="target" id="structcan__message__t_1aa54892a0fb8f8312b3827512affd5878"></span>uint32_t <code class="descname">reserved</code><a class="headerlink" href="#_CPPv4N13can_message_t8reservedE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reserved bits </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13can_message_t5flagsE">
+<span id="_CPPv3N13can_message_t5flagsE"></span><span id="_CPPv2N13can_message_t5flagsE"></span><span id="can_message_t::flags__uint32_t"></span><span class="target" id="structcan__message__t_1a76bf3e04a7f145c74bd85110061af1a6"></span>uint32_t <code class="descname">flags</code><a class="headerlink" href="#_CPPv4N13can_message_t5flagsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Alternate way to set message flags using message flag macros (see documentation) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13can_message_t10identifierE">
+<span id="_CPPv3N13can_message_t10identifierE"></span><span id="_CPPv2N13can_message_t10identifierE"></span><span id="can_message_t::identifier__uint32_t"></span><span class="target" id="structcan__message__t_1a8bfc6352f104c72e3d88c83c7d353519"></span>uint32_t <code class="descname">identifier</code><a class="headerlink" href="#_CPPv4N13can_message_t10identifierE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>11 or 29 bit identifier </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13can_message_t16data_length_codeE">
+<span id="_CPPv3N13can_message_t16data_length_codeE"></span><span id="_CPPv2N13can_message_t16data_length_codeE"></span><span id="can_message_t::data_length_code__uint8_t"></span><span class="target" id="structcan__message__t_1a4cad34a22b2e65b3826f0c88da41606f"></span>uint8_t <code class="descname">data_length_code</code><a class="headerlink" href="#_CPPv4N13can_message_t16data_length_codeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Data length code </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N13can_message_t4dataE">
+<span id="_CPPv3N13can_message_t4dataE"></span><span id="_CPPv2N13can_message_t4dataE"></span><span id="can_message_t::data__uint8_tA"></span><span class="target" id="structcan__message__t_1aeed0536dbb2208bfccb41198d4634d0f"></span>uint8_t <code class="descname">data</code>[<code class="descname">CAN_FRAME_MAX_DLC</code>]<a class="headerlink" href="#_CPPv4N13can_message_t4dataE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Data bytes (not relevant in RTR frame) </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv419can_timing_config_t">
+<span id="_CPPv319can_timing_config_t"></span><span id="_CPPv219can_timing_config_t"></span><span id="can_timing_config_t"></span><span class="target" id="structcan__timing__config__t"></span><em class="property">struct </em><code class="descname">can_timing_config_t</code><a class="headerlink" href="#_CPPv419can_timing_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Structure for bit timing configuration of the CAN driver. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Macro initializers are available for this structure </dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N19can_timing_config_t3brpE">
+<span id="_CPPv3N19can_timing_config_t3brpE"></span><span id="_CPPv2N19can_timing_config_t3brpE"></span><span id="can_timing_config_t::brp__uint32_t"></span><span class="target" id="structcan__timing__config__t_1a82b1870f4bb95d66645b66080d3a5570"></span>uint32_t <code class="descname">brp</code><a class="headerlink" href="#_CPPv4N19can_timing_config_t3brpE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Baudrate prescaler (i.e., APB clock divider) can be any even number from 2 to 128. For ESP32 Rev 2 or later, multiples of 4 from 132 to 256 are also supported </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19can_timing_config_t6tseg_1E">
+<span id="_CPPv3N19can_timing_config_t6tseg_1E"></span><span id="_CPPv2N19can_timing_config_t6tseg_1E"></span><span id="can_timing_config_t::tseg_1__uint8_t"></span><span class="target" id="structcan__timing__config__t_1a7e50caca26109e86fd6fa3815330fb9e"></span>uint8_t <code class="descname">tseg_1</code><a class="headerlink" href="#_CPPv4N19can_timing_config_t6tseg_1E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Timing segment 1 (Number of time quanta, between 1 to 16) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19can_timing_config_t6tseg_2E">
+<span id="_CPPv3N19can_timing_config_t6tseg_2E"></span><span id="_CPPv2N19can_timing_config_t6tseg_2E"></span><span id="can_timing_config_t::tseg_2__uint8_t"></span><span class="target" id="structcan__timing__config__t_1a8aa2748ec79b3ea9f57488917a0758cf"></span>uint8_t <code class="descname">tseg_2</code><a class="headerlink" href="#_CPPv4N19can_timing_config_t6tseg_2E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Timing segment 2 (Number of time quanta, 1 to 8) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19can_timing_config_t3sjwE">
+<span id="_CPPv3N19can_timing_config_t3sjwE"></span><span id="_CPPv2N19can_timing_config_t3sjwE"></span><span id="can_timing_config_t::sjw__uint8_t"></span><span class="target" id="structcan__timing__config__t_1a2c1b59e1cd04c281587783b227b510fe"></span>uint8_t <code class="descname">sjw</code><a class="headerlink" href="#_CPPv4N19can_timing_config_t3sjwE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Synchronization Jump Width (Max time quanta jump for synchronize from 1 to 4) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19can_timing_config_t15triple_samplingE">
+<span id="_CPPv3N19can_timing_config_t15triple_samplingE"></span><span id="_CPPv2N19can_timing_config_t15triple_samplingE"></span><span id="can_timing_config_t::triple_sampling__b"></span><span class="target" id="structcan__timing__config__t_1a30cea67001a6358236a35034eddb54e1"></span>bool <code class="descname">triple_sampling</code><a class="headerlink" href="#_CPPv4N19can_timing_config_t15triple_samplingE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enables triple sampling when the CAN controller samples a bit </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv419can_filter_config_t">
+<span id="_CPPv319can_filter_config_t"></span><span id="_CPPv219can_filter_config_t"></span><span id="can_filter_config_t"></span><span class="target" id="structcan__filter__config__t"></span><em class="property">struct </em><code class="descname">can_filter_config_t</code><a class="headerlink" href="#_CPPv419can_filter_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Structure for acceptance filter configuration of the CAN driver (see documentation) </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Macro initializers are available for this structure </dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N19can_filter_config_t15acceptance_codeE">
+<span id="_CPPv3N19can_filter_config_t15acceptance_codeE"></span><span id="_CPPv2N19can_filter_config_t15acceptance_codeE"></span><span id="can_filter_config_t::acceptance_code__uint32_t"></span><span class="target" id="structcan__filter__config__t_1a35fe86479cc30b0e2318bbad67c9f40b"></span>uint32_t <code class="descname">acceptance_code</code><a class="headerlink" href="#_CPPv4N19can_filter_config_t15acceptance_codeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>32-bit acceptance code </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19can_filter_config_t15acceptance_maskE">
+<span id="_CPPv3N19can_filter_config_t15acceptance_maskE"></span><span id="_CPPv2N19can_filter_config_t15acceptance_maskE"></span><span id="can_filter_config_t::acceptance_mask__uint32_t"></span><span class="target" id="structcan__filter__config__t_1afe5376816a38d159ff13112ac2c533c7"></span>uint32_t <code class="descname">acceptance_mask</code><a class="headerlink" href="#_CPPv4N19can_filter_config_t15acceptance_maskE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>32-bit acceptance mask </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19can_filter_config_t13single_filterE">
+<span id="_CPPv3N19can_filter_config_t13single_filterE"></span><span id="_CPPv2N19can_filter_config_t13single_filterE"></span><span id="can_filter_config_t::single_filter__b"></span><span class="target" id="structcan__filter__config__t_1a4d2f448eb0158773d07a26f8e4473b2e"></span>bool <code class="descname">single_filter</code><a class="headerlink" href="#_CPPv4N19can_filter_config_t13single_filterE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Use Single Filter Mode (see documentation) </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.CAN_EXTD_ID_MASK">
+<span class="target" id="can__types_8h_1a552ae3e96a25c72aab07689575591bc2"></span><code class="descname">CAN_EXTD_ID_MASK</code><a class="headerlink" href="#c.CAN_EXTD_ID_MASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>CAN2.0B Constants. </p>
+<p>Bit mask for 29 bit Extended Frame Format ID </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.CAN_STD_ID_MASK">
+<span class="target" id="can__types_8h_1a4cd8ce34887b90baeeaa6a4aa048b398"></span><code class="descname">CAN_STD_ID_MASK</code><a class="headerlink" href="#c.CAN_STD_ID_MASK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bit mask for 11 bit Standard Frame Format ID </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.CAN_FRAME_MAX_DLC">
+<span class="target" id="can__types_8h_1a8b1cf634d1a03237353f734b46f2af23"></span><code class="descname">CAN_FRAME_MAX_DLC</code><a class="headerlink" href="#c.CAN_FRAME_MAX_DLC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Max data bytes allowed in CAN2.0 </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.CAN_FRAME_EXTD_ID_LEN_BYTES">
+<span class="target" id="can__types_8h_1ac74c6740e89ea482cb55720101bd3a80"></span><code class="descname">CAN_FRAME_EXTD_ID_LEN_BYTES</code><a class="headerlink" href="#c.CAN_FRAME_EXTD_ID_LEN_BYTES" title="Permalink to this definition">¶</a></dt>
+<dd><p>EFF ID requires 4 bytes (29bit) </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.CAN_FRAME_STD_ID_LEN_BYTES">
+<span class="target" id="can__types_8h_1a275d80cdb50a3d5d958419f8a2fd9567"></span><code class="descname">CAN_FRAME_STD_ID_LEN_BYTES</code><a class="headerlink" href="#c.CAN_FRAME_STD_ID_LEN_BYTES" title="Permalink to this definition">¶</a></dt>
+<dd><p>SFF ID requires 2 bytes (11bit) </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.CAN_ERR_PASS_THRESH">
+<span class="target" id="can__types_8h_1a99167cc62b7f0c1fab3bf9ee707037f3"></span><code class="descname">CAN_ERR_PASS_THRESH</code><a class="headerlink" href="#c.CAN_ERR_PASS_THRESH" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error counter threshold for error passive </p>
+</dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv410can_mode_t">
+<span id="_CPPv310can_mode_t"></span><span id="_CPPv210can_mode_t"></span><span id="can_mode_t"></span><span class="target" id="can__types_8h_1ad6f5bfd4c152b830a94c2066e9c81710"></span><em class="property">enum </em><code class="descname">can_mode_t</code><a class="headerlink" href="#_CPPv410can_mode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CAN Controller operating modes. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv415CAN_MODE_NORMAL">
+<span id="_CPPv315CAN_MODE_NORMAL"></span><span id="_CPPv215CAN_MODE_NORMAL"></span><span class="target" id="can__types_8h_1ad6f5bfd4c152b830a94c2066e9c81710a348bb9f30d4a51d086e37ad73f9c5cf0"></span><code class="descname">CAN_MODE_NORMAL</code><a class="headerlink" href="#_CPPv415CAN_MODE_NORMAL" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Normal operating mode where CAN controller can send/receive/acknowledge messages </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv415CAN_MODE_NO_ACK">
+<span id="_CPPv315CAN_MODE_NO_ACK"></span><span id="_CPPv215CAN_MODE_NO_ACK"></span><span class="target" id="can__types_8h_1ad6f5bfd4c152b830a94c2066e9c81710a8df943d7810c59c5ed02b93393b4c8eb"></span><code class="descname">CAN_MODE_NO_ACK</code><a class="headerlink" href="#_CPPv415CAN_MODE_NO_ACK" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Transmission does not require acknowledgment. Use this mode for self testing </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv420CAN_MODE_LISTEN_ONLY">
+<span id="_CPPv320CAN_MODE_LISTEN_ONLY"></span><span id="_CPPv220CAN_MODE_LISTEN_ONLY"></span><span class="target" id="can__types_8h_1ad6f5bfd4c152b830a94c2066e9c81710a4130fa46dba5f9dc6b0f693135caf9f7"></span><code class="descname">CAN_MODE_LISTEN_ONLY</code><a class="headerlink" href="#_CPPv420CAN_MODE_LISTEN_ONLY" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>The CAN controller will not influence the bus (No transmissions or acknowledgments) but can receive messages </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="id6">
+<h3>Header File<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/driver/include/driver/can.h">driver/include/driver/can.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv418can_driver_installPK20can_general_config_tPK19can_timing_config_tPK19can_filter_config_t">
+<span id="_CPPv318can_driver_installPK20can_general_config_tPK19can_timing_config_tPK19can_filter_config_t"></span><span id="_CPPv218can_driver_installPK20can_general_config_tPK19can_timing_config_tPK19can_filter_config_t"></span><span id="can_driver_install__can_general_config_tCP.can_timing_config_tCP.can_filter_config_tCP"></span><span class="target" id="can_8h_1a5d6d3950c3fa7124d6a86a19ac2bf0f8"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">can_driver_install</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv420can_general_config_t" title="can_general_config_t">can_general_config_t</a> *<em>g_config</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv419can_timing_config_t" title="can_timing_config_t">can_timing_config_t</a> *<em>t_config</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv419can_filter_config_t" title="can_filter_config_t">can_filter_config_t</a> *<em>f_config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418can_driver_installPK20can_general_config_tPK19can_timing_config_tPK19can_filter_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Install CAN driver. </p>
+<p>This function installs the CAN driver using three configuration structures. The required memory is allocated and the CAN driver is placed in the stopped state after running this function.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Macro initializers are available for the configuration structures (see documentation)</dd>
+<dt><strong>Note</strong></dt>
+<dd>To reinstall the CAN driver, call can_driver_uninstall() first</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: Successfully installed CAN driver</li>
+<li>ESP_ERR_INVALID_ARG: Arguments are invalid</li>
+<li>ESP_ERR_NO_MEM: Insufficient memory</li>
+<li>ESP_ERR_INVALID_STATE: Driver is already installed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">g_config</span></code>: General configuration structure </li>
+<li><code class="docutils literal notranslate"><span class="pre">t_config</span></code>: Timing configuration structure </li>
+<li><code class="docutils literal notranslate"><span class="pre">f_config</span></code>: Filter configuration structure</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420can_driver_uninstallv">
+<span id="_CPPv320can_driver_uninstallv"></span><span id="_CPPv220can_driver_uninstallv"></span><span id="can_driver_uninstall__void"></span><span class="target" id="can_8h_1a6ed3b692caeb0109bb5a902269ee4e87"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">can_driver_uninstall</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420can_driver_uninstallv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Uninstall the CAN driver. </p>
+<p>This function uninstalls the CAN driver, freeing the memory utilized by the driver. This function can only be called when the driver is in the stopped state or the bus-off state.</p>
+<p><dl class="docutils">
+<dt><strong>Warning</strong></dt>
+<dd>The application must ensure that no tasks are blocked on TX/RX queues or alerts when this function is called.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: Successfully uninstalled CAN driver</li>
+<li>ESP_ERR_INVALID_STATE: Driver is not in stopped/bus-off state, or is not installed </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv49can_startv">
+<span id="_CPPv39can_startv"></span><span id="_CPPv29can_startv"></span><span id="can_start__void"></span><span class="target" id="can_8h_1a19e8190f9919e70285b07117a56d4187"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">can_start</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv49can_startv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start the CAN driver. </p>
+<p>This function starts the CAN driver, putting the CAN driver into the running state. This allows the CAN driver to participate in CAN bus activities such as transmitting/receiving messages. The RX queue is reset in this function, clearing any unread messages. This function can only be called when the CAN driver is in the stopped state.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: CAN driver is now running</li>
+<li>ESP_ERR_INVALID_STATE: Driver is not in stopped state, or is not installed </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv48can_stopv">
+<span id="_CPPv38can_stopv"></span><span id="_CPPv28can_stopv"></span><span id="can_stop__void"></span><span class="target" id="can_8h_1a9876edbaf6c66a954d9235ce9f510c5c"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">can_stop</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv48can_stopv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stop the CAN driver. </p>
+<p>This function stops the CAN driver, preventing any further message from being transmitted or received until can_start() is called. Any messages in the TX queue are cleared. Any messages in the RX queue should be read by the application after this function is called. This function can only be called when the CAN driver is in the running state.</p>
+<p><dl class="docutils">
+<dt><strong>Warning</strong></dt>
+<dd>A message currently being transmitted/received on the CAN bus will be ceased immediately. This may lead to other CAN nodes interpreting the unfinished message as an error.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: CAN driver is now Stopped</li>
+<li>ESP_ERR_INVALID_STATE: Driver is not in running state, or is not installed </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv412can_transmitPK13can_message_t10TickType_t">
+<span id="_CPPv312can_transmitPK13can_message_t10TickType_t"></span><span id="_CPPv212can_transmitPK13can_message_t10TickType_t"></span><span id="can_transmit__can_message_tCP.TickType_t"></span><span class="target" id="can_8h_1a87560a2fb0417f9502fff53fc19f5fda"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">can_transmit</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv413can_message_t" title="can_message_t">can_message_t</a> *<em>message</em>, TickType_t <em>ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv412can_transmitPK13can_message_t10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Transmit a CAN message. </p>
+<p>This function queues a CAN message for transmission. Transmission will start immediately if no other messages are queued for transmission. If the TX queue is full, this function will block until more space becomes available or until it timesout. If the TX queue is disabled (TX queue length = 0 in configuration), this function will return immediately if another message is undergoing transmission. This function can only be called when the CAN driver is in the running state and cannot be called under Listen Only Mode.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This function does not guarantee that the transmission is successful. The TX_SUCCESS/TX_FAILED alert can be enabled to alert the application upon the success/failure of a transmission.</dd>
+<dt><strong>Note</strong></dt>
+<dd>The TX_IDLE alert can be used to alert the application when no other messages are awaiting transmission.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: Transmission successfully queued/initiated</li>
+<li>ESP_ERR_INVALID_ARG: Arguments are invalid</li>
+<li>ESP_ERR_TIMEOUT: Timed out waiting for space on TX queue</li>
+<li>ESP_FAIL: TX queue is disabled and another message is currently transmitting</li>
+<li>ESP_ERR_INVALID_STATE: CAN driver is not in running state, or is not installed</li>
+<li>ESP_ERR_NOT_SUPPORTED: Listen Only Mode does not support transmissions </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">message</span></code>: Message to transmit </li>
+<li><code class="docutils literal notranslate"><span class="pre">ticks_to_wait</span></code>: Number of FreeRTOS ticks to block on the TX queue</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv411can_receiveP13can_message_t10TickType_t">
+<span id="_CPPv311can_receiveP13can_message_t10TickType_t"></span><span id="_CPPv211can_receiveP13can_message_t10TickType_t"></span><span id="can_receive__can_message_tP.TickType_t"></span><span class="target" id="can_8h_1a2a8b5fefa4fc57740cfbf28afc401a66"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">can_receive</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv413can_message_t" title="can_message_t">can_message_t</a> *<em>message</em>, TickType_t <em>ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv411can_receiveP13can_message_t10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Receive a CAN message. </p>
+<p>This function receives a message from the RX queue. The flags field of the message structure will indicate the type of message received. This function will block if there are no messages in the RX queue</p>
+<p><dl class="docutils">
+<dt><strong>Warning</strong></dt>
+<dd>The flags field of the received message should be checked to determine if the received message contains any data bytes.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: Message successfully received from RX queue</li>
+<li>ESP_ERR_TIMEOUT: Timed out waiting for message</li>
+<li>ESP_ERR_INVALID_ARG: Arguments are invalid</li>
+<li>ESP_ERR_INVALID_STATE: CAN driver is not installed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">message</span></code>: Received message </li>
+<li><code class="docutils literal notranslate"><span class="pre">ticks_to_wait</span></code>: Number of FreeRTOS ticks to block on RX queue</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415can_read_alertsP8uint32_t10TickType_t">
+<span id="_CPPv315can_read_alertsP8uint32_t10TickType_t"></span><span id="_CPPv215can_read_alertsP8uint32_t10TickType_t"></span><span id="can_read_alerts__uint32_tP.TickType_t"></span><span class="target" id="can_8h_1a96bc99fa578fb1b175efb4b04c242fee"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">can_read_alerts</code><span class="sig-paren">(</span>uint32_t *<em>alerts</em>, TickType_t <em>ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415can_read_alertsP8uint32_t10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read CAN driver alerts. </p>
+<p>This function will read the alerts raised by the CAN driver. If no alert has been when this function is called, this function will block until an alert occurs or until it timeouts.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Multiple alerts can be raised simultaneously. The application should check for all alerts that have been enabled.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: Alerts read</li>
+<li>ESP_ERR_TIMEOUT: Timed out waiting for alerts</li>
+<li>ESP_ERR_INVALID_ARG: Arguments are invalid</li>
+<li>ESP_ERR_INVALID_STATE: CAN driver is not installed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">alerts</span></code>: Bit field of raised alerts (see documentation for alert flags) </li>
+<li><code class="docutils literal notranslate"><span class="pre">ticks_to_wait</span></code>: Number of FreeRTOS ticks to block for alert</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422can_reconfigure_alerts8uint32_tP8uint32_t">
+<span id="_CPPv322can_reconfigure_alerts8uint32_tP8uint32_t"></span><span id="_CPPv222can_reconfigure_alerts8uint32_tP8uint32_t"></span><span id="can_reconfigure_alerts__uint32_t.uint32_tP"></span><span class="target" id="can_8h_1a09ead5c8ff15ffb0c4a35d376cfdd07a"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">can_reconfigure_alerts</code><span class="sig-paren">(</span>uint32_t <em>alerts_enabled</em>, uint32_t *<em>current_alerts</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422can_reconfigure_alerts8uint32_tP8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reconfigure which alerts are enabled. </p>
+<p>This function reconfigures which alerts are enabled. If there are alerts which have not been read whilst reconfiguring, this function can read those alerts.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: Alerts reconfigured</li>
+<li>ESP_ERR_INVALID_STATE: CAN driver is not installed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">alerts_enabled</span></code>: Bit field of alerts to enable (see documentation for alert flags) </li>
+<li><code class="docutils literal notranslate"><span class="pre">current_alerts</span></code>: Bit field of currently raised alerts. Set to NULL if unused</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421can_initiate_recoveryv">
+<span id="_CPPv321can_initiate_recoveryv"></span><span id="_CPPv221can_initiate_recoveryv"></span><span id="can_initiate_recovery__void"></span><span class="target" id="can_8h_1a15cee5f82f7a5e6cb9ac904918a9fac6"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">can_initiate_recovery</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421can_initiate_recoveryv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start the bus recovery process. </p>
+<p>This function initiates the bus recovery process when the CAN driver is in the bus-off state. Once initiated, the CAN driver will enter the recovering state and wait for 128 occurrences of the bus-free signal on the CAN bus before returning to the stopped state. This function will reset the TX queue, clearing any messages pending transmission.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>The BUS_RECOVERED alert can be enabled to alert the application when the bus recovery process completes.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: Bus recovery started</li>
+<li>ESP_ERR_INVALID_STATE: CAN driver is not in the bus-off state, or is not installed </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419can_get_status_infoP17can_status_info_t">
+<span id="_CPPv319can_get_status_infoP17can_status_info_t"></span><span id="_CPPv219can_get_status_infoP17can_status_info_t"></span><span id="can_get_status_info__can_status_info_tP"></span><span class="target" id="can_8h_1a3aac248f4f28f0e426e33895b4990b96"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">can_get_status_info</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv417can_status_info_t" title="can_status_info_t">can_status_info_t</a> *<em>status_info</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419can_get_status_infoP17can_status_info_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get current status information of the CAN driver. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: Status information retrieved</li>
+<li>ESP_ERR_INVALID_ARG: Arguments are invalid</li>
+<li>ESP_ERR_INVALID_STATE: CAN driver is not installed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">status_info</span></code>: Status information</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424can_clear_transmit_queuev">
+<span id="_CPPv324can_clear_transmit_queuev"></span><span id="_CPPv224can_clear_transmit_queuev"></span><span id="can_clear_transmit_queue__void"></span><span class="target" id="can_8h_1a40badf9f364a6759ad9006ba76c03f7e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">can_clear_transmit_queue</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424can_clear_transmit_queuev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Clear the transmit queue. </p>
+<p>This function will clear the transmit queue of all messages.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>The transmit queue is automatically cleared when can_stop() or can_initiate_recovery() is called.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: Transmit queue cleared</li>
+<li>ESP_ERR_INVALID_STATE: CAN driver is not installed or TX queue is disabled </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423can_clear_receive_queuev">
+<span id="_CPPv323can_clear_receive_queuev"></span><span id="_CPPv223can_clear_receive_queuev"></span><span id="can_clear_receive_queue__void"></span><span class="target" id="can_8h_1a451bccbb272b2f7a6a042d4ab6834e9f"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">can_clear_receive_queue</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423can_clear_receive_queuev" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Clear the receive queue. </p>
+<p>This function will clear the receive queue of all messages.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>The receive queue is automatically cleared when can_start() is called.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: Transmit queue cleared</li>
+<li>ESP_ERR_INVALID_STATE: CAN driver is not installed </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id7">
+<h3>Structures<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv420can_general_config_t">
+<span id="_CPPv320can_general_config_t"></span><span id="_CPPv220can_general_config_t"></span><span id="can_general_config_t"></span><span class="target" id="structcan__general__config__t"></span><em class="property">struct </em><code class="descname">can_general_config_t</code><a class="headerlink" href="#_CPPv420can_general_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Structure for general configuration of the CAN driver. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Macro initializers are available for this structure </dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20can_general_config_t4modeE">
+<span id="_CPPv3N20can_general_config_t4modeE"></span><span id="_CPPv2N20can_general_config_t4modeE"></span><span id="can_general_config_t::mode__can_mode_t"></span><span class="target" id="structcan__general__config__t_1a74c07e66e8bfe4cb7f9ca7a4ba88a40d"></span><a class="reference internal" href="#_CPPv410can_mode_t" title="can_mode_t">can_mode_t</a> <code class="descname">mode</code><a class="headerlink" href="#_CPPv4N20can_general_config_t4modeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Mode of CAN controller </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20can_general_config_t5tx_ioE">
+<span id="_CPPv3N20can_general_config_t5tx_ioE"></span><span id="_CPPv2N20can_general_config_t5tx_ioE"></span><span id="can_general_config_t::tx_io__gpio_num_t"></span><span class="target" id="structcan__general__config__t_1add3046b9254932aac53b70788cc849c4"></span>gpio_num_t <code class="descname">tx_io</code><a class="headerlink" href="#_CPPv4N20can_general_config_t5tx_ioE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Transmit GPIO number </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20can_general_config_t5rx_ioE">
+<span id="_CPPv3N20can_general_config_t5rx_ioE"></span><span id="_CPPv2N20can_general_config_t5rx_ioE"></span><span id="can_general_config_t::rx_io__gpio_num_t"></span><span class="target" id="structcan__general__config__t_1af9ad16ba924e8b218e7fdef911847cb2"></span>gpio_num_t <code class="descname">rx_io</code><a class="headerlink" href="#_CPPv4N20can_general_config_t5rx_ioE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Receive GPIO number </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20can_general_config_t9clkout_ioE">
+<span id="_CPPv3N20can_general_config_t9clkout_ioE"></span><span id="_CPPv2N20can_general_config_t9clkout_ioE"></span><span id="can_general_config_t::clkout_io__gpio_num_t"></span><span class="target" id="structcan__general__config__t_1a87de9993c23f8e12c137dfd0e57eb9f4"></span>gpio_num_t <code class="descname">clkout_io</code><a class="headerlink" href="#_CPPv4N20can_general_config_t9clkout_ioE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CLKOUT GPIO number (optional, set to -1 if unused) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20can_general_config_t10bus_off_ioE">
+<span id="_CPPv3N20can_general_config_t10bus_off_ioE"></span><span id="_CPPv2N20can_general_config_t10bus_off_ioE"></span><span id="can_general_config_t::bus_off_io__gpio_num_t"></span><span class="target" id="structcan__general__config__t_1aa865490b8c029f19f25339b9f76955e8"></span>gpio_num_t <code class="descname">bus_off_io</code><a class="headerlink" href="#_CPPv4N20can_general_config_t10bus_off_ioE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bus off indicator GPIO number (optional, set to -1 if unused) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20can_general_config_t12tx_queue_lenE">
+<span id="_CPPv3N20can_general_config_t12tx_queue_lenE"></span><span id="_CPPv2N20can_general_config_t12tx_queue_lenE"></span><span id="can_general_config_t::tx_queue_len__uint32_t"></span><span class="target" id="structcan__general__config__t_1a898cc6124e020c1372d7ef6716d0d2ca"></span>uint32_t <code class="descname">tx_queue_len</code><a class="headerlink" href="#_CPPv4N20can_general_config_t12tx_queue_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Number of messages TX queue can hold (set to 0 to disable TX Queue) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20can_general_config_t12rx_queue_lenE">
+<span id="_CPPv3N20can_general_config_t12rx_queue_lenE"></span><span id="_CPPv2N20can_general_config_t12rx_queue_lenE"></span><span id="can_general_config_t::rx_queue_len__uint32_t"></span><span class="target" id="structcan__general__config__t_1a29b32ceaeaea85a8708bb1153710c60d"></span>uint32_t <code class="descname">rx_queue_len</code><a class="headerlink" href="#_CPPv4N20can_general_config_t12rx_queue_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Number of messages RX queue can hold </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20can_general_config_t14alerts_enabledE">
+<span id="_CPPv3N20can_general_config_t14alerts_enabledE"></span><span id="_CPPv2N20can_general_config_t14alerts_enabledE"></span><span id="can_general_config_t::alerts_enabled__uint32_t"></span><span class="target" id="structcan__general__config__t_1ac2b5339d689987b37c01cc7832b95fbb"></span>uint32_t <code class="descname">alerts_enabled</code><a class="headerlink" href="#_CPPv4N20can_general_config_t14alerts_enabledE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bit field of alerts to enable (see documentation) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20can_general_config_t14clkout_dividerE">
+<span id="_CPPv3N20can_general_config_t14clkout_dividerE"></span><span id="_CPPv2N20can_general_config_t14clkout_dividerE"></span><span id="can_general_config_t::clkout_divider__uint32_t"></span><span class="target" id="structcan__general__config__t_1a250b44ef90148ada7968e3557aee3b76"></span>uint32_t <code class="descname">clkout_divider</code><a class="headerlink" href="#_CPPv4N20can_general_config_t14clkout_dividerE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CLKOUT divider. Can be 1 or any even number from 2 to 14 (optional, set to 0 if unused) </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv417can_status_info_t">
+<span id="_CPPv317can_status_info_t"></span><span id="_CPPv217can_status_info_t"></span><span id="can_status_info_t"></span><span class="target" id="structcan__status__info__t"></span><em class="property">struct </em><code class="descname">can_status_info_t</code><a class="headerlink" href="#_CPPv417can_status_info_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Structure to store status information of CAN driver. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N17can_status_info_t5stateE">
+<span id="_CPPv3N17can_status_info_t5stateE"></span><span id="_CPPv2N17can_status_info_t5stateE"></span><span id="can_status_info_t::state__can_state_t"></span><span class="target" id="structcan__status__info__t_1af03052573567c777ef4670538b93e246"></span><a class="reference internal" href="#_CPPv411can_state_t" title="can_state_t">can_state_t</a> <code class="descname">state</code><a class="headerlink" href="#_CPPv4N17can_status_info_t5stateE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Current state of CAN controller (Stopped/Running/Bus-Off/Recovery) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17can_status_info_t10msgs_to_txE">
+<span id="_CPPv3N17can_status_info_t10msgs_to_txE"></span><span id="_CPPv2N17can_status_info_t10msgs_to_txE"></span><span id="can_status_info_t::msgs_to_tx__uint32_t"></span><span class="target" id="structcan__status__info__t_1a0e4b977cbad533f060da564d9b4922d3"></span>uint32_t <code class="descname">msgs_to_tx</code><a class="headerlink" href="#_CPPv4N17can_status_info_t10msgs_to_txE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Number of messages queued for transmission or awaiting transmission completion </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17can_status_info_t10msgs_to_rxE">
+<span id="_CPPv3N17can_status_info_t10msgs_to_rxE"></span><span id="_CPPv2N17can_status_info_t10msgs_to_rxE"></span><span id="can_status_info_t::msgs_to_rx__uint32_t"></span><span class="target" id="structcan__status__info__t_1a8bf7bb375ba9ed8df468dd9c08c73c61"></span>uint32_t <code class="descname">msgs_to_rx</code><a class="headerlink" href="#_CPPv4N17can_status_info_t10msgs_to_rxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Number of messages in RX queue waiting to be read </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17can_status_info_t16tx_error_counterE">
+<span id="_CPPv3N17can_status_info_t16tx_error_counterE"></span><span id="_CPPv2N17can_status_info_t16tx_error_counterE"></span><span id="can_status_info_t::tx_error_counter__uint32_t"></span><span class="target" id="structcan__status__info__t_1a4fa26a33b38bcd7f099750c0f4cf2006"></span>uint32_t <code class="descname">tx_error_counter</code><a class="headerlink" href="#_CPPv4N17can_status_info_t16tx_error_counterE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Current value of Transmit Error Counter </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17can_status_info_t16rx_error_counterE">
+<span id="_CPPv3N17can_status_info_t16rx_error_counterE"></span><span id="_CPPv2N17can_status_info_t16rx_error_counterE"></span><span id="can_status_info_t::rx_error_counter__uint32_t"></span><span class="target" id="structcan__status__info__t_1af7caa36b3f334eef84c7c0ab9a0c457c"></span>uint32_t <code class="descname">rx_error_counter</code><a class="headerlink" href="#_CPPv4N17can_status_info_t16rx_error_counterE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Current value of Receive Error Counter </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17can_status_info_t15tx_failed_countE">
+<span id="_CPPv3N17can_status_info_t15tx_failed_countE"></span><span id="_CPPv2N17can_status_info_t15tx_failed_countE"></span><span id="can_status_info_t::tx_failed_count__uint32_t"></span><span class="target" id="structcan__status__info__t_1a28957f4f5d43859cd05ea9d88cb87d84"></span>uint32_t <code class="descname">tx_failed_count</code><a class="headerlink" href="#_CPPv4N17can_status_info_t15tx_failed_countE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Number of messages that failed transmissions </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17can_status_info_t15rx_missed_countE">
+<span id="_CPPv3N17can_status_info_t15rx_missed_countE"></span><span id="_CPPv2N17can_status_info_t15rx_missed_countE"></span><span id="can_status_info_t::rx_missed_count__uint32_t"></span><span class="target" id="structcan__status__info__t_1a511782db44bb861dd982ff82c5ec46c5"></span>uint32_t <code class="descname">rx_missed_count</code><a class="headerlink" href="#_CPPv4N17can_status_info_t15rx_missed_countE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Number of messages that were lost due to a full RX queue </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17can_status_info_t14arb_lost_countE">
+<span id="_CPPv3N17can_status_info_t14arb_lost_countE"></span><span id="_CPPv2N17can_status_info_t14arb_lost_countE"></span><span id="can_status_info_t::arb_lost_count__uint32_t"></span><span class="target" id="structcan__status__info__t_1ade2b9fd4e47850a5616199db05367913"></span>uint32_t <code class="descname">arb_lost_count</code><a class="headerlink" href="#_CPPv4N17can_status_info_t14arb_lost_countE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Number of instances arbitration was lost </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17can_status_info_t15bus_error_countE">
+<span id="_CPPv3N17can_status_info_t15bus_error_countE"></span><span id="_CPPv2N17can_status_info_t15bus_error_countE"></span><span id="can_status_info_t::bus_error_count__uint32_t"></span><span class="target" id="structcan__status__info__t_1a25be7af396e3edabed2006cc098b9449"></span>uint32_t <code class="descname">bus_error_count</code><a class="headerlink" href="#_CPPv4N17can_status_info_t15bus_error_countE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Number of instances a bus error has occurred </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="id8">
+<h3>Macros<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.CAN_IO_UNUSED">
+<span class="target" id="can_8h_1a8f1cb8b41c0e5ad74c1e0fce84b26f0d"></span><code class="descname">CAN_IO_UNUSED</code><a class="headerlink" href="#c.CAN_IO_UNUSED" title="Permalink to this definition">¶</a></dt>
+<dd><p>Marks GPIO as unused in CAN configuration </p>
+</dd></dl>
+
+</div>
+<div class="section" id="id9">
+<h3>Enumerations<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv411can_state_t">
+<span id="_CPPv311can_state_t"></span><span id="_CPPv211can_state_t"></span><span id="can_state_t"></span><span class="target" id="can_8h_1a69173288ca0cb5f7e7c0ad8be7911fa1"></span><em class="property">enum </em><code class="descname">can_state_t</code><a class="headerlink" href="#_CPPv411can_state_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CAN driver states. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv417CAN_STATE_STOPPED">
+<span id="_CPPv317CAN_STATE_STOPPED"></span><span id="_CPPv217CAN_STATE_STOPPED"></span><span class="target" id="can_8h_1a69173288ca0cb5f7e7c0ad8be7911fa1a644e7a441f2e607b93528d3128508cc8"></span><code class="descname">CAN_STATE_STOPPED</code><a class="headerlink" href="#_CPPv417CAN_STATE_STOPPED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stopped state. The CAN controller will not participate in any CAN bus activities </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv417CAN_STATE_RUNNING">
+<span id="_CPPv317CAN_STATE_RUNNING"></span><span id="_CPPv217CAN_STATE_RUNNING"></span><span class="target" id="can_8h_1a69173288ca0cb5f7e7c0ad8be7911fa1a1c668664d6a9f36f50eca79132385230"></span><code class="descname">CAN_STATE_RUNNING</code><a class="headerlink" href="#_CPPv417CAN_STATE_RUNNING" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Running state. The CAN controller can transmit and receive messages </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv417CAN_STATE_BUS_OFF">
+<span id="_CPPv317CAN_STATE_BUS_OFF"></span><span id="_CPPv217CAN_STATE_BUS_OFF"></span><span class="target" id="can_8h_1a69173288ca0cb5f7e7c0ad8be7911fa1a679935a8710667fcb99423d217cd9959"></span><code class="descname">CAN_STATE_BUS_OFF</code><a class="headerlink" href="#_CPPv417CAN_STATE_BUS_OFF" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bus-off state. The CAN controller cannot participate in bus activities until it has recovered </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv420CAN_STATE_RECOVERING">
+<span id="_CPPv320CAN_STATE_RECOVERING"></span><span id="_CPPv220CAN_STATE_RECOVERING"></span><span class="target" id="can_8h_1a69173288ca0cb5f7e7c0ad8be7911fa1a3a4c0dfe72438d2b77242ea54d214bcd"></span><code class="descname">CAN_STATE_RECOVERING</code><a class="headerlink" href="#_CPPv420CAN_STATE_RECOVERING" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Recovering state. The CAN controller is undergoing bus recovery </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="dac.html" class="btn btn-neutral float-right" title="Digital To Analog Converter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="adc.html" class="btn btn-neutral float-left" title="Analog to Digital Converter" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/can.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:10 GMT -->
+</html>

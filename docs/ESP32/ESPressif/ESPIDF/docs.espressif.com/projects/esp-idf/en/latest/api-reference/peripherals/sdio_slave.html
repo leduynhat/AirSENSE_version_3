@@ -1,0 +1,1220 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/sdio_slave.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:38 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SDIO Card Slave Driver &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Communication with ESP SDIO Slave" href="esp_slave_protocol.html" />
+    <link rel="prev" title="SD SPI Host Driver" href="sdspi_host.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="sdio_slave.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/peripherals/sdio_slave"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Peripherals</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="adc.html">ADC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="can.html">CAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html">DAC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html">GPIO (including RTC low power I/O)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html">I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html">I2S</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ledc.html">LED Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcpwm.html">MCPWM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pcnt.html">Pulse Counter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rmt.html">Remote Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sd_pullup_requirements.html">SD Pull-up Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdmmc_host.html">SDMMC Host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdspi_host.html">SD SPI Host</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">SDIO Slave</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-example">Application Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="sigmadelta.html">Sigma-delta Modulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html">SPI Master</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html">SPI Slave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="temp_sensor.html">Temp sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html">Touch Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uart.html">UART</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Peripherals API</a> &raquo;</li>
+        
+      <li>SDIO Card Slave Driver</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/peripherals/sdio_slave.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="sdio-card-slave-driver">
+<h1>SDIO Card Slave Driver<a class="headerlink" href="#sdio-card-slave-driver" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The ESP32 SDIO Card peripherals (Host, Slave) shares two sets of pins as below table.
+The first set is usually occupied by SPI0 bus which is responsible for the SPI flash holding the code to run.
+This means SDIO slave driver can only runs on the second set of pins while SDIO host is not using it.</p>
+<p>The SDIO slave can run under 3 modes: SPI, 1-bit SD and 4-bit SD modes, which
+is detected automatically by the hardware. According to the SDIO
+specification, CMD and DAT0-3 lines should be pulled up no matter in 1-bit,
+4-bit or SPI mode.</p>
+<div class="section" id="connections">
+<h3>Connections<a class="headerlink" href="#connections" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="38%" />
+<col width="18%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" rowspan="2">Pin Name</th>
+<th class="head" rowspan="2">Corresponding
+pins in SPI
+mode</th>
+<th class="head">Slot1</th>
+<th class="head">Slot2</th>
+</tr>
+<tr class="row-even"><th class="head" colspan="2">GPIO Number</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-odd"><td>CLK</td>
+<td>SCLK</td>
+<td>6</td>
+<td>14</td>
+</tr>
+<tr class="row-even"><td>CMD</td>
+<td>MOSI</td>
+<td>11</td>
+<td>15</td>
+</tr>
+<tr class="row-odd"><td>DAT0</td>
+<td>MISO</td>
+<td>7</td>
+<td>2</td>
+</tr>
+<tr class="row-even"><td>DAT1</td>
+<td>Interrupt</td>
+<td>8</td>
+<td>4</td>
+</tr>
+<tr class="row-odd"><td>DAT2</td>
+<td>N.C. (pullup)</td>
+<td>9</td>
+<td>12</td>
+</tr>
+<tr class="row-even"><td>DAT3</td>
+<td>#CS</td>
+<td>10</td>
+<td>13</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>1-bit SD mode: Connect CLK, CMD, DAT0, DAT1 pins and the ground.</li>
+<li>4-bit SD mode: Connect all pins and the ground.</li>
+<li>SPI mode: Connect SCLK, MOSI, MISO, Interrupt, #CS pins and the ground.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Please check if CMD and DATA lines D0-D3 of the card are properly
+pulled up by 10 KOhm resistors. This should be ensured even in 1-bit mode
+or SPI mode. Most official modules don’t offer these pullups internally.
+If you are using official development boards, check
+<a class="reference internal" href="sd_pullup_requirements.html#compatibility-overview-espressif-hw-sdio"><span class="std std-ref">Overview of Compatibility</span></a> to see whether your
+development boards have such pullups.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Most official modules have conflicts on strapping pins with the
+SDIO slave function. If you are using a ESP32 module with 3.3 V flash
+inside, you have to burn the EFUSE when you are developing on the module
+for the first time. See <a class="reference internal" href="sd_pullup_requirements.html#compatibility-overview-espressif-hw-sdio"><span class="std std-ref">Overview of Compatibility</span></a> to
+see how to make your modules compatible with the SDIO.</p>
+<p>Here is a list for modules/kits with 3.3 V flash:</p>
+<ul class="simple">
+<li>Modules: ESP32-PICO-D4, ESP32-WROOM-32 series (including ESP32-SOLO-1),
+ESP32-WROVER-B and ESP32-WROVER-IB</li>
+<li>Kits: ESP32-PICO-KIT, ESP32-DevKitC (till v4), ESP32-WROVER-KIT
+(v4.1 (also known as ESP32-WROVER-KIT-VB), v2, v1 (also known as DevKitJ
+v1))</li>
+</ul>
+<p class="last">You can tell the version of your ESP23-WROVER-KIT version from the module
+on it: v4.1 are with ESP32-WROVER-B modules, v3 are with ESP32-WROVER
+modules, while v2 and v1 are with ESP32-WROOM-32 modules.</p>
+</div>
+<p>Refer to <a class="reference internal" href="sd_pullup_requirements.html"><span class="doc">SD Pull-up Requirements</span></a> for more technical details of the pullups.</p>
+<div class="toctree-wrapper compound">
+</div>
+<p>The host initialize the slave into SD mode by first sending CMD0 with DAT3
+pin high, or in SPI mode by sending CMD0 with CS pin (the same pin as DAT3)
+low.</p>
+<p>After the initialization, the host can enable the 4-bit SD mode by writing
+CCCR register 0x07 by CMD52. All the bus detection process are handled by the
+slave peripheral.</p>
+<p>The host has to communicate with the slave by an ESP-slave-specific protocol.
+The slave driver offers 3 services over Function 1 access by CMD52 and CMD53:
+(1) a sending FIFO and a receiving FIFO, (2) 52 8-bit R/W registers shared by
+host and slave, (3) 16 interrupt sources (8 from host to slave, and 8 from
+slave to host).</p>
+</div>
+<div class="section" id="terminology">
+<h3>Terminology<a class="headerlink" href="#terminology" title="Permalink to this headline">¶</a></h3>
+<p>The SDIO slave driver uses the following terms:</p>
+<ul class="simple">
+<li>Transfer: a transfer is always started by a command token from the host, and may contain a reply and several data
+blocks. ESP32 slave software is based on transfers.</li>
+<li>Sending: slave to host transfers.</li>
+<li>Receiving: host to slave transfers.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Register names in ESP Rechnical Reference Manual are oriented from the point of view of the host, i.e. ‘rx’
+registers refer to sending, while ‘tx’ registers refer to receiving. We’re not using <cite>tx</cite> or <cite>rx</cite> in the driver to
+avoid ambiguities.</p>
+</div>
+<ul class="simple">
+<li>FIFO: specific address in Function 1 that can be access by CMD53 to read/write large amount of data. The address is
+related to the length requested to read from/write to the slave in a single transfer:
+<em>requested length</em> = 0x1F800-address.</li>
+<li>Ownership: When the driver takes ownership of a buffer, it means the driver can randomly read/write the buffer
+(usually via DMA). The application should not read/write the buffer until the ownership is returned to the
+application. If the application reads from a buffer owned by a receiving driver, the data read can be random; if
+the application writes to a buffer owned by a sending driver, the data sent may be corrupted.</li>
+<li>Requested length: The length requested in one transfer determined by the FIFO address.</li>
+<li>Transfer length: The length requested in one transfer determined by the CMD53 byte/block count field.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Requested length is different from the transfer length. ESP32 slave DMA base on the <em>requested length</em> rather
+than the <em>transfer length</em>. The <em>transfer length</em> should be no shorter than the <em>requested length</em>, and the rest
+part will be filled with 0 (sending) or discard (receiving).</p>
+</div>
+<ul class="simple">
+<li>Receiving buffer size: The buffer size is pre-defined between the host and the slave before communication starts.
+Slave application has to set the buffer size during initialization by the <code class="docutils literal notranslate"><span class="pre">recv_buffer_size</span></code> member of
+<code class="docutils literal notranslate"><span class="pre">sdio_slave_config_t</span></code>.</li>
+<li>Interrupts: the esp32 slave support interrupts in two directions: from host to slave (called slave interrupts below)
+and from slave to host (called host interrupts below). See more in <a class="reference internal" href="#interrupts"><span class="std std-ref">Interrupts</span></a>.</li>
+<li>Registers: specific address in Function 1 access by CMD52 or CMD53.</li>
+</ul>
+</div>
+<div class="section" id="communication-with-esp-sdio-slave">
+<h3>Communication with ESP SDIO Slave<a class="headerlink" href="#communication-with-esp-sdio-slave" title="Permalink to this headline">¶</a></h3>
+<p>The host should initialize the ESP32 SDIO slave according to the standard
+SDIO initialization process (Sector 3.1.2 of <a class="reference external" href="https://www.sdcard.org/downloads/pls/">SDIO Simplified
+Specification</a>), which is described
+briefly in <a class="reference internal" href="esp_slave_protocol.html#esp-slave-init"><span class="std std-ref">ESP SDIO slave initialization</span></a>.</p>
+<p>Furthermore, there’s an ESP32-specific upper-level communication protocol upon the CMD52/CMD53 to
+Func 1. Please refer to <a class="reference internal" href="esp_slave_protocol.html#esp-slave-protocol-layer"><span class="std std-ref">ESP SDIO slave protocol</span></a>. There is also a component
+<a class="reference internal" href="../protocols/esp_serial_slave_link.html"><span class="doc">ESP Serial Slave Link</span></a>
+for ESP32 master to communicate with ESP32 SDIO slave, see example <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/sdio">peripherals/sdio</a>
+when programming your host.</p>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="interrupts">
+<span id="id1"></span><h3>Interrupts<a class="headerlink" href="#interrupts" title="Permalink to this headline">¶</a></h3>
+<p>There are interrupts from host to slave, and from slave to host to help communicating conveniently.</p>
+<div class="section" id="slave-interrupts">
+<h4>Slave Interrupts<a class="headerlink" href="#slave-interrupts" title="Permalink to this headline">¶</a></h4>
+<p>The host can interrupt the slave by writing any one bit in the register 0x08D. Once any bit of the register is
+set, an interrupt is raised and the SDIO slave driver calls the callback function defined in the <code class="docutils literal notranslate"><span class="pre">slave_intr_cb</span></code> member
+in the <code class="docutils literal notranslate"><span class="pre">sdio_slave_config_t</span></code> structure.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The callback function is called in the ISR, do not use any delay, loop or spinlock in the callback.</p>
+</div>
+<p>There’s another set of functions can be used. You can call <code class="docutils literal notranslate"><span class="pre">sdio_slave_wait_int</span></code> to wait for an interrupt within a
+certain time, or call <code class="docutils literal notranslate"><span class="pre">sdio_slave_clear_int</span></code> to clear interrupts from host. The callback function can work with the
+wait functions perfectly.</p>
+</div>
+<div class="section" id="host-interrupts">
+<h4>Host Interrupts<a class="headerlink" href="#host-interrupts" title="Permalink to this headline">¶</a></h4>
+<p>The slave can interrupt the host by an interrupt line (at certain time) which is level sensitive. When the host see the
+interrupt line pulled down, it may read the slave interrupt status register, to see the interrupt source. Host can clear
+interrupt bits, or choose to disable a interrupt source. The interrupt line will hold active until all the sources are
+cleared or disabled.</p>
+<p>There are several dedicated interrupt sources as well as general purpose sources. see <code class="docutils literal notranslate"><span class="pre">sdio_slave_hostint_t</span></code> for
+more information.</p>
+</div>
+</div>
+<div class="section" id="shared-registers">
+<h3>Shared Registers<a class="headerlink" href="#shared-registers" title="Permalink to this headline">¶</a></h3>
+<p>There are 52 8-bit R/W shared registers to share information between host and slave. The slave can write or read the
+registers at any time by <code class="docutils literal notranslate"><span class="pre">sdio_slave_read_reg</span></code> and <code class="docutils literal notranslate"><span class="pre">sdio_slave_write_reg</span></code>. The host can access (R/W) the register by CMD52 or CMD53.</p>
+</div>
+<div class="section" id="receiving-fifo">
+<h3>Receiving FIFO<a class="headerlink" href="#receiving-fifo" title="Permalink to this headline">¶</a></h3>
+<p>When the host is going to send the slave some packets, it has to check whether the slave is ready to receive by reading
+the buffer number of slave.</p>
+<p>To allow the host sending data to the slave, the application has to load buffers to the slave driver by the following steps:</p>
+<ol class="arabic simple">
+<li>Register the buffer by calling <code class="docutils literal notranslate"><span class="pre">sdio_slave_recv_register_buf</span></code>, and get the handle of the registered buffer. The driver
+will allocate memory for the linked-list descriptor needed to link the buffer onto the hardware.</li>
+<li>Load buffers onto the driver by passing the buffer handle to <code class="docutils literal notranslate"><span class="pre">sdio_slave_recv_load_buf</span></code>.</li>
+<li>Call <code class="docutils literal notranslate"><span class="pre">sdio_slave_recv</span></code> to get the received data. If non-blocking call is needed, set <code class="docutils literal notranslate"><span class="pre">wait=0</span></code>.</li>
+<li>Pass the handle of processed buffer back to the driver by <code class="docutils literal notranslate"><span class="pre">sdio_recv_load_buf</span></code> again.</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To avoid overhead from copying data, the driver itself doesn’t have any buffer inside, the application is
+responsible to offer new buffers in time. The DMA will automatically store received data to the buffer.</p>
+</div>
+</div>
+<div class="section" id="sending-fifo">
+<h3>Sending FIFO<a class="headerlink" href="#sending-fifo" title="Permalink to this headline">¶</a></h3>
+<p>Each time the slave has data to send, it raises an interrupt and the host will request for the packet length. There are
+two sending modes:</p>
+<ul class="simple">
+<li>Stream Mode: when a buffer is loaded to the driver, the buffer length will be counted into the packet length requested
+by host in the incoming communications. Regardless previous packets are sent or not. This means the host can get data
+of several buffers in one transfer.</li>
+<li>Packet Mode: the packet length is updated packet by packet, and only when previous packet is sent. This means that the
+host can only get data of one buffer in one transfer.</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To avoid overhead from copying data, the driver itself doesn’t have any buffer inside. Namely, the DMA takes
+data directly from the buffer provided by the application. The application should not touch the buffer until the
+sending is finished.</p>
+</div>
+<p>The sending mode can be set in the <code class="docutils literal notranslate"><span class="pre">sending_mode</span></code> member of <code class="docutils literal notranslate"><span class="pre">sdio_slave_config_t</span></code>, and the buffer numbers can be
+set in the <code class="docutils literal notranslate"><span class="pre">send_queue_size</span></code>. All the buffers are restricted to be no larger than 4092 bytes. Though in the stream
+mode several buffers can be sent in one transfer, each buffer is still counted as one in the queue.</p>
+<p>The application can call <code class="docutils literal notranslate"><span class="pre">sdio_slave_transmit</span></code> to send packets. In this case the function returns when the transfer
+is successfully done, so the queue is not fully used. When higher effeciency is required, the application can use the
+following functions instead:</p>
+<ol class="arabic simple">
+<li>Pass buffer information (address, length, as well as an <code class="docutils literal notranslate"><span class="pre">arg</span></code> indicating the buffer) to <code class="docutils literal notranslate"><span class="pre">sdio_slave_send_queue</span></code>.
+If non-blocking call is needed, set <code class="docutils literal notranslate"><span class="pre">wait=0</span></code>. If the <code class="docutils literal notranslate"><span class="pre">wait</span></code> is not <code class="docutils literal notranslate"><span class="pre">portMAX_DELAY</span></code> (wait until success),
+application has to check the result to know whether the data is put in to the queue or discard.</li>
+<li>Call <code class="docutils literal notranslate"><span class="pre">sdio_slave_send_get_finished</span></code> to get and deal with a finished transfer. A buffer should be keep unmodified
+until returned from <code class="docutils literal notranslate"><span class="pre">sdio_slave_send_get_finished</span></code>. This means the buffer is actually sent to the host, rather
+than just staying in the queue.</li>
+</ol>
+<p>There are several ways to use the <code class="docutils literal notranslate"><span class="pre">arg</span></code> in the queue parameter:</p>
+<blockquote>
+<div><ol class="arabic">
+<li><p class="first">Directly point <code class="docutils literal notranslate"><span class="pre">arg</span></code> to a dynamic-allocated buffer, and use the <code class="docutils literal notranslate"><span class="pre">arg</span></code> to free it when transfer finished.</p>
+</li>
+<li><p class="first">Wrap transfer informations in a transfer structure, and point <code class="docutils literal notranslate"><span class="pre">arg</span></code> to the structure. You can use the
+structure to do more things like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">typedef</span> <span class="n">struct</span> <span class="p">{</span>
+    <span class="n">uint8_t</span><span class="o">*</span> <span class="n">buffer</span><span class="p">;</span>
+    <span class="n">size_t</span>   <span class="n">size</span><span class="p">;</span>
+    <span class="nb">int</span>      <span class="nb">id</span><span class="p">;</span>
+<span class="p">}</span><span class="n">sdio_transfer_t</span><span class="p">;</span>
+
+<span class="o">//</span><span class="ow">and</span> <span class="n">send</span> <span class="k">as</span><span class="p">:</span>
+<span class="n">sdio_transfer_t</span> <span class="n">trans</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="o">.</span><span class="n">buffer</span> <span class="o">=</span> <span class="n">ADDRESS_TO_SEND</span><span class="p">,</span>
+    <span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>  <span class="o">//</span><span class="n">the</span> <span class="mi">3</span><span class="n">rd</span> <span class="n">transfer</span> <span class="n">so</span> <span class="n">far</span>
+<span class="p">};</span>
+<span class="n">sdio_slave_send_queue</span><span class="p">(</span><span class="n">trans</span><span class="o">.</span><span class="n">buffer</span><span class="p">,</span> <span class="n">trans</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">trans</span><span class="p">,</span> <span class="n">portMAX_DELAY</span><span class="p">);</span>
+
+<span class="o">//...</span> <span class="n">maybe</span> <span class="n">more</span> <span class="n">transfers</span> <span class="n">are</span> <span class="n">sent</span> <span class="n">here</span>
+
+<span class="o">//</span><span class="ow">and</span> <span class="n">deal</span> <span class="k">with</span> <span class="n">finished</span> <span class="n">transfer</span> <span class="k">as</span><span class="p">:</span>
+<span class="n">sdio_transfer_t</span><span class="o">*</span> <span class="n">arg</span> <span class="o">=</span> <span class="n">NULL</span><span class="p">;</span>
+<span class="n">sdio_slave_send_get_finished</span><span class="p">((</span><span class="n">void</span><span class="o">**</span><span class="p">)</span><span class="o">&amp;</span><span class="n">arg</span><span class="p">,</span> <span class="n">portMAX_DELAY</span><span class="p">);</span>
+<span class="n">ESP_LOGI</span><span class="p">(</span><span class="s2">&quot;tag&quot;</span><span class="p">,</span> <span class="s2">&quot;(</span><span class="si">%d</span><span class="s2">) successfully send </span><span class="si">%d</span><span class="s2"> bytes of %p&quot;</span><span class="p">,</span> <span class="n">arg</span><span class="o">-&gt;</span><span class="nb">id</span><span class="p">,</span> <span class="n">arg</span><span class="o">-&gt;</span><span class="n">size</span><span class="p">,</span> <span class="n">arg</span><span class="o">-&gt;</span><span class="n">buffer</span><span class="p">);</span>
+<span class="n">some_post_callback</span><span class="p">(</span><span class="n">arg</span><span class="p">);</span> <span class="o">//</span><span class="n">do</span> <span class="n">more</span> <span class="n">things</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Working with the receiving part of this driver, point <code class="docutils literal notranslate"><span class="pre">arg</span></code> to the receive buffer handle of this buffer. So
+that we can directly use the buffer to receive data when it’s sent:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">uint8_t</span> <span class="n">buffer</span><span class="p">[</span><span class="mi">256</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">};</span>
+<span class="n">sdio_slave_buf_handle_t</span> <span class="n">handle</span> <span class="o">=</span> <span class="n">sdio_slave_recv_register_buf</span><span class="p">(</span><span class="n">buffer</span><span class="p">);</span>
+<span class="n">sdio_slave_send_queue</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">portMAX_DELAY</span><span class="p">);</span>
+
+<span class="o">//...</span> <span class="n">maybe</span> <span class="n">more</span> <span class="n">transfers</span> <span class="n">are</span> <span class="n">sent</span> <span class="n">here</span>
+
+<span class="o">//</span><span class="ow">and</span> <span class="n">load</span> <span class="n">finished</span> <span class="n">buffer</span> <span class="n">to</span> <span class="n">receive</span> <span class="k">as</span>
+<span class="n">sdio_slave_buf_handle_t</span> <span class="n">handle</span> <span class="o">=</span> <span class="n">NULL</span><span class="p">;</span>
+<span class="n">sdio_slave_send_get_finished</span><span class="p">((</span><span class="n">void</span><span class="o">**</span><span class="p">)</span><span class="o">&amp;</span><span class="n">handle</span><span class="p">,</span> <span class="n">portMAX_DELAY</span><span class="p">);</span>
+<span class="n">sdio_slave_recv_load_buf</span><span class="p">(</span><span class="n">handle</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>More about this, see <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/sdio">peripherals/sdio</a>.</p>
+</li>
+</ol>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<p>Slave/master communication: <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/sdio">peripherals/sdio</a>.</p>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/soc/include/hal/sdio_slave_types.h">soc/include/hal/sdio_slave_types.h</a></li>
+</ul>
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv420sdio_slave_hostint_t">
+<span id="_CPPv320sdio_slave_hostint_t"></span><span id="_CPPv220sdio_slave_hostint_t"></span><span id="sdio_slave_hostint_t"></span><span class="target" id="sdio__slave__types_8h_1a41019a6697bec3addbe2f5452772e15f"></span><em class="property">enum </em><code class="descname">sdio_slave_hostint_t</code><a class="headerlink" href="#_CPPv420sdio_slave_hostint_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Mask of interrupts sending to the host. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv423SDIO_SLAVE_HOSTINT_BIT0">
+<span id="_CPPv323SDIO_SLAVE_HOSTINT_BIT0"></span><span id="_CPPv223SDIO_SLAVE_HOSTINT_BIT0"></span><span class="target" id="sdio__slave__types_8h_1a41019a6697bec3addbe2f5452772e15fac27ebe2c7f769c2d054867bd8531ffb0"></span><code class="descname">SDIO_SLAVE_HOSTINT_BIT0</code> = BIT(0)<a class="headerlink" href="#_CPPv423SDIO_SLAVE_HOSTINT_BIT0" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>General purpose interrupt bit 0. </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423SDIO_SLAVE_HOSTINT_BIT1">
+<span id="_CPPv323SDIO_SLAVE_HOSTINT_BIT1"></span><span id="_CPPv223SDIO_SLAVE_HOSTINT_BIT1"></span><span class="target" id="sdio__slave__types_8h_1a41019a6697bec3addbe2f5452772e15fa91eadb47c4350f572ccdb94c4b0b783b"></span><code class="descname">SDIO_SLAVE_HOSTINT_BIT1</code> = BIT(1)<a class="headerlink" href="#_CPPv423SDIO_SLAVE_HOSTINT_BIT1" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423SDIO_SLAVE_HOSTINT_BIT2">
+<span id="_CPPv323SDIO_SLAVE_HOSTINT_BIT2"></span><span id="_CPPv223SDIO_SLAVE_HOSTINT_BIT2"></span><span class="target" id="sdio__slave__types_8h_1a41019a6697bec3addbe2f5452772e15fa8d4815070c473a71e8107451f087aef8"></span><code class="descname">SDIO_SLAVE_HOSTINT_BIT2</code> = BIT(2)<a class="headerlink" href="#_CPPv423SDIO_SLAVE_HOSTINT_BIT2" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423SDIO_SLAVE_HOSTINT_BIT3">
+<span id="_CPPv323SDIO_SLAVE_HOSTINT_BIT3"></span><span id="_CPPv223SDIO_SLAVE_HOSTINT_BIT3"></span><span class="target" id="sdio__slave__types_8h_1a41019a6697bec3addbe2f5452772e15fab5e2a42da9a5eb2f7eb7edfa414cec77"></span><code class="descname">SDIO_SLAVE_HOSTINT_BIT3</code> = BIT(3)<a class="headerlink" href="#_CPPv423SDIO_SLAVE_HOSTINT_BIT3" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423SDIO_SLAVE_HOSTINT_BIT4">
+<span id="_CPPv323SDIO_SLAVE_HOSTINT_BIT4"></span><span id="_CPPv223SDIO_SLAVE_HOSTINT_BIT4"></span><span class="target" id="sdio__slave__types_8h_1a41019a6697bec3addbe2f5452772e15fa2e1b580b41f45f9c80dfd69554bec842"></span><code class="descname">SDIO_SLAVE_HOSTINT_BIT4</code> = BIT(4)<a class="headerlink" href="#_CPPv423SDIO_SLAVE_HOSTINT_BIT4" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423SDIO_SLAVE_HOSTINT_BIT5">
+<span id="_CPPv323SDIO_SLAVE_HOSTINT_BIT5"></span><span id="_CPPv223SDIO_SLAVE_HOSTINT_BIT5"></span><span class="target" id="sdio__slave__types_8h_1a41019a6697bec3addbe2f5452772e15faacf4fd7360e94235812d461ad013f2c1"></span><code class="descname">SDIO_SLAVE_HOSTINT_BIT5</code> = BIT(5)<a class="headerlink" href="#_CPPv423SDIO_SLAVE_HOSTINT_BIT5" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423SDIO_SLAVE_HOSTINT_BIT6">
+<span id="_CPPv323SDIO_SLAVE_HOSTINT_BIT6"></span><span id="_CPPv223SDIO_SLAVE_HOSTINT_BIT6"></span><span class="target" id="sdio__slave__types_8h_1a41019a6697bec3addbe2f5452772e15fae99e454bc071576e7c6d3205b3471059"></span><code class="descname">SDIO_SLAVE_HOSTINT_BIT6</code> = BIT(6)<a class="headerlink" href="#_CPPv423SDIO_SLAVE_HOSTINT_BIT6" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423SDIO_SLAVE_HOSTINT_BIT7">
+<span id="_CPPv323SDIO_SLAVE_HOSTINT_BIT7"></span><span id="_CPPv223SDIO_SLAVE_HOSTINT_BIT7"></span><span class="target" id="sdio__slave__types_8h_1a41019a6697bec3addbe2f5452772e15fa855d4c9205f4ac47483994e8822a9a89"></span><code class="descname">SDIO_SLAVE_HOSTINT_BIT7</code> = BIT(7)<a class="headerlink" href="#_CPPv423SDIO_SLAVE_HOSTINT_BIT7" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv434SDIO_SLAVE_HOSTINT_SEND_NEW_PACKET">
+<span id="_CPPv334SDIO_SLAVE_HOSTINT_SEND_NEW_PACKET"></span><span id="_CPPv234SDIO_SLAVE_HOSTINT_SEND_NEW_PACKET"></span><span class="target" id="sdio__slave__types_8h_1a41019a6697bec3addbe2f5452772e15fa1c51d3682b4d6fc3fd5c4daef60e7273"></span><code class="descname">SDIO_SLAVE_HOSTINT_SEND_NEW_PACKET</code> = BIT(23)<a class="headerlink" href="#_CPPv434SDIO_SLAVE_HOSTINT_SEND_NEW_PACKET" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>New packet available. </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv419sdio_slave_timing_t">
+<span id="_CPPv319sdio_slave_timing_t"></span><span id="_CPPv219sdio_slave_timing_t"></span><span id="sdio_slave_timing_t"></span><span class="target" id="sdio__slave__types_8h_1a73c02c776695fa09298aa124eb8347fd"></span><em class="property">enum </em><code class="descname">sdio_slave_timing_t</code><a class="headerlink" href="#_CPPv419sdio_slave_timing_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Timing of SDIO slave. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv431SDIO_SLAVE_TIMING_PSEND_PSAMPLE">
+<span id="_CPPv331SDIO_SLAVE_TIMING_PSEND_PSAMPLE"></span><span id="_CPPv231SDIO_SLAVE_TIMING_PSEND_PSAMPLE"></span><span class="target" id="sdio__slave__types_8h_1a73c02c776695fa09298aa124eb8347fda9396369e0b181c649b35d5d05732d9b9"></span><code class="descname">SDIO_SLAVE_TIMING_PSEND_PSAMPLE</code> = 0<a class="headerlink" href="#_CPPv431SDIO_SLAVE_TIMING_PSEND_PSAMPLE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Send at posedge, and sample at posedge. Default value for HS mode. Normally there’s no problem using this to work in DS mode. </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv431SDIO_SLAVE_TIMING_NSEND_PSAMPLE">
+<span id="_CPPv331SDIO_SLAVE_TIMING_NSEND_PSAMPLE"></span><span id="_CPPv231SDIO_SLAVE_TIMING_NSEND_PSAMPLE"></span><span class="target" id="sdio__slave__types_8h_1a73c02c776695fa09298aa124eb8347fdaac8256dad07f55a9726159d4cd9ae435"></span><code class="descname">SDIO_SLAVE_TIMING_NSEND_PSAMPLE</code><a class="headerlink" href="#_CPPv431SDIO_SLAVE_TIMING_NSEND_PSAMPLE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Send at negedge, and sample at posedge. Default value for DS mode and below. </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv431SDIO_SLAVE_TIMING_PSEND_NSAMPLE">
+<span id="_CPPv331SDIO_SLAVE_TIMING_PSEND_NSAMPLE"></span><span id="_CPPv231SDIO_SLAVE_TIMING_PSEND_NSAMPLE"></span><span class="target" id="sdio__slave__types_8h_1a73c02c776695fa09298aa124eb8347fda89b7242cadb1b87b48f7839471689b7b"></span><code class="descname">SDIO_SLAVE_TIMING_PSEND_NSAMPLE</code><a class="headerlink" href="#_CPPv431SDIO_SLAVE_TIMING_PSEND_NSAMPLE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Send at posedge, and sample at negedge. </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv431SDIO_SLAVE_TIMING_NSEND_NSAMPLE">
+<span id="_CPPv331SDIO_SLAVE_TIMING_NSEND_NSAMPLE"></span><span id="_CPPv231SDIO_SLAVE_TIMING_NSEND_NSAMPLE"></span><span class="target" id="sdio__slave__types_8h_1a73c02c776695fa09298aa124eb8347fdadc3005a6aafab14145f578b09088b7a9"></span><code class="descname">SDIO_SLAVE_TIMING_NSEND_NSAMPLE</code><a class="headerlink" href="#_CPPv431SDIO_SLAVE_TIMING_NSEND_NSAMPLE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Send at negedge, and sample at negedge. </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv425sdio_slave_sending_mode_t">
+<span id="_CPPv325sdio_slave_sending_mode_t"></span><span id="_CPPv225sdio_slave_sending_mode_t"></span><span id="sdio_slave_sending_mode_t"></span><span class="target" id="sdio__slave__types_8h_1a6251a813d056e685b1fc40b5e52ecc9b"></span><em class="property">enum </em><code class="descname">sdio_slave_sending_mode_t</code><a class="headerlink" href="#_CPPv425sdio_slave_sending_mode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Configuration of SDIO slave mode. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv422SDIO_SLAVE_SEND_STREAM">
+<span id="_CPPv322SDIO_SLAVE_SEND_STREAM"></span><span id="_CPPv222SDIO_SLAVE_SEND_STREAM"></span><span class="target" id="sdio__slave__types_8h_1a6251a813d056e685b1fc40b5e52ecc9bac833041a84c2747660cfd98a5d89f212"></span><code class="descname">SDIO_SLAVE_SEND_STREAM</code> = 0<a class="headerlink" href="#_CPPv422SDIO_SLAVE_SEND_STREAM" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stream mode, all packets to send will be combined as one if possible. </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv422SDIO_SLAVE_SEND_PACKET">
+<span id="_CPPv322SDIO_SLAVE_SEND_PACKET"></span><span id="_CPPv222SDIO_SLAVE_SEND_PACKET"></span><span class="target" id="sdio__slave__types_8h_1a6251a813d056e685b1fc40b5e52ecc9bab7e85edf6ae78881205a49d947840c5f"></span><code class="descname">SDIO_SLAVE_SEND_PACKET</code> = 1<a class="headerlink" href="#_CPPv422SDIO_SLAVE_SEND_PACKET" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Packet mode, one packets will be sent one after another (only increase packet_len if last packet sent). </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="id2">
+<h3>Header File<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/driver/include/driver/sdio_slave.h">driver/include/driver/sdio_slave.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv421sdio_slave_initializeP19sdio_slave_config_t">
+<span id="_CPPv321sdio_slave_initializeP19sdio_slave_config_t"></span><span id="_CPPv221sdio_slave_initializeP19sdio_slave_config_t"></span><span id="sdio_slave_initialize__sdio_slave_config_tP"></span><span class="target" id="sdio__slave_8h_1ad19a66725e9863a941f9d4bed057dabc"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdio_slave_initialize</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv419sdio_slave_config_t" title="sdio_slave_config_t">sdio_slave_config_t</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421sdio_slave_initializeP19sdio_slave_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize the sdio slave driver</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_NOT_FOUND if no free interrupt found.</li>
+<li>ESP_ERR_INVALID_STATE if already initialized.</li>
+<li>ESP_ERR_NO_MEM if fail due to memory allocation failed.</li>
+<li>ESP_OK if success </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">config</span></code>: Configuration of the sdio slave driver.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417sdio_slave_deinitv">
+<span id="_CPPv317sdio_slave_deinitv"></span><span id="_CPPv217sdio_slave_deinitv"></span><span id="sdio_slave_deinit__void"></span><span class="target" id="sdio__slave_8h_1a8ad6cd2ff0b723980b455309486d74c2"></span>void <code class="descname">sdio_slave_deinit</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417sdio_slave_deinitv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>De-initialize the sdio slave driver to release the resources. </p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416sdio_slave_startv">
+<span id="_CPPv316sdio_slave_startv"></span><span id="_CPPv216sdio_slave_startv"></span><span id="sdio_slave_start__void"></span><span class="target" id="sdio__slave_8h_1a47a63fae917f65e1b27065991f5c65b9"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdio_slave_start</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416sdio_slave_startv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start hardware for sending and receiving, as well as set the IOREADY1 to 1.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>The driver will continue sending from previous data and PKT_LEN counting, keep data received as well as start receiving from current TOKEN1 counting. See <code class="docutils literal notranslate"><span class="pre">sdio_slave_reset</span></code>.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_STATE if already started.</li>
+<li>ESP_OK otherwise. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415sdio_slave_stopv">
+<span id="_CPPv315sdio_slave_stopv"></span><span id="_CPPv215sdio_slave_stopv"></span><span id="sdio_slave_stop__void"></span><span class="target" id="sdio__slave_8h_1a203fd879a79bcf173d4e7f3626e4a454"></span>void <code class="descname">sdio_slave_stop</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415sdio_slave_stopv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stop hardware from sending and receiving, also set IOREADY1 to 0.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>this will not clear the data already in the driver, and also not reset the PKT_LEN and TOKEN1 counting. Call <code class="docutils literal notranslate"><span class="pre">sdio_slave_reset</span></code> to do that. </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416sdio_slave_resetv">
+<span id="_CPPv316sdio_slave_resetv"></span><span id="_CPPv216sdio_slave_resetv"></span><span id="sdio_slave_reset__void"></span><span class="target" id="sdio__slave_8h_1a7481e121623651af93f9ecf467cf030c"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdio_slave_reset</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416sdio_slave_resetv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Clear the data still in the driver, as well as reset the PKT_LEN and TOKEN1 counting.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>always return ESP_OK. </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428sdio_slave_recv_register_bufP7uint8_t">
+<span id="_CPPv328sdio_slave_recv_register_bufP7uint8_t"></span><span id="_CPPv228sdio_slave_recv_register_bufP7uint8_t"></span><span id="sdio_slave_recv_register_buf__uint8_tP"></span><span class="target" id="sdio__slave_8h_1aa10889fd95f21e1d904e6ecaa80a4972"></span><a class="reference internal" href="#_CPPv423sdio_slave_buf_handle_t" title="sdio_slave_buf_handle_t">sdio_slave_buf_handle_t</a> <code class="descname">sdio_slave_recv_register_buf</code><span class="sig-paren">(</span>uint8_t *<em>start</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428sdio_slave_recv_register_bufP7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Register buffer used for receiving. All buffers should be registered before used, and then can be used (again) in the driver by the handle returned.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>The driver will use and only use the amount of space specified in the <code class="docutils literal notranslate"><span class="pre">recv_buffer_size</span></code> member set in the <code class="docutils literal notranslate"><a class="reference internal" href="#structsdio__slave__config__t"><span class="std std-ref"><span class="pre">sdio_slave_config_t</span></span></a></code>. All buffers should be larger than that. The buffer is used by the DMA, so it should be DMA capable and 32-bit aligned.</dd>
+<dt><strong>Return</strong></dt>
+<dd>The buffer handle if success, otherwise NULL. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">start</span></code>: The start address of the buffer.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv430sdio_slave_recv_unregister_buf23sdio_slave_buf_handle_t">
+<span id="_CPPv330sdio_slave_recv_unregister_buf23sdio_slave_buf_handle_t"></span><span id="_CPPv230sdio_slave_recv_unregister_buf23sdio_slave_buf_handle_t"></span><span id="sdio_slave_recv_unregister_buf__sdio_slave_buf_handle_t"></span><span class="target" id="sdio__slave_8h_1af71d22478666d1cbfe7fd2c8ebf38576"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdio_slave_recv_unregister_buf</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv423sdio_slave_buf_handle_t" title="sdio_slave_buf_handle_t">sdio_slave_buf_handle_t</a> <em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv430sdio_slave_recv_unregister_buf23sdio_slave_buf_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Unregister buffer from driver, and free the space used by the descriptor pointing to the buffer.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK if success, ESP_ERR_INVALID_ARG if the handle is NULL or the buffer is being used. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Handle to the buffer to release.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424sdio_slave_recv_load_buf23sdio_slave_buf_handle_t">
+<span id="_CPPv324sdio_slave_recv_load_buf23sdio_slave_buf_handle_t"></span><span id="_CPPv224sdio_slave_recv_load_buf23sdio_slave_buf_handle_t"></span><span id="sdio_slave_recv_load_buf__sdio_slave_buf_handle_t"></span><span class="target" id="sdio__slave_8h_1adfe5f43f22c576e811a9ea3789bddfb8"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdio_slave_recv_load_buf</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv423sdio_slave_buf_handle_t" title="sdio_slave_buf_handle_t">sdio_slave_buf_handle_t</a> <em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424sdio_slave_recv_load_buf23sdio_slave_buf_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Load buffer to the queue waiting to receive data. The driver takes ownership of the buffer until the buffer is returned by <code class="docutils literal notranslate"><span class="pre">sdio_slave_send_get_finished</span></code> after the transaction is finished.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_ARG if invalid handle or the buffer is already in the queue. Only after the buffer is returened by <code class="docutils literal notranslate"><span class="pre">sdio_slave_recv</span></code> can you load it again.</li>
+<li>ESP_OK if success </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Handle to the buffer ready to receive data.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415sdio_slave_recvP23sdio_slave_buf_handle_tPP7uint8_tP6size_t10TickType_t">
+<span id="_CPPv315sdio_slave_recvP23sdio_slave_buf_handle_tPP7uint8_tP6size_t10TickType_t"></span><span id="_CPPv215sdio_slave_recvP23sdio_slave_buf_handle_tPP7uint8_tP6size_t10TickType_t"></span><span id="sdio_slave_recv__sdio_slave_buf_handle_tP.uint8_tPP.sP.TickType_t"></span><span class="target" id="sdio__slave_8h_1a619f162c33e0189aff7b33bdaea97306"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdio_slave_recv</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv423sdio_slave_buf_handle_t" title="sdio_slave_buf_handle_t">sdio_slave_buf_handle_t</a> *<em>handle_ret</em>, uint8_t **<em>out_addr</em>, size_t *<em>out_len</em>, TickType_t <em>wait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415sdio_slave_recvP23sdio_slave_buf_handle_tPP7uint8_tP6size_t10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get received data if exist. The driver returns the ownership of the buffer to the app.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Call <code class="docutils literal notranslate"><span class="pre">sdio_slave_load_buf</span></code> with the handle to re-load the buffer onto the link list, and receive with the same buffer again. The address and length of the buffer got here is the same as got from <code class="docutils literal notranslate"><span class="pre">sdio_slave_get_buffer</span></code>.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_ARG if handle_ret is NULL</li>
+<li>ESP_ERR_TIMEOUT if timeout before receiving new data</li>
+<li>ESP_OK if success </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle_ret</span></code>: Handle to the buffer holding received data. Use this handle in <code class="docutils literal notranslate"><span class="pre">sdio_slave_recv_load_buf</span></code> to receive in the same buffer again. </li>
+<li><code class="docutils literal notranslate"><span class="pre">out_addr</span></code>: Output of the start address, set to NULL if not needed. </li>
+<li><code class="docutils literal notranslate"><span class="pre">out_len</span></code>: Actual length of the data in the buffer, set to NULL if not needed. </li>
+<li><code class="docutils literal notranslate"><span class="pre">wait</span></code>: Time to wait before data received.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423sdio_slave_recv_get_buf23sdio_slave_buf_handle_tP6size_t">
+<span id="_CPPv323sdio_slave_recv_get_buf23sdio_slave_buf_handle_tP6size_t"></span><span id="_CPPv223sdio_slave_recv_get_buf23sdio_slave_buf_handle_tP6size_t"></span><span id="sdio_slave_recv_get_buf__sdio_slave_buf_handle_t.sP"></span><span class="target" id="sdio__slave_8h_1a1de241ef3dd1d90b39d08a43045ea7bf"></span>uint8_t *<code class="descname">sdio_slave_recv_get_buf</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv423sdio_slave_buf_handle_t" title="sdio_slave_buf_handle_t">sdio_slave_buf_handle_t</a> <em>handle</em>, size_t *<em>len_o</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423sdio_slave_recv_get_buf23sdio_slave_buf_handle_tP6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Retrieve the buffer corresponding to a handle.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>buffer address if success, otherwise NULL. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: Handle to get the buffer. </li>
+<li><code class="docutils literal notranslate"><span class="pre">len_o</span></code>: Output of buffer length</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421sdio_slave_send_queueP7uint8_t6size_tPv10TickType_t">
+<span id="_CPPv321sdio_slave_send_queueP7uint8_t6size_tPv10TickType_t"></span><span id="_CPPv221sdio_slave_send_queueP7uint8_t6size_tPv10TickType_t"></span><span id="sdio_slave_send_queue__uint8_tP.s.voidP.TickType_t"></span><span class="target" id="sdio__slave_8h_1a0b7744c195b2ec6a8af0b4866ba4cca7"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdio_slave_send_queue</code><span class="sig-paren">(</span>uint8_t *<em>addr</em>, size_t <em>len</em>, void *<em>arg</em>, TickType_t <em>wait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421sdio_slave_send_queueP7uint8_t6size_tPv10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Put a new sending transfer into the send queue. The driver takes ownership of the buffer until the buffer is returned by <code class="docutils literal notranslate"><span class="pre">sdio_slave_send_get_finished</span></code> after the transaction is finished.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_ARG if the length is not greater than 0.</li>
+<li>ESP_ERR_TIMEOUT if the queue is still full until timeout.</li>
+<li>ESP_OK if success. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">addr</span></code>: Address for data to be sent. The buffer should be DMA capable and 32-bit aligned. </li>
+<li><code class="docutils literal notranslate"><span class="pre">len</span></code>: Length of the data, should not be longer than 4092 bytes (may support longer in the future). </li>
+<li><code class="docutils literal notranslate"><span class="pre">arg</span></code>: Argument to returned in <code class="docutils literal notranslate"><span class="pre">sdio_slave_send_get_finished</span></code>. The argument can be used to indicate which transaction is done, or as a parameter for a callback. Set to NULL if not needed. </li>
+<li><code class="docutils literal notranslate"><span class="pre">wait</span></code>: Time to wait if the buffer is full.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428sdio_slave_send_get_finishedPPv10TickType_t">
+<span id="_CPPv328sdio_slave_send_get_finishedPPv10TickType_t"></span><span id="_CPPv228sdio_slave_send_get_finishedPPv10TickType_t"></span><span id="sdio_slave_send_get_finished__voidPP.TickType_t"></span><span class="target" id="sdio__slave_8h_1a352925cbc8f60c2f9adfb3cd5872631b"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdio_slave_send_get_finished</code><span class="sig-paren">(</span>void **<em>out_arg</em>, TickType_t <em>wait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428sdio_slave_send_get_finishedPPv10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return the ownership of a finished transaction. <dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_ERR_TIMEOUT if no transaction finished, or ESP_OK if succeed. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">out_arg</span></code>: Argument of the finished transaction. Set to NULL if unused. </li>
+<li><code class="docutils literal notranslate"><span class="pre">wait</span></code>: Time to wait if there’s no finished sending transaction.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419sdio_slave_transmitP7uint8_t6size_t">
+<span id="_CPPv319sdio_slave_transmitP7uint8_t6size_t"></span><span id="_CPPv219sdio_slave_transmitP7uint8_t6size_t"></span><span id="sdio_slave_transmit__uint8_tP.s"></span><span class="target" id="sdio__slave_8h_1ab27f74045c6c0bbcb1ff31cc7b15e830"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdio_slave_transmit</code><span class="sig-paren">(</span>uint8_t *<em>addr</em>, size_t <em>len</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419sdio_slave_transmitP7uint8_t6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start a new sending transfer, and wait for it (blocked) to be finished.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_ARG if the length of descriptor is not greater than 0.</li>
+<li>ESP_ERR_TIMEOUT if the queue is full or host do not start a transfer before timeout.</li>
+<li>ESP_OK if success. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">addr</span></code>: Start address of the buffer to send </li>
+<li><code class="docutils literal notranslate"><span class="pre">len</span></code>: Length of buffer to send.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419sdio_slave_read_regi">
+<span id="_CPPv319sdio_slave_read_regi"></span><span id="_CPPv219sdio_slave_read_regi"></span><span id="sdio_slave_read_reg__i"></span><span class="target" id="sdio__slave_8h_1aacfaf655c1f60adb6aafde98789e8f2e"></span>uint8_t <code class="descname">sdio_slave_read_reg</code><span class="sig-paren">(</span>int <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419sdio_slave_read_regi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read the spi slave register shared with host.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>register 28 to 31 are reserved for interrupt vector.</dd>
+<dt><strong>Return</strong></dt>
+<dd>value of the register. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">pos</span></code>: register address, 0-27 or 32-63.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420sdio_slave_write_regi7uint8_t">
+<span id="_CPPv320sdio_slave_write_regi7uint8_t"></span><span id="_CPPv220sdio_slave_write_regi7uint8_t"></span><span id="sdio_slave_write_reg__i.uint8_t"></span><span class="target" id="sdio__slave_8h_1a348dc68cf2127918f0e51b95f7d4ecc5"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdio_slave_write_reg</code><span class="sig-paren">(</span>int <em>pos</em>, uint8_t <em>reg</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420sdio_slave_write_regi7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write the spi slave register shared with host.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>register 29 and 31 are used for interrupt vector.</dd>
+<dt><strong>Return</strong></dt>
+<dd>ESP_ERR_INVALID_ARG if address wrong, otherwise ESP_OK. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">pos</span></code>: register address, 0-11, 14-15, 18-19, 24-27 and 32-63, other address are reserved. </li>
+<li><code class="docutils literal notranslate"><span class="pre">reg</span></code>: the value to write.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426sdio_slave_get_host_intenav">
+<span id="_CPPv326sdio_slave_get_host_intenav"></span><span id="_CPPv226sdio_slave_get_host_intenav"></span><span id="sdio_slave_get_host_intena__void"></span><span class="target" id="sdio__slave_8h_1aaeb6e7852a23c667bd0f9b8e64685ca3"></span><a class="reference internal" href="#_CPPv420sdio_slave_hostint_t" title="sdio_slave_hostint_t">sdio_slave_hostint_t</a> <code class="descname">sdio_slave_get_host_intena</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426sdio_slave_get_host_intenav" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the interrupt enable for host.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>the interrupt mask. </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426sdio_slave_set_host_intena20sdio_slave_hostint_t">
+<span id="_CPPv326sdio_slave_set_host_intena20sdio_slave_hostint_t"></span><span id="_CPPv226sdio_slave_set_host_intena20sdio_slave_hostint_t"></span><span id="sdio_slave_set_host_intena__sdio_slave_hostint_t"></span><span class="target" id="sdio__slave_8h_1a870a9f45d3d98063b06846db325e6fc2"></span>void <code class="descname">sdio_slave_set_host_intena</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv420sdio_slave_hostint_t" title="sdio_slave_hostint_t">sdio_slave_hostint_t</a> <em>mask</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426sdio_slave_set_host_intena20sdio_slave_hostint_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the interrupt enable for host.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mask</span></code>: Enable mask for host interrupt. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424sdio_slave_send_host_int7uint8_t">
+<span id="_CPPv324sdio_slave_send_host_int7uint8_t"></span><span id="_CPPv224sdio_slave_send_host_int7uint8_t"></span><span id="sdio_slave_send_host_int__uint8_t"></span><span class="target" id="sdio__slave_8h_1a0857770ed98aa745f9d6ac0754e14be4"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdio_slave_send_host_int</code><span class="sig-paren">(</span>uint8_t <em>pos</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424sdio_slave_send_host_int7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Interrupt the host by general purpose interrupt.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_ERR_INVALID_ARG if interrupt num error</li>
+<li>ESP_OK otherwise </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">pos</span></code>: Interrupt num, 0-7.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425sdio_slave_clear_host_int20sdio_slave_hostint_t">
+<span id="_CPPv325sdio_slave_clear_host_int20sdio_slave_hostint_t"></span><span id="_CPPv225sdio_slave_clear_host_int20sdio_slave_hostint_t"></span><span id="sdio_slave_clear_host_int__sdio_slave_hostint_t"></span><span class="target" id="sdio__slave_8h_1a786abaeab087ab38d912218f45b07c6a"></span>void <code class="descname">sdio_slave_clear_host_int</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv420sdio_slave_hostint_t" title="sdio_slave_hostint_t">sdio_slave_hostint_t</a> <em>mask</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425sdio_slave_clear_host_int20sdio_slave_hostint_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Clear general purpose interrupt to host.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mask</span></code>: Interrupt bits to clear, by bit mask. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419sdio_slave_wait_inti10TickType_t">
+<span id="_CPPv319sdio_slave_wait_inti10TickType_t"></span><span id="_CPPv219sdio_slave_wait_inti10TickType_t"></span><span id="sdio_slave_wait_int__i.TickType_t"></span><span class="target" id="sdio__slave_8h_1ab447edce2cb6ac960bda3e83f4c2938e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdio_slave_wait_int</code><span class="sig-paren">(</span>int <em>pos</em>, TickType_t <em>wait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419sdio_slave_wait_inti10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Wait for general purpose interrupt from host.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>this clears the interrupt at the same time.</dd>
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK if success, ESP_ERR_TIMEOUT if timeout. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">pos</span></code>: Interrupt source number to wait for. is set. </li>
+<li><code class="docutils literal notranslate"><span class="pre">wait</span></code>: Time to wait before interrupt triggered.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv419sdio_slave_config_t">
+<span id="_CPPv319sdio_slave_config_t"></span><span id="_CPPv219sdio_slave_config_t"></span><span id="sdio_slave_config_t"></span><span class="target" id="structsdio__slave__config__t"></span><em class="property">struct </em><code class="descname">sdio_slave_config_t</code><a class="headerlink" href="#_CPPv419sdio_slave_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Configuration of SDIO slave. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N19sdio_slave_config_t6timingE">
+<span id="_CPPv3N19sdio_slave_config_t6timingE"></span><span id="_CPPv2N19sdio_slave_config_t6timingE"></span><span id="sdio_slave_config_t::timing__sdio_slave_timing_t"></span><span class="target" id="structsdio__slave__config__t_1afa759d1cb5c96beec444b1e6349a53fb"></span><a class="reference internal" href="#_CPPv419sdio_slave_timing_t" title="sdio_slave_timing_t">sdio_slave_timing_t</a> <code class="descname">timing</code><a class="headerlink" href="#_CPPv4N19sdio_slave_config_t6timingE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>timing of sdio_slave. see <code class="docutils literal notranslate"><span class="pre">sdio_slave_timing_t</span></code>. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19sdio_slave_config_t12sending_modeE">
+<span id="_CPPv3N19sdio_slave_config_t12sending_modeE"></span><span id="_CPPv2N19sdio_slave_config_t12sending_modeE"></span><span id="sdio_slave_config_t::sending_mode__sdio_slave_sending_mode_t"></span><span class="target" id="structsdio__slave__config__t_1a6a445be0028999519e09744cb9377292"></span><a class="reference internal" href="#_CPPv425sdio_slave_sending_mode_t" title="sdio_slave_sending_mode_t">sdio_slave_sending_mode_t</a> <code class="descname">sending_mode</code><a class="headerlink" href="#_CPPv4N19sdio_slave_config_t12sending_modeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>mode of sdio_slave. <code class="docutils literal notranslate"><span class="pre">SDIO_SLAVE_MODE_STREAM</span></code> if the data needs to be sent as much as possible; <code class="docutils literal notranslate"><span class="pre">SDIO_SLAVE_MODE_PACKET</span></code> if the data should be sent in packets. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19sdio_slave_config_t15send_queue_sizeE">
+<span id="_CPPv3N19sdio_slave_config_t15send_queue_sizeE"></span><span id="_CPPv2N19sdio_slave_config_t15send_queue_sizeE"></span><span id="sdio_slave_config_t::send_queue_size__i"></span><span class="target" id="structsdio__slave__config__t_1a7a89728e19f6159b6e38a3935af995b5"></span>int <code class="descname">send_queue_size</code><a class="headerlink" href="#_CPPv4N19sdio_slave_config_t15send_queue_sizeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>max buffers that can be queued before sending. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19sdio_slave_config_t16recv_buffer_sizeE">
+<span id="_CPPv3N19sdio_slave_config_t16recv_buffer_sizeE"></span><span id="_CPPv2N19sdio_slave_config_t16recv_buffer_sizeE"></span><span id="sdio_slave_config_t::recv_buffer_size__s"></span><span class="target" id="structsdio__slave__config__t_1aa2966f45b3a59ebc242e92503c751299"></span>size_t <code class="descname">recv_buffer_size</code><a class="headerlink" href="#_CPPv4N19sdio_slave_config_t16recv_buffer_sizeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>If buffer_size is too small, it costs more CPU time to handle larger number of buffers. If buffer_size is too large, the space larger than the transaction length is left blank but still counts a buffer, and the buffers are easily run out. Should be set according to length of data really transferred. All data that do not fully fill a buffer is still counted as one buffer. E.g. 10 bytes data costs 2 buffers if the size is 8 bytes per buffer. Buffer size of the slave pre-defined between host and slave before communication. All receive buffer given to the driver should be larger than this. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19sdio_slave_config_t8event_cbE">
+<span id="_CPPv3N19sdio_slave_config_t8event_cbE"></span><span id="_CPPv2N19sdio_slave_config_t8event_cbE"></span><span id="sdio_slave_config_t::event_cb__sdio_event_cb_t"></span><span class="target" id="structsdio__slave__config__t_1aef7513d4607505c18a7795b76ea3c832"></span><a class="reference internal" href="#_CPPv415sdio_event_cb_t" title="sdio_event_cb_t">sdio_event_cb_t</a> <code class="descname">event_cb</code><a class="headerlink" href="#_CPPv4N19sdio_slave_config_t8event_cbE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>when the host interrupts slave, this callback will be called with interrupt number (0-7). </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19sdio_slave_config_t5flagsE">
+<span id="_CPPv3N19sdio_slave_config_t5flagsE"></span><span id="_CPPv2N19sdio_slave_config_t5flagsE"></span><span id="sdio_slave_config_t::flags__uint32_t"></span><span class="target" id="structsdio__slave__config__t_1a146fc26be76c00ea7806d557759899db"></span>uint32_t <code class="descname">flags</code><a class="headerlink" href="#_CPPv4N19sdio_slave_config_t5flagsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Features to be enabled for the slave, combinations of <code class="docutils literal notranslate"><span class="pre">SDIO_SLAVE_FLAG_*</span></code>. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.SDIO_SLAVE_RECV_MAX_BUFFER">
+<span class="target" id="sdio__slave_8h_1a1b9becc8b169d7c54e7dd69cf997466b"></span><code class="descname">SDIO_SLAVE_RECV_MAX_BUFFER</code><a class="headerlink" href="#c.SDIO_SLAVE_RECV_MAX_BUFFER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.SDIO_SLAVE_FLAG_DAT2_DISABLED">
+<span class="target" id="sdio__slave_8h_1af1d88403ba0944f0e01fa79966ebc701"></span><code class="descname">SDIO_SLAVE_FLAG_DAT2_DISABLED</code><a class="headerlink" href="#c.SDIO_SLAVE_FLAG_DAT2_DISABLED" title="Permalink to this definition">¶</a></dt>
+<dd><p>It is required by the SD specification that all 4 data lines should be used and pulled up even in 1-bit mode or SPI mode. However, as a feature, the user can specify this flag to make use of DAT2 pin in 1-bit mode. Note that the host cannot read CCCR registers to know we don’t support 4-bit mode anymore, please do this at your own risk. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SDIO_SLAVE_FLAG_HOST_INTR_DISABLED">
+<span class="target" id="sdio__slave_8h_1a36c49fd02fae2c83bd6a078cd0fc6eeb"></span><code class="descname">SDIO_SLAVE_FLAG_HOST_INTR_DISABLED</code><a class="headerlink" href="#c.SDIO_SLAVE_FLAG_HOST_INTR_DISABLED" title="Permalink to this definition">¶</a></dt>
+<dd><p>The DAT1 line is used as the interrupt line in SDIO protocol. However, as a feature, the user can specify this flag to make use of DAT1 pin of the slave in 1-bit mode. Note that the host has to do polling to the interrupt registers to know whether there are interrupts from the slave. And it cannot read CCCR registers to know we don’t support 4-bit mode anymore, please do this at your own risk. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SDIO_SLAVE_FLAG_INTERNAL_PULLUP">
+<span class="target" id="sdio__slave_8h_1a7a89171f2c5ce80a13e0555e9117b66f"></span><code class="descname">SDIO_SLAVE_FLAG_INTERNAL_PULLUP</code><a class="headerlink" href="#c.SDIO_SLAVE_FLAG_INTERNAL_PULLUP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable internal pullups for enabled pins. It is required by the SD specification that all the 4 data lines should be pulled up even in 1-bit mode or SPI mode. Note that the internal pull-ups are not sufficient for stable communication, please do connect external pull-ups on the bus. This is only for example and debug use. </p>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv415sdio_event_cb_t">
+<span id="_CPPv315sdio_event_cb_t"></span><span id="_CPPv215sdio_event_cb_t"></span><span id="sdio_event_cb_t"></span><span class="target" id="sdio__slave_8h_1ab49582445cc2b758db280a123349cae4"></span><em class="property">typedef </em>void (*<code class="descname">sdio_event_cb_t</code>)<span class="sig-paren">(</span>uint8_t event<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415sdio_event_cb_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="type">
+<dt id="_CPPv423sdio_slave_buf_handle_t">
+<span id="_CPPv323sdio_slave_buf_handle_t"></span><span id="_CPPv223sdio_slave_buf_handle_t"></span><span id="sdio_slave_buf_handle_t"></span><span class="target" id="sdio__slave_8h_1ac1bb587f0d5814b1d705c889f364f7f6"></span><em class="property">typedef </em>void *<code class="descname">sdio_slave_buf_handle_t</code><a class="headerlink" href="#_CPPv423sdio_slave_buf_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Handle of a receive buffer, register a handle by calling <code class="docutils literal notranslate"><span class="pre">sdio_slave_recv_register_buf</span></code>. Use the handle to load the buffer to the driver, or call <code class="docutils literal notranslate"><span class="pre">sdio_slave_recv_unregister_buf</span></code> if it is no longer used. </p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esp_slave_protocol.html" class="btn btn-neutral float-right" title="Communication with ESP SDIO Slave" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="sdspi_host.html" class="btn btn-neutral float-left" title="SD SPI Host Driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/sdio_slave.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:38 GMT -->
+</html>

@@ -1,0 +1,1285 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/storage/sdmmc.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:38 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SD/SDIO/MMC Driver &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="SPI Flash API" href="spi_flash.html" />
+    <link rel="prev" title="NVS Partition Generator Utility" href="nvs_partition_gen.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="sdmmc.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/storage/sdmmc"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Storage</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="fatfs.html">FAT Filesystem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mass_mfg.html">Mass Manufacturing Utility</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nvs_flash.html">Non-Volatile Storage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="nvs_partition_gen.html">NVS Partition Generation Utility</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">SD/SDIO/MMC Driver</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-example">Application Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#protocol-layer-api">Protocol layer API</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="spi_flash.html">SPI Flash and Partition APIs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spiffs.html">SPIFFS Filesystem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vfs.html">Virtual Filesystem</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wear-levelling.html">Wear Levelling</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Storage API</a> &raquo;</li>
+        
+      <li>SD/SDIO/MMC Driver</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/storage/sdmmc.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="sd-sdio-mmc-driver">
+<h1>SD/SDIO/MMC Driver<a class="headerlink" href="#sd-sdio-mmc-driver" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/api-reference/storage/sdmmc.html">[中文]</a></p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The SD/SDIO/MMC driver currently supports SD memory, SDIO cards, and eMMC chips. This is a protocol level driver built on top of SDMMC and SD SPI host drivers.</p>
+<p>SDMMC and SD SPI host drivers (<a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/components/driver/include/driver/sdmmc_host.h">driver/include/driver/sdmmc_host.h</a>) provide API functions for:</p>
+<ul class="simple">
+<li>Sending commands to slave devices</li>
+<li>Sending and receiving data</li>
+<li>Handling error conditions within the bus</li>
+</ul>
+<p>For functions used to initialize and configure:</p>
+<ul class="simple">
+<li>SDMMC host, see <a class="reference internal" href="../peripherals/sdmmc_host.html"><span class="doc">SDMMC Host API</span></a></li>
+<li>SD SPI host, see <a class="reference internal" href="../peripherals/sdspi_host.html"><span class="doc">SD SPI Host API</span></a></li>
+</ul>
+<p>The SDMMC protocol layer described in this document handles the specifics of the SD protocol, such as the card initialization and data transfer commands.</p>
+<p>The protocol layer works with the host via the <a class="reference internal" href="#_CPPv412sdmmc_host_t" title="sdmmc_host_t"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">sdmmc_host_t</span></code></a> structure. This structure contains pointers to various functions of the host.</p>
+</div>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<p>An example which combines the SDMMC driver with the FATFS library is provided in the <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/storage/sd_card">storage/sd_card</a> directory of ESP-IDF examples. This example initializes the card, then writes and reads data from it using POSIX and C library APIs. See README.md file in the example directory for more information.</p>
+</div>
+<div class="section" id="protocol-layer-api">
+<h2>Protocol layer API<a class="headerlink" href="#protocol-layer-api" title="Permalink to this headline">¶</a></h2>
+<p>The protocol layer is given the <a class="reference internal" href="#_CPPv412sdmmc_host_t" title="sdmmc_host_t"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">sdmmc_host_t</span></code></a> structure. This structure describes the SD/MMC host driver, lists its capabilities, and provides pointers to functions of the driver. The protocol layer stores card-specific information in the <a class="reference internal" href="#_CPPv412sdmmc_card_t" title="sdmmc_card_t"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">sdmmc_card_t</span></code></a> structure. When sending commands to the SD/MMC host driver, the protocol layer uses the <a class="reference internal" href="#_CPPv415sdmmc_command_t" title="sdmmc_command_t"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">sdmmc_command_t</span></code></a> structure to describe the command, arguments, expected return values, and data to transfer if there is any.</p>
+<div class="section" id="using-api-with-sd-memory-cards">
+<h3>Using API with SD memory cards<a class="headerlink" href="#using-api-with-sd-memory-cards" title="Permalink to this headline">¶</a></h3>
+<ol class="arabic simple">
+<li>To initialize the host, call the host driver functions, e.g., <a class="reference internal" href="../peripherals/sdmmc_host.html#_CPPv415sdmmc_host_initv" title="sdmmc_host_init"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">sdmmc_host_init()</span></code></a>, <a class="reference internal" href="../peripherals/sdmmc_host.html#_CPPv420sdmmc_host_init_slotiPK19sdmmc_slot_config_t" title="sdmmc_host_init_slot"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">sdmmc_host_init_slot()</span></code></a>.</li>
+<li>To initialize the card, call <a class="reference internal" href="#_CPPv415sdmmc_card_initPK12sdmmc_host_tP12sdmmc_card_t" title="sdmmc_card_init"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">sdmmc_card_init()</span></code></a> and pass to it the parameters <code class="docutils literal notranslate"><span class="pre">host</span></code> - the host driver information, and <code class="docutils literal notranslate"><span class="pre">card</span></code> - a pointer to the structure <a class="reference internal" href="#_CPPv412sdmmc_card_t" title="sdmmc_card_t"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">sdmmc_card_t</span></code></a> which will be filled with information about the card when the function completes.</li>
+<li>To read and write sectors of the card, use <a class="reference internal" href="#_CPPv418sdmmc_read_sectorsP12sdmmc_card_tPv6size_t6size_t" title="sdmmc_read_sectors"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">sdmmc_read_sectors()</span></code></a> and <a class="reference internal" href="#_CPPv419sdmmc_write_sectorsP12sdmmc_card_tPKv6size_t6size_t" title="sdmmc_write_sectors"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">sdmmc_write_sectors()</span></code></a> respectively and pass to it the parameter <code class="docutils literal notranslate"><span class="pre">card</span></code> - a pointer to the card information structure.</li>
+<li>If the card is not used anymore, call the host driver function - e.g., <a class="reference internal" href="../peripherals/sdmmc_host.html#_CPPv417sdmmc_host_deinitv" title="sdmmc_host_deinit"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">sdmmc_host_deinit()</span></code></a> - to disable the host peripheral and free the resources allocated by the driver.</li>
+</ol>
+</div>
+<div class="section" id="using-api-with-emmc-chips">
+<h3>Using API with eMMC chips<a class="headerlink" href="#using-api-with-emmc-chips" title="Permalink to this headline">¶</a></h3>
+<p>From the protocol layer’s perspective, eMMC memory chips behave exactly like SD memory cards. Even though eMMCs are chips and do not have a card form factor, the terminology for SD cards can still be applied to eMMC due to the similarity of the protocol (<cite>sdmmc_card_t</cite>, <cite>sdmmc_card_init</cite>). Note that eMMC chips cannot be used over SPI, which makes them incompatible with the SD SPI host driver.</p>
+<p>To initialize eMMC memory and perform read/write operations, follow the steps listed for SD cards in the previous section.</p>
+</div>
+<div class="section" id="using-api-with-sdio-cards">
+<h3>Using API with SDIO cards<a class="headerlink" href="#using-api-with-sdio-cards" title="Permalink to this headline">¶</a></h3>
+<p>Initialization and the probing process is the same as with SD memory cards. The only difference is in data transfer commands in SDIO mode.</p>
+<p>During the card initialization and probing, performed with <a class="reference internal" href="#_CPPv415sdmmc_card_initPK12sdmmc_host_tP12sdmmc_card_t" title="sdmmc_card_init"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">sdmmc_card_init()</span></code></a>, the driver only configures the following registers of the IO card:</p>
+<ol class="arabic simple">
+<li>The IO portion of the card is reset by setting RES bit in the I/O Abort (0x06) register.</li>
+<li>If 4-line mode is enabled in host and slot configuration, the driver attempts to set the Bus width field in the Bus Interface Control (0x07) register. If setting the filed is successful, which means that the slave supports 4-line mode, the host is also switched to 4-line mode.</li>
+<li>If high-speed mode is enabled in the host configuration, the SHS bit is set in the High Speed (0x13) register.</li>
+</ol>
+<p>In particular, the driver does not set any bits in (1) I/O Enable and Int Enable registers, (2) I/O block sizes, etc. Applications can set them by calling <a class="reference internal" href="#_CPPv419sdmmc_io_write_byteP12sdmmc_card_t8uint32_t8uint32_t7uint8_tP7uint8_t" title="sdmmc_io_write_byte"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">sdmmc_io_write_byte()</span></code></a>.</p>
+<p>For card configuration and data transfer, choose the pair of functions relevant to your case from the table below.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="53%" />
+<col width="24%" />
+<col width="24%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Action</th>
+<th class="head">Read Function</th>
+<th class="head">Write Function</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Read and write a single byte using IO_RW_DIRECT (CMD52)</td>
+<td><a class="reference internal" href="#_CPPv418sdmmc_io_read_byteP12sdmmc_card_t8uint32_t8uint32_tP7uint8_t" title="sdmmc_io_read_byte"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">sdmmc_io_read_byte()</span></code></a></td>
+<td><a class="reference internal" href="#_CPPv419sdmmc_io_write_byteP12sdmmc_card_t8uint32_t8uint32_t7uint8_tP7uint8_t" title="sdmmc_io_write_byte"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">sdmmc_io_write_byte()</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>Read and write multiple bytes using IO_RW_EXTENDED (CMD53) in byte mode</td>
+<td><a class="reference internal" href="#_CPPv419sdmmc_io_read_bytesP12sdmmc_card_t8uint32_t8uint32_tPv6size_t" title="sdmmc_io_read_bytes"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">sdmmc_io_read_bytes()</span></code></a></td>
+<td><a class="reference internal" href="#_CPPv420sdmmc_io_write_bytesP12sdmmc_card_t8uint32_t8uint32_tPKv6size_t" title="sdmmc_io_write_bytes"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">sdmmc_io_write_bytes()</span></code></a></td>
+</tr>
+<tr class="row-even"><td>Read and write blocks of data using IO_RW_EXTENDED (CMD53) in block mode</td>
+<td><a class="reference internal" href="#_CPPv420sdmmc_io_read_blocksP12sdmmc_card_t8uint32_t8uint32_tPv6size_t" title="sdmmc_io_read_blocks"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">sdmmc_io_read_blocks()</span></code></a></td>
+<td><a class="reference internal" href="#_CPPv421sdmmc_io_write_blocksP12sdmmc_card_t8uint32_t8uint32_tPKv6size_t" title="sdmmc_io_write_blocks"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">sdmmc_io_write_blocks()</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>SDIO interrupts can be enabled by the application using the function <a class="reference internal" href="#_CPPv419sdmmc_io_enable_intP12sdmmc_card_t" title="sdmmc_io_enable_int"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">sdmmc_io_enable_int()</span></code></a>. When using SDIO in 1-line mode, the D1 line also needs to be connected to use SDIO interrupts.</p>
+<p>If you want the application to wait until the SDIO interrupt occurs, use <a class="reference internal" href="#_CPPv417sdmmc_io_wait_intP12sdmmc_card_t10TickType_t" title="sdmmc_io_wait_int"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">sdmmc_io_wait_int()</span></code></a>.</p>
+<p>There is a component ESSL (ESP Serial Slave Link) to use if you are communicating with an ESP32
+SDIO slave. See <a class="reference internal" href="../protocols/esp_serial_slave_link.html"><span class="doc">ESP Serial Slave Link</span></a> and example <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/sdio/host">peripherals/sdio/host</a>.</p>
+</div>
+<div class="section" id="combo-memory-io-cards">
+<h3>Combo (memory + IO) cards<a class="headerlink" href="#combo-memory-io-cards" title="Permalink to this headline">¶</a></h3>
+<p>The driver does not support SD combo cards. Combo cards are treated as IO cards.</p>
+</div>
+<div class="section" id="thread-safety">
+<h3>Thread safety<a class="headerlink" href="#thread-safety" title="Permalink to this headline">¶</a></h3>
+<p>Most applications need to use the protocol layer only in one task. For this reason, the protocol layer does not implement any kind of locking on the <a class="reference internal" href="#_CPPv412sdmmc_card_t" title="sdmmc_card_t"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">sdmmc_card_t</span></code></a> structure, or when accessing SDMMC or SD SPI host drivers. Such locking is usually implemented on a higher layer, e.g., in the filesystem driver.</p>
+</div>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/sdmmc/include/sdmmc_cmd.h">sdmmc/include/sdmmc_cmd.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv415sdmmc_card_initPK12sdmmc_host_tP12sdmmc_card_t">
+<span id="_CPPv315sdmmc_card_initPK12sdmmc_host_tP12sdmmc_card_t"></span><span id="_CPPv215sdmmc_card_initPK12sdmmc_host_tP12sdmmc_card_t"></span><span id="sdmmc_card_init__sdmmc_host_tCP.sdmmc_card_tP"></span><span class="target" id="sdmmc__cmd_8h_1a55d5ac13fbfdc65c8984da68dfcac06a"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdmmc_card_init</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv412sdmmc_host_t" title="sdmmc_host_t">sdmmc_host_t</a> *<em>host</em>, <a class="reference internal" href="#_CPPv412sdmmc_card_t" title="sdmmc_card_t">sdmmc_card_t</a> *<em>out_card</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415sdmmc_card_initPK12sdmmc_host_tP12sdmmc_card_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Probe and initialize SD/MMC card using given host</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Only SD cards (SDSC and SDHC/SDXC) are supported now. Support for MMC/eMMC cards will be added later.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>One of the error codes from SDMMC host controller </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">host</span></code>: pointer to structure defining host controller </li>
+<li><code class="docutils literal notranslate"><span class="pre">out_card</span></code>: pointer to structure which will receive information about the card when the function completes </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421sdmmc_card_print_infoP4FILEPK12sdmmc_card_t">
+<span id="_CPPv321sdmmc_card_print_infoP4FILEPK12sdmmc_card_t"></span><span id="_CPPv221sdmmc_card_print_infoP4FILEPK12sdmmc_card_t"></span><span id="sdmmc_card_print_info__FILEP.sdmmc_card_tCP"></span><span class="target" id="sdmmc__cmd_8h_1a75a63731e8699622feb543b77d5c3c8d"></span>void <code class="descname">sdmmc_card_print_info</code><span class="sig-paren">(</span>FILE *<em>stream</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv412sdmmc_card_t" title="sdmmc_card_t">sdmmc_card_t</a> *<em>card</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421sdmmc_card_print_infoP4FILEPK12sdmmc_card_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Print information about the card to a stream. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">stream</span></code>: stream obtained using fopen or fdopen </li>
+<li><code class="docutils literal notranslate"><span class="pre">card</span></code>: card information structure initialized using sdmmc_card_init </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419sdmmc_write_sectorsP12sdmmc_card_tPKv6size_t6size_t">
+<span id="_CPPv319sdmmc_write_sectorsP12sdmmc_card_tPKv6size_t6size_t"></span><span id="_CPPv219sdmmc_write_sectorsP12sdmmc_card_tPKv6size_t6size_t"></span><span id="sdmmc_write_sectors__sdmmc_card_tP.voidCP.s.s"></span><span class="target" id="sdmmc__cmd_8h_1aea07897f76ceba26e5f37ab7cfc97496"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdmmc_write_sectors</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412sdmmc_card_t" title="sdmmc_card_t">sdmmc_card_t</a> *<em>card</em>, <em class="property">const</em> void *<em>src</em>, size_t <em>start_sector</em>, size_t <em>sector_count</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419sdmmc_write_sectorsP12sdmmc_card_tPKv6size_t6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write given number of sectors to SD/MMC card</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>One of the error codes from SDMMC host controller </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">card</span></code>: pointer to card information structure previously initialized using sdmmc_card_init </li>
+<li><code class="docutils literal notranslate"><span class="pre">src</span></code>: pointer to data buffer to read data from; data size must be equal to sector_count * card-&gt;csd.sector_size </li>
+<li><code class="docutils literal notranslate"><span class="pre">start_sector</span></code>: sector where to start writing </li>
+<li><code class="docutils literal notranslate"><span class="pre">sector_count</span></code>: number of sectors to write </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418sdmmc_read_sectorsP12sdmmc_card_tPv6size_t6size_t">
+<span id="_CPPv318sdmmc_read_sectorsP12sdmmc_card_tPv6size_t6size_t"></span><span id="_CPPv218sdmmc_read_sectorsP12sdmmc_card_tPv6size_t6size_t"></span><span id="sdmmc_read_sectors__sdmmc_card_tP.voidP.s.s"></span><span class="target" id="sdmmc__cmd_8h_1ad08848c3b69fd4c38c2a968fdbc073fe"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdmmc_read_sectors</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412sdmmc_card_t" title="sdmmc_card_t">sdmmc_card_t</a> *<em>card</em>, void *<em>dst</em>, size_t <em>start_sector</em>, size_t <em>sector_count</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418sdmmc_read_sectorsP12sdmmc_card_tPv6size_t6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write given number of sectors to SD/MMC card</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>One of the error codes from SDMMC host controller </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">card</span></code>: pointer to card information structure previously initialized using sdmmc_card_init </li>
+<li><code class="docutils literal notranslate"><span class="pre">dst</span></code>: pointer to data buffer to write into; buffer size must be at least sector_count * card-&gt;csd.sector_size </li>
+<li><code class="docutils literal notranslate"><span class="pre">start_sector</span></code>: sector where to start reading </li>
+<li><code class="docutils literal notranslate"><span class="pre">sector_count</span></code>: number of sectors to read </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418sdmmc_io_read_byteP12sdmmc_card_t8uint32_t8uint32_tP7uint8_t">
+<span id="_CPPv318sdmmc_io_read_byteP12sdmmc_card_t8uint32_t8uint32_tP7uint8_t"></span><span id="_CPPv218sdmmc_io_read_byteP12sdmmc_card_t8uint32_t8uint32_tP7uint8_t"></span><span id="sdmmc_io_read_byte__sdmmc_card_tP.uint32_t.uint32_t.uint8_tP"></span><span class="target" id="sdmmc__cmd_8h_1af4f59afeca9dc26384e94fdde43ecc9a"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdmmc_io_read_byte</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412sdmmc_card_t" title="sdmmc_card_t">sdmmc_card_t</a> *<em>card</em>, uint32_t <em>function</em>, uint32_t <em>reg</em>, uint8_t *<em>out_byte</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418sdmmc_io_read_byteP12sdmmc_card_t8uint32_t8uint32_tP7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read one byte from an SDIO card using IO_RW_DIRECT (CMD52)</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>One of the error codes from SDMMC host controller </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">card</span></code>: pointer to card information structure previously initialized using sdmmc_card_init </li>
+<li><code class="docutils literal notranslate"><span class="pre">function</span></code>: IO function number </li>
+<li><code class="docutils literal notranslate"><span class="pre">reg</span></code>: byte address within IO function </li>
+<li><code class="docutils literal notranslate"><span class="pre">out_byte</span></code>: output, receives the value read from the card </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419sdmmc_io_write_byteP12sdmmc_card_t8uint32_t8uint32_t7uint8_tP7uint8_t">
+<span id="_CPPv319sdmmc_io_write_byteP12sdmmc_card_t8uint32_t8uint32_t7uint8_tP7uint8_t"></span><span id="_CPPv219sdmmc_io_write_byteP12sdmmc_card_t8uint32_t8uint32_t7uint8_tP7uint8_t"></span><span id="sdmmc_io_write_byte__sdmmc_card_tP.uint32_t.uint32_t.uint8_t.uint8_tP"></span><span class="target" id="sdmmc__cmd_8h_1a27a7bc0944c79abbf658b0b2e557fd4a"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdmmc_io_write_byte</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412sdmmc_card_t" title="sdmmc_card_t">sdmmc_card_t</a> *<em>card</em>, uint32_t <em>function</em>, uint32_t <em>reg</em>, uint8_t <em>in_byte</em>, uint8_t *<em>out_byte</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419sdmmc_io_write_byteP12sdmmc_card_t8uint32_t8uint32_t7uint8_tP7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write one byte to an SDIO card using IO_RW_DIRECT (CMD52)</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>One of the error codes from SDMMC host controller </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">card</span></code>: pointer to card information structure previously initialized using sdmmc_card_init </li>
+<li><code class="docutils literal notranslate"><span class="pre">function</span></code>: IO function number </li>
+<li><code class="docutils literal notranslate"><span class="pre">reg</span></code>: byte address within IO function </li>
+<li><code class="docutils literal notranslate"><span class="pre">in_byte</span></code>: value to be written </li>
+<li><code class="docutils literal notranslate"><span class="pre">out_byte</span></code>: if not NULL, receives new byte value read from the card (read-after-write). </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419sdmmc_io_read_bytesP12sdmmc_card_t8uint32_t8uint32_tPv6size_t">
+<span id="_CPPv319sdmmc_io_read_bytesP12sdmmc_card_t8uint32_t8uint32_tPv6size_t"></span><span id="_CPPv219sdmmc_io_read_bytesP12sdmmc_card_t8uint32_t8uint32_tPv6size_t"></span><span id="sdmmc_io_read_bytes__sdmmc_card_tP.uint32_t.uint32_t.voidP.s"></span><span class="target" id="sdmmc__cmd_8h_1a249c9ec3b065c2884c3cc63ea3cda0ec"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdmmc_io_read_bytes</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412sdmmc_card_t" title="sdmmc_card_t">sdmmc_card_t</a> *<em>card</em>, uint32_t <em>function</em>, uint32_t <em>addr</em>, void *<em>dst</em>, size_t <em>size</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419sdmmc_io_read_bytesP12sdmmc_card_t8uint32_t8uint32_tPv6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read multiple bytes from an SDIO card using IO_RW_EXTENDED (CMD53)</p>
+<p>This function performs read operation using CMD53 in byte mode. For block mode, see sdmmc_io_read_blocks.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_INVALID_SIZE if size exceeds 512 bytes</li>
+<li>One of the error codes from SDMMC host controller </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">card</span></code>: pointer to card information structure previously initialized using sdmmc_card_init </li>
+<li><code class="docutils literal notranslate"><span class="pre">function</span></code>: IO function number </li>
+<li><code class="docutils literal notranslate"><span class="pre">addr</span></code>: byte address within IO function where reading starts </li>
+<li><code class="docutils literal notranslate"><span class="pre">dst</span></code>: buffer which receives the data read from card </li>
+<li><code class="docutils literal notranslate"><span class="pre">size</span></code>: number of bytes to read </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420sdmmc_io_write_bytesP12sdmmc_card_t8uint32_t8uint32_tPKv6size_t">
+<span id="_CPPv320sdmmc_io_write_bytesP12sdmmc_card_t8uint32_t8uint32_tPKv6size_t"></span><span id="_CPPv220sdmmc_io_write_bytesP12sdmmc_card_t8uint32_t8uint32_tPKv6size_t"></span><span id="sdmmc_io_write_bytes__sdmmc_card_tP.uint32_t.uint32_t.voidCP.s"></span><span class="target" id="sdmmc__cmd_8h_1a146a48faf28b40359dce85d31ea847d1"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdmmc_io_write_bytes</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412sdmmc_card_t" title="sdmmc_card_t">sdmmc_card_t</a> *<em>card</em>, uint32_t <em>function</em>, uint32_t <em>addr</em>, <em class="property">const</em> void *<em>src</em>, size_t <em>size</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420sdmmc_io_write_bytesP12sdmmc_card_t8uint32_t8uint32_tPKv6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write multiple bytes to an SDIO card using IO_RW_EXTENDED (CMD53)</p>
+<p>This function performs write operation using CMD53 in byte mode. For block mode, see sdmmc_io_write_blocks.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_INVALID_SIZE if size exceeds 512 bytes</li>
+<li>One of the error codes from SDMMC host controller </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">card</span></code>: pointer to card information structure previously initialized using sdmmc_card_init </li>
+<li><code class="docutils literal notranslate"><span class="pre">function</span></code>: IO function number </li>
+<li><code class="docutils literal notranslate"><span class="pre">addr</span></code>: byte address within IO function where writing starts </li>
+<li><code class="docutils literal notranslate"><span class="pre">src</span></code>: data to be written </li>
+<li><code class="docutils literal notranslate"><span class="pre">size</span></code>: number of bytes to write </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420sdmmc_io_read_blocksP12sdmmc_card_t8uint32_t8uint32_tPv6size_t">
+<span id="_CPPv320sdmmc_io_read_blocksP12sdmmc_card_t8uint32_t8uint32_tPv6size_t"></span><span id="_CPPv220sdmmc_io_read_blocksP12sdmmc_card_t8uint32_t8uint32_tPv6size_t"></span><span id="sdmmc_io_read_blocks__sdmmc_card_tP.uint32_t.uint32_t.voidP.s"></span><span class="target" id="sdmmc__cmd_8h_1a0038437d6925be9d316b1fe1e6e9ef9c"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdmmc_io_read_blocks</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412sdmmc_card_t" title="sdmmc_card_t">sdmmc_card_t</a> *<em>card</em>, uint32_t <em>function</em>, uint32_t <em>addr</em>, void *<em>dst</em>, size_t <em>size</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420sdmmc_io_read_blocksP12sdmmc_card_t8uint32_t8uint32_tPv6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read blocks of data from an SDIO card using IO_RW_EXTENDED (CMD53)</p>
+<p>This function performs read operation using CMD53 in block mode. For byte mode, see sdmmc_io_read_bytes.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_INVALID_SIZE if size is not divisible by 512 bytes</li>
+<li>One of the error codes from SDMMC host controller </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">card</span></code>: pointer to card information structure previously initialized using sdmmc_card_init </li>
+<li><code class="docutils literal notranslate"><span class="pre">function</span></code>: IO function number </li>
+<li><code class="docutils literal notranslate"><span class="pre">addr</span></code>: byte address within IO function where writing starts </li>
+<li><code class="docutils literal notranslate"><span class="pre">dst</span></code>: buffer which receives the data read from card </li>
+<li><code class="docutils literal notranslate"><span class="pre">size</span></code>: number of bytes to read, must be divisible by the card block size. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421sdmmc_io_write_blocksP12sdmmc_card_t8uint32_t8uint32_tPKv6size_t">
+<span id="_CPPv321sdmmc_io_write_blocksP12sdmmc_card_t8uint32_t8uint32_tPKv6size_t"></span><span id="_CPPv221sdmmc_io_write_blocksP12sdmmc_card_t8uint32_t8uint32_tPKv6size_t"></span><span id="sdmmc_io_write_blocks__sdmmc_card_tP.uint32_t.uint32_t.voidCP.s"></span><span class="target" id="sdmmc__cmd_8h_1a796176b7e301578ec66a308118739525"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdmmc_io_write_blocks</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412sdmmc_card_t" title="sdmmc_card_t">sdmmc_card_t</a> *<em>card</em>, uint32_t <em>function</em>, uint32_t <em>addr</em>, <em class="property">const</em> void *<em>src</em>, size_t <em>size</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421sdmmc_io_write_blocksP12sdmmc_card_t8uint32_t8uint32_tPKv6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write blocks of data to an SDIO card using IO_RW_EXTENDED (CMD53)</p>
+<p>This function performs write operation using CMD53 in block mode. For byte mode, see sdmmc_io_write_bytes.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_INVALID_SIZE if size is not divisible by 512 bytes</li>
+<li>One of the error codes from SDMMC host controller </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">card</span></code>: pointer to card information structure previously initialized using sdmmc_card_init </li>
+<li><code class="docutils literal notranslate"><span class="pre">function</span></code>: IO function number </li>
+<li><code class="docutils literal notranslate"><span class="pre">addr</span></code>: byte address within IO function where writing starts </li>
+<li><code class="docutils literal notranslate"><span class="pre">src</span></code>: data to be written </li>
+<li><code class="docutils literal notranslate"><span class="pre">size</span></code>: number of bytes to read, must be divisible by the card block size. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419sdmmc_io_enable_intP12sdmmc_card_t">
+<span id="_CPPv319sdmmc_io_enable_intP12sdmmc_card_t"></span><span id="_CPPv219sdmmc_io_enable_intP12sdmmc_card_t"></span><span id="sdmmc_io_enable_int__sdmmc_card_tP"></span><span class="target" id="sdmmc__cmd_8h_1a4e1cd33cc142ac88511e5a55a7a0b4db"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdmmc_io_enable_int</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412sdmmc_card_t" title="sdmmc_card_t">sdmmc_card_t</a> *<em>card</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419sdmmc_io_enable_intP12sdmmc_card_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Enable SDIO interrupt in the SDMMC host</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK on success</li>
+<li>ESP_ERR_NOT_SUPPORTED if the host controller does not support IO interrupts </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">card</span></code>: pointer to card information structure previously initialized using sdmmc_card_init </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417sdmmc_io_wait_intP12sdmmc_card_t10TickType_t">
+<span id="_CPPv317sdmmc_io_wait_intP12sdmmc_card_t10TickType_t"></span><span id="_CPPv217sdmmc_io_wait_intP12sdmmc_card_t10TickType_t"></span><span id="sdmmc_io_wait_int__sdmmc_card_tP.TickType_t"></span><span class="target" id="sdmmc__cmd_8h_1ad8791633f2ae371d338cb8a1e242ad79"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdmmc_io_wait_int</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412sdmmc_card_t" title="sdmmc_card_t">sdmmc_card_t</a> *<em>card</em>, TickType_t <em>timeout_ticks</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417sdmmc_io_wait_intP12sdmmc_card_t10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Block until an SDIO interrupt is received</p>
+<p>Slave uses D1 line to signal interrupt condition to the host. This function can be used to wait for the interrupt.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK if the interrupt is received</li>
+<li>ESP_ERR_NOT_SUPPORTED if the host controller does not support IO interrupts</li>
+<li>ESP_ERR_TIMEOUT if the interrupt does not happen in timeout_ticks </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">card</span></code>: pointer to card information structure previously initialized using sdmmc_card_init </li>
+<li><code class="docutils literal notranslate"><span class="pre">timeout_ticks</span></code>: time to wait for the interrupt, in RTOS ticks </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421sdmmc_io_get_cis_dataP12sdmmc_card_tP7uint8_t6size_tP6size_t">
+<span id="_CPPv321sdmmc_io_get_cis_dataP12sdmmc_card_tP7uint8_t6size_tP6size_t"></span><span id="_CPPv221sdmmc_io_get_cis_dataP12sdmmc_card_tP7uint8_t6size_tP6size_t"></span><span id="sdmmc_io_get_cis_data__sdmmc_card_tP.uint8_tP.s.sP"></span><span class="target" id="sdmmc__cmd_8h_1aefa22e48ce2772f249ed428753c83013"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdmmc_io_get_cis_data</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv412sdmmc_card_t" title="sdmmc_card_t">sdmmc_card_t</a> *<em>card</em>, uint8_t *<em>out_buffer</em>, size_t <em>buffer_size</em>, size_t *<em>inout_cis_size</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421sdmmc_io_get_cis_dataP12sdmmc_card_tP7uint8_t6size_tP6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the data of CIS region of a SDIO card.</p>
+<p>You may provide a buffer not sufficient to store all the CIS data. In this case, this functions store as much data into your buffer as possible. Also, this function will try to get and return the size required for you.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: on success</li>
+<li>ESP_ERR_INVALID_RESPONSE: if the card does not (correctly) support CIS.</li>
+<li>ESP_ERR_INVALID_SIZE: CIS_CODE_END found, but buffer_size is less than required size, which is stored in the inout_cis_size then.</li>
+<li>ESP_ERR_NOT_FOUND: if the CIS_CODE_END not found. Increase input value of inout_cis_size or set it to 0, if you still want to search for the end; output value of inout_cis_size is invalid in this case.</li>
+<li>and other error code return from sdmmc_io_read_bytes </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">card</span></code>: pointer to card information structure previously initialized using sdmmc_card_init </li>
+<li><code class="docutils literal notranslate"><span class="pre">out_buffer</span></code>: Output buffer of the CIS data </li>
+<li><code class="docutils literal notranslate"><span class="pre">buffer_size</span></code>: Size of the buffer. </li>
+<li><code class="docutils literal notranslate"><span class="pre">inout_cis_size</span></code>: Mandatory, pointer to a size, input and output.<ul>
+<li>input: Limitation of maximum searching range, should be 0 or larger than buffer_size. The function searches for CIS_CODE_END until this range. Set to 0 to search infinitely.</li>
+<li>output: The size required to store all the CIS data, if CIS_CODE_END is found.</li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423sdmmc_io_print_cis_infoP7uint8_t6size_tP4FILE">
+<span id="_CPPv323sdmmc_io_print_cis_infoP7uint8_t6size_tP4FILE"></span><span id="_CPPv223sdmmc_io_print_cis_infoP7uint8_t6size_tP4FILE"></span><span id="sdmmc_io_print_cis_info__uint8_tP.s.FILEP"></span><span class="target" id="sdmmc__cmd_8h_1ada8fcaa22fbe413013ce1fb740038fdf"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">sdmmc_io_print_cis_info</code><span class="sig-paren">(</span>uint8_t *<em>buffer</em>, size_t <em>buffer_size</em>, FILE *<em>fp</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423sdmmc_io_print_cis_infoP7uint8_t6size_tP4FILE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Parse and print the CIS information of a SDIO card.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Not all the CIS codes and all kinds of tuples are supported. If you see some unresolved code, you can add the parsing of these code in sdmmc_io.c and contribute to the IDF through the Github repository. <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>         <span class="n">using</span> <span class="n">sdmmc_card_init</span>
+</pre></div>
+</div>
+ </dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: on success</li>
+<li>ESP_ERR_NOT_SUPPORTED: if the value from the card is not supported to be parsed.</li>
+<li>ESP_ERR_INVALID_SIZE: if the CIS size fields are not correct. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">buffer</span></code>: Buffer to parse </li>
+<li><code class="docutils literal notranslate"><span class="pre">buffer_size</span></code>: Size of the buffer. </li>
+<li><code class="docutils literal notranslate"><span class="pre">fp</span></code>: File pointer to print to, set to NULL to print to stdout.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id1">
+<h3>Header File<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/driver/include/driver/sdmmc_types.h">driver/include/driver/sdmmc_types.h</a></li>
+</ul>
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv411sdmmc_csd_t">
+<span id="_CPPv311sdmmc_csd_t"></span><span id="_CPPv211sdmmc_csd_t"></span><span id="sdmmc_csd_t"></span><span class="target" id="structsdmmc__csd__t"></span><em class="property">struct </em><code class="descname">sdmmc_csd_t</code><a class="headerlink" href="#_CPPv411sdmmc_csd_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Decoded values from SD card Card Specific Data register </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N11sdmmc_csd_t7csd_verE">
+<span id="_CPPv3N11sdmmc_csd_t7csd_verE"></span><span id="_CPPv2N11sdmmc_csd_t7csd_verE"></span><span id="sdmmc_csd_t::csd_ver__i"></span><span class="target" id="structsdmmc__csd__t_1af52e9eb58caf90fe204a0a71b76c1ebe"></span>int <code class="descname">csd_ver</code><a class="headerlink" href="#_CPPv4N11sdmmc_csd_t7csd_verE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>CSD structure format </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11sdmmc_csd_t7mmc_verE">
+<span id="_CPPv3N11sdmmc_csd_t7mmc_verE"></span><span id="_CPPv2N11sdmmc_csd_t7mmc_verE"></span><span id="sdmmc_csd_t::mmc_ver__i"></span><span class="target" id="structsdmmc__csd__t_1a14fb76ddb71cb755e4a56520ac1f631c"></span>int <code class="descname">mmc_ver</code><a class="headerlink" href="#_CPPv4N11sdmmc_csd_t7mmc_verE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>MMC version (for CID format) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11sdmmc_csd_t8capacityE">
+<span id="_CPPv3N11sdmmc_csd_t8capacityE"></span><span id="_CPPv2N11sdmmc_csd_t8capacityE"></span><span id="sdmmc_csd_t::capacity__i"></span><span class="target" id="structsdmmc__csd__t_1a41d940acbeb09e8ebc7ad98e864e4eac"></span>int <code class="descname">capacity</code><a class="headerlink" href="#_CPPv4N11sdmmc_csd_t8capacityE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>total number of sectors </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11sdmmc_csd_t11sector_sizeE">
+<span id="_CPPv3N11sdmmc_csd_t11sector_sizeE"></span><span id="_CPPv2N11sdmmc_csd_t11sector_sizeE"></span><span id="sdmmc_csd_t::sector_size__i"></span><span class="target" id="structsdmmc__csd__t_1a061a99906a59e9bb5940be3262bf313f"></span>int <code class="descname">sector_size</code><a class="headerlink" href="#_CPPv4N11sdmmc_csd_t11sector_sizeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>sector size in bytes </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11sdmmc_csd_t14read_block_lenE">
+<span id="_CPPv3N11sdmmc_csd_t14read_block_lenE"></span><span id="_CPPv2N11sdmmc_csd_t14read_block_lenE"></span><span id="sdmmc_csd_t::read_block_len__i"></span><span class="target" id="structsdmmc__csd__t_1a53f8c5ebe4df6643f401659af842cf40"></span>int <code class="descname">read_block_len</code><a class="headerlink" href="#_CPPv4N11sdmmc_csd_t14read_block_lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>block length for reads </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11sdmmc_csd_t18card_command_classE">
+<span id="_CPPv3N11sdmmc_csd_t18card_command_classE"></span><span id="_CPPv2N11sdmmc_csd_t18card_command_classE"></span><span id="sdmmc_csd_t::card_command_class__i"></span><span class="target" id="structsdmmc__csd__t_1a28db9aee7721a323a53cc2ef8ec9dc75"></span>int <code class="descname">card_command_class</code><a class="headerlink" href="#_CPPv4N11sdmmc_csd_t18card_command_classE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Card Command Class for SD </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11sdmmc_csd_t8tr_speedE">
+<span id="_CPPv3N11sdmmc_csd_t8tr_speedE"></span><span id="_CPPv2N11sdmmc_csd_t8tr_speedE"></span><span id="sdmmc_csd_t::tr_speed__i"></span><span class="target" id="structsdmmc__csd__t_1a3207d535767a7a837983cca2cbe8035d"></span>int <code class="descname">tr_speed</code><a class="headerlink" href="#_CPPv4N11sdmmc_csd_t8tr_speedE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Max transfer speed </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv411sdmmc_cid_t">
+<span id="_CPPv311sdmmc_cid_t"></span><span id="_CPPv211sdmmc_cid_t"></span><span id="sdmmc_cid_t"></span><span class="target" id="structsdmmc__cid__t"></span><em class="property">struct </em><code class="descname">sdmmc_cid_t</code><a class="headerlink" href="#_CPPv411sdmmc_cid_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Decoded values from SD card Card IDentification register </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N11sdmmc_cid_t6mfg_idE">
+<span id="_CPPv3N11sdmmc_cid_t6mfg_idE"></span><span id="_CPPv2N11sdmmc_cid_t6mfg_idE"></span><span id="sdmmc_cid_t::mfg_id__i"></span><span class="target" id="structsdmmc__cid__t_1a83ec909ab0a902546bfa627f91aa24b9"></span>int <code class="descname">mfg_id</code><a class="headerlink" href="#_CPPv4N11sdmmc_cid_t6mfg_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>manufacturer identification number </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11sdmmc_cid_t6oem_idE">
+<span id="_CPPv3N11sdmmc_cid_t6oem_idE"></span><span id="_CPPv2N11sdmmc_cid_t6oem_idE"></span><span id="sdmmc_cid_t::oem_id__i"></span><span class="target" id="structsdmmc__cid__t_1a4ed53a95b084c965d2db8419c2d1a6ff"></span>int <code class="descname">oem_id</code><a class="headerlink" href="#_CPPv4N11sdmmc_cid_t6oem_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>OEM/product identification number </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11sdmmc_cid_t4nameE">
+<span id="_CPPv3N11sdmmc_cid_t4nameE"></span><span id="_CPPv2N11sdmmc_cid_t4nameE"></span><span id="sdmmc_cid_t::name__cA"></span><span class="target" id="structsdmmc__cid__t_1a9fb4cfa8732e0c5af51b3648b27fb806"></span>char <code class="descname">name</code>[8]<a class="headerlink" href="#_CPPv4N11sdmmc_cid_t4nameE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>product name (MMC v1 has the longest) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11sdmmc_cid_t8revisionE">
+<span id="_CPPv3N11sdmmc_cid_t8revisionE"></span><span id="_CPPv2N11sdmmc_cid_t8revisionE"></span><span id="sdmmc_cid_t::revision__i"></span><span class="target" id="structsdmmc__cid__t_1aca83a9eeb94cef9b45109b2c105dd6e4"></span>int <code class="descname">revision</code><a class="headerlink" href="#_CPPv4N11sdmmc_cid_t8revisionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>product revision </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11sdmmc_cid_t6serialE">
+<span id="_CPPv3N11sdmmc_cid_t6serialE"></span><span id="_CPPv2N11sdmmc_cid_t6serialE"></span><span id="sdmmc_cid_t::serial__i"></span><span class="target" id="structsdmmc__cid__t_1a086ff46fd027627ccd6f9d8fc3c3d346"></span>int <code class="descname">serial</code><a class="headerlink" href="#_CPPv4N11sdmmc_cid_t6serialE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>product serial number </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11sdmmc_cid_t4dateE">
+<span id="_CPPv3N11sdmmc_cid_t4dateE"></span><span id="_CPPv2N11sdmmc_cid_t4dateE"></span><span id="sdmmc_cid_t::date__i"></span><span class="target" id="structsdmmc__cid__t_1a44af4e6742526a18834c3dded5e34375"></span>int <code class="descname">date</code><a class="headerlink" href="#_CPPv4N11sdmmc_cid_t4dateE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>manufacturing date </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv411sdmmc_scr_t">
+<span id="_CPPv311sdmmc_scr_t"></span><span id="_CPPv211sdmmc_scr_t"></span><span id="sdmmc_scr_t"></span><span class="target" id="structsdmmc__scr__t"></span><em class="property">struct </em><code class="descname">sdmmc_scr_t</code><a class="headerlink" href="#_CPPv411sdmmc_scr_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Decoded values from SD Configuration Register </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N11sdmmc_scr_t7sd_specE">
+<span id="_CPPv3N11sdmmc_scr_t7sd_specE"></span><span id="_CPPv2N11sdmmc_scr_t7sd_specE"></span><span id="sdmmc_scr_t::sd_spec__i"></span><span class="target" id="structsdmmc__scr__t_1ac5e1ca21dcf4c61a4d3436e450995261"></span>int <code class="descname">sd_spec</code><a class="headerlink" href="#_CPPv4N11sdmmc_scr_t7sd_specE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SD Physical layer specification version, reported by card </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N11sdmmc_scr_t9bus_widthE">
+<span id="_CPPv3N11sdmmc_scr_t9bus_widthE"></span><span id="_CPPv2N11sdmmc_scr_t9bus_widthE"></span><span id="sdmmc_scr_t::bus_width__i"></span><span class="target" id="structsdmmc__scr__t_1ac2ecbdb34ebc697aa8dae22be9e57b62"></span>int <code class="descname">bus_width</code><a class="headerlink" href="#_CPPv4N11sdmmc_scr_t9bus_widthE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>bus widths supported by card: BIT(0) — 1-bit bus, BIT(2) — 4-bit bus </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv415sdmmc_ext_csd_t">
+<span id="_CPPv315sdmmc_ext_csd_t"></span><span id="_CPPv215sdmmc_ext_csd_t"></span><span id="sdmmc_ext_csd_t"></span><span class="target" id="structsdmmc__ext__csd__t"></span><em class="property">struct </em><code class="descname">sdmmc_ext_csd_t</code><a class="headerlink" href="#_CPPv415sdmmc_ext_csd_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Decoded values of Extended Card Specific Data </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N15sdmmc_ext_csd_t11power_classE">
+<span id="_CPPv3N15sdmmc_ext_csd_t11power_classE"></span><span id="_CPPv2N15sdmmc_ext_csd_t11power_classE"></span><span id="sdmmc_ext_csd_t::power_class__uint8_t"></span><span class="target" id="structsdmmc__ext__csd__t_1aaf1ed53945d06334191b0bee09d68ad8"></span>uint8_t <code class="descname">power_class</code><a class="headerlink" href="#_CPPv4N15sdmmc_ext_csd_t11power_classE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Power class used by the card </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv423sdmmc_switch_func_rsp_t">
+<span id="_CPPv323sdmmc_switch_func_rsp_t"></span><span id="_CPPv223sdmmc_switch_func_rsp_t"></span><span id="sdmmc_switch_func_rsp_t"></span><span class="target" id="structsdmmc__switch__func__rsp__t"></span><em class="property">struct </em><code class="descname">sdmmc_switch_func_rsp_t</code><a class="headerlink" href="#_CPPv423sdmmc_switch_func_rsp_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SD SWITCH_FUNC response buffer </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N23sdmmc_switch_func_rsp_t4dataE">
+<span id="_CPPv3N23sdmmc_switch_func_rsp_t4dataE"></span><span id="_CPPv2N23sdmmc_switch_func_rsp_t4dataE"></span><span id="sdmmc_switch_func_rsp_t::data__uint32_tA"></span><span class="target" id="structsdmmc__switch__func__rsp__t_1a056dcff1dc944ba651412f2d037ee402"></span>uint32_t <code class="descname">data</code>[512 / 8 / sizeof(uint32_t)]<a class="headerlink" href="#_CPPv4N23sdmmc_switch_func_rsp_t4dataE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>response data </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv415sdmmc_command_t">
+<span id="_CPPv315sdmmc_command_t"></span><span id="_CPPv215sdmmc_command_t"></span><span id="sdmmc_command_t"></span><span class="target" id="structsdmmc__command__t"></span><em class="property">struct </em><code class="descname">sdmmc_command_t</code><a class="headerlink" href="#_CPPv415sdmmc_command_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SD/MMC command information </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N15sdmmc_command_t6opcodeE">
+<span id="_CPPv3N15sdmmc_command_t6opcodeE"></span><span id="_CPPv2N15sdmmc_command_t6opcodeE"></span><span id="sdmmc_command_t::opcode__uint32_t"></span><span class="target" id="structsdmmc__command__t_1a0ed712ee5bac313fc54237939856688e"></span>uint32_t <code class="descname">opcode</code><a class="headerlink" href="#_CPPv4N15sdmmc_command_t6opcodeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SD or MMC command index </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N15sdmmc_command_t3argE">
+<span id="_CPPv3N15sdmmc_command_t3argE"></span><span id="_CPPv2N15sdmmc_command_t3argE"></span><span id="sdmmc_command_t::arg__uint32_t"></span><span class="target" id="structsdmmc__command__t_1ac4f08b4a6bcf6956bbc86ca26bbb9b8a"></span>uint32_t <code class="descname">arg</code><a class="headerlink" href="#_CPPv4N15sdmmc_command_t3argE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SD/MMC command argument </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N15sdmmc_command_t8responseE">
+<span id="_CPPv3N15sdmmc_command_t8responseE"></span><span id="_CPPv2N15sdmmc_command_t8responseE"></span><span id="sdmmc_command_t::response__sdmmc_response_t"></span><span class="target" id="structsdmmc__command__t_1af1b11432b2bef1d942b64828b4a1274f"></span><a class="reference internal" href="#_CPPv416sdmmc_response_t" title="sdmmc_response_t">sdmmc_response_t</a> <code class="descname">response</code><a class="headerlink" href="#_CPPv4N15sdmmc_command_t8responseE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>response buffer </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N15sdmmc_command_t4dataE">
+<span id="_CPPv3N15sdmmc_command_t4dataE"></span><span id="_CPPv2N15sdmmc_command_t4dataE"></span><span id="sdmmc_command_t::data__voidP"></span><span class="target" id="structsdmmc__command__t_1aab4b194567dd8c60ca81c54ff2ad9e1f"></span>void *<code class="descname">data</code><a class="headerlink" href="#_CPPv4N15sdmmc_command_t4dataE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>buffer to send or read into </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N15sdmmc_command_t7datalenE">
+<span id="_CPPv3N15sdmmc_command_t7datalenE"></span><span id="_CPPv2N15sdmmc_command_t7datalenE"></span><span id="sdmmc_command_t::datalen__s"></span><span class="target" id="structsdmmc__command__t_1a752146ad046bfe3fb87d106a91d053c8"></span>size_t <code class="descname">datalen</code><a class="headerlink" href="#_CPPv4N15sdmmc_command_t7datalenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>length of data buffer </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N15sdmmc_command_t6blklenE">
+<span id="_CPPv3N15sdmmc_command_t6blklenE"></span><span id="_CPPv2N15sdmmc_command_t6blklenE"></span><span id="sdmmc_command_t::blklen__s"></span><span class="target" id="structsdmmc__command__t_1a56fdac5fa7c2ced081afbe46eb8ce509"></span>size_t <code class="descname">blklen</code><a class="headerlink" href="#_CPPv4N15sdmmc_command_t6blklenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>block length </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N15sdmmc_command_t5flagsE">
+<span id="_CPPv3N15sdmmc_command_t5flagsE"></span><span id="_CPPv2N15sdmmc_command_t5flagsE"></span><span id="sdmmc_command_t::flags__i"></span><span class="target" id="structsdmmc__command__t_1a8e7d83e8d17e7a36f7c015ec0bcb996e"></span>int <code class="descname">flags</code><a class="headerlink" href="#_CPPv4N15sdmmc_command_t5flagsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>see below </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N15sdmmc_command_t5errorE">
+<span id="_CPPv3N15sdmmc_command_t5errorE"></span><span id="_CPPv2N15sdmmc_command_t5errorE"></span><span id="sdmmc_command_t::error__esp_err_t"></span><span class="target" id="structsdmmc__command__t_1ad4e864f0f18de9b8a0d8a277ec7bcf7b"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">error</code><a class="headerlink" href="#_CPPv4N15sdmmc_command_t5errorE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>error returned from transfer </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N15sdmmc_command_t10timeout_msE">
+<span id="_CPPv3N15sdmmc_command_t10timeout_msE"></span><span id="_CPPv2N15sdmmc_command_t10timeout_msE"></span><span id="sdmmc_command_t::timeout_ms__i"></span><span class="target" id="structsdmmc__command__t_1a48153fe4f4e3f3047659194e87d22d1b"></span>int <code class="descname">timeout_ms</code><a class="headerlink" href="#_CPPv4N15sdmmc_command_t10timeout_msE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>response timeout, in milliseconds </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv412sdmmc_host_t">
+<span id="_CPPv312sdmmc_host_t"></span><span id="_CPPv212sdmmc_host_t"></span><span id="sdmmc_host_t"></span><span class="target" id="structsdmmc__host__t"></span><em class="property">struct </em><code class="descname">sdmmc_host_t</code><a class="headerlink" href="#_CPPv412sdmmc_host_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SD/MMC Host description</p>
+<p>This structure defines properties of SD/MMC host and functions of SD/MMC host which can be used by upper layers. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_host_t5flagsE">
+<span id="_CPPv3N12sdmmc_host_t5flagsE"></span><span id="_CPPv2N12sdmmc_host_t5flagsE"></span><span id="sdmmc_host_t::flags__uint32_t"></span><span class="target" id="structsdmmc__host__t_1ad9e51d0a6d0ce8ddfdb8b63ee87423b4"></span>uint32_t <code class="descname">flags</code><a class="headerlink" href="#_CPPv4N12sdmmc_host_t5flagsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>flags defining host properties </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_host_t4slotE">
+<span id="_CPPv3N12sdmmc_host_t4slotE"></span><span id="_CPPv2N12sdmmc_host_t4slotE"></span><span id="sdmmc_host_t::slot__i"></span><span class="target" id="structsdmmc__host__t_1a96d9d8e24567b5a3c34b79bd40d5fdd3"></span>int <code class="descname">slot</code><a class="headerlink" href="#_CPPv4N12sdmmc_host_t4slotE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>slot number, to be passed to host functions </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_host_t12max_freq_khzE">
+<span id="_CPPv3N12sdmmc_host_t12max_freq_khzE"></span><span id="_CPPv2N12sdmmc_host_t12max_freq_khzE"></span><span id="sdmmc_host_t::max_freq_khz__i"></span><span class="target" id="structsdmmc__host__t_1a818724de98e1fa8800c2c5144f761977"></span>int <code class="descname">max_freq_khz</code><a class="headerlink" href="#_CPPv4N12sdmmc_host_t12max_freq_khzE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>max frequency supported by the host </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_host_t10io_voltageE">
+<span id="_CPPv3N12sdmmc_host_t10io_voltageE"></span><span id="_CPPv2N12sdmmc_host_t10io_voltageE"></span><span id="sdmmc_host_t::io_voltage__float"></span><span class="target" id="structsdmmc__host__t_1ac8f12bca57ee5db4b8318d8d4896211a"></span>float <code class="descname">io_voltage</code><a class="headerlink" href="#_CPPv4N12sdmmc_host_t10io_voltageE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>I/O voltage used by the controller (voltage switching is not supported) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_host_t4initE">
+<span id="_CPPv3N12sdmmc_host_t4initE"></span><span id="_CPPv2N12sdmmc_host_t4initE"></span><span class="target" id="structsdmmc__host__t_1a45e9ee209129f06555b0e5169f9e86f5"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">init</code>)<span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N12sdmmc_host_t4initE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Host function to initialize the driver </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_host_t13set_bus_widthE">
+<span id="_CPPv3N12sdmmc_host_t13set_bus_widthE"></span><span id="_CPPv2N12sdmmc_host_t13set_bus_widthE"></span><span class="target" id="structsdmmc__host__t_1adc1ed52a1d3bb79686e26de561dd4f58"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">set_bus_width</code>)<span class="sig-paren">(</span>int slot, size_t width<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N12sdmmc_host_t13set_bus_widthE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>host function to set bus width </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_host_t13get_bus_widthE">
+<span id="_CPPv3N12sdmmc_host_t13get_bus_widthE"></span><span id="_CPPv2N12sdmmc_host_t13get_bus_widthE"></span><span class="target" id="structsdmmc__host__t_1aeea451a1f4cf05f7f8d431a0bde03376"></span>size_t (*<code class="descname">get_bus_width</code>)<span class="sig-paren">(</span>int slot<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N12sdmmc_host_t13get_bus_widthE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>host function to get bus width </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_host_t16set_bus_ddr_modeE">
+<span id="_CPPv3N12sdmmc_host_t16set_bus_ddr_modeE"></span><span id="_CPPv2N12sdmmc_host_t16set_bus_ddr_modeE"></span><span class="target" id="structsdmmc__host__t_1ae4ae55eb38f1695ff92dce995deefc58"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">set_bus_ddr_mode</code>)<span class="sig-paren">(</span>int slot, bool ddr_enable<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N12sdmmc_host_t16set_bus_ddr_modeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>host function to set DDR mode </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_host_t12set_card_clkE">
+<span id="_CPPv3N12sdmmc_host_t12set_card_clkE"></span><span id="_CPPv2N12sdmmc_host_t12set_card_clkE"></span><span class="target" id="structsdmmc__host__t_1a3d45a9a4e5ce2e0f7716699d8be6f752"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">set_card_clk</code>)<span class="sig-paren">(</span>int slot, uint32_t freq_khz<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N12sdmmc_host_t12set_card_clkE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>host function to set card clock frequency </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_host_t14do_transactionE">
+<span id="_CPPv3N12sdmmc_host_t14do_transactionE"></span><span id="_CPPv2N12sdmmc_host_t14do_transactionE"></span><span class="target" id="structsdmmc__host__t_1ab6daa83ac16f03bb528551dc96089804"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">do_transaction</code>)<span class="sig-paren">(</span>int slot, <a class="reference internal" href="#_CPPv415sdmmc_command_t" title="sdmmc_command_t">sdmmc_command_t</a> *cmdinfo<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N12sdmmc_host_t14do_transactionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>host function to do a transaction </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_host_t6deinitE">
+<span id="_CPPv3N12sdmmc_host_t6deinitE"></span><span id="_CPPv2N12sdmmc_host_t6deinitE"></span><span class="target" id="structsdmmc__host__t_1a829e60efbd4451dbc779140f99f72e7c"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">deinit</code>)<span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N12sdmmc_host_t6deinitE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>host function to deinitialize the driver </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_host_t13io_int_enableE">
+<span id="_CPPv3N12sdmmc_host_t13io_int_enableE"></span><span id="_CPPv2N12sdmmc_host_t13io_int_enableE"></span><span class="target" id="structsdmmc__host__t_1abeb2e32346ea7ec802f7b57a98ec9e24"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">io_int_enable</code>)<span class="sig-paren">(</span>int slot<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N12sdmmc_host_t13io_int_enableE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Host function to enable SDIO interrupt line </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_host_t11io_int_waitE">
+<span id="_CPPv3N12sdmmc_host_t11io_int_waitE"></span><span id="_CPPv2N12sdmmc_host_t11io_int_waitE"></span><span class="target" id="structsdmmc__host__t_1a8ba338dbfdbe782169c968122b744f84"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">io_int_wait</code>)<span class="sig-paren">(</span>int slot, TickType_t timeout_ticks<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N12sdmmc_host_t11io_int_waitE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Host function to wait for SDIO interrupt line to be active </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_host_t18command_timeout_msE">
+<span id="_CPPv3N12sdmmc_host_t18command_timeout_msE"></span><span id="_CPPv2N12sdmmc_host_t18command_timeout_msE"></span><span id="sdmmc_host_t::command_timeout_ms__i"></span><span class="target" id="structsdmmc__host__t_1a9813cf0ac4dc67503234a226f25c4da0"></span>int <code class="descname">command_timeout_ms</code><a class="headerlink" href="#_CPPv4N12sdmmc_host_t18command_timeout_msE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>timeout, in milliseconds, of a single command. Set to 0 to use the default value. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv412sdmmc_card_t">
+<span id="_CPPv312sdmmc_card_t"></span><span id="_CPPv212sdmmc_card_t"></span><span id="sdmmc_card_t"></span><span class="target" id="structsdmmc__card__t"></span><em class="property">struct </em><code class="descname">sdmmc_card_t</code><a class="headerlink" href="#_CPPv412sdmmc_card_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SD/MMC card information structure </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_card_t4hostE">
+<span id="_CPPv3N12sdmmc_card_t4hostE"></span><span id="_CPPv2N12sdmmc_card_t4hostE"></span><span id="sdmmc_card_t::host__sdmmc_host_t"></span><span class="target" id="structsdmmc__card__t_1a6dd71692010f2ee7065384ae2026931e"></span><a class="reference internal" href="#_CPPv412sdmmc_host_t" title="sdmmc_host_t">sdmmc_host_t</a> <code class="descname">host</code><a class="headerlink" href="#_CPPv4N12sdmmc_card_t4hostE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Host with which the card is associated </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_card_t3ocrE">
+<span id="_CPPv3N12sdmmc_card_t3ocrE"></span><span id="_CPPv2N12sdmmc_card_t3ocrE"></span><span id="sdmmc_card_t::ocr__uint32_t"></span><span class="target" id="structsdmmc__card__t_1a921bb50a19b0d55d018ecd8998227c03"></span>uint32_t <code class="descname">ocr</code><a class="headerlink" href="#_CPPv4N12sdmmc_card_t3ocrE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>OCR (Operation Conditions Register) value </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_card_t3cidE">
+<span id="_CPPv3N12sdmmc_card_t3cidE"></span><span id="_CPPv2N12sdmmc_card_t3cidE"></span><span id="sdmmc_card_t::cid__sdmmc_cid_t"></span><span class="target" id="structsdmmc__card__t_1ae82aa120a2d33b911f0efe527b65ffe5"></span><a class="reference internal" href="#_CPPv411sdmmc_cid_t" title="sdmmc_cid_t">sdmmc_cid_t</a> <code class="descname">cid</code><a class="headerlink" href="#_CPPv4N12sdmmc_card_t3cidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>decoded CID (Card IDentification) register value </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_card_t7raw_cidE">
+<span id="_CPPv3N12sdmmc_card_t7raw_cidE"></span><span id="_CPPv2N12sdmmc_card_t7raw_cidE"></span><span id="sdmmc_card_t::raw_cid__sdmmc_response_t"></span><span class="target" id="structsdmmc__card__t_1a5d47e20ef13ec9d05d8cdb0f881b07aa"></span><a class="reference internal" href="#_CPPv416sdmmc_response_t" title="sdmmc_response_t">sdmmc_response_t</a> <code class="descname">raw_cid</code><a class="headerlink" href="#_CPPv4N12sdmmc_card_t7raw_cidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>raw CID of MMC card to be decoded after the CSD is fetched in the data transfer mode </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_card_t3csdE">
+<span id="_CPPv3N12sdmmc_card_t3csdE"></span><span id="_CPPv2N12sdmmc_card_t3csdE"></span><span id="sdmmc_card_t::csd__sdmmc_csd_t"></span><span class="target" id="structsdmmc__card__t_1abf5a427a7471c35b5cb8826ca9a45b2c"></span><a class="reference internal" href="#_CPPv411sdmmc_csd_t" title="sdmmc_csd_t">sdmmc_csd_t</a> <code class="descname">csd</code><a class="headerlink" href="#_CPPv4N12sdmmc_card_t3csdE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>decoded CSD (Card-Specific Data) register value </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_card_t3scrE">
+<span id="_CPPv3N12sdmmc_card_t3scrE"></span><span id="_CPPv2N12sdmmc_card_t3scrE"></span><span id="sdmmc_card_t::scr__sdmmc_scr_t"></span><span class="target" id="structsdmmc__card__t_1ad214d8d67fbb72003253c0bf7541ead1"></span><a class="reference internal" href="#_CPPv411sdmmc_scr_t" title="sdmmc_scr_t">sdmmc_scr_t</a> <code class="descname">scr</code><a class="headerlink" href="#_CPPv4N12sdmmc_card_t3scrE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>decoded SCR (SD card Configuration Register) value </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_card_t7ext_csdE">
+<span id="_CPPv3N12sdmmc_card_t7ext_csdE"></span><span id="_CPPv2N12sdmmc_card_t7ext_csdE"></span><span id="sdmmc_card_t::ext_csd__sdmmc_ext_csd_t"></span><span class="target" id="structsdmmc__card__t_1abf5d6342a7db2af94e1bae1f7cb8ab52"></span><a class="reference internal" href="#_CPPv415sdmmc_ext_csd_t" title="sdmmc_ext_csd_t">sdmmc_ext_csd_t</a> <code class="descname">ext_csd</code><a class="headerlink" href="#_CPPv4N12sdmmc_card_t7ext_csdE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>decoded EXT_CSD (Extended Card Specific Data) register value </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_card_t3rcaE">
+<span id="_CPPv3N12sdmmc_card_t3rcaE"></span><span id="_CPPv2N12sdmmc_card_t3rcaE"></span><span id="sdmmc_card_t::rca__uint16_t"></span><span class="target" id="structsdmmc__card__t_1a76571f5f96540b951e6679bfeb997e20"></span>uint16_t <code class="descname">rca</code><a class="headerlink" href="#_CPPv4N12sdmmc_card_t3rcaE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>RCA (Relative Card Address) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_card_t12max_freq_khzE">
+<span id="_CPPv3N12sdmmc_card_t12max_freq_khzE"></span><span id="_CPPv2N12sdmmc_card_t12max_freq_khzE"></span><span id="sdmmc_card_t::max_freq_khz__uint16_t"></span><span class="target" id="structsdmmc__card__t_1aabab0b86d6a568e6b33aff8507cda1a7"></span>uint16_t <code class="descname">max_freq_khz</code><a class="headerlink" href="#_CPPv4N12sdmmc_card_t12max_freq_khzE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Maximum frequency, in kHz, supported by the card </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_card_t6is_memE">
+<span id="_CPPv3N12sdmmc_card_t6is_memE"></span><span id="_CPPv2N12sdmmc_card_t6is_memE"></span><span id="sdmmc_card_t::is_mem__uint32_t"></span><span class="target" id="structsdmmc__card__t_1aa37dc851905c4e6cf3565468e137633c"></span>uint32_t <code class="descname">is_mem</code><a class="headerlink" href="#_CPPv4N12sdmmc_card_t6is_memE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bit indicates if the card is a memory card </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_card_t7is_sdioE">
+<span id="_CPPv3N12sdmmc_card_t7is_sdioE"></span><span id="_CPPv2N12sdmmc_card_t7is_sdioE"></span><span id="sdmmc_card_t::is_sdio__uint32_t"></span><span class="target" id="structsdmmc__card__t_1a8ff811f50a97ec781a729dcace64b13b"></span>uint32_t <code class="descname">is_sdio</code><a class="headerlink" href="#_CPPv4N12sdmmc_card_t7is_sdioE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bit indicates if the card is an IO card </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_card_t6is_mmcE">
+<span id="_CPPv3N12sdmmc_card_t6is_mmcE"></span><span id="_CPPv2N12sdmmc_card_t6is_mmcE"></span><span id="sdmmc_card_t::is_mmc__uint32_t"></span><span class="target" id="structsdmmc__card__t_1a6443f91b39499007b2c77afbc4160b77"></span>uint32_t <code class="descname">is_mmc</code><a class="headerlink" href="#_CPPv4N12sdmmc_card_t6is_mmcE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bit indicates if the card is MMC </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_card_t16num_io_functionsE">
+<span id="_CPPv3N12sdmmc_card_t16num_io_functionsE"></span><span id="_CPPv2N12sdmmc_card_t16num_io_functionsE"></span><span id="sdmmc_card_t::num_io_functions__uint32_t"></span><span class="target" id="structsdmmc__card__t_1a67de8249216b9114460e332ba6be2baa"></span>uint32_t <code class="descname">num_io_functions</code><a class="headerlink" href="#_CPPv4N12sdmmc_card_t16num_io_functionsE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>If is_sdio is 1, contains the number of IO functions on the card </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_card_t13log_bus_widthE">
+<span id="_CPPv3N12sdmmc_card_t13log_bus_widthE"></span><span id="_CPPv2N12sdmmc_card_t13log_bus_widthE"></span><span id="sdmmc_card_t::log_bus_width__uint32_t"></span><span class="target" id="structsdmmc__card__t_1a4305455feaec5dfe39983226a5f6e964"></span>uint32_t <code class="descname">log_bus_width</code><a class="headerlink" href="#_CPPv4N12sdmmc_card_t13log_bus_widthE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>log2(bus width supported by card) </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_card_t6is_ddrE">
+<span id="_CPPv3N12sdmmc_card_t6is_ddrE"></span><span id="_CPPv2N12sdmmc_card_t6is_ddrE"></span><span id="sdmmc_card_t::is_ddr__uint32_t"></span><span class="target" id="structsdmmc__card__t_1abb7625de55510245d0003b04393c6da3"></span>uint32_t <code class="descname">is_ddr</code><a class="headerlink" href="#_CPPv4N12sdmmc_card_t6is_ddrE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Card supports DDR mode </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N12sdmmc_card_t8reservedE">
+<span id="_CPPv3N12sdmmc_card_t8reservedE"></span><span id="_CPPv2N12sdmmc_card_t8reservedE"></span><span id="sdmmc_card_t::reserved__uint32_t"></span><span class="target" id="structsdmmc__card__t_1a0e7f3facf6a6ace056e0d5c5da72dc70"></span>uint32_t <code class="descname">reserved</code><a class="headerlink" href="#_CPPv4N12sdmmc_card_t8reservedE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Reserved for future expansion </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.SDMMC_HOST_FLAG_1BIT">
+<span class="target" id="sdmmc__types_8h_1aec50fba212ebbec617faafe65fcadc82"></span><code class="descname">SDMMC_HOST_FLAG_1BIT</code><a class="headerlink" href="#c.SDMMC_HOST_FLAG_1BIT" title="Permalink to this definition">¶</a></dt>
+<dd><p>host supports 1-line SD and MMC protocol </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SDMMC_HOST_FLAG_4BIT">
+<span class="target" id="sdmmc__types_8h_1ab3a0aac6ff5f592570fb76be9a0b8c0b"></span><code class="descname">SDMMC_HOST_FLAG_4BIT</code><a class="headerlink" href="#c.SDMMC_HOST_FLAG_4BIT" title="Permalink to this definition">¶</a></dt>
+<dd><p>host supports 4-line SD and MMC protocol </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SDMMC_HOST_FLAG_8BIT">
+<span class="target" id="sdmmc__types_8h_1a43b4dbebf679502d2b0ecaa8606316e2"></span><code class="descname">SDMMC_HOST_FLAG_8BIT</code><a class="headerlink" href="#c.SDMMC_HOST_FLAG_8BIT" title="Permalink to this definition">¶</a></dt>
+<dd><p>host supports 8-line MMC protocol </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SDMMC_HOST_FLAG_SPI">
+<span class="target" id="sdmmc__types_8h_1a4d7a7ffe6a74018f3c13d0fc00d9b18c"></span><code class="descname">SDMMC_HOST_FLAG_SPI</code><a class="headerlink" href="#c.SDMMC_HOST_FLAG_SPI" title="Permalink to this definition">¶</a></dt>
+<dd><p>host supports SPI protocol </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SDMMC_HOST_FLAG_DDR">
+<span class="target" id="sdmmc__types_8h_1a518c3f96a40d3e2ffb3576c0d9019bb5"></span><code class="descname">SDMMC_HOST_FLAG_DDR</code><a class="headerlink" href="#c.SDMMC_HOST_FLAG_DDR" title="Permalink to this definition">¶</a></dt>
+<dd><p>host supports DDR mode for SD/MMC </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SDMMC_FREQ_DEFAULT">
+<span class="target" id="sdmmc__types_8h_1add2e3c394e199634d6bfa6ef8187f87b"></span><code class="descname">SDMMC_FREQ_DEFAULT</code><a class="headerlink" href="#c.SDMMC_FREQ_DEFAULT" title="Permalink to this definition">¶</a></dt>
+<dd><p>SD/MMC Default speed (limited by clock divider) </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SDMMC_FREQ_HIGHSPEED">
+<span class="target" id="sdmmc__types_8h_1a2dbe4067928a1ea737f224586d4cc8af"></span><code class="descname">SDMMC_FREQ_HIGHSPEED</code><a class="headerlink" href="#c.SDMMC_FREQ_HIGHSPEED" title="Permalink to this definition">¶</a></dt>
+<dd><p>SD High speed (limited by clock divider) </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SDMMC_FREQ_PROBING">
+<span class="target" id="sdmmc__types_8h_1a55cc383f49cfaf5f228f2f519af0dfc2"></span><code class="descname">SDMMC_FREQ_PROBING</code><a class="headerlink" href="#c.SDMMC_FREQ_PROBING" title="Permalink to this definition">¶</a></dt>
+<dd><p>SD/MMC probing speed </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SDMMC_FREQ_52M">
+<span class="target" id="sdmmc__types_8h_1a0ef3c27c349c9f22c45024be423b4b03"></span><code class="descname">SDMMC_FREQ_52M</code><a class="headerlink" href="#c.SDMMC_FREQ_52M" title="Permalink to this definition">¶</a></dt>
+<dd><p>MMC 52MHz speed </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.SDMMC_FREQ_26M">
+<span class="target" id="sdmmc__types_8h_1abe1fd6e80a4a151f9549f53fa77952b3"></span><code class="descname">SDMMC_FREQ_26M</code><a class="headerlink" href="#c.SDMMC_FREQ_26M" title="Permalink to this definition">¶</a></dt>
+<dd><p>MMC 26MHz speed </p>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv416sdmmc_response_t">
+<span id="_CPPv316sdmmc_response_t"></span><span id="_CPPv216sdmmc_response_t"></span><span id="sdmmc_response_t"></span><span class="target" id="sdmmc__types_8h_1a314980400391643afa45d7dbf6fe8f9d"></span><em class="property">typedef </em>uint32_t <code class="descname">sdmmc_response_t</code>[4]<a class="headerlink" href="#_CPPv416sdmmc_response_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>SD/MMC command response buffer </p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="spi_flash.html" class="btn btn-neutral float-right" title="SPI Flash API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="nvs_partition_gen.html" class="btn btn-neutral float-left" title="NVS Partition Generator Utility" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/storage/sdmmc.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:38 GMT -->
+</html>

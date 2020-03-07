@@ -1,0 +1,552 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/unit-tests-legacy.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:36 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Unit Testing (Legacy GNU Make) &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Unit Testing in ESP32" href="unit-tests.html" />
+    <link rel="prev" title="The ULP Coprocessor (Legacy GNU Make)" href="ulp-legacy.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="unit-tests-legacy.html" />
+
+<link rel="stylesheet" href="../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-guides/unit-tests-legacy"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="app_trace.html">Application Level Tracing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blufi.html">BluFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootloader.html">Bootloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-system.html">Build System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-system-legacy.html">Build System (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="console.html">Console Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deep-sleep-stub.html">Deep Sleep Wake Stubs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="error-handling.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="esp-ble-mesh/ble-mesh-index.html">ESP-BLE-MESH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh.html">ESP-MESH (Wi-Fi)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core_dump.html">ESP32 Core Dump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event-handling.html">Event Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="external-ram.html">External SPI-connected RAM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fatal-errors.html">Fatal Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/flash-encryption.html">Flash Encryption</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freertos-smp.html">FreeRTOS SMP Changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general-notes.html">General Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hlinterrupts.html">High Level Interrupts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jtag-debugging/index.html">JTAG Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker-script-generation.html">Linker Script Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lwip.html">lwIP TCP/IP Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="partition-tables.html">Partition Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RF_calibration.html">RF Calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="romconsole.html">ROM debug console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/secure-boot.html">Secure Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thread-local-storage.html">Thread Local Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ulp.html">ULP Coprocessor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ulp-legacy.html">ULP Coprocessor (Legacy GNU Make)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Unit Testing (Legacy GNU Make)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#normal-test-cases">Normal Test Cases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multi-device-test-cases">Multi-device Test Cases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multi-stage-test-cases">Multi-stage Test Cases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#building-unit-test-app">Building Unit Test App</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#running-unit-tests">Running Unit Tests</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="unit-tests.html">Unit Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wifi.html">WiFi Driver</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">API Guides</a> &raquo;</li>
+        
+      <li>Unit Testing (Legacy GNU Make)</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-guides/unit-tests-legacy.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="unit-testing-legacy-gnu-make">
+<h1>Unit Testing (Legacy GNU Make)<a class="headerlink" href="#unit-testing-legacy-gnu-make" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/api-guides/unit-tests-legacy.html">[中文]</a></p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Since ESP-IDF V4.0, the default build system is based on CMake. This documentation is for the legacy build system based on GNU Make. Support for this build system may be removed in future major releases.</p>
+</div>
+<p>ESP-IDF comes with a unit test application that is based on the Unity - unit test framework. Unit tests are integrated in the ESP-IDF repository and are placed in the <code class="docutils literal notranslate"><span class="pre">test</span></code> subdirectories of each component respectively.</p>
+<div class="section" id="normal-test-cases">
+<h2>Normal Test Cases<a class="headerlink" href="#normal-test-cases" title="Permalink to this headline">¶</a></h2>
+<p>Unit tests are located in the <code class="docutils literal notranslate"><span class="pre">test</span></code> subdirectory of a component.
+Tests are added in C files, a single C file can include multiple test cases.
+Test files start with the word “test”.</p>
+<p>Each test file should include the <code class="docutils literal notranslate"><span class="pre">unity.h</span></code> header and the header for the C module to be tested.</p>
+<p>Tests are added in a function in the C file as follows:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">TEST_CASE</span><span class="p">(</span><span class="s">&quot;test name&quot;</span><span class="p">,</span> <span class="s">&quot;[module name]&quot;</span>
+<span class="p">{</span>
+        <span class="c1">// Add test here</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The first argument is a descriptive name for the test, the second argument is an identifier in square brackets.
+Identifiers are used to group related test, or tests with specific properties.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There is no need to add a main function with <code class="docutils literal notranslate"><span class="pre">UNITY_BEGIN()</span></code> and <code class="docutils literal notranslate"><span class="pre">​UNITY_END()</span></code> in each test case. <code class="docutils literal notranslate"><span class="pre">unity_platform.c</span></code> will run <code class="docutils literal notranslate"><span class="pre">UNITY_BEGIN()</span></code> autonomously, and run the test cases, then call <code class="docutils literal notranslate"><span class="pre">​UNITY_END()</span></code>.</p>
+</div>
+<p>Each <code class="docutils literal notranslate"><span class="pre">test</span></code> subdirectory needs to include a <code class="docutils literal notranslate"><span class="pre">component.mk</span></code> file with the following line of code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>COMPONENT_ADD_LDFLAGS = -Wl,--whole-archive -l$(COMPONENT_NAME) -Wl,--no-whole-archive
+</pre></div>
+</div>
+<p>See <a class="reference external" href="http://www.throwtheswitch.org/unity">http://www.throwtheswitch.org/unity</a> for more information about writing tests in Unity.</p>
+</div>
+<div class="section" id="multi-device-test-cases">
+<h2>Multi-device Test Cases<a class="headerlink" href="#multi-device-test-cases" title="Permalink to this headline">¶</a></h2>
+<p>The normal test cases will be executed on one DUT (Device Under Test). However, components that require some form of communication (e.g., GPIO, SPI) require another device to communicate with, thus cannot be tested normal test cases.
+Multi-device test cases involve writing multiple test functions, and running them on multiple DUTs.</p>
+<p>The following is an example of a Multi-device test case:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">gpio_master_test</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">gpio_config_t</span> <span class="n">slave_config</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="p">.</span><span class="n">pin_bit_mask</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">MASTER_GPIO_PIN</span><span class="p">,</span>
+            <span class="p">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">GPIO_MODE_INPUT</span><span class="p">,</span>
+    <span class="p">};</span>
+    <span class="n">gpio_config</span><span class="p">(</span><span class="o">&amp;</span><span class="n">slave_config</span><span class="p">);</span>
+    <span class="n">unity_wait_for_signal</span><span class="p">(</span><span class="s">&quot;output high level&quot;</span><span class="p">);</span>
+    <span class="n">TEST_ASSERT</span><span class="p">(</span><span class="n">gpio_get_level</span><span class="p">(</span><span class="n">MASTER_GPIO_PIN</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">gpio_slave_test</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">gpio_config_t</span> <span class="n">master_config</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="p">.</span><span class="n">pin_bit_mask</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">SLAVE_GPIO_PIN</span><span class="p">,</span>
+            <span class="p">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">GPIO_MODE_OUTPUT</span><span class="p">,</span>
+    <span class="p">};</span>
+    <span class="n">gpio_config</span><span class="p">(</span><span class="o">&amp;</span><span class="n">master_config</span><span class="p">);</span>
+    <span class="n">gpio_set_level</span><span class="p">(</span><span class="n">SLAVE_GPIO_PIN</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">unity_send_signal</span><span class="p">(</span><span class="s">&quot;output high level&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">TEST_CASE_MULTIPLE_DEVICES</span><span class="p">(</span><span class="s">&quot;gpio multiple devices test example&quot;</span><span class="p">,</span> <span class="s">&quot;[driver]&quot;</span><span class="p">,</span> <span class="n">gpio_master_test</span><span class="p">,</span> <span class="n">gpio_slave_test</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>The macro <code class="docutils literal notranslate"><span class="pre">TEST_CASE_MULTIPLE_DEVICES</span></code> is used to declare a multi-device test case.
+The first argument is test case name, the second argument is test case description.
+From the third argument, up to 5 test functions can be defined, each function will be the entry point of tests running on each DUT.</p>
+<p>Running test cases from different DUTs could require synchronizing between DUTs. We provide <code class="docutils literal notranslate"><span class="pre">unity_wait_for_signal</span></code> and <code class="docutils literal notranslate"><span class="pre">unity_send_signal</span></code> to support synchronizing with UART.
+As the scenario in the above example, the slave should get GPIO level after master set level. DUT UART console will prompt and requires user interaction:</p>
+<p>DUT1 (master) console:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Waiting for signal: [output high level]!
+Please press &quot;Enter&quot; key once any board send this signal.
+</pre></div>
+</div>
+<p>DUT2 (slave) console:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Send signal: [output high level]!
+</pre></div>
+</div>
+<p>Once the signal is sent from DUT2, you need to press “Enter” on DUT1, then DUT1 unblocks from <code class="docutils literal notranslate"><span class="pre">unity_wait_for_signal</span></code> and starts to change GPIO level.</p>
+<p>Signals can also be used to pass parameters between multiple devices. For example, DUT1 want to know the MAC address of DUT2, so it can connect to DUT2.
+In this case, <code class="docutils literal notranslate"><span class="pre">unity_wait_for_signal_param</span></code> and <code class="docutils literal notranslate"><span class="pre">unity_send_signal_param</span></code> can be used:</p>
+<p>DUT1 console:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Waiting for signal: [dut2 mac address]!
+Please input parameter value from any board send this signal and press &quot;Enter&quot; key.
+</pre></div>
+</div>
+<p>DUT2 console:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Send signal: [dut2 mac address][10:20:30:40:50:60]!
+</pre></div>
+</div>
+<p>Once the signal is sent from DUT2, you need to input <code class="docutils literal notranslate"><span class="pre">10:20:30:40:50:60</span></code> on DUT1 and press “Enter”. Then DUT1 will get the MAC address string of DUT2 and unblock from <code class="docutils literal notranslate"><span class="pre">unity_wait_for_signal_param</span></code>, then start to connect to DUT2.</p>
+</div>
+<div class="section" id="multi-stage-test-cases">
+<h2>Multi-stage Test Cases<a class="headerlink" href="#multi-stage-test-cases" title="Permalink to this headline">¶</a></h2>
+<p>The normal test cases are expected to finish without reset (or only need to check if reset happens). Sometimes we expect to run some specific tests after certain kinds of reset.
+For example, we expect to test if reset reason is correct after a wakeup from deep sleep. We need to create a deep-sleep reset first and then check the reset reason.
+To support this, we can define multi-stage test cases, to group a set of test functions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">static</span> <span class="n">void</span> <span class="n">trigger_deepsleep</span><span class="p">(</span><span class="n">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">esp_sleep_enable_timer_wakeup</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
+    <span class="n">esp_deep_sleep_start</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">void</span> <span class="n">check_deepsleep_reset_reason</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">RESET_REASON</span> <span class="n">reason</span> <span class="o">=</span> <span class="n">rtc_get_reset_reason</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="n">TEST_ASSERT</span><span class="p">(</span><span class="n">reason</span> <span class="o">==</span> <span class="n">DEEPSLEEP_RESET</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">TEST_CASE_MULTIPLE_STAGES</span><span class="p">(</span><span class="s2">&quot;reset reason check for deepsleep&quot;</span><span class="p">,</span> <span class="s2">&quot;[esp32]&quot;</span><span class="p">,</span> <span class="n">trigger_deepsleep</span><span class="p">,</span> <span class="n">check_deepsleep_reset_reason</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Multi-stage test cases present a group of test functions to users. It need user interactions (select cases and select different stages) to run the case.</p>
+</div>
+<div class="section" id="building-unit-test-app">
+<h2>Building Unit Test App<a class="headerlink" href="#building-unit-test-app" title="Permalink to this headline">¶</a></h2>
+<p>Follow the setup instructions in the top-level esp-idf README.
+Make sure that <code class="docutils literal notranslate"><span class="pre">IDF_PATH</span></code> environment variable is set to point to the path of esp-idf top-level directory.</p>
+<p>Change into <code class="docutils literal notranslate"><span class="pre">tools/unit-test-app</span></code> directory to configure and build it:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">menuconfig</span></code> - configure unit test app.</li>
+<li><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">TESTS_ALL=1</span></code> - build unit test app with tests for each component having tests in the <code class="docutils literal notranslate"><span class="pre">test</span></code> subdirectory.</li>
+<li><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">TEST_COMPONENTS='xxx'</span></code> - build unit test app with tests for specific components.</li>
+<li><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">TESTS_ALL=1</span> <span class="pre">TEST_EXCLUDE_COMPONENTS='xxx'</span></code> - build unit test app with all unit tests, except for unit tests of some components. (For instance: <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">TESTS_ALL=1</span> <span class="pre">TEST_EXCLUDE_COMPONENTS='ulp</span> <span class="pre">mbedtls'</span></code> - build all unit tests exludes <code class="docutils literal notranslate"><span class="pre">ulp</span></code> and <code class="docutils literal notranslate"><span class="pre">mbedtls</span></code> components).</li>
+</ul>
+<p>When the build finishes, it will print instructions for flashing the chip. You can simply run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">flash</span></code> to flash all build output.</p>
+<p>You can also run <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">flash</span> <span class="pre">TESTS_ALL=1</span></code> or <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">TEST_COMPONENTS='xxx'</span></code> to build and flash. Everything needed will be rebuilt automatically before flashing.</p>
+<p>Use menuconfig to set the serial port for flashing.</p>
+</div>
+<div class="section" id="running-unit-tests">
+<h2>Running Unit Tests<a class="headerlink" href="#running-unit-tests" title="Permalink to this headline">¶</a></h2>
+<p>After flashing reset the ESP32 and it will boot the unit test app.</p>
+<p>When unit test app is idle, press “Enter” will make it print test menu with all available tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Here</span><span class="s1">&#39;s the test menu, pick your combo:</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">)</span>     <span class="s2">&quot;esp_ota_begin() verifies arguments&quot;</span> <span class="p">[</span><span class="n">ota</span><span class="p">]</span>
+<span class="p">(</span><span class="mi">2</span><span class="p">)</span>     <span class="s2">&quot;esp_ota_get_next_update_partition logic&quot;</span> <span class="p">[</span><span class="n">ota</span><span class="p">]</span>
+<span class="p">(</span><span class="mi">3</span><span class="p">)</span>     <span class="s2">&quot;Verify bootloader image in flash&quot;</span> <span class="p">[</span><span class="n">bootloader_support</span><span class="p">]</span>
+<span class="p">(</span><span class="mi">4</span><span class="p">)</span>     <span class="s2">&quot;Verify unit test app image&quot;</span> <span class="p">[</span><span class="n">bootloader_support</span><span class="p">]</span>
+<span class="p">(</span><span class="mi">5</span><span class="p">)</span>     <span class="s2">&quot;can use new and delete&quot;</span> <span class="p">[</span><span class="n">cxx</span><span class="p">]</span>
+<span class="p">(</span><span class="mi">6</span><span class="p">)</span>     <span class="s2">&quot;can call virtual functions&quot;</span> <span class="p">[</span><span class="n">cxx</span><span class="p">]</span>
+<span class="p">(</span><span class="mi">7</span><span class="p">)</span>     <span class="s2">&quot;can use static initializers for non-POD types&quot;</span> <span class="p">[</span><span class="n">cxx</span><span class="p">]</span>
+<span class="p">(</span><span class="mi">8</span><span class="p">)</span>     <span class="s2">&quot;can use std::vector&quot;</span> <span class="p">[</span><span class="n">cxx</span><span class="p">]</span>
+<span class="p">(</span><span class="mi">9</span><span class="p">)</span>     <span class="s2">&quot;static initialization guards work as expected&quot;</span> <span class="p">[</span><span class="n">cxx</span><span class="p">]</span>
+<span class="p">(</span><span class="mi">10</span><span class="p">)</span>    <span class="s2">&quot;global initializers run in the correct order&quot;</span> <span class="p">[</span><span class="n">cxx</span><span class="p">]</span>
+<span class="p">(</span><span class="mi">11</span><span class="p">)</span>    <span class="s2">&quot;before scheduler has started, static initializers work correctly&quot;</span> <span class="p">[</span><span class="n">cxx</span><span class="p">]</span>
+<span class="p">(</span><span class="mi">12</span><span class="p">)</span>    <span class="s2">&quot;adc2 work with wifi&quot;</span> <span class="p">[</span><span class="n">adc</span><span class="p">]</span>
+<span class="p">(</span><span class="mi">13</span><span class="p">)</span>    <span class="s2">&quot;gpio master/slave test example&quot;</span> <span class="p">[</span><span class="n">ignore</span><span class="p">][</span><span class="n">misc</span><span class="p">][</span><span class="n">test_env</span><span class="o">=</span><span class="n">UT_T2_1</span><span class="p">][</span><span class="n">multi_device</span><span class="p">]</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">)</span>     <span class="s2">&quot;gpio_master_test&quot;</span>
+        <span class="p">(</span><span class="mi">2</span><span class="p">)</span>     <span class="s2">&quot;gpio_slave_test&quot;</span>
+<span class="p">(</span><span class="mi">14</span><span class="p">)</span>    <span class="s2">&quot;SPI Master clockdiv calculation routines&quot;</span> <span class="p">[</span><span class="n">spi</span><span class="p">]</span>
+<span class="p">(</span><span class="mi">15</span><span class="p">)</span>    <span class="s2">&quot;SPI Master test&quot;</span> <span class="p">[</span><span class="n">spi</span><span class="p">][</span><span class="n">ignore</span><span class="p">]</span>
+<span class="p">(</span><span class="mi">16</span><span class="p">)</span>    <span class="s2">&quot;SPI Master test, interaction of multiple devs&quot;</span> <span class="p">[</span><span class="n">spi</span><span class="p">][</span><span class="n">ignore</span><span class="p">]</span>
+<span class="p">(</span><span class="mi">17</span><span class="p">)</span>    <span class="s2">&quot;SPI Master no response when switch from host1 (HSPI) to host2 (VSPI)&quot;</span> <span class="p">[</span><span class="n">spi</span><span class="p">]</span>
+<span class="p">(</span><span class="mi">18</span><span class="p">)</span>    <span class="s2">&quot;SPI Master DMA test, TX and RX in different regions&quot;</span> <span class="p">[</span><span class="n">spi</span><span class="p">]</span>
+<span class="p">(</span><span class="mi">19</span><span class="p">)</span>    <span class="s2">&quot;SPI Master DMA test: length, start, not aligned&quot;</span> <span class="p">[</span><span class="n">spi</span><span class="p">]</span>
+<span class="p">(</span><span class="mi">20</span><span class="p">)</span>    <span class="s2">&quot;reset reason check for deepsleep&quot;</span> <span class="p">[</span><span class="n">esp32</span><span class="p">][</span><span class="n">test_env</span><span class="o">=</span><span class="n">UT_T2_1</span><span class="p">][</span><span class="n">multi_stage</span><span class="p">]</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">)</span>     <span class="s2">&quot;trigger_deepsleep&quot;</span>
+        <span class="p">(</span><span class="mi">2</span><span class="p">)</span>     <span class="s2">&quot;check_deepsleep_reset_reason&quot;</span>
+</pre></div>
+</div>
+<p>The normal case will print the case name and description. Master-slave cases will also print the sub-menu (the registered test function names).</p>
+<p>Test cases can be run by inputting one of the following:</p>
+<ul class="simple">
+<li>Test case name in quotation marks (for example, <code class="docutils literal notranslate"><span class="pre">&quot;esp_ota_begin()</span> <span class="pre">verifies</span> <span class="pre">arguments&quot;</span></code>) to run a single test case.</li>
+<li>Test case index (for example, <code class="docutils literal notranslate"><span class="pre">1</span></code>) to run a single test case.</li>
+<li>Module name in square brackets (for example, <code class="docutils literal notranslate"><span class="pre">[cxx]</span></code>) to run all test cases for a specific module.</li>
+<li>An asterisk (<code class="docutils literal notranslate"><span class="pre">*</span></code>) to run all test cases</li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">[multi_device]</span></code> and <code class="docutils literal notranslate"><span class="pre">[multi_stage]</span></code> tags tell the test runner whether a test case is a multi-device or multi-stage test case.
+These tags are automatically added by <code class="docutils literal notranslate"><span class="pre">`TEST_CASE_MULTIPLE_STAGES</span></code> and <code class="docutils literal notranslate"><span class="pre">TEST_CASE_MULTIPLE_DEVICES</span></code> macros.</p>
+<p>After you select a multi-device test case, it will print sub menu:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Running</span> <span class="n">gpio</span> <span class="n">master</span><span class="o">/</span><span class="n">slave</span> <span class="n">test</span> <span class="n">example</span><span class="o">...</span>
+<span class="n">gpio</span> <span class="n">master</span><span class="o">/</span><span class="n">slave</span> <span class="n">test</span> <span class="n">example</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">)</span>     <span class="s2">&quot;gpio_master_test&quot;</span>
+        <span class="p">(</span><span class="mi">2</span><span class="p">)</span>     <span class="s2">&quot;gpio_slave_test&quot;</span>
+</pre></div>
+</div>
+<p>You need to input a number to select the test running on the DUT.</p>
+<p>Similar to multi-device test cases, multi-stage test cases will also print sub-menu:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Running</span> <span class="n">reset</span> <span class="n">reason</span> <span class="n">check</span> <span class="k">for</span> <span class="n">deepsleep</span><span class="o">...</span>
+<span class="n">reset</span> <span class="n">reason</span> <span class="n">check</span> <span class="k">for</span> <span class="n">deepsleep</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">)</span>     <span class="s2">&quot;trigger_deepsleep&quot;</span>
+        <span class="p">(</span><span class="mi">2</span><span class="p">)</span>     <span class="s2">&quot;check_deepsleep_reset_reason&quot;</span>
+</pre></div>
+</div>
+<p>For the first time you execute this case, please input <code class="docutils literal notranslate"><span class="pre">1</span></code> to run the first stage (trigger deep-sleep).
+After DUT is rebooted and test cases are available to run, select this case again and input <code class="docutils literal notranslate"><span class="pre">2</span></code> to run the second stage.
+The case will only pass if the last stage passes and all previous stages trigger reset.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="unit-tests.html" class="btn btn-neutral float-right" title="Unit Testing in ESP32" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ulp-legacy.html" class="btn btn-neutral float-left" title="The ULP Coprocessor (Legacy GNU Make)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/unit-tests-legacy.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:36 GMT -->
+</html>

@@ -1,0 +1,482 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/external-ram.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:23 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Support for external RAM &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Fatal Errors" href="fatal-errors.html" />
+    <link rel="prev" title="Event Handling" href="event-handling.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="external-ram.html" />
+
+<link rel="stylesheet" href="../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-guides/external-ram"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="app_trace.html">Application Level Tracing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blufi.html">BluFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootloader.html">Bootloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-system.html">Build System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-system-legacy.html">Build System (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="console.html">Console Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deep-sleep-stub.html">Deep Sleep Wake Stubs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="error-handling.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="esp-ble-mesh/ble-mesh-index.html">ESP-BLE-MESH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh.html">ESP-MESH (Wi-Fi)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core_dump.html">ESP32 Core Dump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event-handling.html">Event Handling</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">External SPI-connected RAM</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hardware">Hardware</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuring-external-ram">Configuring External RAM</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#integrate-ram-into-the-esp32-memory-map">Integrate RAM into the ESP32 memory map</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#add-external-ram-to-the-capability-allocator">Add external RAM to the capability allocator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#provide-external-ram-via-malloc">Provide external RAM via malloc()</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#allow-bss-segment-placed-in-external-memory">Allow .bss segment placed in external memory</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#restrictions">Restrictions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#chip-revisions">Chip revisions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#esp32-rev-v0">ESP32 rev v0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#esp32-rev-v1">ESP32 rev v1</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="fatal-errors.html">Fatal Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/flash-encryption.html">Flash Encryption</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freertos-smp.html">FreeRTOS SMP Changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general-notes.html">General Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hlinterrupts.html">High Level Interrupts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jtag-debugging/index.html">JTAG Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker-script-generation.html">Linker Script Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lwip.html">lwIP TCP/IP Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="partition-tables.html">Partition Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RF_calibration.html">RF Calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="romconsole.html">ROM debug console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/secure-boot.html">Secure Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thread-local-storage.html">Thread Local Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ulp.html">ULP Coprocessor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ulp-legacy.html">ULP Coprocessor (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit-tests-legacy.html">Unit Testing (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit-tests.html">Unit Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wifi.html">WiFi Driver</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">API Guides</a> &raquo;</li>
+        
+      <li>Support for external RAM</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-guides/external-ram.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="support-for-external-ram">
+<h1>Support for external RAM<a class="headerlink" href="#support-for-external-ram" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/api-guides/external-ram.html">[中文]</a></p>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>ESP32 has a few hundred kilobytes of internal RAM, residing on the same die as the rest of the chip components. It can be insufficient for some purposes, so ESP32 has the ability to also use up to 4 MB of external SPI RAM memory. The external memory is incorporated in the memory map and, with certain restrictions, is usable in the same way as internal data RAM.</p>
+</div>
+<div class="section" id="hardware">
+<h2>Hardware<a class="headerlink" href="#hardware" title="Permalink to this headline">¶</a></h2>
+<p>ESP32 supports SPI PSRAM connected in parallel with the SPI flash chip. While ESP32 is capable of supporting several types of RAM chips, the ESP32 SDK only supports the ESP-PSRAM32 chip at the moment.</p>
+<p>The ESP-PSRAM32 chip is a 1.8 V device which can only be used in parallel with a 1.8 V flash component. Make sure to either set the MTDI pin to a high signal level on bootup, or program ESP32 eFuses to always use the VDD_SIO level of 1.8 V. Not doing this can damage the PSRAM and/or flash chip.</p>
+<p>To connect the ESP-PSRAM32 chip to ESP32D0W*, connect the following signals:</p>
+<blockquote>
+<div><ul class="simple">
+<li>PSRAM /CE (pin 1) &gt; ESP32 GPIO 16</li>
+<li>PSRAM SO (pin 2) &gt; flash DO</li>
+<li>PSRAM SIO[2] (pin 3) &gt; flash WP</li>
+<li>PSRAM SI (pin 5) &gt; flash DI</li>
+<li>PSRAM SCLK (pin 6) &gt; ESP32 GPIO 17</li>
+<li>PSRAM SIO[3] (pin 7) &gt; flash HOLD</li>
+<li>PSRAM Vcc (pin 8) &gt; ESP32 VCC_SDIO</li>
+</ul>
+</div></blockquote>
+<p>Connections for ESP32D2W* chips are TBD.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Espressif produces the line of ESP32-WROVER modules which contain ESP32, 1.8 V flash, and ESP-PSRAM32. These modules are ready to be mounted on an end product PCB.</p>
+</div>
+</div>
+<div class="section" id="configuring-external-ram">
+<span id="external-ram-config"></span><h2>Configuring External RAM<a class="headerlink" href="#configuring-external-ram" title="Permalink to this headline">¶</a></h2>
+<p>ESP-IDF fully supports the use of external memory in applications. Once the external RAM is initialized at startup, ESP-IDF can be configured to handle it in several ways:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference internal" href="#external-ram-config-memory-map"><span class="std std-ref">Integrate RAM into the ESP32 memory map</span></a></li>
+<li><a class="reference internal" href="#external-ram-config-capability-allocator"><span class="std std-ref">Add external RAM to the capability allocator</span></a></li>
+<li><a class="reference internal" href="#external-ram-config-malloc"><span class="std std-ref">Provide external RAM via malloc()</span></a> (default)</li>
+<li><a class="reference internal" href="#external-ram-config-bss"><span class="std std-ref">Allow .bss segment placed in external memory</span></a></li>
+</ul>
+</div></blockquote>
+<div class="section" id="integrate-ram-into-the-esp32-memory-map">
+<span id="external-ram-config-memory-map"></span><h3>Integrate RAM into the ESP32 memory map<a class="headerlink" href="#integrate-ram-into-the-esp32-memory-map" title="Permalink to this headline">¶</a></h3>
+<p>Select this option by choosing “Integrate RAM into ESP32 memory map” from <a class="reference internal" href="../api-reference/kconfig.html#config-spiram-use"><span class="std std-ref">CONFIG_SPIRAM_USE</span></a>.</p>
+<p>This is the most basic option for external SPI RAM integration. Most likely, you will need another, more advanced option.</p>
+<p>During the ESP-IDF startup, external RAM is mapped into the data address space, starting at address 0x3F800000 (byte-accessible). The length of this region is the same as the SPI RAM size (up to the limit of 4 MB).</p>
+<p>Applications can manually place data in external memory by creating pointers to this region. So if an application uses external memory, it is responsible for all management of the external SPI RAM: coordinating buffer usage, preventing corruption, etc.</p>
+</div>
+<div class="section" id="add-external-ram-to-the-capability-allocator">
+<span id="external-ram-config-capability-allocator"></span><h3>Add external RAM to the capability allocator<a class="headerlink" href="#add-external-ram-to-the-capability-allocator" title="Permalink to this headline">¶</a></h3>
+<p>Select this option by choosing “Make RAM allocatable using heap_caps_malloc(…, MALLOC_CAP_SPIRAM)” from <a class="reference internal" href="../api-reference/kconfig.html#config-spiram-use"><span class="std std-ref">CONFIG_SPIRAM_USE</span></a>.</p>
+<p>When enabled, memory is mapped to address 0x3F800000 and also added to the <a class="reference internal" href="../api-reference/system/mem_alloc.html"><span class="doc">capabilities-based heap memory allocator</span></a> using <code class="docutils literal notranslate"><span class="pre">MALLOC_CAP_SPIRAM</span></code>.</p>
+<p>To allocate memory from external RAM, a program should call <code class="docutils literal notranslate"><span class="pre">heap_caps_malloc(size,</span> <span class="pre">MALLOC_CAP_SPIRAM)</span></code>. After use, this memory can be freed by calling the normal <code class="docutils literal notranslate"><span class="pre">free()</span></code> function.</p>
+</div>
+<div class="section" id="provide-external-ram-via-malloc">
+<span id="external-ram-config-malloc"></span><h3>Provide external RAM via malloc()<a class="headerlink" href="#provide-external-ram-via-malloc" title="Permalink to this headline">¶</a></h3>
+<p>Select this option by choosing “Make RAM allocatable using malloc() as well” from <a class="reference internal" href="../api-reference/kconfig.html#config-spiram-use"><span class="std std-ref">CONFIG_SPIRAM_USE</span></a>. This is the default option.</p>
+<p>In this case, memory is added to the capability allocator as described for the previous option. However, it is also added to the pool of RAM that can be returned by the standard <code class="docutils literal notranslate"><span class="pre">malloc()</span></code> function.</p>
+<p>This allows any application to use the external RAM without having to rewrite the code to use <code class="docutils literal notranslate"><span class="pre">heap_caps_malloc(...,</span> <span class="pre">MALLOC_CAP_SPIRAM)</span></code>.</p>
+<p>An additional configuration item, <a class="reference internal" href="../api-reference/kconfig.html#config-spiram-malloc-alwaysinternal"><span class="std std-ref">CONFIG_SPIRAM_MALLOC_ALWAYSINTERNAL</span></a>, can be used to set the size threshold when a single allocation should prefer external memory:</p>
+<ul class="simple">
+<li>When allocating a size less than the threshold, the allocator will try internal memory first.</li>
+<li>When allocating a size equal to or larger than the threshold, the allocator will try external memory first.</li>
+</ul>
+<p>If a suitable block of preferred internal/external memory is not available, the allocator will try the other type of memory.</p>
+<p>Because some buffers can only be allocated in internal memory, a second configuration item <a class="reference internal" href="../api-reference/kconfig.html#config-spiram-malloc-reserve-internal"><span class="std std-ref">CONFIG_SPIRAM_MALLOC_RESERVE_INTERNAL</span></a> defines a pool of internal memory which is reserved for <em>only</em> explicitly internal allocations (such as memory for DMA use). Regular <code class="docutils literal notranslate"><span class="pre">malloc()</span></code> will not allocate from this pool. The <a class="reference internal" href="../api-reference/system/mem_alloc.html#dma-capable-memory"><span class="std std-ref">MALLOC_CAP_DMA</span></a> and <code class="docutils literal notranslate"><span class="pre">MALLOC_CAP_INTERNAL</span></code> flags can be used to allocate memory from this pool.</p>
+</div>
+<div class="section" id="allow-bss-segment-placed-in-external-memory">
+<span id="external-ram-config-bss"></span><h3>Allow .bss segment placed in external memory<a class="headerlink" href="#allow-bss-segment-placed-in-external-memory" title="Permalink to this headline">¶</a></h3>
+<p>Enable this option by checking <a class="reference internal" href="../api-reference/kconfig.html#config-spiram-allow-bss-seg-external-memory"><span class="std std-ref">CONFIG_SPIRAM_ALLOW_BSS_SEG_EXTERNAL_MEMORY</span></a>. This configuration setting is independent of the other three.</p>
+<p>If enabled, a region of the address space starting from 0x3F800000 will be used to store zero-initialized data (BSS segment) from the lwIP, net80211, libpp, and bluedroid ESP-IDF libraries.</p>
+<p>Additional data can be moved from the internal BSS segment to external RAM by applying the macro <code class="docutils literal notranslate"><span class="pre">EXT_RAM_ATTR</span></code> to any static declaration (which is not initialized to a non-zero value).</p>
+<p>This option reduces the internal static memory used by the BSS segment.</p>
+<p>Remaining external RAM can also be added to the capability heap allocator using the method shown above.</p>
+</div>
+</div>
+<div class="section" id="restrictions">
+<h2>Restrictions<a class="headerlink" href="#restrictions" title="Permalink to this headline">¶</a></h2>
+<p>External RAM use has the following restrictions:</p>
+<blockquote>
+<div><ul class="simple">
+<li>When flash cache is disabled (for example, if the flash is being written to), the external RAM also becomes inaccessible; any reads from or writes to it will lead to an illegal cache access exception. This is also the reason why ESP-IDF does not by default allocate any task stacks in external RAM (see below).</li>
+<li>External RAM cannot be used as a place to store DMA transaction descriptors or as a buffer for a DMA transfer to read from or write into. Any buffers that will be used in combination with DMA must be allocated using <code class="docutils literal notranslate"><span class="pre">heap_caps_malloc(size,</span> <span class="pre">MALLOC_CAP_DMA)</span></code> and can be freed using a standard <code class="docutils literal notranslate"><span class="pre">free()</span></code> call.</li>
+<li>External RAM uses the same cache region as the external flash. This means that frequently accessed variables in external RAM can be read and modified almost as quickly as in internal ram. However, when accessing large chunks of data (&gt;32 KB), the cache can be insufficient, and speeds will fall back to the access speed of the external RAM. Moreover, accessing large chunks of data can “push out” cached flash, possibly making the execution of code slower afterwards.</li>
+<li>External RAM cannot be used as task stack memory. Due to this, <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv411xTaskCreate14TaskFunction_tPCKcK8uint32_tPCv11UBaseType_tPC12TaskHandle_t" title="xTaskCreate"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTaskCreate()</span></code></a> and similar functions will always allocate internal memory for stack and task TCBs, and functions such as <a class="reference internal" href="../api-reference/system/freertos.html#_CPPv417xTaskCreateStatic14TaskFunction_tPCKcK8uint32_tPCv11UBaseType_tPC11StackType_tPC12StaticTask_t" title="xTaskCreateStatic"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xTaskCreateStatic()</span></code></a> will check if the buffers passed are internal. However, for tasks not calling on code in ROM in any way, directly or indirectly, the menuconfig option <a class="reference internal" href="../api-reference/kconfig.html#config-spiram-allow-stack-external-memory"><span class="std std-ref">CONFIG_SPIRAM_ALLOW_STACK_EXTERNAL_MEMORY</span></a> will eliminate the check in xTaskCreateStatic, allowing a task’s stack to be in external RAM. Using this is not advised, however.</li>
+<li>By default, failure to initialize external RAM will cause the ESP-IDF startup to abort. This can be disabled by enabling the config item <a class="reference internal" href="../api-reference/kconfig.html#config-spiram-ignore-notfound"><span class="std std-ref">CONFIG_SPIRAM_IGNORE_NOTFOUND</span></a>. If <a class="reference internal" href="../api-reference/kconfig.html#config-spiram-allow-bss-seg-external-memory"><span class="std std-ref">CONFIG_SPIRAM_ALLOW_BSS_SEG_EXTERNAL_MEMORY</span></a> is enabled, the option to ignore failure is not available as the linker will have assigned symbols to external memory addresses at link time.</li>
+<li>When used at 80 MHz clock speed, external RAM must also occupy either the HSPI or VSPI bus. Select which SPI host will be used by <a class="reference internal" href="../api-reference/kconfig.html#config-spiram-occupy-spi-host"><span class="std std-ref">CONFIG_SPIRAM_OCCUPY_SPI_HOST</span></a>.</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="chip-revisions">
+<h2>Chip revisions<a class="headerlink" href="#chip-revisions" title="Permalink to this headline">¶</a></h2>
+<p>There are some issues with certain revisions of ESP32 that have repercussions for use with external RAM. The issues are documented in the ESP32 <a class="reference external" href="https://www.espressif.com/sites/default/files/documentation/eco_and_workarounds_for_bugs_in_esp32_en.pdf">ECO</a> document. In particular, ESP-IDF handles the bugs mentioned in the following ways:</p>
+<div class="section" id="esp32-rev-v0">
+<h3>ESP32 rev v0<a class="headerlink" href="#esp32-rev-v0" title="Permalink to this headline">¶</a></h3>
+<p>ESP-IDF has no workaround for the bugs in this revision of silicon, and it cannot be used to map external PSRAM into ESP32’s main memory map.</p>
+</div>
+<div class="section" id="esp32-rev-v1">
+<h3>ESP32 rev v1<a class="headerlink" href="#esp32-rev-v1" title="Permalink to this headline">¶</a></h3>
+<p>The bugs in this revision of silicon cause issues if certain sequences of machine instructions operate on external memory. (ESP32 ECO 3.2). As a workaround, the GCC compiler received the flag <code class="docutils literal notranslate"><span class="pre">-mfix-esp32-psram-cache-issue</span></code> to filter these sequences and only output the code that can safely be executed. Enable this flag by checking <a class="reference internal" href="../api-reference/kconfig.html#config-spiram-cache-workaround"><span class="std std-ref">CONFIG_SPIRAM_CACHE_WORKAROUND</span></a>.</p>
+<p>Aside from linking to a recompiled version of Newlib with the additional flag, ESP-IDF also does the following:</p>
+<ul class="simple">
+<li>Avoids using some ROM functions</li>
+<li>Allocates static memory for the WiFi stack</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="fatal-errors.html" class="btn btn-neutral float-right" title="Fatal Errors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="event-handling.html" class="btn btn-neutral float-left" title="Event Handling" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/external-ram.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:23 GMT -->
+</html>

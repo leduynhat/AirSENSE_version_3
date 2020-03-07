@@ -1,0 +1,1583 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/system/freertos_additions.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:12 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>FreeRTOS Additions &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Heap Memory Allocation" href="mem_alloc.html" />
+    <link rel="prev" title="FreeRTOS" href="freertos.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="freertos_additions.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/system/freertos_additions"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">System</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="app_image_format.html">App image format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="app_trace.html">Application Level Tracing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="efuse.html">eFuse Manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_err.html">Error Codes and Helper Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_https_ota.html">ESP HTTPS OTA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_pthread.html">ESP pthread</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_event.html">Event Loop Library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freertos.html">FreeRTOS</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">FreeRTOS Additions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ring-buffers">Ring Buffers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ring-buffer-api-reference">Ring Buffer API Reference</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hooks">Hooks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#hooks-api-reference">Hooks API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mem_alloc.html">Heap Memory Allocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="heap_debug.html">Heap Memory Debugging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_timer.html">High Resolution Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="himem.html">Himem (large external SPI RAM) API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipc.html">Inter-Processor Call</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_expression_with_stack.html">Call function with external stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="intr_alloc.html">Interrupt Allocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log.html">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system.html">Miscellaneous System APIs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ota.html">Over The Air Updates (OTA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="perfmon.html">Performance Monitor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="power_management.html">Power Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sleep_modes.html">Sleep Modes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wdts.html">Watchdogs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system_time.html">System Time</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">System API</a> &raquo;</li>
+        
+      <li>FreeRTOS Additions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/system/freertos_additions.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="freertos-additions">
+<h1>FreeRTOS Additions<a class="headerlink" href="#freertos-additions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>ESP-IDF FreeRTOS is based on the Xtensa port of FreeRTOS v8.2.0 with significant modifications
+for SMP compatibility (see <a class="reference internal" href="../../api-guides/freertos-smp.html"><span class="doc">ESP-IDF FreeRTOS SMP Changes</span></a>).
+However various features specific to ESP-IDF FreeRTOS have been added. The features are as follows:</p>
+<p><a class="reference internal" href="#ring-buffers"><span class="std std-ref">Ring Buffers</span></a>: Ring buffers were added to provide a form of buffer that could accept
+entries of arbitrary lengths.</p>
+<p><a class="reference internal" href="#hooks"><span class="std std-ref">Hooks</span></a>: ESP-IDF FreeRTOS hooks provides support for registering extra Idle and
+Tick hooks at run time. Moreover, the hooks can be asymmetric amongst both CPUs.</p>
+</div>
+<div class="section" id="ring-buffers">
+<span id="id1"></span><h2>Ring Buffers<a class="headerlink" href="#ring-buffers" title="Permalink to this headline">¶</a></h2>
+<p>The ESP-IDF FreeRTOS ring buffer is a strictly FIFO buffer that supports arbitrarily sized items.
+Ring buffers are a more memory efficient alternative to FreeRTOS queues in situations where the
+size of items is variable. The capacity of a ring buffer is not measured by the number of items
+it can store, but rather by the amount of memory used for storing items. You may apply for a
+piece of memory on the ring buffer to send an item, or just use the API to copy your data and send
+(according to the send API you call). For efficiency reasons,
+<strong>items are always retrieved from the ring buffer by reference</strong>. As a result, all retrieved
+items <em>must also be returned</em> in order for them to be removed from the ring buffer completely.
+The ring buffers are split into the three following types:</p>
+<p><strong>No-Split</strong> buffers will guarantee that an item is stored in contiguous memory and will not
+attempt to split an item under any circumstances. Use no-split buffers when items must occupy
+contiguous memory. <em>Only this buffer type allows you getting the data item address and writting
+to the item by yourself.</em></p>
+<p><strong>Allow-Split</strong> buffers will allow an item to be split when wrapping around if doing so will allow
+the item to be stored. Allow-split buffers are more memory efficient than no-split buffers but
+can return an item in two parts when retrieving.</p>
+<p><strong>Byte buffers</strong> do not store data as separate items. All data is stored as a sequence of bytes,
+and any number of bytes and be sent or retrieved each time. Use byte buffers when separate items
+do not need to be maintained (e.g. a byte stream).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">No-split/allow-split buffers will always store items at 32-bit aligned addresses. Therefore when
+retrieving an item, the item pointer is guaranteed to be 32-bit aligned. This is useful
+especially when you need to send some data to the DMA.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Each item stored in no-split/allow-split buffers will <strong>require an additional 8 bytes for a header</strong>.
+Item sizes will also be rounded up to a 32-bit aligned size (multiple of 4 bytes), however the true
+item size is recorded within the header. The sizes of no-split/allow-split buffers will also
+be rounded up when created.</p>
+</div>
+<div class="section" id="usage">
+<h3>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h3>
+<p>The following example demonstrates the usage of <a class="reference internal" href="#_CPPv417xRingbufferCreate6size_t16RingbufferType_t" title="xRingbufferCreate"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferCreate()</span></code></a>
+and <a class="reference internal" href="#_CPPv415xRingbufferSend15RingbufHandle_tPKv6size_t10TickType_t" title="xRingbufferSend"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferSend()</span></code></a> to create a ring buffer then send an item to it.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;freertos/ringbuf.h&quot;</span><span class="cp"></span>
+<span class="k">static</span> <span class="kt">char</span> <span class="n">tx_item</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;test_item&quot;</span><span class="p">;</span>
+
+<span class="p">...</span>
+
+    <span class="c1">//Create ring buffer</span>
+    <span class="n">RingbufHandle_t</span> <span class="n">buf_handle</span><span class="p">;</span>
+    <span class="n">buf_handle</span> <span class="o">=</span> <span class="n">xRingbufferCreate</span><span class="p">(</span><span class="mi">1028</span><span class="p">,</span> <span class="n">RINGBUF_TYPE_NOSPLIT</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">buf_handle</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to create ring buffer</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">//Send an item</span>
+    <span class="n">UBaseType_t</span> <span class="n">res</span> <span class="o">=</span>  <span class="n">xRingbufferSend</span><span class="p">(</span><span class="n">buf_handle</span><span class="p">,</span> <span class="n">tx_item</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">tx_item</span><span class="p">),</span> <span class="n">pdMS_TO_TICKS</span><span class="p">(</span><span class="mi">1000</span><span class="p">));</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">!=</span> <span class="n">pdTRUE</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to send item</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>The following example demonstrates the usage of <a class="reference internal" href="#_CPPv422xRingbufferSendAcquire15RingbufHandle_tPPv6size_t10TickType_t" title="xRingbufferSendAcquire"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferSendAcquire()</span></code></a> and
+<a class="reference internal" href="#_CPPv423xRingbufferSendComplete15RingbufHandle_tPv" title="xRingbufferSendComplete"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferSendComplete()</span></code></a> instead of <a class="reference internal" href="#_CPPv415xRingbufferSend15RingbufHandle_tPKv6size_t10TickType_t" title="xRingbufferSend"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferSend()</span></code></a> to apply for the
+memory on the ring buffer (of type <cite>RINGBUF_TYPE_NOSPLIT</cite>) and then send an item to it. This way
+adds one more step, but allows getting the address of the memory to write to, and writing to the
+memory yourself.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;freertos/ringbuf.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;soc/lldesc.h&quot;</span><span class="cp"></span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="n">lldesc_t</span> <span class="n">dma_desc</span><span class="p">;</span>
+    <span class="kt">uint8_t</span> <span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="p">}</span> <span class="n">dma_item_t</span><span class="p">;</span>
+
+<span class="cp">#define DMA_ITEM_SIZE(N) (sizeof(lldesc_t)+(((N)+3)&amp;(~3)))</span>
+
+<span class="p">...</span>
+
+    <span class="c1">//Retrieve space for DMA descriptor and corresponding data buffer</span>
+    <span class="c1">//This has to be done with SendAcquire, or the address may be different when copy</span>
+    <span class="n">dma_item_t</span> <span class="n">item</span><span class="p">;</span>
+    <span class="n">UBaseType_t</span> <span class="n">res</span> <span class="o">=</span>  <span class="n">xRingbufferSendAcquire</span><span class="p">(</span><span class="n">buf_handle</span><span class="p">,</span>
+                        <span class="o">&amp;</span><span class="n">item</span><span class="p">,</span> <span class="n">DMA_ITEM_SIZE</span><span class="p">(</span><span class="n">buffer_size</span><span class="p">),</span> <span class="n">pdMS_TO_TICKS</span><span class="p">(</span><span class="mi">1000</span><span class="p">));</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">!=</span> <span class="n">pdTRUE</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to acquire memory for item</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">item</span><span class="o">-&gt;</span><span class="n">dma_desc</span> <span class="o">=</span> <span class="p">(</span><span class="n">lldesc_t</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">buffer_size</span><span class="p">,</span>
+        <span class="p">.</span><span class="n">length</span> <span class="o">=</span> <span class="n">buffer_size</span><span class="p">,</span>
+        <span class="p">.</span><span class="n">eof</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="p">.</span><span class="n">owner</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="p">.</span><span class="n">buf</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">item</span><span class="o">-&gt;</span><span class="n">buf</span><span class="p">,</span>
+    <span class="p">};</span>
+    <span class="c1">//Actually send to the ring buffer for consumer to use</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">xRingbufferSendComplete</span><span class="p">(</span><span class="n">buf_handle</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">item</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">res</span> <span class="o">!=</span> <span class="n">pdTRUE</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to send item</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>The following example demonstrates retrieving and returning an item from a <strong>no-split ring buffer</strong>
+using <a class="reference internal" href="#_CPPv418xRingbufferReceive15RingbufHandle_tP6size_t10TickType_t" title="xRingbufferReceive"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferReceive()</span></code></a> and <a class="reference internal" href="#_CPPv421vRingbufferReturnItem15RingbufHandle_tPv" title="vRingbufferReturnItem"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vRingbufferReturnItem()</span></code></a></p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="p">...</span>
+
+    <span class="c1">//Receive an item from no-split ring buffer</span>
+    <span class="kt">size_t</span> <span class="n">item_size</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">item</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span><span class="n">xRingbufferReceive</span><span class="p">(</span><span class="n">buf_handle</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">item_size</span><span class="p">,</span> <span class="n">pdMS_TO_TICKS</span><span class="p">(</span><span class="mi">1000</span><span class="p">));</span>
+
+    <span class="c1">//Check received item</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">item</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//Print item</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">item_size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%c&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="p">}</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="c1">//Return Item</span>
+        <span class="n">vRingbufferReturnItem</span><span class="p">(</span><span class="n">buf_handle</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">item</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="c1">//Failed to receive item</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to receive item</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>The following example demonstrates retrieving and returning an item from an <strong>allow-split ring buffer</strong>
+using <a class="reference internal" href="#_CPPv423xRingbufferReceiveSplit15RingbufHandle_tPPvPPvP6size_tP6size_t10TickType_t" title="xRingbufferReceiveSplit"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferReceiveSplit()</span></code></a> and <a class="reference internal" href="#_CPPv421vRingbufferReturnItem15RingbufHandle_tPv" title="vRingbufferReturnItem"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vRingbufferReturnItem()</span></code></a></p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="p">...</span>
+
+    <span class="c1">//Receive an item from allow-split ring buffer</span>
+    <span class="kt">size_t</span> <span class="n">item_size1</span><span class="p">,</span> <span class="n">item_size2</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">item1</span><span class="p">,</span> <span class="o">*</span><span class="n">item2</span><span class="p">;</span>
+    <span class="n">BaseType_t</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">xRingbufferReceiveSplit</span><span class="p">(</span><span class="n">buf_handle</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span><span class="o">&amp;</span><span class="n">item1</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span> <span class="o">**</span><span class="p">)</span><span class="o">&amp;</span><span class="n">item2</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">item_size1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">item_size2</span><span class="p">,</span> <span class="n">pdMS_TO_TICKS</span><span class="p">(</span><span class="mi">1000</span><span class="p">));</span>
+
+    <span class="c1">//Check received item</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ret</span> <span class="o">==</span> <span class="n">pdTRUE</span> <span class="o">&amp;&amp;</span> <span class="n">item1</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">item_size1</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%c&quot;</span><span class="p">,</span> <span class="n">item1</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="p">}</span>
+        <span class="n">vRingbufferReturnItem</span><span class="p">(</span><span class="n">buf_handle</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">item1</span><span class="p">);</span>
+        <span class="c1">//Check if item was split</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">item2</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">item_size2</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%c&quot;</span><span class="p">,</span> <span class="n">item2</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+            <span class="p">}</span>
+            <span class="n">vRingbufferReturnItem</span><span class="p">(</span><span class="n">buf_handle</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">item2</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="c1">//Failed to receive item</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to receive item</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>The following example demonstrates retrieving and returning an item from a <strong>byte buffer</strong>
+using <a class="reference internal" href="#_CPPv422xRingbufferReceiveUpTo15RingbufHandle_tP6size_t10TickType_t6size_t" title="xRingbufferReceiveUpTo"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferReceiveUpTo()</span></code></a> and <a class="reference internal" href="#_CPPv421vRingbufferReturnItem15RingbufHandle_tPv" title="vRingbufferReturnItem"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vRingbufferReturnItem()</span></code></a></p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="p">...</span>
+
+    <span class="c1">//Receive data from byte buffer</span>
+    <span class="kt">size_t</span> <span class="n">item_size</span><span class="p">;</span>
+    <span class="kt">char</span> <span class="o">*</span><span class="n">item</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span><span class="n">xRingbufferReceiveUpTo</span><span class="p">(</span><span class="n">buf_handle</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">item_size</span><span class="p">,</span> <span class="n">pdMS_TO_TICKS</span><span class="p">(</span><span class="mi">1000</span><span class="p">),</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">tx_item</span><span class="p">));</span>
+
+    <span class="c1">//Check received data</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">item</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//Print item</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">item_size</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;%c&quot;</span><span class="p">,</span> <span class="n">item</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+        <span class="p">}</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+        <span class="c1">//Return Item</span>
+        <span class="n">vRingbufferReturnItem</span><span class="p">(</span><span class="n">buf_handle</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">item</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="c1">//Failed to receive item</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to receive item</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>For ISR safe versions of the functions used above, call <a class="reference internal" href="#_CPPv422xRingbufferSendFromISR15RingbufHandle_tPKv6size_tP10BaseType_t" title="xRingbufferSendFromISR"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferSendFromISR()</span></code></a>, <a class="reference internal" href="#_CPPv425xRingbufferReceiveFromISR15RingbufHandle_tP6size_t" title="xRingbufferReceiveFromISR"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferReceiveFromISR()</span></code></a>,
+<a class="reference internal" href="#_CPPv430xRingbufferReceiveSplitFromISR15RingbufHandle_tPPvPPvP6size_tP6size_t" title="xRingbufferReceiveSplitFromISR"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferReceiveSplitFromISR()</span></code></a>, <a class="reference internal" href="#_CPPv429xRingbufferReceiveUpToFromISR15RingbufHandle_tP6size_t6size_t" title="xRingbufferReceiveUpToFromISR"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferReceiveUpToFromISR()</span></code></a>, and <a class="reference internal" href="#_CPPv428vRingbufferReturnItemFromISR15RingbufHandle_tPvP10BaseType_t" title="vRingbufferReturnItemFromISR"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vRingbufferReturnItemFromISR()</span></code></a></p>
+</div>
+<div class="section" id="sending-to-ring-buffer">
+<h3>Sending to Ring Buffer<a class="headerlink" href="#sending-to-ring-buffer" title="Permalink to this headline">¶</a></h3>
+<p>The following diagrams illustrate the differences between no-split/allow-split buffers
+and byte buffers with regards to sending items/data. The diagrams assume that three
+items of sizes <strong>18, 3, and 27 bytes</strong> are sent respectively to a <strong>buffer of 128 bytes</strong>.</p>
+<div class="figure align-center" id="id6">
+<div><img height="192" src="../../_images/packetdiag-229d4bda9363cbcb9dba5aced220ddd2e2bbdd07.png" width="896" /></div><p class="caption"><span class="caption-text">Sending items to no-split/allow-split ring buffers</span><a class="headerlink" href="#id6" title="Permalink to this image">¶</a></p>
+</div>
+<p>For no-split/allow-split buffers, a header of 8 bytes precedes every data item. Furthermore, the space
+occupied by each item is <strong>rounded up to the nearest 32-bit aligned size</strong> in order to maintain overall
+32-bit alignment. However the true size of the item is recorded inside the header which will be
+returned when the item is retrieved.</p>
+<p>Referring to the diagram above, the 18, 3, and 27 byte items are <strong>rounded up to 20, 4, and 28 bytes</strong>
+respectively. An 8 byte header is then added in front of each item.</p>
+<div class="figure align-center" id="id7">
+<div><img height="192" src="../../_images/packetdiag-852d48449be96d5ec360e518d8c42e85100e544b.png" width="896" /></div><p class="caption"><span class="caption-text">Sending items to byte buffers</span><a class="headerlink" href="#id7" title="Permalink to this image">¶</a></p>
+</div>
+<p>Byte buffers treat data as a sequence of bytes and does not incur any overhead
+(no headers). As a result, all data sent to a byte buffer is merged into a single item.</p>
+<p>Referring to the diagram above, the 18, 3, and 27 byte items are sequentially written to the
+byte buffer and <strong>merged into a single item of 48 bytes</strong>.</p>
+</div>
+<div class="section" id="using-sendacquire-and-sendcomplete">
+<h3>Using SendAcquire and SendComplete<a class="headerlink" href="#using-sendacquire-and-sendcomplete" title="Permalink to this headline">¶</a></h3>
+<p>Items in no-split buffers are acquired (by SendAcquire) in strict FIFO order and must be sent to
+the buffer by SendComplete for the data to be accessible by the consumer. Multiple items can be
+sent or acquired without calling SendComplete, and the items do not necessarily need to be
+completed in the order they were acquired. However the receiving of data items must occur in FIFO
+order, therefore not calling SendComplete the earliest acquired item will prevent the subsequent
+items from being received.</p>
+<p>The following diagrams illustrate what will happen when SendAcquire/SendComplete don’t happen in
+the same order. At the beginning, there is already an data item of 16 bytes sent to the ring
+buffer. Then SendAcquire is called to acquire space of 20, 8, 24 bytes on the ring buffer.</p>
+<div class="figure align-center" id="id8">
+<div><img height="264" src="../../_images/packetdiag-718453576c52544af92bc947d10cbf4efde8b7ce.png" width="896" /></div><p class="caption"><span class="caption-text">SendAcquire/SendComplete items in no-split ring buffers</span><a class="headerlink" href="#id8" title="Permalink to this image">¶</a></p>
+</div>
+<p>After that, we fill (use) the buffers, and send them to the ring buffer by SendComplete in the
+order of 8, 24, 20. When 8 bytes and 24 bytes data are sent, the consumer still can only get the
+16 bytes data item. Due to the usage if 20 bytes item is not complete, it’s not available, nor
+the following data items.</p>
+<p>When the 20 bytes item is finally completed, all the 3 data items can be received now, in the
+order of 20, 8, 24 bytes, right after the 16 bytes item existing in the buffer at the beginning.</p>
+<p>Allow-split/byte buffers do not allow using SendAcquire/SendComplete since acquired buffers are
+required to be complete (not wrapped).</p>
+</div>
+<div class="section" id="wrap-around">
+<h3>Wrap around<a class="headerlink" href="#wrap-around" title="Permalink to this headline">¶</a></h3>
+<p>The following diagrams illustrate the differences between no-split, allow-split, and byte
+buffers when a sent item requires a wrap around. The diagrams assumes a buffer of <strong>128 bytes</strong>
+with <strong>56 bytes of free space that wraps around</strong> and a sent item of <strong>28 bytes</strong>.</p>
+<div class="figure align-center" id="id9">
+<div><img height="192" src="../../_images/packetdiag-b992e69bb6933b7f2782669b1e74a8fa1db22ba1.png" width="896" /></div><p class="caption"><span class="caption-text">Wrap around in no-split buffers</span><a class="headerlink" href="#id9" title="Permalink to this image">¶</a></p>
+</div>
+<p>No-split buffers will <strong>only store an item in continuous free space and will not split
+an item under any circumstances</strong>. When the free space at the tail of the buffer is insufficient
+to completely store the item and its header, the free space at the tail will be <strong>marked as dummy data</strong>.
+The buffer will then wrap around and store the item in the free space at the head of the buffer.</p>
+<p>Referring to the diagram above, the 16 bytes of free space at the tail of the buffer is
+insufficient to store the 28 byte item. Therefore the 16 bytes is marked as dummy data and
+the item is written to the free space at the head of the buffer instead.</p>
+<div class="figure align-center" id="id10">
+<div><img height="192" src="../../_images/packetdiag-582bf5b0032f8317f08207d4137c6f1fcf4a0dad.png" width="896" /></div><p class="caption"><span class="caption-text">Wrap around in allow-split buffers</span><a class="headerlink" href="#id10" title="Permalink to this image">¶</a></p>
+</div>
+<p>Allow-split buffers will attempt to <strong>split the item into two parts</strong> when the free space at the tail
+of the buffer is insufficient to store the item data and its header. Both parts of the
+split item will have their own headers (therefore incurring an extra 8 bytes of overhead).</p>
+<p>Referring to the diagram above, the 16 bytes of free space at the tail of the buffer is insufficient
+to store the 28 byte item. Therefore the item is split into two parts (8 and 20 bytes) and written
+as two parts to the buffer.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Allow-split buffers treats the both parts of the split item as two separate items, therefore call
+<a class="reference internal" href="#_CPPv423xRingbufferReceiveSplit15RingbufHandle_tPPvPPvP6size_tP6size_t10TickType_t" title="xRingbufferReceiveSplit"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferReceiveSplit()</span></code></a> instead of <a class="reference internal" href="#_CPPv418xRingbufferReceive15RingbufHandle_tP6size_t10TickType_t" title="xRingbufferReceive"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferReceive()</span></code></a> to receive both
+parts of a split item in a thread safe manner.</p>
+</div>
+<div class="figure align-center" id="id11">
+<div><img height="192" src="../../_images/packetdiag-d1eb397643630f9b6c078c534e6205c96504df96.png" width="896" /></div><p class="caption"><span class="caption-text">Wrap around in byte buffers</span><a class="headerlink" href="#id11" title="Permalink to this image">¶</a></p>
+</div>
+<p>Byte buffers will <strong>store as much data as possible into the free space at the tail of buffer</strong>. The remaining
+data will then be stored in the free space at the head of the buffer. No overhead is incurred when wrapping
+around in byte buffers.</p>
+<p>Referring to the diagram above, the 16 bytes of free space at the tail of the buffer is insufficient to
+completely store the 28 bytes of data. Therefore the 16 bytes of free space is filled with data, and the
+remaining 12 bytes are written to the free space at the head of the buffer. The buffer now contains
+data in two separate continuous parts, and each part continuous will be treated as a separate item by the
+byte buffer.</p>
+</div>
+<div class="section" id="retrieving-returning">
+<h3>Retrieving/Returning<a class="headerlink" href="#retrieving-returning" title="Permalink to this headline">¶</a></h3>
+<p>The following diagrams illustrates the differences between no-split/allow-split and
+byte buffers in retrieving and returning data.</p>
+<div class="figure align-center" id="id12">
+<div><img height="312" src="../../_images/packetdiag-3285ab0b11eb903834a1ef5ac4d4d5d894d97260.png" width="896" /></div><p class="caption"><span class="caption-text">Retrieving/Returning items in no-split/allow-split ring buffers</span><a class="headerlink" href="#id12" title="Permalink to this image">¶</a></p>
+</div>
+<p>Items in no-split/allow-split buffers are <strong>retrieved in strict FIFO order</strong> and <strong>must be returned</strong>
+for the occupied space to be freed. Multiple items can be retrieved before returning, and the items
+do not necessarily need to be returned in the order they were retrieved. However the freeing of space
+must occur in FIFO order, therefore not returning the earliest retrieved item will prevent the space
+of subsequent items from being freed.</p>
+<p>Referring to the diagram above, the <strong>16, 20, and 8 byte items are retrieved in FIFO order</strong>. However the items
+are not returned in they were retrieved (20, 8, 16). As such, the space is not freed until the first item
+(16 byte) is returned.</p>
+<div class="figure align-center" id="id13">
+<div><img height="240" src="../../_images/packetdiag-1bc2f006258b9b40de31e4ceb4b31a347a216b99.png" width="896" /></div><p class="caption"><span class="caption-text">Retrieving/Returning data in byte buffers</span><a class="headerlink" href="#id13" title="Permalink to this image">¶</a></p>
+</div>
+<p>Byte buffers <strong>do not allow multiple retrievals before returning</strong> (every retrieval must be followed by a return
+before another retrieval is permitted). When using <a class="reference internal" href="#_CPPv418xRingbufferReceive15RingbufHandle_tP6size_t10TickType_t" title="xRingbufferReceive"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferReceive()</span></code></a> or
+<a class="reference internal" href="#_CPPv425xRingbufferReceiveFromISR15RingbufHandle_tP6size_t" title="xRingbufferReceiveFromISR"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferReceiveFromISR()</span></code></a>, all continuous stored data will be retrieved. <a class="reference internal" href="#_CPPv422xRingbufferReceiveUpTo15RingbufHandle_tP6size_t10TickType_t6size_t" title="xRingbufferReceiveUpTo"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferReceiveUpTo()</span></code></a>
+or <a class="reference internal" href="#_CPPv429xRingbufferReceiveUpToFromISR15RingbufHandle_tP6size_t6size_t" title="xRingbufferReceiveUpToFromISR"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferReceiveUpToFromISR()</span></code></a> can be used to restrict the maximum number of bytes retrieved. Since
+every retrieval must be followed by a return, the space will be freed as soon as the data is returned.</p>
+<p>Referring to the diagram above, the 38 bytes of continuous stored data at the tail of the buffer is retrieved,
+returned, and freed. The next call to <a class="reference internal" href="#_CPPv418xRingbufferReceive15RingbufHandle_tP6size_t10TickType_t" title="xRingbufferReceive"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferReceive()</span></code></a> or <a class="reference internal" href="#_CPPv425xRingbufferReceiveFromISR15RingbufHandle_tP6size_t" title="xRingbufferReceiveFromISR"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferReceiveFromISR()</span></code></a>
+then wraps around and does the same to the 30 bytes of continuous stored data at the head of the buffer.</p>
+</div>
+<div class="section" id="ring-buffers-with-queue-sets">
+<h3>Ring Buffers with Queue Sets<a class="headerlink" href="#ring-buffers-with-queue-sets" title="Permalink to this headline">¶</a></h3>
+<p>Ring buffers can be added to FreeRTOS queue sets using <a class="reference internal" href="#_CPPv428xRingbufferAddToQueueSetRead15RingbufHandle_t16QueueSetHandle_t" title="xRingbufferAddToQueueSetRead"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferAddToQueueSetRead()</span></code></a> such that every
+time a ring buffer receives an item or data, the queue set is notified. Once added to a queue set, every
+attempt to retrieve an item from a ring buffer should be preceded by a call to <a class="reference internal" href="freertos.html#_CPPv419xQueueSelectFromSet16QueueSetHandle_tK10TickType_t" title="xQueueSelectFromSet"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xQueueSelectFromSet()</span></code></a>.
+To check whether the selected queue set member is the ring buffer, call <a class="reference internal" href="#_CPPv418xRingbufferCanRead15RingbufHandle_t22QueueSetMemberHandle_t" title="xRingbufferCanRead"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferCanRead()</span></code></a>.</p>
+<p>The following example demonstrates queue set usage with ring buffers.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;freertos/queue.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;freertos/ringbuf.h&quot;</span><span class="cp"></span>
+
+<span class="p">...</span>
+
+    <span class="c1">//Create ring buffer and queue set</span>
+    <span class="n">RingbufHandle_t</span> <span class="n">buf_handle</span> <span class="o">=</span> <span class="n">xRingbufferCreate</span><span class="p">(</span><span class="mi">1028</span><span class="p">,</span> <span class="n">RINGBUF_TYPE_NOSPLIT</span><span class="p">);</span>
+    <span class="n">QueueSetHandle_t</span> <span class="n">queue_set</span> <span class="o">=</span> <span class="n">xQueueCreateSet</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+
+    <span class="c1">//Add ring buffer to queue set</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">xRingbufferAddToQueueSetRead</span><span class="p">(</span><span class="n">buf_handle</span><span class="p">,</span> <span class="n">queue_set</span><span class="p">)</span> <span class="o">!=</span> <span class="n">pdTRUE</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Failed to add to queue set</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="p">...</span>
+
+    <span class="c1">//Block on queue set</span>
+    <span class="n">xQueueSetMemberHandle</span> <span class="n">member</span> <span class="o">=</span> <span class="n">xQueueSelectFromSet</span><span class="p">(</span><span class="n">queue_set</span><span class="p">,</span> <span class="n">pdMS_TO_TICKS</span><span class="p">(</span><span class="mi">1000</span><span class="p">));</span>
+
+    <span class="c1">//Check if member is ring buffer</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">member</span> <span class="o">!=</span> <span class="nb">NULL</span> <span class="o">&amp;&amp;</span> <span class="n">xRingbufferCanRead</span><span class="p">(</span><span class="n">buf_handle</span><span class="p">,</span> <span class="n">member</span><span class="p">)</span> <span class="o">==</span> <span class="n">pdTRUE</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//Member is ring buffer, receive item from ring buffer</span>
+        <span class="kt">size_t</span> <span class="n">item_size</span><span class="p">;</span>
+        <span class="kt">char</span> <span class="o">*</span><span class="n">item</span> <span class="o">=</span> <span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="p">)</span><span class="n">xRingbufferReceive</span><span class="p">(</span><span class="n">buf_handle</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">item_size</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+        <span class="c1">//Handle item</span>
+        <span class="p">...</span>
+
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="p">...</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ring-buffers-with-static-allocation">
+<h3>Ring Buffers with Static Allocation<a class="headerlink" href="#ring-buffers-with-static-allocation" title="Permalink to this headline">¶</a></h3>
+<p>The <a class="reference internal" href="#_CPPv423xRingbufferCreateStatic6size_t16RingbufferType_tP7uint8_tP18StaticRingbuffer_t" title="xRingbufferCreateStatic"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferCreateStatic()</span></code></a> can be used to create ring buffers with specific memory requirements (such as a ring buffer being allocated in external RAM). All blocks of memory used by a ring buffer must be manually allocated beforehand then passed to the <a class="reference internal" href="#_CPPv423xRingbufferCreateStatic6size_t16RingbufferType_tP7uint8_tP18StaticRingbuffer_t" title="xRingbufferCreateStatic"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferCreateStatic()</span></code></a> to be initialized as a ring buffer. These blocks include the following:</p>
+<ul class="simple">
+<li>The ring buffer’s data structure of type <a class="reference internal" href="#_CPPv418StaticRingbuffer_t" title="StaticRingbuffer_t"><code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">StaticRingbuffer_t</span></code></a></li>
+<li>The ring buffer’s storage area of size <code class="docutils literal notranslate"><span class="pre">xBufferSize</span></code>. Note that <code class="docutils literal notranslate"><span class="pre">xBufferSize</span></code> must be 32-bit aligned for no-split/allow-split buffers.</li>
+</ul>
+<p>The manner in which these blocks are allocated will depend on the users requirements (e.g. all blocks being statically declared, or dynamically allocated with specific capabilities such as external RAM).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <a class="reference internal" href="../kconfig.html#config-freertos-support-static-allocation"><span class="std std-ref">CONFIG_FREERTOS_SUPPORT_STATIC_ALLOCATION</span></a> option must be enabled in <cite>menuconfig</cite> for statically allocated ring buffers to be available.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When deleting a ring buffer created via <a class="reference internal" href="#_CPPv423xRingbufferCreateStatic6size_t16RingbufferType_tP7uint8_tP18StaticRingbuffer_t" title="xRingbufferCreateStatic"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">xRingbufferCreateStatic()</span></code></a>,
+the function <a class="reference internal" href="#_CPPv417vRingbufferDelete15RingbufHandle_t" title="vRingbufferDelete"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vRingbufferDelete()</span></code></a> will not free any of the memory blocks. This must be done manually by the user after <a class="reference internal" href="#_CPPv417vRingbufferDelete15RingbufHandle_t" title="vRingbufferDelete"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">vRingbufferDelete()</span></code></a> is called.</p>
+</div>
+<p>The code snippet below demonstrates a ring buffer being allocated entirely in external RAM.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&quot;freertos/ringbuf.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;freertos/semphr.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;esp_heap_caps.h&quot;</span><span class="cp"></span>
+
+<span class="cp">#define BUFFER_SIZE     400      </span><span class="c1">//32-bit aligned size</span>
+<span class="cp">#define BUFFER_TYPE     RINGBUF_TYPE_NOSPLIT</span>
+<span class="p">...</span>
+
+<span class="c1">//Allocate ring buffer data structure and storage area into external RAM</span>
+<span class="n">StaticRingbuffer_t</span> <span class="o">*</span><span class="n">buffer_struct</span> <span class="o">=</span> <span class="p">(</span><span class="n">StaticRingbuffer_t</span> <span class="o">*</span><span class="p">)</span><span class="n">heap_caps_malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">StaticRingbuffer_t</span><span class="p">),</span> <span class="n">MALLOC_CAP_SPIRAM</span><span class="p">);</span>
+<span class="kt">uint8_t</span> <span class="o">*</span><span class="n">buffer_storage</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="p">)</span><span class="n">heap_caps_malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="kt">uint8_t</span><span class="p">)</span><span class="o">*</span><span class="n">BUFFER_SIZE</span><span class="p">,</span> <span class="n">MALLOC_CAP_SPIRAM</span><span class="p">);</span>
+
+<span class="c1">//Create a ring buffer with manually allocated memory</span>
+<span class="n">RingbufHandle_t</span> <span class="n">handle</span> <span class="o">=</span> <span class="n">xRingbufferCreateStatic</span><span class="p">(</span><span class="n">BUFFER_SIZE</span><span class="p">,</span> <span class="n">BUFFER_TYPE</span><span class="p">,</span> <span class="n">buffer_storage</span><span class="p">,</span> <span class="n">buffer_struct</span><span class="p">);</span>
+
+<span class="p">...</span>
+
+<span class="c1">//Delete the ring buffer after used</span>
+<span class="n">vRingbufferDelete</span><span class="p">(</span><span class="n">handle</span><span class="p">);</span>
+
+<span class="c1">//Manually free all blocks of memory</span>
+<span class="n">free</span><span class="p">(</span><span class="n">buffer_struct</span><span class="p">);</span>
+<span class="n">free</span><span class="p">(</span><span class="n">buffer_storage</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="ring-buffer-api-reference">
+<h2>Ring Buffer API Reference<a class="headerlink" href="#ring-buffer-api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Ideally, ring buffers can be used with multiple tasks in an SMP fashion where the <strong>highest
+priority task will always be serviced first.</strong> However due to the usage of binary semaphores
+in the ring buffer’s underlying implementation, priority inversion may occur under very
+specific circumstances.</p>
+<p>The ring buffer governs sending by a binary semaphore which is given whenever space is
+freed on the ring buffer. The highest priority task waiting to send will repeatedly take
+the semaphore until sufficient free space becomes available or until it times out. Ideally
+this should prevent any lower priority tasks from being serviced as the semaphore should
+always be given to the highest priority task.</p>
+<p>However in between iterations of acquiring the semaphore, there is a <strong>gap in the critical
+section</strong> which may permit another task (on the other core or with an even higher priority) to
+free some space on the ring buffer and as a result give the semaphore. Therefore the semaphore
+will be given before the highest priority task can re-acquire the semaphore. This will result
+in the <strong>semaphore being acquired by the second highest priority task</strong> waiting to send, hence
+causing priority inversion.</p>
+<p class="last">This side effect will not affect ring buffer performance drastically given if the number
+of tasks using the ring buffer simultaneously is low, and the ring buffer is not operating
+near maximum capacity.</p>
+</div>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_ringbuf/include/freertos/ringbuf.h">esp_ringbuf/include/freertos/ringbuf.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv417xRingbufferCreate6size_t16RingbufferType_t">
+<span id="_CPPv317xRingbufferCreate6size_t16RingbufferType_t"></span><span id="_CPPv217xRingbufferCreate6size_t16RingbufferType_t"></span><span id="xRingbufferCreate__s.RingbufferType_t"></span><span class="target" id="ringbuf_8h_1ac37bae961feef2406fb91d65382b2138"></span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <code class="descname">xRingbufferCreate</code><span class="sig-paren">(</span>size_t <em>xBufferSize</em>, <a class="reference internal" href="#_CPPv416RingbufferType_t" title="RingbufferType_t">RingbufferType_t</a> <em>xBufferType</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417xRingbufferCreate6size_t16RingbufferType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a ring buffer. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>xBufferSize of no-split/allow-split buffers will be rounded up to the nearest 32-bit aligned size.</dd>
+<dt><strong>Return</strong></dt>
+<dd>A handle to the created ring buffer, or NULL in case of error. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xBufferSize</span></code>: Size of the buffer in bytes. Note that items require space for overhead in no-split/allow-split buffers </li>
+<li><code class="docutils literal notranslate"><span class="pre">xBufferType</span></code>: Type of ring buffer, see documentation.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424xRingbufferCreateNoSplit6size_t6size_t">
+<span id="_CPPv324xRingbufferCreateNoSplit6size_t6size_t"></span><span id="_CPPv224xRingbufferCreateNoSplit6size_t6size_t"></span><span id="xRingbufferCreateNoSplit__s.s"></span><span class="target" id="ringbuf_8h_1adc44b9f85cf0b59566a8281a09010e4f"></span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <code class="descname">xRingbufferCreateNoSplit</code><span class="sig-paren">(</span>size_t <em>xItemSize</em>, size_t <em>xItemNum</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424xRingbufferCreateNoSplit6size_t6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a ring buffer of type RINGBUF_TYPE_NOSPLIT for a fixed item_size. </p>
+<p>This API is similar to xRingbufferCreate(), but it will internally allocate additional space for the headers.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>A RingbufHandle_t handle to the created ring buffer, or NULL in case of error. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xItemSize</span></code>: Size of each item to be put into the ring buffer </li>
+<li><code class="docutils literal notranslate"><span class="pre">xItemNum</span></code>: Maximum number of items the buffer needs to hold simultaneously</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423xRingbufferCreateStatic6size_t16RingbufferType_tP7uint8_tP18StaticRingbuffer_t">
+<span id="_CPPv323xRingbufferCreateStatic6size_t16RingbufferType_tP7uint8_tP18StaticRingbuffer_t"></span><span id="_CPPv223xRingbufferCreateStatic6size_t16RingbufferType_tP7uint8_tP18StaticRingbuffer_t"></span><span id="xRingbufferCreateStatic__s.RingbufferType_t.uint8_tP.StaticRingbuffer_tP"></span><span class="target" id="ringbuf_8h_1a32e2a9f97904e382d09af92a460e5335"></span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <code class="descname">xRingbufferCreateStatic</code><span class="sig-paren">(</span>size_t <em>xBufferSize</em>, <a class="reference internal" href="#_CPPv416RingbufferType_t" title="RingbufferType_t">RingbufferType_t</a> <em>xBufferType</em>, uint8_t *<em>pucRingbufferStorage</em>, <a class="reference internal" href="#_CPPv418StaticRingbuffer_t" title="StaticRingbuffer_t">StaticRingbuffer_t</a> *<em>pxStaticRingbuffer</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423xRingbufferCreateStatic6size_t16RingbufferType_tP7uint8_tP18StaticRingbuffer_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a ring buffer but manually provide the required memory. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>The CONFIG_FREERTOS_SUPPORT_STATIC_ALLOCATION option must be enabled for this to be available</dd>
+<dt><strong>Note</strong></dt>
+<dd>xBufferSize of no-split/allow-split buffers MUST be 32-bit aligned.</dd>
+<dt><strong>Return</strong></dt>
+<dd>A handle to the created ring buffer </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xBufferSize</span></code>: Size of the buffer in bytes. </li>
+<li><code class="docutils literal notranslate"><span class="pre">xBufferType</span></code>: Type of ring buffer, see documentation </li>
+<li><code class="docutils literal notranslate"><span class="pre">pucRingbufferStorage</span></code>: Pointer to the ring buffer’s storage area. Storage area must of the same size as specified by xBufferSize </li>
+<li><code class="docutils literal notranslate"><span class="pre">pxStaticRingbuffer</span></code>: Pointed to a struct of type StaticRingbuffer_t which will be used to hold the ring buffer’s data structure</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415xRingbufferSend15RingbufHandle_tPKv6size_t10TickType_t">
+<span id="_CPPv315xRingbufferSend15RingbufHandle_tPKv6size_t10TickType_t"></span><span id="_CPPv215xRingbufferSend15RingbufHandle_tPKv6size_t10TickType_t"></span><span id="xRingbufferSend__RingbufHandle_t.voidCP.s.TickType_t"></span><span class="target" id="ringbuf_8h_1aae76440d60927e71bfe69ba8b06a6f00"></span>BaseType_t <code class="descname">xRingbufferSend</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <em>xRingbuffer</em>, <em class="property">const</em> void *<em>pvItem</em>, size_t <em>xItemSize</em>, TickType_t <em>xTicksToWait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415xRingbufferSend15RingbufHandle_tPKv6size_t10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Insert an item into the ring buffer. </p>
+<p>Attempt to insert an item into the ring buffer. This function will block until enough free space is available or until it times out.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>For no-split/allow-split ring buffers, the actual size of memory that the item will occupy will be rounded up to the nearest 32-bit aligned size. This is done to ensure all items are always stored in 32-bit aligned fashion.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>pdTRUE if succeeded</li>
+<li>pdFALSE on time-out or when the data is larger than the maximum permissible size of the buffer </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xRingbuffer</span></code>: Ring buffer to insert the item into </li>
+<li><code class="docutils literal notranslate"><span class="pre">pvItem</span></code>: Pointer to data to insert. NULL is allowed if xItemSize is 0. </li>
+<li><code class="docutils literal notranslate"><span class="pre">xItemSize</span></code>: Size of data to insert. </li>
+<li><code class="docutils literal notranslate"><span class="pre">xTicksToWait</span></code>: Ticks to wait for room in the ring buffer.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422xRingbufferSendFromISR15RingbufHandle_tPKv6size_tP10BaseType_t">
+<span id="_CPPv322xRingbufferSendFromISR15RingbufHandle_tPKv6size_tP10BaseType_t"></span><span id="_CPPv222xRingbufferSendFromISR15RingbufHandle_tPKv6size_tP10BaseType_t"></span><span id="xRingbufferSendFromISR__RingbufHandle_t.voidCP.s.BaseType_tP"></span><span class="target" id="ringbuf_8h_1ae2fd4a03b4aa32d21dd01039b3371fb0"></span>BaseType_t <code class="descname">xRingbufferSendFromISR</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <em>xRingbuffer</em>, <em class="property">const</em> void *<em>pvItem</em>, size_t <em>xItemSize</em>, BaseType_t *<em>pxHigherPriorityTaskWoken</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422xRingbufferSendFromISR15RingbufHandle_tPKv6size_tP10BaseType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Insert an item into the ring buffer in an ISR. </p>
+<p>Attempt to insert an item into the ring buffer from an ISR. This function will return immediately if there is insufficient free space in the buffer.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>For no-split/allow-split ring buffers, the actual size of memory that the item will occupy will be rounded up to the nearest 32-bit aligned size. This is done to ensure all items are always stored in 32-bit aligned fashion.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>pdTRUE if succeeded</li>
+<li>pdFALSE when the ring buffer does not have space. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xRingbuffer</span></code>: Ring buffer to insert the item into </li>
+<li><code class="docutils literal notranslate"><span class="pre">pvItem</span></code>: Pointer to data to insert. NULL is allowed if xItemSize is 0. </li>
+<li><code class="docutils literal notranslate"><span class="pre">xItemSize</span></code>: Size of data to insert. </li>
+<li><code class="docutils literal notranslate"><span class="pre">pxHigherPriorityTaskWoken</span></code>: Value pointed to will be set to pdTRUE if the function woke up a higher priority task.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422xRingbufferSendAcquire15RingbufHandle_tPPv6size_t10TickType_t">
+<span id="_CPPv322xRingbufferSendAcquire15RingbufHandle_tPPv6size_t10TickType_t"></span><span id="_CPPv222xRingbufferSendAcquire15RingbufHandle_tPPv6size_t10TickType_t"></span><span id="xRingbufferSendAcquire__RingbufHandle_t.voidPP.s.TickType_t"></span><span class="target" id="ringbuf_8h_1a57a5ca9c2fb4c4c01b80377c57bf8da3"></span>BaseType_t <code class="descname">xRingbufferSendAcquire</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <em>xRingbuffer</em>, void **<em>ppvItem</em>, size_t <em>xItemSize</em>, TickType_t <em>xTicksToWait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422xRingbufferSendAcquire15RingbufHandle_tPPv6size_t10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Acquire memory from the ring buffer to be written to by an external source and to be sent later. </p>
+<p>Attempt to allocate buffer for an item to be sent into the ring buffer. This function will block until enough free space is available or until it timesout.</p>
+<p>The item, as well as the following items <code class="docutils literal notranslate"><span class="pre">SendAcquire</span></code> or <code class="docutils literal notranslate"><span class="pre">Send</span></code> after it, will not be able to be read from the ring buffer until this item is actually sent into the ring buffer.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Only applicable for no-split ring buffers now, the actual size of memory that the item will occupy will be rounded up to the nearest 32-bit aligned size. This is done to ensure all items are always stored in 32-bit aligned fashion.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>pdTRUE if succeeded</li>
+<li>pdFALSE on time-out or when the data is larger than the maximum permissible size of the buffer </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xRingbuffer</span></code>: Ring buffer to allocate the memory </li>
+<li><code class="docutils literal notranslate"><span class="pre">ppvItem</span></code>: Double pointer to memory acquired (set to NULL if no memory were retrieved) </li>
+<li><code class="docutils literal notranslate"><span class="pre">xItemSize</span></code>: Size of item to acquire. </li>
+<li><code class="docutils literal notranslate"><span class="pre">xTicksToWait</span></code>: Ticks to wait for room in the ring buffer.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423xRingbufferSendComplete15RingbufHandle_tPv">
+<span id="_CPPv323xRingbufferSendComplete15RingbufHandle_tPv"></span><span id="_CPPv223xRingbufferSendComplete15RingbufHandle_tPv"></span><span id="xRingbufferSendComplete__RingbufHandle_t.voidP"></span><span class="target" id="ringbuf_8h_1ace112765fb813e04e07f4b001a7ec04d"></span>BaseType_t <code class="descname">xRingbufferSendComplete</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <em>xRingbuffer</em>, void *<em>pvItem</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423xRingbufferSendComplete15RingbufHandle_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Actually send an item into the ring buffer allocated before by <code class="docutils literal notranslate"><span class="pre">xRingbufferSendAcquire</span></code>. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Only applicable for no-split ring buffers. Only call for items allocated by <code class="docutils literal notranslate"><span class="pre">xRingbufferSendAcquire</span></code>.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>pdTRUE if succeeded</li>
+<li>pdFALSE if fail for some reason. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xRingbuffer</span></code>: Ring buffer to insert the item into </li>
+<li><code class="docutils literal notranslate"><span class="pre">pvItem</span></code>: Pointer to item in allocated memory to insert.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418xRingbufferReceive15RingbufHandle_tP6size_t10TickType_t">
+<span id="_CPPv318xRingbufferReceive15RingbufHandle_tP6size_t10TickType_t"></span><span id="_CPPv218xRingbufferReceive15RingbufHandle_tP6size_t10TickType_t"></span><span id="xRingbufferReceive__RingbufHandle_t.sP.TickType_t"></span><span class="target" id="ringbuf_8h_1a116f93070f64e55d9d4ccbce559e8f88"></span>void *<code class="descname">xRingbufferReceive</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <em>xRingbuffer</em>, size_t *<em>pxItemSize</em>, TickType_t <em>xTicksToWait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418xRingbufferReceive15RingbufHandle_tP6size_t10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Retrieve an item from the ring buffer. </p>
+<p>Attempt to retrieve an item from the ring buffer. This function will block until an item is available or until it times out.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>A call to vRingbufferReturnItem() is required after this to free the item retrieved.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>Pointer to the retrieved item on success; *pxItemSize filled with the length of the item.</li>
+<li>NULL on timeout, *pxItemSize is untouched in that case. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xRingbuffer</span></code>: Ring buffer to retrieve the item from </li>
+<li><code class="docutils literal notranslate"><span class="pre">pxItemSize</span></code>: Pointer to a variable to which the size of the retrieved item will be written. </li>
+<li><code class="docutils literal notranslate"><span class="pre">xTicksToWait</span></code>: Ticks to wait for items in the ring buffer.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425xRingbufferReceiveFromISR15RingbufHandle_tP6size_t">
+<span id="_CPPv325xRingbufferReceiveFromISR15RingbufHandle_tP6size_t"></span><span id="_CPPv225xRingbufferReceiveFromISR15RingbufHandle_tP6size_t"></span><span id="xRingbufferReceiveFromISR__RingbufHandle_t.sP"></span><span class="target" id="ringbuf_8h_1af8fd401f09fba532013448333b5471a2"></span>void *<code class="descname">xRingbufferReceiveFromISR</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <em>xRingbuffer</em>, size_t *<em>pxItemSize</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425xRingbufferReceiveFromISR15RingbufHandle_tP6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Retrieve an item from the ring buffer in an ISR. </p>
+<p>Attempt to retrieve an item from the ring buffer. This function returns immediately if there are no items available for retrieval</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>A call to vRingbufferReturnItemFromISR() is required after this to free the item retrieved. </dd>
+<dt><strong>Note</strong></dt>
+<dd>Byte buffers do not allow multiple retrievals before returning an item</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>Pointer to the retrieved item on success; *pxItemSize filled with the length of the item.</li>
+<li>NULL when the ring buffer is empty, *pxItemSize is untouched in that case. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xRingbuffer</span></code>: Ring buffer to retrieve the item from </li>
+<li><code class="docutils literal notranslate"><span class="pre">pxItemSize</span></code>: Pointer to a variable to which the size of the retrieved item will be written.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423xRingbufferReceiveSplit15RingbufHandle_tPPvPPvP6size_tP6size_t10TickType_t">
+<span id="_CPPv323xRingbufferReceiveSplit15RingbufHandle_tPPvPPvP6size_tP6size_t10TickType_t"></span><span id="_CPPv223xRingbufferReceiveSplit15RingbufHandle_tPPvPPvP6size_tP6size_t10TickType_t"></span><span id="xRingbufferReceiveSplit__RingbufHandle_t.voidPP.voidPP.sP.sP.TickType_t"></span><span class="target" id="ringbuf_8h_1ac7312fcb3449a244e651d7a977063340"></span>BaseType_t <code class="descname">xRingbufferReceiveSplit</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <em>xRingbuffer</em>, void **<em>ppvHeadItem</em>, void **<em>ppvTailItem</em>, size_t *<em>pxHeadItemSize</em>, size_t *<em>pxTailItemSize</em>, TickType_t <em>xTicksToWait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423xRingbufferReceiveSplit15RingbufHandle_tPPvPPvP6size_tP6size_t10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Retrieve a split item from an allow-split ring buffer. </p>
+<p>Attempt to retrieve a split item from an allow-split ring buffer. If the item is not split, only a single item is retried. If the item is split, both parts will be retrieved. This function will block until an item is available or until it times out.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Call(s) to vRingbufferReturnItem() is required after this to free up the item(s) retrieved. </dd>
+<dt><strong>Note</strong></dt>
+<dd>This function should only be called on allow-split buffers</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>pdTRUE if an item (split or unsplit) was retrieved</li>
+<li>pdFALSE when no item was retrieved </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xRingbuffer</span></code>: Ring buffer to retrieve the item from </li>
+<li><code class="docutils literal notranslate"><span class="pre">ppvHeadItem</span></code>: Double pointer to first part (set to NULL if no items were retrieved) </li>
+<li><code class="docutils literal notranslate"><span class="pre">ppvTailItem</span></code>: Double pointer to second part (set to NULL if item is not split) </li>
+<li><code class="docutils literal notranslate"><span class="pre">pxHeadItemSize</span></code>: Pointer to size of first part (unmodified if no items were retrieved) </li>
+<li><code class="docutils literal notranslate"><span class="pre">pxTailItemSize</span></code>: Pointer to size of second part (unmodified if item is not split) </li>
+<li><code class="docutils literal notranslate"><span class="pre">xTicksToWait</span></code>: Ticks to wait for items in the ring buffer.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv430xRingbufferReceiveSplitFromISR15RingbufHandle_tPPvPPvP6size_tP6size_t">
+<span id="_CPPv330xRingbufferReceiveSplitFromISR15RingbufHandle_tPPvPPvP6size_tP6size_t"></span><span id="_CPPv230xRingbufferReceiveSplitFromISR15RingbufHandle_tPPvPPvP6size_tP6size_t"></span><span id="xRingbufferReceiveSplitFromISR__RingbufHandle_t.voidPP.voidPP.sP.sP"></span><span class="target" id="ringbuf_8h_1ad0c7f63214e32ce6edc8e69cc261b305"></span>BaseType_t <code class="descname">xRingbufferReceiveSplitFromISR</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <em>xRingbuffer</em>, void **<em>ppvHeadItem</em>, void **<em>ppvTailItem</em>, size_t *<em>pxHeadItemSize</em>, size_t *<em>pxTailItemSize</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv430xRingbufferReceiveSplitFromISR15RingbufHandle_tPPvPPvP6size_tP6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Retrieve a split item from an allow-split ring buffer in an ISR. </p>
+<p>Attempt to retrieve a split item from an allow-split ring buffer. If the item is not split, only a single item is retried. If the item is split, both parts will be retrieved. This function returns immediately if there are no items available for retrieval</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Calls to vRingbufferReturnItemFromISR() is required after this to free up the item(s) retrieved. </dd>
+<dt><strong>Note</strong></dt>
+<dd>This function should only be called on allow-split buffers</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>pdTRUE if an item (split or unsplit) was retrieved</li>
+<li>pdFALSE when no item was retrieved </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xRingbuffer</span></code>: Ring buffer to retrieve the item from </li>
+<li><code class="docutils literal notranslate"><span class="pre">ppvHeadItem</span></code>: Double pointer to first part (set to NULL if no items were retrieved) </li>
+<li><code class="docutils literal notranslate"><span class="pre">ppvTailItem</span></code>: Double pointer to second part (set to NULL if item is not split) </li>
+<li><code class="docutils literal notranslate"><span class="pre">pxHeadItemSize</span></code>: Pointer to size of first part (unmodified if no items were retrieved) </li>
+<li><code class="docutils literal notranslate"><span class="pre">pxTailItemSize</span></code>: Pointer to size of second part (unmodified if item is not split)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422xRingbufferReceiveUpTo15RingbufHandle_tP6size_t10TickType_t6size_t">
+<span id="_CPPv322xRingbufferReceiveUpTo15RingbufHandle_tP6size_t10TickType_t6size_t"></span><span id="_CPPv222xRingbufferReceiveUpTo15RingbufHandle_tP6size_t10TickType_t6size_t"></span><span id="xRingbufferReceiveUpTo__RingbufHandle_t.sP.TickType_t.s"></span><span class="target" id="ringbuf_8h_1af7b3ce88a0c9e939b5848fd93b23280e"></span>void *<code class="descname">xRingbufferReceiveUpTo</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <em>xRingbuffer</em>, size_t *<em>pxItemSize</em>, TickType_t <em>xTicksToWait</em>, size_t <em>xMaxSize</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422xRingbufferReceiveUpTo15RingbufHandle_tP6size_t10TickType_t6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Retrieve bytes from a byte buffer, specifying the maximum amount of bytes to retrieve. </p>
+<p>Attempt to retrieve data from a byte buffer whilst specifying a maximum number of bytes to retrieve. This function will block until there is data available for retrieval or until it times out.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>A call to vRingbufferReturnItem() is required after this to free up the data retrieved. </dd>
+<dt><strong>Note</strong></dt>
+<dd>This function should only be called on byte buffers </dd>
+<dt><strong>Note</strong></dt>
+<dd>Byte buffers do not allow multiple retrievals before returning an item</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>Pointer to the retrieved item on success; *pxItemSize filled with the length of the item.</li>
+<li>NULL on timeout, *pxItemSize is untouched in that case. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xRingbuffer</span></code>: Ring buffer to retrieve the item from </li>
+<li><code class="docutils literal notranslate"><span class="pre">pxItemSize</span></code>: Pointer to a variable to which the size of the retrieved item will be written. </li>
+<li><code class="docutils literal notranslate"><span class="pre">xTicksToWait</span></code>: Ticks to wait for items in the ring buffer. </li>
+<li><code class="docutils literal notranslate"><span class="pre">xMaxSize</span></code>: Maximum number of bytes to return.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv429xRingbufferReceiveUpToFromISR15RingbufHandle_tP6size_t6size_t">
+<span id="_CPPv329xRingbufferReceiveUpToFromISR15RingbufHandle_tP6size_t6size_t"></span><span id="_CPPv229xRingbufferReceiveUpToFromISR15RingbufHandle_tP6size_t6size_t"></span><span id="xRingbufferReceiveUpToFromISR__RingbufHandle_t.sP.s"></span><span class="target" id="ringbuf_8h_1abe4e8a840fe24af9a09f72f4f114078a"></span>void *<code class="descname">xRingbufferReceiveUpToFromISR</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <em>xRingbuffer</em>, size_t *<em>pxItemSize</em>, size_t <em>xMaxSize</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv429xRingbufferReceiveUpToFromISR15RingbufHandle_tP6size_t6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Retrieve bytes from a byte buffer, specifying the maximum amount of bytes to retrieve. Call this from an ISR. </p>
+<p>Attempt to retrieve bytes from a byte buffer whilst specifying a maximum number of bytes to retrieve. This function will return immediately if there is no data available for retrieval.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>A call to vRingbufferReturnItemFromISR() is required after this to free up the data received. </dd>
+<dt><strong>Note</strong></dt>
+<dd>This function should only be called on byte buffers </dd>
+<dt><strong>Note</strong></dt>
+<dd>Byte buffers do not allow multiple retrievals before returning an item</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>Pointer to the retrieved item on success; *pxItemSize filled with the length of the item.</li>
+<li>NULL when the ring buffer is empty, *pxItemSize is untouched in that case. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xRingbuffer</span></code>: Ring buffer to retrieve the item from </li>
+<li><code class="docutils literal notranslate"><span class="pre">pxItemSize</span></code>: Pointer to a variable to which the size of the retrieved item will be written. </li>
+<li><code class="docutils literal notranslate"><span class="pre">xMaxSize</span></code>: Maximum number of bytes to return.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421vRingbufferReturnItem15RingbufHandle_tPv">
+<span id="_CPPv321vRingbufferReturnItem15RingbufHandle_tPv"></span><span id="_CPPv221vRingbufferReturnItem15RingbufHandle_tPv"></span><span id="vRingbufferReturnItem__RingbufHandle_t.voidP"></span><span class="target" id="ringbuf_8h_1af722538176b8c698127696f09a1ee212"></span>void <code class="descname">vRingbufferReturnItem</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <em>xRingbuffer</em>, void *<em>pvItem</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421vRingbufferReturnItem15RingbufHandle_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return a previously-retrieved item to the ring buffer. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>If a split item is retrieved, both parts should be returned by calling this function twice </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xRingbuffer</span></code>: Ring buffer the item was retrieved from </li>
+<li><code class="docutils literal notranslate"><span class="pre">pvItem</span></code>: Item that was received earlier</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428vRingbufferReturnItemFromISR15RingbufHandle_tPvP10BaseType_t">
+<span id="_CPPv328vRingbufferReturnItemFromISR15RingbufHandle_tPvP10BaseType_t"></span><span id="_CPPv228vRingbufferReturnItemFromISR15RingbufHandle_tPvP10BaseType_t"></span><span id="vRingbufferReturnItemFromISR__RingbufHandle_t.voidP.BaseType_tP"></span><span class="target" id="ringbuf_8h_1a004bf9e68ca952be9da948dd20cd841a"></span>void <code class="descname">vRingbufferReturnItemFromISR</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <em>xRingbuffer</em>, void *<em>pvItem</em>, BaseType_t *<em>pxHigherPriorityTaskWoken</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428vRingbufferReturnItemFromISR15RingbufHandle_tPvP10BaseType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Return a previously-retrieved item to the ring buffer from an ISR. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>If a split item is retrieved, both parts should be returned by calling this function twice </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xRingbuffer</span></code>: Ring buffer the item was retrieved from </li>
+<li><code class="docutils literal notranslate"><span class="pre">pvItem</span></code>: Item that was received earlier </li>
+<li><code class="docutils literal notranslate"><span class="pre">pxHigherPriorityTaskWoken</span></code>: Value pointed to will be set to pdTRUE if the function woke up a higher priority task.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417vRingbufferDelete15RingbufHandle_t">
+<span id="_CPPv317vRingbufferDelete15RingbufHandle_t"></span><span id="_CPPv217vRingbufferDelete15RingbufHandle_t"></span><span id="vRingbufferDelete__RingbufHandle_t"></span><span class="target" id="ringbuf_8h_1aa0cb4958a06ba0051ea55de85e2e05fb"></span>void <code class="descname">vRingbufferDelete</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <em>xRingbuffer</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417vRingbufferDelete15RingbufHandle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Delete a ring buffer. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This function will not deallocate any memory if the ring buffer was created using xRingbufferCreateStatic(). Deallocation must be done manually be the user. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xRingbuffer</span></code>: Ring buffer to delete</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425xRingbufferGetMaxItemSize15RingbufHandle_t">
+<span id="_CPPv325xRingbufferGetMaxItemSize15RingbufHandle_t"></span><span id="_CPPv225xRingbufferGetMaxItemSize15RingbufHandle_t"></span><span id="xRingbufferGetMaxItemSize__RingbufHandle_t"></span><span class="target" id="ringbuf_8h_1a3405e9d1e40962ac48398e1f666358da"></span>size_t <code class="descname">xRingbufferGetMaxItemSize</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <em>xRingbuffer</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425xRingbufferGetMaxItemSize15RingbufHandle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get maximum size of an item that can be placed in the ring buffer. </p>
+<p>This function returns the maximum size an item can have if it was placed in an empty ring buffer.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>The max item size for a no-split buffer is limited to ((buffer_size/2)-header_size). This limit is imposed so that an item of max item size can always be sent to the an empty no-split buffer regardless of the internal positions of the buffer’s read/write/free pointers.</dd>
+<dt><strong>Return</strong></dt>
+<dd>Maximum size, in bytes, of an item that can be placed in a ring buffer. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xRingbuffer</span></code>: Ring buffer to query</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425xRingbufferGetCurFreeSize15RingbufHandle_t">
+<span id="_CPPv325xRingbufferGetCurFreeSize15RingbufHandle_t"></span><span id="_CPPv225xRingbufferGetCurFreeSize15RingbufHandle_t"></span><span id="xRingbufferGetCurFreeSize__RingbufHandle_t"></span><span class="target" id="ringbuf_8h_1a60948d94cba0fd760393bbee276f827b"></span>size_t <code class="descname">xRingbufferGetCurFreeSize</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <em>xRingbuffer</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425xRingbufferGetCurFreeSize15RingbufHandle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get current free size available for an item/data in the buffer. </p>
+<p>This gives the real time free space available for an item/data in the ring buffer. This represents the maximum size an item/data can have if it was currently sent to the ring buffer.</p>
+<p><dl class="docutils">
+<dt><strong>Warning</strong></dt>
+<dd>This API is not thread safe. So, if multiple threads are accessing the same ring buffer, it is the application’s responsibility to ensure atomic access to this API and the subsequent Send</dd>
+<dt><strong>Note</strong></dt>
+<dd>An empty no-split buffer has a max current free size for an item that is limited to ((buffer_size/2)-header_size). See API reference for xRingbufferGetMaxItemSize().</dd>
+<dt><strong>Return</strong></dt>
+<dd>Current free size, in bytes, available for an entry </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xRingbuffer</span></code>: Ring buffer to query</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv428xRingbufferAddToQueueSetRead15RingbufHandle_t16QueueSetHandle_t">
+<span id="_CPPv328xRingbufferAddToQueueSetRead15RingbufHandle_t16QueueSetHandle_t"></span><span id="_CPPv228xRingbufferAddToQueueSetRead15RingbufHandle_t16QueueSetHandle_t"></span><span id="xRingbufferAddToQueueSetRead__RingbufHandle_t.QueueSetHandle_t"></span><span class="target" id="ringbuf_8h_1ae0ee852c502fdfa3e1a2dc7057200dbc"></span>BaseType_t <code class="descname">xRingbufferAddToQueueSetRead</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <em>xRingbuffer</em>, <a class="reference internal" href="freertos.html#_CPPv416QueueSetHandle_t" title="QueueSetHandle_t">QueueSetHandle_t</a> <em>xQueueSet</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv428xRingbufferAddToQueueSetRead15RingbufHandle_t16QueueSetHandle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add the ring buffer’s read semaphore to a queue set. </p>
+<p>The ring buffer’s read semaphore indicates that data has been written to the ring buffer. This function adds the ring buffer’s read semaphore to a queue set.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>pdTRUE on success, pdFALSE otherwise </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xRingbuffer</span></code>: Ring buffer to add to the queue set </li>
+<li><code class="docutils literal notranslate"><span class="pre">xQueueSet</span></code>: Queue set to add the ring buffer’s read semaphore to</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418xRingbufferCanRead15RingbufHandle_t22QueueSetMemberHandle_t">
+<span id="_CPPv318xRingbufferCanRead15RingbufHandle_t22QueueSetMemberHandle_t"></span><span id="_CPPv218xRingbufferCanRead15RingbufHandle_t22QueueSetMemberHandle_t"></span><span id="xRingbufferCanRead__RingbufHandle_t.QueueSetMemberHandle_t"></span><span class="target" id="ringbuf_8h_1a548bb9961a3e34970bc633b4926ad3a3"></span>BaseType_t <code class="descname">xRingbufferCanRead</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <em>xRingbuffer</em>, <a class="reference internal" href="freertos.html#_CPPv422QueueSetMemberHandle_t" title="QueueSetMemberHandle_t">QueueSetMemberHandle_t</a> <em>xMember</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418xRingbufferCanRead15RingbufHandle_t22QueueSetMemberHandle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Check if the selected queue set member is the ring buffer’s read semaphore. </p>
+<p>This API checks if queue set member returned from xQueueSelectFromSet() is the read semaphore of this ring buffer. If so, this indicates the ring buffer has items waiting to be retrieved.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>pdTRUE when semaphore belongs to ring buffer</li>
+<li>pdFALSE otherwise. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xRingbuffer</span></code>: Ring buffer which should be checked </li>
+<li><code class="docutils literal notranslate"><span class="pre">xMember</span></code>: Member returned from xQueueSelectFromSet</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv433xRingbufferRemoveFromQueueSetRead15RingbufHandle_t16QueueSetHandle_t">
+<span id="_CPPv333xRingbufferRemoveFromQueueSetRead15RingbufHandle_t16QueueSetHandle_t"></span><span id="_CPPv233xRingbufferRemoveFromQueueSetRead15RingbufHandle_t16QueueSetHandle_t"></span><span id="xRingbufferRemoveFromQueueSetRead__RingbufHandle_t.QueueSetHandle_t"></span><span class="target" id="ringbuf_8h_1a0723ed44659445f38f256bdae6ef6d68"></span>BaseType_t <code class="descname">xRingbufferRemoveFromQueueSetRead</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <em>xRingbuffer</em>, <a class="reference internal" href="freertos.html#_CPPv416QueueSetHandle_t" title="QueueSetHandle_t">QueueSetHandle_t</a> <em>xQueueSet</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv433xRingbufferRemoveFromQueueSetRead15RingbufHandle_t16QueueSetHandle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remove the ring buffer’s read semaphore from a queue set. </p>
+<p>This specifically removes a ring buffer’s read semaphore from a queue set. The read semaphore is used to indicate when data has been written to the ring buffer</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>pdTRUE on success</li>
+<li>pdFALSE otherwise </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xRingbuffer</span></code>: Ring buffer to remove from the queue set </li>
+<li><code class="docutils literal notranslate"><span class="pre">xQueueSet</span></code>: Queue set to remove the ring buffer’s read semaphore from</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418vRingbufferGetInfo15RingbufHandle_tP11UBaseType_tP11UBaseType_tP11UBaseType_tP11UBaseType_tP11UBaseType_t">
+<span id="_CPPv318vRingbufferGetInfo15RingbufHandle_tP11UBaseType_tP11UBaseType_tP11UBaseType_tP11UBaseType_tP11UBaseType_t"></span><span id="_CPPv218vRingbufferGetInfo15RingbufHandle_tP11UBaseType_tP11UBaseType_tP11UBaseType_tP11UBaseType_tP11UBaseType_t"></span><span id="vRingbufferGetInfo__RingbufHandle_t.UBaseType_tP.UBaseType_tP.UBaseType_tP.UBaseType_tP.UBaseType_tP"></span><span class="target" id="ringbuf_8h_1adbc87321875905b679740dc0beaa965d"></span>void <code class="descname">vRingbufferGetInfo</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <em>xRingbuffer</em>, UBaseType_t *<em>uxFree</em>, UBaseType_t *<em>uxRead</em>, UBaseType_t *<em>uxWrite</em>, UBaseType_t *<em>uxAcquire</em>, UBaseType_t *<em>uxItemsWaiting</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418vRingbufferGetInfo15RingbufHandle_tP11UBaseType_tP11UBaseType_tP11UBaseType_tP11UBaseType_tP11UBaseType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get information about ring buffer status. </p>
+<p>Get information of the a ring buffer’s current status such as free/read/write pointer positions, and number of items waiting to be retrieved. Arguments can be set to NULL if they are not required.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xRingbuffer</span></code>: Ring buffer to remove from the queue set </li>
+<li><code class="docutils literal notranslate"><span class="pre">uxFree</span></code>: Pointer use to store free pointer position </li>
+<li><code class="docutils literal notranslate"><span class="pre">uxRead</span></code>: Pointer use to store read pointer position </li>
+<li><code class="docutils literal notranslate"><span class="pre">uxWrite</span></code>: Pointer use to store write pointer position </li>
+<li><code class="docutils literal notranslate"><span class="pre">uxAcquire</span></code>: Pointer use to store acquire pointer position </li>
+<li><code class="docutils literal notranslate"><span class="pre">uxItemsWaiting</span></code>: Pointer use to store number of items (bytes for byte buffer) waiting to be retrieved </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420xRingbufferPrintInfo15RingbufHandle_t">
+<span id="_CPPv320xRingbufferPrintInfo15RingbufHandle_t"></span><span id="_CPPv220xRingbufferPrintInfo15RingbufHandle_t"></span><span id="xRingbufferPrintInfo__RingbufHandle_t"></span><span class="target" id="ringbuf_8h_1a37d2f839cf6cc1bc3eaea0f5e360214a"></span>void <code class="descname">xRingbufferPrintInfo</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415RingbufHandle_t" title="RingbufHandle_t">RingbufHandle_t</a> <em>xRingbuffer</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420xRingbufferPrintInfo15RingbufHandle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Debugging function to print the internal pointers in the ring buffer. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">xRingbuffer</span></code>: Ring buffer to show </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv418xSTATIC_RINGBUFFER">
+<span id="_CPPv318xSTATIC_RINGBUFFER"></span><span id="_CPPv218xSTATIC_RINGBUFFER"></span><span id="xSTATIC_RINGBUFFER"></span><span class="target" id="structxSTATIC__RINGBUFFER"></span><em class="property">struct </em><code class="descname">xSTATIC_RINGBUFFER</code><a class="headerlink" href="#_CPPv418xSTATIC_RINGBUFFER" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Struct that is equivalent in size to the ring buffer’s data structure. </p>
+<p>The contents of this struct are not meant to be used directly. This structure is meant to be used when creating a statically allocated ring buffer where this struct is of the exact size required to store a ring buffer’s control data structure.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>The CONFIG_FREERTOS_SUPPORT_STATIC_ALLOCATION option must be enabled for this structure to be available. </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv415RingbufHandle_t">
+<span id="_CPPv315RingbufHandle_t"></span><span id="_CPPv215RingbufHandle_t"></span><span id="RingbufHandle_t"></span><span class="target" id="ringbuf_8h_1a57eefbea78587c4e9100305df739b9aa"></span><em class="property">typedef </em>void *<code class="descname">RingbufHandle_t</code><a class="headerlink" href="#_CPPv415RingbufHandle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Type by which ring buffers are referenced. For example, a call to xRingbufferCreate() returns a RingbufHandle_t variable that can then be used as a parameter to xRingbufferSend(), xRingbufferReceive(), etc. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv418StaticRingbuffer_t">
+<span id="_CPPv318StaticRingbuffer_t"></span><span id="_CPPv218StaticRingbuffer_t"></span><span id="StaticRingbuffer_t"></span><span class="target" id="ringbuf_8h_1a9ed90b93bec7021e2b7af5fc29457b4b"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv418xSTATIC_RINGBUFFER" title="xSTATIC_RINGBUFFER">xSTATIC_RINGBUFFER</a> <code class="descname">StaticRingbuffer_t</code><a class="headerlink" href="#_CPPv418StaticRingbuffer_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Struct that is equivalent in size to the ring buffer’s data structure. </p>
+<p>The contents of this struct are not meant to be used directly. This structure is meant to be used when creating a statically allocated ring buffer where this struct is of the exact size required to store a ring buffer’s control data structure.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>The CONFIG_FREERTOS_SUPPORT_STATIC_ALLOCATION option must be enabled for this structure to be available. </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv416RingbufferType_t">
+<span id="_CPPv316RingbufferType_t"></span><span id="_CPPv216RingbufferType_t"></span><span id="RingbufferType_t"></span><span class="target" id="ringbuf_8h_1a9b67bb7faec2a6c56a77dad316713601"></span><em class="property">enum </em><code class="descname">RingbufferType_t</code><a class="headerlink" href="#_CPPv416RingbufferType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv420RINGBUF_TYPE_NOSPLIT">
+<span id="_CPPv320RINGBUF_TYPE_NOSPLIT"></span><span id="_CPPv220RINGBUF_TYPE_NOSPLIT"></span><span class="target" id="ringbuf_8h_1a9b67bb7faec2a6c56a77dad316713601a4700d6ba21034ff3879696f6dac47b20"></span><code class="descname">RINGBUF_TYPE_NOSPLIT</code> = 0<a class="headerlink" href="#_CPPv420RINGBUF_TYPE_NOSPLIT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>No-split buffers will only store an item in contiguous memory and will never split an item. Each item requires an 8 byte overhead for a header and will always internally occupy a 32-bit aligned size of space. </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423RINGBUF_TYPE_ALLOWSPLIT">
+<span id="_CPPv323RINGBUF_TYPE_ALLOWSPLIT"></span><span id="_CPPv223RINGBUF_TYPE_ALLOWSPLIT"></span><span class="target" id="ringbuf_8h_1a9b67bb7faec2a6c56a77dad316713601a7b750ce25a4aac338048d6fbd21d8aa3"></span><code class="descname">RINGBUF_TYPE_ALLOWSPLIT</code><a class="headerlink" href="#_CPPv423RINGBUF_TYPE_ALLOWSPLIT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Allow-split buffers will split an item into two parts if necessary in order to store it. Each item requires an 8 byte overhead for a header, splitting incurs an extra header. Each item will always internally occupy a 32-bit aligned size of space. </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv420RINGBUF_TYPE_BYTEBUF">
+<span id="_CPPv320RINGBUF_TYPE_BYTEBUF"></span><span id="_CPPv220RINGBUF_TYPE_BYTEBUF"></span><span class="target" id="ringbuf_8h_1a9b67bb7faec2a6c56a77dad316713601aba9f519440156ddcc5c0188baaf04978"></span><code class="descname">RINGBUF_TYPE_BYTEBUF</code><a class="headerlink" href="#_CPPv420RINGBUF_TYPE_BYTEBUF" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Byte buffers store data as a sequence of bytes and do not maintain separate items, therefore byte buffers have no overhead. All data is stored as a sequence of byte and any number of bytes can be sent or retrieved each time. </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv416RINGBUF_TYPE_MAX">
+<span id="_CPPv316RINGBUF_TYPE_MAX"></span><span id="_CPPv216RINGBUF_TYPE_MAX"></span><span class="target" id="ringbuf_8h_1a9b67bb7faec2a6c56a77dad316713601aab942f5bceafde09595cf0154d712118"></span><code class="descname">RINGBUF_TYPE_MAX</code><a class="headerlink" href="#_CPPv416RINGBUF_TYPE_MAX" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="hooks">
+<span id="id2"></span><h2>Hooks<a class="headerlink" href="#hooks" title="Permalink to this headline">¶</a></h2>
+<p>FreeRTOS consists of Idle Hooks and Tick Hooks which allow for application
+specific functionality to be added to the Idle Task and Tick Interrupt.
+ESP-IDF provides its own Idle and Tick Hook API in addition to the hooks
+provided by Vanilla FreeRTOS. ESP-IDF hooks have the added benefit of
+being run time configurable and asymmetrical.</p>
+<div class="section" id="vanilla-freertos-hooks">
+<h3>Vanilla FreeRTOS Hooks<a class="headerlink" href="#vanilla-freertos-hooks" title="Permalink to this headline">¶</a></h3>
+<p>Idle and Tick Hooks in vanilla FreeRTOS are implemented by the user
+defining the functions <code class="docutils literal notranslate"><span class="pre">vApplicationIdleHook()</span></code> and  <code class="docutils literal notranslate"><span class="pre">vApplicationTickHook()</span></code>
+respectively somewhere in the application. Vanilla FreeRTOS will run the user
+defined Idle Hook and Tick Hook on every iteration of the Idle Task and Tick
+Interrupt respectively.</p>
+<p>Vanilla FreeRTOS hooks are referred to as <strong>Legacy Hooks</strong> in ESP-IDF FreeRTOS.
+To enable legacy hooks, <a class="reference internal" href="../kconfig.html#config-freertos-legacy-hooks"><span class="std std-ref">CONFIG_FREERTOS_LEGACY_HOOKS</span></a> should be enabled
+in <a class="reference internal" href="../kconfig.html"><span class="doc">project configuration menu</span></a>.</p>
+<p>Due to vanilla FreeRTOS being designed for single core, <code class="docutils literal notranslate"><span class="pre">vApplicationIdleHook()</span></code>
+and <code class="docutils literal notranslate"><span class="pre">vApplicationTickHook()</span></code> can only be defined once. However, the ESP32 is dual core
+in nature, therefore same Idle Hook and Tick Hook are used for both cores (in other words,
+the hooks are symmetrical for both cores).</p>
+</div>
+<div class="section" id="esp-idf-idle-and-tick-hooks">
+<h3>ESP-IDF Idle and Tick Hooks<a class="headerlink" href="#esp-idf-idle-and-tick-hooks" title="Permalink to this headline">¶</a></h3>
+<p>Due to the the dual core nature of the ESP32, it may be necessary for some
+applications to have separate hooks for each core. Furthermore, it may
+be necessary for the Idle Tasks or Tick Interrupts to execute multiple hooks
+that are configurable at run time. Therefore the ESP-IDF provides it’s own hooks
+API in addition to the legacy hooks provided by Vanilla FreeRTOS.</p>
+<p>The ESP-IDF tick/idle hooks are registered at run time, and each tick/idle hook
+must be registered to a specific CPU. When the idle task runs/tick Interrupt
+occurs on a particular CPU, the CPU will run each of its registered idle/tick hooks
+in turn.</p>
+</div>
+</div>
+<div class="section" id="hooks-api-reference">
+<h2>Hooks API Reference<a class="headerlink" href="#hooks-api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>Header File<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_common/include/esp_freertos_hooks.h">esp_common/include/esp_freertos_hooks.h</a></li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>Functions<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv439esp_register_freertos_idle_hook_for_cpu22esp_freertos_idle_cb_t11UBaseType_t">
+<span id="_CPPv339esp_register_freertos_idle_hook_for_cpu22esp_freertos_idle_cb_t11UBaseType_t"></span><span id="_CPPv239esp_register_freertos_idle_hook_for_cpu22esp_freertos_idle_cb_t11UBaseType_t"></span><span id="esp_register_freertos_idle_hook_for_cpu__esp_freertos_idle_cb_t.UBaseType_t"></span><span class="target" id="esp__freertos__hooks_8h_1a87dc39c473fc99a7f2a2b6e501dc10da"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_register_freertos_idle_hook_for_cpu</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv422esp_freertos_idle_cb_t" title="esp_freertos_idle_cb_t">esp_freertos_idle_cb_t</a> <em>new_idle_cb</em>, UBaseType_t <em>cpuid</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv439esp_register_freertos_idle_hook_for_cpu22esp_freertos_idle_cb_t11UBaseType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Register a callback to be called from the specified core’s idle hook. The callback should return true if it should be called by the idle hook once per interrupt (or FreeRTOS tick), and return false if it should be called repeatedly as fast as possible by the idle hook. </p>
+<p><dl class="docutils">
+<dt><strong>Warning</strong></dt>
+<dd>Idle callbacks MUST NOT, UNDER ANY CIRCUMSTANCES, CALL A FUNCTION THAT MIGHT BLOCK.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: Callback registered to the specified core’s idle hook</li>
+<li>ESP_ERR_NO_MEM: No more space on the specified core’s idle hook to register callback</li>
+<li>ESP_ERR_INVALID_ARG: cpuid is invalid </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">new_idle_cb</span></code>: Callback to be called </li>
+<li><code class="docutils literal notranslate"><span class="pre">cpuid</span></code>: id of the core</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv431esp_register_freertos_idle_hook22esp_freertos_idle_cb_t">
+<span id="_CPPv331esp_register_freertos_idle_hook22esp_freertos_idle_cb_t"></span><span id="_CPPv231esp_register_freertos_idle_hook22esp_freertos_idle_cb_t"></span><span id="esp_register_freertos_idle_hook__esp_freertos_idle_cb_t"></span><span class="target" id="esp__freertos__hooks_8h_1ab55049fb96c8f817891fe37f103f1c6e"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_register_freertos_idle_hook</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv422esp_freertos_idle_cb_t" title="esp_freertos_idle_cb_t">esp_freertos_idle_cb_t</a> <em>new_idle_cb</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv431esp_register_freertos_idle_hook22esp_freertos_idle_cb_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Register a callback to the idle hook of the core that calls this function. The callback should return true if it should be called by the idle hook once per interrupt (or FreeRTOS tick), and return false if it should be called repeatedly as fast as possible by the idle hook. </p>
+<p><dl class="docutils">
+<dt><strong>Warning</strong></dt>
+<dd>Idle callbacks MUST NOT, UNDER ANY CIRCUMSTANCES, CALL A FUNCTION THAT MIGHT BLOCK.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: Callback registered to the calling core’s idle hook</li>
+<li>ESP_ERR_NO_MEM: No more space on the calling core’s idle hook to register callback </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">new_idle_cb</span></code>: Callback to be called</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv439esp_register_freertos_tick_hook_for_cpu22esp_freertos_tick_cb_t11UBaseType_t">
+<span id="_CPPv339esp_register_freertos_tick_hook_for_cpu22esp_freertos_tick_cb_t11UBaseType_t"></span><span id="_CPPv239esp_register_freertos_tick_hook_for_cpu22esp_freertos_tick_cb_t11UBaseType_t"></span><span id="esp_register_freertos_tick_hook_for_cpu__esp_freertos_tick_cb_t.UBaseType_t"></span><span class="target" id="esp__freertos__hooks_8h_1a9024955b8cc10aeca2623da338095fb6"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_register_freertos_tick_hook_for_cpu</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv422esp_freertos_tick_cb_t" title="esp_freertos_tick_cb_t">esp_freertos_tick_cb_t</a> <em>new_tick_cb</em>, UBaseType_t <em>cpuid</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv439esp_register_freertos_tick_hook_for_cpu22esp_freertos_tick_cb_t11UBaseType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Register a callback to be called from the specified core’s tick hook. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: Callback registered to specified core’s tick hook</li>
+<li>ESP_ERR_NO_MEM: No more space on the specified core’s tick hook to register the callback</li>
+<li>ESP_ERR_INVALID_ARG: cpuid is invalid </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">new_tick_cb</span></code>: Callback to be called </li>
+<li><code class="docutils literal notranslate"><span class="pre">cpuid</span></code>: id of the core</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv431esp_register_freertos_tick_hook22esp_freertos_tick_cb_t">
+<span id="_CPPv331esp_register_freertos_tick_hook22esp_freertos_tick_cb_t"></span><span id="_CPPv231esp_register_freertos_tick_hook22esp_freertos_tick_cb_t"></span><span id="esp_register_freertos_tick_hook__esp_freertos_tick_cb_t"></span><span class="target" id="esp__freertos__hooks_8h_1a47511f75aba5a67833f1b8edeb4d32de"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_register_freertos_tick_hook</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv422esp_freertos_tick_cb_t" title="esp_freertos_tick_cb_t">esp_freertos_tick_cb_t</a> <em>new_tick_cb</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv431esp_register_freertos_tick_hook22esp_freertos_tick_cb_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Register a callback to be called from the calling core’s tick hook. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: Callback registered to the calling core’s tick hook</li>
+<li>ESP_ERR_NO_MEM: No more space on the calling core’s tick hook to register the callback </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">new_tick_cb</span></code>: Callback to be called</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv441esp_deregister_freertos_idle_hook_for_cpu22esp_freertos_idle_cb_t11UBaseType_t">
+<span id="_CPPv341esp_deregister_freertos_idle_hook_for_cpu22esp_freertos_idle_cb_t11UBaseType_t"></span><span id="_CPPv241esp_deregister_freertos_idle_hook_for_cpu22esp_freertos_idle_cb_t11UBaseType_t"></span><span id="esp_deregister_freertos_idle_hook_for_cpu__esp_freertos_idle_cb_t.UBaseType_t"></span><span class="target" id="esp__freertos__hooks_8h_1a45641edb39639eafea05008636295f52"></span>void <code class="descname">esp_deregister_freertos_idle_hook_for_cpu</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv422esp_freertos_idle_cb_t" title="esp_freertos_idle_cb_t">esp_freertos_idle_cb_t</a> <em>old_idle_cb</em>, UBaseType_t <em>cpuid</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv441esp_deregister_freertos_idle_hook_for_cpu22esp_freertos_idle_cb_t11UBaseType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Unregister an idle callback from the idle hook of the specified core. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">old_idle_cb</span></code>: Callback to be unregistered </li>
+<li><code class="docutils literal notranslate"><span class="pre">cpuid</span></code>: id of the core </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv433esp_deregister_freertos_idle_hook22esp_freertos_idle_cb_t">
+<span id="_CPPv333esp_deregister_freertos_idle_hook22esp_freertos_idle_cb_t"></span><span id="_CPPv233esp_deregister_freertos_idle_hook22esp_freertos_idle_cb_t"></span><span id="esp_deregister_freertos_idle_hook__esp_freertos_idle_cb_t"></span><span class="target" id="esp__freertos__hooks_8h_1ae2769a1322cae5d34f64ed495d1d9528"></span>void <code class="descname">esp_deregister_freertos_idle_hook</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv422esp_freertos_idle_cb_t" title="esp_freertos_idle_cb_t">esp_freertos_idle_cb_t</a> <em>old_idle_cb</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv433esp_deregister_freertos_idle_hook22esp_freertos_idle_cb_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Unregister an idle callback. If the idle callback is registered to the idle hooks of both cores, the idle hook will be unregistered from both cores. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">old_idle_cb</span></code>: Callback to be unregistered </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv441esp_deregister_freertos_tick_hook_for_cpu22esp_freertos_tick_cb_t11UBaseType_t">
+<span id="_CPPv341esp_deregister_freertos_tick_hook_for_cpu22esp_freertos_tick_cb_t11UBaseType_t"></span><span id="_CPPv241esp_deregister_freertos_tick_hook_for_cpu22esp_freertos_tick_cb_t11UBaseType_t"></span><span id="esp_deregister_freertos_tick_hook_for_cpu__esp_freertos_tick_cb_t.UBaseType_t"></span><span class="target" id="esp__freertos__hooks_8h_1abe394025617a8d2bf65d8409267d3a81"></span>void <code class="descname">esp_deregister_freertos_tick_hook_for_cpu</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv422esp_freertos_tick_cb_t" title="esp_freertos_tick_cb_t">esp_freertos_tick_cb_t</a> <em>old_tick_cb</em>, UBaseType_t <em>cpuid</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv441esp_deregister_freertos_tick_hook_for_cpu22esp_freertos_tick_cb_t11UBaseType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Unregister a tick callback from the tick hook of the specified core. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">old_tick_cb</span></code>: Callback to be unregistered </li>
+<li><code class="docutils literal notranslate"><span class="pre">cpuid</span></code>: id of the core </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv433esp_deregister_freertos_tick_hook22esp_freertos_tick_cb_t">
+<span id="_CPPv333esp_deregister_freertos_tick_hook22esp_freertos_tick_cb_t"></span><span id="_CPPv233esp_deregister_freertos_tick_hook22esp_freertos_tick_cb_t"></span><span id="esp_deregister_freertos_tick_hook__esp_freertos_tick_cb_t"></span><span class="target" id="esp__freertos__hooks_8h_1a60462b97f1ae4e7eb4a779584025b344"></span>void <code class="descname">esp_deregister_freertos_tick_hook</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv422esp_freertos_tick_cb_t" title="esp_freertos_tick_cb_t">esp_freertos_tick_cb_t</a> <em>old_tick_cb</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv433esp_deregister_freertos_tick_hook22esp_freertos_tick_cb_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Unregister a tick callback. If the tick callback is registered to the tick hooks of both cores, the tick hook will be unregistered from both cores. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">old_tick_cb</span></code>: Callback to be unregistered </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id5">
+<h3>Type Definitions<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv422esp_freertos_idle_cb_t">
+<span id="_CPPv322esp_freertos_idle_cb_t"></span><span id="_CPPv222esp_freertos_idle_cb_t"></span><span id="esp_freertos_idle_cb_t"></span><span class="target" id="esp__freertos__hooks_8h_1ae00fd6bd0ddcd1d133085a3a9b7a2e7c"></span><em class="property">typedef </em>bool (*<code class="descname">esp_freertos_idle_cb_t</code>)<span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_freertos_idle_cb_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="type">
+<dt id="_CPPv422esp_freertos_tick_cb_t">
+<span id="_CPPv322esp_freertos_tick_cb_t"></span><span id="_CPPv222esp_freertos_tick_cb_t"></span><span id="esp_freertos_tick_cb_t"></span><span class="target" id="esp__freertos__hooks_8h_1a244a5807ba8e23331818b8bd5e0340f3"></span><em class="property">typedef </em>void (*<code class="descname">esp_freertos_tick_cb_t</code>)<span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422esp_freertos_tick_cb_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="mem_alloc.html" class="btn btn-neutral float-right" title="Heap Memory Allocation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="freertos.html" class="btn btn-neutral float-left" title="FreeRTOS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/system/freertos_additions.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:16 GMT -->
+</html>

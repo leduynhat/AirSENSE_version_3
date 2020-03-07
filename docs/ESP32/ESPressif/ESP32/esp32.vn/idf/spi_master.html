@@ -1,0 +1,913 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from esp32.vn/idf/spi_master.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:16:07 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>SPI Master driver &mdash; Tài liệu ESP32 1.0</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Tìm Kiếm" href="../search.html"/>
+    <link rel="top" title="Tài liệu ESP32 1.0" href="../index-2.html"/>
+        <link rel="up" title="ESP32 IDF" href="index.html"/>
+        <link rel="next" title="SPI Slave driver" href="spi_slave.html"/>
+        <link rel="prev" title="CHUYỂN ĐỔI SỐ SANG TƯƠNG TỰ" href="dac.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> ESP32
+          
+
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://esp32.vn/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Phần cứng</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../hardware/index.html">Phần cứng</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../hardware/board.html">Board ESP32vn IoT Uno</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hardware/connection.html">Kết nối máy tính</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../hardware/connection.html#ket-noi-phan-cung">Kết nối phần cứng</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hardware/connection.html#cai-dat-usb-driver">Cài đặt USB Driver</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hardware/connection.html#cau-hinh-ket-noi">Cấu hình kết nối</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">ESP32 Arduino</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../arduino/index.html">Arduino cơ bản</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../arduino/install.html">Cài đặt Arduino IDE</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/install.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/install.html#huong-dan">Hướng dẫn</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../arduino/library.html">Cài đặt thư viện</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../arduino/blink.html">Blink</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#gioi-thieu">Giới thiệu.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#chuan-bi">Chuẩn bị.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#ket-noi">Kết nối.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#chuong-trinh">Chương trình.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#nap-chuong-trinh">Nạp chương trình.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/blink.html#ket-luan">Kết luận.</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../arduino/i2c_oled.html">I2C/OLED</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/i2c_oled.html#oled-la-gi">OLED là gì?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/i2c_oled.html#i2c">I2C</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../arduino/i2c_oled.html#demo">Demo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">ESP32 IDF</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">ESP-IDF cơ bản</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="install.html">Cài đặt</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="install.html#cai-dat-toolchain">Cài đặt Toolchain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#tai-esp-idf">Tải ESP-IDF</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#add-idf-path">ADD IDF_PATH</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="hello-world.html">Hello World</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#gioi-thieu">Giới thiệu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#demo">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hello-world.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="blink-idf.html">Blink</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#gioi-thieu">Giới thiệu.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#chuan-bi">Chuẩn bị.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#ket-noi">Kết nối.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#demo">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="blink-idf.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="button.html">Nút nhấn</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="button.html#gioi-thieu">Giới thiệu.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#chuan-bi">Chuẩn bị.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#ket-noi">Kết nối.</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#demo">Demo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="button.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="adc.html">ADC</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="adc.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adc.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adc.html#vi-du">Ví dụ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="adc.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="dac.html">DAC</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="dac.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html#vi-du-minh-hoa">Ví dụ minh họa</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">SPI master</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#application-example">Application Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api-reference-spi-common">API Reference - SPI Common</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#api-reference-spi-master">API Reference - SPI Master</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="spi_slave.html">SPI slave</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html#application-example">Application Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="i2s.html">I2S</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html#tong-quan">TỔNG QUAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html#vi-du">Ví dụ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="i2c.html">I2C</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html#vi-du-minh-hoa">Ví dụ minh họa:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="i2c.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html">GPIO &amp; RTC GPIO</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html#tong-quan">Tổng Quan</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html#vi-du-minh-hoa">Ví dụ minh họa:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html#application-example">Application Example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html#api-reference-normal-gpio">API Reference - Normal GPIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html#api-reference-rtc-gpio">API Reference - RTC GPIO</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html#luu-y">Lưu ý</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RMT.html">Remote Control</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#vi-du-minh-hoa">Ví dụ minh họa:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#api-reference">API Reference</a></li>
+<li class="toctree-l3"><a class="reference internal" href="RMT.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="touch_pad.html">Touch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#gioi-thieu">Giới thiệu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#chuan-bi">Chuẩn bị</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#huong-dan">Hướng dẫn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#lap-trinh">Lập trình</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html#luu-y">Lưu ý</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wifi.html">Wifi</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#tong-quan">Tổng quan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#vi-du">Ví dụ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi.html#api-reference">API Reference</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sdcard.html">Thẻ nhớ</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sdcard.html#bien-dich-du-an-mau">Biên dịch dự án mẫu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sdcard.html#code">Code</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption"><span class="caption-text">Contributing</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contributing.html">Hướng dẫn đóng góp</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#cai-dat-cong-cu-can-thiet">Cài đặt công cụ cần thiết</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#viet-bai">Viết bài</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#mot-so-luu-y-khac">Một số lưu ý khác</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contributing.html#danh-sach-cac-thanh-vien-da-dong-gop">Danh sách các thành viên đã đóng góp</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index-2.html">ESP32</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">ESP32 IDF</a> &raquo;</li>
+        
+      <li>SPI Master driver</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/idf/spi_master.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="spi-master-driver">
+<h1>SPI Master driver<a class="headerlink" href="#spi-master-driver" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tong-quan">
+<h2>Tổng quan<a class="headerlink" href="#tong-quan" title="Permalink to this headline">¶</a></h2>
+<p>ESP32 có 4 module giao tiếp SPI với thiết bị ngoại vi, gọi là SPI0, SPI1, HSPI và VSPI. SPI0 chỉ dành riêng để kết nối bộ nhớ flash của ESP32 với các thiết bị bộ nhớ flash khác bên ngoài. SPI1 được kết nối cũng tương tự như kiểu SPI0 nhưng nó dùng để ghi dữ liệu cho bộ nhớ flash của chíp. HSPI và VSPI được sử dụng tự do. SPI1, HSPI và VSPI đều có 3 cổng kết nối với chip, giúp chúng ta dễ dàng kết nối đồng thời với 3 slave bằng giao tiếp SPI mà ESP32 sẽ là thiết bị master.</p>
+<div class="section" id="the-spi-master-driver">
+<h3>The spi_master driver<a class="headerlink" href="#the-spi-master-driver" title="Permalink to this headline">¶</a></h3>
+<p>Trình điều khiển SPI master của ESP32 cho phép kết nối dễ dàng với những thiết bị slave khác, thông qua cách truyền dữ liệu đa luồng (full duplex). Nó có nghĩa là truyền và nhận dữ liệu có thể xảy ra tại một thời điểm.</p>
+</div>
+<div class="section" id="terminology">
+<h3>Terminology<a class="headerlink" href="#terminology" title="Permalink to this headline">¶</a></h3>
+<p>Trình điều khiển của SPI master sẽ dùng các thuật ngữ sau:</p>
+<ul class="simple">
+<li>Host: thiết bị bên trong ESP32 theo giao tiếp SPI sẽ bắt đầu hoạt động truyền. Một trong 3 module giao tiếp SPI1, HSPI hay VSPI (nhưng hiện nay chỉ có 2 module HSPI và VSPI được hỗ trợ trong việc điều khiển, trong tương lai có lẽ sẽ có thể dùng thêm SPI1 trong điều khiển).</li>
+<li>Bus: bus SPI trong ESP32 có thể kết nối giao tiếp với tất cả thiết bị bên ngoài theo chuẩn giao tiếp SPI. Chuẩn giao tiếp SPI trong ESP32 sẽ gồm các đường là : miso, mosi, sclk và 2 chân tùy chọn tín hiệu là quadwp và quadhd. Chân slave seclect sẽ được kết nối tùy ý như các chân tín hiệu :<ul>
+<li>miso - còn được gọi là q, sẽ là chân input của chip ESP32 nó sẽ lấy dữ liệu từ các slave vào ESP32.</li>
+<li>mosi - còn được gọi là d, sẽ là chân output của ESP32 nó sẽ xuất dữ liệu đến các slave.</li>
+<li>sclk - xung giữ nhịp cho giao tiếp spi, mỗi nhịp trên chân sclk báo 1 bit dữ liệu đến hoặc đi.</li>
+<li>quadwp - giữ tín hiệu được ghi. Chip sẽ dùng 4 bit cho nó.</li>
+<li>quadhd - lưu giữ tín hiệu. Chip cũng dùng 4 bit cho nó.</li>
+</ul>
+</li>
+<li>Device: mỗi thiết bị giao tiếp SPI với ESP32 đều có một đường kết nối riêng gọi là chip select (CS), được kích hoạt khi tín hiệu được truyền đến hoặc lấy tín hiệu từ SPI slave.</li>
+<li>Transaction: như đã nói ở trên, SPI là kiểu truyền dữ liệu đa luồng, cho nên khi chúng ta truyền và nhận các tín hiệu cùng một thời điểm sẽ không có gián đoạn hay ảnh hưởng gì cả.</li>
+</ul>
+<p>Note:
+* SPI master: thiết bị master trong giao tiếp SPI.
+* SPI slave: thiết bị slave trong giao tiếp SPI.</p>
+</div>
+<div class="section" id="spi-transactions">
+<h3>SPI transactions<a class="headerlink" href="#spi-transactions" title="Permalink to this headline">¶</a></h3>
+<p>Quá trình truyền dữ liệu của giao tiếp SPI trên ESP32 gồm các bước sau. Bất kì bước nào cũng có thể bỏ qua:</p>
+<ul class="simple">
+<li>Bước khởi động: trong bước này, một lệnh khởi động (0-16 bit) được xuất ra.</li>
+<li>Bước lấy địa chỉ của slave: trong bước này, một địa chỉ (0-64 bit) được xuất ra.</li>
+<li>Bước đọc : dữ liệu được SPI slave gửi vào cho SPI master.</li>
+<li>Bước ghi: SPI master sẽ gửi dữ liệu qua cho SPI slave.</li>
+</ul>
+<p>Trong truyền dữ liệu đa luồng, giai đoạn đọc và ghi được kết hợp. Dữ liệu truyền giao tiếp SPI sẽ đọc và ghi cùng một lúc.</p>
+<p>Ở bước khởi động và lấy địa chỉ slave, tùy thuộc vào thiết bị giao tiếp SPI bên ngoài, không phải thiết bị nào cũng cần gửi lệnh khởi động hay lấy địa chỉ. Điều này được biết khi chúng ta cấu hình thiết bị: <code class="docutils literal"><span class="pre">command_bits</span></code> hay <code class="docutils literal"><span class="pre">data_bits</span></code> sẽ không hoạt động khi chúng ta set các bit này ở mức thấp (mức 0).</p>
+<p>Những trường hợp có thể đúng trong bước ghi và đọc dữ liệu: không phải mọi giao tiếp đều cần ghi và đọc giữ liệu, cũng có những trường hợp chúng ta chỉ cần spi_master chỉ đọc hay chỉ cần ghi dữ liệu thôi. Với những trường hợp như thế chúng ta sẽ làm như sau: khi <code class="docutils literal"><span class="pre">rx_buffer</span></code> được vô hiệu hóa (không set bit <code class="docutils literal"><span class="pre">spi_use_rxdata</span></code>) thì bước đọc giữ liệu sẽ được bỏ qua, khi <code class="docutils literal"><span class="pre">tx_buffer</span></code> được vô hiêu hóa (không set bit <code class="docutils literal"><span class="pre">spi_use_txdata</span></code>) thì bước ghi dữ liệu sẽ được bỏ qua.</p>
+</div>
+<div class="section" id="using-the-spi-master-driver">
+<h3>Using the spi_master driver<a class="headerlink" href="#using-the-spi-master-driver" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Khởi tạo bus giao tiếp SPI bằng cách gọi <code class="docutils literal"><span class="pre">spi_bus_initialize</span></code>. Đảm bảo chọn đúng chân IO cần dùng trong cấu trúc <code class="docutils literal"><span class="pre">bus_config</span></code>. Hãy cẩn thận set những tín hiệu không cần thiết là -1.</li>
+<li>Thông báo điều khiển một thiết bị SPI slave được kết nối với bus bằng cách gọi <code class="docutils literal"><span class="pre">spi_bus_add_device</span></code>. Bất cứ khi nào bạn có yêu cầu cấu hình thiết bị của bạn có trong cấu trúc <code class="docutils literal"><span class="pre">dev_config</span></code>. Bây giờ bạn xử lý được việc truyền dữ liệu từ thiết bị, sẽ được sử dụng khi truyền giữ liệu.</li>
+<li>Tương tác với thiết bị, điền vào một hoặc nhiều cấu trúc <code class="docutils literal"><span class="pre">spi_transaction_t</span></code> với bất kì thông số truyền nào bạn cần. Xếp hàng tất cả các giao tiếp bằng cách gọi <code class="docutils literal"><span class="pre">spi_device_queue_trans</span></code>, sau đó truy xuất kết quả ta dùng <code class="docutils literal"><span class="pre">spi_device_get_trans_result</span></code>, hoặc xử lý đồng bộ tất cả những yêu cầu bằng cách <code class="docutils literal"><span class="pre">spi_device_transmit</span></code>.</li>
+<li>Optional: khi bạn muốn gỡ  bỏ thiết bị đang kết nối, hãy gọi <code class="docutils literal"><span class="pre">spi_bus_remove_device</span></code>.</li>
+<li>Optional: khi bạn muốn ngắt điều khiển cho bus, đảm bảo không có một kết nối nào được gắn thêm vào thì ta gọi <code class="docutils literal"><span class="pre">spi_bus_free</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="transaction-data">
+<h3>Transaction data<a class="headerlink" href="#transaction-data" title="Permalink to this headline">¶</a></h3>
+<p>Thông thường, dữ liệu được nhận vào hoặc truyền đi từ thiết bị, sẽ được đọc hoặc ghi vào 1 đoạn bộ nhớ, được chỉ ra bằng cách set các thành phần <code class="docutils literal"><span class="pre">rx_buffer</span></code> và <code class="docutils literal"><span class="pre">tx_buffer</span></code> của cấu trúc giao tiếp. Giao tiếp SPI có thể truyền dữ liệu theo cơ chế DMA, vì thường thì dữ liệu được chuyển từ thiết bị I/O tới bộ nhớ ram phải thông qua cpu theo tuần tự là: đầu tiên nhập một đơn vị thông tin từ thiết bị đến bộ nhớ của cpu, sau đó cpu ghi lại thông tin đó từ bộ nhớ cpu qua bộ nhớ ram. Như thế thì tốc độ truyền thông tin là khá chậm và mất thời gian, nên chúng ta nên truyền theo chế độ DMA cho phép chuyển dữ liệu trực tiếp từ thiết bị I/O vào trong bộ nhớ ram mà không cần phải thông qua cpu. Do đó các bộ đệm này nên được phân bổ trong bộ nhớ có khả năng sử dụng DMA <code class="docutils literal"><span class="pre">pvPortMallocCaps(size,&nbsp;MALLOC_CAP_DMA)</span></code>.</p>
+<p>Thỉnh thoảng, số lượng dữ liệu rất nhỏ ít hơn cả cả bộ nhớ được phân bổ riêng cho nó. Nếu dữ liệu truyền là 32 bit hay ít hơn thế, nó có thể được lưu trữ trong cấu trúc trao đổi dữ liệu của chính nó. Đối với dữ liệu truyền, ta dùng thành phần <code class="docutils literal"><span class="pre">tx_data</span></code>  cho nó và set cờ <code class="docutils literal"><span class="pre">spi_use_txdata</span></code> trên sự truyền tải dữ liệu. Đối với nhận dữ liệu, ta dùng <code class="docutils literal"><span class="pre">rx_buffer</span></code> và set <code class="docutils literal"><span class="pre">spi_use_txdata</span></code>. Trong cả 2 trường hợp trên các bạn thấy, tại sao chúng ta không dùng như các trường hợp trên là dùng <code class="docutils literal"><span class="pre">rx_buffer</span></code> hay <code class="docutils literal"><span class="pre">tx_buffer</span></code>, mà dùng <code class="docutils literal"><span class="pre">tx_data</span></code> và <code class="docutils literal"><span class="pre">rx_data</span></code> bởi vì <code class="docutils literal"><span class="pre">tx_data</span></code> và <code class="docutils literal"><span class="pre">rx_data</span></code> sử dụng vị trí bộ nhớ cũng tương tự như chúng.</p>
+</div>
+</div>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<p>Display graphics on the ILI9341-based 320x240 LCD: <a class="reference external" href="https://github.com/espressif/esp-idf/tree/4ec2abb/examples/peripherals/spi_master">https://github.com/espressif/esp-idf/tree/4ec2abb/examples/peripherals/spi_master</a></p>
+</div>
+<div class="section" id="api-reference-spi-common">
+<h2>API Reference - SPI Common<a class="headerlink" href="#api-reference-spi-common" title="Permalink to this headline">¶</a></h2>
+<p>Header File.</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/4ec2abb/components/driver/include/driver/spi_common.h">https://github.com/espressif/esp-idf/blob/4ec2abb/components/driver/include/driver/spi_common.h</a></li>
+</ul>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="nb">bool</span> <span class="n">spicommon_periph_claim</span><span class="p">(</span><span class="n">spi_host_device_t</span> <span class="n">host</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Thử kết nối với thiết bị bên ngoài bằng giao tiếp SPI.</p>
+<p>Chúng ta sẽ gọi lệnh này nếu bạn muốn quản lí việc điều khiển thiết bị ngoại vi bằng giao tiếp SPI.</p>
+<p>Return</p>
+<p>Đúng nếu thiết bị được kết nối thành công, sai khi thiết bị của chúng ta đã được dùng.</p>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">host</span></code>: là thiết bị mà chúng ta muốn kết nối.</li>
+</ul>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="nb">bool</span> <span class="n">spicommon_periph_free</span><span class="p">(</span><span class="n">spi_host_device_t</span> <span class="n">host</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Thoát kết nối với thiết bị, để thiết bị có thể được kết nối với một giao tiếp khác.</p>
+<p>Return</p>
+<p>Đúng khi thiết bị của chúng ta được trả về thành công, sai khi thiết bị chưa thực sự được kết nối.</p>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">host</span></code>: là thiết bị ngoại vi mà chúng ta muốn thoát kết nối.</li>
+</ul>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">esp_err_t</span> <span class="n">spicommon_bus_initialize_io</span><span class="p">(</span><span class="n">spi_host_device_t</span> <span class="n">host</span><span class="p">,</span> <span class="n">const</span> <span class="n">spi_bus_config_t</span> <span class="o">*</span><span class="n">bus_config</span><span class="p">,</span> <span class="nb">int</span> <span class="n">dma_chan</span><span class="p">,</span> <span class="nb">int</span> <span class="n">flags</span><span class="p">,</span> <span class="nb">bool</span> <span class="o">*</span><span class="n">is_native</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>kết nối thiết bị ngoại vi với chân GPIO của ESP32.</p>
+<p>Lệnh này dùng để kết nối thiết bị ngoại vi SPI với chân IO và dùng DMA trong việc giao tiếp. Tùy thuộc vào chân IO mà chúng ta dùng IO_mux hay dùng GPIO matrix.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_ERR_INVALID_ARG nếu thông số không hợp lệ.</li>
+<li>ESP_OK thành công.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">host</span></code>: thiết bị ngoại vi cần kết nối.</li>
+<li><code class="docutils literal"><span class="pre">bus_config</span></code>: trỏ chân GPIO đến cấu trúc thanh ghi spi_bus_config.</li>
+<li><code class="docutils literal"><span class="pre">dma_chan</span></code>: DMA-kênh (set 1 hoặc 2) để sử dụng DMA, nếu bạn không muốn dùng chế độ này thì có thể set nó là 0 nó sẽ không được dùng.</li>
+<li><code class="docutils literal"><span class="pre">flags</span></code>: kết hợp với các cờ của SPICOMMON_BUSFLAG_*.</li>
+<li><code class="docutils literal"><span class="pre">is_native</span></code>: giá trị 'đúng' sẽ được ghi vào địa chỉ này nếu chúng ta dùng IO_mux và 'sai' khi ta dùng GPIO matrix.</li>
+</ul>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">esp_err_t</span> <span class="n">spicommon_bus_free_io</span><span class="p">(</span><span class="n">spi_host_device_t</span> <span class="n">host</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Thoát kết nối cho chân IO với một thiết bị ngoại vi SPI.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_ERR_INVALID_ARG nếu thông số không hợp lệ.</li>
+<li>ESP_OK thành công.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">host</span></code>: thiết bị ngoại vi SPI chúng ta muốn thoát kết nối.</li>
+</ul>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">spicommon_cs_initialize</span><span class="p">(</span><span class="n">spi_host_device_t</span> <span class="n">host</span><span class="p">,</span> <span class="nb">int</span> <span class="n">cs_io_num</span><span class="p">,</span> <span class="nb">int</span> <span class="n">cs_num</span><span class="p">,</span> <span class="nb">int</span> <span class="n">force_gpio_matrix</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Khởi tạo chân chip select CS (chân chọn slave mà chúng ta cần giao tiếp) cho thiết bị ngoại vi SPI mà mình cần giao tiếp.</p>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">host</span></code>: thiết bị ngoại vi SPI.</li>
+<li><code class="docutils literal"><span class="pre">cs_io_num</span></code>: chọn chân GPIO mà mình cần dùng.</li>
+<li><code class="docutils literal"><span class="pre">force_gpio_matrix</span></code>: chân CS(chip select) của chúng ta sẽ luôn truyền thông qua GPIO matrix. Ngược lại, nếu chân chúng ta chọn cho phép thì nó sẽ được truyền thông qua IO_mux.</li>
+</ul>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">spicommon_cs_free</span><span class="p">(</span><span class="n">spi_host_device_t</span> <span class="n">host</span><span class="p">,</span> <span class="nb">int</span> <span class="n">cs_num</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Thoát kết nối với một chân CS(chip select) nếu bạn không muốn dùng chân đó nữa.</p>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">host</span></code>: thiết bị ngoại vi SPI.</li>
+<li><code class="docutils literal"><span class="pre">cs_num</span></code>: chân CS mà chúng ta muốn thoát.</li>
+</ul>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">spicommon_setup_dma_desc_links</span><span class="p">(</span><span class="n">lldesc_t</span> <span class="o">*</span><span class="n">dmadesc</span><span class="p">,</span> <span class="nb">int</span> <span class="nb">len</span><span class="p">,</span> <span class="n">const</span> <span class="n">uint8_t</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="nb">bool</span> <span class="n">isrx</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Thiết lập một chuỗi liên kết DMA.</p>
+<p>Hàm này sẽ thiết lập một chuỗi các bộ DMA được liên kết với nhau trong mảng được trỏ bởi <code class="docutils literal"><span class="pre">dmadesc</span></code>. Tất cả bộ DMA sẽ được dùng sao cho phù hợp với bộ đệm của các byte <code class="docutils literal"><span class="pre">len</span></code>, chúng sẽ được trỏ đến những vị trí tương ứng trong bộ đệm và liên kết với nhau. Kết quả cuối cùng là cho <code class="docutils literal"><span class="pre">dmadesc[0]</span></code> vào thanh ghi phần cứng DMA trong toàn bộ byte <code class="docutils literal"><span class="pre">len</span></code> của <code class="docutils literal"><span class="pre">data</span></code> đọc và ghi.</p>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">dmadesc</span></code>: trỏ tới mảng của DMA đủ lớn để có thể chuyển tải tất cả các byte <code class="docutils literal"><span class="pre">len</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">len</span></code>: độ dài của bộ đệm.</li>
+<li><code class="docutils literal"><span class="pre">data</span></code>: dữ liệu của bộ đệm dùng cho việc truyền của DMA.</li>
+<li><code class="docutils literal"><span class="pre">isrx</span></code>: đúng nếu dữ liệu được ghi vào <code class="docutils literal"><span class="pre">data</span></code>, sai nếu dữ liệu được đọc từ <code class="docutils literal"><span class="pre">data</span></code>.</li>
+</ul>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">spi_dev_t</span> <span class="o">*</span><span class="n">spicommon_hw_for_host</span><span class="p">(</span><span class="n">spi_host_device_t</span> <span class="n">host</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Lấy vị trí của thanh ghi phần cứng cho một host SPI riêng.</p>
+<p>Return</p>
+<p>Mô tả việc trỏ đến cấu trúc thanh ghi, trỏ vào thanh ghi của phần cứng.</p>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">host</span></code>: SPI host.</li>
+</ul>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">spicommon_irqsource_for_host</span><span class="p">(</span><span class="n">spi_host_device_t</span> <span class="n">host</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Lấy kênh ngắt IRQ (interrupt request lines) cho một SPI host.</p>
+<p>Return</p>
+<p>Kênh ngắt của các host.</p>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">host</span></code>: SPI host.</li>
+</ul>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="nb">bool</span> <span class="n">spicommon_dmaworkaround_req_reset</span><span class="p">(</span><span class="nb">int</span> <span class="n">dmachan</span><span class="p">,</span> <span class="n">dmaworkaround_cb_t</span> <span class="n">cb</span><span class="p">,</span> <span class="n">void</span> <span class="o">*</span><span class="n">arg</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Yêu cầu reset cho một kênh DMA.</p>
+<p>Về cơ bản, khi việc reset cần thiết, trình điều khiển có thể yêu cầu dùng <code class="docutils literal"><span class="pre">spicommon_dmaworkaround_req_reset</span></code>. Đây chắc chắn là nhiệm vụ phải được gọi do người dùng cung cấp, có chức năng như để đối chiếu. Nếu cả hai kênh DMA đều không hoạt động, lệnh gọi này nó sẽ reset hệ thống phụ của DMA và trả về đúng. Nếu kênh DMA khác vẫn còn đang bận, nó sẽ trả về sai, ngay khi kênh DMA kia đã làm xong nhiệm vụ. Tuy nhiên, nó sẽ reset hệ thống phụ của DMA và gọi callback (gọi quay về). Việc dùng callback sẽ giúp trình điều khiển SPI sẽ tiếp tục trở lại hoạt động bình thường.</p>
+<p>Note</p>
+<p>Trong một số trường hợp (được xác định) trong ESP32 (ít nhất là ở phiên bản v.0 và v.1), một kênh DMA trong giao tiếp SPI sẽ bị nhầm lẫn. Việc này chúng ta có thể khắc phục bằng cách reset phần cứng DMA trong giao tiếp SPI khi trường hợp việc này xảy ra. Không may là nút reset này nó dùng cho việc reset cả 2 kênh DMA, nên việc này chỉ được sử dụng khi thật sự cần thiết và an toàn nhất là khi hai kênh DMA đều đã ngưng hoạt động.</p>
+<p>Return</p>
+<p>Đúng khi việc reset được thực hiện ngay. Ngược lại thì sẽ trả về sai, trong trường hợp này callback sẽ được gọi với các đối chiếu đã được chỉ định khi logic chúng ta có thể thực hiện lại một reset, sau đó sẽ được reset.</p>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">dmachan</span></code>: kênh DMA kết hợp với một SPI host mà chúng ta cần reset.</li>
+<li><code class="docutils literal"><span class="pre">cb</span></code>: callback sẽ được gọi trong trường hợp kênh DMA không thể reset ngay được.</li>
+<li><code class="docutils literal"><span class="pre">arg</span></code>: chỉ định đối chiếu cho việc callback.</li>
+</ul>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="nb">bool</span> <span class="n">spicommon_dmaworkaround_reset_in_progress</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Kiểm tra xem nếu việc yêu cầu reset của chúng ta chưa được chấp thuận.</p>
+<p>Return</p>
+<p>Đúng khi yêu cầu reset của chúng ta chưa được chấp thuận, nếu không thì sai.</p>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">void</span> <span class="n">spicommon_dmaworkaround_idle</span><span class="p">(</span><span class="nb">int</span> <span class="n">dmachan</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Đánh dấu hoạt động của kênh DMA.</p>
+<p>Gọi hàm này có chức năng giải quyết một cách logic cho kênh này khi nó bị ảnh hưởng bởi reset toàn bộ DMA trong giao tiếp SPI, chúng ta không nên reset toàn bộ như thế.</p>
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">spi_bus_config_t</span>
+</pre></div>
+</div>
+<p>Đây là một cấu trúc cấu hình cho một bus SPI.</p>
+<p>Bạn có thể sử dụng cấu trúc này để xác định các chân GPIO của bus. Thông thường, trình điều khiển sẽ sử dụng GPIO matrix để định tuyến các tín hiệu. Một ngoại lệ là có thể định tuyến các tín hiệu thông qua IO_MUX hoặc là -1. Trong trường hợp IO_MUX được sử dụng sẽ có tốc độ cho phép &gt;40MHz.</p>
+<p>Note</p>
+<p>Không nên dùng hai đường quadwp/quadhd để điều khiển thiết bị SPI slave và trong vùng spi_bus_config_t, đề cập những dòng này sẽ bị bỏ qua và để an toàn bạn có thể chọn những chân khác.</p>
+</div>
+<div class="section" id="public-members">
+<h3>Public Members<a class="headerlink" href="#public-members" title="Permalink to this headline">¶</a></h3>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">mosi_io_num</span>
+</pre></div>
+</div>
+<p>Khai báo chân GPIO (chân MOSI) truyền tín hiệu từ master qua slave (=spi_d), set là -1 nếu bạn không muốn dùng nó.</p>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">miso_io_num</span>
+</pre></div>
+</div>
+<p>Khai báo chân GPIO (chân MISO) lấy tín hiệu từ slave vào master (=spi_q),set là -1 nếu bạn không dùng nó.</p>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">sclk_io_num</span>
+</pre></div>
+</div>
+<p>Khai báo chân GPIO (chân SCLK) cho tín hiệu xung clock, set là -1 nếu bạn không dùng.</p>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">quadwp_io_num</span>
+</pre></div>
+</div>
+<p>Khai báo chân cho WP(write protect) (chân quadwp) tín hiệu được dùng như D2 trong chế độ truyền 4-bit, không sử dụng thì set là -1.</p>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">quadhd_io_num</span>
+</pre></div>
+</div>
+<p>Khai báo chân cho HD(HolD) (chân quadhd) tín hiệu dùng như D3 trong chế độ truyền 4-bit, set -1 nếu không sử dụng.</p>
+<p>Kích thước truyền tối đa, tính bằng byte. Mặc định là 4094 nếu có 0.</p>
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">SPI_MAX_DMA_LEN</span> <span class="p">(</span><span class="mi">4096</span><span class="o">-</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">SPICOMMON_BUSFLAG_SLAVE</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>Khởi tạo I/O ở chế độ slave.</p>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">SPICOMMON_BUSFLAG_MASTER</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Khởi tạo I/O ở chế độ master.</p>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">SPICOMMON_BUSFLAG_QUAD</span> <span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Khởi tạo chân WP/HD, nếu dùng.</p>
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">typedef</span> <span class="n">void</span> <span class="p">(</span><span class="o">*</span><span class="n">dmaworkaround_cb_t</span><span class="p">)(</span><span class="n">void</span> <span class="o">*</span><span class="n">arg</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Callback, được gọi khi chúng ta nhấn nút reset cho DMA mà không reset ngay được.</p>
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">enum</span> <span class="n">spi_host_device_t</span>
+</pre></div>
+</div>
+<p>Khai báo với 3 thiết bị ngoại vi mà phần mềm có thể truy cập vào nó.</p>
+<p>value:</p>
+<p><code class="docutils literal"><span class="pre">SPI_HOST</span> <span class="pre">=0</span></code></p>
+<p>SPI1, SPI.</p>
+<p><code class="docutils literal"><span class="pre">HSPI_HOST</span> <span class="pre">=1</span></code></p>
+<p>SPI2, HSPI.</p>
+<p><code class="docutils literal"><span class="pre">VSPI_HOST</span> <span class="pre">=2</span></code></p>
+<p>SPI3, VSPI.</p>
+</div>
+</div>
+<div class="section" id="api-reference-spi-master">
+<h2>API Reference - SPI Master<a class="headerlink" href="#api-reference-spi-master" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/4ec2abb/components/driver/include/driver/spi_master.h">https://github.com/espressif/esp-idf/blob/4ec2abb/components/driver/include/driver/spi_master.h</a></li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h3>Functions<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">esp_err_t</span> <span class="n">spi_bus_initialize</span><span class="p">(</span><span class="n">spi_host_device_t</span> <span class="n">host</span><span class="p">,</span> <span class="n">const</span> <span class="n">spi_bus_config_t</span> <span class="o">*</span><span class="n">bus_config</span><span class="p">,</span> <span class="nb">int</span> <span class="n">dma_chan</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Khởi tạo một SPI bus.</p>
+<p>Warning:</p>
+<ul class="simple">
+<li>Hiện tại chỉ hỗ trợ cho HSPI và VSPI.</li>
+<li>Nếu một kênh DMA được chọn, bất kì bộ truyền với bộ đệm nào được sử dụng phải được phân bổ trong bộ nhớ có chế độ DMA.</li>
+</ul>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_ERR_INVALID_ARG nếu cấu hình không hợp lệ.</li>
+<li>ESP_ERR_INVALID_STATE nếu host đã được dùng.</li>
+<li>ESP_ERR_NO_MEM nếu tràn bộ nhớ.</li>
+<li>ESP_OK thành công.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">host</span></code>: thiết bị ngoại vi được điều khiển bằng bus này.</li>
+<li><code class="docutils literal"><span class="pre">bus_config</span></code>: trỏ tới cấu trúc spi_bus_config_t xác định host cần được khởi tạo như thế nào.</li>
+<li><code class="docutils literal"><span class="pre">dma_chan</span></code>: set là 1 hoặc 2, hoặc là 0 trong trường hợp không muốn dùng DMA. Chọn kênh DMA cho một bus SPI thì kích thước cho phép dữ liệu truyền, được giới hạn bởi bộ nhớ trong. Không chọn kênh DMA thì giới hạn dữ liệu truyền là 32 byte.</li>
+</ul>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">esp_err_t</span> <span class="n">spi_bus_free</span><span class="p">(</span><span class="n">spi_host_device_t</span> <span class="n">host</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Thoát giao tiếp SPI cho một bus.</p>
+<p>Warning:</p>
+<p>Để thành công, đầu tiên tất cả thiết bị phải được gỡ bỏ.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_ERR_INVALID_ARG nếu thông số không hợp lệ.</li>
+<li>ESP_ERR_INVALID_STATE nếu tất cả thiết bị chưa được gõ bỏ.</li>
+<li>ESP_OK thành công.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">host</span></code>:thiết bị ngoại vi SPI cần được thoát.</li>
+</ul>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">esp_err_t</span> <span class="n">spi_bus_add_device</span><span class="p">(</span><span class="n">spi_host_device_t</span> <span class="n">host</span><span class="p">,</span> <span class="n">spi_device_interface_config_t</span> <span class="o">*</span><span class="n">dev_config</span><span class="p">,</span> <span class="n">spi_device_handle_t</span> <span class="o">*</span><span class="n">handle</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Cấp một thiết bị trên một bus SPI.</p>
+<p>Điều này khởi tạo cấu trúc bên trong cho thiết bị, cấp một chân CS (chip select) trên thiết bị ngoại vi và định tuyến đến chân GPIO mà chúng ta đã chọn, tất cả các thiết bị SPI master đều có 3 chân CS do đó có thể kết nối điều khiển 3 thiết bị ngoại vi.</p>
+<p>Note</p>
+<p>Nói chung, các chân SPI chuyên dụng được hỗ trợ tốc độ lên đến 80MHz và 40MHz trên các chân GPIO matrix được định tuyến, giao tiếp kiểu full-duplex(đa luồng) được định tuyến qua GPIO matrix chỉ hỗ trợ tốc độ lên tới 26MHz.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_ERR_INVALID_ARG nếu thông số không hợp lệ.</li>
+<li>ESP_ERR_NOT_FOUND nếu thiết bị không còn chân CS nào trống.</li>
+<li>ESP_ERR_NO_MEM nếu bộ nhớ đầy.</li>
+<li>ESP_OK thành công.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">host</span></code>: thiết bị cần cấp.</li>
+<li><code class="docutils literal"><span class="pre">dev_config</span></code>: giao thức cấu hình giao diện cho thiết bị SPI.</li>
+<li><code class="docutils literal"><span class="pre">handle</span></code>: trỏ đến biến xử lí của thiết bị.</li>
+</ul>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">esp_err_t</span> <span class="n">spi_bus_remove_device</span><span class="p">(</span><span class="n">spi_device_handle_t</span> <span class="n">handle</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Loại bỏ một thiết bị từ bus SPI.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_ERR_INVALID_ARG nếu thông số không hợp lệ.</li>
+<li>ESP_ERR_INVALID_STATE nếu thiết bị đã được loại bỏ.</li>
+<li>ESP_OK thành công.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">handle</span></code>: xử lí thiết bị muốn loại bỏ.</li>
+</ul>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">esp_err_t</span> <span class="n">spi_device_queue_trans</span><span class="p">(</span><span class="n">spi_device_handle_t</span> <span class="n">handle</span><span class="p">,</span> <span class="n">spi_transaction_t</span> <span class="o">*</span><span class="n">trans_desc</span><span class="p">,</span> <span class="n">TickType_t</span> <span class="n">ticks_to_wait</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Xếp hàng một giao tiếp SPI muốn thực hiện.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_ERR_INVALID_ARG nếu thông số không hợp lệ.</li>
+<li>ESP_OK thành công.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">handle</span></code>: xử lí thiết bị bằng cách sử dụng spi_host_add_dev.</li>
+<li><code class="docutils literal"><span class="pre">trans_desc</span></code>: mô tả thực hiện trao đổi tín hiệu.</li>
+<li><code class="docutils literal"><span class="pre">ticks_to_wait</span></code>: đánh dấu để đợi cho đến khi có chỗ trong hàng, dùng portMAX_DELAY để không hết thời gian chờ.</li>
+</ul>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">esp_err_t</span> <span class="n">spi_device_get_trans_result</span><span class="p">(</span><span class="n">spi_device_handle_t</span> <span class="n">handle</span><span class="p">,</span> <span class="n">spi_transaction_t</span> <span class="o">**</span><span class="n">trans_desc</span><span class="p">,</span> <span class="n">TickType_t</span> <span class="n">ticks_to_wait</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Lấy kết quả của một giao tiếp SPI đã được hoàn thành.</p>
+<p>Thủ tục này sẽ đợi đến khi một giao tiếp với thiết bị đã cho (đã được xếp trước với <code class="docutils literal"><span class="pre">spi_device_queue_trans</span></code>) hoàn thành. Sau đó, nó sẽ trả lại những mô tả của giao tiếp đã hoàn tất để phần mềm có thể kiểm tra lại kết quả, ví dụ: giải phóng bộ nhớ hoặc tái sử dụng bộ đệm.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_ERR_INVALID_ARG nếu thông số không hợp lệ.</li>
+<li>ESP_OK thành công.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">handle</span></code>: xử lí thiết bị thu được bằng cách sử dụng spi_host_add_dev.</li>
+<li><code class="docutils literal"><span class="pre">trans_desc</span></code>: trỏ đến biến chứa con trỏ mô tả giao tiếp đã thực hiện.</li>
+<li><code class="docutils literal"><span class="pre">ticks_to_wait</span></code>: đánh dấu để đợi cho đến khi trả lại một mục, sử dụng portMAX_DELAY để không hết thời gian chờ.</li>
+</ul>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">esp_err_t</span> <span class="n">spi_device_transmit</span><span class="p">(</span><span class="n">spi_device_handle_t</span> <span class="n">handle</span><span class="p">,</span> <span class="n">spi_transaction_t</span> <span class="o">*</span><span class="n">trans_desc</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Thực hiện giao tiếp SPI.</p>
+<p>Không dùng khi một giao tiếp chưa kết thúc bằng cách dùng spi_device_get_trans_result.</p>
+<p>Return</p>
+<ul class="simple">
+<li>ESP_ERR_INVALID_ARG nếu thông số không hợp lệ.</li>
+<li>ESP_OK thành công.</li>
+</ul>
+<p>Parameters</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">handle</span></code>: xử lí thiết bị thu được bằng cách sử dụng spi_host_add_dev.</li>
+<li><code class="docutils literal"><span class="pre">trans_desc</span></code>: trỏ đến biến chứa con trỏ mô tả giao tiếp đã thực hiện.</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>Structures<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">struct</span> <span class="n">spi_device_interface_config_t</span>
+</pre></div>
+</div>
+<p>Đây là cấu hình cho một thiết bị SPI slave được kết nối với một trong các bus.</p>
+</div>
+<div class="section" id="id3">
+<h3>Public Members<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">uint8_t</span> <span class="pre">command_bits</span></code></p>
+<p>Số bit dùng để điều khiển (0-16).</p>
+<p><code class="docutils literal"><span class="pre">uint8_t</span> <span class="pre">address_bits</span></code></p>
+<p>Số bit cho việc lấy địa chỉ (0-64).</p>
+<p><code class="docutils literal"><span class="pre">uint8_t</span> <span class="pre">dummy_bits</span></code></p>
+<p>Số bit được dùng để chèn giữa địa chỉ và dữ liệu.</p>
+<p><code class="docutils literal"><span class="pre">uint8_t</span> <span class="pre">mode</span></code></p>
+<p>Chế độ trong giao tiếp SPI (0-3)</p>
+<p><code class="docutils literal"><span class="pre">uint8_t</span> <span class="pre">duty_cycle_pos</span></code></p>
+<p>Chu kì xung clock, 1/256 một nhịp (128=50%/50% hiệu suất). Set là 0 (=không set nó) thì nó tương đương với cách set trên là 128.</p>
+<p><code class="docutils literal"><span class="pre">uint8_t</span> <span class="pre">cs_ena_pretrans</span></code></p>
+<p>Số bit chu kì giao tiếp SPI của CS được kích hoạt trước khi truyền (0-16). Điều này chỉ hoạt động khi làm việc trên giao tiếp half_duplex (bán đa luồng).</p>
+<p><code class="docutils literal"><span class="pre">uint8_t</span> <span class="pre">cs_ena_posttrans</span></code></p>
+<p>Số bit chu kì giao tiếp SPI của CS ở lại hoạt động sau khi truyền (0-16).</p>
+<p><code class="docutils literal"><span class="pre">int</span> <span class="pre">clock_speed_hz</span></code></p>
+<p>Tốc độ xung clock, tính bằng Hz.</p>
+<p><code class="docutils literal"><span class="pre">int</span> <span class="pre">spics_io_num</span></code></p>
+<p>Khởi tạo chân GPIO cho chân CS của thiết bị, không dùng thì set là -1.</p>
+<p><code class="docutils literal"><span class="pre">uint32_t</span> <span class="pre">flags</span></code></p>
+<p>Bitwise OR of SPI_DEVICE_* flags.</p>
+<p><code class="docutils literal"><span class="pre">int</span> <span class="pre">queue_size</span></code></p>
+<p>Kích thước hàng đợi giao tiếp. Có nghĩa chúng ta có thể đặt được bao nhiêu giao tiếp (xếp hàng bằng cách sử dụng spi_device_queue_trans nhưng nếu giao tiếp trước chưa hoàn thành thì dùng spi_device_get_trans_result) cùng một lúc.</p>
+<p><code class="docutils literal"><span class="pre">transaction_cb_t</span> <span class="pre">pre_cb</span></code></p>
+<p>callback được gọi trước khi bắt đầu truyền. Callback được gọi trong bối cảnh ngắt.</p>
+<p><code class="docutils literal"><span class="pre">struct</span> <span class="pre">spi_transaction_t</span></code></p>
+<p>Cấu trúc này mô tả giao tiếp SPI.</p>
+</div>
+<div class="section" id="id4">
+<h3>Public Members<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">uint32_t</span> <span class="pre">flags</span></code></p>
+<p>Bitwise OR of SPI_TRANS_* flags.</p>
+<p><code class="docutils literal"><span class="pre">uint16_t</span> <span class="pre">command</span></code></p>
+<p>Dữ liệu điều khiển. Độ dài cụ thể sẽ được biết khi thiết bị được thêm vào bus.</p>
+<p><code class="docutils literal"><span class="pre">uint64_t</span> <span class="pre">address</span></code></p>
+<p>Địa chỉ. Độ dài cụ thể sẽ được biết khi thiết bị được thêm vào bus.</p>
+<p><code class="docutils literal"><span class="pre">size_t</span> <span class="pre">length</span></code></p>
+<p>Tổng độ dài dữ liệu, tính bằng bit.</p>
+<p><code class="docutils literal"><span class="pre">size_t</span> <span class="pre">rxlength</span></code></p>
+<p>Tổng độ dài dữ liệu nhận được. Nếu khác độ dài ban đầu. (0 giá trị này là mặc định của <code class="docutils literal"><span class="pre">lenght</span></code>).</p>
+<p><code class="docutils literal"><span class="pre">void</span> <span class="pre">*user</span></code></p>
+<p>Biến do người sử dụng mặc định. Có thể dùng để lưu trữ  ví dụ như truyền ID.</p>
+<p><code class="docutils literal"><span class="pre">const</span> <span class="pre">void</span> <span class="pre">*tx_buffer</span></code></p>
+<p>Trỏ để truyền dữ liệu bộ nhớ đệm, hoặc không có hiệu lực khi ta không dùng MOSI.</p>
+<p><code class="docutils literal"><span class="pre">uint8_t</span> <span class="pre">tx_data[4]</span></code></p>
+<p>Nếu SPI_USE_TXDATA được set, dữ liệu sẽ được gửi trực tiếp từ biến này.</p>
+<p><code class="docutils literal"><span class="pre">void</span> <span class="pre">*rx_buffer</span></code></p>
+<p>Trỏ để nhận dữ liệu bộ nhớ đệm, hoặc không có hiệu lực khi ta không dùng MISO.</p>
+<p><code class="docutils literal"><span class="pre">uint8_t</span> <span class="pre">rx_data[4]</span></code></p>
+<p>Nếu SPI_USE_RXDATA được set, dữ liệu sẽ được nhận trực tiếp đến biến này.</p>
+</div>
+<div class="section" id="id5">
+<h3>Macros<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">SPI_DEVICE_TXBIT_LSBFIRST</span> <span class="pre">(1&lt;&lt;0)</span></code></p>
+<p>Truyền lệnh, địa chỉ, dữ liệu LSB đầu tiên thay vì MSB được mặc định truyền đầu tiên.</p>
+<p><code class="docutils literal"><span class="pre">SPI_DEVICE_RXBIT_LSBFIRST</span> <span class="pre">(1&lt;&lt;1)</span></code></p>
+<p>Nhận dữ liệu LSB thay vì MSB được mặc định nhận đầu tiên.</p>
+<p><code class="docutils literal"><span class="pre">SPI_DEVICE_BIT_LSBFIRST</span> <span class="pre">(SPI_TXBIT_LSBFIRST|SPI_RXBIT_LSBFIRST);</span></code></p>
+<p>Truyền và nhận dữ liệu LSB đầu tiên.</p>
+<p><code class="docutils literal"><span class="pre">SPI_DEVICE_3WIRE</span> <span class="pre">(1&lt;&lt;2)</span></code></p>
+<p>Sử dụng MOSI để gửi và nhận dữ liệu.</p>
+<p><code class="docutils literal"><span class="pre">SPI_DEVICE_POSITIVE_CS</span> <span class="pre">(1&lt;&lt;3)</span></code></p>
+<p>Làm cho chân CS tích cực.</p>
+<p><code class="docutils literal"><span class="pre">SPI_DEVICE_HALFDUPLEX</span> <span class="pre">(1&lt;&lt;4)</span></code></p>
+<p>Truyền dữ liệu trước khi nhận nó, thay vì làm cùng lúc.</p>
+<p><code class="docutils literal"><span class="pre">SPI_DEVICE_CLK_AS_CS</span> <span class="pre">(1&lt;&lt;5)</span></code></p>
+<p>output xung clock cho đường CS, nếu CS đang hoạt động.</p>
+<p><code class="docutils literal"><span class="pre">SPI_TRANS_MODE_DIO</span> <span class="pre">(1&lt;&lt;0)</span></code></p>
+<p>Truyền/nhận dữ liệu ở chế độ 2-bit.</p>
+<p><code class="docutils literal"><span class="pre">SPI_TRANS_MODE_QIO</span> <span class="pre">(1&lt;&lt;1)</span></code></p>
+<p>Truyền/nhận dữ liệu ở chế độ 4-bit.</p>
+<p><code class="docutils literal"><span class="pre">SPI_TRANS_MODE_DIOQIO_ADDR</span> <span class="pre">(1&lt;&lt;2)</span></code></p>
+<p>Truyền địa chỉ ở chế độ được chọn bằng cách dùng SPI_MODE_DIO/SPI_MODE_QIO.</p>
+<p><code class="docutils literal"><span class="pre">SPI_TRANS_USE_RXDATA</span> <span class="pre">(1&lt;&lt;2)</span></code></p>
+<p>Dùng rx_data của spi_transaction_t để nhận dữ liệu thay vì dùng rx_buffer của bộ nhớ.</p>
+<p><code class="docutils literal"><span class="pre">SPI_TRANS_USE_TXDATA</span> <span class="pre">(1&lt;&lt;3)</span></code></p>
+<p>Dùng dữ liệu rx_data của spi_transaction_t để truyền dữ liệu thay vì dùng dữ liệu tại rx_buffer. Không set rx_buffer khi đang sử dụng rx_data.</p>
+</div>
+<div class="section" id="id6">
+<h3>Type Definitions<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">typedef</span> <span class="pre">struct</span> <span class="pre">spi_transaction_t</span> <span class="pre">spi_transaction_t</span></code></p>
+<p><code class="docutils literal"><span class="pre">typedef</span> <span class="pre">void</span> <span class="pre">(*transaction_cb_t)(spi_transaction_t</span> <span class="pre">*trans)</span></code></p>
+<p><code class="docutils literal"><span class="pre">typedef</span> <span class="pre">struct</span> <span class="pre">spi_device_t</span> <span class="pre">*spi_device_handle_t</span></code></p>
+<p>Xử lý một thiết bị trên bus SPI.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="spi_slave.html" class="btn btn-neutral float-right" title="SPI Slave driver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="dac.html" class="btn btn-neutral" title="CHUYỂN ĐỔI SỐ SANG TƯƠNG TỰ" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, TuanPM.
+
+    </p>
+  </div>
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            LANGUAGE:'vi',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+      <script type="text/javascript" src="../../cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJaxdda6.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+  
+ 
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-60470603-07");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+
+
+</body>
+
+<!-- Mirrored from esp32.vn/idf/spi_master.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:16:08 GMT -->
+</html>

@@ -1,0 +1,990 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/network/esp_now.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:16 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ESP-NOW &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ESP-MESH Programming Guide" href="esp_mesh.html" />
+    <link rel="prev" title="SmartConfig" href="esp_smartconfig.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="esp_now.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/network/esp_now"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Networking</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#wi-fi">Wi-Fi</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="esp_wifi.html">Wi-Fi</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esp_smartconfig.html">Smart Config</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">ESP-NOW</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esp_mesh.html">ESP Mesh</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#ethernet">Ethernet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#ip-network-layer">IP Network Layer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#application-layer">Application Layer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Networking APIs</a> &raquo;</li>
+        
+      <li>ESP-NOW</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/network/esp_now.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esp-now">
+<h1>ESP-NOW<a class="headerlink" href="#esp-now" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://docs.espressif.com/projects/esp-idf/zh_CN/latest/api-reference/network/esp_now.html">[中文]</a></p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>ESP-NOW is a kind of connectionless Wi-Fi communication protocol that is defined by Espressif. In ESP-NOW, application data is encapsulated in a vendor-specific action frame and then transmitted from one Wi-Fi device to another without connection.
+CTR with CBC-MAC Protocol(CCMP) is used to protect the action frame for security. ESP-NOW is widely used in smart light, remote controlling, sensor, etc.</p>
+</div>
+<div class="section" id="frame-format">
+<h2>Frame Format<a class="headerlink" href="#frame-format" title="Permalink to this headline">¶</a></h2>
+<p>ESP-NOW uses a vendor-specific action frame to transmit ESP-NOW data. The default ESP-NOW bit rate is 1 Mbps. The format of the vendor-specific action frame is as follows:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>------------------------------------------------------------------------------------------------------------
+| MAC Header | Category Code | Organization Identifier | Random Values | Vendor Specific Content |   FCS   |
+------------------------------------------------------------------------------------------------------------
+  24 bytes         1 byte              3 bytes               4 bytes             7~255 bytes        4 bytes
+</pre></div>
+</div>
+<ul class="simple">
+<li>Category Code: The Category Code field is set to the value(127) indicating the vendor-specific category.</li>
+<li>Organization Identifier: The Organization Identifier contains a unique identifier (0x18fe34), which is the first three bytes of MAC address applied by Espressif.</li>
+<li>Random Value: The Random Value filed is used to prevents relay attacks.</li>
+<li>Vendor Specific Content: The Vendor Specific Content contains vendor-specific fields as follows:</li>
+</ul>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>-------------------------------------------------------------------------------
+| Element ID | Length | Organization Identifier | Type | Version |    Body    |
+-------------------------------------------------------------------------------
+    1 byte     1 byte            3 bytes         1 byte   1 byte   0~250 bytes
+</pre></div>
+</div>
+<ul class="simple">
+<li>Element ID: The Element ID field is set to the value (221), indicating the vendor-specific element.</li>
+<li>Length: The length is the total length of Organization Identifier, Type, Version and Body.</li>
+<li>Organization Identifier: The Organization Identifier contains a unique identifier(0x18fe34), which is the first three bytes of MAC address applied by Espressif.</li>
+<li>Type: The Type field is set to the value (4) indicating ESP-NOW.</li>
+<li>Version: The Version field is set to the version of ESP-NOW.</li>
+<li>Body: The Body contains the ESP-NOW data.</li>
+</ul>
+<p>As ESP-NOW is connectionless, the MAC header is a little different from that of standard frames. The FromDS and ToDS bits of FrameControl field are both 0. The first address field is set to the destination address. The second address field is set to the source address. The third address field is set to broadcast address (0xff:0xff:0xff:0xff:0xff:0xff).</p>
+</div>
+<div class="section" id="security">
+<h2>Security<a class="headerlink" href="#security" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>ESP-NOW uses the CCMP method, which is described in IEEE Std. 802.11-2012, to protect the vendor-specific action frame. The Wi-Fi device maintains a Primary Master Key (PMK) and several Local Master Keys (LMK). The lengths of both PMK and LMk are 16 bytes.</dt>
+<dd><ul class="first last simple">
+<li>PMK is used to encrypt LMK with the AES-128 algorithm. Call <code class="docutils literal notranslate"><span class="pre">esp_now_set_pmk()</span></code> to set PMK. If PMK is not set, a default PMK will be used.</li>
+<li>LMK of the paired device is used to encrypt the vendor-specific action frame with the CCMP method. The maximum number of different LMKs is six. If the LMK of the paired device is not set, the vendor-specific action frame will not be encrypted.</li>
+</ul>
+</dd>
+</dl>
+<p>Encrypting multicast vendor-specific action frame is not supported.</p>
+</div>
+<div class="section" id="initialization-and-de-initialization">
+<h2>Initialization and De-initialization<a class="headerlink" href="#initialization-and-de-initialization" title="Permalink to this headline">¶</a></h2>
+<p>Call <code class="docutils literal notranslate"><span class="pre">esp_now_init()</span></code> to initialize ESP-NOW and <code class="docutils literal notranslate"><span class="pre">esp_now_deinit()</span></code> to de-initialize ESP-NOW. ESP-NOW data must be transmitted after Wi-Fi is started, so it is recommended to start Wi-Fi before initializing ESP-NOW and stop Wi-Fi after de-initializing ESP-NOW.
+When <code class="docutils literal notranslate"><span class="pre">esp_now_deinit()</span></code> is called, all of the information of paired devices will be deleted.</p>
+</div>
+<div class="section" id="add-paired-device">
+<h2>Add Paired Device<a class="headerlink" href="#add-paired-device" title="Permalink to this headline">¶</a></h2>
+<p>Call <code class="docutils literal notranslate"><span class="pre">esp_now_add_peer()</span></code> to add the device to the paired device list before you send data to this device. The maximum number of paired devices is twenty. If security is enabled, the LMK must be set. You can send ESP-NOW data via both the Station and the SoftAP interface.
+Make sure that the interface is enabled before sending ESP-NOW data. A device with a broadcast MAC address must be added before sending broadcast data. The range of the channel of paired devices is from 0 to 14. If the channel is set to 0, data will be sent on the current channel. Otherwise, the channel must be set as the channel that the local device is on.</p>
+</div>
+<div class="section" id="send-esp-now-data">
+<h2>Send ESP-NOW Data<a class="headerlink" href="#send-esp-now-data" title="Permalink to this headline">¶</a></h2>
+<p>Call <code class="docutils literal notranslate"><span class="pre">esp_now_send()</span></code> to send ESP-NOW data and <code class="docutils literal notranslate"><span class="pre">esp_now_register_send_cb</span></code> to register sending callback function. It will return <cite>ESP_NOW_SEND_SUCCESS</cite> in sending callback function if the data is received successfully on the MAC layer. Otherwise, it will return <cite>ESP_NOW_SEND_FAIL</cite>. Several reasons can lead to ESP-NOW fails to send data. For example, the destination device doesn’t exist; the channels of the devices are not the same; the action frame is lost when transmitting on the air, etc. It is not guaranteed that application layer can receive the data. If necessary, send back ack data when receiving ESP-NOW data. If receiving ack data timeouts, retransmit the ESP-NOW data. A sequence number can also be assigned to ESP-NOW data to drop the duplicate data.</p>
+<p>If there is a lot of ESP-NOW data to send, call <code class="docutils literal notranslate"><span class="pre">esp_now_send()</span></code> to send less than or equal to 250 bytes of data once a time.
+Note that too short interval between sending two ESP-NOW data may lead to disorder of sending callback function. So, it is recommended that sending the next ESP-NOW data after the sending callback function of the previous sending has returned. The sending callback function runs from a high-priority Wi-Fi task. So, do not do lengthy operations in the callback function. Instead, post the necessary data to a queue and handle it from a lower priority task.</p>
+</div>
+<div class="section" id="receiving-esp-now-data">
+<h2>Receiving ESP-NOW Data<a class="headerlink" href="#receiving-esp-now-data" title="Permalink to this headline">¶</a></h2>
+<p>Call <code class="docutils literal notranslate"><span class="pre">esp_now_register_recv_cb</span></code> to register receiving callback function.  Call the receiving callback function when receiving ESP-NOW. The receiving callback function also runs from the Wi-Fi task. So, do not do lengthy operations in the callback function.
+Instead, post the necessary data to a queue and handle it from a lower priority task.</p>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_wifi/include/esp_now.h">esp_wifi/include/esp_now.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv412esp_now_initv">
+<span id="_CPPv312esp_now_initv"></span><span id="_CPPv212esp_now_initv"></span><span id="esp_now_init__void"></span><span class="target" id="group__ESPNOW__APIs_1gaf267b85c98e5402fe718c0d1592ae69a"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_now_init</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv412esp_now_initv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize ESPNOW function. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : succeed</li>
+<li>ESP_ERR_ESPNOW_INTERNAL : Internal error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414esp_now_deinitv">
+<span id="_CPPv314esp_now_deinitv"></span><span id="_CPPv214esp_now_deinitv"></span><span id="esp_now_deinit__void"></span><span class="target" id="group__ESPNOW__APIs_1ga6f8442de3bc871c5cde8d158c9a58d10"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_now_deinit</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414esp_now_deinitv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>De-initialize ESPNOW function. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : succeed </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419esp_now_get_versionP8uint32_t">
+<span id="_CPPv319esp_now_get_versionP8uint32_t"></span><span id="_CPPv219esp_now_get_versionP8uint32_t"></span><span id="esp_now_get_version__uint32_tP"></span><span class="target" id="group__ESPNOW__APIs_1ga1cf530693be2e3178e7bb46486bf212f"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_now_get_version</code><span class="sig-paren">(</span>uint32_t *<em>version</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419esp_now_get_versionP8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the version of ESPNOW. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : succeed</li>
+<li>ESP_ERR_ESPNOW_ARG : invalid argument </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">version</span></code>: ESPNOW version</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424esp_now_register_recv_cb17esp_now_recv_cb_t">
+<span id="_CPPv324esp_now_register_recv_cb17esp_now_recv_cb_t"></span><span id="_CPPv224esp_now_register_recv_cb17esp_now_recv_cb_t"></span><span id="esp_now_register_recv_cb__esp_now_recv_cb_t"></span><span class="target" id="group__ESPNOW__APIs_1gac75e3938ce80166a76655aeef2f9ffc7"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_now_register_recv_cb</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv417esp_now_recv_cb_t" title="esp_now_recv_cb_t">esp_now_recv_cb_t</a> <em>cb</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424esp_now_register_recv_cb17esp_now_recv_cb_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Register callback function of receiving ESPNOW data. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : succeed</li>
+<li>ESP_ERR_ESPNOW_NOT_INIT : ESPNOW is not initialized</li>
+<li>ESP_ERR_ESPNOW_INTERNAL : internal error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">cb</span></code>: callback function of receiving ESPNOW data</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426esp_now_unregister_recv_cbv">
+<span id="_CPPv326esp_now_unregister_recv_cbv"></span><span id="_CPPv226esp_now_unregister_recv_cbv"></span><span id="esp_now_unregister_recv_cb__void"></span><span class="target" id="group__ESPNOW__APIs_1ga366b29318b95c1cca23b6acd985acfb6"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_now_unregister_recv_cb</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426esp_now_unregister_recv_cbv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Unregister callback function of receiving ESPNOW data. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : succeed</li>
+<li>ESP_ERR_ESPNOW_NOT_INIT : ESPNOW is not initialized </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424esp_now_register_send_cb17esp_now_send_cb_t">
+<span id="_CPPv324esp_now_register_send_cb17esp_now_send_cb_t"></span><span id="_CPPv224esp_now_register_send_cb17esp_now_send_cb_t"></span><span id="esp_now_register_send_cb__esp_now_send_cb_t"></span><span class="target" id="group__ESPNOW__APIs_1ga63d4df6c10acc7b1cc0f59cd9078d2be"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_now_register_send_cb</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv417esp_now_send_cb_t" title="esp_now_send_cb_t">esp_now_send_cb_t</a> <em>cb</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424esp_now_register_send_cb17esp_now_send_cb_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Register callback function of sending ESPNOW data. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : succeed</li>
+<li>ESP_ERR_ESPNOW_NOT_INIT : ESPNOW is not initialized</li>
+<li>ESP_ERR_ESPNOW_INTERNAL : internal error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">cb</span></code>: callback function of sending ESPNOW data</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv426esp_now_unregister_send_cbv">
+<span id="_CPPv326esp_now_unregister_send_cbv"></span><span id="_CPPv226esp_now_unregister_send_cbv"></span><span id="esp_now_unregister_send_cb__void"></span><span class="target" id="group__ESPNOW__APIs_1ga53149295b16612fd4c925962857997d6"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_now_unregister_send_cb</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv426esp_now_unregister_send_cbv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Unregister callback function of sending ESPNOW data. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : succeed</li>
+<li>ESP_ERR_ESPNOW_NOT_INIT : ESPNOW is not initialized </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv412esp_now_sendPK7uint8_tPK7uint8_t6size_t">
+<span id="_CPPv312esp_now_sendPK7uint8_tPK7uint8_t6size_t"></span><span id="_CPPv212esp_now_sendPK7uint8_tPK7uint8_t6size_t"></span><span id="esp_now_send__uint8_tCP.uint8_tCP.s"></span><span class="target" id="group__ESPNOW__APIs_1ga8ccfc713ba6e16627423c5008a819ccc"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_now_send</code><span class="sig-paren">(</span><em class="property">const</em> uint8_t *<em>peer_addr</em>, <em class="property">const</em> uint8_t *<em>data</em>, size_t <em>len</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv412esp_now_sendPK7uint8_tPK7uint8_t6size_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Send ESPNOW data. </p>
+<p><dl class="docutils">
+<dt><strong>Attention</strong></dt>
+<dd>1. If peer_addr is not NULL, send data to the peer whose MAC address matches peer_addr </dd>
+<dt><strong>Attention</strong></dt>
+<dd>2. If peer_addr is NULL, send data to all of the peers that are added to the peer list </dd>
+<dt><strong>Attention</strong></dt>
+<dd>3. The maximum length of data must be less than ESP_NOW_MAX_DATA_LEN </dd>
+<dt><strong>Attention</strong></dt>
+<dd>4. The buffer pointed to by data argument does not need to be valid after esp_now_send returns</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : succeed</li>
+<li>ESP_ERR_ESPNOW_NOT_INIT : ESPNOW is not initialized</li>
+<li>ESP_ERR_ESPNOW_ARG : invalid argument</li>
+<li>ESP_ERR_ESPNOW_INTERNAL : internal error</li>
+<li>ESP_ERR_ESPNOW_NO_MEM : out of memory</li>
+<li>ESP_ERR_ESPNOW_NOT_FOUND : peer is not found</li>
+<li>ESP_ERR_ESPNOW_IF : current WiFi interface doesn’t match that of peer </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">peer_addr</span></code>: peer MAC address </li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: data to send </li>
+<li><code class="docutils literal notranslate"><span class="pre">len</span></code>: length of data</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416esp_now_add_peerPK19esp_now_peer_info_t">
+<span id="_CPPv316esp_now_add_peerPK19esp_now_peer_info_t"></span><span id="_CPPv216esp_now_add_peerPK19esp_now_peer_info_t"></span><span id="esp_now_add_peer__esp_now_peer_info_tCP"></span><span class="target" id="group__ESPNOW__APIs_1ga7446c06b6bd0a4f320a7f0a4078a289d"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_now_add_peer</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv419esp_now_peer_info_t" title="esp_now_peer_info_t">esp_now_peer_info_t</a> *<em>peer</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416esp_now_add_peerPK19esp_now_peer_info_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add a peer to peer list. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : succeed</li>
+<li>ESP_ERR_ESPNOW_NOT_INIT : ESPNOW is not initialized</li>
+<li>ESP_ERR_ESPNOW_ARG : invalid argument</li>
+<li>ESP_ERR_ESPNOW_FULL : peer list is full</li>
+<li>ESP_ERR_ESPNOW_NO_MEM : out of memory</li>
+<li>ESP_ERR_ESPNOW_EXIST : peer has existed </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">peer</span></code>: peer information</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416esp_now_del_peerPK7uint8_t">
+<span id="_CPPv316esp_now_del_peerPK7uint8_t"></span><span id="_CPPv216esp_now_del_peerPK7uint8_t"></span><span id="esp_now_del_peer__uint8_tCP"></span><span class="target" id="group__ESPNOW__APIs_1ga17a676ab477367503fbe034b34b525d1"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_now_del_peer</code><span class="sig-paren">(</span><em class="property">const</em> uint8_t *<em>peer_addr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416esp_now_del_peerPK7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Delete a peer from peer list. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : succeed</li>
+<li>ESP_ERR_ESPNOW_NOT_INIT : ESPNOW is not initialized</li>
+<li>ESP_ERR_ESPNOW_ARG : invalid argument</li>
+<li>ESP_ERR_ESPNOW_NOT_FOUND : peer is not found </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">peer_addr</span></code>: peer MAC address</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416esp_now_mod_peerPK19esp_now_peer_info_t">
+<span id="_CPPv316esp_now_mod_peerPK19esp_now_peer_info_t"></span><span id="_CPPv216esp_now_mod_peerPK19esp_now_peer_info_t"></span><span id="esp_now_mod_peer__esp_now_peer_info_tCP"></span><span class="target" id="group__ESPNOW__APIs_1gacf6f3b0e1882575f4c86a16c86975e39"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_now_mod_peer</code><span class="sig-paren">(</span><em class="property">const</em> <a class="reference internal" href="#_CPPv419esp_now_peer_info_t" title="esp_now_peer_info_t">esp_now_peer_info_t</a> *<em>peer</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416esp_now_mod_peerPK19esp_now_peer_info_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Modify a peer. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : succeed</li>
+<li>ESP_ERR_ESPNOW_NOT_INIT : ESPNOW is not initialized</li>
+<li>ESP_ERR_ESPNOW_ARG : invalid argument</li>
+<li>ESP_ERR_ESPNOW_FULL : peer list is full </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">peer</span></code>: peer information</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416esp_now_get_peerPK7uint8_tP19esp_now_peer_info_t">
+<span id="_CPPv316esp_now_get_peerPK7uint8_tP19esp_now_peer_info_t"></span><span id="_CPPv216esp_now_get_peerPK7uint8_tP19esp_now_peer_info_t"></span><span id="esp_now_get_peer__uint8_tCP.esp_now_peer_info_tP"></span><span class="target" id="group__ESPNOW__APIs_1gaba93694db5b7d68ad6bf177e3ef3e08f"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_now_get_peer</code><span class="sig-paren">(</span><em class="property">const</em> uint8_t *<em>peer_addr</em>, <a class="reference internal" href="#_CPPv419esp_now_peer_info_t" title="esp_now_peer_info_t">esp_now_peer_info_t</a> *<em>peer</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416esp_now_get_peerPK7uint8_tP19esp_now_peer_info_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get a peer whose MAC address matches peer_addr from peer list. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : succeed</li>
+<li>ESP_ERR_ESPNOW_NOT_INIT : ESPNOW is not initialized</li>
+<li>ESP_ERR_ESPNOW_ARG : invalid argument</li>
+<li>ESP_ERR_ESPNOW_NOT_FOUND : peer is not found </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">peer_addr</span></code>: peer MAC address </li>
+<li><code class="docutils literal notranslate"><span class="pre">peer</span></code>: peer information</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418esp_now_fetch_peerbP19esp_now_peer_info_t">
+<span id="_CPPv318esp_now_fetch_peerbP19esp_now_peer_info_t"></span><span id="_CPPv218esp_now_fetch_peerbP19esp_now_peer_info_t"></span><span id="esp_now_fetch_peer__b.esp_now_peer_info_tP"></span><span class="target" id="group__ESPNOW__APIs_1gab5cdb474072ff35a8517f5450694acbe"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_now_fetch_peer</code><span class="sig-paren">(</span>bool <em>from_head</em>, <a class="reference internal" href="#_CPPv419esp_now_peer_info_t" title="esp_now_peer_info_t">esp_now_peer_info_t</a> *<em>peer</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418esp_now_fetch_peerbP19esp_now_peer_info_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Fetch a peer from peer list. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : succeed</li>
+<li>ESP_ERR_ESPNOW_NOT_INIT : ESPNOW is not initialized</li>
+<li>ESP_ERR_ESPNOW_ARG : invalid argument</li>
+<li>ESP_ERR_ESPNOW_NOT_FOUND : peer is not found </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">from_head</span></code>: fetch from head of list or not </li>
+<li><code class="docutils literal notranslate"><span class="pre">peer</span></code>: peer information</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421esp_now_is_peer_existPK7uint8_t">
+<span id="_CPPv321esp_now_is_peer_existPK7uint8_t"></span><span id="_CPPv221esp_now_is_peer_existPK7uint8_t"></span><span id="esp_now_is_peer_exist__uint8_tCP"></span><span class="target" id="group__ESPNOW__APIs_1gab6724e43b30d9e7c236b30a431aafd2b"></span>bool <code class="descname">esp_now_is_peer_exist</code><span class="sig-paren">(</span><em class="property">const</em> uint8_t *<em>peer_addr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421esp_now_is_peer_existPK7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Peer exists or not. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>true : peer exists</li>
+<li>false : peer not exists </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">peer_addr</span></code>: peer MAC address</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420esp_now_get_peer_numP18esp_now_peer_num_t">
+<span id="_CPPv320esp_now_get_peer_numP18esp_now_peer_num_t"></span><span id="_CPPv220esp_now_get_peer_numP18esp_now_peer_num_t"></span><span id="esp_now_get_peer_num__esp_now_peer_num_tP"></span><span class="target" id="group__ESPNOW__APIs_1ga0974cd458c9622ccff33a036eed90c69"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_now_get_peer_num</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv418esp_now_peer_num_t" title="esp_now_peer_num_t">esp_now_peer_num_t</a> *<em>num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420esp_now_get_peer_numP18esp_now_peer_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get the number of peers. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : succeed</li>
+<li>ESP_ERR_ESPNOW_NOT_INIT : ESPNOW is not initialized</li>
+<li>ESP_ERR_ESPNOW_ARG : invalid argument </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">num</span></code>: number of peers</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415esp_now_set_pmkPK7uint8_t">
+<span id="_CPPv315esp_now_set_pmkPK7uint8_t"></span><span id="_CPPv215esp_now_set_pmkPK7uint8_t"></span><span id="esp_now_set_pmk__uint8_tCP"></span><span class="target" id="group__ESPNOW__APIs_1ga91d558b92ab5beec60a518fa04d775ab"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_now_set_pmk</code><span class="sig-paren">(</span><em class="property">const</em> uint8_t *<em>pmk</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415esp_now_set_pmkPK7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set the primary master key. </p>
+<p><dl class="docutils">
+<dt><strong>Attention</strong></dt>
+<dd>1. primary master key is used to encrypt local master key</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : succeed</li>
+<li>ESP_ERR_ESPNOW_NOT_INIT : ESPNOW is not initialized</li>
+<li>ESP_ERR_ESPNOW_ARG : invalid argument </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">pmk</span></code>: primary master key</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv417esp_now_peer_info">
+<span id="_CPPv317esp_now_peer_info"></span><span id="_CPPv217esp_now_peer_info"></span><span id="esp_now_peer_info"></span><span class="target" id="structesp__now__peer__info"></span><em class="property">struct </em><code class="descname">esp_now_peer_info</code><a class="headerlink" href="#_CPPv417esp_now_peer_info" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESPNOW peer information parameters. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N17esp_now_peer_info9peer_addrE">
+<span id="_CPPv3N17esp_now_peer_info9peer_addrE"></span><span id="_CPPv2N17esp_now_peer_info9peer_addrE"></span><span id="esp_now_peer_info::peer_addr__uint8_tA"></span><span class="target" id="structesp__now__peer__info_1ae9f5500b248a6ba7a05c8272bf8b0c5b"></span>uint8_t <code class="descname">peer_addr</code>[<code class="descname">ESP_NOW_ETH_ALEN</code>]<a class="headerlink" href="#_CPPv4N17esp_now_peer_info9peer_addrE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESPNOW peer MAC address that is also the MAC address of station or softap </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17esp_now_peer_info3lmkE">
+<span id="_CPPv3N17esp_now_peer_info3lmkE"></span><span id="_CPPv2N17esp_now_peer_info3lmkE"></span><span id="esp_now_peer_info::lmk__uint8_tA"></span><span class="target" id="structesp__now__peer__info_1ab88af5a4967526436461d367c25f18b8"></span>uint8_t <code class="descname">lmk</code>[<code class="descname">ESP_NOW_KEY_LEN</code>]<a class="headerlink" href="#_CPPv4N17esp_now_peer_info3lmkE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESPNOW peer local master key that is used to encrypt data </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17esp_now_peer_info7channelE">
+<span id="_CPPv3N17esp_now_peer_info7channelE"></span><span id="_CPPv2N17esp_now_peer_info7channelE"></span><span id="esp_now_peer_info::channel__uint8_t"></span><span class="target" id="structesp__now__peer__info_1a51a122de026dcd84844f1d03eed1dfe9"></span>uint8_t <code class="descname">channel</code><a class="headerlink" href="#_CPPv4N17esp_now_peer_info7channelE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Wi-Fi channel that peer uses to send/receive ESPNOW data. If the value is 0, use the current channel which station or softap is on. Otherwise, it must be set as the channel that station or softap is on. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17esp_now_peer_info5ifidxE">
+<span id="_CPPv3N17esp_now_peer_info5ifidxE"></span><span id="_CPPv2N17esp_now_peer_info5ifidxE"></span><span id="esp_now_peer_info::ifidx__wifi_interface_t"></span><span class="target" id="structesp__now__peer__info_1a8654fff80b3c890cc495b06ceb4eee35"></span><a class="reference internal" href="esp_wifi.html#_CPPv416wifi_interface_t" title="wifi_interface_t">wifi_interface_t</a> <code class="descname">ifidx</code><a class="headerlink" href="#_CPPv4N17esp_now_peer_info5ifidxE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Wi-Fi interface that peer uses to send/receive ESPNOW data </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17esp_now_peer_info7encryptE">
+<span id="_CPPv3N17esp_now_peer_info7encryptE"></span><span id="_CPPv2N17esp_now_peer_info7encryptE"></span><span id="esp_now_peer_info::encrypt__b"></span><span class="target" id="structesp__now__peer__info_1aedc05c5b5bcfdaf22d91a2cecf56d3fb"></span>bool <code class="descname">encrypt</code><a class="headerlink" href="#_CPPv4N17esp_now_peer_info7encryptE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESPNOW data that this peer sends/receives is encrypted or not </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N17esp_now_peer_info4privE">
+<span id="_CPPv3N17esp_now_peer_info4privE"></span><span id="_CPPv2N17esp_now_peer_info4privE"></span><span id="esp_now_peer_info::priv__voidP"></span><span class="target" id="structesp__now__peer__info_1a89e13f5c9425c6bfa9f03fa9e07bb398"></span>void *<code class="descname">priv</code><a class="headerlink" href="#_CPPv4N17esp_now_peer_info4privE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESPNOW peer private data </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv416esp_now_peer_num">
+<span id="_CPPv316esp_now_peer_num"></span><span id="_CPPv216esp_now_peer_num"></span><span id="esp_now_peer_num"></span><span class="target" id="structesp__now__peer__num"></span><em class="property">struct </em><code class="descname">esp_now_peer_num</code><a class="headerlink" href="#_CPPv416esp_now_peer_num" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Number of ESPNOW peers which exist currently. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N16esp_now_peer_num9total_numE">
+<span id="_CPPv3N16esp_now_peer_num9total_numE"></span><span id="_CPPv2N16esp_now_peer_num9total_numE"></span><span id="esp_now_peer_num::total_num__i"></span><span class="target" id="structesp__now__peer__num_1ae49c234f9b7e9d30b5e244c830c326be"></span>int <code class="descname">total_num</code><a class="headerlink" href="#_CPPv4N16esp_now_peer_num9total_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Total number of ESPNOW peers, maximum value is ESP_NOW_MAX_TOTAL_PEER_NUM </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N16esp_now_peer_num11encrypt_numE">
+<span id="_CPPv3N16esp_now_peer_num11encrypt_numE"></span><span id="_CPPv2N16esp_now_peer_num11encrypt_numE"></span><span id="esp_now_peer_num::encrypt_num__i"></span><span class="target" id="structesp__now__peer__num_1a8a87b1a626986e3f64aa2beeae0a0c85"></span>int <code class="descname">encrypt_num</code><a class="headerlink" href="#_CPPv4N16esp_now_peer_num11encrypt_numE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Number of encrypted ESPNOW peers, maximum value is ESP_NOW_MAX_ENCRYPT_PEER_NUM </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.ESP_ERR_ESPNOW_BASE">
+<span class="target" id="group__ESPNOW__APIs_1ga66d4c1722c2367e7438b9cb8eba907d6"></span><code class="descname">ESP_ERR_ESPNOW_BASE</code><a class="headerlink" href="#c.ESP_ERR_ESPNOW_BASE" title="Permalink to this definition">¶</a></dt>
+<dd><p>ESPNOW error number base. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_ESPNOW_NOT_INIT">
+<span class="target" id="group__ESPNOW__APIs_1gad4988fadb7f0114f04addb6dc4ff0408"></span><code class="descname">ESP_ERR_ESPNOW_NOT_INIT</code><a class="headerlink" href="#c.ESP_ERR_ESPNOW_NOT_INIT" title="Permalink to this definition">¶</a></dt>
+<dd><p>ESPNOW is not initialized. </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_ESPNOW_ARG">
+<span class="target" id="group__ESPNOW__APIs_1gaf05e12bad8edd40a2cabc052e08b97a9"></span><code class="descname">ESP_ERR_ESPNOW_ARG</code><a class="headerlink" href="#c.ESP_ERR_ESPNOW_ARG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invalid argument </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_ESPNOW_NO_MEM">
+<span class="target" id="group__ESPNOW__APIs_1gad261a3db9c88e616bfc2deafd0f829f1"></span><code class="descname">ESP_ERR_ESPNOW_NO_MEM</code><a class="headerlink" href="#c.ESP_ERR_ESPNOW_NO_MEM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Out of memory </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_ESPNOW_FULL">
+<span class="target" id="group__ESPNOW__APIs_1ga55282c45163c3231c2ce31646610b554"></span><code class="descname">ESP_ERR_ESPNOW_FULL</code><a class="headerlink" href="#c.ESP_ERR_ESPNOW_FULL" title="Permalink to this definition">¶</a></dt>
+<dd><p>ESPNOW peer list is full </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_ESPNOW_NOT_FOUND">
+<span class="target" id="group__ESPNOW__APIs_1ga8bc3494fa5d82cda82136656a19a63ff"></span><code class="descname">ESP_ERR_ESPNOW_NOT_FOUND</code><a class="headerlink" href="#c.ESP_ERR_ESPNOW_NOT_FOUND" title="Permalink to this definition">¶</a></dt>
+<dd><p>ESPNOW peer is not found </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_ESPNOW_INTERNAL">
+<span class="target" id="group__ESPNOW__APIs_1gae7ea961a51279d2d61188e93e1137e5a"></span><code class="descname">ESP_ERR_ESPNOW_INTERNAL</code><a class="headerlink" href="#c.ESP_ERR_ESPNOW_INTERNAL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Internal error </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_ESPNOW_EXIST">
+<span class="target" id="group__ESPNOW__APIs_1ga55115c56b3a31ef8fd3d6b3d21753e2d"></span><code class="descname">ESP_ERR_ESPNOW_EXIST</code><a class="headerlink" href="#c.ESP_ERR_ESPNOW_EXIST" title="Permalink to this definition">¶</a></dt>
+<dd><p>ESPNOW peer has existed </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_ERR_ESPNOW_IF">
+<span class="target" id="group__ESPNOW__APIs_1ga64221584fe47b0e33521a52b9441bdd6"></span><code class="descname">ESP_ERR_ESPNOW_IF</code><a class="headerlink" href="#c.ESP_ERR_ESPNOW_IF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interface error </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_NOW_ETH_ALEN">
+<span class="target" id="group__ESPNOW__APIs_1gad83fa90b838ed7a9ad52eef62b388d5e"></span><code class="descname">ESP_NOW_ETH_ALEN</code><a class="headerlink" href="#c.ESP_NOW_ETH_ALEN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Length of ESPNOW peer MAC address </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_NOW_KEY_LEN">
+<span class="target" id="group__ESPNOW__APIs_1gac31a48c10823e55d084daa4ac3bfdb0e"></span><code class="descname">ESP_NOW_KEY_LEN</code><a class="headerlink" href="#c.ESP_NOW_KEY_LEN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Length of ESPNOW peer local master key </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_NOW_MAX_TOTAL_PEER_NUM">
+<span class="target" id="group__ESPNOW__APIs_1ga7f8ec30806f5e102c5aaae955b18741d"></span><code class="descname">ESP_NOW_MAX_TOTAL_PEER_NUM</code><a class="headerlink" href="#c.ESP_NOW_MAX_TOTAL_PEER_NUM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum number of ESPNOW total peers </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_NOW_MAX_ENCRYPT_PEER_NUM">
+<span class="target" id="group__ESPNOW__APIs_1ga5f2f658fb193a58d8ad02c29869fa667"></span><code class="descname">ESP_NOW_MAX_ENCRYPT_PEER_NUM</code><a class="headerlink" href="#c.ESP_NOW_MAX_ENCRYPT_PEER_NUM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum number of ESPNOW encrypted peers </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_NOW_MAX_DATA_LEN">
+<span class="target" id="group__ESPNOW__APIs_1ga10f976e543cd321ea6c455f9d52e3705"></span><code class="descname">ESP_NOW_MAX_DATA_LEN</code><a class="headerlink" href="#c.ESP_NOW_MAX_DATA_LEN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum length of ESPNOW data which is sent very time </p>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv419esp_now_peer_info_t">
+<span id="_CPPv319esp_now_peer_info_t"></span><span id="_CPPv219esp_now_peer_info_t"></span><span id="esp_now_peer_info_t"></span><span class="target" id="group__ESPNOW__APIs_1ga3d98a8346c04740a1a2dc2718c62a167"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv417esp_now_peer_info" title="esp_now_peer_info">esp_now_peer_info</a> <code class="descname">esp_now_peer_info_t</code><a class="headerlink" href="#_CPPv419esp_now_peer_info_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESPNOW peer information parameters. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv418esp_now_peer_num_t">
+<span id="_CPPv318esp_now_peer_num_t"></span><span id="_CPPv218esp_now_peer_num_t"></span><span id="esp_now_peer_num_t"></span><span class="target" id="group__ESPNOW__APIs_1ga85b5c84ce176c5517a206c7319234a16"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv416esp_now_peer_num" title="esp_now_peer_num">esp_now_peer_num</a> <code class="descname">esp_now_peer_num_t</code><a class="headerlink" href="#_CPPv418esp_now_peer_num_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Number of ESPNOW peers which exist currently. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv417esp_now_recv_cb_t">
+<span id="_CPPv317esp_now_recv_cb_t"></span><span id="_CPPv217esp_now_recv_cb_t"></span><span id="esp_now_recv_cb_t"></span><span class="target" id="group__ESPNOW__APIs_1ga51a49c92b795c7d8499225f5208db8f4"></span><em class="property">typedef </em>void (*<code class="descname">esp_now_recv_cb_t</code>)<span class="sig-paren">(</span><em class="property">const</em> uint8_t *mac_addr, <em class="property">const</em> uint8_t *data, int data_len<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417esp_now_recv_cb_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Callback function of receiving ESPNOW data. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mac_addr</span></code>: peer MAC address </li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: received data </li>
+<li><code class="docutils literal notranslate"><span class="pre">data_len</span></code>: length of received data </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv417esp_now_send_cb_t">
+<span id="_CPPv317esp_now_send_cb_t"></span><span id="_CPPv217esp_now_send_cb_t"></span><span id="esp_now_send_cb_t"></span><span class="target" id="group__ESPNOW__APIs_1ga393b851dfbc415d15dfaf162b8033e87"></span><em class="property">typedef </em>void (*<code class="descname">esp_now_send_cb_t</code>)<span class="sig-paren">(</span><em class="property">const</em> uint8_t *mac_addr, <a class="reference internal" href="#_CPPv421esp_now_send_status_t" title="esp_now_send_status_t">esp_now_send_status_t</a> status<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417esp_now_send_cb_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Callback function of sending ESPNOW data. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">mac_addr</span></code>: peer MAC address </li>
+<li><code class="docutils literal notranslate"><span class="pre">status</span></code>: status of sending ESPNOW data (succeed or fail) </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv421esp_now_send_status_t">
+<span id="_CPPv321esp_now_send_status_t"></span><span id="_CPPv221esp_now_send_status_t"></span><span id="esp_now_send_status_t"></span><span class="target" id="group__ESPNOW__APIs_1gaf8e38dd4a563236dad63e3d580b89e71"></span><em class="property">enum </em><code class="descname">esp_now_send_status_t</code><a class="headerlink" href="#_CPPv421esp_now_send_status_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Status of sending ESPNOW data . </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv420ESP_NOW_SEND_SUCCESS">
+<span id="_CPPv320ESP_NOW_SEND_SUCCESS"></span><span id="_CPPv220ESP_NOW_SEND_SUCCESS"></span><span class="target" id="group__ESPNOW__APIs_1ggaf8e38dd4a563236dad63e3d580b89e71a9f72dd501d56f627eeda98542b5f9120"></span><code class="descname">ESP_NOW_SEND_SUCCESS</code> = 0<a class="headerlink" href="#_CPPv420ESP_NOW_SEND_SUCCESS" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Send ESPNOW data successfully </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv417ESP_NOW_SEND_FAIL">
+<span id="_CPPv317ESP_NOW_SEND_FAIL"></span><span id="_CPPv217ESP_NOW_SEND_FAIL"></span><span class="target" id="group__ESPNOW__APIs_1ggaf8e38dd4a563236dad63e3d580b89e71a45a19b451ea1a0a508101a23d20975cd"></span><code class="descname">ESP_NOW_SEND_FAIL</code><a class="headerlink" href="#_CPPv417ESP_NOW_SEND_FAIL" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Send ESPNOW data fail </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esp_mesh.html" class="btn btn-neutral float-right" title="ESP-MESH Programming Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="esp_smartconfig.html" class="btn btn-neutral float-left" title="SmartConfig" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/network/esp_now.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:16 GMT -->
+</html>

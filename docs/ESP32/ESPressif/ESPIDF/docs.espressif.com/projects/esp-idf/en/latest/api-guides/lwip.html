@@ -1,0 +1,788 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/lwip.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:34 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>lwIP &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Partition Tables" href="partition-tables.html" />
+    <link rel="prev" title="Linker Script Generation" href="linker-script-generation.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="lwip.html" />
+
+<link rel="stylesheet" href="../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-guides/lwip"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="app_trace.html">Application Level Tracing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blufi.html">BluFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootloader.html">Bootloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-system.html">Build System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-system-legacy.html">Build System (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="console.html">Console Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deep-sleep-stub.html">Deep Sleep Wake Stubs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="error-handling.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="esp-ble-mesh/ble-mesh-index.html">ESP-BLE-MESH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh.html">ESP-MESH (Wi-Fi)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core_dump.html">ESP32 Core Dump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event-handling.html">Event Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="external-ram.html">External SPI-connected RAM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fatal-errors.html">Fatal Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/flash-encryption.html">Flash Encryption</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freertos-smp.html">FreeRTOS SMP Changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general-notes.html">General Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hlinterrupts.html">High Level Interrupts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jtag-debugging/index.html">JTAG Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker-script-generation.html">Linker Script Generation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">lwIP TCP/IP Stack</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#supported-apis">Supported APIs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#adapted-apis">Adapted APIs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#bsd-sockets-api">BSD Sockets API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#references">References</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#examples">Examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#supported-functions">Supported functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#socket-error-handling">Socket Error Handling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#socket-options">Socket Options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#fcntl">fcntl</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ioctls">ioctls</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#netconn-api">Netconn API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lwip-freertos-task">lwIP FreeRTOS Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#esp-lwip-custom-modifications">esp-lwip custom modifications</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#additions">Additions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#limitations">Limitations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#performance-optimization">Performance Optimization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#maximum-throughput">Maximum throughput</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#minimum-latency">Minimum latency</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#minimum-ram-usage">Minimum RAM usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="partition-tables.html">Partition Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RF_calibration.html">RF Calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="romconsole.html">ROM debug console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/secure-boot.html">Secure Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thread-local-storage.html">Thread Local Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html">Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ulp.html">ULP Coprocessor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ulp-legacy.html">ULP Coprocessor (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit-tests-legacy.html">Unit Testing (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit-tests.html">Unit Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wifi.html">WiFi Driver</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">API Guides</a> &raquo;</li>
+        
+      <li>lwIP</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-guides/lwip.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="lwip">
+<h1>lwIP<a class="headerlink" href="#lwip" title="Permalink to this headline">¶</a></h1>
+<p>ESP-IDF uses the open source <a class="reference external" href="https://savannah.nongnu.org/projects/lwip/">lwIP lightweight TCP/IP stack</a>. The ESP-IDF version of lwIP (<a class="reference external" href="https://github.com/espressif/esp-lwip">esp-lwip</a>) has some modifications and additions compared to the upstream project.</p>
+<div class="section" id="supported-apis">
+<h2>Supported APIs<a class="headerlink" href="#supported-apis" title="Permalink to this headline">¶</a></h2>
+<p>ESP-IDF supports the following lwIP TCP/IP stack functions:</p>
+<ul class="simple">
+<li><a class="reference internal" href="#bsd-sockets-api">BSD Sockets API</a></li>
+<li><a class="reference internal" href="#netconn-api">Netconn API</a> is enabled but not officially supported for ESP-IDF applications</li>
+</ul>
+<div class="section" id="adapted-apis">
+<h3>Adapted APIs<a class="headerlink" href="#adapted-apis" title="Permalink to this headline">¶</a></h3>
+<p>Some common lwIP “app” APIs are supported indirectly by ESP-IDF:</p>
+<ul class="simple">
+<li>DHCP Server &amp; Client are supported indirectly via the <a class="reference internal" href="../api-reference/network/esp_netif.html"><span class="doc">ESP-NETIF</span></a> functionality</li>
+<li>Simple Network Time Protocol (SNTP) is supported via the <a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/lwip/include/apps/sntp/sntp.h">lwip/include/apps/sntp/sntp.h</a> <a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/lwip/lwip/src/inlude/lwip/apps/sntp.h">lwip/lwip/src/inlude/lwip/apps/sntp.h</a> functions (see also <a class="reference internal" href="../api-reference/system/system_time.html#system-time-sntp-sync"><span class="std std-ref">SNTP Time Synchronization</span></a>)</li>
+<li>ICMP Ping is supported using a variation on the lwIP ping API. See <a class="reference internal" href="../api-reference/protocols/icmp_echo.html"><span class="doc">ICMP Echo</span></a>.</li>
+<li>NetBIOS lookup is available using the standard lwIP API. <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/http_server/restful_server">protocols/http_server/restful_server</a> has an option to demonstrate using NetBIOS to look up a host on the LAN.</li>
+<li>mDNS uses a different implementation to the lwIP default mDNS (see <a class="reference internal" href="../api-reference/protocols/mdns.html"><span class="doc">mDNS Service</span></a>), but lwIP can look up mDNS hosts using standard APIs such as <code class="docutils literal notranslate"><span class="pre">gethostbyname()</span></code> and the convention <code class="docutils literal notranslate"><span class="pre">hostname.local</span></code>, provided the <a class="reference internal" href="../api-reference/kconfig.html#config-lwip-dns-support-mdns-queries"><span class="std std-ref">CONFIG_LWIP_DNS_SUPPORT_MDNS_QUERIES</span></a> setting is enabled.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="bsd-sockets-api">
+<h2>BSD Sockets API<a class="headerlink" href="#bsd-sockets-api" title="Permalink to this headline">¶</a></h2>
+<p>The BSD Sockets API is a common cross-platform TCP/IP sockets API that originated in the Berkeley Standard Distribution of UNIX but is now standardized in a section of the POSIX specification. BSD Sockets are sometimes called POSIX Sockets or Berkeley Sockets.</p>
+<p>As implemented in ESP-IDF, lwIP supports all of the common usages of the BSD Sockets API.</p>
+<div class="section" id="references">
+<h3>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h3>
+<p>A wide range of BSD Sockets reference material is available, including:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://pubs.opengroup.org/onlinepubs/007908799/xnsix.html">Single UNIX Specification BSD Sockets page</a></li>
+<li><a class="reference external" href="https://en.wikipedia.org/wiki/Berkeley_sockets">Berkeley Sockets Wikipedia page</a></li>
+</ul>
+</div>
+<div class="section" id="examples">
+<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h3>
+<p>A number of ESP-IDF examples show how to use the BSD Sockets APIs:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/sockets/tcp_server">protocols/sockets/tcp_server</a></li>
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/sockets/tcp_client">protocols/sockets/tcp_client</a></li>
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/sockets/udp_server">protocols/sockets/udp_server</a></li>
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/sockets/udp_client">protocols/sockets/udp_client</a></li>
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/sockets/udp_multicast">protocols/sockets/udp_multicast</a></li>
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/http_request">protocols/http_request</a> (Note: this is a simplified example of using a TCP socket to send an HTTP request. The <a class="reference internal" href="../api-reference/protocols/esp_http_client.html"><span class="doc">ESP HTTP Client</span></a> is a much better option for sending HTTP requests.)</li>
+</ul>
+</div>
+<div class="section" id="supported-functions">
+<h3>Supported functions<a class="headerlink" href="#supported-functions" title="Permalink to this headline">¶</a></h3>
+<p>The following BSD socket API functions are supported. For full details see <a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/lwip/lwip/src/include/lwip/sockets.h">lwip/lwip/src/include/lwip/sockets.h</a>.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">socket()</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">bind()</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">accept()</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">shutdown()</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">getpeername()</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">getsockopt()</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">setsockopt()</span></code> (see <a class="reference internal" href="#socket-options">Socket Options</a>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">close()</span></code> (via <a class="reference internal" href="../api-reference/storage/vfs.html"><span class="doc">Virtual filesystem component</span></a>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">read()</span></code>, <code class="docutils literal notranslate"><span class="pre">readv()</span></code>, <code class="docutils literal notranslate"><span class="pre">write()</span></code>, <code class="docutils literal notranslate"><span class="pre">writev()</span></code> (via <a class="reference internal" href="../api-reference/storage/vfs.html"><span class="doc">Virtual filesystem component</span></a>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">recv()</span></code>, <code class="docutils literal notranslate"><span class="pre">recvmsg()</span></code>, <code class="docutils literal notranslate"><span class="pre">recvfrom()</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">send()</span></code>, <code class="docutils literal notranslate"><span class="pre">sendmsg()</span></code>, <code class="docutils literal notranslate"><span class="pre">sendto()</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">select()</span></code> (via <a class="reference internal" href="../api-reference/storage/vfs.html"><span class="doc">Virtual filesystem component</span></a>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">poll()</span></code> (Note: on ESP-IDF, <code class="docutils literal notranslate"><span class="pre">poll()</span></code> is implemented by calling select internally, so using <code class="docutils literal notranslate"><span class="pre">select()</span></code> directly is recommended if a choice of methods is available.)</li>
+<li><code class="docutils literal notranslate"><span class="pre">fcntl()</span></code> (see <a class="reference internal" href="#fcntl">fcntl</a>)</li>
+</ul>
+<p>Non-standard functions:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">ioctl()</span></code> (see <a class="reference internal" href="#ioctls">ioctls</a>)</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Some lwIP application sample code uses prefixed versions of BSD APIs, for example <code class="docutils literal notranslate"><span class="pre">lwip_socket()</span></code> instead of the standard <code class="docutils literal notranslate"><span class="pre">socket()</span></code>. Both forms can be used with ESP-IDF, but using standard names is recommended.</p>
+</div>
+</div>
+<div class="section" id="socket-error-handling">
+<h3>Socket Error Handling<a class="headerlink" href="#socket-error-handling" title="Permalink to this headline">¶</a></h3>
+<p>BSD Socket error handling code is very important for robust socket applications. Normally the socket error handling involves the following aspects:</p>
+<ul class="simple">
+<li>Detecting the error.</li>
+<li>Geting the error reason code.</li>
+<li>Handle the error according to the reason code.</li>
+</ul>
+<p>In lwIP, we have two different scenarios of handling socket errors:</p>
+<ul class="simple">
+<li>Socket API returns an error. For more information, see <a class="reference internal" href="#socket-api-errors">Socket API Errors</a>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">select(int</span> <span class="pre">maxfdp1,</span> <span class="pre">fd_set</span> <span class="pre">*readset,</span> <span class="pre">fd_set</span> <span class="pre">*writeset,</span> <span class="pre">fd_set</span> <span class="pre">*exceptset,</span> <span class="pre">struct</span> <span class="pre">timeval</span> <span class="pre">*timeout)</span></code> has exception descriptor indicating that the socket has an error. For more information, see <a class="reference internal" href="#select-errors">select() Errors</a>.</li>
+</ul>
+<div class="section" id="socket-api-errors">
+<h4>Socket API Errors<a class="headerlink" href="#socket-api-errors" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt>The error detection</dt>
+<dd><ul class="first last simple">
+<li>We can know that the socket API fails according to its return value.</li>
+</ul>
+</dd>
+<dt>Get the error reason code</dt>
+<dd><ul class="first last simple">
+<li>When socket API fails, the return value doesn’t contain the failure reason and the application can get the error reason code by accessing errno. Different values indicate different meanings. For more information, see &lt;<a class="reference internal" href="#socket-error-reason-code">Socket Error Reason Code</a>&gt;.</li>
+</ul>
+</dd>
+</dl>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">err</span><span class="p">;</span>
+<span class="nb">int</span> <span class="n">sockfd</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">sockfd</span> <span class="o">=</span> <span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span><span class="n">SOCK_STREAM</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="n">the</span> <span class="n">error</span> <span class="n">code</span> <span class="ow">is</span> <span class="n">obtained</span> <span class="kn">from</span> <span class="nn">errno</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">errno</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">err</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="select-errors">
+<h4>select() Errors<a class="headerlink" href="#select-errors" title="Permalink to this headline">¶</a></h4>
+<dl class="docutils">
+<dt>The error detection</dt>
+<dd><ul class="first last simple">
+<li>Socket error when <code class="docutils literal notranslate"><span class="pre">select()</span></code> has exception descriptor</li>
+</ul>
+</dd>
+<dt>Get the error reason code</dt>
+<dd><ul class="first last simple">
+<li>If the <code class="docutils literal notranslate"><span class="pre">select</span></code> indicates that the socket fails, we can’t get the error reason code by accessing errno, instead we should call <code class="docutils literal notranslate"><span class="pre">getsockopt()</span></code> to get the failure reason code. Because <code class="docutils literal notranslate"><span class="pre">select()</span></code> has exception descriptor, the error code will not be given to errno.</li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><code class="docutils literal notranslate"><span class="pre">getsockopt</span></code> function prototype <code class="docutils literal notranslate"><span class="pre">int</span> <span class="pre">getsockopt(int</span> <span class="pre">s,</span> <span class="pre">int</span> <span class="pre">level,</span> <span class="pre">int</span> <span class="pre">optname,</span> <span class="pre">void</span> <span class="pre">*optval,</span> <span class="pre">socklen_t</span> <span class="pre">*optlen)</span></code>. Its function is to get the current value of the option of any type, any state socket, and store the result in optval. For example, when you get the error code on a socket, you can get it by <code class="docutils literal notranslate"><span class="pre">getsockopt(sockfd,</span> <span class="pre">SOL_SOCKET,</span> <span class="pre">SO_ERROR,</span> <span class="pre">&amp;err,</span> <span class="pre">&amp;optlen)</span></code>.</p>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">int</span> <span class="n">err</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">select</span><span class="p">(</span><span class="n">sockfd</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">exfds</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">tval</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">errno</span><span class="p">;</span>
+    <span class="k">return</span> <span class="n">err</span><span class="p">;</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">FD_ISSET</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">exfds</span><span class="p">))</span> <span class="p">{</span>
+        <span class="o">//</span> <span class="n">select</span><span class="p">()</span> <span class="n">exception</span> <span class="nb">set</span> <span class="n">using</span> <span class="n">getsockopt</span><span class="p">()</span>
+        <span class="nb">int</span> <span class="n">optlen</span> <span class="o">=</span> <span class="n">sizeof</span><span class="p">(</span><span class="nb">int</span><span class="p">);</span>
+        <span class="n">getsockopt</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">SO_ERROR</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">err</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">optlen</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">err</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="socket-error-reason-code">
+<h4>Socket Error Reason Code<a class="headerlink" href="#socket-error-reason-code" title="Permalink to this headline">¶</a></h4>
+<p>Below is a list of common error codes. For more detailed error codes, please query <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/components/newlib/include/sys/errno.h">newlib/include/sys/errno.h</a></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="69%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Error code</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>ECONNREFUSED</td>
+<td>Connection refused</td>
+</tr>
+<tr class="row-odd"><td>EADDRINUSE</td>
+<td>Address already in use</td>
+</tr>
+<tr class="row-even"><td>ECONNABORTED</td>
+<td>Software caused connection abort</td>
+</tr>
+<tr class="row-odd"><td>ENETUNREACH</td>
+<td>Network is unreachable</td>
+</tr>
+<tr class="row-even"><td>ENETDOWN</td>
+<td>Network interface is not configured</td>
+</tr>
+<tr class="row-odd"><td>ETIMEDOUT</td>
+<td>Connection timed out</td>
+</tr>
+<tr class="row-even"><td>EHOSTDOWN</td>
+<td>Host is down</td>
+</tr>
+<tr class="row-odd"><td>EHOSTUNREACH</td>
+<td>Host is unreachable</td>
+</tr>
+<tr class="row-even"><td>EINPROGRESS</td>
+<td>Connection already in progress</td>
+</tr>
+<tr class="row-odd"><td>EALREADY</td>
+<td>Socket already connected</td>
+</tr>
+<tr class="row-even"><td>EDESTADDRREQ</td>
+<td>Destination address required</td>
+</tr>
+<tr class="row-odd"><td>EPROTONOSUPPORT</td>
+<td>Unknown protocol</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="socket-options">
+<h3>Socket Options<a class="headerlink" href="#socket-options" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">getsockopt()</span></code> and <code class="docutils literal notranslate"><span class="pre">setsockopt()</span></code> functions allow getting/setting per-socket options.</p>
+<p>Not all standard socket options are supported by lwIP in ESP-IDF. The following socket options are supported:</p>
+<div class="section" id="common-options">
+<h4>Common options<a class="headerlink" href="#common-options" title="Permalink to this headline">¶</a></h4>
+<p>Used with level argument <code class="docutils literal notranslate"><span class="pre">SOL_SOCKET</span></code>.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">SO_REUSEADDR</span></code> (available if <a class="reference internal" href="../api-reference/kconfig.html#config-lwip-so-reuse"><span class="std std-ref">CONFIG_LWIP_SO_REUSE</span></a> is set, behavior can be customized by setting <a class="reference internal" href="../api-reference/kconfig.html#config-lwip-so-reuse-rxtoall"><span class="std std-ref">CONFIG_LWIP_SO_REUSE_RXTOALL</span></a>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">SO_KEEPALIVE</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">SO_BROADCAST</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">SO_ACCEPTCONN</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">SO_RCVBUF</span></code> (available if <a class="reference internal" href="../api-reference/kconfig.html#config-lwip-so-rcvbuf"><span class="std std-ref">CONFIG_LWIP_SO_RCVBUF</span></a> is set)</li>
+<li><code class="docutils literal notranslate"><span class="pre">SO_SNDTIMEO</span></code> / <code class="docutils literal notranslate"><span class="pre">SO_RCVTIMEO</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">SO_ERROR</span></code> (this option is only used with <code class="docutils literal notranslate"><span class="pre">select()</span></code>, see <a class="reference internal" href="#socket-error-handling">Socket Error Handling</a>)</li>
+<li><code class="docutils literal notranslate"><span class="pre">SO_TYPE</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">SO_NO_CHECK</span></code> (for UDP sockets only)</li>
+</ul>
+</div>
+<div class="section" id="ip-options">
+<h4>IP options<a class="headerlink" href="#ip-options" title="Permalink to this headline">¶</a></h4>
+<p>Used with level argument <code class="docutils literal notranslate"><span class="pre">IPPROTO_IP</span></code>.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">IP_TOS</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">IP_TTL</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">IP_PKTINFO</span></code> (available if <a class="reference internal" href="../api-reference/kconfig.html#config-lwip-netbuf-recvinfo"><span class="std std-ref">CONFIG_LWIP_NETBUF_RECVINFO</span></a> is set)</li>
+</ul>
+<p>For multicast UDP sockets:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">IP_MULTICAST_IF</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">IP_MULTICAST_LOOP</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">IP_MULTICAST_TTL</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">IP_ADD_MEMBERSHIP</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">IP_DROP_MEMBERSHIP</span></code></li>
+</ul>
+</div>
+<div class="section" id="tcp-options">
+<h4>TCP options<a class="headerlink" href="#tcp-options" title="Permalink to this headline">¶</a></h4>
+<p>TCP sockets only. Used with level argument <code class="docutils literal notranslate"><span class="pre">IPPROTO_TCP</span></code>.</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">TCP_NODELAY</span></code></li>
+</ul>
+<p>Options relating to TCP keepalive probes:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">TCP_KEEPALIVE</span></code> (int value, TCP keepalive period in milliseconds)</li>
+<li><code class="docutils literal notranslate"><span class="pre">TCP_KEEPIDLE</span></code> (same as <code class="docutils literal notranslate"><span class="pre">TCP_KEEPALIVE</span></code>, but the value is in seconds)</li>
+<li><code class="docutils literal notranslate"><span class="pre">TCP_KEEPINTVL</span></code> (int value, interval between keepalive probes in seconds)</li>
+<li><code class="docutils literal notranslate"><span class="pre">TCP_KEEPCNT</span></code> (int value, number of keepalive probes before timing out)</li>
+</ul>
+</div>
+<div class="section" id="ipv6-options">
+<h4>IPv6 options<a class="headerlink" href="#ipv6-options" title="Permalink to this headline">¶</a></h4>
+<p>IPv6 sockets only. Used with level argument <code class="docutils literal notranslate"><span class="pre">IPPROTO_IPV6</span></code></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">IPV6_CHECKSUM</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">IPV6_V6ONLY</span></code></li>
+</ul>
+<p>For multicast IPv6 UDP sockets:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">IPV6_JOIN_GROUP</span></code> / <code class="docutils literal notranslate"><span class="pre">IPV6_ADD_MEMBERSHIP</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">IPV6_LEAVE_GROUP</span></code> / <code class="docutils literal notranslate"><span class="pre">IPV6_DROP_MEMBERSHIP</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">IPV6_MULTICAST_IF</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">IPV6_MULTICAST_HOPS</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">IPV6_MULTICAST_LOOP</span></code></li>
+</ul>
+</div>
+</div>
+<div class="section" id="fcntl">
+<h3>fcntl<a class="headerlink" href="#fcntl" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">fcntl()</span></code> function is a standard API for manipulating options related to a file descriptor. In ESP-IDF, the <a class="reference internal" href="../api-reference/storage/vfs.html"><span class="doc">Virtual filesystem component</span></a> layer is used to implement this function.</p>
+<p>When the file descriptor is a socket, only the following <code class="docutils literal notranslate"><span class="pre">fcntl()</span></code> values are supported:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">O_NONBLOCK</span></code> to set/clear non-blocking I/O mode. Also supports <code class="docutils literal notranslate"><span class="pre">O_NDELAY</span></code>, which is identical to <code class="docutils literal notranslate"><span class="pre">O_NONBLOCK</span></code>.</li>
+<li><code class="docutils literal notranslate"><span class="pre">O_RDONLY</span></code>, <code class="docutils literal notranslate"><span class="pre">O_WRONLY</span></code>, <code class="docutils literal notranslate"><span class="pre">O_RDWR</span></code> flags for different read/write modes. These can read via <code class="docutils literal notranslate"><span class="pre">F_GETFL</span></code> only, they cannot be set using <code class="docutils literal notranslate"><span class="pre">F_SETFL</span></code>. A TCP socket will return a different mode depending on whether the connection has been closed at either end or is still open at both ends. UDP sockets always return <code class="docutils literal notranslate"><span class="pre">O_RDWR</span></code>.</li>
+</ul>
+</div>
+<div class="section" id="ioctls">
+<h3>ioctls<a class="headerlink" href="#ioctls" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">ioctl()</span></code> function provides a semi-standard way to access some internal features of the TCP/IP stack. In ESP-IDF, the <a class="reference internal" href="../api-reference/storage/vfs.html"><span class="doc">Virtual filesystem component</span></a> layer is used to implement this function.</p>
+<p>When the file descriptor is a socket, only the following <code class="docutils literal notranslate"><span class="pre">ioctl()</span></code> values are supported:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">FIONREAD</span></code> returns the number of bytes of pending data already received in the socket’s network buffer.</li>
+<li><code class="docutils literal notranslate"><span class="pre">FIONBIO</span></code> is an alternative way to set/clear non-blocking I/O status for a socket, equivalent to <code class="docutils literal notranslate"><span class="pre">fcntl(fd,</span> <span class="pre">F_SETFL,</span> <span class="pre">O_NONBLOCK,</span> <span class="pre">...)</span></code>.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="netconn-api">
+<h2>Netconn API<a class="headerlink" href="#netconn-api" title="Permalink to this headline">¶</a></h2>
+<p>lwIP supports two lower level APIs as well as the BSD Sockets API: the Netconn API and the Raw API.</p>
+<p>The lwIP Raw API is designed for single threaded devices and is not supported in ESP-IDF.</p>
+<p>The Netconn API is used to implement the BSD Sockets API inside lwIP, and it can also be called directly from ESP-IDF apps. This API has lower resource usage than the BSD Sockets API, in particular it can send and receive data without needing to first copy it into internal lwIP buffers.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Espressif does not test the Netconn API in ESP-IDF. As such, this functionality is <em>enabled but not supported</em>. Some functionality may only work correctly when used from the BSD Sockets API.</p>
+</div>
+<p>For more information about the Netconn API, consult <a class="reference external" href="http://www.nongnu.org/lwip/2_0_x/api_8h.html">lwip/lwip/src/include/lwip/api.h</a> and <a class="reference external" href="https://lwip.fandom.com/wiki/Netconn_API">this wiki page which is part of the unofficial lwIP Application Developers Manual</a>.</p>
+</div>
+<div class="section" id="lwip-freertos-task">
+<h2>lwIP FreeRTOS Task<a class="headerlink" href="#lwip-freertos-task" title="Permalink to this headline">¶</a></h2>
+<p>lwIP creates a dedicated TCP/IP FreeRTOS task to handle socket API requests from other tasks.</p>
+<p>A number of configuration items are available to modify the task and the queues (“mailboxes”) used to send data to/from the TCP/IP task:</p>
+<ul class="simple">
+<li><a class="reference internal" href="../api-reference/kconfig.html#config-lwip-tcpip-recvmbox-size"><span class="std std-ref">CONFIG_LWIP_TCPIP_RECVMBOX_SIZE</span></a></li>
+<li><a class="reference internal" href="../api-reference/kconfig.html#config-lwip-tcpip-task-stack-size"><span class="std std-ref">CONFIG_LWIP_TCPIP_TASK_STACK_SIZE</span></a></li>
+<li><a class="reference internal" href="../api-reference/kconfig.html#config-lwip-tcpip-task-affinity"><span class="std std-ref">CONFIG_LWIP_TCPIP_TASK_AFFINITY</span></a></li>
+</ul>
+</div>
+<div class="section" id="esp-lwip-custom-modifications">
+<h2>esp-lwip custom modifications<a class="headerlink" href="#esp-lwip-custom-modifications" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="additions">
+<h3>Additions<a class="headerlink" href="#additions" title="Permalink to this headline">¶</a></h3>
+<p>The following code is added which is not present in the upstream lwIP release:</p>
+<div class="section" id="thread-safe-sockets">
+<h4>Thread-safe sockets<a class="headerlink" href="#thread-safe-sockets" title="Permalink to this headline">¶</a></h4>
+<p>It is possible to <code class="docutils literal notranslate"><span class="pre">close()</span></code> a socket from a different thread to the one that created it. The <code class="docutils literal notranslate"><span class="pre">close()</span></code> call will block until any function calls currently using that socket from other tasks have returned.</p>
+</div>
+<div class="section" id="on-demand-timers">
+<h4>On demand timers<a class="headerlink" href="#on-demand-timers" title="Permalink to this headline">¶</a></h4>
+<p>lwIP IGMP and MLD6 features both initialize a timer in order to trigger timeout events at certain times.</p>
+<p>The default lwIP implementation is to have these timers enabled all the time, even if no timeout events are active. This increases CPU usage and power consumption when using automatic light sleep mode. <code class="docutils literal notranslate"><span class="pre">esp-lwip</span></code> default behaviour is to set each timer “on demand” so it is only enabled when an event is pending.</p>
+<p>To return to the default lwIP behaviour (always-on timers), disable <a class="reference internal" href="../api-reference/kconfig.html#config-lwip-timers-ondemand"><span class="std std-ref">CONFIG_LWIP_TIMERS_ONDEMAND</span></a>.</p>
+</div>
+<div class="section" id="abort-tcp-connections-when-ip-changes">
+<h4>Abort TCP connections when IP changes<a class="headerlink" href="#abort-tcp-connections-when-ip-changes" title="Permalink to this headline">¶</a></h4>
+<p><a class="reference internal" href="../api-reference/kconfig.html#config-lwip-tcp-keep-connection-when-ip-changes"><span class="std std-ref">CONFIG_LWIP_TCP_KEEP_CONNECTION_WHEN_IP_CHANGES</span></a> is disabled by default. This disables the default lwIP behaviour of keeping TCP connections open if an interface IP changes, in case the interface IP changes back (for example, if an interface connection goes down and comes back up). Enable this option to keep TCP connections open in this case, until they time out normally. This may increase the number of sockets in use if a network interface goes down temporarily.</p>
+</div>
+<div class="section" id="additional-socket-options">
+<h4>Additional Socket Options<a class="headerlink" href="#additional-socket-options" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>Some standard IPV4 and IPV6 multicast socket options are implemented (see <cite>Socket Options</cite>).</li>
+<li>Possible to set IPV6-only UDP and TCP sockets with <code class="docutils literal notranslate"><span class="pre">IPV6_V6ONLY</span></code> socket option (normal lwIP is TCP only).</li>
+</ul>
+</div>
+<div class="section" id="ip-layer-features">
+<h4>IP layer features<a class="headerlink" href="#ip-layer-features" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>IPV4 source based routing implementation is different.</li>
+<li>IPV4 mapped IPV6 addresses are supported.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="limitations">
+<h3>Limitations<a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Calling <code class="docutils literal notranslate"><span class="pre">send()</span></code> or <code class="docutils literal notranslate"><span class="pre">sendto()</span></code> repeatedly on a UDP socket may eventually fail with <code class="docutils literal notranslate"><span class="pre">errno</span></code> equal to <code class="docutils literal notranslate"><span class="pre">ENOMEM</span></code>. This is a limitation of buffer sizes in the lower layer network interface drivers. If all driver transmit buffers are full then UDP transmission will fail. Applications sending a high volume of UDP datagrams who don’t wish for any to be dropped by the sender should check for this error code and re-send the datagram after a short delay. Increasing the number of TX buffers in the <a class="reference internal" href="../api-reference/kconfig.html#config-esp32-wifi-tx-buffer"><span class="std std-ref">Wi-Fi</span></a> or <a class="reference internal" href="../api-reference/kconfig.html#config-eth-dma-tx-buffer-num"><span class="std std-ref">Ethernet</span></a> project configuration (as applicable) may also help.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="performance-optimization">
+<h2>Performance Optimization<a class="headerlink" href="#performance-optimization" title="Permalink to this headline">¶</a></h2>
+<p>TCP/IP performance is a complex subject, and performance can be optimized towards multiple goals. The default settings of ESP-IDF are tuned for a compromise between throughput, latency, and moderate memory usage.</p>
+<div class="section" id="maximum-throughput">
+<h3>Maximum throughput<a class="headerlink" href="#maximum-throughput" title="Permalink to this headline">¶</a></h3>
+<p>Espressif tests ESP-IDF TCP/IP throughput using the <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/wifi/iperf">wifi/iperf</a> example in an RF sealed enclosure.</p>
+<p>The <a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/examples/wifi/iperf/sdkconfig.defaults">wifi/iperf/sdkconfig.defaults</a> file for the iperf example contains settings known to maximize TCP/IP throughput, usually at the expense of higher RAM usage. To get maximum TCP/IP throughput in an application at the expense of other factors then suggest applying settings from this file into the project sdkconfig.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">Suggest applying changes a few at a time and checking the performance each time with a particular application workload.</p>
+</div>
+<ul class="simple">
+<li>If a lot of tasks are competing for CPU time on the system, consider that the lwIP task has configurable CPU affinity (<a class="reference internal" href="../api-reference/kconfig.html#config-lwip-tcpip-task-affinity"><span class="std std-ref">CONFIG_LWIP_TCPIP_TASK_AFFINITY</span></a>) and runs at fixed priority <code class="docutils literal notranslate"><span class="pre">ESP_TASK_TCPIP_PRIO</span></code> (18). Configure competing tasks to be pinned to a different core, or to run at a lower priority.</li>
+<li>If using <code class="docutils literal notranslate"><span class="pre">select()</span></code> function with socket arguments only, setting <a class="reference internal" href="../api-reference/kconfig.html#config-lwip-use-only-lwip-select"><span class="std std-ref">CONFIG_LWIP_USE_ONLY_LWIP_SELECT</span></a> will make <code class="docutils literal notranslate"><span class="pre">select()</span></code> calls faster.</li>
+</ul>
+<p>If using a Wi-Fi network interface, please also refer to <a class="reference internal" href="wifi.html#wifi-buffer-usage"><span class="std std-ref">Wi-Fi Buffer Usage</span></a>.</p>
+</div>
+<div class="section" id="minimum-latency">
+<h3>Minimum latency<a class="headerlink" href="#minimum-latency" title="Permalink to this headline">¶</a></h3>
+<p>Except for increasing buffer sizes, most changes which increase throughput will also decrease latency by reducing the amount of CPU time spent in lwIP functions.</p>
+<ul class="simple">
+<li>For TCP sockets, lwIP supports setting the standard <code class="docutils literal notranslate"><span class="pre">TCP_NODELAY</span></code> flag to disable Nagle’s algorithm.</li>
+</ul>
+</div>
+<div class="section" id="minimum-ram-usage">
+<span id="lwip-ram-usage"></span><h3>Minimum RAM usage<a class="headerlink" href="#minimum-ram-usage" title="Permalink to this headline">¶</a></h3>
+<p>Most lwIP RAM usage is on-demand, as RAM is allocated from the heap as needed. Therefore, changing lwIP settings to reduce RAM usage may not change RAM usage at idle but can change it at peak.</p>
+<ul class="simple">
+<li>Reducing <a class="reference internal" href="../api-reference/kconfig.html#config-lwip-max-sockets"><span class="std std-ref">CONFIG_LWIP_MAX_SOCKETS</span></a> reduces the maximum number of sockets in the system. This will also cause TCP sockets in the <code class="docutils literal notranslate"><span class="pre">WAIT_CLOSE</span></code> state to be closed and recycled more rapidly (if needed to open a new socket), further reducing peak RAM usage.</li>
+<li>Reducing <a class="reference internal" href="../api-reference/kconfig.html#config-lwip-tcpip-recvmbox-size"><span class="std std-ref">CONFIG_LWIP_TCPIP_RECVMBOX_SIZE</span></a>, <a class="reference internal" href="../api-reference/kconfig.html#config-lwip-tcp-recvmbox-size"><span class="std std-ref">CONFIG_LWIP_TCP_RECVMBOX_SIZE</span></a> and <a class="reference internal" href="../api-reference/kconfig.html#config-lwip-udp-recvmbox-size"><span class="std std-ref">CONFIG_LWIP_UDP_RECVMBOX_SIZE</span></a> reduce memory usage at the expense of throughput, depending on usage.</li>
+</ul>
+<p>If using Wi-Fi, please also refer to <a class="reference internal" href="wifi.html#wifi-buffer-usage"><span class="std std-ref">Wi-Fi Buffer Usage</span></a>.</p>
+<div class="section" id="peak-buffer-usage">
+<h4>Peak Buffer Usage<a class="headerlink" href="#peak-buffer-usage" title="Permalink to this headline">¶</a></h4>
+<p>The peak heap memory that lwIP consumes is the <strong>theoretically-maximum memory</strong> that the lwIP driver consumes. Generally, the peak heap memory that lwIP consumes depends on:</p>
+<blockquote>
+<div><ul class="simple">
+<li>the memory required to create a UDP connection: lwip_udp_conn</li>
+<li>the memory required to create a TCP connection: lwip_tcp_conn</li>
+<li>the number of UDP connections that the application has: lwip_udp_con_num</li>
+<li>the number of TCP connections that the application has: lwip_tcp_con_num</li>
+<li>the TCP TX window size: lwip_tcp_tx_win_size</li>
+<li>the TCP RX window size: lwip_tcp_rx_win_size</li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt><strong>So, the peak heap memory that the LwIP consumes can be calculated with the following formula:</strong></dt>
+<dd>lwip_dynamic_peek_memory =  (lwip_udp_con_num * lwip_udp_conn)  + (lwip_tcp_con_num * (lwip_tcp_tx_win_size + lwip_tcp_rx_win_size + lwip_tcp_conn))</dd>
+</dl>
+<p>Some TCP-based applications need only one TCP connection. However, they may choose to close this TCP connection and create a new one when an error (such as a sending failure) occurs. This may result in multiple TCP connections existing in the system simultaneously, because it may take a long time for a TCP connection to close, according to the TCP state machine (refer to RFC793).</p>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="partition-tables.html" class="btn btn-neutral float-right" title="Partition Tables" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="linker-script-generation.html" class="btn btn-neutral float-left" title="Linker Script Generation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/lwip.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:34 GMT -->
+</html>

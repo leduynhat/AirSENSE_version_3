@@ -1,0 +1,734 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/protocols/modbus.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:34 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ESP-Modbus &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ESP WebSocket Client" href="esp_websocket_client.html" />
+    <link rel="prev" title="mDNS Service" href="mdns.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="modbus.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/protocols/modbus"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Protocols</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="asio.html">ASIO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mqtt.html">ESP-MQTT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_tls.html">ESP-TLS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_http_client.html">HTTP Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_http_server.html">HTTP Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_https_server.html">HTTPS Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="icmp_echo.html">ICMP Echo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_local_ctrl.html">Local Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mdns.html">mDNS</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Modbus</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-example">Application Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="esp_websocket_client.html">Websocket Client</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_serial_slave_link.html">ESP Serial Slave Link</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#ip-network-layer">IP Network Layer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Application Protocols</a> &raquo;</li>
+        
+      <li>ESP-Modbus</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/protocols/modbus.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esp-modbus">
+<h1>ESP-Modbus<a class="headerlink" href="#esp-modbus" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The Modbus serial communication protocol is de facto standard protocol widely used to connect industrial electronic devices. Modbus allows communication among many devices connected to the same network, for example, a system that measures temperature and humidity and communicates the results to a computer. The Modbus protocol uses several types of data: Holding Registers, Input Registers, Coils (single bit output), Discrete Inputs. Versions of the Modbus protocol exist for serial port and for Ethernet and other protocols that support the Internet protocol suite.
+There are many variants of Modbus protocols, some of them are:</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">Modbus</span> <span class="pre">RTU</span></code> — This is used in serial communication and makes use of a compact, binary representation of the data for protocol communication. The RTU format follows the commands/data with a cyclic redundancy check checksum as an error check mechanism to ensure the reliability of data. Modbus RTU is the most common implementation available for Modbus. A Modbus RTU message must be transmitted continuously without inter-character hesitations. Modbus messages are framed (separated) by idle (silent) periods. The RS-485 interface communication is usually used for this type.</li>
+<li><code class="docutils literal notranslate"><span class="pre">Modbus</span> <span class="pre">ASCII</span></code> — This is used in serial communication and makes use of ASCII characters for protocol communication. The ASCII format uses a longitudinal redundancy check checksum. Modbus ASCII messages are framed by leading colon (“:”) and trailing newline (CR/LF).</li>
+<li><code class="docutils literal notranslate"><span class="pre">Modbus</span> <span class="pre">TCP/IP</span> <span class="pre">or</span> <span class="pre">Modbus</span> <span class="pre">TCP</span></code> — This is a Modbus variant used for communications over TCP/IP networks, connecting over port 502. It does not require a checksum calculation, as lower layers already provide checksum protection.</li>
+</ul>
+</div></blockquote>
+<div class="section" id="modbus-common-interface-api-overview">
+<h3>Modbus common interface API overview<a class="headerlink" href="#modbus-common-interface-api-overview" title="Permalink to this headline">¶</a></h3>
+<p>The API functions below provide common functionality to setup Modbus stack for slave and master implementation accordingly. ISP-IDF supports Modbus serial slave and master protocol stacks and provides modbus_controller interface API to interact with user application.</p>
+<dl class="function">
+<dt id="_CPPv414mbc_slave_init14mb_port_type_tPPv">
+<span id="_CPPv314mbc_slave_init14mb_port_type_tPPv"></span><span id="_CPPv214mbc_slave_init14mb_port_type_tPPv"></span><span id="mbc_slave_init__mb_port_type_t.voidPP"></span><span class="target" id="esp__modbus__slave_8h_1a0e793f6f02fc90375eaae080e4c89325"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mbc_slave_init</code><span class="sig-paren">(</span>mb_port_type_t <em>port_type</em>, void **<em>handler</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414mbc_slave_init14mb_port_type_tPPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize Modbus controller and stack. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_NO_MEM Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handler</span></code>: handler(pointer) to master data structure </li>
+<li><code class="docutils literal notranslate"><span class="pre">port_type</span></code>: type of stack </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415mbc_master_init14mb_port_type_tPPv">
+<span id="_CPPv315mbc_master_init14mb_port_type_tPPv"></span><span id="_CPPv215mbc_master_init14mb_port_type_tPPv"></span><span id="mbc_master_init__mb_port_type_t.voidPP"></span><span class="target" id="esp__modbus__master_8h_1a49bff153ef0b12652f5eb5a48d81d8af"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mbc_master_init</code><span class="sig-paren">(</span>mb_port_type_t <em>port_type</em>, void **<em>handler</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415mbc_master_init14mb_port_type_tPPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize Modbus controller and stack. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_NO_MEM Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handler</span></code>: handler(pointer) to master data structure </li>
+<li><code class="docutils literal notranslate"><span class="pre">port_type</span></code>: the type of port </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<p>The function initializes the Modbus controller interface and its active context (tasks, RTOS objects and other resources).</p>
+<dl class="function">
+<dt id="_CPPv415mbc_slave_setupPv">
+<span id="_CPPv315mbc_slave_setupPv"></span><span id="_CPPv215mbc_slave_setupPv"></span><span id="mbc_slave_setup__voidP"></span><span class="target" id="esp__modbus__slave_8h_1af71b4aade781ffa4c07d5c159f655b11"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mbc_slave_setup</code><span class="sig-paren">(</span>void *<em>comm_info</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415mbc_slave_setupPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set Modbus communication parameters for the controller. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Incorrect parameter data </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">comm_info</span></code>: Communication parameters structure.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416mbc_master_setupPv">
+<span id="_CPPv316mbc_master_setupPv"></span><span id="_CPPv216mbc_master_setupPv"></span><span id="mbc_master_setup__voidP"></span><span class="target" id="esp__modbus__master_8h_1a354553e8990e7923c51fa94d4f7af257"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mbc_master_setup</code><span class="sig-paren">(</span>void *<em>comm_info</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416mbc_master_setupPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set Modbus communication parameters for the controller. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Incorrect parameter data </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">comm_info</span></code>: Communication parameters structure.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<p>The function is used to setup communication parameters of the Modbus stack. See the Modbus controller API documentation for more information.</p>
+<p><a class="reference internal" href="#_CPPv424mbc_slave_set_descriptor29mb_register_area_descriptor_t" title="mbc_slave_set_descriptor"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mbc_slave_set_descriptor()</span></code></a>: Initialization of slave descriptor.</p>
+<p><a class="reference internal" href="#_CPPv425mbc_master_set_descriptorPK25mb_parameter_descriptor_tK8uint16_t" title="mbc_master_set_descriptor"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mbc_master_set_descriptor()</span></code></a>: Initialization of master descriptor.</p>
+<p>The Modbus stack uses parameter description tables (descriptors) for communication. These are different for master and slave implementation of stack and should be assigned by the API call before start of communication.</p>
+<dl class="function">
+<dt id="_CPPv415mbc_slave_startv">
+<span id="_CPPv315mbc_slave_startv"></span><span id="_CPPv215mbc_slave_startv"></span><span id="mbc_slave_start__void"></span><span class="target" id="esp__modbus__slave_8h_1aa4002776f03d980e4516a4d0e3ecce0d"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mbc_slave_start</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415mbc_slave_startv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start Modbus communication stack. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Modbus stack start error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416mbc_master_startv">
+<span id="_CPPv316mbc_master_startv"></span><span id="_CPPv216mbc_master_startv"></span><span id="mbc_master_start__void"></span><span class="target" id="esp__modbus__master_8h_1ac937d89ffef0dd6d18758a24261895d8"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mbc_master_start</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416mbc_master_startv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start Modbus communication stack. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Modbus stack start error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<p>Modbus controller start function. Starts stack and interface and allows communication.</p>
+<dl class="function">
+<dt id="_CPPv417mbc_slave_destroyv">
+<span id="_CPPv317mbc_slave_destroyv"></span><span id="_CPPv217mbc_slave_destroyv"></span><span id="mbc_slave_destroy__void"></span><span class="target" id="esp__modbus__slave_8h_1a70ebf5e8847195f04396e8678c0aee0f"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mbc_slave_destroy</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417mbc_slave_destroyv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Destroy Modbus controller and stack. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_STATE Parameter error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418mbc_master_destroyv">
+<span id="_CPPv318mbc_master_destroyv"></span><span id="_CPPv218mbc_master_destroyv"></span><span id="mbc_master_destroy__void"></span><span class="target" id="esp__modbus__master_8h_1aec131917d58b90eb6c2ba4a5b28745ae"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mbc_master_destroy</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418mbc_master_destroyv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Destroy Modbus controller and stack. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_STATE Parameter error </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<p>This function stops Modbus communication stack and destroys controller interface.</p>
+<p>There are some configurable parameters of modbus_controller interface and Modbus stack that can be configured using KConfig values in “Modbus configuration” menu. The most important option in KConfig menu is “Selection of Modbus stack support mode” that allows to select master or slave stack for implementation. See the examples for more information about how to use these API functions.</p>
+</div>
+<div class="section" id="modbus-serial-slave-interface-api-overview">
+<h3>Modbus serial slave interface API overview<a class="headerlink" href="#modbus-serial-slave-interface-api-overview" title="Permalink to this headline">¶</a></h3>
+<p>The slave stack requires the user defined structures which represent Modbus parameters accessed by stack. These structures should be prepared by user and be assigned to the modbus_controller interface using <a class="reference internal" href="#_CPPv424mbc_slave_set_descriptor29mb_register_area_descriptor_t" title="mbc_slave_set_descriptor"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mbc_slave_set_descriptor()</span></code></a> API call before start of communication.
+The interface API functions below are used for Modbus slave application:</p>
+<dl class="function">
+<dt id="_CPPv424mbc_slave_set_descriptor29mb_register_area_descriptor_t">
+<span id="_CPPv324mbc_slave_set_descriptor29mb_register_area_descriptor_t"></span><span id="_CPPv224mbc_slave_set_descriptor29mb_register_area_descriptor_t"></span><span id="mbc_slave_set_descriptor__mb_register_area_descriptor_t"></span><span class="target" id="esp__modbus__slave_8h_1a2db36accec8f9d4a3aad8479a350a41e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mbc_slave_set_descriptor</code><span class="sig-paren">(</span>mb_register_area_descriptor_t <em>descr_data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424mbc_slave_set_descriptor29mb_register_area_descriptor_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set Modbus area descriptor. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: The appropriate descriptor is set</li>
+<li>ESP_ERR_INVALID_ARG: The argument is incorrect </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">descr_data</span></code>: Modbus registers area descriptor structure</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<p>The function initializes Modbus communication descriptors for each type of Modbus register area (Holding Registers, Input Registers, Coils (single bit output), Discrete Inputs). Once areas are initialized and the <a class="reference internal" href="#_CPPv415mbc_slave_startv" title="mbc_slave_start"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mbc_slave_start()</span></code></a> API is called the Modbus stack can access the data in user data structures by request from master. See the <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mb_register_area_descriptor_t</span></code> and example for more information.</p>
+<dl class="function">
+<dt id="_CPPv421mbc_slave_check_event16mb_event_group_t">
+<span id="_CPPv321mbc_slave_check_event16mb_event_group_t"></span><span id="_CPPv221mbc_slave_check_event16mb_event_group_t"></span><span id="mbc_slave_check_event__mb_event_group_t"></span><span class="target" id="esp__modbus__slave_8h_1a4ed1036ca2af20ffc1693ceaa4afb22e"></span>mb_event_group_t <code class="descname">mbc_slave_check_event</code><span class="sig-paren">(</span>mb_event_group_t <em>group</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421mbc_slave_check_event16mb_event_group_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Wait for specific event on parameter change. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>mb_event_group_t event bits triggered </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">group</span></code>: Group event bit mask to wait for change</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<p>The blocking call to function waits for event specified in the input parameter as event mask. Once master access the parameter and event mask matches the parameter the application task will be unblocked and function will return ESP_OK. See the <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mb_event_group_t</span></code> for more information about Modbus event masks.</p>
+<dl class="function">
+<dt id="_CPPv424mbc_slave_get_param_infoP15mb_param_info_t8uint32_t">
+<span id="_CPPv324mbc_slave_get_param_infoP15mb_param_info_t8uint32_t"></span><span id="_CPPv224mbc_slave_get_param_infoP15mb_param_info_t8uint32_t"></span><span id="mbc_slave_get_param_info__mb_param_info_tP.uint32_t"></span><span class="target" id="esp__modbus__slave_8h_1a517fbc52d8f6f65822fc20ff1dd70ad0"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mbc_slave_get_param_info</code><span class="sig-paren">(</span>mb_param_info_t *<em>reg_info</em>, uint32_t <em>timeout</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424mbc_slave_get_param_infoP15mb_param_info_t8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get parameter information. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_TIMEOUT Can not get data from parameter queue or queue overflow </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">reg_info</span></code>: parameter info structure </li>
+<li><code class="docutils literal notranslate"><span class="pre">timeout</span></code>: Timeout in milliseconds to read information from parameter queue </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<p>The function gets information about accessed parameters from modbus controller event queue. The KConfig ‘CONFIG_FMB_CONTROLLER_NOTIFY_QUEUE_SIZE’ key can be used to configure the notification queue size. The timeout parameter allows to specify timeout for waiting notification. The <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">mb_param_info_t</span></code> structure contain information about accessed parameter.</p>
+</div>
+<div class="section" id="modbus-serial-master-interface-api-overview">
+<h3>Modbus serial master interface API overview<a class="headerlink" href="#modbus-serial-master-interface-api-overview" title="Permalink to this headline">¶</a></h3>
+<p>The Modbus master implementation requires parameter description table be defined before start of stack. This table describes characteristics (physical parameters like temperature, humidity, etc.) and links them to Modbus registers in specific slave device in the Modbus segment. The table has to be assigned to the modbus_controller interface using <a class="reference internal" href="#_CPPv425mbc_master_set_descriptorPK25mb_parameter_descriptor_tK8uint16_t" title="mbc_master_set_descriptor"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">mbc_master_set_descriptor()</span></code></a> API call before start of communication.</p>
+<p>Below are the interface API functions that are used to setup and use Modbus master stack from user application and can be executed in next order:</p>
+<dl class="function">
+<dt id="_CPPv425mbc_master_set_descriptorPK25mb_parameter_descriptor_tK8uint16_t">
+<span id="_CPPv325mbc_master_set_descriptorPK25mb_parameter_descriptor_tK8uint16_t"></span><span id="_CPPv225mbc_master_set_descriptorPK25mb_parameter_descriptor_tK8uint16_t"></span><span id="mbc_master_set_descriptor__mb_parameter_descriptor_tCP.uint16_tC"></span><span class="target" id="esp__modbus__master_8h_1a11b8ed8277fbde90f9367a7c26c4e1c2"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mbc_master_set_descriptor</code><span class="sig-paren">(</span><em class="property">const</em> mb_parameter_descriptor_t *<em>descriptor</em>, <em class="property">const</em> uint16_t <em>num_elements</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425mbc_master_set_descriptorPK25mb_parameter_descriptor_tK8uint16_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Assign parameter description table for Modbus controller interface. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>esp_err_t ESP_OK - set descriptor successfully</li>
+<li>esp_err_t ESP_ERR_INVALID_ARG - invalid argument in function call </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">descriptor</span></code>: pointer to parameter description table </li>
+<li><code class="docutils literal notranslate"><span class="pre">num_elements</span></code>: number of elements in the table</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<p>Assigns parameter description table for Modbus controller interface. The table has to be prepared by user according to particular</p>
+<dl class="function">
+<dt id="_CPPv423mbc_master_send_requestP18mb_param_request_tPv">
+<span id="_CPPv323mbc_master_send_requestP18mb_param_request_tPv"></span><span id="_CPPv223mbc_master_send_requestP18mb_param_request_tPv"></span><span id="mbc_master_send_request__mb_param_request_tP.voidP"></span><span class="target" id="esp__modbus__master_8h_1a3cdfe3180fc10f1c52a153d5c132b86f"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mbc_master_send_request</code><span class="sig-paren">(</span>mb_param_request_t *<em>request</em>, void *<em>data_ptr</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423mbc_master_send_requestP18mb_param_request_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Send data request as defined in parameter request, waits response from slave and returns status of command execution. This function provides standard way for read/write access to Modbus devices in the network. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>esp_err_t ESP_OK - request was successful</li>
+<li>esp_err_t ESP_ERR_INVALID_ARG - invalid argument of function</li>
+<li>esp_err_t ESP_ERR_INVALID_RESPONSE - an invalid response from slave</li>
+<li>esp_err_t ESP_ERR_TIMEOUT - operation timeout or no response from slave</li>
+<li>esp_err_t ESP_ERR_NOT_SUPPORTED - the request command is not supported by slave</li>
+<li>esp_err_t ESP_FAIL - slave returned an exception or other failure </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">request</span></code>: pointer to request structure of type mb_param_request_t </li>
+<li><code class="docutils literal notranslate"><span class="pre">data_ptr</span></code>: pointer to data buffer to send or received data (dependent of command field in request)</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<p>This function sends data request as defined in parameter request, waits response from corresponded slave and returns status of command execution. This function provides a standard way for read/write access to Modbus devices in the network.</p>
+<dl class="function">
+<dt id="_CPPv423mbc_master_get_cid_info8uint16_tPPK25mb_parameter_descriptor_t">
+<span id="_CPPv323mbc_master_get_cid_info8uint16_tPPK25mb_parameter_descriptor_t"></span><span id="_CPPv223mbc_master_get_cid_info8uint16_tPPK25mb_parameter_descriptor_t"></span><span id="mbc_master_get_cid_info__uint16_t.mb_parameter_descriptor_tCPP"></span><span class="target" id="esp__modbus__master_8h_1a39a56321159f0869282d9c4014fa0c62"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mbc_master_get_cid_info</code><span class="sig-paren">(</span>uint16_t <em>cid</em>, <em class="property">const</em> mb_parameter_descriptor_t **<em>param_info</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423mbc_master_get_cid_info8uint16_tPPK25mb_parameter_descriptor_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Get information about supported characteristic defined as cid. Uses parameter description table to get this information. The function will check if characteristic defined as a cid parameter is supported and returns its description in param_info. Returns ESP_ERR_NOT_FOUND if characteristic is not supported. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>esp_err_t ESP_OK - request was successful and buffer contains the supported characteristic name</li>
+<li>esp_err_t ESP_ERR_INVALID_ARG - invalid argument of function</li>
+<li>esp_err_t ESP_ERR_NOT_FOUND - the characteristic (cid) not found</li>
+<li>esp_err_t ESP_FAIL - unknown error during lookup table processing </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">cid</span></code>: characteristic id </li>
+<li><code class="docutils literal notranslate"><span class="pre">param_info</span></code>: pointer to pointer of characteristic data.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<p>The function gets information about supported characteristic defined as cid. It will check if characteristic is supported and returns its description.</p>
+<dl class="function">
+<dt id="_CPPv424mbc_master_get_parameter8uint16_tPcP7uint8_tP7uint8_t">
+<span id="_CPPv324mbc_master_get_parameter8uint16_tPcP7uint8_tP7uint8_t"></span><span id="_CPPv224mbc_master_get_parameter8uint16_tPcP7uint8_tP7uint8_t"></span><span id="mbc_master_get_parameter__uint16_t.cP.uint8_tP.uint8_tP"></span><span class="target" id="esp__modbus__master_8h_1a7f54bf667beedff8f0e8d059d6bfb47f"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mbc_master_get_parameter</code><span class="sig-paren">(</span>uint16_t <em>cid</em>, char *<em>name</em>, uint8_t *<em>value</em>, uint8_t *<em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424mbc_master_get_parameter8uint16_tPcP7uint8_tP7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Read parameter from modbus slave device whose name is defined by name and has cid. The additional data for request is taken from parameter description (lookup) table. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>esp_err_t ESP_OK - request was successful and value buffer contains representation of actual parameter data from slave</li>
+<li>esp_err_t ESP_ERR_INVALID_ARG - invalid argument of function</li>
+<li>esp_err_t ESP_ERR_INVALID_RESPONSE - an invalid response from slave</li>
+<li>esp_err_t ESP_ERR_INVALID_STATE - invalid state during data processing or allocation failure</li>
+<li>esp_err_t ESP_ERR_TIMEOUT - operation timed out and no response from slave</li>
+<li>esp_err_t ESP_ERR_NOT_SUPPORTED - the request command is not supported by slave</li>
+<li>esp_err_t ESP_ERR_NOT_FOUND - the parameter is not found in the parameter description table</li>
+<li>esp_err_t ESP_FAIL - slave returned an exception or other failure </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">cid</span></code>: id of the characteristic for parameter </li>
+<li><code class="docutils literal notranslate"><span class="pre">name</span></code>: pointer into string name (key) of parameter (null terminated) </li>
+<li><code class="docutils literal notranslate"><span class="pre">value</span></code>: pointer to data buffer of parameter </li>
+<li><code class="docutils literal notranslate"><span class="pre">type</span></code>: parameter type associated with the name returned from parameter description table.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<p>The function reads data of characteristic defined in parameters from Modbus slave device and returns its data. The additional data for request is taken from parameter description table.</p>
+<dl class="function">
+<dt id="_CPPv424mbc_master_set_parameter8uint16_tPcP7uint8_tP7uint8_t">
+<span id="_CPPv324mbc_master_set_parameter8uint16_tPcP7uint8_tP7uint8_t"></span><span id="_CPPv224mbc_master_set_parameter8uint16_tPcP7uint8_tP7uint8_t"></span><span id="mbc_master_set_parameter__uint16_t.cP.uint8_tP.uint8_tP"></span><span class="target" id="esp__modbus__master_8h_1ab41a9e657b8820af6037acdb684826e3"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">mbc_master_set_parameter</code><span class="sig-paren">(</span>uint16_t <em>cid</em>, char *<em>name</em>, uint8_t *<em>value</em>, uint8_t *<em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424mbc_master_set_parameter8uint16_tPcP7uint8_tP7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set characteristic’s value defined as a name and cid parameter. The additional data for cid parameter request is taken from master parameter lookup table. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>esp_err_t ESP_OK - request was successful and value was saved in the slave device registers</li>
+<li>esp_err_t ESP_ERR_INVALID_ARG - invalid argument of function</li>
+<li>esp_err_t ESP_ERR_INVALID_RESPONSE - an invalid response from slave during processing of parameter</li>
+<li>esp_err_t ESP_ERR_INVALID_STATE - invalid state during data processing or allocation failure</li>
+<li>esp_err_t ESP_ERR_TIMEOUT - operation timed out and no response from slave</li>
+<li>esp_err_t ESP_ERR_NOT_SUPPORTED - the request command is not supported by slave</li>
+<li>esp_err_t ESP_FAIL - slave returned an exception or other failure </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">cid</span></code>: id of the characteristic for parameter </li>
+<li><code class="docutils literal notranslate"><span class="pre">name</span></code>: pointer into string name (key) of parameter (null terminated) </li>
+<li><code class="docutils literal notranslate"><span class="pre">value</span></code>: pointer to data buffer of parameter (actual representation of json value field in binary form) </li>
+<li><code class="docutils literal notranslate"><span class="pre">type</span></code>: pointer to parameter type associated with the name returned from parameter lookup table.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<p>The function writes characteristic’s value defined as a name and cid parameter in corresponded slave device. The additional data for parameter request is taken from master parameter description table.</p>
+</div>
+</div>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<p>The examples below use the FreeModbus library port for serial slave and master implementation accordingly. The selection of stack is performed through KConfig menu “Selection of Modbus stack support mode” and related configuration keys.</p>
+<p><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/modbus/serial/mb_slave">protocols/modbus/serial/mb_slave</a></p>
+<p><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/modbus/serial/mb_master">protocols/modbus/serial/mb_master</a></p>
+<p>Please refer to the specific example README.md for details.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="esp_websocket_client.html" class="btn btn-neutral float-right" title="ESP WebSocket Client" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="mdns.html" class="btn btn-neutral float-left" title="mDNS Service" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/protocols/modbus.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:34 GMT -->
+</html>

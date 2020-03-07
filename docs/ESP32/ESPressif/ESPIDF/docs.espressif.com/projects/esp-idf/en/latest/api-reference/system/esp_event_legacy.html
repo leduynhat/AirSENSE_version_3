@@ -1,0 +1,926 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/system/esp_event_legacy.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:26 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Legacy event loop &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="FreeRTOS" href="freertos.html" />
+    <link rel="prev" title="Event Loop Library" href="esp_event.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="esp_event_legacy.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/system/esp_event_legacy"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">System</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="app_image_format.html">App image format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="app_trace.html">Application Level Tracing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="efuse.html">eFuse Manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_err.html">Error Codes and Helper Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_https_ota.html">ESP HTTPS OTA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_pthread.html">ESP pthread</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="esp_event.html">Event Loop Library</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="esp_event.html#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esp_event.html#using-esp-event-apis">Using <code class="docutils literal notranslate"><span class="pre">esp_event</span></code> APIs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esp_event.html#declaring-and-defining-events">Declaring and defining events</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esp_event.html#default-event-loop">Default Event Loop</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esp_event.html#notes-on-handler-registration">Notes on Handler Registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esp_event.html#event-loop-profiling">Event loop profiling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esp_event.html#application-example">Application Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="esp_event.html#api-reference">API Reference</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="esp_event.html#related-documents">Related Documents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="freertos.html">FreeRTOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freertos_additions.html">FreeRTOS Additions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mem_alloc.html">Heap Memory Allocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="heap_debug.html">Heap Memory Debugging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_timer.html">High Resolution Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="himem.html">Himem (large external SPI RAM) API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipc.html">Inter-Processor Call</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_expression_with_stack.html">Call function with external stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="intr_alloc.html">Interrupt Allocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="log.html">Logging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system.html">Miscellaneous System APIs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ota.html">Over The Air Updates (OTA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="perfmon.html">Performance Monitor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="power_management.html">Power Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sleep_modes.html">Sleep Modes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wdts.html">Watchdogs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system_time.html">System Time</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">System API</a> &raquo;</li>
+        
+          <li><a href="esp_event.html">Event Loop Library</a> &raquo;</li>
+        
+      <li>Legacy event loop</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/system/esp_event_legacy.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="legacy-event-loop">
+<h1>Legacy event loop<a class="headerlink" href="#legacy-event-loop" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp_event/include/esp_event_legacy.h">esp_event/include/esp_event_legacy.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv414esp_event_sendP14system_event_t">
+<span id="_CPPv314esp_event_sendP14system_event_t"></span><span id="_CPPv214esp_event_sendP14system_event_t"></span><span id="esp_event_send__system_event_tP"></span><span class="target" id="esp__event__legacy_8h_1ada76a33cd067101daf06462192372db7"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_event_send</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414system_event_t" title="system_event_t">system_event_t</a> *<em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414esp_event_sendP14system_event_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Send a event to event task. </p>
+<p><p>Other task/modules, such as the tcpip_adapter, can call this API to send an event to event task</p>
+<dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API is part of the legacy event system. New code should use event library API in esp_event.h</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK : succeed </dd>
+<dt><strong>Return</strong></dt>
+<dd>others : fail </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">event</span></code>: Event to send</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423esp_event_send_internal16esp_event_base_t7int32_tPv6size_t10TickType_t">
+<span id="_CPPv323esp_event_send_internal16esp_event_base_t7int32_tPv6size_t10TickType_t"></span><span id="_CPPv223esp_event_send_internal16esp_event_base_t7int32_tPv6size_t10TickType_t"></span><span id="esp_event_send_internal__esp_event_base_t.int32_t.voidP.s.TickType_t"></span><span class="target" id="esp__event__legacy_8h_1ae851f1d8c5394bac7c0e013f004a9b2a"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_event_send_internal</code><span class="sig-paren">(</span><a class="reference internal" href="esp_event.html#_CPPv416esp_event_base_t" title="esp_event_base_t">esp_event_base_t</a> <em>event_base</em>, int32_t <em>event_id</em>, void *<em>event_data</em>, size_t <em>event_data_size</em>, TickType_t <em>ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423esp_event_send_internal16esp_event_base_t7int32_tPv6size_t10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Send a event to event task. </p>
+<p><p>Other task/modules, such as the tcpip_adapter, can call this API to send an event to event task</p>
+<dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API is used by WiFi Driver only.</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK : succeed </dd>
+<dt><strong>Return</strong></dt>
+<dd>others : fail </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">event_base</span></code>: the event base that identifies the event </li>
+<li><code class="docutils literal notranslate"><span class="pre">event_id</span></code>: the event id that identifies the event </li>
+<li><code class="docutils literal notranslate"><span class="pre">event_data</span></code>: the data, specific to the event occurence, that gets passed to the handler </li>
+<li><code class="docutils literal notranslate"><span class="pre">event_data_size</span></code>: the size of the event data </li>
+<li><code class="docutils literal notranslate"><span class="pre">ticks_to_wait</span></code>: number of ticks to block on a full event queue</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425esp_event_process_defaultP14system_event_t">
+<span id="_CPPv325esp_event_process_defaultP14system_event_t"></span><span id="_CPPv225esp_event_process_defaultP14system_event_t"></span><span id="esp_event_process_default__system_event_tP"></span><span class="target" id="esp__event__legacy_8h_1a41151b87b0e40bee156d076515ea219e"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_event_process_default</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414system_event_t" title="system_event_t">system_event_t</a> *<em>event</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425esp_event_process_defaultP14system_event_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Default event handler for system events. </p>
+<p><p>This function performs default handling of system events. When using esp_event_loop APIs, it is called automatically before invoking the user-provided callback function.</p>
+<dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API is part of the legacy event system. New code should use event library API in esp_event.h</dd>
+</dl>
+</p>
+<p>Applications which implement a custom event loop must call this function as part of event processing.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>ESP_OK if an event was handled successfully </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">event</span></code>: pointer to event to be handled </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv434esp_event_set_default_eth_handlersv">
+<span id="_CPPv334esp_event_set_default_eth_handlersv"></span><span id="_CPPv234esp_event_set_default_eth_handlersv"></span><span id="esp_event_set_default_eth_handlers__void"></span><span class="target" id="esp__event__legacy_8h_1acf2ea5ca4412b4cfb514ca916968e31d"></span>void <code class="descname">esp_event_set_default_eth_handlers</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv434esp_event_set_default_eth_handlersv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Install default event handlers for Ethernet interface. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API is part of the legacy event system. New code should use event library API in esp_event.h </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv435esp_event_set_default_wifi_handlersv">
+<span id="_CPPv335esp_event_set_default_wifi_handlersv"></span><span id="_CPPv235esp_event_set_default_wifi_handlersv"></span><span id="esp_event_set_default_wifi_handlers__void"></span><span class="target" id="esp__event__legacy_8h_1ad97ce6dd34080bb1b9562c000d7a7c9e"></span>void <code class="descname">esp_event_set_default_wifi_handlers</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv435esp_event_set_default_wifi_handlersv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Install default event handlers for Wi-Fi interfaces (station and AP) </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API is part of the legacy event system. New code should use event library API in esp_event.h </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419esp_event_loop_init17system_event_cb_tPv">
+<span id="_CPPv319esp_event_loop_init17system_event_cb_tPv"></span><span id="_CPPv219esp_event_loop_init17system_event_cb_tPv"></span><span id="esp_event_loop_init__system_event_cb_t.voidP"></span><span class="target" id="esp__event__legacy_8h_1aa30cd669acbe9848733975ee4dc23fb3"></span><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">esp_event_loop_init</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv417system_event_cb_t" title="system_event_cb_t">system_event_cb_t</a> <em>cb</em>, void *<em>ctx</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419esp_event_loop_init17system_event_cb_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Initialize event loop. </p>
+<p><p>Create the event handler and task</p>
+<dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API is part of the legacy event system. New code should use event library API in esp_event.h</dd>
+</dl>
+</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: succeed</li>
+<li>others: fail </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">cb</span></code>: application specified event callback, it can be modified by call esp_event_set_cb </li>
+<li><code class="docutils literal notranslate"><span class="pre">ctx</span></code>: reserved for user</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421esp_event_loop_set_cb17system_event_cb_tPv">
+<span id="_CPPv321esp_event_loop_set_cb17system_event_cb_tPv"></span><span id="_CPPv221esp_event_loop_set_cb17system_event_cb_tPv"></span><span id="esp_event_loop_set_cb__system_event_cb_t.voidP"></span><span class="target" id="esp__event__legacy_8h_1a39fd6ed1639c80f387ab9db53ac88977"></span><a class="reference internal" href="#_CPPv417system_event_cb_t" title="system_event_cb_t">system_event_cb_t</a> <code class="descname">esp_event_loop_set_cb</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv417system_event_cb_t" title="system_event_cb_t">system_event_cb_t</a> <em>cb</em>, void *<em>ctx</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421esp_event_loop_set_cb17system_event_cb_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set application specified event callback function. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API is part of the legacy event system. New code should use event library API in esp_event.h</dd>
+<dt><strong>Attention</strong></dt>
+<dd>1. If cb is NULL, means application don’t need to handle If cb is not NULL, it will be call when an event is received, after the default event callback is completed</dd>
+<dt><strong>Return</strong></dt>
+<dd>old callback </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">cb</span></code>: application callback function </li>
+<li><code class="docutils literal notranslate"><span class="pre">ctx</span></code>: argument to be passed to callback</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="unions">
+<h3>Unions<a class="headerlink" href="#unions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv419system_event_info_t">
+<span id="_CPPv319system_event_info_t"></span><span id="_CPPv219system_event_info_t"></span><span id="system_event_info_t"></span><span class="target" id="unionsystem__event__info__t"></span><em class="property">union </em><code class="descname">system_event_info_t</code><a class="headerlink" href="#_CPPv419system_event_info_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;esp_event_legacy.h&gt;</em><p>Union of all possible system_event argument structures </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N19system_event_info_t9connectedE">
+<span id="_CPPv3N19system_event_info_t9connectedE"></span><span id="_CPPv2N19system_event_info_t9connectedE"></span><span id="system_event_info_t::connected__system_event_sta_connected_t"></span><span class="target" id="unionsystem__event__info__t_1a390d1d44fb2ab5438ff8d752ba08a2c8"></span><a class="reference internal" href="#_CPPv428system_event_sta_connected_t" title="system_event_sta_connected_t">system_event_sta_connected_t</a> <code class="descname">connected</code><a class="headerlink" href="#_CPPv4N19system_event_info_t9connectedE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 station connected to AP </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19system_event_info_t12disconnectedE">
+<span id="_CPPv3N19system_event_info_t12disconnectedE"></span><span id="_CPPv2N19system_event_info_t12disconnectedE"></span><span id="system_event_info_t::disconnected__system_event_sta_disconnected_t"></span><span class="target" id="unionsystem__event__info__t_1aea86b4060d1558670056bd84a15b3987"></span><a class="reference internal" href="#_CPPv431system_event_sta_disconnected_t" title="system_event_sta_disconnected_t">system_event_sta_disconnected_t</a> <code class="descname">disconnected</code><a class="headerlink" href="#_CPPv4N19system_event_info_t12disconnectedE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 station disconnected to AP </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19system_event_info_t9scan_doneE">
+<span id="_CPPv3N19system_event_info_t9scan_doneE"></span><span id="_CPPv2N19system_event_info_t9scan_doneE"></span><span id="system_event_info_t::scan_done__system_event_sta_scan_done_t"></span><span class="target" id="unionsystem__event__info__t_1a3ffdb00183154629ed51eff855dea078"></span><a class="reference internal" href="#_CPPv428system_event_sta_scan_done_t" title="system_event_sta_scan_done_t">system_event_sta_scan_done_t</a> <code class="descname">scan_done</code><a class="headerlink" href="#_CPPv4N19system_event_info_t9scan_doneE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 station scan (APs) done </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19system_event_info_t11auth_changeE">
+<span id="_CPPv3N19system_event_info_t11auth_changeE"></span><span id="_CPPv2N19system_event_info_t11auth_changeE"></span><span id="system_event_info_t::auth_change__system_event_sta_authmode_change_t"></span><span class="target" id="unionsystem__event__info__t_1a558924996b0c6aad9cc30cdbfe40f118"></span><a class="reference internal" href="#_CPPv434system_event_sta_authmode_change_t" title="system_event_sta_authmode_change_t">system_event_sta_authmode_change_t</a> <code class="descname">auth_change</code><a class="headerlink" href="#_CPPv4N19system_event_info_t11auth_changeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>the auth mode of AP ESP32 station connected to changed </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19system_event_info_t6got_ipE">
+<span id="_CPPv3N19system_event_info_t6got_ipE"></span><span id="_CPPv2N19system_event_info_t6got_ipE"></span><span id="system_event_info_t::got_ip__system_event_sta_got_ip_t"></span><span class="target" id="unionsystem__event__info__t_1a54c66b1beff35fe63e5e7d889dd4ab97"></span><a class="reference internal" href="#_CPPv425system_event_sta_got_ip_t" title="system_event_sta_got_ip_t">system_event_sta_got_ip_t</a> <code class="descname">got_ip</code><a class="headerlink" href="#_CPPv4N19system_event_info_t6got_ipE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 station got IP, first time got IP or when IP is changed </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19system_event_info_t10sta_er_pinE">
+<span id="_CPPv3N19system_event_info_t10sta_er_pinE"></span><span id="_CPPv2N19system_event_info_t10sta_er_pinE"></span><span id="system_event_info_t::sta_er_pin__system_event_sta_wps_er_pin_t"></span><span class="target" id="unionsystem__event__info__t_1aea83c96a751e05124ce18c1a67f29ca5"></span><a class="reference internal" href="#_CPPv429system_event_sta_wps_er_pin_t" title="system_event_sta_wps_er_pin_t">system_event_sta_wps_er_pin_t</a> <code class="descname">sta_er_pin</code><a class="headerlink" href="#_CPPv4N19system_event_info_t10sta_er_pinE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 station WPS enrollee mode PIN code received </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19system_event_info_t18sta_er_fail_reasonE">
+<span id="_CPPv3N19system_event_info_t18sta_er_fail_reasonE"></span><span id="_CPPv2N19system_event_info_t18sta_er_fail_reasonE"></span><span id="system_event_info_t::sta_er_fail_reason__system_event_sta_wps_fail_reason_t"></span><span class="target" id="unionsystem__event__info__t_1aa042337f60f6c16b6eedf28d737a5048"></span><a class="reference internal" href="#_CPPv434system_event_sta_wps_fail_reason_t" title="system_event_sta_wps_fail_reason_t">system_event_sta_wps_fail_reason_t</a> <code class="descname">sta_er_fail_reason</code><a class="headerlink" href="#_CPPv4N19system_event_info_t18sta_er_fail_reasonE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 station WPS enrollee mode failed reason code received </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19system_event_info_t13sta_connectedE">
+<span id="_CPPv3N19system_event_info_t13sta_connectedE"></span><span id="_CPPv2N19system_event_info_t13sta_connectedE"></span><span id="system_event_info_t::sta_connected__system_event_ap_staconnected_t"></span><span class="target" id="unionsystem__event__info__t_1a88a7d12e9f211a940861cac885d4385e"></span><a class="reference internal" href="#_CPPv430system_event_ap_staconnected_t" title="system_event_ap_staconnected_t">system_event_ap_staconnected_t</a> <code class="descname">sta_connected</code><a class="headerlink" href="#_CPPv4N19system_event_info_t13sta_connectedE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>a station connected to ESP32 soft-AP </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19system_event_info_t16sta_disconnectedE">
+<span id="_CPPv3N19system_event_info_t16sta_disconnectedE"></span><span id="_CPPv2N19system_event_info_t16sta_disconnectedE"></span><span id="system_event_info_t::sta_disconnected__system_event_ap_stadisconnected_t"></span><span class="target" id="unionsystem__event__info__t_1a4d0df24148627f64cb81b1a15bc635f4"></span><a class="reference internal" href="#_CPPv433system_event_ap_stadisconnected_t" title="system_event_ap_stadisconnected_t">system_event_ap_stadisconnected_t</a> <code class="descname">sta_disconnected</code><a class="headerlink" href="#_CPPv4N19system_event_info_t16sta_disconnectedE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>a station disconnected to ESP32 soft-AP </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19system_event_info_t17ap_probereqrecvedE">
+<span id="_CPPv3N19system_event_info_t17ap_probereqrecvedE"></span><span id="_CPPv2N19system_event_info_t17ap_probereqrecvedE"></span><span id="system_event_info_t::ap_probereqrecved__system_event_ap_probe_req_rx_t"></span><span class="target" id="unionsystem__event__info__t_1ae6f69472a94e9521eec1012e4744039a"></span><a class="reference internal" href="#_CPPv430system_event_ap_probe_req_rx_t" title="system_event_ap_probe_req_rx_t">system_event_ap_probe_req_rx_t</a> <code class="descname">ap_probereqrecved</code><a class="headerlink" href="#_CPPv4N19system_event_info_t17ap_probereqrecvedE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 soft-AP receive probe request packet </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19system_event_info_t16ap_staipassignedE">
+<span id="_CPPv3N19system_event_info_t16ap_staipassignedE"></span><span id="_CPPv2N19system_event_info_t16ap_staipassignedE"></span><span id="system_event_info_t::ap_staipassigned__system_event_ap_staipassigned_t"></span><span class="target" id="unionsystem__event__info__t_1a6a3572fef1d6c7266a2cbd9f0bacc6a2"></span><a class="reference internal" href="#_CPPv431system_event_ap_staipassigned_t" title="system_event_ap_staipassigned_t">system_event_ap_staipassigned_t</a> <code class="descname">ap_staipassigned</code><a class="headerlink" href="#_CPPv4N19system_event_info_t16ap_staipassignedE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 soft-AP assign an IP to the station </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N19system_event_info_t7got_ip6E">
+<span id="_CPPv3N19system_event_info_t7got_ip6E"></span><span id="_CPPv2N19system_event_info_t7got_ip6E"></span><span id="system_event_info_t::got_ip6__system_event_got_ip6_t"></span><span class="target" id="unionsystem__event__info__t_1a5aa7839cd23b8e3fe6bc614323b9fa28"></span><a class="reference internal" href="#_CPPv422system_event_got_ip6_t" title="system_event_got_ip6_t">system_event_got_ip6_t</a> <code class="descname">got_ip6</code><a class="headerlink" href="#_CPPv4N19system_event_info_t7got_ip6E" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 station　or ap or ethernet ipv6 addr state change to preferred </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv414system_event_t">
+<span id="_CPPv314system_event_t"></span><span id="_CPPv214system_event_t"></span><span id="system_event_t"></span><span class="target" id="structsystem__event__t"></span><em class="property">struct </em><code class="descname">system_event_t</code><a class="headerlink" href="#_CPPv414system_event_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Event, as a tagged enum </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N14system_event_t8event_idE">
+<span id="_CPPv3N14system_event_t8event_idE"></span><span id="_CPPv2N14system_event_t8event_idE"></span><span id="system_event_t::event_id__system_event_id_t"></span><span class="target" id="structsystem__event__t_1ab4398a6759ad7be8a06c47f8b5d9f37a"></span><a class="reference internal" href="#_CPPv417system_event_id_t" title="system_event_id_t">system_event_id_t</a> <code class="descname">event_id</code><a class="headerlink" href="#_CPPv4N14system_event_t8event_idE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>event ID </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N14system_event_t10event_infoE">
+<span id="_CPPv3N14system_event_t10event_infoE"></span><span id="_CPPv2N14system_event_t10event_infoE"></span><span id="system_event_t::event_info__system_event_info_t"></span><span class="target" id="structsystem__event__t_1a433c2ca95ec89c35577060d907038401"></span><a class="reference internal" href="#_CPPv419system_event_info_t" title="system_event_info_t">system_event_info_t</a> <code class="descname">event_info</code><a class="headerlink" href="#_CPPv4N14system_event_t10event_infoE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>event information </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.SYSTEM_EVENT_AP_STA_GOT_IP6">
+<span class="target" id="esp__event__legacy_8h_1aee325538fc89ab8e6f857c9a01549b4b"></span><code class="descname">SYSTEM_EVENT_AP_STA_GOT_IP6</code><a class="headerlink" href="#c.SYSTEM_EVENT_AP_STA_GOT_IP6" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv434system_event_sta_wps_fail_reason_t">
+<span id="_CPPv334system_event_sta_wps_fail_reason_t"></span><span id="_CPPv234system_event_sta_wps_fail_reason_t"></span><span id="system_event_sta_wps_fail_reason_t"></span><span class="target" id="esp__event__legacy_8h_1a5f4cbe17c6cb6df44bba61e10afb6122"></span><em class="property">typedef </em><a class="reference internal" href="../network/esp_wifi.html#_CPPv432wifi_event_sta_wps_fail_reason_t" title="wifi_event_sta_wps_fail_reason_t">wifi_event_sta_wps_fail_reason_t</a> <code class="descname">system_event_sta_wps_fail_reason_t</code><a class="headerlink" href="#_CPPv434system_event_sta_wps_fail_reason_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Argument structure of SYSTEM_EVENT_STA_WPS_ER_FAILED event </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv428system_event_sta_scan_done_t">
+<span id="_CPPv328system_event_sta_scan_done_t"></span><span id="_CPPv228system_event_sta_scan_done_t"></span><span id="system_event_sta_scan_done_t"></span><span class="target" id="esp__event__legacy_8h_1ab929b1e9541c606d7116cd583ad12e61"></span><em class="property">typedef </em><a class="reference internal" href="../network/esp_wifi.html#_CPPv426wifi_event_sta_scan_done_t" title="wifi_event_sta_scan_done_t">wifi_event_sta_scan_done_t</a> <code class="descname">system_event_sta_scan_done_t</code><a class="headerlink" href="#_CPPv428system_event_sta_scan_done_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Argument structure of SYSTEM_EVENT_SCAN_DONE event </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv428system_event_sta_connected_t">
+<span id="_CPPv328system_event_sta_connected_t"></span><span id="_CPPv228system_event_sta_connected_t"></span><span id="system_event_sta_connected_t"></span><span class="target" id="esp__event__legacy_8h_1a845765393c752dfa1d168a773baaad6a"></span><em class="property">typedef </em><a class="reference internal" href="../network/esp_wifi.html#_CPPv426wifi_event_sta_connected_t" title="wifi_event_sta_connected_t">wifi_event_sta_connected_t</a> <code class="descname">system_event_sta_connected_t</code><a class="headerlink" href="#_CPPv428system_event_sta_connected_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Argument structure of SYSTEM_EVENT_STA_CONNECTED event </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv431system_event_sta_disconnected_t">
+<span id="_CPPv331system_event_sta_disconnected_t"></span><span id="_CPPv231system_event_sta_disconnected_t"></span><span id="system_event_sta_disconnected_t"></span><span class="target" id="esp__event__legacy_8h_1aa0d3705b7d33633a1f2514581a29c1c3"></span><em class="property">typedef </em><a class="reference internal" href="../network/esp_wifi.html#_CPPv429wifi_event_sta_disconnected_t" title="wifi_event_sta_disconnected_t">wifi_event_sta_disconnected_t</a> <code class="descname">system_event_sta_disconnected_t</code><a class="headerlink" href="#_CPPv431system_event_sta_disconnected_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Argument structure of SYSTEM_EVENT_STA_DISCONNECTED event </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv434system_event_sta_authmode_change_t">
+<span id="_CPPv334system_event_sta_authmode_change_t"></span><span id="_CPPv234system_event_sta_authmode_change_t"></span><span id="system_event_sta_authmode_change_t"></span><span class="target" id="esp__event__legacy_8h_1a2b2de3e63444664cfc17284db203f19e"></span><em class="property">typedef </em><a class="reference internal" href="../network/esp_wifi.html#_CPPv432wifi_event_sta_authmode_change_t" title="wifi_event_sta_authmode_change_t">wifi_event_sta_authmode_change_t</a> <code class="descname">system_event_sta_authmode_change_t</code><a class="headerlink" href="#_CPPv434system_event_sta_authmode_change_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Argument structure of SYSTEM_EVENT_STA_AUTHMODE_CHANGE event </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv429system_event_sta_wps_er_pin_t">
+<span id="_CPPv329system_event_sta_wps_er_pin_t"></span><span id="_CPPv229system_event_sta_wps_er_pin_t"></span><span id="system_event_sta_wps_er_pin_t"></span><span class="target" id="esp__event__legacy_8h_1ac82e702b76cc268a5ed1a43e4e8f54af"></span><em class="property">typedef </em><a class="reference internal" href="../network/esp_wifi.html#_CPPv427wifi_event_sta_wps_er_pin_t" title="wifi_event_sta_wps_er_pin_t">wifi_event_sta_wps_er_pin_t</a> <code class="descname">system_event_sta_wps_er_pin_t</code><a class="headerlink" href="#_CPPv429system_event_sta_wps_er_pin_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Argument structure of SYSTEM_EVENT_STA_WPS_ER_PIN event </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv430system_event_ap_staconnected_t">
+<span id="_CPPv330system_event_ap_staconnected_t"></span><span id="_CPPv230system_event_ap_staconnected_t"></span><span id="system_event_ap_staconnected_t"></span><span class="target" id="esp__event__legacy_8h_1a4492509bef2f57f4f0dcc40485e7b71c"></span><em class="property">typedef </em><a class="reference internal" href="../network/esp_wifi.html#_CPPv428wifi_event_ap_staconnected_t" title="wifi_event_ap_staconnected_t">wifi_event_ap_staconnected_t</a> <code class="descname">system_event_ap_staconnected_t</code><a class="headerlink" href="#_CPPv430system_event_ap_staconnected_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Argument structure of event </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv433system_event_ap_stadisconnected_t">
+<span id="_CPPv333system_event_ap_stadisconnected_t"></span><span id="_CPPv233system_event_ap_stadisconnected_t"></span><span id="system_event_ap_stadisconnected_t"></span><span class="target" id="esp__event__legacy_8h_1a97ea3aef6e94a52b2d7466e420e0d4f4"></span><em class="property">typedef </em><a class="reference internal" href="../network/esp_wifi.html#_CPPv431wifi_event_ap_stadisconnected_t" title="wifi_event_ap_stadisconnected_t">wifi_event_ap_stadisconnected_t</a> <code class="descname">system_event_ap_stadisconnected_t</code><a class="headerlink" href="#_CPPv433system_event_ap_stadisconnected_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Argument structure of event </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv430system_event_ap_probe_req_rx_t">
+<span id="_CPPv330system_event_ap_probe_req_rx_t"></span><span id="_CPPv230system_event_ap_probe_req_rx_t"></span><span id="system_event_ap_probe_req_rx_t"></span><span class="target" id="esp__event__legacy_8h_1a8a2cd33dc0e69443bdb0a610bb367b0e"></span><em class="property">typedef </em><a class="reference internal" href="../network/esp_wifi.html#_CPPv428wifi_event_ap_probe_req_rx_t" title="wifi_event_ap_probe_req_rx_t">wifi_event_ap_probe_req_rx_t</a> <code class="descname">system_event_ap_probe_req_rx_t</code><a class="headerlink" href="#_CPPv430system_event_ap_probe_req_rx_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Argument structure of event </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv431system_event_ap_staipassigned_t">
+<span id="_CPPv331system_event_ap_staipassigned_t"></span><span id="_CPPv231system_event_ap_staipassigned_t"></span><span id="system_event_ap_staipassigned_t"></span><span class="target" id="esp__event__legacy_8h_1ab73b21d74072bfa69151c2d10c52d083"></span><em class="property">typedef </em>ip_event_ap_staipassigned_t <code class="descname">system_event_ap_staipassigned_t</code><a class="headerlink" href="#_CPPv431system_event_ap_staipassigned_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Argument structure of event </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv425system_event_sta_got_ip_t">
+<span id="_CPPv325system_event_sta_got_ip_t"></span><span id="_CPPv225system_event_sta_got_ip_t"></span><span id="system_event_sta_got_ip_t"></span><span class="target" id="esp__event__legacy_8h_1a9fcc6b54fbb6509f56d032e76f247ef7"></span><em class="property">typedef </em>ip_event_got_ip_t <code class="descname">system_event_sta_got_ip_t</code><a class="headerlink" href="#_CPPv425system_event_sta_got_ip_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Argument structure of event </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv422system_event_got_ip6_t">
+<span id="_CPPv322system_event_got_ip6_t"></span><span id="_CPPv222system_event_got_ip6_t"></span><span id="system_event_got_ip6_t"></span><span class="target" id="esp__event__legacy_8h_1aed1d33710c0d27e106bae4946b2e765e"></span><em class="property">typedef </em>ip_event_got_ip6_t <code class="descname">system_event_got_ip6_t</code><a class="headerlink" href="#_CPPv422system_event_got_ip6_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Argument structure of event </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv422system_event_handler_t">
+<span id="_CPPv322system_event_handler_t"></span><span id="_CPPv222system_event_handler_t"></span><span id="system_event_handler_t"></span><span class="target" id="esp__event__legacy_8h_1a5fa2ab8e0fcabde08d3d6d3bce3fed07"></span><em class="property">typedef </em><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">system_event_handler_t</code>)<span class="sig-paren">(</span><a class="reference internal" href="esp_event.html#_CPPv416esp_event_base_t" title="esp_event_base_t">esp_event_base_t</a> event_base, int32_t event_id, void *event_data, size_t event_data_size, TickType_t ticks_to_wait<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422system_event_handler_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Event handler function type </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv417system_event_cb_t">
+<span id="_CPPv317system_event_cb_t"></span><span id="_CPPv217system_event_cb_t"></span><span id="system_event_cb_t"></span><span class="target" id="esp__event__legacy_8h_1a0ebd801ada548139ad543dc15b639d15"></span><em class="property">typedef </em><a class="reference internal" href="esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">system_event_cb_t</code>)<span class="sig-paren">(</span>void *ctx, <a class="reference internal" href="#_CPPv414system_event_t" title="system_event_t">system_event_t</a> *event<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417system_event_cb_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Application specified event callback function. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This API is part of the legacy event system. New code should use event library API in esp_event.h</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK: succeed</li>
+<li>others: fail </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">ctx</span></code>: reserved for user </li>
+<li><code class="docutils literal notranslate"><span class="pre">event</span></code>: event type defined in this file</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv417system_event_id_t">
+<span id="_CPPv317system_event_id_t"></span><span id="_CPPv217system_event_id_t"></span><span id="system_event_id_t"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845"></span><em class="property">enum </em><code class="descname">system_event_id_t</code><a class="headerlink" href="#_CPPv417system_event_id_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>System event types enumeration </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv423SYSTEM_EVENT_WIFI_READY">
+<span id="_CPPv323SYSTEM_EVENT_WIFI_READY"></span><span id="_CPPv223SYSTEM_EVENT_WIFI_READY"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845ae712fb1a47e033949e6bf3e55e4c1878"></span><code class="descname">SYSTEM_EVENT_WIFI_READY</code> = 0<a class="headerlink" href="#_CPPv423SYSTEM_EVENT_WIFI_READY" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 WiFi ready </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv422SYSTEM_EVENT_SCAN_DONE">
+<span id="_CPPv322SYSTEM_EVENT_SCAN_DONE"></span><span id="_CPPv222SYSTEM_EVENT_SCAN_DONE"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845af01925b421f9f3d6f9ec0624cddea717"></span><code class="descname">SYSTEM_EVENT_SCAN_DONE</code><a class="headerlink" href="#_CPPv422SYSTEM_EVENT_SCAN_DONE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 finish scanning AP </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv422SYSTEM_EVENT_STA_START">
+<span id="_CPPv322SYSTEM_EVENT_STA_START"></span><span id="_CPPv222SYSTEM_EVENT_STA_START"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845a44bec8fb202209ab10d04305c4d67441"></span><code class="descname">SYSTEM_EVENT_STA_START</code><a class="headerlink" href="#_CPPv422SYSTEM_EVENT_STA_START" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 station start </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv421SYSTEM_EVENT_STA_STOP">
+<span id="_CPPv321SYSTEM_EVENT_STA_STOP"></span><span id="_CPPv221SYSTEM_EVENT_STA_STOP"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845aefd89e5f3094665e04bd057a7d3cb252"></span><code class="descname">SYSTEM_EVENT_STA_STOP</code><a class="headerlink" href="#_CPPv421SYSTEM_EVENT_STA_STOP" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 station stop </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv426SYSTEM_EVENT_STA_CONNECTED">
+<span id="_CPPv326SYSTEM_EVENT_STA_CONNECTED"></span><span id="_CPPv226SYSTEM_EVENT_STA_CONNECTED"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845ae1608f19126f0ad5c12872ef4bfe1b3b"></span><code class="descname">SYSTEM_EVENT_STA_CONNECTED</code><a class="headerlink" href="#_CPPv426SYSTEM_EVENT_STA_CONNECTED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 station connected to AP </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv429SYSTEM_EVENT_STA_DISCONNECTED">
+<span id="_CPPv329SYSTEM_EVENT_STA_DISCONNECTED"></span><span id="_CPPv229SYSTEM_EVENT_STA_DISCONNECTED"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845a3e51284a6e2616bd2586b5dcffb42996"></span><code class="descname">SYSTEM_EVENT_STA_DISCONNECTED</code><a class="headerlink" href="#_CPPv429SYSTEM_EVENT_STA_DISCONNECTED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 station disconnected from AP </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv432SYSTEM_EVENT_STA_AUTHMODE_CHANGE">
+<span id="_CPPv332SYSTEM_EVENT_STA_AUTHMODE_CHANGE"></span><span id="_CPPv232SYSTEM_EVENT_STA_AUTHMODE_CHANGE"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845a16a1b545980105b5d19a5d9a829db55b"></span><code class="descname">SYSTEM_EVENT_STA_AUTHMODE_CHANGE</code><a class="headerlink" href="#_CPPv432SYSTEM_EVENT_STA_AUTHMODE_CHANGE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>the auth mode of AP connected by ESP32 station changed </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423SYSTEM_EVENT_STA_GOT_IP">
+<span id="_CPPv323SYSTEM_EVENT_STA_GOT_IP"></span><span id="_CPPv223SYSTEM_EVENT_STA_GOT_IP"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845a384f7037b394d54ca4b7d0a90f89e3ba"></span><code class="descname">SYSTEM_EVENT_STA_GOT_IP</code><a class="headerlink" href="#_CPPv423SYSTEM_EVENT_STA_GOT_IP" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 station got IP from connected AP </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv424SYSTEM_EVENT_STA_LOST_IP">
+<span id="_CPPv324SYSTEM_EVENT_STA_LOST_IP"></span><span id="_CPPv224SYSTEM_EVENT_STA_LOST_IP"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845a6a1619c91a63d67ae5d89eb093f54e48"></span><code class="descname">SYSTEM_EVENT_STA_LOST_IP</code><a class="headerlink" href="#_CPPv424SYSTEM_EVENT_STA_LOST_IP" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 station lost IP and the IP is reset to 0 </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv431SYSTEM_EVENT_STA_WPS_ER_SUCCESS">
+<span id="_CPPv331SYSTEM_EVENT_STA_WPS_ER_SUCCESS"></span><span id="_CPPv231SYSTEM_EVENT_STA_WPS_ER_SUCCESS"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845ae114795dc04a98ef6750b2a046f2ce6e"></span><code class="descname">SYSTEM_EVENT_STA_WPS_ER_SUCCESS</code><a class="headerlink" href="#_CPPv431SYSTEM_EVENT_STA_WPS_ER_SUCCESS" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 station wps succeeds in enrollee mode </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv430SYSTEM_EVENT_STA_WPS_ER_FAILED">
+<span id="_CPPv330SYSTEM_EVENT_STA_WPS_ER_FAILED"></span><span id="_CPPv230SYSTEM_EVENT_STA_WPS_ER_FAILED"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845a52ee98c9ebf5f7ac9e4c89268a286714"></span><code class="descname">SYSTEM_EVENT_STA_WPS_ER_FAILED</code><a class="headerlink" href="#_CPPv430SYSTEM_EVENT_STA_WPS_ER_FAILED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 station wps fails in enrollee mode </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv431SYSTEM_EVENT_STA_WPS_ER_TIMEOUT">
+<span id="_CPPv331SYSTEM_EVENT_STA_WPS_ER_TIMEOUT"></span><span id="_CPPv231SYSTEM_EVENT_STA_WPS_ER_TIMEOUT"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845ac6bdb641d316ae43b747465f6afa82f5"></span><code class="descname">SYSTEM_EVENT_STA_WPS_ER_TIMEOUT</code><a class="headerlink" href="#_CPPv431SYSTEM_EVENT_STA_WPS_ER_TIMEOUT" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 station wps timeout in enrollee mode </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv427SYSTEM_EVENT_STA_WPS_ER_PIN">
+<span id="_CPPv327SYSTEM_EVENT_STA_WPS_ER_PIN"></span><span id="_CPPv227SYSTEM_EVENT_STA_WPS_ER_PIN"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845a86445cc619aa8fde1ae466b0b0d8f059"></span><code class="descname">SYSTEM_EVENT_STA_WPS_ER_PIN</code><a class="headerlink" href="#_CPPv427SYSTEM_EVENT_STA_WPS_ER_PIN" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 station wps pin code in enrollee mode </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv435SYSTEM_EVENT_STA_WPS_ER_PBC_OVERLAP">
+<span id="_CPPv335SYSTEM_EVENT_STA_WPS_ER_PBC_OVERLAP"></span><span id="_CPPv235SYSTEM_EVENT_STA_WPS_ER_PBC_OVERLAP"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845ad53b0171df9ed117d0b5ae6b85729275"></span><code class="descname">SYSTEM_EVENT_STA_WPS_ER_PBC_OVERLAP</code><a class="headerlink" href="#_CPPv435SYSTEM_EVENT_STA_WPS_ER_PBC_OVERLAP" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 station wps overlap in enrollee mode </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv421SYSTEM_EVENT_AP_START">
+<span id="_CPPv321SYSTEM_EVENT_AP_START"></span><span id="_CPPv221SYSTEM_EVENT_AP_START"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845acf368309eaa875fe52ae66b640cd3ae4"></span><code class="descname">SYSTEM_EVENT_AP_START</code><a class="headerlink" href="#_CPPv421SYSTEM_EVENT_AP_START" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 soft-AP start </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv420SYSTEM_EVENT_AP_STOP">
+<span id="_CPPv320SYSTEM_EVENT_AP_STOP"></span><span id="_CPPv220SYSTEM_EVENT_AP_STOP"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845aa9aef087d3e39b7f60e433d53f2113f3"></span><code class="descname">SYSTEM_EVENT_AP_STOP</code><a class="headerlink" href="#_CPPv420SYSTEM_EVENT_AP_STOP" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 soft-AP stop </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv428SYSTEM_EVENT_AP_STACONNECTED">
+<span id="_CPPv328SYSTEM_EVENT_AP_STACONNECTED"></span><span id="_CPPv228SYSTEM_EVENT_AP_STACONNECTED"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845a8718204df81acb60fde5726eee1471b0"></span><code class="descname">SYSTEM_EVENT_AP_STACONNECTED</code><a class="headerlink" href="#_CPPv428SYSTEM_EVENT_AP_STACONNECTED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>a station connected to ESP32 soft-AP </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv431SYSTEM_EVENT_AP_STADISCONNECTED">
+<span id="_CPPv331SYSTEM_EVENT_AP_STADISCONNECTED"></span><span id="_CPPv231SYSTEM_EVENT_AP_STADISCONNECTED"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845adb402dbc7ff8871d6eef42317d5bad93"></span><code class="descname">SYSTEM_EVENT_AP_STADISCONNECTED</code><a class="headerlink" href="#_CPPv431SYSTEM_EVENT_AP_STADISCONNECTED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>a station disconnected from ESP32 soft-AP </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv429SYSTEM_EVENT_AP_STAIPASSIGNED">
+<span id="_CPPv329SYSTEM_EVENT_AP_STAIPASSIGNED"></span><span id="_CPPv229SYSTEM_EVENT_AP_STAIPASSIGNED"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845acede5456b2df3a541a8db0e7fd2b8f1e"></span><code class="descname">SYSTEM_EVENT_AP_STAIPASSIGNED</code><a class="headerlink" href="#_CPPv429SYSTEM_EVENT_AP_STAIPASSIGNED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 soft-AP assign an IP to a connected station </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv430SYSTEM_EVENT_AP_PROBEREQRECVED">
+<span id="_CPPv330SYSTEM_EVENT_AP_PROBEREQRECVED"></span><span id="_CPPv230SYSTEM_EVENT_AP_PROBEREQRECVED"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845a1212ccbba7d72bbfd1e7f21870b7c444"></span><code class="descname">SYSTEM_EVENT_AP_PROBEREQRECVED</code><a class="headerlink" href="#_CPPv430SYSTEM_EVENT_AP_PROBEREQRECVED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Receive probe request packet in soft-AP interface </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv420SYSTEM_EVENT_GOT_IP6">
+<span id="_CPPv320SYSTEM_EVENT_GOT_IP6"></span><span id="_CPPv220SYSTEM_EVENT_GOT_IP6"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845afb13f24cfd28d62d9b7838f177d0ba99"></span><code class="descname">SYSTEM_EVENT_GOT_IP6</code><a class="headerlink" href="#_CPPv420SYSTEM_EVENT_GOT_IP6" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 station or ap or ethernet interface v6IP addr is preferred </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv422SYSTEM_EVENT_ETH_START">
+<span id="_CPPv322SYSTEM_EVENT_ETH_START"></span><span id="_CPPv222SYSTEM_EVENT_ETH_START"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845a73ee83f019d4a04840f4c8846c0b5fa6"></span><code class="descname">SYSTEM_EVENT_ETH_START</code><a class="headerlink" href="#_CPPv422SYSTEM_EVENT_ETH_START" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 ethernet start </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv421SYSTEM_EVENT_ETH_STOP">
+<span id="_CPPv321SYSTEM_EVENT_ETH_STOP"></span><span id="_CPPv221SYSTEM_EVENT_ETH_STOP"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845a56b5f05237cc053662cf6c3f85dd1276"></span><code class="descname">SYSTEM_EVENT_ETH_STOP</code><a class="headerlink" href="#_CPPv421SYSTEM_EVENT_ETH_STOP" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 ethernet stop </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv426SYSTEM_EVENT_ETH_CONNECTED">
+<span id="_CPPv326SYSTEM_EVENT_ETH_CONNECTED"></span><span id="_CPPv226SYSTEM_EVENT_ETH_CONNECTED"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845aaf1876bb63564fe82c03479fe3eeecc6"></span><code class="descname">SYSTEM_EVENT_ETH_CONNECTED</code><a class="headerlink" href="#_CPPv426SYSTEM_EVENT_ETH_CONNECTED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 ethernet phy link up </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv429SYSTEM_EVENT_ETH_DISCONNECTED">
+<span id="_CPPv329SYSTEM_EVENT_ETH_DISCONNECTED"></span><span id="_CPPv229SYSTEM_EVENT_ETH_DISCONNECTED"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845ae39858029c0659d0ab88f81ddad16389"></span><code class="descname">SYSTEM_EVENT_ETH_DISCONNECTED</code><a class="headerlink" href="#_CPPv429SYSTEM_EVENT_ETH_DISCONNECTED" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 ethernet phy link down </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv423SYSTEM_EVENT_ETH_GOT_IP">
+<span id="_CPPv323SYSTEM_EVENT_ETH_GOT_IP"></span><span id="_CPPv223SYSTEM_EVENT_ETH_GOT_IP"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845a7c2abd50eb6bc93db6887dea306def8c"></span><code class="descname">SYSTEM_EVENT_ETH_GOT_IP</code><a class="headerlink" href="#_CPPv423SYSTEM_EVENT_ETH_GOT_IP" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>ESP32 ethernet got IP from connected AP </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv416SYSTEM_EVENT_MAX">
+<span id="_CPPv316SYSTEM_EVENT_MAX"></span><span id="_CPPv216SYSTEM_EVENT_MAX"></span><span class="target" id="esp__event__legacy_8h_1a742236586d2111c58001ca4556a37845a541d5ca3160a8195a23e595677f395ad"></span><code class="descname">SYSTEM_EVENT_MAX</code><a class="headerlink" href="#_CPPv416SYSTEM_EVENT_MAX" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Number of members in this enum </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="freertos.html" class="btn btn-neutral float-right" title="FreeRTOS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="esp_event.html" class="btn btn-neutral float-left" title="Event Loop Library" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/system/esp_event_legacy.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:26 GMT -->
+</html>

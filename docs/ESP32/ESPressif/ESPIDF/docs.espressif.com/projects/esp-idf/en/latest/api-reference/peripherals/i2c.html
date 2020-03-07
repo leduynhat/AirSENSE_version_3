@@ -1,0 +1,1382 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/i2c.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:28 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>I2C Driver &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="I2S" href="i2s.html" />
+    <link rel="prev" title="GPIO &amp; RTC GPIO" href="gpio.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="i2c.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/peripherals/i2c"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Peripherals</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="adc.html">ADC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="can.html">CAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dac.html">DAC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="gpio.html">GPIO (including RTC low power I/O)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">I2C</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#driver-features">Driver Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#driver-usage">Driver Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-example">Application Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="i2s.html">I2S</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ledc.html">LED Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mcpwm.html">MCPWM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pcnt.html">Pulse Counter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rmt.html">Remote Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sd_pullup_requirements.html">SD Pull-up Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdmmc_host.html">SDMMC Host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdspi_host.html">SD SPI Host</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sdio_slave.html">SDIO Slave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sigmadelta.html">Sigma-delta Modulation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_master.html">SPI Master</a></li>
+<li class="toctree-l3"><a class="reference internal" href="spi_slave.html">SPI Slave</a></li>
+<li class="toctree-l3"><a class="reference internal" href="temp_sensor.html">Temp sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="touch_pad.html">Touch Sensor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="uart.html">UART</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Peripherals API</a> &raquo;</li>
+        
+      <li>I2C Driver</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/peripherals/i2c.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="i2c-driver">
+<h1>I2C Driver<a class="headerlink" href="#i2c-driver" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>I2C is a serial, synchronous, half-duplex communication protocol that allows co-existence of multiple masters and slaves on the same bus. The I2C bus consists of two lines: serial data line (SDA) and serial clock (SCL). Both lines require pull-up resistors.</p>
+<p>With such advantages as simplicity and low manufacturing cost, I2C is mostly used for communication of low-speed peripheral devices over short distances (within one foot).</p>
+<p>ESP32 has two I2C controllers (also referred to as ports) which are responsible for handling communications on two I2C buses. Each I2C controller can operate as master or slave. As an example, one controller can act as a master and the other as a slave at the same time.</p>
+</div>
+<div class="section" id="driver-features">
+<h2>Driver Features<a class="headerlink" href="#driver-features" title="Permalink to this headline">¶</a></h2>
+<p>I2C driver governs communications of devices over the I2C bus. The driver supports the following features:</p>
+<ul class="simple">
+<li>Reading and writing bytes in Master mode</li>
+<li>Slave mode</li>
+<li>Reading and writing to registers which are in turn read/written by the master</li>
+</ul>
+</div>
+<div class="section" id="driver-usage">
+<h2>Driver Usage<a class="headerlink" href="#driver-usage" title="Permalink to this headline">¶</a></h2>
+<p>The following sections describe typical steps of configuring and operating the I2C driver:</p>
+<ol class="arabic simple">
+<li><a class="reference internal" href="#i2c-api-configure-driver"><span class="std std-ref">Configuration</span></a> - set the initialization parameters (master or slave mode, GPIO pins for SDA and SCL, clock speed, etc.)</li>
+<li><a class="reference internal" href="#i2c-api-install-driver"><span class="std std-ref">Install Driver</span></a>- activate the driver on one of the two I2C controllers as a master or slave</li>
+<li>Depending on whether you configure the driver for a master or slave, choose the appropriate item<ol class="loweralpha">
+<li><a class="reference internal" href="#i2c-api-master-mode"><span class="std std-ref">Communication as Master</span></a> - handle communications (master)</li>
+<li><a class="reference internal" href="#i2c-api-slave-mode"><span class="std std-ref">Communication as Slave</span></a> - respond to messages from the master (slave)</li>
+</ol>
+</li>
+<li><a class="reference internal" href="#i2c-api-interrupt-handling"><span class="std std-ref">Interrupt Handling</span></a> - configure and service I2C interrupts</li>
+<li><a class="reference internal" href="#i2c-api-customized-configuration"><span class="std std-ref">Customized Configuration</span></a> - adjust default I2C communication parameters (timings, bit order, etc.)</li>
+<li><a class="reference internal" href="#i2c-api-error-handling"><span class="std std-ref">Error Handling</span></a> - how to recognize and handle driver configuration and communication errors</li>
+<li><a class="reference internal" href="#i2c-api-delete-driver"><span class="std std-ref">Delete Driver</span></a>- release resources used by the I2C driver when communication ends</li>
+</ol>
+<div class="section" id="configuration">
+<span id="i2c-api-configure-driver"></span><h3>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h3>
+<p>To establish I2C communication, start by configuring the driver. This is done by setting the parameters of the structure <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">i2c_config_t</span></code>:</p>
+<ul>
+<li><p class="first">Set I2C <strong>mode of operation</strong> - slave or master from <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">i2c_mode_t</span></code></p>
+</li>
+<li><p class="first">Configure <strong>communication pins</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Assign GPIO pins for SDA and SCL signals</li>
+<li>Set whether to enable ESP32’s internal pull-ups</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p class="first">(Master only) Set I2C <strong>clock speed</strong></p>
+</li>
+<li><p class="first">(Slave only) Configure the following</p>
+<blockquote>
+<div><ul class="simple">
+<li>Whether to enable <strong>10 bit address mode</strong></li>
+<li>Define <strong>slave address</strong></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>After that, initialize the configuration for a given I2C port. For this, call the function <a class="reference internal" href="#_CPPv416i2c_param_config10i2c_port_tPK12i2c_config_t" title="i2c_param_config"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_param_config()</span></code></a> and pass to it the port number and the structure <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">i2c_config_t</span></code>.</p>
+<p>At this stage, <a class="reference internal" href="#_CPPv416i2c_param_config10i2c_port_tPK12i2c_config_t" title="i2c_param_config"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_param_config()</span></code></a> also sets a few other I2C configuration parameters to default values that are defined by the I2C specification. For more details on the values and how to modify them, see <a class="reference internal" href="#i2c-api-customized-configuration"><span class="std std-ref">Customized Configuration</span></a>.</p>
+</div>
+<div class="section" id="install-driver">
+<span id="i2c-api-install-driver"></span><h3>Install Driver<a class="headerlink" href="#install-driver" title="Permalink to this headline">¶</a></h3>
+<p>After the I2C driver is configured, install it by calling the function <a class="reference internal" href="#_CPPv418i2c_driver_install10i2c_port_t10i2c_mode_t6size_t6size_ti" title="i2c_driver_install"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_driver_install()</span></code></a> with the following parameters:</p>
+<ul class="simple">
+<li>Port number, one of the two port numbers from <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">i2c_port_t</span></code></li>
+<li>Master or slave, selected from <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">i2c_mode_t</span></code></li>
+<li>(Slave only) Size of buffers to allocate for sending and receiving data. As I2C is a master-centric bus, data can only go from the slave to the master at the master’s request. Therefore, the slave will usually have a send buffer where the slave application writes data. The data remains in the send buffer to be read by the master at the master’s own discretion.</li>
+<li>Flags for allocating the interrupt (see ESP_INTR_FLAG_* values in <a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/esp32/include/esp_intr_alloc.h">esp32/include/esp_intr_alloc.h</a>)</li>
+</ul>
+</div>
+<div class="section" id="communication-as-master">
+<span id="i2c-api-master-mode"></span><h3>Communication as Master<a class="headerlink" href="#communication-as-master" title="Permalink to this headline">¶</a></h3>
+<p>After installing the I2C driver, ESP32 is ready to communicate with other I2C devices.</p>
+<p>ESP32’s I2C controller operating as master is responsible for establishing communication with I2C slave devices and sending commands to trigger a slave to action, for example, to take a measurement and send the readings back to the master.</p>
+<p>For better process organization, the driver provides a container, called a “command link”, that should be populated with a sequence of commands and then passed to the I2C controller for execution.</p>
+<div class="section" id="master-write">
+<h4>Master Write<a class="headerlink" href="#master-write" title="Permalink to this headline">¶</a></h4>
+<p>The example below shows how to build a command link for an I2C master to send <em>n</em> bytes to a slave.</p>
+<div class="figure align-center" id="id2">
+<div><a class="reference internal image-reference" href="../../_images/blockdiag-d171131f72da1185eb3be8f6ed165b13e319687e.png"><img height="355.0" src="../../_images/blockdiag-d171131f72da1185eb3be8f6ed165b13e319687e.png" width="764.0" /></a></div><p class="caption"><span class="caption-text">I2C command link - master write example</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
+</div>
+<p>The following describes how a command link for a “master write” is set up and what comes inside:</p>
+<ol class="arabic">
+<li><p class="first">Create a command link with <a class="reference internal" href="#_CPPv419i2c_cmd_link_createv" title="i2c_cmd_link_create"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_cmd_link_create()</span></code></a>.</p>
+<blockquote>
+<div><p>Then, populate it with the series of data to be sent to the slave:</p>
+</div></blockquote>
+<ol class="loweralpha simple">
+<li><strong>Start bit</strong> - <a class="reference internal" href="#_CPPv416i2c_master_start16i2c_cmd_handle_t" title="i2c_master_start"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_master_start()</span></code></a></li>
+<li><strong>Slave address</strong> - <a class="reference internal" href="#_CPPv421i2c_master_write_byte16i2c_cmd_handle_t7uint8_tb" title="i2c_master_write_byte"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_master_write_byte()</span></code></a>. The single byte address is provided as an argument of this function call.</li>
+<li><strong>Data</strong> - One or more bytes as an argument of <a class="reference internal" href="#_CPPv416i2c_master_write16i2c_cmd_handle_tP7uint8_t6size_tb" title="i2c_master_write"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_master_write()</span></code></a></li>
+<li><strong>Stop bit</strong> - <a class="reference internal" href="#_CPPv415i2c_master_stop16i2c_cmd_handle_t" title="i2c_master_stop"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_master_stop()</span></code></a></li>
+</ol>
+<blockquote>
+<div><p>Both functions <a class="reference internal" href="#_CPPv421i2c_master_write_byte16i2c_cmd_handle_t7uint8_tb" title="i2c_master_write_byte"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_master_write_byte()</span></code></a> and <a class="reference internal" href="#_CPPv416i2c_master_write16i2c_cmd_handle_tP7uint8_t6size_tb" title="i2c_master_write"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_master_write()</span></code></a> have an additional argument specifying whether the master should ensure that it has received the ACK bit.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Trigger the execution of the command link by I2C controller by calling <a class="reference internal" href="#_CPPv420i2c_master_cmd_begin10i2c_port_t16i2c_cmd_handle_t10TickType_t" title="i2c_master_cmd_begin"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_master_cmd_begin()</span></code></a>. Once the execution is triggered, the command link cannot be modified.</p>
+</li>
+<li><p class="first">After the commands are transmitted, release the resources used by the command link by calling <a class="reference internal" href="#_CPPv419i2c_cmd_link_delete16i2c_cmd_handle_t" title="i2c_cmd_link_delete"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_cmd_link_delete()</span></code></a>.</p>
+</li>
+</ol>
+</div>
+<div class="section" id="master-read">
+<h4>Master Read<a class="headerlink" href="#master-read" title="Permalink to this headline">¶</a></h4>
+<p>The example below shows how to build a command link for an I2C master to read <em>n</em> bytes from a slave.</p>
+<div class="figure align-center" id="id3">
+<div><a class="reference internal image-reference" href="../../_images/blockdiag-1a722fa972a4e8ba9f84cf23a31889fafa18a16e.png"><img height="385.0" src="../../_images/blockdiag-1a722fa972a4e8ba9f84cf23a31889fafa18a16e.png" width="932.0" /></a></div><p class="caption"><span class="caption-text">I2C command link - master read example</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</div>
+<p>Compared to writing data, the command link is populated in Step 4 not with <code class="docutils literal notranslate"><span class="pre">i2c_master_write...</span></code> functions but with <a class="reference internal" href="#_CPPv420i2c_master_read_byte16i2c_cmd_handle_tP7uint8_t14i2c_ack_type_t" title="i2c_master_read_byte"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_master_read_byte()</span></code></a> and / or <a class="reference internal" href="#_CPPv415i2c_master_read16i2c_cmd_handle_tP7uint8_t6size_t14i2c_ack_type_t" title="i2c_master_read"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_master_read()</span></code></a>. Also, the last read in Step 5 is configured so that the master does not provide the ACK bit.</p>
+</div>
+<div class="section" id="indicating-write-or-read">
+<h4>Indicating Write or Read<a class="headerlink" href="#indicating-write-or-read" title="Permalink to this headline">¶</a></h4>
+<p>After sending a slave address (see Step 3 on both diagrams above), the master either writes or reads from the slave.</p>
+<p>The information on what the master will actually do is hidden in the least significant bit of the slave’s address.</p>
+<p>For this reason, the command link sent by the master to write data to the slave contains the address <code class="docutils literal notranslate"><span class="pre">(ESP_SLAVE_ADDR</span> <span class="pre">&lt;&lt;</span> <span class="pre">1)</span> <span class="pre">|</span> <span class="pre">I2C_MASTER_WRITE</span></code> and looks as follows:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">i2c_master_write_byte</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="p">(</span><span class="n">ESP_SLAVE_ADDR</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span> <span class="n">I2C_MASTER_WRITE</span><span class="p">,</span> <span class="n">ACK_EN</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Likewise, the command link to read from the slave looks as follows:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">i2c_master_write_byte</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span> <span class="p">(</span><span class="n">ESP_SLAVE_ADDR</span> <span class="o">&lt;&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">|</span> <span class="n">I2C_MASTER_READ</span><span class="p">,</span> <span class="n">ACK_EN</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="communication-as-slave">
+<span id="i2c-api-slave-mode"></span><h3>Communication as Slave<a class="headerlink" href="#communication-as-slave" title="Permalink to this headline">¶</a></h3>
+<p>After installing the I2C driver, ESP32 is ready to communicate with other I2C devices.</p>
+<p>The API provides the following functions for slaves</p>
+<ul>
+<li><p class="first"><a class="reference internal" href="#_CPPv421i2c_slave_read_buffer10i2c_port_tP7uint8_t6size_t10TickType_t" title="i2c_slave_read_buffer"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_slave_read_buffer()</span></code></a></p>
+<blockquote>
+<div><p>Whenever the master writes data to the slave, the slave will automatically store it in the receive buffer. This allows the slave application to call the function <a class="reference internal" href="#_CPPv421i2c_slave_read_buffer10i2c_port_tP7uint8_t6size_t10TickType_t" title="i2c_slave_read_buffer"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_slave_read_buffer()</span></code></a> at its own discretion. This function also has a parameter to specify block time if no data is in the receive buffer. This will allow the slave application to wait with a specified timeout for data to arrive to the buffer.</p>
+</div></blockquote>
+</li>
+<li><p class="first"><a class="reference internal" href="#_CPPv422i2c_slave_write_buffer10i2c_port_tP7uint8_ti10TickType_t" title="i2c_slave_write_buffer"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_slave_write_buffer()</span></code></a></p>
+<blockquote>
+<div><p>The send buffer is used to store all the data that the slave wants to send to the master in FIFO order. The data stays there until the master requests for it. The function <a class="reference internal" href="#_CPPv422i2c_slave_write_buffer10i2c_port_tP7uint8_ti10TickType_t" title="i2c_slave_write_buffer"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_slave_write_buffer()</span></code></a> has a parameter to specify block time if the send buffer is full. This will allow the slave application to wait with a specified timeout for the adequate amount of space to become available in the send buffer.</p>
+</div></blockquote>
+</li>
+</ul>
+<p>A code example showing how to use these functions can be found in <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/i2c">peripherals/i2c</a>.</p>
+</div>
+<div class="section" id="interrupt-handling">
+<span id="i2c-api-interrupt-handling"></span><h3>Interrupt Handling<a class="headerlink" href="#interrupt-handling" title="Permalink to this headline">¶</a></h3>
+<p>During driver installation, an interrupt handler is installed by default. However, you can register your own interrupt handler instead of the default one by calling the function <a class="reference internal" href="#_CPPv416i2c_isr_register10i2c_port_tPFvPvEPviP13intr_handle_t" title="i2c_isr_register"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_isr_register()</span></code></a>. When implementing your own interrupt handler, refer to the <a class="reference external" href="https://espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf#page=292">ESP32 Technical Reference Manual</a> for the description of interrupts triggered by the I2C controller.</p>
+<p>To delete an interrupt handler, call <a class="reference internal" href="#_CPPv412i2c_isr_free13intr_handle_t" title="i2c_isr_free"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_isr_free()</span></code></a>.</p>
+</div>
+<div class="section" id="customized-configuration">
+<span id="i2c-api-customized-configuration"></span><h3>Customized Configuration<a class="headerlink" href="#customized-configuration" title="Permalink to this headline">¶</a></h3>
+<p>As mentioned at the end of Section <a class="reference internal" href="#i2c-api-configure-driver"><span class="std std-ref">Configuration</span></a>, when the function <a class="reference internal" href="#_CPPv416i2c_param_config10i2c_port_tPK12i2c_config_t" title="i2c_param_config"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_param_config()</span></code></a> initializes the driver configuration for an I2C port, it also sets several I2C communication parameters to default values defined in the <a class="reference external" href="https://www.nxp.com/docs/en/user-guide/UM10204.pdf">I2C specification</a>. Some other related parameters are pre-configured in registers of the I2C controller.</p>
+<p>All these parameters can be changed to user-defined values by calling dedicated functions given in the table below. Please note that the timing values are defined in APB clock cycles. The frequency of APB is specified in <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">I2C_APB_CLK_FREQ</span></code>.</p>
+<table border="1" class="colwidths-given docutils" id="id4">
+<caption><span class="caption-text">Other Configurable I2C Communication Parameters</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col width="65%" />
+<col width="35%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameters to Change</th>
+<th class="head">Function</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>High time and low time for SCL pulses</td>
+<td><a class="reference internal" href="#_CPPv414i2c_set_period10i2c_port_tii" title="i2c_set_period"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_set_period()</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>SCL and SDA signal timing used during generation of <strong>start</strong> signals</td>
+<td><a class="reference internal" href="#_CPPv420i2c_set_start_timing10i2c_port_tii" title="i2c_set_start_timing"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_set_start_timing()</span></code></a></td>
+</tr>
+<tr class="row-even"><td>SCL and SDA signal timing used during generation of <strong>stop</strong> signals</td>
+<td><a class="reference internal" href="#_CPPv419i2c_set_stop_timing10i2c_port_tii" title="i2c_set_stop_timing"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_set_stop_timing()</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>Timing relationship between SCL and SDA signals when slave samples, as well as when master toggles</td>
+<td><a class="reference internal" href="#_CPPv419i2c_set_data_timing10i2c_port_tii" title="i2c_set_data_timing"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_set_data_timing()</span></code></a></td>
+</tr>
+<tr class="row-even"><td>I2C timeout</td>
+<td><a class="reference internal" href="#_CPPv415i2c_set_timeout10i2c_port_ti" title="i2c_set_timeout"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_set_timeout()</span></code></a></td>
+</tr>
+<tr class="row-odd"><td>Choice between transmitting / receiving the LSB or MSB first, choose one of the modes defined in <code class="xref cpp cpp-type docutils literal notranslate"><span class="pre">i2c_trans_mode_t</span></code></td>
+<td><a class="reference internal" href="#_CPPv417i2c_set_data_mode10i2c_port_t16i2c_trans_mode_t16i2c_trans_mode_t" title="i2c_set_data_mode"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_set_data_mode()</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p>Each of the above functions has a <em>_get_</em> counterpart to check the currently set value. For example, to check the I2C timeout value, call <a class="reference internal" href="#_CPPv415i2c_get_timeout10i2c_port_tPi" title="i2c_get_timeout"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_get_timeout()</span></code></a>.</p>
+<p>To check the default parameter values which are set during the driver configuration process, please refer to the file <a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/driver/i2c.c">driver/i2c.c</a> and look for defines with the suffix <code class="docutils literal notranslate"><span class="pre">_DEFAULT</span></code>.</p>
+<p>You can also select different pins for SDA and SCL signals and alter the configuration of pull-ups with the function <a class="reference internal" href="#_CPPv411i2c_set_pin10i2c_port_tiibb10i2c_mode_t" title="i2c_set_pin"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_set_pin()</span></code></a>. If you want to modify already entered values, use the function <a class="reference internal" href="#_CPPv416i2c_param_config10i2c_port_tPK12i2c_config_t" title="i2c_param_config"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_param_config()</span></code></a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ESP32’s internal pull-ups are in the range of tens of kOhm, which is, in most cases, insufficient for use as I2C pull-ups. Users are advised to use external pull-ups with values described in the <a class="reference external" href="https://www.nxp.com/docs/en/user-guide/UM10204.pdf">I2C specification</a>.</p>
+</div>
+</div>
+<div class="section" id="error-handling">
+<span id="i2c-api-error-handling"></span><h3>Error Handling<a class="headerlink" href="#error-handling" title="Permalink to this headline">¶</a></h3>
+<p>The majority of I2C driver functions either return <code class="docutils literal notranslate"><span class="pre">ESP_OK</span></code> on successful completion or a specific error code on failure. It is a good practice to always check the returned values and implement error handling. The driver also prints out log messages that contain error details, e.g., when checking the validity of entered configuration. For details please refer to the file <a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/driver/i2c.c">driver/i2c.c</a> and look for defines with the suffix <code class="docutils literal notranslate"><span class="pre">_ERR_STR</span></code>.</p>
+<p>Use dedicated interrupts to capture communication failures. For instance, if a slave stretches the clock for too long while preparing the data to send back to master, the interrupt <code class="docutils literal notranslate"><span class="pre">I2C_TIME_OUT_INT</span></code> will be triggered. For detailed information, see <a class="reference internal" href="#i2c-api-interrupt-handling"><span class="std std-ref">Interrupt Handling</span></a>.</p>
+<p>In case of a communication failure, you can reset the internal hardware buffers by calling the functions <a class="reference internal" href="#_CPPv417i2c_reset_tx_fifo10i2c_port_t" title="i2c_reset_tx_fifo"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_reset_tx_fifo()</span></code></a> and <a class="reference internal" href="#_CPPv417i2c_reset_rx_fifo10i2c_port_t" title="i2c_reset_rx_fifo"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_reset_rx_fifo()</span></code></a> for the send and receive buffers respectively.</p>
+</div>
+<div class="section" id="delete-driver">
+<span id="i2c-api-delete-driver"></span><h3>Delete Driver<a class="headerlink" href="#delete-driver" title="Permalink to this headline">¶</a></h3>
+<p>When the I2C communication is established with the function <a class="reference internal" href="#_CPPv418i2c_driver_install10i2c_port_t10i2c_mode_t6size_t6size_ti" title="i2c_driver_install"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_driver_install()</span></code></a> and is not required for some substantial amount of time, the driver may be deinitialized to release allocated resources by calling <a class="reference internal" href="#_CPPv417i2c_driver_delete10i2c_port_t" title="i2c_driver_delete"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">i2c_driver_delete()</span></code></a>.</p>
+</div>
+</div>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<p>I2C master and slave example: <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/peripherals/i2c">peripherals/i2c</a>.</p>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/driver/include/driver/i2c.h">driver/include/driver/i2c.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv418i2c_driver_install10i2c_port_t10i2c_mode_t6size_t6size_ti">
+<span id="_CPPv318i2c_driver_install10i2c_port_t10i2c_mode_t6size_t6size_ti"></span><span id="_CPPv218i2c_driver_install10i2c_port_t10i2c_mode_t6size_t6size_ti"></span><span id="i2c_driver_install__i2c_port_t.i2c_mode_t.s.s.i"></span><span class="target" id="i2c_8h_1a9caa9285f1241dbb8240be98f10b0f1b"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_driver_install</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em>, i2c_mode_t <em>mode</em>, size_t <em>slv_rx_buf_len</em>, size_t <em>slv_tx_buf_len</em>, int <em>intr_alloc_flags</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418i2c_driver_install10i2c_port_t10i2c_mode_t6size_t6size_ti" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>I2C driver install. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Only slave mode will use this value, driver will ignore this value in master mode. </dd>
+<dt><strong>Note</strong></dt>
+<dd>Only slave mode will use this value, driver will ignore this value in master mode. </dd>
+<dt><strong>Note</strong></dt>
+<dd>In master mode, if the cache is likely to be disabled(such as write flash) and the slave is time-sensitive, <code class="docutils literal notranslate"><span class="pre">ESP_INTR_FLAG_IRAM</span></code> is suggested to be used. In this case, please use the memory allocated from internal RAM in i2c read and write function, because we can not access the psram(if psram is enabled) in interrupt handle function when cache is disabled.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error</li>
+<li>ESP_FAIL Driver install error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number </li>
+<li><code class="docutils literal notranslate"><span class="pre">mode</span></code>: I2C mode( master or slave ) </li>
+<li><code class="docutils literal notranslate"><span class="pre">slv_rx_buf_len</span></code>: receiving buffer size for slave mode </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">slv_tx_buf_len</span></code>: sending buffer size for slave mode </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">intr_alloc_flags</span></code>: Flags used to allocate the interrupt. One or multiple (ORred) ESP_INTR_FLAG_* values. See esp_intr_alloc.h for more info. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417i2c_driver_delete10i2c_port_t">
+<span id="_CPPv317i2c_driver_delete10i2c_port_t"></span><span id="_CPPv217i2c_driver_delete10i2c_port_t"></span><span id="i2c_driver_delete__i2c_port_t"></span><span class="target" id="i2c_8h_1ac82a808d379e776581da8b7d25a71731"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_driver_delete</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417i2c_driver_delete10i2c_port_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>I2C driver delete. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416i2c_param_config10i2c_port_tPK12i2c_config_t">
+<span id="_CPPv316i2c_param_config10i2c_port_tPK12i2c_config_t"></span><span id="_CPPv216i2c_param_config10i2c_port_tPK12i2c_config_t"></span><span id="i2c_param_config__i2c_port_t.i2c_config_tCP"></span><span class="target" id="i2c_8h_1a5a9d8c206aa11265e414c2273191d9d2"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_param_config</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em>, <em class="property">const</em> i2c_config_t *<em>i2c_conf</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416i2c_param_config10i2c_port_tPK12i2c_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>I2C parameter initialization. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number </li>
+<li><code class="docutils literal notranslate"><span class="pre">i2c_conf</span></code>: pointer to I2C parameter settings</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417i2c_reset_tx_fifo10i2c_port_t">
+<span id="_CPPv317i2c_reset_tx_fifo10i2c_port_t"></span><span id="_CPPv217i2c_reset_tx_fifo10i2c_port_t"></span><span id="i2c_reset_tx_fifo__i2c_port_t"></span><span class="target" id="i2c_8h_1aff5e1a771e42f1ebbe989ee050e0018a"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_reset_tx_fifo</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417i2c_reset_tx_fifo10i2c_port_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>reset I2C tx hardware fifo </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417i2c_reset_rx_fifo10i2c_port_t">
+<span id="_CPPv317i2c_reset_rx_fifo10i2c_port_t"></span><span id="_CPPv217i2c_reset_rx_fifo10i2c_port_t"></span><span id="i2c_reset_rx_fifo__i2c_port_t"></span><span class="target" id="i2c_8h_1a392360156704522fafb7af2fd0151e98"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_reset_rx_fifo</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417i2c_reset_rx_fifo10i2c_port_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>reset I2C rx fifo </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416i2c_isr_register10i2c_port_tPFvPvEPviP13intr_handle_t">
+<span id="_CPPv316i2c_isr_register10i2c_port_tPFvPvEPviP13intr_handle_t"></span><span id="_CPPv216i2c_isr_register10i2c_port_tPFvPvEPviP13intr_handle_t"></span><span class="target" id="i2c_8h_1aed796d041130b1dee680cd758911fe97"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_isr_register</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em>, void (*<em>fn</em>)<span class="sig-paren">(</span>void *<span class="sig-paren">)</span>, void *<em>arg</em>, int <em>intr_alloc_flags</em>, <a class="reference internal" href="../system/intr_alloc.html#_CPPv413intr_handle_t" title="intr_handle_t">intr_handle_t</a> *<em>handle</em>, <span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416i2c_isr_register10i2c_port_tPFvPvEPviP13intr_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>I2C isr handler register. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number </li>
+<li><code class="docutils literal notranslate"><span class="pre">fn</span></code>: isr handler function </li>
+<li><code class="docutils literal notranslate"><span class="pre">arg</span></code>: parameter for isr handler function </li>
+<li><code class="docutils literal notranslate"><span class="pre">intr_alloc_flags</span></code>: Flags used to allocate the interrupt. One or multiple (ORred) ESP_INTR_FLAG_* values. See esp_intr_alloc.h for more info. </li>
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: handle return from esp_intr_alloc.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv412i2c_isr_free13intr_handle_t">
+<span id="_CPPv312i2c_isr_free13intr_handle_t"></span><span id="_CPPv212i2c_isr_free13intr_handle_t"></span><span id="i2c_isr_free__intr_handle_t"></span><span class="target" id="i2c_8h_1ad27ddf70ba4233e0a97d4f614914de56"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_isr_free</code><span class="sig-paren">(</span><a class="reference internal" href="../system/intr_alloc.html#_CPPv413intr_handle_t" title="intr_handle_t">intr_handle_t</a> <em>handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv412i2c_isr_free13intr_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>to delete and free I2C isr. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">handle</span></code>: handle of isr.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv411i2c_set_pin10i2c_port_tiibb10i2c_mode_t">
+<span id="_CPPv311i2c_set_pin10i2c_port_tiibb10i2c_mode_t"></span><span id="_CPPv211i2c_set_pin10i2c_port_tiibb10i2c_mode_t"></span><span id="i2c_set_pin__i2c_port_t.i.i.b.b.i2c_mode_t"></span><span class="target" id="i2c_8h_1ab00103c485eb8e395e1eaa03297ad214"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_set_pin</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em>, int <em>sda_io_num</em>, int <em>scl_io_num</em>, bool <em>sda_pullup_en</em>, bool <em>scl_pullup_en</em>, i2c_mode_t <em>mode</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv411i2c_set_pin10i2c_port_tiibb10i2c_mode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Configure GPIO signal for I2C sck and sda. </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number </li>
+<li><code class="docutils literal notranslate"><span class="pre">sda_io_num</span></code>: GPIO number for I2C sda signal </li>
+<li><code class="docutils literal notranslate"><span class="pre">scl_io_num</span></code>: GPIO number for I2C scl signal </li>
+<li><code class="docutils literal notranslate"><span class="pre">sda_pullup_en</span></code>: Whether to enable the internal pullup for sda pin </li>
+<li><code class="docutils literal notranslate"><span class="pre">scl_pullup_en</span></code>: Whether to enable the internal pullup for scl pin </li>
+<li><code class="docutils literal notranslate"><span class="pre">mode</span></code>: I2C mode</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419i2c_cmd_link_createv">
+<span id="_CPPv319i2c_cmd_link_createv"></span><span id="_CPPv219i2c_cmd_link_createv"></span><span id="i2c_cmd_link_create__void"></span><span class="target" id="i2c_8h_1adc782b89202ff94887f839e45e85ae25"></span><a class="reference internal" href="#_CPPv416i2c_cmd_handle_t" title="i2c_cmd_handle_t">i2c_cmd_handle_t</a> <code class="descname">i2c_cmd_link_create</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419i2c_cmd_link_createv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create and init I2C command link. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Before we build I2C command link, we need to call i2c_cmd_link_create() to create a command link. After we finish sending the commands, we need to call i2c_cmd_link_delete() to release and return the resources.</dd>
+<dt><strong>Return</strong></dt>
+<dd>i2c command link handler </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419i2c_cmd_link_delete16i2c_cmd_handle_t">
+<span id="_CPPv319i2c_cmd_link_delete16i2c_cmd_handle_t"></span><span id="_CPPv219i2c_cmd_link_delete16i2c_cmd_handle_t"></span><span id="i2c_cmd_link_delete__i2c_cmd_handle_t"></span><span class="target" id="i2c_8h_1a7685c5cfa368b04e2e73d9ccbd931d59"></span>void <code class="descname">i2c_cmd_link_delete</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416i2c_cmd_handle_t" title="i2c_cmd_handle_t">i2c_cmd_handle_t</a> <em>cmd_handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419i2c_cmd_link_delete16i2c_cmd_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Free I2C command link. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Before we build I2C command link, we need to call i2c_cmd_link_create() to create a command link. After we finish sending the commands, we need to call i2c_cmd_link_delete() to release and return the resources.</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">cmd_handle</span></code>: I2C command handle </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416i2c_master_start16i2c_cmd_handle_t">
+<span id="_CPPv316i2c_master_start16i2c_cmd_handle_t"></span><span id="_CPPv216i2c_master_start16i2c_cmd_handle_t"></span><span id="i2c_master_start__i2c_cmd_handle_t"></span><span class="target" id="i2c_8h_1af259c465d93263834c04bbf3d93b947b"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_master_start</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416i2c_cmd_handle_t" title="i2c_cmd_handle_t">i2c_cmd_handle_t</a> <em>cmd_handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416i2c_master_start16i2c_cmd_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Queue command for I2C master to generate a start signal. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Only call this function in I2C master mode Call i2c_master_cmd_begin() to send all queued commands</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">cmd_handle</span></code>: I2C cmd link</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421i2c_master_write_byte16i2c_cmd_handle_t7uint8_tb">
+<span id="_CPPv321i2c_master_write_byte16i2c_cmd_handle_t7uint8_tb"></span><span id="_CPPv221i2c_master_write_byte16i2c_cmd_handle_t7uint8_tb"></span><span id="i2c_master_write_byte__i2c_cmd_handle_t.uint8_t.b"></span><span class="target" id="i2c_8h_1a1e0dce2e841dcc8e097c6e3834fcf0c3"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_master_write_byte</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416i2c_cmd_handle_t" title="i2c_cmd_handle_t">i2c_cmd_handle_t</a> <em>cmd_handle</em>, uint8_t <em>data</em>, bool <em>ack_en</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421i2c_master_write_byte16i2c_cmd_handle_t7uint8_tb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Queue command for I2C master to write one byte to I2C bus. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Only call this function in I2C master mode Call i2c_master_cmd_begin() to send all queued commands</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">cmd_handle</span></code>: I2C cmd link </li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: I2C one byte command to write to bus </li>
+<li><code class="docutils literal notranslate"><span class="pre">ack_en</span></code>: enable ack check for master</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416i2c_master_write16i2c_cmd_handle_tP7uint8_t6size_tb">
+<span id="_CPPv316i2c_master_write16i2c_cmd_handle_tP7uint8_t6size_tb"></span><span id="_CPPv216i2c_master_write16i2c_cmd_handle_tP7uint8_t6size_tb"></span><span id="i2c_master_write__i2c_cmd_handle_t.uint8_tP.s.b"></span><span class="target" id="i2c_8h_1a5a60c9c0f376283bae968aff40942419"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_master_write</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416i2c_cmd_handle_t" title="i2c_cmd_handle_t">i2c_cmd_handle_t</a> <em>cmd_handle</em>, uint8_t *<em>data</em>, size_t <em>data_len</em>, bool <em>ack_en</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416i2c_master_write16i2c_cmd_handle_tP7uint8_t6size_tb" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Queue command for I2C master to write buffer to I2C bus. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Only call this function in I2C master mode Call i2c_master_cmd_begin() to send all queued commands</dd>
+<dt><strong>Note</strong></dt>
+<dd>If the psram is enabled and intr_flag is <code class="docutils literal notranslate"><span class="pre">ESP_INTR_FLAG_IRAM</span></code>, please use the memory allocated from internal RAM. </dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">cmd_handle</span></code>: I2C cmd link </li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: data to send </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">data_len</span></code>: data length </li>
+<li><code class="docutils literal notranslate"><span class="pre">ack_en</span></code>: enable ack check for master</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420i2c_master_read_byte16i2c_cmd_handle_tP7uint8_t14i2c_ack_type_t">
+<span id="_CPPv320i2c_master_read_byte16i2c_cmd_handle_tP7uint8_t14i2c_ack_type_t"></span><span id="_CPPv220i2c_master_read_byte16i2c_cmd_handle_tP7uint8_t14i2c_ack_type_t"></span><span id="i2c_master_read_byte__i2c_cmd_handle_t.uint8_tP.i2c_ack_type_t"></span><span class="target" id="i2c_8h_1a7e1c11e7e25014016d80bc9e97c9f343"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_master_read_byte</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416i2c_cmd_handle_t" title="i2c_cmd_handle_t">i2c_cmd_handle_t</a> <em>cmd_handle</em>, uint8_t *<em>data</em>, i2c_ack_type_t <em>ack</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420i2c_master_read_byte16i2c_cmd_handle_tP7uint8_t14i2c_ack_type_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Queue command for I2C master to read one byte from I2C bus. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Only call this function in I2C master mode Call i2c_master_cmd_begin() to send all queued commands</dd>
+<dt><strong>Note</strong></dt>
+<dd>If the psram is enabled and intr_flag is <code class="docutils literal notranslate"><span class="pre">ESP_INTR_FLAG_IRAM</span></code>, please use the memory allocated from internal RAM. </dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">cmd_handle</span></code>: I2C cmd link </li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: pointer accept the data byte </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">ack</span></code>: ack value for read command</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415i2c_master_read16i2c_cmd_handle_tP7uint8_t6size_t14i2c_ack_type_t">
+<span id="_CPPv315i2c_master_read16i2c_cmd_handle_tP7uint8_t6size_t14i2c_ack_type_t"></span><span id="_CPPv215i2c_master_read16i2c_cmd_handle_tP7uint8_t6size_t14i2c_ack_type_t"></span><span id="i2c_master_read__i2c_cmd_handle_t.uint8_tP.s.i2c_ack_type_t"></span><span class="target" id="i2c_8h_1a686c8a715b880b7335326a15484d4c91"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_master_read</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416i2c_cmd_handle_t" title="i2c_cmd_handle_t">i2c_cmd_handle_t</a> <em>cmd_handle</em>, uint8_t *<em>data</em>, size_t <em>data_len</em>, i2c_ack_type_t <em>ack</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415i2c_master_read16i2c_cmd_handle_tP7uint8_t6size_t14i2c_ack_type_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Queue command for I2C master to read data from I2C bus. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Only call this function in I2C master mode Call i2c_master_cmd_begin() to send all queued commands</dd>
+<dt><strong>Note</strong></dt>
+<dd>If the psram is enabled and intr_flag is <code class="docutils literal notranslate"><span class="pre">ESP_INTR_FLAG_IRAM</span></code>, please use the memory allocated from internal RAM. </dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">cmd_handle</span></code>: I2C cmd link </li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: data buffer to accept the data from bus </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">data_len</span></code>: read data length </li>
+<li><code class="docutils literal notranslate"><span class="pre">ack</span></code>: ack value for read command</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415i2c_master_stop16i2c_cmd_handle_t">
+<span id="_CPPv315i2c_master_stop16i2c_cmd_handle_t"></span><span id="_CPPv215i2c_master_stop16i2c_cmd_handle_t"></span><span id="i2c_master_stop__i2c_cmd_handle_t"></span><span class="target" id="i2c_8h_1a19581b2eea163fe58d019535f6751406"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_master_stop</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv416i2c_cmd_handle_t" title="i2c_cmd_handle_t">i2c_cmd_handle_t</a> <em>cmd_handle</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415i2c_master_stop16i2c_cmd_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Queue command for I2C master to generate a stop signal. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Only call this function in I2C master mode Call i2c_master_cmd_begin() to send all queued commands</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">cmd_handle</span></code>: I2C cmd link</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420i2c_master_cmd_begin10i2c_port_t16i2c_cmd_handle_t10TickType_t">
+<span id="_CPPv320i2c_master_cmd_begin10i2c_port_t16i2c_cmd_handle_t10TickType_t"></span><span id="_CPPv220i2c_master_cmd_begin10i2c_port_t16i2c_cmd_handle_t10TickType_t"></span><span id="i2c_master_cmd_begin__i2c_port_t.i2c_cmd_handle_t.TickType_t"></span><span class="target" id="i2c_8h_1a8a1c5986edf088af184297bab71b4170"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_master_cmd_begin</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em>, <a class="reference internal" href="#_CPPv416i2c_cmd_handle_t" title="i2c_cmd_handle_t">i2c_cmd_handle_t</a> <em>cmd_handle</em>, TickType_t <em>ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420i2c_master_cmd_begin10i2c_port_t16i2c_cmd_handle_t10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>I2C master send queued commands. This function will trigger sending all queued commands. The task will be blocked until all the commands have been sent out. The I2C APIs are not thread-safe, if you want to use one I2C port in different tasks, you need to take care of the multi-thread issue. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Only call this function in I2C master mode</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error</li>
+<li>ESP_FAIL Sending command error, slave doesn’t ACK the transfer.</li>
+<li>ESP_ERR_INVALID_STATE I2C driver not installed or not in master mode.</li>
+<li>ESP_ERR_TIMEOUT Operation timeout because the bus is busy. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number </li>
+<li><code class="docutils literal notranslate"><span class="pre">cmd_handle</span></code>: I2C command handler </li>
+<li><code class="docutils literal notranslate"><span class="pre">ticks_to_wait</span></code>: maximum wait ticks.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422i2c_slave_write_buffer10i2c_port_tP7uint8_ti10TickType_t">
+<span id="_CPPv322i2c_slave_write_buffer10i2c_port_tP7uint8_ti10TickType_t"></span><span id="_CPPv222i2c_slave_write_buffer10i2c_port_tP7uint8_ti10TickType_t"></span><span id="i2c_slave_write_buffer__i2c_port_t.uint8_tP.i.TickType_t"></span><span class="target" id="i2c_8h_1abb02cc71870aedfb6a7c4cf046fd196f"></span>int <code class="descname">i2c_slave_write_buffer</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em>, uint8_t *<em>data</em>, int <em>size</em>, TickType_t <em>ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422i2c_slave_write_buffer10i2c_port_tP7uint8_ti10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>I2C slave write data to internal ringbuffer, when tx fifo empty, isr will fill the hardware fifo from the internal ringbuffer. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Only call this function in I2C slave mode</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_FAIL(-1) Parameter error</li>
+<li>Others(&gt;=0) The number of data bytes that pushed to the I2C slave buffer. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number </li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: data pointer to write into internal buffer </li>
+<li><code class="docutils literal notranslate"><span class="pre">size</span></code>: data size </li>
+<li><code class="docutils literal notranslate"><span class="pre">ticks_to_wait</span></code>: Maximum waiting ticks</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421i2c_slave_read_buffer10i2c_port_tP7uint8_t6size_t10TickType_t">
+<span id="_CPPv321i2c_slave_read_buffer10i2c_port_tP7uint8_t6size_t10TickType_t"></span><span id="_CPPv221i2c_slave_read_buffer10i2c_port_tP7uint8_t6size_t10TickType_t"></span><span id="i2c_slave_read_buffer__i2c_port_t.uint8_tP.s.TickType_t"></span><span class="target" id="i2c_8h_1aca23be7ff8c57e398d2810d3b82274fb"></span>int <code class="descname">i2c_slave_read_buffer</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em>, uint8_t *<em>data</em>, size_t <em>max_size</em>, TickType_t <em>ticks_to_wait</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421i2c_slave_read_buffer10i2c_port_tP7uint8_t6size_t10TickType_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>I2C slave read data from internal buffer. When I2C slave receive data, isr will copy received data from hardware rx fifo to internal ringbuffer. Then users can read from internal ringbuffer. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Only call this function in I2C slave mode</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_FAIL(-1) Parameter error</li>
+<li>Others(&gt;=0) The number of data bytes that read from I2C slave buffer. </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number </li>
+<li><code class="docutils literal notranslate"><span class="pre">data</span></code>: data pointer to accept data from internal buffer </li>
+<li><code class="docutils literal notranslate"><span class="pre">max_size</span></code>: Maximum data size to read </li>
+<li><code class="docutils literal notranslate"><span class="pre">ticks_to_wait</span></code>: Maximum waiting ticks</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414i2c_set_period10i2c_port_tii">
+<span id="_CPPv314i2c_set_period10i2c_port_tii"></span><span id="_CPPv214i2c_set_period10i2c_port_tii"></span><span id="i2c_set_period__i2c_port_t.i.i"></span><span class="target" id="i2c_8h_1ab43e00b3a199b5bcc29c37f2e6794c5e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_set_period</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em>, int <em>high_period</em>, int <em>low_period</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414i2c_set_period10i2c_port_tii" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set I2C master clock period </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number </li>
+<li><code class="docutils literal notranslate"><span class="pre">high_period</span></code>: clock cycle number during SCL is high level, high_period is a 14 bit value </li>
+<li><code class="docutils literal notranslate"><span class="pre">low_period</span></code>: clock cycle number during SCL is low level, low_period is a 14 bit value</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv414i2c_get_period10i2c_port_tPiPi">
+<span id="_CPPv314i2c_get_period10i2c_port_tPiPi"></span><span id="_CPPv214i2c_get_period10i2c_port_tPiPi"></span><span id="i2c_get_period__i2c_port_t.iP.iP"></span><span class="target" id="i2c_8h_1a0b3c990cdaf886bbbd708823ee491a83"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_get_period</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em>, int *<em>high_period</em>, int *<em>low_period</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414i2c_get_period10i2c_port_tPiPi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get I2C master clock period </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number </li>
+<li><code class="docutils literal notranslate"><span class="pre">high_period</span></code>: pointer to get clock cycle number during SCL is high level, will get a 14 bit value </li>
+<li><code class="docutils literal notranslate"><span class="pre">low_period</span></code>: pointer to get clock cycle number during SCL is low level, will get a 14 bit value</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417i2c_filter_enable10i2c_port_t7uint8_t">
+<span id="_CPPv317i2c_filter_enable10i2c_port_t7uint8_t"></span><span id="_CPPv217i2c_filter_enable10i2c_port_t7uint8_t"></span><span id="i2c_filter_enable__i2c_port_t.uint8_t"></span><span class="target" id="i2c_8h_1adb4516fa2ecb85dff5895900b428aedd"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_filter_enable</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em>, uint8_t <em>cyc_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417i2c_filter_enable10i2c_port_t7uint8_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>enable hardware filter on I2C bus Sometimes the I2C bus is disturbed by high frequency noise(about 20ns), or the rising edge of the SCL clock is very slow, these may cause the master state machine broken. enable hardware filter can filter out high frequency interference and make the master more stable. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Enable filter will slow the SCL clock.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number </li>
+<li><code class="docutils literal notranslate"><span class="pre">cyc_num</span></code>: the APB cycles need to be filtered(0&lt;= cyc_num &lt;=7). When the period of a pulse is less than cyc_num * APB_cycle, the I2C controller will ignore this pulse.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418i2c_filter_disable10i2c_port_t">
+<span id="_CPPv318i2c_filter_disable10i2c_port_t"></span><span id="_CPPv218i2c_filter_disable10i2c_port_t"></span><span id="i2c_filter_disable__i2c_port_t"></span><span class="target" id="i2c_8h_1a0b73d1024f53191e122f91ed856ce917"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_filter_disable</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418i2c_filter_disable10i2c_port_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>disable filter on I2C bus </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420i2c_set_start_timing10i2c_port_tii">
+<span id="_CPPv320i2c_set_start_timing10i2c_port_tii"></span><span id="_CPPv220i2c_set_start_timing10i2c_port_tii"></span><span id="i2c_set_start_timing__i2c_port_t.i.i"></span><span class="target" id="i2c_8h_1a78c78b3da87514b74b4df0aa076e7b9a"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_set_start_timing</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em>, int <em>setup_time</em>, int <em>hold_time</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420i2c_set_start_timing10i2c_port_tii" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set I2C master start signal timing </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number </li>
+<li><code class="docutils literal notranslate"><span class="pre">setup_time</span></code>: clock number between the falling-edge of SDA and rising-edge of SCL for start mark, it’s a 10-bit value. </li>
+<li><code class="docutils literal notranslate"><span class="pre">hold_time</span></code>: clock num between the falling-edge of SDA and falling-edge of SCL for start mark, it’s a 10-bit value.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420i2c_get_start_timing10i2c_port_tPiPi">
+<span id="_CPPv320i2c_get_start_timing10i2c_port_tPiPi"></span><span id="_CPPv220i2c_get_start_timing10i2c_port_tPiPi"></span><span id="i2c_get_start_timing__i2c_port_t.iP.iP"></span><span class="target" id="i2c_8h_1a7aa945fe5986a737ae518c5fc0032c4d"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_get_start_timing</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em>, int *<em>setup_time</em>, int *<em>hold_time</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420i2c_get_start_timing10i2c_port_tPiPi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get I2C master start signal timing </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number </li>
+<li><code class="docutils literal notranslate"><span class="pre">setup_time</span></code>: pointer to get setup time </li>
+<li><code class="docutils literal notranslate"><span class="pre">hold_time</span></code>: pointer to get hold time</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419i2c_set_stop_timing10i2c_port_tii">
+<span id="_CPPv319i2c_set_stop_timing10i2c_port_tii"></span><span id="_CPPv219i2c_set_stop_timing10i2c_port_tii"></span><span id="i2c_set_stop_timing__i2c_port_t.i.i"></span><span class="target" id="i2c_8h_1a79142289695a97fa67aa8655b27ac9a4"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_set_stop_timing</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em>, int <em>setup_time</em>, int <em>hold_time</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419i2c_set_stop_timing10i2c_port_tii" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set I2C master stop signal timing </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number </li>
+<li><code class="docutils literal notranslate"><span class="pre">setup_time</span></code>: clock num between the rising-edge of SCL and the rising-edge of SDA, it’s a 10-bit value. </li>
+<li><code class="docutils literal notranslate"><span class="pre">hold_time</span></code>: clock number after the STOP bit’s rising-edge, it’s a 14-bit value.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419i2c_get_stop_timing10i2c_port_tPiPi">
+<span id="_CPPv319i2c_get_stop_timing10i2c_port_tPiPi"></span><span id="_CPPv219i2c_get_stop_timing10i2c_port_tPiPi"></span><span id="i2c_get_stop_timing__i2c_port_t.iP.iP"></span><span class="target" id="i2c_8h_1abac457bee6e32e7b54f9510168268664"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_get_stop_timing</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em>, int *<em>setup_time</em>, int *<em>hold_time</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419i2c_get_stop_timing10i2c_port_tPiPi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get I2C master stop signal timing </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number </li>
+<li><code class="docutils literal notranslate"><span class="pre">setup_time</span></code>: pointer to get setup time. </li>
+<li><code class="docutils literal notranslate"><span class="pre">hold_time</span></code>: pointer to get hold time.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419i2c_set_data_timing10i2c_port_tii">
+<span id="_CPPv319i2c_set_data_timing10i2c_port_tii"></span><span id="_CPPv219i2c_set_data_timing10i2c_port_tii"></span><span id="i2c_set_data_timing__i2c_port_t.i.i"></span><span class="target" id="i2c_8h_1a678fa31a4af9a31686e7c81c1239830b"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_set_data_timing</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em>, int <em>sample_time</em>, int <em>hold_time</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419i2c_set_data_timing10i2c_port_tii" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set I2C data signal timing </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number </li>
+<li><code class="docutils literal notranslate"><span class="pre">sample_time</span></code>: clock number I2C used to sample data on SDA after the rising-edge of SCL, it’s a 10-bit value </li>
+<li><code class="docutils literal notranslate"><span class="pre">hold_time</span></code>: clock number I2C used to hold the data after the falling-edge of SCL, it’s a 10-bit value</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419i2c_get_data_timing10i2c_port_tPiPi">
+<span id="_CPPv319i2c_get_data_timing10i2c_port_tPiPi"></span><span id="_CPPv219i2c_get_data_timing10i2c_port_tPiPi"></span><span id="i2c_get_data_timing__i2c_port_t.iP.iP"></span><span class="target" id="i2c_8h_1a239805086fd7d46960267d8eee3238c6"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_get_data_timing</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em>, int *<em>sample_time</em>, int *<em>hold_time</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419i2c_get_data_timing10i2c_port_tPiPi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get I2C data signal timing </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number </li>
+<li><code class="docutils literal notranslate"><span class="pre">sample_time</span></code>: pointer to get sample time </li>
+<li><code class="docutils literal notranslate"><span class="pre">hold_time</span></code>: pointer to get hold time</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415i2c_set_timeout10i2c_port_ti">
+<span id="_CPPv315i2c_set_timeout10i2c_port_ti"></span><span id="_CPPv215i2c_set_timeout10i2c_port_ti"></span><span id="i2c_set_timeout__i2c_port_t.i"></span><span class="target" id="i2c_8h_1a38c3080fdb4b693baeedf5cdbb6f9382"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_set_timeout</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em>, int <em>timeout</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415i2c_set_timeout10i2c_port_ti" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set I2C timeout value </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number </li>
+<li><code class="docutils literal notranslate"><span class="pre">timeout</span></code>: timeout value for I2C bus (unit: APB 80Mhz clock cycle) </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv415i2c_get_timeout10i2c_port_tPi">
+<span id="_CPPv315i2c_get_timeout10i2c_port_tPi"></span><span id="_CPPv215i2c_get_timeout10i2c_port_tPi"></span><span id="i2c_get_timeout__i2c_port_t.iP"></span><span class="target" id="i2c_8h_1a0fa934ba57c6dc36c72415b786d2242d"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_get_timeout</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em>, int *<em>timeout</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv415i2c_get_timeout10i2c_port_tPi" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get I2C timeout value </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number </li>
+<li><code class="docutils literal notranslate"><span class="pre">timeout</span></code>: pointer to get timeout value </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417i2c_set_data_mode10i2c_port_t16i2c_trans_mode_t16i2c_trans_mode_t">
+<span id="_CPPv317i2c_set_data_mode10i2c_port_t16i2c_trans_mode_t16i2c_trans_mode_t"></span><span id="_CPPv217i2c_set_data_mode10i2c_port_t16i2c_trans_mode_t16i2c_trans_mode_t"></span><span id="i2c_set_data_mode__i2c_port_t.i2c_trans_mode_t.i2c_trans_mode_t"></span><span class="target" id="i2c_8h_1ae3758935849d2297e623aa2d1bbf944e"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_set_data_mode</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em>, i2c_trans_mode_t <em>tx_trans_mode</em>, i2c_trans_mode_t <em>rx_trans_mode</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417i2c_set_data_mode10i2c_port_t16i2c_trans_mode_t16i2c_trans_mode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>set I2C data transfer mode </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number </li>
+<li><code class="docutils literal notranslate"><span class="pre">tx_trans_mode</span></code>: I2C sending data mode </li>
+<li><code class="docutils literal notranslate"><span class="pre">rx_trans_mode</span></code>: I2C receving data mode</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417i2c_get_data_mode10i2c_port_tP16i2c_trans_mode_tP16i2c_trans_mode_t">
+<span id="_CPPv317i2c_get_data_mode10i2c_port_tP16i2c_trans_mode_tP16i2c_trans_mode_t"></span><span id="_CPPv217i2c_get_data_mode10i2c_port_tP16i2c_trans_mode_tP16i2c_trans_mode_t"></span><span id="i2c_get_data_mode__i2c_port_t.i2c_trans_mode_tP.i2c_trans_mode_tP"></span><span class="target" id="i2c_8h_1a164f6318a1c508194ec55501f76b0105"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">i2c_get_data_mode</code><span class="sig-paren">(</span>i2c_port_t <em>i2c_num</em>, i2c_trans_mode_t *<em>tx_trans_mode</em>, i2c_trans_mode_t *<em>rx_trans_mode</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417i2c_get_data_mode10i2c_port_tP16i2c_trans_mode_tP16i2c_trans_mode_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>get I2C data transfer mode </p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK Success</li>
+<li>ESP_ERR_INVALID_ARG Parameter error </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">i2c_num</span></code>: I2C port number </li>
+<li><code class="docutils literal notranslate"><span class="pre">tx_trans_mode</span></code>: pointer to get I2C sending data mode </li>
+<li><code class="docutils literal notranslate"><span class="pre">rx_trans_mode</span></code>: pointer to get I2C receiving data mode</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.I2C_APB_CLK_FREQ">
+<span class="target" id="i2c_8h_1a06fc9a7b653b62eade5ca843975ba332"></span><code class="descname">I2C_APB_CLK_FREQ</code><a class="headerlink" href="#c.I2C_APB_CLK_FREQ" title="Permalink to this definition">¶</a></dt>
+<dd><p>I2C source clock is APB clock, 80MHz </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I2C_NUM_0">
+<span class="target" id="i2c_8h_1aab331a7ef3d8b925d29a3bad37a8a87b"></span><code class="descname">I2C_NUM_0</code><a class="headerlink" href="#c.I2C_NUM_0" title="Permalink to this definition">¶</a></dt>
+<dd><p>I2C port 0 </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I2C_NUM_1">
+<span class="target" id="i2c_8h_1acbee8be7e1e6ffcdc480b3f7e3c3b656"></span><code class="descname">I2C_NUM_1</code><a class="headerlink" href="#c.I2C_NUM_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>I2C port 1 </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.I2C_NUM_MAX">
+<span class="target" id="i2c_8h_1a373591b52d647081a9fe73c0ddeacb04"></span><code class="descname">I2C_NUM_MAX</code><a class="headerlink" href="#c.I2C_NUM_MAX" title="Permalink to this definition">¶</a></dt>
+<dd><p>I2C port max </p>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv416i2c_cmd_handle_t">
+<span id="_CPPv316i2c_cmd_handle_t"></span><span id="_CPPv216i2c_cmd_handle_t"></span><span id="i2c_cmd_handle_t"></span><span class="target" id="i2c_8h_1ad9360902bd0e967091f78a46a70e8cc2"></span><em class="property">typedef </em>void *<code class="descname">i2c_cmd_handle_t</code><a class="headerlink" href="#_CPPv416i2c_cmd_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>I2C command handle </p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="i2s.html" class="btn btn-neutral float-right" title="I2S" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="gpio.html" class="btn btn-neutral float-left" title="GPIO &amp; RTC GPIO" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/peripherals/i2c.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:33 GMT -->
+</html>

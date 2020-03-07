@@ -1,0 +1,1253 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/provisioning/protocomm.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:08 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Protocol Communication &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Unified Provisioning" href="provisioning.html" />
+    <link rel="prev" title="Provisioning API" href="index.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="protocomm.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/provisioning/protocomm"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Provisioning</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Protocol Communication</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transport-example-softap-http-with-security-1">Transport Example (SoftAP + HTTP) with Security 1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transport-example-ble-with-security-0">Transport Example (BLE) with Security 0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="provisioning.html">Unified Provisioning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wifi_provisioning.html">Wi-Fi Provisioning</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../system/index.html">System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">Provisioning API</a> &raquo;</li>
+        
+      <li>Protocol Communication</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/provisioning/protocomm.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="protocol-communication">
+<h1>Protocol Communication<a class="headerlink" href="#protocol-communication" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>Protocol Communication (protocomm) component manages secure sessions and provides framework for multiple transports. The application can also use protocomm layer directly to have application specific extensions for the provisioning (or non-provisioning) use cases.</p>
+<dl class="docutils">
+<dt>Following features are available for provisioning :</dt>
+<dd><ul class="first last simple">
+<li><dl class="first docutils">
+<dt>Communication security at application level -</dt>
+<dd><ul class="first last">
+<li>protocomm_security0 (no security)</li>
+<li>protocomm_security1 (curve25519 key exchange + AES-CTR encryption)</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>Proof-of-possession (support with protocomm_security1 only)</li>
+</ul>
+</dd>
+</dl>
+<p>Protocomm internally uses protobuf (protocol buffers) for secure session establishment. Though users can implement their own security (even without using protobuf). One can even use protocomm without any security layer.</p>
+<p>Protocomm provides framework for various transports - WiFi (SoftAP+HTTPD), BLE, console - in which case the handler invocation is automatically taken care of on the device side (see Transport Examples below for code snippets).</p>
+<p>Note that the client still needs to establish session (only for protocomm_security1) by performing the two way handshake. See <a class="reference internal" href="provisioning.html"><span class="doc">Unified Provisioning</span></a> for more details about the secure handshake logic.</p>
+</div>
+<div class="section" id="transport-example-softap-http-with-security-1">
+<h2>Transport Example (SoftAP + HTTP) with Security 1<a class="headerlink" href="#transport-example-softap-http-with-security-1" title="Permalink to this headline">¶</a></h2>
+<p>For complete example see <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/provisioning/softap_prov">provisioning/softap_prov</a></p>
+<blockquote>
+<div><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Endpoint handler to be registered with protocomm.</span>
+<span class="cm"> * This simply echoes back the received data. */</span>
+<span class="n">esp_err_t</span> <span class="nf">echo_req_handler</span> <span class="p">(</span><span class="kt">uint32_t</span> <span class="n">session_id</span><span class="p">,</span>
+                            <span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">inbuf</span><span class="p">,</span> <span class="kt">ssize_t</span> <span class="n">inlen</span><span class="p">,</span>
+                            <span class="kt">uint8_t</span> <span class="o">**</span><span class="n">outbuf</span><span class="p">,</span> <span class="kt">ssize_t</span> <span class="o">*</span><span class="n">outlen</span><span class="p">,</span>
+                            <span class="kt">void</span> <span class="o">*</span><span class="n">priv_data</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="cm">/* Session ID may be used for persistence */</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Session ID : %d&quot;</span><span class="p">,</span> <span class="n">session_id</span><span class="p">);</span>
+
+    <span class="cm">/* Echo back the received data */</span>
+    <span class="o">*</span><span class="n">outlen</span> <span class="o">=</span> <span class="n">inlen</span><span class="p">;</span>            <span class="cm">/* Output data length updated */</span>
+    <span class="o">*</span><span class="n">outbuf</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">inlen</span><span class="p">);</span>    <span class="cm">/* This will be deallocated outside */</span>
+    <span class="n">memcpy</span><span class="p">(</span><span class="o">*</span><span class="n">outbuf</span><span class="p">,</span> <span class="n">inbuf</span><span class="p">,</span> <span class="n">inlen</span><span class="p">);</span>
+
+    <span class="cm">/* Private data that was passed at the time of endpoint creation */</span>
+    <span class="kt">uint32_t</span> <span class="o">*</span><span class="n">priv</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint32_t</span> <span class="o">*</span><span class="p">)</span> <span class="n">priv_data</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">priv</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Private data : %d&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">priv</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">ESP_OK</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* Example function for launching a protocomm instance over HTTP */</span>
+<span class="n">protocomm_t</span> <span class="o">*</span><span class="nf">start_pc</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">pop_string</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">protocomm_t</span> <span class="o">*</span><span class="n">pc</span> <span class="o">=</span> <span class="n">protocomm_new</span><span class="p">();</span>
+
+
+    <span class="cm">/* Config for protocomm_httpd_start() */</span>
+    <span class="n">protocomm_httpd_config_t</span> <span class="n">pc_config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="p">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">PROTOCOMM_HTTPD_DEFAULT_CONFIG</span><span class="p">()</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+
+    <span class="cm">/* Start protocomm server on top of HTTP */</span>
+    <span class="n">protocomm_httpd_start</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pc_config</span><span class="p">);</span>
+
+    <span class="cm">/* Create Proof of Possession object from pop_string. It must be valid</span>
+<span class="cm">     * throughout the scope of protocomm endpoint. This need not be static,</span>
+<span class="cm">     * ie. could be dynamically allocated and freed at the time of endpoint</span>
+<span class="cm">     * removal */</span>
+    <span class="k">const</span> <span class="k">static</span> <span class="n">protocomm_security_pop_t</span> <span class="n">pop_obj</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="k">const</span> <span class="kt">uint8_t</span> <span class="o">*</span><span class="p">)</span> <span class="n">strdup</span><span class="p">(</span><span class="n">pop_string</span><span class="p">),</span>
+        <span class="p">.</span><span class="n">len</span> <span class="o">=</span> <span class="n">strlen</span><span class="p">(</span><span class="n">pop_string</span><span class="p">)</span>
+    <span class="p">};</span>
+
+    <span class="cm">/* Set security for communication at application level. Just like for</span>
+<span class="cm">     * request handlers, setting security creates an endpoint and registers</span>
+<span class="cm">     * the handler provided by protocomm_security1. One can similarly use</span>
+<span class="cm">     * protocomm_security0. Only one type of security can be set for a</span>
+<span class="cm">     * protocomm instance at a time. */</span>
+    <span class="n">protocomm_set_security</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="s">&quot;security_endpoint&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">protocomm_security1</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">pop_obj</span><span class="p">);</span>
+
+    <span class="cm">/* Private data passed to the endpoint must be valid throughout the scope</span>
+<span class="cm">     * of protocomm endpoint. This need not be static, ie. could be dynamically</span>
+<span class="cm">     * allocated and freed at the time of endpoint removal */</span>
+    <span class="k">static</span> <span class="kt">uint32_t</span> <span class="n">priv_data</span> <span class="o">=</span> <span class="mi">1234</span><span class="p">;</span>
+
+    <span class="cm">/* Add a new endpoint for the protocomm instance, identified by a unique name</span>
+<span class="cm">     * and register a handler function along with private data to be passed at the</span>
+<span class="cm">     * time of handler execution. Multiple endpoints can be added as long as they</span>
+<span class="cm">     * are identified by unique names */</span>
+    <span class="n">protocomm_add_endpoint</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="s">&quot;echo_req_endpoint&quot;</span><span class="p">,</span>
+                           <span class="n">echo_req_handler</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">priv_data</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">pc</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* Example function for stopping a protocomm instance */</span>
+<span class="kt">void</span> <span class="nf">stop_pc</span><span class="p">(</span><span class="n">protocomm_t</span> <span class="o">*</span><span class="n">pc</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="cm">/* Remove endpoint identified by it&#39;s unique name */</span>
+    <span class="n">protocomm_remove_endpoint</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="s">&quot;echo_req_endpoint&quot;</span><span class="p">);</span>
+
+    <span class="cm">/* Remove security endpoint identified by it&#39;s name */</span>
+    <span class="n">protocomm_unset_security</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="s">&quot;security_endpoint&quot;</span><span class="p">);</span>
+
+    <span class="cm">/* Stop HTTP server */</span>
+    <span class="n">protocomm_httpd_stop</span><span class="p">(</span><span class="n">pc</span><span class="p">);</span>
+
+    <span class="cm">/* Delete (deallocate) the protocomm instance */</span>
+    <span class="n">protocomm_delete</span><span class="p">(</span><span class="n">pc</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="transport-example-ble-with-security-0">
+<h2>Transport Example (BLE) with Security 0<a class="headerlink" href="#transport-example-ble-with-security-0" title="Permalink to this headline">¶</a></h2>
+<p>For complete example see <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/provisioning/ble_prov">provisioning/ble_prov</a></p>
+<blockquote>
+<div><div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cm">/* Example function for launching a secure protocomm instance over BLE */</span>
+<span class="n">protocomm_t</span> <span class="o">*</span><span class="nf">start_pc</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">protocomm_t</span> <span class="o">*</span><span class="n">pc</span> <span class="o">=</span> <span class="n">protocomm_new</span><span class="p">();</span>
+
+    <span class="cm">/* Endpoint UUIDs */</span>
+    <span class="n">protocomm_ble_name_uuid_t</span> <span class="n">nu_lookup_table</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="p">{</span><span class="s">&quot;security_endpoint&quot;</span><span class="p">,</span> <span class="mh">0xFF51</span><span class="p">},</span>
+        <span class="p">{</span><span class="s">&quot;echo_req_endpoint&quot;</span><span class="p">,</span> <span class="mh">0xFF52</span><span class="p">}</span>
+    <span class="p">};</span>
+
+    <span class="cm">/* Config for protocomm_ble_start() */</span>
+    <span class="n">protocomm_ble_config_t</span> <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="p">.</span><span class="n">service_uuid</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="cm">/* LSB &lt;---------------------------------------</span>
+<span class="cm">            * ---------------------------------------&gt; MSB */</span>
+            <span class="mh">0xfb</span><span class="p">,</span> <span class="mh">0x34</span><span class="p">,</span> <span class="mh">0x9b</span><span class="p">,</span> <span class="mh">0x5f</span><span class="p">,</span> <span class="mh">0x80</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x80</span><span class="p">,</span>
+            <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x10</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">,</span> <span class="mh">0xFF</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x00</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="p">.</span><span class="n">nu_lookup_count</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">nu_lookup_table</span><span class="p">)</span><span class="o">/</span><span class="k">sizeof</span><span class="p">(</span><span class="n">nu_lookup_table</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+        <span class="p">.</span><span class="n">nu_lookup</span> <span class="o">=</span> <span class="n">nu_lookup_table</span>
+    <span class="p">};</span>
+
+    <span class="cm">/* Start protocomm layer on top of BLE */</span>
+    <span class="n">protocomm_ble_start</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">config</span><span class="p">);</span>
+
+    <span class="cm">/* For protocomm_security0, Proof of Possession is not used, and can be kept NULL */</span>
+    <span class="n">protocomm_set_security</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="s">&quot;security_endpoint&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">protocomm_security0</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+    <span class="n">protocomm_add_endpoint</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="s">&quot;echo_req_endpoint&quot;</span><span class="p">,</span> <span class="n">echo_req_handler</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">pc</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* Example function for stopping a protocomm instance */</span>
+<span class="kt">void</span> <span class="nf">stop_pc</span><span class="p">(</span><span class="n">protocomm_t</span> <span class="o">*</span><span class="n">pc</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">protocomm_remove_endpoint</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="s">&quot;echo_req_endpoint&quot;</span><span class="p">);</span>
+    <span class="n">protocomm_unset_security</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="s">&quot;security_endpoint&quot;</span><span class="p">);</span>
+
+    <span class="cm">/* Stop BLE protocomm service */</span>
+    <span class="n">protocomm_ble_stop</span><span class="p">(</span><span class="n">pc</span><span class="p">);</span>
+
+    <span class="n">protocomm_delete</span><span class="p">(</span><span class="n">pc</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/protocomm/include/common/protocomm.h">protocomm/include/common/protocomm.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv413protocomm_newv">
+<span id="_CPPv313protocomm_newv"></span><span id="_CPPv213protocomm_newv"></span><span id="protocomm_new__void"></span><span class="target" id="protocomm_8h_1a349588eefbc12e0c6d504cb7db15585f"></span><a class="reference internal" href="#_CPPv411protocomm_t" title="protocomm_t">protocomm_t</a> *<code class="descname">protocomm_new</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413protocomm_newv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Create a new protocomm instance. </p>
+<p>This API will return a new dynamically allocated protocomm instance with all elements of the protocomm_t structure initialized to NULL.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>protocomm_t* : On success</li>
+<li>NULL : No memory for allocating new instance </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv416protocomm_deleteP11protocomm_t">
+<span id="_CPPv316protocomm_deleteP11protocomm_t"></span><span id="_CPPv216protocomm_deleteP11protocomm_t"></span><span id="protocomm_delete__protocomm_tP"></span><span class="target" id="protocomm_8h_1a9bdb95ea5ab65d942405691a2f902ebe"></span>void <code class="descname">protocomm_delete</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411protocomm_t" title="protocomm_t">protocomm_t</a> *<em>pc</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv416protocomm_deleteP11protocomm_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Delete a protocomm instance. </p>
+<p>This API will deallocate a protocomm instance that was created using <code class="docutils literal notranslate"><span class="pre">protocomm_new()</span></code>.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">pc</span></code>: Pointer to the protocomm instance to be deleted </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422protocomm_add_endpointP11protocomm_tPKc23protocomm_req_handler_tPv">
+<span id="_CPPv322protocomm_add_endpointP11protocomm_tPKc23protocomm_req_handler_tPv"></span><span id="_CPPv222protocomm_add_endpointP11protocomm_tPKc23protocomm_req_handler_tPv"></span><span id="protocomm_add_endpoint__protocomm_tP.cCP.protocomm_req_handler_t.voidP"></span><span class="target" id="protocomm_8h_1a9db8520cf4afd44ed0a4f4e6fddf428c"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">protocomm_add_endpoint</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411protocomm_t" title="protocomm_t">protocomm_t</a> *<em>pc</em>, <em class="property">const</em> char *<em>ep_name</em>, <a class="reference internal" href="#_CPPv423protocomm_req_handler_t" title="protocomm_req_handler_t">protocomm_req_handler_t</a> <em>h</em>, void *<em>priv_data</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422protocomm_add_endpointP11protocomm_tPKc23protocomm_req_handler_tPv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add endpoint request handler for a protocomm instance. </p>
+<p>This API will bind an endpoint handler function to the specified endpoint name, along with any private data that needs to be pass to the handler at the time of call.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>An endpoint must be bound to a valid protocomm instance, created using <code class="docutils literal notranslate"><span class="pre">protocomm_new()</span></code>.</li>
+<li>This function internally calls the registered <code class="docutils literal notranslate"><span class="pre">add_endpoint()</span></code> function of the selected transport which is a member of the protocomm_t instance structure.</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_FAIL : Error adding endpoint / Endpoint with this name already exists</li>
+<li>ESP_ERR_NO_MEM : Error allocating endpoint resource</li>
+<li>ESP_ERR_INVALID_ARG : Null instance/name/handler arguments </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">pc</span></code>: Pointer to the protocomm instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">ep_name</span></code>: Endpoint identifier(name) string </li>
+<li><code class="docutils literal notranslate"><span class="pre">h</span></code>: Endpoint handler function </li>
+<li><code class="docutils literal notranslate"><span class="pre">priv_data</span></code>: Pointer to private data to be passed as a parameter to the handler function on call. Pass NULL if not needed.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv425protocomm_remove_endpointP11protocomm_tPKc">
+<span id="_CPPv325protocomm_remove_endpointP11protocomm_tPKc"></span><span id="_CPPv225protocomm_remove_endpointP11protocomm_tPKc"></span><span id="protocomm_remove_endpoint__protocomm_tP.cCP"></span><span class="target" id="protocomm_8h_1a789adb75606137496368a77cfed1daef"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">protocomm_remove_endpoint</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411protocomm_t" title="protocomm_t">protocomm_t</a> *<em>pc</em>, <em class="property">const</em> char *<em>ep_name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv425protocomm_remove_endpointP11protocomm_tPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remove endpoint request handler for a protocomm instance. </p>
+<p>This API will remove a registered endpoint handler identified by an endpoint name.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>This function internally calls the registered <code class="docutils literal notranslate"><span class="pre">remove_endpoint()</span></code> function which is a member of the protocomm_t instance structure.</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_ERR_NOT_FOUND : Endpoint with specified name doesn’t exist</li>
+<li>ESP_ERR_INVALID_ARG : Null instance/name arguments </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">pc</span></code>: Pointer to the protocomm instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">ep_name</span></code>: Endpoint identifier(name) string</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422protocomm_open_sessionP11protocomm_t8uint32_t">
+<span id="_CPPv322protocomm_open_sessionP11protocomm_t8uint32_t"></span><span id="_CPPv222protocomm_open_sessionP11protocomm_t8uint32_t"></span><span id="protocomm_open_session__protocomm_tP.uint32_t"></span><span class="target" id="protocomm_8h_1a8f6226f1d5391a18d6b0c71e7f76e4b2"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">protocomm_open_session</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411protocomm_t" title="protocomm_t">protocomm_t</a> *<em>pc</em>, uint32_t <em>session_id</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422protocomm_open_sessionP11protocomm_t8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Allocates internal resources for new transport session. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>An endpoint must be bound to a valid protocomm instance, created using <code class="docutils literal notranslate"><span class="pre">protocomm_new()</span></code>.</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Request handled successfully</li>
+<li>ESP_ERR_NO_MEM : Error allocating internal resource</li>
+<li>ESP_ERR_INVALID_ARG : Null instance/name arguments </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">pc</span></code>: Pointer to the protocomm instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">session_id</span></code>: Unique ID for a communication session</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423protocomm_close_sessionP11protocomm_t8uint32_t">
+<span id="_CPPv323protocomm_close_sessionP11protocomm_t8uint32_t"></span><span id="_CPPv223protocomm_close_sessionP11protocomm_t8uint32_t"></span><span id="protocomm_close_session__protocomm_tP.uint32_t"></span><span class="target" id="protocomm_8h_1a67ff69125ec2eedeb39babdb2a3031f2"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">protocomm_close_session</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411protocomm_t" title="protocomm_t">protocomm_t</a> *<em>pc</em>, uint32_t <em>session_id</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423protocomm_close_sessionP11protocomm_t8uint32_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Frees internal resources used by a transport session. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>An endpoint must be bound to a valid protocomm instance, created using <code class="docutils literal notranslate"><span class="pre">protocomm_new()</span></code>.</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Request handled successfully</li>
+<li>ESP_ERR_INVALID_ARG : Null instance/name arguments </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">pc</span></code>: Pointer to the protocomm instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">session_id</span></code>: Unique ID for a communication session</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420protocomm_req_handleP11protocomm_tPKc8uint32_tPK7uint8_t7ssize_tPP7uint8_tP7ssize_t">
+<span id="_CPPv320protocomm_req_handleP11protocomm_tPKc8uint32_tPK7uint8_t7ssize_tPP7uint8_tP7ssize_t"></span><span id="_CPPv220protocomm_req_handleP11protocomm_tPKc8uint32_tPK7uint8_t7ssize_tPP7uint8_tP7ssize_t"></span><span id="protocomm_req_handle__protocomm_tP.cCP.uint32_t.uint8_tCP.ssize_t.uint8_tPP.ssize_tP"></span><span class="target" id="protocomm_8h_1a66546a0610c41163712396e57b887c99"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">protocomm_req_handle</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411protocomm_t" title="protocomm_t">protocomm_t</a> *<em>pc</em>, <em class="property">const</em> char *<em>ep_name</em>, uint32_t <em>session_id</em>, <em class="property">const</em> uint8_t *<em>inbuf</em>, ssize_t <em>inlen</em>, uint8_t **<em>outbuf</em>, ssize_t *<em>outlen</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420protocomm_req_handleP11protocomm_tPKc8uint32_tPK7uint8_t7ssize_tPP7uint8_tP7ssize_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Calls the registered handler of an endpoint session for processing incoming data and generating the response. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>An endpoint must be bound to a valid protocomm instance, created using <code class="docutils literal notranslate"><span class="pre">protocomm_new()</span></code>.</li>
+<li>Resulting output buffer must be deallocated by the caller.</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Request handled successfully</li>
+<li>ESP_FAIL : Internal error in execution of registered handler</li>
+<li>ESP_ERR_NO_MEM : Error allocating internal resource</li>
+<li>ESP_ERR_NOT_FOUND : Endpoint with specified name doesn’t exist</li>
+<li>ESP_ERR_INVALID_ARG : Null instance/name arguments </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">pc</span></code>: Pointer to the protocomm instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">ep_name</span></code>: Endpoint identifier(name) string </li>
+<li><code class="docutils literal notranslate"><span class="pre">session_id</span></code>: Unique ID for a communication session </li>
+<li><code class="docutils literal notranslate"><span class="pre">inbuf</span></code>: Input buffer contains input request data which is to be processed by the registered handler </li>
+<li><code class="docutils literal notranslate"><span class="pre">inlen</span></code>: Length of the input buffer </li>
+<li><code class="docutils literal notranslate"><span class="pre">outbuf</span></code>: Pointer to internally allocated output buffer, where the resulting response data output from the registered handler is to be stored </li>
+<li><code class="docutils literal notranslate"><span class="pre">outlen</span></code>: Buffer length of the allocated output buffer</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv422protocomm_set_securityP11protocomm_tPKcPK20protocomm_security_tPK24protocomm_security_pop_t">
+<span id="_CPPv322protocomm_set_securityP11protocomm_tPKcPK20protocomm_security_tPK24protocomm_security_pop_t"></span><span id="_CPPv222protocomm_set_securityP11protocomm_tPKcPK20protocomm_security_tPK24protocomm_security_pop_t"></span><span id="protocomm_set_security__protocomm_tP.cCP.protocomm_security_tCP.protocomm_security_pop_tCP"></span><span class="target" id="protocomm_8h_1aaf94c5d3f70b9b655865e14917c48e33"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">protocomm_set_security</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411protocomm_t" title="protocomm_t">protocomm_t</a> *<em>pc</em>, <em class="property">const</em> char *<em>ep_name</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv420protocomm_security_t" title="protocomm_security_t">protocomm_security_t</a> *<em>sec</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv424protocomm_security_pop_t" title="protocomm_security_pop_t">protocomm_security_pop_t</a> *<em>pop</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv422protocomm_set_securityP11protocomm_tPKcPK20protocomm_security_tPK24protocomm_security_pop_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Add endpoint security for a protocomm instance. </p>
+<p>This API will bind a security session establisher to the specified endpoint name, along with any proof of possession that may be required for authenticating a session client.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>An endpoint must be bound to a valid protocomm instance, created using <code class="docutils literal notranslate"><span class="pre">protocomm_new()</span></code>.</li>
+<li>The choice of security can be any <code class="docutils literal notranslate"><span class="pre">protocomm_security_t</span></code> instance. Choices <code class="docutils literal notranslate"><span class="pre">protocomm_security0</span></code> and <code class="docutils literal notranslate"><span class="pre">protocomm_security1</span></code> are readily available.</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_FAIL : Error adding endpoint / Endpoint with this name already exists</li>
+<li>ESP_ERR_INVALID_STATE : Security endpoint already set</li>
+<li>ESP_ERR_NO_MEM : Error allocating endpoint resource</li>
+<li>ESP_ERR_INVALID_ARG : Null instance/name/handler arguments </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">pc</span></code>: Pointer to the protocomm instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">ep_name</span></code>: Endpoint identifier(name) string </li>
+<li><code class="docutils literal notranslate"><span class="pre">sec</span></code>: Pointer to endpoint security instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">pop</span></code>: Pointer to proof of possession for authenticating a client</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424protocomm_unset_securityP11protocomm_tPKc">
+<span id="_CPPv324protocomm_unset_securityP11protocomm_tPKc"></span><span id="_CPPv224protocomm_unset_securityP11protocomm_tPKc"></span><span id="protocomm_unset_security__protocomm_tP.cCP"></span><span class="target" id="protocomm_8h_1a04f61745971fe767703988f33facae24"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">protocomm_unset_security</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411protocomm_t" title="protocomm_t">protocomm_t</a> *<em>pc</em>, <em class="property">const</em> char *<em>ep_name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424protocomm_unset_securityP11protocomm_tPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remove endpoint security for a protocomm instance. </p>
+<p>This API will remove a registered security endpoint identified by an endpoint name.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_ERR_NOT_FOUND : Endpoint with specified name doesn’t exist</li>
+<li>ESP_ERR_INVALID_ARG : Null instance/name arguments </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">pc</span></code>: Pointer to the protocomm instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">ep_name</span></code>: Endpoint identifier(name) string</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv421protocomm_set_versionP11protocomm_tPKcPKc">
+<span id="_CPPv321protocomm_set_versionP11protocomm_tPKcPKc"></span><span id="_CPPv221protocomm_set_versionP11protocomm_tPKcPKc"></span><span id="protocomm_set_version__protocomm_tP.cCP.cCP"></span><span class="target" id="protocomm_8h_1a4f9ec6fa55bde3d3e7d2af9c033ce560"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">protocomm_set_version</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411protocomm_t" title="protocomm_t">protocomm_t</a> *<em>pc</em>, <em class="property">const</em> char *<em>ep_name</em>, <em class="property">const</em> char *<em>version</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421protocomm_set_versionP11protocomm_tPKcPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set endpoint for version verification. </p>
+<p>This API can be used for setting an application specific protocol version which can be verified by clients through the endpoint.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd><ul class="simple">
+<li>An endpoint must be bound to a valid protocomm instance, created using <code class="docutils literal notranslate"><span class="pre">protocomm_new()</span></code>.</li>
+</ul>
+</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_FAIL : Error adding endpoint / Endpoint with this name already exists</li>
+<li>ESP_ERR_INVALID_STATE : Version endpoint already set</li>
+<li>ESP_ERR_NO_MEM : Error allocating endpoint resource</li>
+<li>ESP_ERR_INVALID_ARG : Null instance/name/handler arguments </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">pc</span></code>: Pointer to the protocomm instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">ep_name</span></code>: Endpoint identifier(name) string </li>
+<li><code class="docutils literal notranslate"><span class="pre">version</span></code>: Version identifier(name) string</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423protocomm_unset_versionP11protocomm_tPKc">
+<span id="_CPPv323protocomm_unset_versionP11protocomm_tPKc"></span><span id="_CPPv223protocomm_unset_versionP11protocomm_tPKc"></span><span id="protocomm_unset_version__protocomm_tP.cCP"></span><span class="target" id="protocomm_8h_1ac252f6e897105d35824e843c99230edd"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">protocomm_unset_version</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411protocomm_t" title="protocomm_t">protocomm_t</a> *<em>pc</em>, <em class="property">const</em> char *<em>ep_name</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423protocomm_unset_versionP11protocomm_tPKc" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Remove version verification endpoint from a protocomm instance. </p>
+<p>This API will remove a registered version endpoint identified by an endpoint name.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_ERR_NOT_FOUND : Endpoint with specified name doesn’t exist</li>
+<li>ESP_ERR_INVALID_ARG : Null instance/name arguments </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">pc</span></code>: Pointer to the protocomm instance </li>
+<li><code class="docutils literal notranslate"><span class="pre">ep_name</span></code>: Endpoint identifier(name) string</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv423protocomm_req_handler_t">
+<span id="_CPPv323protocomm_req_handler_t"></span><span id="_CPPv223protocomm_req_handler_t"></span><span id="protocomm_req_handler_t"></span><span class="target" id="protocomm_8h_1af0bb71b922cf9a418a1151ad553c8f95"></span><em class="property">typedef </em><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">protocomm_req_handler_t</code>)<span class="sig-paren">(</span>uint32_t session_id, <em class="property">const</em> uint8_t *inbuf, ssize_t inlen, uint8_t **outbuf, ssize_t *outlen, void *priv_data<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423protocomm_req_handler_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function prototype for protocomm endpoint handler. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv411protocomm_t">
+<span id="_CPPv311protocomm_t"></span><span id="_CPPv211protocomm_t"></span><span id="protocomm_t"></span><span class="target" id="protocomm_8h_1a27b1e4598dccc907b988b4c256cb2bf9"></span><em class="property">typedef </em><em class="property">struct</em> protocomm <code class="descname">protocomm_t</code><a class="headerlink" href="#_CPPv411protocomm_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This structure corresponds to a unique instance of protocomm returned when the API <code class="docutils literal notranslate"><span class="pre">protocomm_new()</span></code> is called. The remaining Protocomm APIs require this object as the first parameter. </p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>Structure of the protocomm object is kept private </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id1">
+<h3>Header File<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/protocomm/include/security/protocomm_security.h">protocomm/include/security/protocomm_security.h</a></li>
+</ul>
+</div>
+<div class="section" id="structures">
+<h3>Structures<a class="headerlink" href="#structures" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv422protocomm_security_pop">
+<span id="_CPPv322protocomm_security_pop"></span><span id="_CPPv222protocomm_security_pop"></span><span id="protocomm_security_pop"></span><span class="target" id="structprotocomm__security__pop"></span><em class="property">struct </em><code class="descname">protocomm_security_pop</code><a class="headerlink" href="#_CPPv422protocomm_security_pop" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Proof Of Possession for authenticating a secure session. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N22protocomm_security_pop4dataE">
+<span id="_CPPv3N22protocomm_security_pop4dataE"></span><span id="_CPPv2N22protocomm_security_pop4dataE"></span><span id="protocomm_security_pop::data__uint8_tCP"></span><span class="target" id="structprotocomm__security__pop_1a8df40d21ad058b9d14cef23ccf28cfda"></span><em class="property">const</em> uint8_t *<code class="descname">data</code><a class="headerlink" href="#_CPPv4N22protocomm_security_pop4dataE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Pointer to buffer containing the proof of possession data </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N22protocomm_security_pop3lenE">
+<span id="_CPPv3N22protocomm_security_pop3lenE"></span><span id="_CPPv2N22protocomm_security_pop3lenE"></span><span id="protocomm_security_pop::len__uint16_t"></span><span class="target" id="structprotocomm__security__pop_1a1c29ade53c772a231ee1ffba2d33fa16"></span>uint16_t <code class="descname">len</code><a class="headerlink" href="#_CPPv4N22protocomm_security_pop3lenE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Length (in bytes) of the proof of possession data </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv418protocomm_security">
+<span id="_CPPv318protocomm_security"></span><span id="_CPPv218protocomm_security"></span><span id="protocomm_security"></span><span class="target" id="structprotocomm__security"></span><em class="property">struct </em><code class="descname">protocomm_security</code><a class="headerlink" href="#_CPPv418protocomm_security" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Protocomm security object structure. </p>
+<p>The member functions are used for implementing secure protocomm sessions.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This structure should not have any dynamic members to allow re-entrancy </dd>
+</dl>
+</p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N18protocomm_security3verE">
+<span id="_CPPv3N18protocomm_security3verE"></span><span id="_CPPv2N18protocomm_security3verE"></span><span id="protocomm_security::ver__i"></span><span class="target" id="structprotocomm__security_1ab49e4bf557883a1f4620d235e6418c59"></span>int <code class="descname">ver</code><a class="headerlink" href="#_CPPv4N18protocomm_security3verE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Unique version number of security implementation </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18protocomm_security4initE">
+<span id="_CPPv3N18protocomm_security4initE"></span><span id="_CPPv2N18protocomm_security4initE"></span><span class="target" id="structprotocomm__security_1aeb33c465ce70e0cce46b961bb9b1a2f3"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">init</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv427protocomm_security_handle_t" title="protocomm_security_handle_t">protocomm_security_handle_t</a> *handle<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N18protocomm_security4initE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function for initializing/allocating security infrastructure </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18protocomm_security7cleanupE">
+<span id="_CPPv3N18protocomm_security7cleanupE"></span><span id="_CPPv2N18protocomm_security7cleanupE"></span><span class="target" id="structprotocomm__security_1a6e4e76fc63b99b4894fe926c041b0a65"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">cleanup</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv427protocomm_security_handle_t" title="protocomm_security_handle_t">protocomm_security_handle_t</a> handle<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N18protocomm_security7cleanupE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function for deallocating security infrastructure </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18protocomm_security21new_transport_sessionE">
+<span id="_CPPv3N18protocomm_security21new_transport_sessionE"></span><span id="_CPPv2N18protocomm_security21new_transport_sessionE"></span><span class="target" id="structprotocomm__security_1a316fb471136b4a9bc5dd3877add7024a"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">new_transport_session</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv427protocomm_security_handle_t" title="protocomm_security_handle_t">protocomm_security_handle_t</a> handle, uint32_t session_id<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N18protocomm_security21new_transport_sessionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Starts new secure transport session with specified ID </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18protocomm_security23close_transport_sessionE">
+<span id="_CPPv3N18protocomm_security23close_transport_sessionE"></span><span id="_CPPv2N18protocomm_security23close_transport_sessionE"></span><span class="target" id="structprotocomm__security_1a3fc7becde4139cbe4f4cc1aa77d1fb49"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">close_transport_session</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv427protocomm_security_handle_t" title="protocomm_security_handle_t">protocomm_security_handle_t</a> handle, uint32_t session_id<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N18protocomm_security23close_transport_sessionE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Closes a secure transport session with specified ID </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18protocomm_security20security_req_handlerE">
+<span id="_CPPv3N18protocomm_security20security_req_handlerE"></span><span id="_CPPv2N18protocomm_security20security_req_handlerE"></span><span class="target" id="structprotocomm__security_1aad9d016313c82af8d93324e330c58564"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">security_req_handler</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv427protocomm_security_handle_t" title="protocomm_security_handle_t">protocomm_security_handle_t</a> handle, <em class="property">const</em> <a class="reference internal" href="#_CPPv424protocomm_security_pop_t" title="protocomm_security_pop_t">protocomm_security_pop_t</a> *pop, uint32_t session_id, <em class="property">const</em> uint8_t *inbuf, ssize_t inlen, uint8_t **outbuf, ssize_t *outlen, void *priv_data<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N18protocomm_security20security_req_handlerE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Handler function for authenticating connection request and establishing secure session </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18protocomm_security7encryptE">
+<span id="_CPPv3N18protocomm_security7encryptE"></span><span id="_CPPv2N18protocomm_security7encryptE"></span><span class="target" id="structprotocomm__security_1abd509887cc017a2ac247ad236412297f"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">encrypt</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv427protocomm_security_handle_t" title="protocomm_security_handle_t">protocomm_security_handle_t</a> handle, uint32_t session_id, <em class="property">const</em> uint8_t *inbuf, ssize_t inlen, uint8_t *outbuf, ssize_t *outlen<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N18protocomm_security7encryptE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function which implements the encryption algorithm </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N18protocomm_security7decryptE">
+<span id="_CPPv3N18protocomm_security7decryptE"></span><span id="_CPPv2N18protocomm_security7decryptE"></span><span class="target" id="structprotocomm__security_1af2124337395e478a08f5ae16f73d27fa"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> (*<code class="descname">decrypt</code>)<span class="sig-paren">(</span><a class="reference internal" href="#_CPPv427protocomm_security_handle_t" title="protocomm_security_handle_t">protocomm_security_handle_t</a> handle, uint32_t session_id, <em class="property">const</em> uint8_t *inbuf, ssize_t inlen, uint8_t *outbuf, ssize_t *outlen<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N18protocomm_security7decryptE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function which implements the decryption algorithm </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="id2">
+<h3>Type Definitions<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv424protocomm_security_pop_t">
+<span id="_CPPv324protocomm_security_pop_t"></span><span id="_CPPv224protocomm_security_pop_t"></span><span id="protocomm_security_pop_t"></span><span class="target" id="protocomm__security_8h_1a9e072d18c1589201b8957540e2819fa1"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv422protocomm_security_pop" title="protocomm_security_pop">protocomm_security_pop</a> <code class="descname">protocomm_security_pop_t</code><a class="headerlink" href="#_CPPv424protocomm_security_pop_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Proof Of Possession for authenticating a secure session. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv427protocomm_security_handle_t">
+<span id="_CPPv327protocomm_security_handle_t"></span><span id="_CPPv227protocomm_security_handle_t"></span><span id="protocomm_security_handle_t"></span><span class="target" id="protocomm__security_8h_1aec904c117ecfd4a89846c5b4b95e9d9d"></span><em class="property">typedef </em>void *<code class="descname">protocomm_security_handle_t</code><a class="headerlink" href="#_CPPv427protocomm_security_handle_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+<dl class="type">
+<dt id="_CPPv420protocomm_security_t">
+<span id="_CPPv320protocomm_security_t"></span><span id="_CPPv220protocomm_security_t"></span><span id="protocomm_security_t"></span><span class="target" id="protocomm__security_8h_1ac3a3e828ef8aeeff7164f3bd9ac1f048"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv418protocomm_security" title="protocomm_security">protocomm_security</a> <code class="descname">protocomm_security_t</code><a class="headerlink" href="#_CPPv420protocomm_security_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Protocomm security object structure. </p>
+<p>The member functions are used for implementing secure protocomm sessions.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This structure should not have any dynamic members to allow re-entrancy </dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id3">
+<h3>Header File<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/protocomm/include/security/protocomm_security0.h">protocomm/include/security/protocomm_security0.h</a></li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h3>Header File<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/protocomm/include/security/protocomm_security1.h">protocomm/include/security/protocomm_security1.h</a></li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h3>Header File<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/protocomm/include/transports/protocomm_httpd.h">protocomm/include/transports/protocomm_httpd.h</a></li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h3>Functions<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv421protocomm_httpd_startP11protocomm_tPK24protocomm_httpd_config_t">
+<span id="_CPPv321protocomm_httpd_startP11protocomm_tPK24protocomm_httpd_config_t"></span><span id="_CPPv221protocomm_httpd_startP11protocomm_tPK24protocomm_httpd_config_t"></span><span id="protocomm_httpd_start__protocomm_tP.protocomm_httpd_config_tCP"></span><span class="target" id="protocomm__httpd_8h_1a7dbe14ee8e099c8b987e490784cd2d4b"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">protocomm_httpd_start</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411protocomm_t" title="protocomm_t">protocomm_t</a> *<em>pc</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv424protocomm_httpd_config_t" title="protocomm_httpd_config_t">protocomm_httpd_config_t</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv421protocomm_httpd_startP11protocomm_tPK24protocomm_httpd_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start HTTPD protocomm transport. </p>
+<p>This API internally creates a framework to allow endpoint registration and security configuration for the protocomm.</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>This is a singleton. ie. Protocomm can have multiple instances, but only one instance can be bound to an HTTP transport layer.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments</li>
+<li>ESP_ERR_NOT_SUPPORTED : Transport layer bound to another protocomm instance</li>
+<li>ESP_ERR_INVALID_STATE : Transport layer already bound to this protocomm instance</li>
+<li>ESP_ERR_NO_MEM : Memory allocation for server resource failed</li>
+<li>ESP_ERR_HTTPD_* : HTTP server error on start </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">pc</span></code>: Protocomm instance pointer obtained from protocomm_new() </li>
+<li><code class="docutils literal notranslate"><span class="pre">config</span></code>: Pointer to config structure for initializing HTTP server</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv420protocomm_httpd_stopP11protocomm_t">
+<span id="_CPPv320protocomm_httpd_stopP11protocomm_t"></span><span id="_CPPv220protocomm_httpd_stopP11protocomm_t"></span><span id="protocomm_httpd_stop__protocomm_tP"></span><span class="target" id="protocomm__httpd_8h_1ace54bdf94e43d7a05615c55aaf040385"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">protocomm_httpd_stop</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411protocomm_t" title="protocomm_t">protocomm_t</a> *<em>pc</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv420protocomm_httpd_stopP11protocomm_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stop HTTPD protocomm transport. </p>
+<p>This API cleans up the HTTPD transport protocomm and frees all the handlers registered with the protocomm.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_ERR_INVALID_ARG : Null / incorrect protocomm instance pointer </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">pc</span></code>: Same protocomm instance that was passed to protocomm_httpd_start()</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="unions">
+<h3>Unions<a class="headerlink" href="#unions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv429protocomm_httpd_config_data_t">
+<span id="_CPPv329protocomm_httpd_config_data_t"></span><span id="_CPPv229protocomm_httpd_config_data_t"></span><span id="protocomm_httpd_config_data_t"></span><span class="target" id="unionprotocomm__httpd__config__data__t"></span><em class="property">union </em><code class="descname">protocomm_httpd_config_data_t</code><a class="headerlink" href="#_CPPv429protocomm_httpd_config_data_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><em>#include &lt;protocomm_httpd.h&gt;</em><p>Protocomm HTTPD Configuration Data </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N29protocomm_httpd_config_data_t6handleE">
+<span id="_CPPv3N29protocomm_httpd_config_data_t6handleE"></span><span id="_CPPv2N29protocomm_httpd_config_data_t6handleE"></span><span id="protocomm_httpd_config_data_t::handle__voidP"></span><span class="target" id="unionprotocomm__httpd__config__data__t_1aa5124a1cd7db82b24fd064c516b16612"></span>void *<code class="descname">handle</code><a class="headerlink" href="#_CPPv4N29protocomm_httpd_config_data_t6handleE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP Server Handle, if ext_handle_provided is set to true </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N29protocomm_httpd_config_data_t6configE">
+<span id="_CPPv3N29protocomm_httpd_config_data_t6configE"></span><span id="_CPPv2N29protocomm_httpd_config_data_t6configE"></span><span id="protocomm_httpd_config_data_t::config__protocomm_http_server_config_t"></span><span class="target" id="unionprotocomm__httpd__config__data__t_1a811597a2fc91ee7192321f9848ea0166"></span><a class="reference internal" href="#_CPPv430protocomm_http_server_config_t" title="protocomm_http_server_config_t">protocomm_http_server_config_t</a> <code class="descname">config</code><a class="headerlink" href="#_CPPv4N29protocomm_httpd_config_data_t6configE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>HTTP Server Configuration, if a server is not already active </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="id7">
+<h3>Structures<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv430protocomm_http_server_config_t">
+<span id="_CPPv330protocomm_http_server_config_t"></span><span id="_CPPv230protocomm_http_server_config_t"></span><span id="protocomm_http_server_config_t"></span><span class="target" id="structprotocomm__http__server__config__t"></span><em class="property">struct </em><code class="descname">protocomm_http_server_config_t</code><a class="headerlink" href="#_CPPv430protocomm_http_server_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Config parameters for protocomm HTTP server. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N30protocomm_http_server_config_t4portE">
+<span id="_CPPv3N30protocomm_http_server_config_t4portE"></span><span id="_CPPv2N30protocomm_http_server_config_t4portE"></span><span id="protocomm_http_server_config_t::port__uint16_t"></span><span class="target" id="structprotocomm__http__server__config__t_1a6a657a170ca7492de686cf3266026ceb"></span>uint16_t <code class="descname">port</code><a class="headerlink" href="#_CPPv4N30protocomm_http_server_config_t4portE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Port on which the HTTP server will listen </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N30protocomm_http_server_config_t10stack_sizeE">
+<span id="_CPPv3N30protocomm_http_server_config_t10stack_sizeE"></span><span id="_CPPv2N30protocomm_http_server_config_t10stack_sizeE"></span><span id="protocomm_http_server_config_t::stack_size__s"></span><span class="target" id="structprotocomm__http__server__config__t_1a943ac3fd909df6ce0072f5792bbe2ce9"></span>size_t <code class="descname">stack_size</code><a class="headerlink" href="#_CPPv4N30protocomm_http_server_config_t10stack_sizeE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stack size of server task, adjusted depending upon stack usage of endpoint handler </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N30protocomm_http_server_config_t13task_priorityE">
+<span id="_CPPv3N30protocomm_http_server_config_t13task_priorityE"></span><span id="_CPPv2N30protocomm_http_server_config_t13task_priorityE"></span><span id="protocomm_http_server_config_t::task_priority__unsigned"></span><span class="target" id="structprotocomm__http__server__config__t_1ae40fc5696ab94bfbbf494dff1f7dd6d8"></span>unsigned <code class="descname">task_priority</code><a class="headerlink" href="#_CPPv4N30protocomm_http_server_config_t13task_priorityE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Priority of server task </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv424protocomm_httpd_config_t">
+<span id="_CPPv324protocomm_httpd_config_t"></span><span id="_CPPv224protocomm_httpd_config_t"></span><span id="protocomm_httpd_config_t"></span><span class="target" id="structprotocomm__httpd__config__t"></span><em class="property">struct </em><code class="descname">protocomm_httpd_config_t</code><a class="headerlink" href="#_CPPv424protocomm_httpd_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Config parameters for protocomm HTTP server. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N24protocomm_httpd_config_t19ext_handle_providedE">
+<span id="_CPPv3N24protocomm_httpd_config_t19ext_handle_providedE"></span><span id="_CPPv2N24protocomm_httpd_config_t19ext_handle_providedE"></span><span id="protocomm_httpd_config_t::ext_handle_provided__b"></span><span class="target" id="structprotocomm__httpd__config__t_1ab08c05354a3a95bdb78fbfb434ffd343"></span>bool <code class="descname">ext_handle_provided</code><a class="headerlink" href="#_CPPv4N24protocomm_httpd_config_t19ext_handle_providedE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Flag to indicate of an external HTTP Server Handle has been provided. In such as case, protocomm will use the same HTTP Server and not start a new one internally. </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N24protocomm_httpd_config_t4dataE">
+<span id="_CPPv3N24protocomm_httpd_config_t4dataE"></span><span id="_CPPv2N24protocomm_httpd_config_t4dataE"></span><span id="protocomm_httpd_config_t::data__protocomm_httpd_config_data_t"></span><span class="target" id="structprotocomm__httpd__config__t_1a1f4c60fb5f4c6b4d9320e8eff539cc7f"></span><a class="reference internal" href="#_CPPv429protocomm_httpd_config_data_t" title="protocomm_httpd_config_data_t">protocomm_httpd_config_data_t</a> <code class="descname">data</code><a class="headerlink" href="#_CPPv4N24protocomm_httpd_config_t4dataE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Protocomm HTTPD Configuration Data </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.PROTOCOMM_HTTPD_DEFAULT_CONFIG">
+<span class="target" id="protocomm__httpd_8h_1aefb3e82b2e7771802541ec94eae7867b"></span><code class="descname">PROTOCOMM_HTTPD_DEFAULT_CONFIG</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#c.PROTOCOMM_HTTPD_DEFAULT_CONFIG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="id8">
+<h3>Header File<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/protocomm/include/transports/protocomm_ble.h">protocomm/include/transports/protocomm_ble.h</a></li>
+</ul>
+</div>
+<div class="section" id="id9">
+<h3>Functions<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv419protocomm_ble_startP11protocomm_tPK22protocomm_ble_config_t">
+<span id="_CPPv319protocomm_ble_startP11protocomm_tPK22protocomm_ble_config_t"></span><span id="_CPPv219protocomm_ble_startP11protocomm_tPK22protocomm_ble_config_t"></span><span id="protocomm_ble_start__protocomm_tP.protocomm_ble_config_tCP"></span><span class="target" id="protocomm__ble_8h_1abed95eab34dc13bfddc48d20f1735b54"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">protocomm_ble_start</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411protocomm_t" title="protocomm_t">protocomm_t</a> *<em>pc</em>, <em class="property">const</em> <a class="reference internal" href="#_CPPv422protocomm_ble_config_t" title="protocomm_ble_config_t">protocomm_ble_config_t</a> *<em>config</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419protocomm_ble_startP11protocomm_tPK22protocomm_ble_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Start Bluetooth Low Energy based transport layer for provisioning. </p>
+<p>Initialize and start required BLE service for provisioning. This includes the initialization for characteristics/service for BLE.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_FAIL : Simple BLE start error</li>
+<li>ESP_ERR_NO_MEM : Error allocating memory for internal resources</li>
+<li>ESP_ERR_INVALID_STATE : Error in ble config</li>
+<li>ESP_ERR_INVALID_ARG : Null arguments </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">pc</span></code>: Protocomm instance pointer obtained from protocomm_new() </li>
+<li><code class="docutils literal notranslate"><span class="pre">config</span></code>: Pointer to config structure for initializing BLE</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv418protocomm_ble_stopP11protocomm_t">
+<span id="_CPPv318protocomm_ble_stopP11protocomm_t"></span><span id="_CPPv218protocomm_ble_stopP11protocomm_t"></span><span id="protocomm_ble_stop__protocomm_tP"></span><span class="target" id="protocomm__ble_8h_1a845bd66134f96ec3ccddde2e98f68226"></span><a class="reference internal" href="../system/esp_err.html#_CPPv49esp_err_t" title="esp_err_t">esp_err_t</a> <code class="descname">protocomm_ble_stop</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv411protocomm_t" title="protocomm_t">protocomm_t</a> *<em>pc</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv418protocomm_ble_stopP11protocomm_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Stop Bluetooth Low Energy based transport layer for provisioning. </p>
+<p>Stops service/task responsible for BLE based interactions for provisioning</p>
+<p><dl class="docutils">
+<dt><strong>Note</strong></dt>
+<dd>You might want to optionally reclaim memory from Bluetooth. Refer to the documentation of <code class="docutils literal notranslate"><span class="pre">esp_bt_mem_release</span></code> in that case.</dd>
+<dt><strong>Return</strong></dt>
+<dd><ul class="simple">
+<li>ESP_OK : Success</li>
+<li>ESP_FAIL : Simple BLE stop error</li>
+<li>ESP_ERR_INVALID_ARG : Null / incorrect protocomm instance </li>
+</ul>
+</dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">pc</span></code>: Same protocomm instance that was passed to protocomm_ble_start()</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id10">
+<h3>Structures<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="_CPPv49name_uuid">
+<span id="_CPPv39name_uuid"></span><span id="_CPPv29name_uuid"></span><span id="name_uuid"></span><span class="target" id="structname__uuid"></span><em class="property">struct </em><code class="descname">name_uuid</code><a class="headerlink" href="#_CPPv49name_uuid" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This structure maps handler required by protocomm layer to UUIDs which are used to uniquely identify BLE characteristics from a smartphone or a similar client device. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N9name_uuid4nameE">
+<span id="_CPPv3N9name_uuid4nameE"></span><span id="_CPPv2N9name_uuid4nameE"></span><span id="name_uuid::name__cCP"></span><span class="target" id="structname__uuid_1a9b24ae00fd547e2ae5e0dace1927d882"></span><em class="property">const</em> char *<code class="descname">name</code><a class="headerlink" href="#_CPPv4N9name_uuid4nameE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Name of the handler, which is passed to protocomm layer </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N9name_uuid4uuidE">
+<span id="_CPPv3N9name_uuid4uuidE"></span><span id="_CPPv2N9name_uuid4uuidE"></span><span id="name_uuid::uuid__uint16_t"></span><span class="target" id="structname__uuid_1aee5fcf6c244bd9a3e8c190de3c3ef6ed"></span>uint16_t <code class="descname">uuid</code><a class="headerlink" href="#_CPPv4N9name_uuid4uuidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>UUID to be assigned to the BLE characteristic which is mapped to the handler </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="_CPPv420protocomm_ble_config">
+<span id="_CPPv320protocomm_ble_config"></span><span id="_CPPv220protocomm_ble_config"></span><span id="protocomm_ble_config"></span><span class="target" id="structprotocomm__ble__config"></span><em class="property">struct </em><code class="descname">protocomm_ble_config</code><a class="headerlink" href="#_CPPv420protocomm_ble_config" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Config parameters for protocomm BLE service. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric">Public Members</p>
+<dl class="member">
+<dt id="_CPPv4N20protocomm_ble_config11device_nameE">
+<span id="_CPPv3N20protocomm_ble_config11device_nameE"></span><span id="_CPPv2N20protocomm_ble_config11device_nameE"></span><span id="protocomm_ble_config::device_name__cA"></span><span class="target" id="structprotocomm__ble__config_1aa975f5f173215374940104f3b4517911"></span>char <code class="descname">device_name</code>[<code class="descname">MAX_BLE_DEVNAME_LEN</code>]<a class="headerlink" href="#_CPPv4N20protocomm_ble_config11device_nameE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>BLE device name being broadcast at the time of provisioning </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20protocomm_ble_config12service_uuidE">
+<span id="_CPPv3N20protocomm_ble_config12service_uuidE"></span><span id="_CPPv2N20protocomm_ble_config12service_uuidE"></span><span id="protocomm_ble_config::service_uuid__uint8_tA"></span><span class="target" id="structprotocomm__ble__config_1a3365693352fbeeb94f54623a3330379a"></span>uint8_t <code class="descname">service_uuid</code>[<code class="descname">BLE_UUID128_VAL_LENGTH</code>]<a class="headerlink" href="#_CPPv4N20protocomm_ble_config12service_uuidE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>128 bit UUID of the provisioning service </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20protocomm_ble_config15nu_lookup_countE">
+<span id="_CPPv3N20protocomm_ble_config15nu_lookup_countE"></span><span id="_CPPv2N20protocomm_ble_config15nu_lookup_countE"></span><span id="protocomm_ble_config::nu_lookup_count__ssize_t"></span><span class="target" id="structprotocomm__ble__config_1af0911f726f0e46fd00f071e610b3a53e"></span>ssize_t <code class="descname">nu_lookup_count</code><a class="headerlink" href="#_CPPv4N20protocomm_ble_config15nu_lookup_countE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Number of entries in the Name-UUID lookup table </p>
+</dd></dl>
+
+<dl class="member">
+<dt id="_CPPv4N20protocomm_ble_config9nu_lookupE">
+<span id="_CPPv3N20protocomm_ble_config9nu_lookupE"></span><span id="_CPPv2N20protocomm_ble_config9nu_lookupE"></span><span id="protocomm_ble_config::nu_lookup__protocomm_ble_name_uuid_tP"></span><span class="target" id="structprotocomm__ble__config_1a06bf8d25a9ae3a4ed2e3a4bbf0f7fc58"></span><a class="reference internal" href="#_CPPv425protocomm_ble_name_uuid_t" title="protocomm_ble_name_uuid_t">protocomm_ble_name_uuid_t</a> *<code class="descname">nu_lookup</code><a class="headerlink" href="#_CPPv4N20protocomm_ble_config9nu_lookupE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Pointer to the Name-UUID lookup table </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="id11">
+<h3>Macros<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.MAX_BLE_DEVNAME_LEN">
+<span class="target" id="protocomm__ble_8h_1a2508f7570e00e207a7acbf449e500fac"></span><code class="descname">MAX_BLE_DEVNAME_LEN</code><a class="headerlink" href="#c.MAX_BLE_DEVNAME_LEN" title="Permalink to this definition">¶</a></dt>
+<dd><p>BLE device name cannot be larger than this value 31 bytes (max scan response size) - 1 byte (length) - 1 byte (type) = 29 bytes </p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.BLE_UUID128_VAL_LENGTH">
+<span class="target" id="protocomm__ble_8h_1a5c61a39d35f6ada137f65f9c8d9f93d8"></span><code class="descname">BLE_UUID128_VAL_LENGTH</code><a class="headerlink" href="#c.BLE_UUID128_VAL_LENGTH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="id12">
+<h3>Type Definitions<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv425protocomm_ble_name_uuid_t">
+<span id="_CPPv325protocomm_ble_name_uuid_t"></span><span id="_CPPv225protocomm_ble_name_uuid_t"></span><span id="protocomm_ble_name_uuid_t"></span><span class="target" id="protocomm__ble_8h_1abdba2fa28fcf239add6e59144a16df3e"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv49name_uuid" title="name_uuid">name_uuid</a> <code class="descname">protocomm_ble_name_uuid_t</code><a class="headerlink" href="#_CPPv425protocomm_ble_name_uuid_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>This structure maps handler required by protocomm layer to UUIDs which are used to uniquely identify BLE characteristics from a smartphone or a similar client device. </p>
+</dd></dl>
+
+<dl class="type">
+<dt id="_CPPv422protocomm_ble_config_t">
+<span id="_CPPv322protocomm_ble_config_t"></span><span id="_CPPv222protocomm_ble_config_t"></span><span id="protocomm_ble_config_t"></span><span class="target" id="protocomm__ble_8h_1ab9715634f44c16e350395f3b53107d62"></span><em class="property">typedef </em><em class="property">struct</em> <a class="reference internal" href="#_CPPv420protocomm_ble_config" title="protocomm_ble_config">protocomm_ble_config</a> <code class="descname">protocomm_ble_config_t</code><a class="headerlink" href="#_CPPv422protocomm_ble_config_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Config parameters for protocomm BLE service. </p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="provisioning.html" class="btn btn-neutral float-right" title="Unified Provisioning" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Provisioning API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/provisioning/protocomm.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:08 GMT -->
+</html>

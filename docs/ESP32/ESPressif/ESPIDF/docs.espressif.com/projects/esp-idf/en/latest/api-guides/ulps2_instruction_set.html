@@ -1,0 +1,1580 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/ulps2_instruction_set.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:55 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ESP32-S2 ULP coprocessor instruction set &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../about.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Programming ULP coprocessor using C macros" href="ulp_macros.html" />
+    <link rel="prev" title="ESP32 ULP coprocessor instruction set" href="ulp_instruction_set.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="ulps2_instruction_set.html" />
+
+<link rel="stylesheet" href="../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-guides/ulps2_instruction_set"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api-reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Guides</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="app_trace.html">Application Level Tracing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blufi.html">BluFi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bootloader.html">Bootloader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-system.html">Build System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="build-system-legacy.html">Build System (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="console.html">Console Component</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deep-sleep-stub.html">Deep Sleep Wake Stubs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="error-handling.html">Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="esp-ble-mesh/ble-mesh-index.html">ESP-BLE-MESH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mesh.html">ESP-MESH (Wi-Fi)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="core_dump.html">ESP32 Core Dump</a></li>
+<li class="toctree-l2"><a class="reference internal" href="event-handling.html">Event Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="external-ram.html">External SPI-connected RAM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fatal-errors.html">Fatal Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/flash-encryption.html">Flash Encryption</a></li>
+<li class="toctree-l2"><a class="reference internal" href="freertos-smp.html">FreeRTOS SMP Changes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="general-notes.html">General Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hlinterrupts.html">High Level Interrupts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="jtag-debugging/index.html">JTAG Debugging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="linker-script-generation.html">Linker Script Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lwip.html">lwIP TCP/IP Stack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="partition-tables.html">Partition Tables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="RF_calibration.html">RF Calibration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="romconsole.html">ROM debug console</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../security/secure-boot.html">Secure Boot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="thread-local-storage.html">Thread Local Storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tools/index.html">Tools</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="ulp.html">ULP Coprocessor</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="ulp_instruction_set.html">Instruction set reference for ESP32 ULP</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Instruction set reference for ESP32-S2 ULP</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#note-about-addressing">Note about addressing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#note-about-instruction-execution-time">Note about instruction execution time</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#difference-between-esp32-ulp-and-esp32-s2-ulp-instruction-sets">Difference between ESP32 ULP and ESP32-S2 ULP Instruction sets</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nop-no-operation"><strong>NOP</strong> - no operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#add-add-to-register"><strong>ADD</strong> - Add to register</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sub-subtract-from-register"><strong>SUB</strong> - Subtract from register</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#and-logical-and-of-two-operands"><strong>AND</strong> - Logical AND of two operands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#or-logical-or-of-two-operands"><strong>OR</strong> - Logical OR of two operands</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#lsh-logical-shift-left"><strong>LSH</strong> - Logical Shift Left</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rsh-logical-shift-right"><strong>RSH</strong> - Logical Shift Right</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#move-move-to-register"><strong>MOVE</strong> – Move to register</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stl-st-store-data-to-the-low-16-bits-of-32-bits-memory"><strong>STL</strong>/<strong>ST</strong> – Store data to the low 16 bits of 32-bits memory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sth-store-data-to-the-high-16-bits-of-32-bits-memory"><strong>STH</strong> – Store data to the high 16 bits of 32-bits memory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sto-set-offset-value-for-auto-increment-operation"><strong>STO</strong> – Set offset value for auto increment operation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sti-store-data-to-the-32-bits-memory-with-auto-increment-of-predefined-offset-address"><strong>STI</strong> – Store data to the 32-bits memory with auto increment of predefined offset address</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#st32-store-32-bits-data-to-the-32-bits-memory"><strong>ST32</strong> – Store 32-bits data to the 32-bits memory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sti32-store-32-bits-data-to-the-32-bits-memory-with-auto-increment-of-adress-offset"><strong>STI32</strong> – Store 32-bits data to the 32-bits memory with auto increment of adress offset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ldl-ld-load-data-from-low-part-of-the-32-bits-memory"><strong>LDL</strong>/<strong>LD</strong> – Load data from low part of the 32-bits memory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#ldh-load-data-from-high-part-of-the-32-bits-memory"><strong>LDH</strong> – Load data from high part of the 32-bits memory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jump-jump-to-an-absolute-address"><strong>JUMP</strong> – Jump to an absolute address</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jumpr-jump-to-a-relative-offset-condition-based-on-r0"><strong>JUMPR</strong> – Jump to a relative offset (condition based on R0)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#jumps-jump-to-a-relative-address-condition-based-on-stage-count"><strong>JUMPS</strong> – Jump to a relative address (condition based on stage count)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stage-rst-reset-stage-count-register"><strong>STAGE_RST</strong> – Reset stage count register</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stage-inc-increment-stage-count-register"><strong>STAGE_INC</strong> – Increment stage count register</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stage-dec-decrement-stage-count-register"><strong>STAGE_DEC</strong> – Decrement stage count register</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#halt-end-the-program"><strong>HALT</strong> – End the program</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wake-wake-up-the-chip"><strong>WAKE</strong> – Wake up the chip</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sleep-set-ulp-wakeup-timer-period"><strong>SLEEP</strong> – set ULP wakeup timer period</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#wait-wait-some-number-of-cycles"><strong>WAIT</strong> – wait some number of cycles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tsens-do-measurement-with-temperature-sensor"><strong>TSENS</strong> – do measurement with temperature sensor</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#adc-do-measurement-with-adc"><strong>ADC</strong> – do measurement with ADC</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#i2c-rd-read-single-byte-from-i2c-slave"><strong>I2C_RD</strong> - read single byte from I2C slave</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#i2c-wr-write-single-byte-to-i2c-slave"><strong>I2C_WR</strong> - write single byte to I2C slave</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reg-rd-read-from-peripheral-register"><strong>REG_RD</strong> – read from peripheral register</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#reg-wr-write-to-peripheral-register"><strong>REG_WR</strong> – write to peripheral register</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#convenience-macros-for-peripheral-registers-access">Convenience macros for peripheral registers access</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ulp_macros.html">Programming using macros (legacy)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ulp.html#installing-the-toolchain">Installing the Toolchain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ulp.html#compiling-the-ulp-code">Compiling the ULP Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ulp.html#accessing-the-ulp-program-variables">Accessing the ULP Program Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ulp.html#starting-the-ulp-program">Starting the ULP Program</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ulp.html#ulp-program-flow">ULP Program Flow</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ulp-legacy.html">ULP Coprocessor (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit-tests-legacy.html">Unit Testing (Legacy GNU Make)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="unit-tests.html">Unit Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wifi.html">WiFi Driver</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">API Guides</a> &raquo;</li>
+        
+          <li><a href="ulp.html">ULP Coprocessor programming</a> &raquo;</li>
+        
+      <li>ESP32-S2 ULP coprocessor instruction set</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-guides/ulps2_instruction_set.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="esp32-s2-ulp-coprocessor-instruction-set">
+<h1>ESP32-S2 ULP coprocessor instruction set<a class="headerlink" href="#esp32-s2-ulp-coprocessor-instruction-set" title="Permalink to this headline">¶</a></h1>
+<p>This document provides details about the instructions used by ESP32-S2 ULP coprocessor assembler.</p>
+<p>ULP coprocessor has 4 16-bit general purpose registers, labeled R0, R1, R2, R3. It also has an 8-bit counter register (stage_cnt) which can be used to implement loops. Stage count regiter is accessed using special instructions.</p>
+<p>ULP coprocessor can access 8k bytes of RTC_SLOW_MEM memory region. Memory is addressed in 32-bit word units. It can also access peripheral registers in RTC_CNTL, RTC_IO, and SENS peripherals.</p>
+<p>All instructions are 32-bit. Jump instructions, ALU instructions, peripheral register and memory access instructions are executed in 1 cycle. Instructions which work with peripherals (TSENS, ADC, I2C) take variable number of cycles, depending on peripheral operation.</p>
+<p>The instruction syntax is case insensitive. Upper and lower case letters can be used and intermixed arbitrarily. This is true both for register names and instruction names.</p>
+<div class="section" id="note-about-addressing">
+<h2>Note about addressing<a class="headerlink" href="#note-about-addressing" title="Permalink to this headline">¶</a></h2>
+<p>ESP32-S2 ULP coprocessor’s JUMP, ST, LD instructions which take register as an argument (jump address, store/load base address) expect the argument to be expressed in 32-bit words.</p>
+<p>Consider the following example program:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">entry</span><span class="p">:</span>
+        <span class="n">NOP</span>
+        <span class="n">NOP</span>
+        <span class="n">NOP</span>
+        <span class="n">NOP</span>
+<span class="n">loop</span><span class="p">:</span>
+        <span class="n">MOVE</span> <span class="n">R1</span><span class="p">,</span> <span class="n">loop</span>
+        <span class="n">JUMP</span> <span class="n">R1</span>
+</pre></div>
+</div>
+<p>When this program is assembled and linked, address of label <code class="docutils literal notranslate"><span class="pre">loop</span></code> will be equal to 16 (expressed in bytes). However <cite>JUMP</cite> instruction expects the address stored in register to be expressed in 32-bit words. To account for this common use case, assembler will convert the address of label <cite>loop</cite> from bytes to words, when generating <code class="docutils literal notranslate"><span class="pre">MOVE</span></code> instruction, so the code generated code will be equivalent to:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0000</span>    <span class="n">NOP</span>
+<span class="mi">0004</span>    <span class="n">NOP</span>
+<span class="mi">0008</span>    <span class="n">NOP</span>
+<span class="mi">000</span><span class="n">c</span>    <span class="n">NOP</span>
+<span class="mi">0010</span>    <span class="n">MOVE</span> <span class="n">R1</span><span class="p">,</span> <span class="mi">4</span>
+<span class="mi">0014</span>    <span class="n">JUMP</span> <span class="n">R1</span>
+</pre></div>
+</div>
+<p>The other case is when the argument of <code class="docutils literal notranslate"><span class="pre">MOVE</span></code> instruction is not a label but a constant. In this case assembler will use the value as is, without any conversion:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span><span class="n">set</span>        <span class="n">val</span><span class="p">,</span> <span class="mh">0x10</span>
+<span class="n">MOVE</span>        <span class="n">R1</span><span class="p">,</span> <span class="n">val</span>
+</pre></div>
+</div>
+<p>In this case, value loaded into R1 will be <code class="docutils literal notranslate"><span class="pre">0x10</span></code>.</p>
+<p>Similar considerations apply to <code class="docutils literal notranslate"><span class="pre">LD</span></code> and <code class="docutils literal notranslate"><span class="pre">ST</span></code> instructions. Consider the following code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>        <span class="o">.</span><span class="k">global</span> <span class="n">array</span>
+<span class="n">array</span><span class="p">:</span>  <span class="o">.</span><span class="n">long</span> <span class="mi">0</span>
+        <span class="o">.</span><span class="n">long</span> <span class="mi">0</span>
+        <span class="o">.</span><span class="n">long</span> <span class="mi">0</span>
+        <span class="o">.</span><span class="n">long</span> <span class="mi">0</span>
+
+        <span class="n">MOVE</span> <span class="n">R1</span><span class="p">,</span> <span class="n">array</span>
+        <span class="n">MOVE</span> <span class="n">R2</span><span class="p">,</span> <span class="mh">0x1234</span>
+        <span class="n">ST</span> <span class="n">R2</span><span class="p">,</span> <span class="n">R1</span><span class="p">,</span> <span class="mi">0</span>      <span class="o">//</span> <span class="n">write</span> <span class="n">value</span> <span class="n">of</span> <span class="n">R2</span> <span class="n">into</span> <span class="n">the</span> <span class="n">first</span> <span class="n">array</span> <span class="n">element</span><span class="p">,</span>
+                          <span class="o">//</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">ST</span> <span class="n">R2</span><span class="p">,</span> <span class="n">R1</span><span class="p">,</span> <span class="mi">4</span>      <span class="o">//</span> <span class="n">write</span> <span class="n">value</span> <span class="n">of</span> <span class="n">R2</span> <span class="n">into</span> <span class="n">the</span> <span class="n">second</span> <span class="n">array</span> <span class="n">element</span>
+                          <span class="o">//</span> <span class="p">(</span><span class="mi">4</span> <span class="n">byte</span> <span class="n">offset</span><span class="p">),</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="n">array</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">ADD</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R1</span><span class="p">,</span> <span class="mi">2</span>     <span class="o">//</span> <span class="n">this</span> <span class="n">increments</span> <span class="n">address</span> <span class="n">by</span> <span class="mi">2</span> <span class="n">words</span> <span class="p">(</span><span class="mi">8</span> <span class="nb">bytes</span><span class="p">)</span>
+        <span class="n">ST</span> <span class="n">R2</span><span class="p">,</span> <span class="n">R1</span><span class="p">,</span> <span class="mi">0</span>      <span class="o">//</span> <span class="n">write</span> <span class="n">value</span> <span class="n">of</span> <span class="n">R2</span> <span class="n">into</span> <span class="n">the</span> <span class="n">third</span> <span class="n">array</span> <span class="n">element</span><span class="p">,</span>
+                          <span class="o">//</span> <span class="n">i</span><span class="o">.</span><span class="n">e</span><span class="o">.</span> <span class="n">array</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="note-about-instruction-execution-time">
+<h2>Note about instruction execution time<a class="headerlink" href="#note-about-instruction-execution-time" title="Permalink to this headline">¶</a></h2>
+<p>ULP coprocessor is clocked from RTC_FAST_CLK, which is normally derived from the internal 8MHz oscillator. Applications which need to know exact ULP clock frequency can calibrate it against the main XTAL clock:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &quot;soc/rtc.h&quot;</span>
+
+<span class="o">//</span> <span class="n">calibrate</span> <span class="mi">8</span><span class="n">M</span><span class="o">/</span><span class="mi">256</span> <span class="n">clock</span> <span class="n">against</span> <span class="n">XTAL</span><span class="p">,</span> <span class="n">get</span> <span class="mi">8</span><span class="n">M</span><span class="o">/</span><span class="mi">256</span> <span class="n">clock</span> <span class="n">period</span>
+<span class="n">uint32_t</span> <span class="n">rtc_8md256_period</span> <span class="o">=</span> <span class="n">rtc_clk_cal</span><span class="p">(</span><span class="n">RTC_CAL_8MD256</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+<span class="n">uint32_t</span> <span class="n">rtc_fast_freq_hz</span> <span class="o">=</span> <span class="mi">1000000</span><span class="n">ULL</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">RTC_CLK_CAL_FRACT</span><span class="p">)</span> <span class="o">*</span> <span class="mi">256</span> <span class="o">/</span> <span class="n">rtc_8md256_period</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>ULP coprocessor needs certain number of clock cycles to fetch each instruction, plus certain number of cycles to execute it, depending on the instruction. See description of each instruction below for details on the execution time.</p>
+<p>Instruction fetch time is:</p>
+<ul class="simple">
+<li>2 clock cycles — for instructions following ALU and branch instructions.</li>
+<li>4 clock cycles — in other cases.</li>
+</ul>
+<p>Note that when accessing RTC memories and RTC registers, ULP coprocessor has lower priority than the main CPUs. This means that ULP coprocessor execution may be suspended while the main CPUs access same memory region as the ULP.</p>
+</div>
+<div class="section" id="difference-between-esp32-ulp-and-esp32-s2-ulp-instruction-sets">
+<h2>Difference between ESP32 ULP and ESP32-S2 ULP Instruction sets<a class="headerlink" href="#difference-between-esp32-ulp-and-esp32-s2-ulp-instruction-sets" title="Permalink to this headline">¶</a></h2>
+<p>Compare to the ESP32 ULP coprocessor, the ESP-S2 ULP coprocessor has extended instruction set. The ESP32-S2 ULP is not binary compatible with ESP32 ULP,
+but the assembled program that was written for the ESP32 ULP will also work on the ESP32-S2 ULP after rebuild.
+The list of the new instructions that was added to the ESP32-S2 ULP is: LDL, LDH, STO, ST32, STI32.
+The detailed description of these commands please see below.</p>
+</div>
+<div class="section" id="nop-no-operation">
+<h2><strong>NOP</strong> - no operation<a class="headerlink" href="#nop-no-operation" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><strong>NOP</strong></dd>
+<dt><strong>Operands</strong></dt>
+<dd>None</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>2 cycle to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd>No operation is performed. Only the PC is incremented.</dd>
+</dl>
+<p><strong>Example</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>    <span class="n">NOP</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="add-add-to-register">
+<h2><strong>ADD</strong> - Add to register<a class="headerlink" href="#add-add-to-register" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><p class="first"><strong>ADD</strong>      <em>Rdst, Rsrc1, Rsrc2</em></p>
+<p class="last"><strong>ADD</strong>      <em>Rdst, Rsrc1, imm</em></p>
+</dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Rdst</em> - Register R[0..3]</li>
+<li><em>Rsrc1</em> - Register R[0..3]</li>
+<li><em>Rsrc2</em> - Register R[0..3]</li>
+<li><em>Imm</em> - 16-bit signed value</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>2 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd>The instruction adds source register to another source register or to a 16-bit signed value and stores result to the destination register.</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>    <span class="n">ADD</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">R3</span>        <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">+</span> <span class="n">R3</span>
+
+<span class="mi">2</span><span class="p">:</span>    <span class="n">Add</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mh">0x1234</span>    <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">+</span> <span class="mh">0x1234</span>
+
+<span class="mi">3</span><span class="p">:</span>    <span class="o">.</span><span class="n">set</span> <span class="n">value1</span><span class="p">,</span> <span class="mh">0x03</span>     <span class="o">//</span><span class="n">constant</span> <span class="n">value1</span><span class="o">=</span><span class="mh">0x03</span>
+      <span class="n">Add</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">value1</span>    <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">+</span> <span class="n">value1</span>
+
+
+<span class="mi">4</span><span class="p">:</span>    <span class="o">.</span><span class="k">global</span> <span class="n">label</span>         <span class="o">//</span><span class="n">declaration</span> <span class="n">of</span> <span class="n">variable</span> <span class="n">label</span>
+      <span class="n">Add</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">label</span>     <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">+</span> <span class="n">label</span>
+        <span class="o">...</span>
+      <span class="n">label</span><span class="p">:</span> <span class="n">nop</span>            <span class="o">//</span><span class="n">definition</span> <span class="n">of</span> <span class="n">variable</span> <span class="n">label</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sub-subtract-from-register">
+<h2><strong>SUB</strong> - Subtract from register<a class="headerlink" href="#sub-subtract-from-register" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><p class="first"><strong>SUB</strong> <em>Rdst, Rsrc1, Rsrc2</em></p>
+<p class="last"><strong>SUB</strong> <em>Rdst, Rsrc1, imm</em></p>
+</dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Rdst</em>  - Register R[0..3]</li>
+<li><em>Rsrc1</em> - Register R[0..3]</li>
+<li><em>Rsrc2</em> - Register R[0..3]</li>
+<li><em>Imm</em>   - 16-bit signed value</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>2 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd>The instruction subtracts the source register from another source register or subtracts 16-bit signed value from a source register, and stores result to the destination register.</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>         <span class="n">SUB</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">R3</span>             <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">-</span> <span class="n">R3</span>
+
+<span class="mi">2</span><span class="p">:</span>         <span class="n">sub</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mh">0x1234</span>         <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">-</span> <span class="mh">0x1234</span>
+
+<span class="mi">3</span><span class="p">:</span>         <span class="o">.</span><span class="n">set</span> <span class="n">value1</span><span class="p">,</span> <span class="mh">0x03</span>          <span class="o">//</span><span class="n">constant</span> <span class="n">value1</span><span class="o">=</span><span class="mh">0x03</span>
+           <span class="n">SUB</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">value1</span>         <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">-</span> <span class="n">value1</span>
+<span class="mi">4</span><span class="p">:</span>         <span class="o">.</span><span class="k">global</span> <span class="n">label</span>              <span class="o">//</span><span class="n">declaration</span> <span class="n">of</span> <span class="n">variable</span> <span class="n">label</span>
+           <span class="n">SUB</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">label</span>          <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">-</span> <span class="n">label</span>
+             <span class="o">....</span>
+  <span class="n">label</span><span class="p">:</span>   <span class="n">nop</span>                        <span class="o">//</span><span class="n">definition</span> <span class="n">of</span> <span class="n">variable</span> <span class="n">label</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="and-logical-and-of-two-operands">
+<h2><strong>AND</strong> - Logical AND of two operands<a class="headerlink" href="#and-logical-and-of-two-operands" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><p class="first"><strong>AND</strong> <em>Rdst, Rsrc1, Rsrc2</em></p>
+<p class="last"><strong>AND</strong> <em>Rdst, Rsrc1, imm</em></p>
+</dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Rdst</em> - Register R[0..3]</li>
+<li><em>Rsrc1</em> - Register R[0..3]</li>
+<li><em>Rsrc2</em> - Register R[0..3]</li>
+<li><em>Imm</em> - 16-bit signed value</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>2 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd>The instruction does logical AND of a source register and another source register or 16-bit signed value and stores result to the destination register.</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">AND</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">R3</span>          <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">&amp;</span> <span class="n">R3</span>
+
+<span class="mi">2</span><span class="p">:</span>        <span class="n">AND</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mh">0x1234</span>      <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">&amp;</span> <span class="mh">0x1234</span>
+
+<span class="mi">3</span><span class="p">:</span>        <span class="o">.</span><span class="n">set</span> <span class="n">value1</span><span class="p">,</span> <span class="mh">0x03</span>       <span class="o">//</span><span class="n">constant</span> <span class="n">value1</span><span class="o">=</span><span class="mh">0x03</span>
+          <span class="n">AND</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">value1</span>      <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">&amp;</span> <span class="n">value1</span>
+
+<span class="mi">4</span><span class="p">:</span>        <span class="o">.</span><span class="k">global</span> <span class="n">label</span>           <span class="o">//</span><span class="n">declaration</span> <span class="n">of</span> <span class="n">variable</span> <span class="n">label</span>
+          <span class="n">AND</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">label</span>       <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">&amp;</span> <span class="n">label</span>
+              <span class="o">...</span>
+  <span class="n">label</span><span class="p">:</span>  <span class="n">nop</span>                     <span class="o">//</span><span class="n">definition</span> <span class="n">of</span> <span class="n">variable</span> <span class="n">label</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="or-logical-or-of-two-operands">
+<h2><strong>OR</strong> - Logical OR of two operands<a class="headerlink" href="#or-logical-or-of-two-operands" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><p class="first"><strong>OR</strong> <em>Rdst, Rsrc1, Rsrc2</em></p>
+<p class="last"><strong>OR</strong> <em>Rdst, Rsrc1, imm</em></p>
+</dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Rdst</em> - Register R[0..3]</li>
+<li><em>Rsrc1</em> - Register R[0..3]</li>
+<li><em>Rsrc2</em> - Register R[0..3]</li>
+<li><em>Imm</em> - 16-bit signed value</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>2 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd>The instruction does logical OR of a source register and another source register or 16-bit signed value and stores result to the destination register.</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>       <span class="n">OR</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">R3</span>           <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> \<span class="o">|</span> <span class="n">R3</span>
+
+<span class="mi">2</span><span class="p">:</span>       <span class="n">OR</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mh">0x1234</span>       <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> \<span class="o">|</span> <span class="mh">0x1234</span>
+
+<span class="mi">3</span><span class="p">:</span>       <span class="o">.</span><span class="n">set</span> <span class="n">value1</span><span class="p">,</span> <span class="mh">0x03</span>       <span class="o">//</span><span class="n">constant</span> <span class="n">value1</span><span class="o">=</span><span class="mh">0x03</span>
+         <span class="n">OR</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">value1</span>       <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> \<span class="o">|</span> <span class="n">value1</span>
+
+<span class="mi">4</span><span class="p">:</span>       <span class="o">.</span><span class="k">global</span> <span class="n">label</span>           <span class="o">//</span><span class="n">declaration</span> <span class="n">of</span> <span class="n">variable</span> <span class="n">label</span>
+         <span class="n">OR</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">label</span>        <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> \<span class="o">|</span><span class="n">label</span>
+         <span class="o">...</span>
+  <span class="n">label</span><span class="p">:</span> <span class="n">nop</span>                     <span class="o">//</span><span class="n">definition</span> <span class="n">of</span> <span class="n">variable</span> <span class="n">label</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="lsh-logical-shift-left">
+<h2><strong>LSH</strong> - Logical Shift Left<a class="headerlink" href="#lsh-logical-shift-left" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><p class="first"><strong>LSH</strong> <em>Rdst, Rsrc1, Rsrc2</em></p>
+<p class="last"><strong>LSH</strong> <em>Rdst, Rsrc1, imm</em></p>
+</dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Rdst</em> - Register R[0..3]</li>
+<li><em>Rsrc1</em> - Register R[0..3]</li>
+<li><em>Rsrc2</em> - Register R[0..3]</li>
+<li><em>Imm</em> - 16-bit signed value</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>2 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd>The instruction does logical shift to left of source register to number of bits from another source register or 16-bit signed value and store result to the destination register.</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>       <span class="n">LSH</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">R3</span>            <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">&lt;&lt;</span> <span class="n">R3</span>
+
+<span class="mi">2</span><span class="p">:</span>       <span class="n">LSH</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mh">0x03</span>          <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">&lt;&lt;</span> <span class="mh">0x03</span>
+
+<span class="mi">3</span><span class="p">:</span>       <span class="o">.</span><span class="n">set</span> <span class="n">value1</span><span class="p">,</span> <span class="mh">0x03</span>         <span class="o">//</span><span class="n">constant</span> <span class="n">value1</span><span class="o">=</span><span class="mh">0x03</span>
+         <span class="n">LSH</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">value1</span>        <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">&lt;&lt;</span> <span class="n">value1</span>
+
+<span class="mi">4</span><span class="p">:</span>       <span class="o">.</span><span class="k">global</span> <span class="n">label</span>             <span class="o">//</span><span class="n">declaration</span> <span class="n">of</span> <span class="n">variable</span> <span class="n">label</span>
+         <span class="n">LSH</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">label</span>         <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">&lt;&lt;</span> <span class="n">label</span>
+         <span class="o">...</span>
+  <span class="n">label</span><span class="p">:</span>  <span class="n">nop</span>                       <span class="o">//</span><span class="n">definition</span> <span class="n">of</span> <span class="n">variable</span> <span class="n">label</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="rsh-logical-shift-right">
+<h2><strong>RSH</strong> - Logical Shift Right<a class="headerlink" href="#rsh-logical-shift-right" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><p class="first"><strong>RSH</strong> <em>Rdst, Rsrc1, Rsrc2</em></p>
+<p class="last"><strong>RSH</strong> <em>Rdst, Rsrc1, imm</em></p>
+</dd>
+<dt><strong>Operands</strong></dt>
+<dd><em>Rdst</em> - Register R[0..3]
+<em>Rsrc1</em> - Register R[0..3]
+<em>Rsrc2</em> - Register R[0..3]
+<em>Imm</em> - 16-bit signed value</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>2 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd>The instruction does logical shift to right of source register to number of bits from another source register or 16-bit signed value and store result to the destination register.</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">RSH</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">R3</span>              <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">&gt;&gt;</span> <span class="n">R3</span>
+
+<span class="mi">2</span><span class="p">:</span>        <span class="n">RSH</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mh">0x03</span>            <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">&gt;&gt;</span> <span class="mh">0x03</span>
+
+<span class="mi">3</span><span class="p">:</span>        <span class="o">.</span><span class="n">set</span> <span class="n">value1</span><span class="p">,</span> <span class="mh">0x03</span>           <span class="o">//</span><span class="n">constant</span> <span class="n">value1</span><span class="o">=</span><span class="mh">0x03</span>
+          <span class="n">RSH</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">value1</span>          <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">&gt;&gt;</span> <span class="n">value1</span>
+
+<span class="mi">4</span><span class="p">:</span>        <span class="o">.</span><span class="k">global</span> <span class="n">label</span>               <span class="o">//</span><span class="n">declaration</span> <span class="n">of</span> <span class="n">variable</span> <span class="n">label</span>
+          <span class="n">RSH</span> <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">label</span>           <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span> <span class="o">&gt;&gt;</span> <span class="n">label</span>
+  <span class="n">label</span><span class="p">:</span>  <span class="n">nop</span>                         <span class="o">//</span><span class="n">definition</span> <span class="n">of</span> <span class="n">variable</span> <span class="n">label</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="move-move-to-register">
+<h2><strong>MOVE</strong> – Move to register<a class="headerlink" href="#move-move-to-register" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><p class="first"><strong>MOVE</strong>     <em>Rdst, Rsrc</em></p>
+<p class="last"><strong>MOVE</strong>     <em>Rdst, imm</em></p>
+</dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Rdst</em> – Register R[0..3]</li>
+<li><em>Rsrc</em> – Register R[0..3]</li>
+<li><em>Imm</em>  – 16-bit signed value</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>2 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd><p class="first">The instruction move to destination register value from source register or 16-bit signed value.</p>
+<p class="last">Note that when a label is used as an immediate, the address of the label will be converted from bytes to words. This is because LD, ST, and JUMP instructions expect the address register value to be expressed in words rather than bytes. To avoid using an extra instruction</p>
+</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">MOVE</span>       <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span>            <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">R2</span>
+
+<span class="mi">2</span><span class="p">:</span>        <span class="n">MOVE</span>       <span class="n">R1</span><span class="p">,</span> <span class="mh">0x03</span>          <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="mh">0x03</span>
+
+<span class="mi">3</span><span class="p">:</span>        <span class="o">.</span><span class="n">set</span>       <span class="n">value1</span><span class="p">,</span> <span class="mh">0x03</span>      <span class="o">//</span><span class="n">constant</span> <span class="n">value1</span><span class="o">=</span><span class="mh">0x03</span>
+          <span class="n">MOVE</span>       <span class="n">R1</span><span class="p">,</span> <span class="n">value1</span>        <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">value1</span>
+
+<span class="mi">4</span><span class="p">:</span>        <span class="o">.</span><span class="k">global</span>     <span class="n">label</span>            <span class="o">//</span><span class="n">declaration</span> <span class="n">of</span> <span class="n">label</span>
+          <span class="n">MOVE</span>        <span class="n">R1</span><span class="p">,</span> <span class="n">label</span>        <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">address_of</span><span class="p">(</span><span class="n">label</span><span class="p">)</span> <span class="o">/</span> <span class="mi">4</span>
+          <span class="o">...</span>
+  <span class="n">label</span><span class="p">:</span>  <span class="n">nop</span>                          <span class="o">//</span><span class="n">definition</span> <span class="n">of</span> <span class="n">label</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="stl-st-store-data-to-the-low-16-bits-of-32-bits-memory">
+<h2><strong>STL</strong>/<strong>ST</strong> – Store data to the low 16 bits of 32-bits memory<a class="headerlink" href="#stl-st-store-data-to-the-low-16-bits-of-32-bits-memory" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><strong>ST</strong>     <em>Rsrc, Rdst, offset, Label</em>
+<strong>STL</strong>    <em>Rsrc, Rdst, offset, Label</em></dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Rsrc</em> – Register R[0..3], holds the 16-bit value to store</li>
+<li><em>Rdst</em> – Register R[0..3], address of the destination, in 32-bit words</li>
+<li><em>Offset</em> – 11-bit signed value, offset in bytes</li>
+<li><em>Label</em> – 2-bit user defined unsigned value</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>4 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd><p class="first">The instruction stores the 16-bit value of Rsrc to the lower half-word of memory with address Rdst+offset:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Mem</span><span class="p">[</span><span class="n">Rdst</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">/</span> <span class="mi">4</span><span class="p">]{</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span> <span class="o">=</span> <span class="p">{</span><span class="n">Rsrc</span><span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]}</span>
+<span class="n">Mem</span><span class="p">[</span><span class="n">Rdst</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">/</span> <span class="mi">4</span><span class="p">]{</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span> <span class="o">=</span> <span class="p">{</span><span class="n">Label</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="n">Rsrc</span><span class="p">[</span><span class="mi">13</span><span class="p">:</span><span class="mi">0</span><span class="p">]}</span>
+</pre></div>
+</div>
+<p class="last">The ST command introduced to make compatibility with previous versions of UPL core.
+The application can use higher 16 bits to determine which instruction in the ULP program has written any particular word into memory.</p>
+</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">STL</span>  <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mh">0x12</span>        <span class="o">//</span><span class="n">MEM</span><span class="p">[</span><span class="n">R2</span><span class="o">+</span><span class="mh">0x12</span><span class="p">]</span> <span class="o">=</span> <span class="n">R1</span>
+
+<span class="mi">2</span><span class="p">:</span>        <span class="o">.</span><span class="n">data</span>                   <span class="o">//</span><span class="n">Data</span> <span class="n">section</span> <span class="n">definition</span>
+  <span class="n">Addr1</span><span class="p">:</span>  <span class="o">.</span><span class="n">word</span>     <span class="mi">123</span>           <span class="o">//</span> <span class="n">Define</span> <span class="n">label</span> <span class="n">Addr1</span> <span class="mi">16</span> <span class="n">bit</span>
+          <span class="o">.</span><span class="n">set</span>      <span class="n">offs</span><span class="p">,</span> <span class="mh">0x00</span>    <span class="o">//</span> <span class="n">Define</span> <span class="n">constant</span> <span class="n">offs</span>
+          <span class="o">.</span><span class="n">text</span>                   <span class="o">//</span><span class="n">Text</span> <span class="n">section</span> <span class="n">definition</span>
+          <span class="n">MOVE</span>      <span class="n">R1</span><span class="p">,</span> <span class="mi">1</span>         <span class="o">//</span> <span class="n">R1</span> <span class="o">=</span> <span class="mi">1</span>
+          <span class="n">MOVE</span>      <span class="n">R2</span><span class="p">,</span> <span class="n">Addr1</span>     <span class="o">//</span> <span class="n">R2</span> <span class="o">=</span> <span class="n">Addr1</span>
+          <span class="n">STL</span>       <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">offs</span>  <span class="o">//</span> <span class="n">MEM</span><span class="p">[</span><span class="n">R2</span> <span class="o">+</span>  <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">R1</span>
+                                  <span class="o">//</span> <span class="n">MEM</span><span class="p">[</span><span class="n">Addr1</span> <span class="o">+</span> <span class="mi">0</span><span class="p">]</span> <span class="n">will</span> <span class="n">be</span> <span class="mi">32</span><span class="s1">&#39;hxxxx0001</span>
+<span class="mi">3</span><span class="p">:</span>
+          <span class="n">MOVE</span>      <span class="n">R1</span><span class="p">,</span> <span class="mi">1</span>             <span class="o">//</span> <span class="n">R1</span> <span class="o">=</span> <span class="mi">1</span>
+          <span class="n">STL</span>       <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mh">0x12</span><span class="p">,</span><span class="mi">1</span>    <span class="o">//</span> <span class="n">MEM</span><span class="p">[</span><span class="n">R2</span><span class="o">+</span><span class="mh">0x12</span><span class="p">]</span> <span class="mi">0</span><span class="n">xxxxx4001</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sth-store-data-to-the-high-16-bits-of-32-bits-memory">
+<h2><strong>STH</strong> – Store data to the high 16 bits of 32-bits memory<a class="headerlink" href="#sth-store-data-to-the-high-16-bits-of-32-bits-memory" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><strong>STH</strong>     <em>Rsrc, Rdst, offset, Label</em></dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Rsrc</em> – Register R[0..3], holds the 16-bit value to store</li>
+<li><em>Rdst</em> – Register R[0..3], address of the destination, in 32-bit words</li>
+<li><em>Offset</em> – 11-bit signed value, offset in bytes</li>
+<li><em>Label</em> – 2-bit user defined unsigned value</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>4 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd><p class="first">The instruction stores the 16-bit value of Rsrc to the high half-word of memory with address Rdst+offset:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Mem</span><span class="p">[</span><span class="n">Rdst</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">/</span> <span class="mi">4</span><span class="p">]{</span><span class="mi">31</span><span class="p">:</span><span class="mi">16</span><span class="p">}</span> <span class="o">=</span> <span class="p">{</span><span class="n">Rsrc</span><span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]}</span>
+<span class="n">Mem</span><span class="p">[</span><span class="n">Rdst</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">/</span> <span class="mi">4</span><span class="p">]{</span><span class="mi">31</span><span class="p">:</span><span class="mi">16</span><span class="p">}</span> <span class="o">=</span> <span class="p">{</span><span class="n">Label</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="n">Rsrc</span><span class="p">[</span><span class="mi">13</span><span class="p">:</span><span class="mi">0</span><span class="p">]}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">STH</span>  <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mh">0x12</span>       <span class="o">//</span><span class="n">MEM</span><span class="p">[</span><span class="n">R2</span><span class="o">+</span><span class="mh">0x12</span><span class="p">][</span><span class="mi">31</span><span class="p">:</span><span class="mi">16</span><span class="p">]</span> <span class="o">=</span> <span class="n">R1</span>
+
+<span class="mi">2</span><span class="p">:</span>        <span class="o">.</span><span class="n">data</span>                   <span class="o">//</span><span class="n">Data</span> <span class="n">section</span> <span class="n">definition</span>
+  <span class="n">Addr1</span><span class="p">:</span>  <span class="o">.</span><span class="n">word</span>     <span class="mi">123</span>           <span class="o">//</span> <span class="n">Define</span> <span class="n">label</span> <span class="n">Addr1</span> <span class="mi">16</span> <span class="n">bit</span>
+          <span class="o">.</span><span class="n">set</span>      <span class="n">offs</span><span class="p">,</span> <span class="mh">0x00</span>    <span class="o">//</span> <span class="n">Define</span> <span class="n">constant</span> <span class="n">offs</span>
+          <span class="o">.</span><span class="n">text</span>                   <span class="o">//</span><span class="n">Text</span> <span class="n">section</span> <span class="n">definition</span>
+          <span class="n">MOVE</span>      <span class="n">R1</span><span class="p">,</span> <span class="mi">1</span>         <span class="o">//</span> <span class="n">R1</span> <span class="o">=</span> <span class="mi">1</span>
+          <span class="n">MOVE</span>      <span class="n">R2</span><span class="p">,</span> <span class="n">Addr1</span>     <span class="o">//</span> <span class="n">R2</span> <span class="o">=</span> <span class="n">Addr1</span>
+          <span class="n">STH</span>       <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">offs</span>  <span class="o">//</span> <span class="n">MEM</span><span class="p">[</span><span class="n">R2</span> <span class="o">+</span>  <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">R1</span>
+                                  <span class="o">//</span> <span class="n">MEM</span><span class="p">[</span><span class="n">Addr1</span> <span class="o">+</span> <span class="mi">0</span><span class="p">]</span> <span class="n">will</span> <span class="n">be</span> <span class="mi">32</span><span class="s1">&#39;h0001xxxx</span>
+<span class="mi">3</span><span class="p">:</span>
+          <span class="n">MOVE</span>      <span class="n">R1</span><span class="p">,</span> <span class="mi">1</span>              <span class="o">//</span> <span class="n">R1</span> <span class="o">=</span> <span class="mi">1</span>
+          <span class="n">STH</span>       <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mh">0x12</span><span class="p">,</span> <span class="mi">1</span>    <span class="o">//</span><span class="n">MEM</span><span class="p">[</span><span class="n">R2</span><span class="o">+</span><span class="mh">0x12</span><span class="p">]</span> <span class="mh">0x4001</span><span class="n">xxxx</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sto-set-offset-value-for-auto-increment-operation">
+<h2><strong>STO</strong> – Set offset value for auto increment operation<a class="headerlink" href="#sto-set-offset-value-for-auto-increment-operation" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><strong>STO</strong>     <em>offset</em></dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Offset</em> – 11-bit signed value, offset in bytes</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>4 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd><p class="first">The instruction set 16-bit value to the offset register:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">offset</span> <span class="o">=</span> <span class="n">value</span><span class="o">/</span> <span class="mi">4</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">STO</span>  <span class="mh">0x12</span>               <span class="o">//</span> <span class="n">Offset</span> <span class="o">=</span> <span class="mh">0x12</span><span class="o">/</span><span class="mi">4</span>
+
+<span class="mi">2</span><span class="p">:</span>        <span class="o">.</span><span class="n">data</span>                   <span class="o">//</span><span class="n">Data</span> <span class="n">section</span> <span class="n">definition</span>
+  <span class="n">Addr1</span><span class="p">:</span>  <span class="o">.</span><span class="n">word</span>     <span class="mi">123</span>           <span class="o">//</span> <span class="n">Define</span> <span class="n">label</span> <span class="n">Addr1</span> <span class="mi">16</span> <span class="n">bit</span>
+          <span class="o">.</span><span class="n">set</span>      <span class="n">offs</span><span class="p">,</span> <span class="mh">0x00</span>    <span class="o">//</span> <span class="n">Define</span> <span class="n">constant</span> <span class="n">offs</span>
+          <span class="o">.</span><span class="n">text</span>                   <span class="o">//</span><span class="n">Text</span> <span class="n">section</span> <span class="n">definition</span>
+          <span class="n">STO</span>       <span class="n">offs</span>          <span class="o">//</span> <span class="n">Offset</span> <span class="o">=</span> <span class="mh">0x00</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sti-store-data-to-the-32-bits-memory-with-auto-increment-of-predefined-offset-address">
+<h2><strong>STI</strong> – Store data to the 32-bits memory with auto increment of predefined offset address<a class="headerlink" href="#sti-store-data-to-the-32-bits-memory-with-auto-increment-of-predefined-offset-address" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><strong>STI</strong>     <em>Rsrc, Rdst, Label</em></dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Rsrc</em> – Register R[0..3], holds the 16-bit value to store</li>
+<li><em>Rdst</em> – Register R[0..3], address of the destination, in 32-bit words</li>
+<li><em>Label</em> – 2-bit user defined unsigned value</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>4 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd><p class="first">The instruction stores the 16-bit value of Rsrc to the low and high half-word of memory with address Rdst+offset with
+auto increment of offset:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Mem</span><span class="p">[</span><span class="n">Rdst</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">/</span> <span class="mi">4</span><span class="p">]{</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="o">/</span><span class="mi">31</span><span class="p">:</span><span class="mi">16</span><span class="p">}</span> <span class="o">=</span> <span class="p">{</span><span class="n">Rsrc</span><span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]}</span>
+<span class="n">Mem</span><span class="p">[</span><span class="n">Rdst</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">/</span> <span class="mi">4</span><span class="p">]{</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="o">/</span><span class="mi">31</span><span class="p">:</span><span class="mi">16</span><span class="p">}</span> <span class="o">=</span> <span class="p">{</span><span class="n">Label</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="n">Rsrc</span><span class="p">[</span><span class="mi">13</span><span class="p">:</span><span class="mi">0</span><span class="p">]}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">STO</span>  <span class="mi">0</span>                  <span class="o">//</span> <span class="n">Set</span> <span class="n">offset</span> <span class="n">to</span> <span class="mi">0</span>
+          <span class="n">STI</span>  <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mh">0x12</span>       <span class="o">//</span><span class="n">MEM</span><span class="p">[</span><span class="n">R2</span><span class="o">+</span><span class="mh">0x12</span><span class="p">][</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">R1</span>
+          <span class="n">STI</span>  <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mh">0x12</span>       <span class="o">//</span><span class="n">MEM</span><span class="p">[</span><span class="n">R2</span><span class="o">+</span><span class="mh">0x12</span><span class="p">][</span><span class="mi">31</span><span class="p">:</span><span class="mi">16</span><span class="p">]</span> <span class="o">=</span> <span class="n">R1</span>
+
+<span class="mi">2</span><span class="p">:</span>        <span class="o">.</span><span class="n">data</span>                   <span class="o">//</span><span class="n">Data</span> <span class="n">section</span> <span class="n">definition</span>
+  <span class="n">Addr1</span><span class="p">:</span>  <span class="o">.</span><span class="n">word</span>     <span class="mi">123</span>           <span class="o">//</span> <span class="n">Define</span> <span class="n">label</span> <span class="n">Addr1</span> <span class="mi">16</span> <span class="n">bit</span>
+          <span class="o">.</span><span class="n">set</span>      <span class="n">offs</span><span class="p">,</span> <span class="mh">0x00</span>    <span class="o">//</span> <span class="n">Define</span> <span class="n">constant</span> <span class="n">offs</span>
+          <span class="o">.</span><span class="n">text</span>                   <span class="o">//</span><span class="n">Text</span> <span class="n">section</span> <span class="n">definition</span>
+          <span class="n">STO</span>       <span class="mi">0</span>             <span class="o">//</span> <span class="n">Set</span> <span class="n">offset</span> <span class="n">to</span> <span class="mi">0</span>
+          <span class="n">MOVE</span>      <span class="n">R1</span><span class="p">,</span> <span class="mi">1</span>         <span class="o">//</span> <span class="n">R1</span> <span class="o">=</span> <span class="mi">1</span>
+          <span class="n">MOVE</span>      <span class="n">R2</span><span class="p">,</span> <span class="n">Addr1</span>     <span class="o">//</span> <span class="n">R2</span> <span class="o">=</span> <span class="n">Addr1</span>
+          <span class="n">STI</span>       <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span>        <span class="o">//</span> <span class="n">MEM</span><span class="p">[</span><span class="n">R2</span> <span class="o">+</span>  <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">R1</span>
+                                  <span class="o">//</span> <span class="n">MEM</span><span class="p">[</span><span class="n">Addr1</span> <span class="o">+</span> <span class="mi">0</span><span class="p">]</span> <span class="n">will</span> <span class="n">be</span> <span class="mi">32</span><span class="s1">&#39;hxxxx0001</span>
+          <span class="n">STIx</span>       <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span>        <span class="o">//</span> <span class="n">MEM</span><span class="p">[</span><span class="n">R2</span> <span class="o">+</span>  <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">R1</span>
+                                  <span class="o">//</span> <span class="n">MEM</span><span class="p">[</span><span class="n">Addr1</span> <span class="o">+</span> <span class="mi">0</span><span class="p">]</span> <span class="n">will</span> <span class="n">be</span> <span class="mi">32</span><span class="s1">&#39;h00010001</span>
+<span class="mi">3</span><span class="p">:</span>
+          <span class="n">STO</span>       <span class="mi">0</span>             <span class="o">//</span> <span class="n">Set</span> <span class="n">offset</span> <span class="n">to</span> <span class="mi">0</span>
+          <span class="n">MOVE</span>      <span class="n">R1</span><span class="p">,</span> <span class="mi">1</span>         <span class="o">//</span> <span class="n">R1</span> <span class="o">=</span> <span class="mi">1</span>
+          <span class="n">STI</span>       <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mi">1</span>     <span class="o">//</span><span class="n">MEM</span><span class="p">[</span><span class="n">R2</span><span class="o">+</span><span class="mh">0x12</span><span class="p">]</span> <span class="mi">0</span><span class="n">xxxxx4001</span>
+          <span class="n">STI</span>       <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mi">1</span>     <span class="o">//</span><span class="n">MEM</span><span class="p">[</span><span class="n">R2</span><span class="o">+</span><span class="mh">0x12</span><span class="p">]</span> <span class="mh">0x40014001</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="st32-store-32-bits-data-to-the-32-bits-memory">
+<h2><strong>ST32</strong> – Store 32-bits data to the 32-bits memory<a class="headerlink" href="#st32-store-32-bits-data-to-the-32-bits-memory" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><strong>ST32</strong>     <em>Rsrc, Rdst, offset, Label</em></dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Rsrc</em> – Register R[0..3], holds the 16-bit value to store</li>
+<li><em>Rdst</em> – Register R[0..3], address of the destination, in 32-bit words</li>
+<li><em>Offset</em> – 11-bit signed value, offset in bytes</li>
+<li><em>Label</em> – 2-bit user defined unsigned value</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>4 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd><p class="first">The instruction stores 11 bits of the PC value, label value and the 16-bit value of Rsrc to the 32-bits memory with address Rdst+offset:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Mem</span><span class="p">[</span><span class="n">Rdst</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">/</span> <span class="mi">4</span><span class="p">]{</span><span class="mi">31</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span> <span class="o">=</span> <span class="p">{</span><span class="n">PC</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="mi">0</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="n">Label</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="n">Rsrc</span><span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">ST32</span>  <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mh">0x12</span><span class="p">,</span> <span class="mi">0</span>   <span class="o">//</span><span class="n">MEM</span><span class="p">[</span><span class="n">R2</span><span class="o">+</span><span class="mh">0x12</span><span class="p">][</span><span class="mi">31</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">PC</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="mi">0</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="n">Label</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="n">Rsrc</span><span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]}</span>
+
+<span class="mi">2</span><span class="p">:</span>        <span class="o">.</span><span class="n">data</span>                   <span class="o">//</span><span class="n">Data</span> <span class="n">section</span> <span class="n">definition</span>
+  <span class="n">Addr1</span><span class="p">:</span>  <span class="o">.</span><span class="n">word</span>     <span class="mi">123</span>           <span class="o">//</span> <span class="n">Define</span> <span class="n">label</span> <span class="n">Addr1</span> <span class="mi">16</span> <span class="n">bit</span>
+          <span class="o">.</span><span class="n">set</span>      <span class="n">offs</span><span class="p">,</span> <span class="mh">0x00</span>    <span class="o">//</span> <span class="n">Define</span> <span class="n">constant</span> <span class="n">offs</span>
+          <span class="o">.</span><span class="n">text</span>                   <span class="o">//</span><span class="n">Text</span> <span class="n">section</span> <span class="n">definition</span>
+          <span class="n">MOVE</span>      <span class="n">R1</span><span class="p">,</span> <span class="mi">1</span>         <span class="o">//</span> <span class="n">R1</span> <span class="o">=</span> <span class="mi">1</span>
+          <span class="n">MOVE</span>      <span class="n">R2</span><span class="p">,</span> <span class="n">Addr1</span>     <span class="o">//</span> <span class="n">R2</span> <span class="o">=</span> <span class="n">Addr1</span>
+          <span class="n">ST32</span>      <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">offs</span><span class="p">,</span><span class="mi">1</span><span class="o">//</span> <span class="n">MEM</span><span class="p">[</span><span class="n">R2</span> <span class="o">+</span>  <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">PC</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="mi">0</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="n">Label</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="n">Rsrc</span><span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]}</span>
+                                  <span class="o">//</span> <span class="n">MEM</span><span class="p">[</span><span class="n">Addr1</span> <span class="o">+</span> <span class="mi">0</span><span class="p">]</span> <span class="n">will</span> <span class="n">be</span> <span class="mi">32</span><span class="s1">&#39;h00010001</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sti32-store-32-bits-data-to-the-32-bits-memory-with-auto-increment-of-adress-offset">
+<h2><strong>STI32</strong> – Store 32-bits data to the 32-bits memory with auto increment of adress offset<a class="headerlink" href="#sti32-store-32-bits-data-to-the-32-bits-memory-with-auto-increment-of-adress-offset" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><strong>STI32</strong>     <em>Rsrc, Rdst, Label</em></dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Rsrc</em> – Register R[0..3], holds the 16-bit value to store</li>
+<li><em>Rdst</em> – Register R[0..3], address of the destination, in 32-bit words</li>
+<li><em>Label</em> – 2-bit user defined unsigned value</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>4 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd><p class="first">The instruction stores 11 bits of the PC value, label value and the 16-bit value of Rsrc to the 32-bits memory with address Rdst+offset:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Mem</span><span class="p">[</span><span class="n">Rdst</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">/</span> <span class="mi">4</span><span class="p">]{</span><span class="mi">31</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span> <span class="o">=</span> <span class="p">{</span><span class="n">PC</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="mi">0</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="n">Label</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="n">Rsrc</span><span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]}</span>
+</pre></div>
+</div>
+<p class="last">Where offset value set by STO instruction</p>
+</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">STO</span>    <span class="mh">0x12</span>
+          <span class="n">STI32</span>  <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mi">0</span>   <span class="o">//</span><span class="n">MEM</span><span class="p">[</span><span class="n">R2</span><span class="o">+</span><span class="mh">0x12</span><span class="p">][</span><span class="mi">31</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">PC</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="mi">0</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="n">Label</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="n">Rsrc</span><span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]}</span>
+          <span class="n">STI32</span>  <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mi">0</span>   <span class="o">//</span><span class="n">MEM</span><span class="p">[</span><span class="n">R2</span><span class="o">+</span><span class="mh">0x13</span><span class="p">][</span><span class="mi">31</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">PC</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="mi">0</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="n">Label</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="n">Rsrc</span><span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]}</span>
+
+<span class="mi">2</span><span class="p">:</span>        <span class="o">.</span><span class="n">data</span>                   <span class="o">//</span><span class="n">Data</span> <span class="n">section</span> <span class="n">definition</span>
+  <span class="n">Addr1</span><span class="p">:</span>  <span class="o">.</span><span class="n">word</span>     <span class="mi">123</span>           <span class="o">//</span> <span class="n">Define</span> <span class="n">label</span> <span class="n">Addr1</span> <span class="mi">16</span> <span class="n">bit</span>
+          <span class="o">.</span><span class="n">set</span>      <span class="n">offs</span><span class="p">,</span> <span class="mh">0x00</span>    <span class="o">//</span> <span class="n">Define</span> <span class="n">constant</span> <span class="n">offs</span>
+          <span class="o">.</span><span class="n">text</span>                   <span class="o">//</span><span class="n">Text</span> <span class="n">section</span> <span class="n">definition</span>
+          <span class="n">MOVE</span>      <span class="n">R1</span><span class="p">,</span> <span class="mi">1</span>         <span class="o">//</span> <span class="n">R1</span> <span class="o">=</span> <span class="mi">1</span>
+          <span class="n">MOVE</span>      <span class="n">R2</span><span class="p">,</span> <span class="n">Addr1</span>     <span class="o">//</span> <span class="n">R2</span> <span class="o">=</span> <span class="n">Addr1</span>
+          <span class="n">STO</span>       <span class="n">offs</span>
+          <span class="n">STI32</span>     <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mi">1</span><span class="o">//</span> <span class="n">MEM</span><span class="p">[</span><span class="n">R2</span> <span class="o">+</span>  <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">PC</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="mi">0</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="n">Label</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="n">Rsrc</span><span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]}</span>
+                                  <span class="o">//</span> <span class="n">MEM</span><span class="p">[</span><span class="n">Addr1</span> <span class="o">+</span> <span class="mi">0</span><span class="p">]</span> <span class="n">will</span> <span class="n">be</span> <span class="mi">32</span><span class="s1">&#39;h00010001</span>
+          <span class="n">ST32</span>      <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mi">1</span><span class="o">//</span> <span class="n">MEM</span><span class="p">[</span><span class="n">R2</span> <span class="o">+</span>  <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">PC</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="mi">0</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="n">Label</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">0</span><span class="p">],</span><span class="n">Rsrc</span><span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]}</span>
+                                  <span class="o">//</span> <span class="n">MEM</span><span class="p">[</span><span class="n">Addr1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="n">will</span> <span class="n">be</span> <span class="mi">32</span><span class="s1">&#39;h00010001</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ldl-ld-load-data-from-low-part-of-the-32-bits-memory">
+<h2><strong>LDL</strong>/<strong>LD</strong> – Load data from low part of the 32-bits memory<a class="headerlink" href="#ldl-ld-load-data-from-low-part-of-the-32-bits-memory" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><strong>LD</strong>      <em>Rdst, Rsrc, offset</em>
+<strong>LDL</strong>     <em>Rdst, Rsrc, offset</em></dd>
+<dt><strong>Operands</strong></dt>
+<dd><p class="first"><em>Rdst</em>  – Register R[0..3], destination</p>
+<p><em>Rsrc</em> – Register R[0..3], holds address of destination, in 32-bit words</p>
+<p class="last"><em>Offset</em> – 10-bit signed value, offset in bytes</p>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>4 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd><p class="first">The instruction loads lower 16-bit half-word from memory with address Rsrc+offset into the destination register Rdst:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Rdst</span><span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Mem</span><span class="p">[</span><span class="n">Rsrc</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">/</span> <span class="mi">4</span><span class="p">][</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p class="last">The LD command do the same as LDL, and included for compatibility with previous versions of ULP core.</p>
+</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">LDL</span>  <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mh">0x12</span>            <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">MEM</span><span class="p">[</span><span class="n">R2</span><span class="o">+</span><span class="mh">0x12</span><span class="p">]</span>
+
+<span class="mi">2</span><span class="p">:</span>        <span class="o">.</span><span class="n">data</span>                       <span class="o">//</span><span class="n">Data</span> <span class="n">section</span> <span class="n">definition</span>
+  <span class="n">Addr1</span><span class="p">:</span>  <span class="o">.</span><span class="n">word</span>     <span class="mi">123</span>               <span class="o">//</span> <span class="n">Define</span> <span class="n">label</span> <span class="n">Addr1</span> <span class="mi">16</span> <span class="n">bit</span>
+          <span class="o">.</span><span class="n">set</span>      <span class="n">offs</span><span class="p">,</span> <span class="mh">0x00</span>        <span class="o">//</span> <span class="n">Define</span> <span class="n">constant</span> <span class="n">offs</span>
+          <span class="o">.</span><span class="n">text</span>                       <span class="o">//</span><span class="n">Text</span> <span class="n">section</span> <span class="n">definition</span>
+          <span class="n">MOVE</span>      <span class="n">R1</span><span class="p">,</span> <span class="mi">1</span>             <span class="o">//</span> <span class="n">R1</span> <span class="o">=</span> <span class="mi">1</span>
+          <span class="n">MOVE</span>      <span class="n">R2</span><span class="p">,</span> <span class="n">Addr1</span>         <span class="o">//</span> <span class="n">R2</span> <span class="o">=</span> <span class="n">Addr1</span> <span class="o">/</span> <span class="mi">4</span> <span class="p">(</span><span class="n">address</span> <span class="n">of</span> <span class="n">label</span> <span class="ow">is</span> <span class="n">converted</span> <span class="n">into</span> <span class="n">words</span><span class="p">)</span>
+          <span class="n">LDL</span>       <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">offs</span>      <span class="o">//</span> <span class="n">R1</span> <span class="o">=</span> <span class="n">MEM</span><span class="p">[</span><span class="n">R2</span> <span class="o">+</span>  <span class="mi">0</span><span class="p">]</span>
+                                      <span class="o">//</span> <span class="n">R1</span> <span class="n">will</span> <span class="n">be</span> <span class="mi">123</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="ldh-load-data-from-high-part-of-the-32-bits-memory">
+<h2><strong>LDH</strong> – Load data from high part of the 32-bits memory<a class="headerlink" href="#ldh-load-data-from-high-part-of-the-32-bits-memory" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><strong>LDH</strong>     <em>Rdst, Rsrc, offset</em></dd>
+<dt><strong>Operands</strong></dt>
+<dd><p class="first"><em>Rdst</em>  – Register R[0..3], destination</p>
+<p><em>Rsrc</em> – Register R[0..3], holds address of destination, in 32-bit words</p>
+<p class="last"><em>Offset</em> – 10-bit signed value, offset in bytes</p>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>4 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd><p class="first">The instruction loads higher 16-bit half-word from memory with address Rsrc+offset into the destination register Rdst:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Rdst</span><span class="p">[</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Mem</span><span class="p">[</span><span class="n">Rsrc</span> <span class="o">+</span> <span class="n">offset</span> <span class="o">/</span> <span class="mi">4</span><span class="p">][</span><span class="mi">15</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p class="last">The LD command do the same as LDL, and included for compatibility with previous versions of ULP core.</p>
+</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">LDH</span>  <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="mh">0x12</span>            <span class="o">//</span><span class="n">R1</span> <span class="o">=</span> <span class="n">MEM</span><span class="p">[</span><span class="n">R2</span><span class="o">+</span><span class="mh">0x12</span><span class="p">]</span>
+
+<span class="mi">2</span><span class="p">:</span>        <span class="o">.</span><span class="n">data</span>                       <span class="o">//</span><span class="n">Data</span> <span class="n">section</span> <span class="n">definition</span>
+  <span class="n">Addr1</span><span class="p">:</span>  <span class="o">.</span><span class="n">word</span>     <span class="mh">0x12345678</span>               <span class="o">//</span> <span class="n">Define</span> <span class="n">label</span> <span class="n">Addr1</span> <span class="mi">16</span> <span class="n">bit</span>
+          <span class="o">.</span><span class="n">set</span>      <span class="n">offs</span><span class="p">,</span> <span class="mh">0x00</span>        <span class="o">//</span> <span class="n">Define</span> <span class="n">constant</span> <span class="n">offs</span>
+          <span class="o">.</span><span class="n">text</span>                       <span class="o">//</span><span class="n">Text</span> <span class="n">section</span> <span class="n">definition</span>
+          <span class="n">MOVE</span>      <span class="n">R1</span><span class="p">,</span> <span class="mi">1</span>             <span class="o">//</span> <span class="n">R1</span> <span class="o">=</span> <span class="mi">1</span>
+          <span class="n">MOVE</span>      <span class="n">R2</span><span class="p">,</span> <span class="n">Addr1</span>         <span class="o">//</span> <span class="n">R2</span> <span class="o">=</span> <span class="n">Addr1</span> <span class="o">/</span> <span class="mi">4</span> <span class="p">(</span><span class="n">address</span> <span class="n">of</span> <span class="n">label</span> <span class="ow">is</span> <span class="n">converted</span> <span class="n">into</span> <span class="n">words</span><span class="p">)</span>
+          <span class="n">LDH</span>       <span class="n">R1</span><span class="p">,</span> <span class="n">R2</span><span class="p">,</span> <span class="n">offs</span>      <span class="o">//</span> <span class="n">R1</span> <span class="o">=</span> <span class="n">MEM</span><span class="p">[</span><span class="n">R2</span> <span class="o">+</span>  <span class="mi">0</span><span class="p">]</span>
+                                      <span class="o">//</span> <span class="n">R1</span> <span class="n">will</span> <span class="n">be</span> <span class="mh">0x1234</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="jump-jump-to-an-absolute-address">
+<h2><strong>JUMP</strong> – Jump to an absolute address<a class="headerlink" href="#jump-jump-to-an-absolute-address" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><p class="first"><strong>JUMP</strong>        <em>Rdst</em></p>
+<p><strong>JUMP</strong>        <em>ImmAddr</em></p>
+<p><strong>JUMP</strong>        <em>Rdst, Condition</em></p>
+<p class="last"><strong>JUMP</strong>        <em>ImmAddr, Condition</em></p>
+</dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Rdst</em> – Register R[0..3] containing address to jump to (expressed in 32-bit words)</li>
+<li><em>ImmAddr</em> – 13 bits address (expressed in bytes), aligned to 4 bytes</li>
+<li><dl class="first docutils">
+<dt><em>Condition</em>:</dt>
+<dd><ul class="first last">
+<li>EQ – jump if last ALU operation result was zero</li>
+<li>OV – jump if last ALU has set overflow flag</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>2 cycles to execute, 2 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd>The instruction makes jump to the specified address. Jump can be either unconditional or based on an ALU flag.</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">JUMP</span>       <span class="n">R1</span>            <span class="o">//</span> <span class="n">Jump</span> <span class="n">to</span> <span class="n">address</span> <span class="ow">in</span> <span class="n">R1</span> <span class="p">(</span><span class="n">address</span> <span class="ow">in</span> <span class="n">R1</span> <span class="ow">is</span> <span class="ow">in</span> <span class="mi">32</span><span class="o">-</span><span class="n">bit</span> <span class="n">words</span><span class="p">)</span>
+
+<span class="mi">2</span><span class="p">:</span>        <span class="n">JUMP</span>       <span class="mh">0x120</span><span class="p">,</span> <span class="n">EQ</span>     <span class="o">//</span> <span class="n">Jump</span> <span class="n">to</span> <span class="n">address</span> <span class="mh">0x120</span> <span class="p">(</span><span class="ow">in</span> <span class="nb">bytes</span><span class="p">)</span> <span class="k">if</span> <span class="n">ALU</span> <span class="n">result</span> <span class="ow">is</span> <span class="n">zero</span>
+
+<span class="mi">3</span><span class="p">:</span>        <span class="n">JUMP</span>       <span class="n">label</span>         <span class="o">//</span> <span class="n">Jump</span> <span class="n">to</span> <span class="n">label</span>
+          <span class="o">...</span>
+  <span class="n">label</span><span class="p">:</span>  <span class="n">nop</span>                      <span class="o">//</span> <span class="n">Definition</span> <span class="n">of</span> <span class="n">label</span>
+
+<span class="mi">4</span><span class="p">:</span>        <span class="o">.</span><span class="k">global</span>    <span class="n">label</span>         <span class="o">//</span> <span class="n">Declaration</span> <span class="n">of</span> <span class="k">global</span> <span class="n">label</span>
+
+          <span class="n">MOVE</span>       <span class="n">R1</span><span class="p">,</span> <span class="n">label</span>     <span class="o">//</span> <span class="n">R1</span> <span class="o">=</span> <span class="n">label</span> <span class="p">(</span><span class="n">value</span> <span class="n">loaded</span> <span class="n">into</span> <span class="n">R1</span> <span class="ow">is</span> <span class="ow">in</span> <span class="n">words</span><span class="p">)</span>
+          <span class="n">JUMP</span>       <span class="n">R1</span>            <span class="o">//</span> <span class="n">Jump</span> <span class="n">to</span> <span class="n">label</span>
+          <span class="o">...</span>
+  <span class="n">label</span><span class="p">:</span>  <span class="n">nop</span>                      <span class="o">//</span> <span class="n">Definition</span> <span class="n">of</span> <span class="n">label</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="jumpr-jump-to-a-relative-offset-condition-based-on-r0">
+<h2><strong>JUMPR</strong> – Jump to a relative offset (condition based on R0)<a class="headerlink" href="#jumpr-jump-to-a-relative-offset-condition-based-on-r0" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><strong>JUMPR</strong>        <em>Step, Threshold, Condition</em></dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Step</em>          – relative shift from current position, in bytes</li>
+<li><em>Threshold</em>     – threshold value for branch condition</li>
+<li><dl class="first docutils">
+<dt><em>Condition</em>:</dt>
+<dd><ul class="first last">
+<li><em>EQ</em> (equal) – jump if value in R0 == threshold</li>
+<li><em>LT</em> (less than) – jump if value in R0 &lt; threshold</li>
+<li><em>LE</em> (less or equal) – jump if value in R0 &lt;= threshold</li>
+<li><em>GT</em> (greater than) – jump if value in R0 &gt; threshold</li>
+<li><em>GE</em> (greater or equal) – jump if value in R0 &gt;= threshold</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd><p class="first">Conditions <em>EQ</em>, <em>GT</em> and <em>LT</em>: 2 cycles to execute, 2 cycles to fetch next instruction</p>
+<p>Conditions <em>LE</em> and <em>GE</em> are implemented in the assembler using two <strong>JUMPR</strong> instructions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">JUMPR</span> <span class="n">target</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">LE</span> <span class="ow">is</span> <span class="n">implemented</span> <span class="k">as</span><span class="p">:</span>
+
+         <span class="n">JUMPR</span> <span class="n">target</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">EQ</span>
+         <span class="n">JUMPR</span> <span class="n">target</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">LT</span>
+
+<span class="o">//</span> <span class="n">JUMPR</span> <span class="n">target</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">GE</span> <span class="ow">is</span> <span class="n">implemented</span> <span class="k">as</span><span class="p">:</span>
+
+         <span class="n">JUMPR</span> <span class="n">target</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">EQ</span>
+         <span class="n">JUMPR</span> <span class="n">target</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">GT</span>
+</pre></div>
+</div>
+<p class="last">Therefore the execution time will depend on the branches taken: either 2 cycles to execute + 2 cycles to fetch, or 4 cycles to execute + 4 cycles to fetch.</p>
+</dd>
+<dt><strong>Description</strong></dt>
+<dd>The instruction makes a jump to a relative address if condition is true. Condition is the result of comparison of R0 register value and the threshold value.</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span><span class="n">pos</span><span class="p">:</span>    <span class="n">JUMPR</span>       <span class="mi">16</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">GE</span>   <span class="o">//</span> <span class="n">Jump</span> <span class="n">to</span> <span class="n">address</span> <span class="p">(</span><span class="n">position</span> <span class="o">+</span> <span class="mi">16</span> <span class="nb">bytes</span><span class="p">)</span> <span class="k">if</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">R0</span> <span class="o">&gt;=</span> <span class="mi">20</span>
+
+<span class="mi">2</span><span class="p">:</span>        <span class="o">//</span> <span class="n">Down</span> <span class="n">counting</span> <span class="n">loop</span> <span class="n">using</span> <span class="n">R0</span> <span class="n">register</span>
+          <span class="n">MOVE</span>        <span class="n">R0</span><span class="p">,</span> <span class="mi">16</span>       <span class="o">//</span> <span class="n">load</span> <span class="mi">16</span> <span class="n">into</span> <span class="n">R0</span>
+  <span class="n">label</span><span class="p">:</span>  <span class="n">SUB</span>         <span class="n">R0</span><span class="p">,</span> <span class="n">R0</span><span class="p">,</span> <span class="mi">1</span>    <span class="o">//</span> <span class="n">R0</span><span class="o">--</span>
+          <span class="n">NOP</span>                      <span class="o">//</span> <span class="n">do</span> <span class="n">something</span>
+          <span class="n">JUMPR</span>       <span class="n">label</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">GE</span> <span class="o">//</span> <span class="n">jump</span> <span class="n">to</span> <span class="n">label</span> <span class="k">if</span> <span class="n">R0</span> <span class="o">&gt;=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="jumps-jump-to-a-relative-address-condition-based-on-stage-count">
+<h2><strong>JUMPS</strong> – Jump to a relative address (condition based on stage count)<a class="headerlink" href="#jumps-jump-to-a-relative-address-condition-based-on-stage-count" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><strong>JUMPS</strong>        <em>Step, Threshold, Condition</em></dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Step</em>       – relative shift from current position, in bytes</li>
+<li><em>Threshold</em>  – threshold value for branch condition</li>
+<li><dl class="first docutils">
+<dt><em>Condition</em>:</dt>
+<dd><ul class="first last">
+<li><em>EQ</em> (equal) – jump if value in stage_cnt == threshold</li>
+<li><em>LT</em> (less than) –  jump if value in stage_cnt &lt; threshold</li>
+<li><em>LE</em> (less or equal) - jump if value in stage_cnt &lt;= threshold</li>
+<li><em>GT</em> (greater than) –  jump if value in stage_cnt &gt; threshold</li>
+<li><em>GE</em> (greater or equal) — jump if value in stage_cnt &gt;= threshold</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd><p class="first">2 cycles to execute, 2 cycles to fetch next instruction:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">JUMPS</span> <span class="n">target</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">EQ</span> <span class="ow">is</span> <span class="n">implemented</span> <span class="k">as</span><span class="p">:</span>
+
+         <span class="n">JUMPS</span> <span class="nb">next</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">LT</span>
+         <span class="n">JUMPS</span> <span class="n">target</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">LE</span>
+<span class="nb">next</span><span class="p">:</span>
+
+<span class="o">//</span> <span class="n">JUMPS</span> <span class="n">target</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">GT</span> <span class="ow">is</span> <span class="n">implemented</span> <span class="k">as</span><span class="p">:</span>
+
+         <span class="n">JUMPS</span> <span class="nb">next</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">LE</span>
+         <span class="n">JUMPS</span> <span class="n">target</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">GE</span>
+<span class="nb">next</span><span class="p">:</span>
+</pre></div>
+</div>
+<p class="last">Therefore the execution time will depend on the branches taken: either 2 cycles to execute + 2 cycles to fetch, or 4 cycles to execute + 4 cycles to fetch.</p>
+</dd>
+<dt><strong>Description</strong></dt>
+<dd>The instruction makes a jump to a relative address if condition is true. Condition is the result of comparison of count register value and threshold value.</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span><span class="n">pos</span><span class="p">:</span>    <span class="n">JUMPS</span>     <span class="mi">16</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">EQ</span>     <span class="o">//</span> <span class="n">Jump</span> <span class="n">to</span> <span class="p">(</span><span class="n">position</span> <span class="o">+</span> <span class="mi">16</span> <span class="nb">bytes</span><span class="p">)</span> <span class="k">if</span> <span class="n">stage_cnt</span> <span class="o">==</span> <span class="mi">20</span>
+
+<span class="mi">2</span><span class="p">:</span>        <span class="o">//</span> <span class="n">Up</span> <span class="n">counting</span> <span class="n">loop</span> <span class="n">using</span> <span class="n">stage</span> <span class="n">count</span> <span class="n">register</span>
+          <span class="n">STAGE_RST</span>                  <span class="o">//</span> <span class="nb">set</span> <span class="n">stage_cnt</span> <span class="n">to</span> <span class="mi">0</span>
+  <span class="n">label</span><span class="p">:</span>  <span class="n">STAGE_INC</span>  <span class="mi">1</span>               <span class="o">//</span> <span class="n">stage_cnt</span><span class="o">++</span>
+          <span class="n">NOP</span>                        <span class="o">//</span> <span class="n">do</span> <span class="n">something</span>
+          <span class="n">JUMPS</span>       <span class="n">label</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">LT</span>  <span class="o">//</span> <span class="n">jump</span> <span class="n">to</span> <span class="n">label</span> <span class="k">if</span> <span class="n">stage_cnt</span> <span class="o">&lt;</span> <span class="mi">16</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="stage-rst-reset-stage-count-register">
+<h2><strong>STAGE_RST</strong> – Reset stage count register<a class="headerlink" href="#stage-rst-reset-stage-count-register" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><strong>STAGE_RST</strong></dd>
+<dt><strong>Operands</strong></dt>
+<dd>No operands</dd>
+<dt><strong>Description</strong></dt>
+<dd>The instruction sets the stage count register to 0</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>2 cycles to execute, 4 cycles to fetch next instruction</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>       <span class="n">STAGE_RST</span>      <span class="o">//</span> <span class="n">Reset</span> <span class="n">stage</span> <span class="n">count</span> <span class="n">register</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="stage-inc-increment-stage-count-register">
+<h2><strong>STAGE_INC</strong> – Increment stage count register<a class="headerlink" href="#stage-inc-increment-stage-count-register" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><strong>STAGE_INC</strong>      <em>Value</em></dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Value</em> – 8 bits value</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>2 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd>The instruction increments stage count register by given value.</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">STAGE_INC</span>      <span class="mi">10</span>          <span class="o">//</span> <span class="n">stage_cnt</span> <span class="o">+=</span> <span class="mi">10</span>
+
+<span class="mi">2</span><span class="p">:</span>        <span class="o">//</span> <span class="n">Up</span> <span class="n">counting</span> <span class="n">loop</span> <span class="n">example</span><span class="p">:</span>
+          <span class="n">STAGE_RST</span>                  <span class="o">//</span> <span class="nb">set</span> <span class="n">stage_cnt</span> <span class="n">to</span> <span class="mi">0</span>
+  <span class="n">label</span><span class="p">:</span>  <span class="n">STAGE_INC</span>  <span class="mi">1</span>               <span class="o">//</span> <span class="n">stage_cnt</span><span class="o">++</span>
+          <span class="n">NOP</span>                        <span class="o">//</span> <span class="n">do</span> <span class="n">something</span>
+          <span class="n">JUMPS</span>      <span class="n">label</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">LT</span>   <span class="o">//</span> <span class="n">jump</span> <span class="n">to</span> <span class="n">label</span> <span class="k">if</span> <span class="n">stage_cnt</span> <span class="o">&lt;</span> <span class="mi">16</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="stage-dec-decrement-stage-count-register">
+<h2><strong>STAGE_DEC</strong> – Decrement stage count register<a class="headerlink" href="#stage-dec-decrement-stage-count-register" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><strong>STAGE_DEC</strong>      <em>Value</em></dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Value</em> – 8 bits value</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>2 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd>The instruction decrements stage count register by given value.</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">STAGE_DEC</span>      <span class="mi">10</span>        <span class="o">//</span> <span class="n">stage_cnt</span> <span class="o">-=</span> <span class="mi">10</span><span class="p">;</span>
+
+<span class="mi">2</span><span class="p">:</span>        <span class="o">//</span> <span class="n">Down</span> <span class="n">counting</span> <span class="n">loop</span> <span class="n">exaple</span>
+          <span class="n">STAGE_RST</span>                <span class="o">//</span> <span class="nb">set</span> <span class="n">stage_cnt</span> <span class="n">to</span> <span class="mi">0</span>
+          <span class="n">STAGE_INC</span>  <span class="mi">16</span>            <span class="o">//</span> <span class="n">increment</span> <span class="n">stage_cnt</span> <span class="n">to</span> <span class="mi">16</span>
+  <span class="n">label</span><span class="p">:</span>  <span class="n">STAGE_DEC</span>  <span class="mi">1</span>             <span class="o">//</span> <span class="n">stage_cnt</span><span class="o">--</span><span class="p">;</span>
+          <span class="n">NOP</span>                      <span class="o">//</span> <span class="n">do</span> <span class="n">something</span>
+          <span class="n">JUMPS</span>      <span class="n">label</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">GT</span>  <span class="o">//</span> <span class="n">jump</span> <span class="n">to</span> <span class="n">label</span> <span class="k">if</span> <span class="n">stage_cnt</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="halt-end-the-program">
+<h2><strong>HALT</strong> – End the program<a class="headerlink" href="#halt-end-the-program" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><strong>HALT</strong></dd>
+<dt><strong>Operands</strong></dt>
+<dd>No operands</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>2 cycles to execute</dd>
+<dt><strong>Description</strong></dt>
+<dd>The instruction halts the ULP coprocessor and restarts ULP wakeup timer, if it is enabled.</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>       <span class="n">HALT</span>      <span class="o">//</span> <span class="n">Halt</span> <span class="n">the</span> <span class="n">coprocessor</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="wake-wake-up-the-chip">
+<h2><strong>WAKE</strong> – Wake up the chip<a class="headerlink" href="#wake-wake-up-the-chip" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><strong>WAKE</strong></dd>
+<dt><strong>Operands</strong></dt>
+<dd>No operands</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>2 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd><p class="first">The instruction sends an interrupt from ULP to RTC controller.</p>
+<ul class="simple">
+<li>If the SoC is in deep sleep mode, and ULP wakeup is enabled, this causes the SoC to wake up.</li>
+<li>If the SoC is not in deep sleep mode, and ULP interrupt bit (RTC_CNTL_ULP_CP_INT_ENA) is set in RTC_CNTL_INT_ENA_REG register, RTC interrupt will be triggered.</li>
+</ul>
+<p class="last">Note that before using WAKE instruction, ULP program may needs to wait until RTC controller is ready to wake up the main CPU. This is indicated using RTC_CNTL_RDY_FOR_WAKEUP bit of RTC_CNTL_LOW_POWER_ST_REG register. If WAKE instruction is executed while RTC_CNTL_RDY_FOR_WAKEUP is zero, it has no effect (wake up does not occur).</p>
+</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span> <span class="n">is_rdy_for_wakeup</span><span class="p">:</span>                   <span class="o">//</span> <span class="n">Read</span> <span class="n">RTC_CNTL_RDY_FOR_WAKEUP</span> <span class="n">bit</span>
+          <span class="n">READ_RTC_FIELD</span><span class="p">(</span><span class="n">RTC_CNTL_LOW_POWER_ST_REG</span><span class="p">,</span> <span class="n">RTC_CNTL_RDY_FOR_WAKEUP</span><span class="p">)</span>
+          <span class="n">AND</span> <span class="n">r0</span><span class="p">,</span> <span class="n">r0</span><span class="p">,</span> <span class="mi">1</span>
+          <span class="n">JUMP</span> <span class="n">is_rdy_for_wakeup</span><span class="p">,</span> <span class="n">eq</span>    <span class="o">//</span> <span class="n">Retry</span> <span class="n">until</span> <span class="n">the</span> <span class="n">bit</span> <span class="ow">is</span> <span class="nb">set</span>
+          <span class="n">WAKE</span>                          <span class="o">//</span> <span class="n">Trigger</span> <span class="n">wake</span> <span class="n">up</span>
+          <span class="n">REG_WR</span> <span class="mh">0x006</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">0</span>       <span class="o">//</span> <span class="n">Stop</span> <span class="n">ULP</span> <span class="n">timer</span> <span class="p">(</span><span class="n">clear</span> <span class="n">RTC_CNTL_ULP_CP_SLP_TIMER_EN</span><span class="p">)</span>
+          <span class="n">HALT</span>                          <span class="o">//</span> <span class="n">Stop</span> <span class="n">the</span> <span class="n">ULP</span> <span class="n">program</span>
+          <span class="o">//</span> <span class="n">After</span> <span class="n">these</span> <span class="n">instructions</span><span class="p">,</span> <span class="n">SoC</span> <span class="n">will</span> <span class="n">wake</span> <span class="n">up</span><span class="p">,</span>
+          <span class="o">//</span> <span class="ow">and</span> <span class="n">ULP</span> <span class="n">will</span> <span class="ow">not</span> <span class="n">run</span> <span class="n">again</span> <span class="n">until</span> <span class="n">started</span> <span class="n">by</span> <span class="n">the</span> <span class="n">main</span> <span class="n">program</span><span class="o">.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sleep-set-ulp-wakeup-timer-period">
+<h2><strong>SLEEP</strong> – set ULP wakeup timer period<a class="headerlink" href="#sleep-set-ulp-wakeup-timer-period" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><strong>SLEEP</strong>   <em>sleep_reg</em></dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>sleep_reg</em> – 0..4, selects one of <code class="docutils literal notranslate"><span class="pre">SENS_ULP_CP_SLEEP_CYCx_REG</span></code> registers.</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>2 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd>The instruction selects which of the <code class="docutils literal notranslate"><span class="pre">SENS_ULP_CP_SLEEP_CYCx_REG</span></code> (x = 0..4) register values is to be used by the ULP wakeup timer as wakeup period. By default, the value from <code class="docutils literal notranslate"><span class="pre">SENS_ULP_CP_SLEEP_CYC0_REG</span></code> is used.</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">SLEEP</span>     <span class="mi">1</span>         <span class="o">//</span> <span class="n">Use</span> <span class="n">period</span> <span class="nb">set</span> <span class="ow">in</span> <span class="n">SENS_ULP_CP_SLEEP_CYC1_REG</span>
+
+<span class="mi">2</span><span class="p">:</span>        <span class="o">.</span><span class="n">set</span> <span class="n">sleep_reg</span><span class="p">,</span> <span class="mi">4</span>   <span class="o">//</span> <span class="n">Set</span> <span class="n">constant</span>
+          <span class="n">SLEEP</span>  <span class="n">sleep_reg</span>    <span class="o">//</span> <span class="n">Use</span> <span class="n">period</span> <span class="nb">set</span> <span class="ow">in</span> <span class="n">SENS_ULP_CP_SLEEP_CYC4_REG</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="wait-wait-some-number-of-cycles">
+<h2><strong>WAIT</strong> – wait some number of cycles<a class="headerlink" href="#wait-wait-some-number-of-cycles" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><strong>WAIT</strong>   <em>Cycles</em></dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Cycles</em> – number of cycles for wait</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>2 + <em>Cycles</em> cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd>The instruction delays for given number of cycles.</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">WAIT</span>     <span class="mi">10</span>         <span class="o">//</span> <span class="n">Do</span> <span class="n">nothing</span> <span class="k">for</span> <span class="mi">10</span> <span class="n">cycles</span>
+
+<span class="mi">2</span><span class="p">:</span>        <span class="o">.</span><span class="n">set</span>  <span class="n">wait_cnt</span><span class="p">,</span> <span class="mi">10</span>  <span class="o">//</span> <span class="n">Set</span> <span class="n">a</span> <span class="n">constant</span>
+          <span class="n">WAIT</span>  <span class="n">wait_cnt</span>      <span class="o">//</span> <span class="n">wait</span> <span class="k">for</span> <span class="mi">10</span> <span class="n">cycles</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tsens-do-measurement-with-temperature-sensor">
+<h2><strong>TSENS</strong> – do measurement with temperature sensor<a class="headerlink" href="#tsens-do-measurement-with-temperature-sensor" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><ul class="first last simple">
+<li><strong>TSENS</strong>   <em>Rdst, Wait_Delay</em></li>
+</ul>
+</dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Rdst</em> – Destination Register R[0..3], result will be stored to this register</li>
+<li><em>Wait_Delay</em> – number of cycles used to perform the measurement</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>2 + <em>Wait_Delay</em> + 3 * TSENS_CLK to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd>The instruction performs measurement using TSENS and stores the result into a general purpose register.</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">TSENS</span>     <span class="n">R1</span><span class="p">,</span> <span class="mi">1000</span>     <span class="o">//</span> <span class="n">Measure</span> <span class="n">temperature</span> <span class="n">sensor</span> <span class="k">for</span> <span class="mi">1000</span> <span class="n">cycles</span><span class="p">,</span>
+                                 <span class="o">//</span> <span class="ow">and</span> <span class="n">store</span> <span class="n">result</span> <span class="n">to</span> <span class="n">R1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="adc-do-measurement-with-adc">
+<h2><strong>ADC</strong> – do measurement with ADC<a class="headerlink" href="#adc-do-measurement-with-adc" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><ul class="first last simple">
+<li><strong>ADC</strong>   <em>Rdst, Sar_sel, Mux</em></li>
+<li><strong>ADC</strong>   <em>Rdst, Sar_sel, Mux, 0</em> — deprecated form</li>
+</ul>
+</dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Rdst</em> – Destination Register R[0..3], result will be stored to this register</li>
+<li><em>Sar_sel</em> – Select ADC: 0 = SARADC1, 1 = SARADC2</li>
+<li><em>Mux</em>  -  selected PAD, SARADC Pad[Mux+1] is enabled</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">23</span> <span class="pre">+</span> <span class="pre">max(1,</span> <span class="pre">SAR_AMP_WAIT1)</span> <span class="pre">+</span> <span class="pre">max(1,</span> <span class="pre">SAR_AMP_WAIT2)</span> <span class="pre">+</span> <span class="pre">max(1,</span> <span class="pre">SAR_AMP_WAIT3)</span> <span class="pre">+</span> <span class="pre">SARx_SAMPLE_CYCLE</span> <span class="pre">+</span> <span class="pre">SARx_SAMPLE_BIT</span></code> cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd>The instruction makes measurements from ADC.</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">ADC</span>      <span class="n">R1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>      <span class="o">//</span> <span class="n">Measure</span> <span class="n">value</span> <span class="n">using</span> <span class="n">ADC1</span> <span class="n">pad</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">store</span> <span class="n">result</span> <span class="n">into</span> <span class="n">R1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="i2c-rd-read-single-byte-from-i2c-slave">
+<h2><strong>I2C_RD</strong> - read single byte from I2C slave<a class="headerlink" href="#i2c-rd-read-single-byte-from-i2c-slave" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><ul class="first last simple">
+<li><strong>I2C_RD</strong>   <em>Sub_addr, High, Low, Slave_sel</em></li>
+</ul>
+</dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Sub_addr</em> – Address within the I2C slave to read.</li>
+<li><em>High</em>, <em>Low</em> — Define range of bits to read. Bits outside of [High, Low] range are masked.</li>
+<li><em>Slave_sel</em>  -  Index of I2C slave address to use.</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>Execution time mostly depends on I2C communication time. 4 cycles to fetch next instruction.</dd>
+<dt><strong>Description</strong></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">I2C_RD</span></code> instruction reads one byte from I2C slave with index <code class="docutils literal notranslate"><span class="pre">Slave_sel</span></code>. Slave address (in 7-bit format) has to be set in advance into <cite>SENS_I2C_SLAVE_ADDRx</cite> register field, where <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">==</span> <span class="pre">Slave_sel</span></code>.
+8 bits of read result is stored into <cite>R0</cite> register.</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">I2C_RD</span>      <span class="mh">0x10</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>      <span class="o">//</span> <span class="n">Read</span> <span class="n">byte</span> <span class="kn">from</span> <span class="nn">sub</span><span class="o">-</span><span class="n">address</span> <span class="mh">0x10</span> <span class="n">of</span> <span class="n">slave</span> <span class="k">with</span> <span class="n">address</span> <span class="nb">set</span> <span class="ow">in</span> <span class="n">SENS_I2C_SLAVE_ADDR0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="i2c-wr-write-single-byte-to-i2c-slave">
+<h2><strong>I2C_WR</strong> - write single byte to I2C slave<a class="headerlink" href="#i2c-wr-write-single-byte-to-i2c-slave" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><ul class="first last simple">
+<li><strong>I2C_WR</strong>   <em>Sub_addr, Value, High, Low, Slave_sel</em></li>
+</ul>
+</dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Sub_addr</em> – Address within the I2C slave to write.</li>
+<li><em>Value</em> – 8-bit value to be written.</li>
+<li><em>High</em>, <em>Low</em> — Define range of bits to write. Bits outside of [High, Low] range are masked.</li>
+<li><em>Slave_sel</em>  -  Index of I2C slave address to use.</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>Execution time mostly depends on I2C communication time. 4 cycles to fetch next instruction.</dd>
+<dt><strong>Description</strong></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">I2C_WR</span></code> instruction writes one byte to I2C slave with index <code class="docutils literal notranslate"><span class="pre">Slave_sel</span></code>. Slave address (in 7-bit format) has to be set in advance into <cite>SENS_I2C_SLAVE_ADDRx</cite> register field, where <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">==</span> <span class="pre">Slave_sel</span></code>.</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">I2C_WR</span>      <span class="mh">0x20</span><span class="p">,</span> <span class="mh">0x33</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>      <span class="o">//</span> <span class="n">Write</span> <span class="n">byte</span> <span class="mh">0x33</span> <span class="n">to</span> <span class="n">sub</span><span class="o">-</span><span class="n">address</span> <span class="mh">0x20</span> <span class="n">of</span> <span class="n">slave</span> <span class="k">with</span> <span class="n">address</span> <span class="nb">set</span> <span class="ow">in</span> <span class="n">SENS_I2C_SLAVE_ADDR1</span><span class="o">.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="reg-rd-read-from-peripheral-register">
+<h2><strong>REG_RD</strong> – read from peripheral register<a class="headerlink" href="#reg-rd-read-from-peripheral-register" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><strong>REG_RD</strong>   <em>Addr, High, Low</em></dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Addr</em> – register address, in 32-bit words</li>
+<li><em>High</em> – High part of R0</li>
+<li><em>Low</em> – Low part of R0</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>4 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd><p class="first">The instruction reads up to 16 bits from a peripheral register into a general purpose register: <code class="docutils literal notranslate"><span class="pre">R0</span> <span class="pre">=</span> <span class="pre">REG[Addr][High:Low]</span></code>.</p>
+<p>This instruction can access registers in RTC_CNTL, RTC_IO, SENS, and RTC_I2C peripherals. Address of the the register, as seen from the ULP,
+can be calculated from the address of the same register on the DPORT bus as follows:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">addr_ulp</span> <span class="o">=</span> <span class="p">(</span><span class="n">addr_dport</span> <span class="o">-</span> <span class="n">DR_REG_RTCCNTL_BASE</span><span class="p">)</span> <span class="o">/</span> <span class="mi">4</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">REG_RD</span>      <span class="mh">0x120</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span>     <span class="o">//</span> <span class="n">load</span> <span class="mi">4</span> <span class="n">bits</span><span class="p">:</span> <span class="n">R0</span> <span class="o">=</span> <span class="p">{</span><span class="mi">12</span><span class="s1">&#39;b0, REG[0x120][7:4]}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="reg-wr-write-to-peripheral-register">
+<h2><strong>REG_WR</strong> – write to peripheral register<a class="headerlink" href="#reg-wr-write-to-peripheral-register" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>Syntax</strong></dt>
+<dd><strong>REG_WR</strong>   <em>Addr, High, Low, Data</em></dd>
+<dt><strong>Operands</strong></dt>
+<dd><ul class="first last simple">
+<li><em>Addr</em> – register address, in 32-bit words.</li>
+<li><em>High</em> – High part of R0</li>
+<li><em>Low</em> – Low part of R0</li>
+<li><em>Data</em> – value to write, 8 bits</li>
+</ul>
+</dd>
+<dt><strong>Cycles</strong></dt>
+<dd>8 cycles to execute, 4 cycles to fetch next instruction</dd>
+<dt><strong>Description</strong></dt>
+<dd><p class="first">The instruction writes up to 8 bits from a general purpose register into a peripheral register. <code class="docutils literal notranslate"><span class="pre">REG[Addr][High:Low]</span> <span class="pre">=</span> <span class="pre">data</span></code></p>
+<p>This instruction can access registers in RTC_CNTL, RTC_IO, SENS, and RTC_I2C peripherals. Address of the the register, as seen from the ULP,
+can be calculated from the address of the same register on the DPORT bus as follows:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">addr_ulp</span> <span class="o">=</span> <span class="p">(</span><span class="n">addr_dport</span> <span class="o">-</span> <span class="n">DR_REG_RTCCNTL_BASE</span><span class="p">)</span> <span class="o">/</span> <span class="mi">4</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p><strong>Examples</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span>        <span class="n">REG_WR</span>      <span class="mh">0x120</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mh">0x10</span>   <span class="o">//</span> <span class="nb">set</span> <span class="mi">8</span> <span class="n">bits</span><span class="p">:</span> <span class="n">REG</span><span class="p">[</span><span class="mh">0x120</span><span class="p">][</span><span class="mi">7</span><span class="p">:</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mh">0x10</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="convenience-macros-for-peripheral-registers-access">
+<h2>Convenience macros for peripheral registers access<a class="headerlink" href="#convenience-macros-for-peripheral-registers-access" title="Permalink to this headline">¶</a></h2>
+<p>ULP source files are passed through C preprocessor before the assembler. This allows certain macros to be used to facilitate access to peripheral registers.</p>
+<p>Some existing macros are defined in <code class="docutils literal notranslate"><span class="pre">soc/soc_ulp.h</span></code> header file. These macros allow access to the fields of peripheral registers by their names.
+Peripheral registers names which can be used with these macros are the ones defined in <code class="docutils literal notranslate"><span class="pre">soc/rtc_cntl_reg.h</span></code>, <code class="docutils literal notranslate"><span class="pre">soc/rtc_io_reg.h</span></code>, <code class="docutils literal notranslate"><span class="pre">soc/sens_reg.h</span></code>, and <code class="docutils literal notranslate"><span class="pre">soc/rtc_i2c_reg.h</span></code>.</p>
+<dl class="docutils">
+<dt>READ_RTC_REG(rtc_reg, low_bit, bit_width)</dt>
+<dd><p class="first">Read up to 16 bits from rtc_reg[low_bit + bit_width - 1 : low_bit] into R0. For example:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &quot;soc/soc_ulp.h&quot;</span>
+<span class="c1">#include &quot;soc/rtc_cntl_reg.h&quot;</span>
+
+<span class="o">/*</span> <span class="n">Read</span> <span class="mi">16</span> <span class="n">lower</span> <span class="n">bits</span> <span class="n">of</span> <span class="n">RTC_CNTL_TIME0_REG</span> <span class="n">into</span> <span class="n">R0</span> <span class="o">*/</span>
+<span class="n">READ_RTC_REG</span><span class="p">(</span><span class="n">RTC_CNTL_TIME0_REG</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+<dt>READ_RTC_FIELD(rtc_reg, field)</dt>
+<dd><p class="first">Read from a field in rtc_reg into R0, up to 16 bits. For example:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &quot;soc/soc_ulp.h&quot;</span>
+<span class="c1">#include &quot;soc/sens_reg.h&quot;</span>
+
+<span class="o">/*</span> <span class="n">Read</span> <span class="mi">8</span><span class="o">-</span><span class="n">bit</span> <span class="n">SENS_TSENS_OUT</span> <span class="n">field</span> <span class="n">of</span> <span class="n">SENS_SAR_SLAVE_ADDR3_REG</span> <span class="n">into</span> <span class="n">R0</span> <span class="o">*/</span>
+<span class="n">READ_RTC_FIELD</span><span class="p">(</span><span class="n">SENS_SAR_SLAVE_ADDR3_REG</span><span class="p">,</span> <span class="n">SENS_TSENS_OUT</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+<dt>WRITE_RTC_REG(rtc_reg, low_bit, bit_width, value)</dt>
+<dd><p class="first">Write immediate value into rtc_reg[low_bit + bit_width - 1 : low_bit], bit_width &lt;= 8. For example:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &quot;soc/soc_ulp.h&quot;</span>
+<span class="c1">#include &quot;soc/rtc_io_reg.h&quot;</span>
+
+<span class="o">/*</span> <span class="n">Set</span> <span class="n">BIT</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="n">of</span> <span class="n">RTC_GPIO_OUT_DATA_W1TS</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">RTC_GPIO_OUT_W1TS_REG</span> <span class="o">*/</span>
+<span class="n">WRITE_RTC_REG</span><span class="p">(</span><span class="n">RTC_GPIO_OUT_W1TS_REG</span><span class="p">,</span> <span class="n">RTC_GPIO_OUT_DATA_W1TS_S</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+<dt>WRITE_RTC_FIELD(rtc_reg, field, value)</dt>
+<dd><p class="first">Write immediate value into a field in rtc_reg, up to 8 bits. For example:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1">#include &quot;soc/soc_ulp.h&quot;</span>
+<span class="c1">#include &quot;soc/rtc_cntl_reg.h&quot;</span>
+
+<span class="o">/*</span> <span class="n">Set</span> <span class="n">RTC_CNTL_ULP_CP_SLP_TIMER_EN</span> <span class="n">field</span> <span class="n">of</span> <span class="n">RTC_CNTL_STATE0_REG</span> <span class="n">to</span> <span class="mi">0</span> <span class="o">*/</span>
+<span class="n">WRITE_RTC_FIELD</span><span class="p">(</span><span class="n">RTC_CNTL_STATE0_REG</span><span class="p">,</span> <span class="n">RTC_CNTL_ULP_CP_SLP_TIMER_EN</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ulp_macros.html" class="btn btn-neutral float-right" title="Programming ULP coprocessor using C macros" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ulp_instruction_set.html" class="btn btn-neutral float-left" title="ESP32 ULP coprocessor instruction set" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-guides/ulps2_instruction_set.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:28:55 GMT -->
+</html>

@@ -1,0 +1,789 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/system/log.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:10 GMT -->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Logging library &mdash; ESP-IDF Programming Guide v4.1-dev-2071-gf91080637 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+        <script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-doc-embed.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Miscellaneous System APIs" href="system.html" />
+    <link rel="prev" title="Interrupt allocation" href="intr_alloc.html" /> 
+
+<!-- RTD Extra Head -->
+
+<!-- 
+Always link to the latest version, as canonical.
+http://docs.readthedocs.org/en/latest/canonical.html
+-->
+<link rel="canonical" href="log.html" />
+
+<link rel="stylesheet" href="../../../../../../../media.readthedocs.com/css/readthedocs-doc-embed.css" type="text/css" />
+
+<script type="text/javascript" src="../../_static/readthedocs-data.js"></script>
+
+<!-- Add page-specific data, which must exist in the page js, not global -->
+<script type="text/javascript">
+READTHEDOCS_DATA['page'] = "api-reference/system/log"
+READTHEDOCS_DATA['source_suffix'] = ".rst"
+</script>
+
+<script type="text/javascript" src="../../../../../../../media.readthedocs.com/javascript/readthedocs-analytics.js"></script>
+
+<!-- end RTD <extrahead> -->
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index-2.html" class="icon icon-home"> ESP-IDF Programming Guide
+          
+
+          
+            
+            <img src="../../_static/espressif-logo.svg" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="https://docs.espressif.com/projects/esp-idf/en/latest/search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../get-started/index.html">Get Started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../bluetooth/index.html">Bluetooth</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../network/index.html">Networking</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../peripherals/index.html">Peripherals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../protocols/index.html">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../provisioning/index.html">Provisioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../storage/index.html">Storage</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">System</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="app_image_format.html">App image format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="app_trace.html">Application Level Tracing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="efuse.html">eFuse Manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_err.html">Error Codes and Helper Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_https_ota.html">ESP HTTPS OTA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_pthread.html">ESP pthread</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_event.html">Event Loop Library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freertos.html">FreeRTOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="freertos_additions.html">FreeRTOS Additions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mem_alloc.html">Heap Memory Allocation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="heap_debug.html">Heap Memory Debugging</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_timer.html">High Resolution Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="himem.html">Himem (large external SPI RAM) API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ipc.html">Inter-Processor Call</a></li>
+<li class="toctree-l3"><a class="reference internal" href="esp_expression_with_stack.html">Call function with external stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="intr_alloc.html">Interrupt Allocation</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Logging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-use-this-library">How to use this library</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#application-example">Application Example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="system.html">Miscellaneous System APIs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ota.html">Over The Air Updates (OTA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="perfmon.html">Performance Monitor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="power_management.html">Power Management</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sleep_modes.html">Sleep Modes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wdts.html">Watchdogs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="system_time.html">System Time</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../kconfig.html">Configuration Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../error-codes.html">Error Codes Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../hw-reference/index.html">H/W Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../esp32s2.html">ESP32-S2 Preview Support</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api-guides/index.html">API Guides</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../libraries-and-frameworks/index.html">Libraries and Frameworks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contribute/index.html">Contribute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions.html">Versions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resources.html">Resources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../COPYRIGHT.html">Copyrights</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../about.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../languages.html">语言/Languages</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://readthedocs.com/projects/espressif-esp-idf/downloads/">Guide Downloads</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index-2.html">ESP-IDF Programming Guide</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index-2.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">API Reference</a> &raquo;</li>
+        
+          <li><a href="index.html">System API</a> &raquo;</li>
+        
+      <li>Logging library</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/espressif/esp-idf/blob/master/docs/en/api-reference/system/log.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="logging-library">
+<h1>Logging library<a class="headerlink" href="#logging-library" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The logging library provides two ways for setting log verbosity:</p>
+<ul class="simple">
+<li><strong>At compile time</strong>: in menuconfig, set the verbosity level using the option <span class="target" id="index-0"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">CONFIG_LOG_DEFAULT_LEVEL</span></code>. All logging statements for verbosity levels higher than <span class="target" id="index-1"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">CONFIG_LOG_DEFAULT_LEVEL</span></code> will be removed by the preprocessor.</li>
+<li><strong>At runtime</strong>: all logs for verbosity levels lower than <span class="target" id="index-2"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">CONFIG_LOG_DEFAULT_LEVEL</span></code> are enabled by default. The function <a class="reference internal" href="#_CPPv417esp_log_level_setPKc15esp_log_level_t" title="esp_log_level_set"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_log_level_set()</span></code></a> can be used to set a logging level on a per module basis. Modules are identified by their tags, which are human-readable ASCII zero-terminated strings.</li>
+</ul>
+<p>There are the following verbosity levels:</p>
+<ul class="simple">
+<li>Error (lowest)</li>
+<li>Warning</li>
+<li>Info</li>
+<li>Debug</li>
+<li>Verbose (highest)</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The function <a class="reference internal" href="#_CPPv417esp_log_level_setPKc15esp_log_level_t" title="esp_log_level_set"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_log_level_set()</span></code></a> cannot set logging levels higher than specified by <span class="target" id="index-3"></span><code class="xref std std-envvar docutils literal notranslate"><span class="pre">CONFIG_LOG_DEFAULT_LEVEL</span></code>. To increase log level for a specific file at compile time, use the macro <cite>LOG_LOCAL_LEVEL</cite> (see the details below).</p>
+</div>
+</div>
+<div class="section" id="how-to-use-this-library">
+<h2>How to use this library<a class="headerlink" href="#how-to-use-this-library" title="Permalink to this headline">¶</a></h2>
+<p>In each C file that uses logging functionality, define the TAG variable as shown below:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">static</span> <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">TAG</span> <span class="o">=</span> <span class="s">&quot;MyModule&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Then use one of logging macros to produce output, e.g:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">ESP_LOGW</span><span class="p">(</span><span class="n">TAG</span><span class="p">,</span> <span class="s">&quot;Baud rate error %.1f%%. Requested: %d baud, actual: %d baud&quot;</span><span class="p">,</span> <span class="n">error</span> <span class="o">*</span> <span class="mi">100</span><span class="p">,</span> <span class="n">baud_req</span><span class="p">,</span> <span class="n">baud_real</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Several macros are available for different verbosity levels:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">ESP_LOGE</span></code> - error (lowest)</li>
+<li><code class="docutils literal notranslate"><span class="pre">ESP_LOGW</span></code> - warning</li>
+<li><code class="docutils literal notranslate"><span class="pre">ESP_LOGI</span></code> - info</li>
+<li><code class="docutils literal notranslate"><span class="pre">ESP_LOGD</span></code> - debug</li>
+<li><code class="docutils literal notranslate"><span class="pre">ESP_LOGV</span></code> - verbose (highest)</li>
+</ul>
+<p>Additionally, there are <code class="docutils literal notranslate"><span class="pre">ESP_EARLY_LOGx</span></code> versions for each of these macros, e.g., <a class="reference internal" href="#c.ESP_EARLY_LOGE" title="ESP_EARLY_LOGE"><code class="xref c c-macro docutils literal notranslate"><span class="pre">ESP_EARLY_LOGE</span></code></a>. These versions have to be used explicitly in the early startup code only, before heap allocator and syscalls have been initialized. Normal <code class="docutils literal notranslate"><span class="pre">ESP_LOGx</span></code> macros can also be used while compiling the bootloader, but they will fall back to the same implementation as <code class="docutils literal notranslate"><span class="pre">ESP_EARLY_LOGx</span></code> macros.</p>
+<p>To override default verbosity level at file or component scope, define the <code class="docutils literal notranslate"><span class="pre">LOG_LOCAL_LEVEL</span></code> macro.</p>
+<p>At file scope, define it before including <code class="docutils literal notranslate"><span class="pre">esp_log.h</span></code>, e.g.:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#define LOG_LOCAL_LEVEL ESP_LOG_VERBOSE</span>
+<span class="cp">#include</span> <span class="cpf">&quot;esp_log.h&quot;</span><span class="cp"></span>
+</pre></div>
+</div>
+<p>At component scope, define it in the component makefile:</p>
+<div class="highlight-make notranslate"><div class="highlight"><pre><span></span><span class="nv">CFLAGS</span> <span class="o">+=</span> -D <span class="nv">LOG_LOCAL_LEVEL</span><span class="o">=</span>ESP_LOG_DEBUG
+</pre></div>
+</div>
+<p>To configure logging output per module at runtime, add calls to the function <a class="reference internal" href="#_CPPv417esp_log_level_setPKc15esp_log_level_t" title="esp_log_level_set"><code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">esp_log_level_set()</span></code></a> as follows:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="n">esp_log_level_set</span><span class="p">(</span><span class="s">&quot;*&quot;</span><span class="p">,</span> <span class="n">ESP_LOG_ERROR</span><span class="p">);</span>        <span class="c1">// set all components to ERROR level</span>
+<span class="n">esp_log_level_set</span><span class="p">(</span><span class="s">&quot;wifi&quot;</span><span class="p">,</span> <span class="n">ESP_LOG_WARN</span><span class="p">);</span>      <span class="c1">// enable WARN logs from WiFi stack</span>
+<span class="n">esp_log_level_set</span><span class="p">(</span><span class="s">&quot;dhcpc&quot;</span><span class="p">,</span> <span class="n">ESP_LOG_INFO</span><span class="p">);</span>     <span class="c1">// enable INFO logs from DHCP client</span>
+</pre></div>
+</div>
+<div class="section" id="logging-to-host-via-jtag">
+<h3>Logging to Host via JTAG<a class="headerlink" href="#logging-to-host-via-jtag" title="Permalink to this headline">¶</a></h3>
+<p>By default, the logging library uses the vprintf-like function to write formatted output to the dedicated UART. By calling a simple API, all log output may be routed to JTAG instead, making logging several times faster. For details, please refer to Section <a class="reference internal" href="../../api-guides/app_trace.html#app-trace-logging-to-host"><span class="std std-ref">Logging to Host</span></a>.</p>
+</div>
+</div>
+<div class="section" id="application-example">
+<h2>Application Example<a class="headerlink" href="#application-example" title="Permalink to this headline">¶</a></h2>
+<p>The logging library is commonly used by most esp-idf components and examples. For demonstration of log functionality, check ESP-IDF’s <a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples">examples</a> directory. The most revelant examples that deal with logging are the following:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/system/ota">system/ota</a></li>
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/storage/sd_card">storage/sd_card</a></li>
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/tree/f91080637/examples/protocols/https_request">protocols/https_request</a></li>
+</ul>
+</div>
+<div class="section" id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="header-file">
+<h3>Header File<a class="headerlink" href="#header-file" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/espressif/esp-idf/blob/f91080637/components/log/include/esp_log.h">log/include/esp_log.h</a></li>
+</ul>
+</div>
+<div class="section" id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<dl class="function">
+<dt id="_CPPv417esp_log_level_setPKc15esp_log_level_t">
+<span id="_CPPv317esp_log_level_setPKc15esp_log_level_t"></span><span id="_CPPv217esp_log_level_setPKc15esp_log_level_t"></span><span id="esp_log_level_set__cCP.esp_log_level_t"></span><span class="target" id="esp__log_8h_1a7fad1451d9dd6f1d1ed1497b9fe04007"></span>void <code class="descname">esp_log_level_set</code><span class="sig-paren">(</span><em class="property">const</em> char *<em>tag</em>, <a class="reference internal" href="#_CPPv415esp_log_level_t" title="esp_log_level_t">esp_log_level_t</a> <em>level</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417esp_log_level_setPKc15esp_log_level_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set log level for given tag. </p>
+<p>If logging for given component has already been enabled, changes previous setting.</p>
+<p>Note that this function can not raise log level above the level set using CONFIG_LOG_DEFAULT_LEVEL setting in menuconfig.</p>
+<p>To raise log level above the default one for a given file, define LOG_LOCAL_LEVEL to one of the ESP_LOG_* values, before including esp_log.h in this file.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">tag</span></code>: Tag of the log entries to enable. Must be a non-NULL zero terminated string. Value “*” resets log level for all tags to the given value.</li>
+<li><code class="docutils literal notranslate"><span class="pre">level</span></code>: Selects log level to enable. Only logs at this and lower verbosity levels will be shown. </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv419esp_log_set_vprintf14vprintf_like_t">
+<span id="_CPPv319esp_log_set_vprintf14vprintf_like_t"></span><span id="_CPPv219esp_log_set_vprintf14vprintf_like_t"></span><span id="esp_log_set_vprintf__vprintf_like_t"></span><span class="target" id="esp__log_8h_1a087fd1c2e310257cf86ec827c8691000"></span><a class="reference internal" href="#_CPPv414vprintf_like_t" title="vprintf_like_t">vprintf_like_t</a> <code class="descname">esp_log_set_vprintf</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv414vprintf_like_t" title="vprintf_like_t">vprintf_like_t</a> <em>func</em><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv419esp_log_set_vprintf14vprintf_like_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Set function used to output log entries. </p>
+<p>By default, log output goes to UART0. This function can be used to redirect log output to some other destination, such as file or network. Returns the original log handler, which may be necessary to return output to the previous destination.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>func old Function used for output. </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">func</span></code>: new Function used for output. Must have same signature as vprintf.</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv417esp_log_timestampv">
+<span id="_CPPv317esp_log_timestampv"></span><span id="_CPPv217esp_log_timestampv"></span><span id="esp_log_timestamp__void"></span><span class="target" id="esp__log_8h_1a806e516960a25bc218b55ee70387776e"></span>uint32_t <code class="descname">esp_log_timestamp</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv417esp_log_timestampv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function which returns timestamp to be used in log output. </p>
+<p>This function is used in expansion of ESP_LOGx macros. In the 2nd stage bootloader, and at early application startup stage this function uses CPU cycle counter as time source. Later when FreeRTOS scheduler start running, it switches to FreeRTOS tick count.</p>
+<p>For now, we ignore millisecond counter overflow.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>timestamp, in milliseconds </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv424esp_log_system_timestampv">
+<span id="_CPPv324esp_log_system_timestampv"></span><span id="_CPPv224esp_log_system_timestampv"></span><span id="esp_log_system_timestamp__void"></span><span class="target" id="esp__log_8h_1a9ad1d90afcf91c34876a57ba0f1783ae"></span>char *<code class="descname">esp_log_system_timestamp</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv424esp_log_system_timestampv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function which returns system timestamp to be used in log output. </p>
+<p>This function is used in expansion of ESP_LOGx macros to print the system time as “HH:MM:SS.sss”. The system time is initialized to 0 on startup, this can be set to the correct time with an SNTP sync, or manually with standard POSIX time functions.</p>
+<p>Currently this will not get used in logging from binary blobs (i.e WiFi &amp; Bluetooth libraries), these will still print the RTOS tick time.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>timestamp, in “HH:MM:SS.sss” </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv423esp_log_early_timestampv">
+<span id="_CPPv323esp_log_early_timestampv"></span><span id="_CPPv223esp_log_early_timestampv"></span><span id="esp_log_early_timestamp__void"></span><span class="target" id="esp__log_8h_1af4e003310edcaca0fcb9e00a2d085623"></span>uint32_t <code class="descname">esp_log_early_timestamp</code><span class="sig-paren">(</span>void<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv423esp_log_early_timestampv" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Function which returns timestamp to be used in log output. </p>
+<p>This function uses HW cycle counter and does not depend on OS, so it can be safely used after application crash.</p>
+<p><dl class="docutils">
+<dt><strong>Return</strong></dt>
+<dd>timestamp, in milliseconds </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv413esp_log_write15esp_log_level_tPKcPKcz">
+<span id="_CPPv313esp_log_write15esp_log_level_tPKcPKcz"></span><span id="_CPPv213esp_log_write15esp_log_level_tPKcPKcz"></span><span id="esp_log_write__esp_log_level_t.cCP.cCP.z"></span><span class="target" id="esp__log_8h_1aee0ff0441723f0b5cde34529c0aa603f"></span>void <code class="descname">esp_log_write</code><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv415esp_log_level_t" title="esp_log_level_t">esp_log_level_t</a> <em>level</em>, <em class="property">const</em> char *<em>tag</em>, <em class="property">const</em> char *<em>format</em>, ...<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv413esp_log_write15esp_log_level_tPKcPKcz" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Write message into the log. </p>
+<p>This function is not intended to be used directly. Instead, use one of ESP_LOGE, ESP_LOGW, ESP_LOGI, ESP_LOGD, ESP_LOGV macros.</p>
+<p>This function or these macros should not be used from an interrupt. </p>
+</dd></dl>
+
+</div>
+<div class="section" id="macros">
+<h3>Macros<a class="headerlink" href="#macros" title="Permalink to this headline">¶</a></h3>
+<dl class="macro">
+<dt id="c.ESP_LOG_BUFFER_HEX_LEVEL">
+<span class="target" id="esp__log_8h_1af712b480f50ca86b4d17c4b43696ddd4"></span><code class="descname">ESP_LOG_BUFFER_HEX_LEVEL</code><span class="sig-paren">(</span>tag, buffer, buff_len, level<span class="sig-paren">)</span><a class="headerlink" href="#c.ESP_LOG_BUFFER_HEX_LEVEL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a buffer of hex bytes at specified level, separated into 16 bytes each line. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">tag</span></code>: description tag </li>
+<li><code class="docutils literal notranslate"><span class="pre">buffer</span></code>: Pointer to the buffer array </li>
+<li><code class="docutils literal notranslate"><span class="pre">buff_len</span></code>: length of buffer in bytes </li>
+<li><code class="docutils literal notranslate"><span class="pre">level</span></code>: level of the log </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_LOG_BUFFER_CHAR_LEVEL">
+<span class="target" id="esp__log_8h_1ab868f4c8be583bc47982fcadd01815f7"></span><code class="descname">ESP_LOG_BUFFER_CHAR_LEVEL</code><span class="sig-paren">(</span>tag, buffer, buff_len, level<span class="sig-paren">)</span><a class="headerlink" href="#c.ESP_LOG_BUFFER_CHAR_LEVEL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a buffer of characters at specified level, separated into 16 bytes each line. Buffer should contain only printable characters. </p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">tag</span></code>: description tag </li>
+<li><code class="docutils literal notranslate"><span class="pre">buffer</span></code>: Pointer to the buffer array </li>
+<li><code class="docutils literal notranslate"><span class="pre">buff_len</span></code>: length of buffer in bytes </li>
+<li><code class="docutils literal notranslate"><span class="pre">level</span></code>: level of the log </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_LOG_BUFFER_HEXDUMP">
+<span class="target" id="esp__log_8h_1ab32020016063ecd37a957965538050e1"></span><code class="descname">ESP_LOG_BUFFER_HEXDUMP</code><span class="sig-paren">(</span>tag, buffer, buff_len, level<span class="sig-paren">)</span><a class="headerlink" href="#c.ESP_LOG_BUFFER_HEXDUMP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dump a buffer to the log at specified level. </p>
+<p>The dump log shows just like the one below: <div class="highlight-default notranslate"><div class="highlight"><pre><span></span> <span class="n">W</span> <span class="p">(</span><span class="mi">195</span><span class="p">)</span> <span class="n">log_example</span><span class="p">:</span> <span class="mh">0x3ffb4280</span>   <span class="mi">45</span> <span class="mi">53</span> <span class="mi">50</span> <span class="mi">33</span> <span class="mi">32</span> <span class="mi">20</span> <span class="mi">69</span> <span class="mi">73</span>  <span class="mi">20</span> <span class="mi">67</span> <span class="mi">72</span> <span class="mi">65</span> <span class="mi">61</span> <span class="mi">74</span> <span class="mi">2</span><span class="n">c</span> <span class="mi">20</span>  <span class="o">|</span><span class="n">ESP32</span> <span class="ow">is</span> <span class="n">great</span><span class="p">,</span> <span class="o">|</span>
+ <span class="n">W</span> <span class="p">(</span><span class="mi">195</span><span class="p">)</span> <span class="n">log_example</span><span class="p">:</span> <span class="mh">0x3ffb4290</span>   <span class="mi">77</span> <span class="mi">6</span><span class="n">f</span> <span class="mi">72</span> <span class="mi">6</span><span class="n">b</span> <span class="mi">69</span> <span class="mi">6</span><span class="n">e</span> <span class="mi">67</span> <span class="mi">20</span>  <span class="mi">61</span> <span class="mi">6</span><span class="n">c</span> <span class="mi">6</span><span class="n">f</span> <span class="mi">6</span><span class="n">e</span> <span class="mi">67</span> <span class="mi">20</span> <span class="mi">77</span> <span class="mi">69</span>  <span class="o">|</span><span class="n">working</span> <span class="n">along</span> <span class="n">wi</span><span class="o">|</span>
+ <span class="n">W</span> <span class="p">(</span><span class="mi">205</span><span class="p">)</span> <span class="n">log_example</span><span class="p">:</span> <span class="mh">0x3ffb42a0</span>   <span class="mi">74</span> <span class="mi">68</span> <span class="mi">20</span> <span class="mi">74</span> <span class="mi">68</span> <span class="mi">65</span> <span class="mi">20</span> <span class="mi">49</span>  <span class="mi">44</span> <span class="mi">46</span> <span class="mi">2</span><span class="n">e</span> <span class="mi">00</span>              <span class="o">|</span><span class="n">th</span> <span class="n">the</span> <span class="n">IDF</span><span class="o">..|</span>
+</pre></div>
+</div>
+</p>
+<p>It is highly recommend to use terminals with over 102 text width.</p>
+<p><dl class="docutils">
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">tag</span></code>: description tag </li>
+<li><code class="docutils literal notranslate"><span class="pre">buffer</span></code>: Pointer to the buffer array </li>
+<li><code class="docutils literal notranslate"><span class="pre">buff_len</span></code>: length of buffer in bytes </li>
+<li><code class="docutils literal notranslate"><span class="pre">level</span></code>: level of the log </li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_LOG_BUFFER_HEX">
+<span class="target" id="esp__log_8h_1a9298d7dfd6e10a562bb589bb72a9afef"></span><code class="descname">ESP_LOG_BUFFER_HEX</code><span class="sig-paren">(</span>tag, buffer, buff_len<span class="sig-paren">)</span><a class="headerlink" href="#c.ESP_LOG_BUFFER_HEX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a buffer of hex bytes at Info level. </p>
+<p><dl class="docutils">
+<dt><strong>See</strong></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">esp_log_buffer_hex_level</span></code> </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">tag</span></code>: description tag </li>
+<li><code class="docutils literal notranslate"><span class="pre">buffer</span></code>: Pointer to the buffer array </li>
+<li><code class="docutils literal notranslate"><span class="pre">buff_len</span></code>: length of buffer in bytes</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_LOG_BUFFER_CHAR">
+<span class="target" id="esp__log_8h_1acd26659713af7587ea7ad878127195d5"></span><code class="descname">ESP_LOG_BUFFER_CHAR</code><span class="sig-paren">(</span>tag, buffer, buff_len<span class="sig-paren">)</span><a class="headerlink" href="#c.ESP_LOG_BUFFER_CHAR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log a buffer of characters at Info level. Buffer should contain only printable characters. </p>
+<p><dl class="docutils">
+<dt><strong>See</strong></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">esp_log_buffer_char_level</span></code> </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">tag</span></code>: description tag </li>
+<li><code class="docutils literal notranslate"><span class="pre">buffer</span></code>: Pointer to the buffer array </li>
+<li><code class="docutils literal notranslate"><span class="pre">buff_len</span></code>: length of buffer in bytes</li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_EARLY_LOGE">
+<span class="target" id="esp__log_8h_1a7f3db31e473a3568996bda162b11f3c1"></span><code class="descname">ESP_EARLY_LOGE</code><span class="sig-paren">(</span>tag, format, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.ESP_EARLY_LOGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>macro to output logs in startup code, before heap allocator and syscalls have been initialized. log at <code class="docutils literal notranslate"><span class="pre">ESP_LOG_ERROR</span></code> level. </p>
+<p><dl class="docutils">
+<dt><strong>See</strong></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">printf</span></code>,<code class="docutils literal notranslate"><span class="pre">ESP_LOGE</span></code> </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_EARLY_LOGW">
+<span class="target" id="esp__log_8h_1a6f0f26d4f9289bd710b9ffd2cb202474"></span><code class="descname">ESP_EARLY_LOGW</code><span class="sig-paren">(</span>tag, format, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.ESP_EARLY_LOGW" title="Permalink to this definition">¶</a></dt>
+<dd><p>macro to output logs in startup code at <code class="docutils literal notranslate"><span class="pre">ESP_LOG_WARN</span></code> level. </p>
+<p><dl class="docutils">
+<dt><strong>See</strong></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">ESP_EARLY_LOGE</span></code>,<code class="docutils literal notranslate"><span class="pre">ESP_LOGE</span></code>, <code class="docutils literal notranslate"><span class="pre">printf</span></code> </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_EARLY_LOGI">
+<span class="target" id="esp__log_8h_1a79b39fcf567b4dddb8046a28e33d6d52"></span><code class="descname">ESP_EARLY_LOGI</code><span class="sig-paren">(</span>tag, format, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.ESP_EARLY_LOGI" title="Permalink to this definition">¶</a></dt>
+<dd><p>macro to output logs in startup code at <code class="docutils literal notranslate"><span class="pre">ESP_LOG_INFO</span></code> level. </p>
+<p><dl class="docutils">
+<dt><strong>See</strong></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">ESP_EARLY_LOGE</span></code>,<code class="docutils literal notranslate"><span class="pre">ESP_LOGE</span></code>, <code class="docutils literal notranslate"><span class="pre">printf</span></code> </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_EARLY_LOGD">
+<span class="target" id="esp__log_8h_1a1078521d557503305afd41e3c11d08a5"></span><code class="descname">ESP_EARLY_LOGD</code><span class="sig-paren">(</span>tag, format, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.ESP_EARLY_LOGD" title="Permalink to this definition">¶</a></dt>
+<dd><p>macro to output logs in startup code at <code class="docutils literal notranslate"><span class="pre">ESP_LOG_DEBUG</span></code> level. </p>
+<p><dl class="docutils">
+<dt><strong>See</strong></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">ESP_EARLY_LOGE</span></code>,<code class="docutils literal notranslate"><span class="pre">ESP_LOGE</span></code>, <code class="docutils literal notranslate"><span class="pre">printf</span></code> </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_EARLY_LOGV">
+<span class="target" id="esp__log_8h_1a4503ce4c40d5a45329598662bbafea27"></span><code class="descname">ESP_EARLY_LOGV</code><span class="sig-paren">(</span>tag, format, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.ESP_EARLY_LOGV" title="Permalink to this definition">¶</a></dt>
+<dd><p>macro to output logs in startup code at <code class="docutils literal notranslate"><span class="pre">ESP_LOG_VERBOSE</span></code> level. </p>
+<p><dl class="docutils">
+<dt><strong>See</strong></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">ESP_EARLY_LOGE</span></code>,<code class="docutils literal notranslate"><span class="pre">ESP_LOGE</span></code>, <code class="docutils literal notranslate"><span class="pre">printf</span></code> </dd>
+</dl>
+</p>
+</dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_LOG_EARLY_IMPL">
+<span class="target" id="esp__log_8h_1a0730c9ab8cd3c51917df7a6655c9f126"></span><code class="descname">ESP_LOG_EARLY_IMPL</code><span class="sig-paren">(</span>tag, format, log_level, log_tag_letter, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.ESP_LOG_EARLY_IMPL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_LOGE">
+<span class="target" id="esp__log_8h_1a0c91bbd80ead9ea543d5daa29fd2d4f7"></span><code class="descname">ESP_LOGE</code><span class="sig-paren">(</span>tag, format, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.ESP_LOGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_LOGW">
+<span class="target" id="esp__log_8h_1a0a3a477e12d72b64e44a4dac5c1a1f71"></span><code class="descname">ESP_LOGW</code><span class="sig-paren">(</span>tag, format, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.ESP_LOGW" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_LOGI">
+<span class="target" id="esp__log_8h_1a34ea7419b25257f6e80f4684ab7d52f4"></span><code class="descname">ESP_LOGI</code><span class="sig-paren">(</span>tag, format, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.ESP_LOGI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_LOGD">
+<span class="target" id="esp__log_8h_1a0937281fcaf8ab281c69e0c180642e52"></span><code class="descname">ESP_LOGD</code><span class="sig-paren">(</span>tag, format, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.ESP_LOGD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_LOGV">
+<span class="target" id="esp__log_8h_1a3ea25c0d0070d76df75a3eaf5fdfcd36"></span><code class="descname">ESP_LOGV</code><span class="sig-paren">(</span>tag, format, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.ESP_LOGV" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="macro">
+<dt id="c.ESP_LOG_LEVEL_LOCAL">
+<span class="target" id="esp__log_8h_1a8560afd66647af60cb5cd9b85227c115"></span><code class="descname">ESP_LOG_LEVEL_LOCAL</code><span class="sig-paren">(</span>level, tag, format, ...<span class="sig-paren">)</span><a class="headerlink" href="#c.ESP_LOG_LEVEL_LOCAL" title="Permalink to this definition">¶</a></dt>
+<dd><p>runtime macro to output logs at a specified level.</p>
+<p><dl class="docutils">
+<dt><strong>See</strong></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">printf</span></code> runtime macro to output logs at a specified level. Also check the level with <code class="docutils literal notranslate"><span class="pre">LOG_LOCAL_LEVEL</span></code>.</dd>
+<dt><strong>See</strong></dt>
+<dd><code class="docutils literal notranslate"><span class="pre">printf</span></code>, <code class="docutils literal notranslate"><span class="pre">ESP_LOG_LEVEL</span></code> </dd>
+<dt><strong>Parameters</strong></dt>
+<dd><ul class="breatheparameterlist first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">tag</span></code>: tag of the log, which can be used to change the log level by <code class="docutils literal notranslate"><span class="pre">esp_log_level_set</span></code> at runtime. </li>
+<li><code class="docutils literal notranslate"><span class="pre">level</span></code>: level of the output log. </li>
+<li><code class="docutils literal notranslate"><span class="pre">format</span></code>: format of the output log. see <code class="docutils literal notranslate"><span class="pre">printf</span></code> </li>
+<li><code class="docutils literal notranslate"><span class="pre">...</span></code>: variables to be replaced into the log. see <code class="docutils literal notranslate"><span class="pre">printf</span></code></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd></dl>
+
+</div>
+<div class="section" id="type-definitions">
+<h3>Type Definitions<a class="headerlink" href="#type-definitions" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv414vprintf_like_t">
+<span id="_CPPv314vprintf_like_t"></span><span id="_CPPv214vprintf_like_t"></span><span id="vprintf_like_t"></span><span class="target" id="esp__log_8h_1a6d96e60b13bda9ffe1c27d850be4ae54"></span><em class="property">typedef </em>int (*<code class="descname">vprintf_like_t</code>)<span class="sig-paren">(</span><em class="property">const</em> char *, va_list<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv414vprintf_like_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h3>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h3>
+<dl class="type">
+<dt id="_CPPv415esp_log_level_t">
+<span id="_CPPv315esp_log_level_t"></span><span id="_CPPv215esp_log_level_t"></span><span id="esp_log_level_t"></span><span class="target" id="esp__log_8h_1a28900c8f111c325f656d19c30b1d62ad"></span><em class="property">enum </em><code class="descname">esp_log_level_t</code><a class="headerlink" href="#_CPPv415esp_log_level_t" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Log level. </p>
+<p><em>Values:</em></p>
+<dl class="enumerator">
+<dt id="_CPPv412ESP_LOG_NONE">
+<span id="_CPPv312ESP_LOG_NONE"></span><span id="_CPPv212ESP_LOG_NONE"></span><span class="target" id="esp__log_8h_1a28900c8f111c325f656d19c30b1d62ada219005ddee564bf542667b1661578ad0"></span><code class="descname">ESP_LOG_NONE</code><a class="headerlink" href="#_CPPv412ESP_LOG_NONE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>No log output </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv413ESP_LOG_ERROR">
+<span id="_CPPv313ESP_LOG_ERROR"></span><span id="_CPPv213ESP_LOG_ERROR"></span><span class="target" id="esp__log_8h_1a28900c8f111c325f656d19c30b1d62adae3f44d5417a3c2614aa2a754e4aa8f67"></span><code class="descname">ESP_LOG_ERROR</code><a class="headerlink" href="#_CPPv413ESP_LOG_ERROR" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Critical errors, software module can not recover on its own </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv412ESP_LOG_WARN">
+<span id="_CPPv312ESP_LOG_WARN"></span><span id="_CPPv212ESP_LOG_WARN"></span><span class="target" id="esp__log_8h_1a28900c8f111c325f656d19c30b1d62ada4a8b1cc52ed1a3f09157fb8b3fc46eb9"></span><code class="descname">ESP_LOG_WARN</code><a class="headerlink" href="#_CPPv412ESP_LOG_WARN" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Error conditions from which recovery measures have been taken </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv412ESP_LOG_INFO">
+<span id="_CPPv312ESP_LOG_INFO"></span><span id="_CPPv212ESP_LOG_INFO"></span><span class="target" id="esp__log_8h_1a28900c8f111c325f656d19c30b1d62adabf5442d9cb533e5a21b1942be4bd69ca"></span><code class="descname">ESP_LOG_INFO</code><a class="headerlink" href="#_CPPv412ESP_LOG_INFO" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Information messages which describe normal flow of events </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv413ESP_LOG_DEBUG">
+<span id="_CPPv313ESP_LOG_DEBUG"></span><span id="_CPPv213ESP_LOG_DEBUG"></span><span class="target" id="esp__log_8h_1a28900c8f111c325f656d19c30b1d62ada8c408bea91bc26713f5aff2dad5221d5"></span><code class="descname">ESP_LOG_DEBUG</code><a class="headerlink" href="#_CPPv413ESP_LOG_DEBUG" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Extra information which is not necessary for normal use (values, pointers, sizes, etc). </p>
+</dd></dl>
+
+<dl class="enumerator">
+<dt id="_CPPv415ESP_LOG_VERBOSE">
+<span id="_CPPv315ESP_LOG_VERBOSE"></span><span id="_CPPv215ESP_LOG_VERBOSE"></span><span class="target" id="esp__log_8h_1a28900c8f111c325f656d19c30b1d62ada5ffb425ea119e9e6f1c58cbf1f6f8be1"></span><code class="descname">ESP_LOG_VERBOSE</code><a class="headerlink" href="#_CPPv415ESP_LOG_VERBOSE" title="Permalink to this definition">¶</a><br /></dt>
+<dd><p>Bigger chunks of debugging information, or frequent messages which can potentially flood the output. </p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="system.html" class="btn btn-neutral float-right" title="Miscellaneous System APIs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="intr_alloc.html" class="btn btn-neutral float-left" title="Interrupt allocation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016 - 2019, Espressif Systems (Shanghai) CO., LTD
+      
+        <span class="commit">
+          Revision <code>f9108063</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org/">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="https://docs.espressif.com/en/latest/">latest</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/stable/">stable</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-rc/">v4.0-rc</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v4.0-beta2/">v4.0-beta2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3.1/">v3.3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.3/">v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.3/">v3.2.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.2.2/">v3.2.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.6/">v3.1.6</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.1.5/">v3.1.5</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/v3.0.9/">v3.0.9</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.1/">release-v4.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v4.0/">release-v4.0</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.3/">release-v3.3</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.2/">release-v3.2</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.1/">release-v3.1</a></dd>
+        
+          <dd><a href="https://docs.espressif.com/en/release-v3.0/">release-v3.0</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="http://docs.espressif.com/_/downloads/esp-idf/en/latest/pdf/">pdf</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="http://readthedocs.com/projects/espressif-esp-idf/?fromdocs=espressif-esp-idf">Project Home</a>
+          </dd>
+          <dd>
+            <a href="http://readthedocs.com/builds/espressif-esp-idf/?fromdocs=espressif-esp-idf">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org/">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+
+<!-- Mirrored from docs.espressif.com/projects/esp-idf/en/latest/api-reference/system/log.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Feb 2020 06:26:10 GMT -->
+</html>
