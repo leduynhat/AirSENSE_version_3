@@ -1,1 +1,0 @@
-.. include:: ../../en/hw-reference/esp32/inc/modules-and-boards-previous-esp32.rst
